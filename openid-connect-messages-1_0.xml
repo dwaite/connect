@@ -372,7 +372,8 @@
                   a popup authentication page.</t>
 
                   <t hangText="mobile">The authorization server SHOULD display
-                  an authentication pages suitable for mobile devices.</t>
+                  an authentication pages suitable for display on mobile
+                  devices.</t>
                 </list></t>
 
               <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
@@ -387,8 +388,8 @@
                   client.</t>
 
                   <t hangText="select_account">The authorization server MUST
-                  prompt the user to select a user account if the current
-                  account does not match the account in the request.</t>
+                  prompt the user to select a user account if the account has
+                  multiple accounts associated with it</t>
                 </list></t>
 
               <t hangText="nonce">OPTIONAL. A random, unique string value used
@@ -413,17 +414,6 @@
               between the request and the callback.</t>
             </list></t>
 
-          <figure>
-            <preamble>Following is a non-normative example of a request using
-            query parameters serialization:</preamble>
-
-            <artwork><![CDATA[GET /authorize?scope=openid&response_type=code
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
-&request=jwt_header.jwt_part2.jwt_part3 HTTP/1.1
-Host: server.example.com]]></artwork>
-          </figure>
-
           <section anchor="OpenIDReq" title="OpenID Request Object">
             <t>The OpenID Request object is used to provide OpenID request
             parameters that MAY differ from the default ones. Implementing
@@ -433,10 +423,10 @@ Host: server.example.com]]></artwork>
             target="userinfo_ep">UserInfo</xref> and <xref
             target="checksession_ep">Check Session</xref> claim sets.</t>
 
-            <t>If present, the OpenID Request object is passed as the value of
-            a <spanx style="verb">request</spanx> OAuth 2.0 parameter and is
-            represented as a <xref target="JWT">JWT</xref>. The OpenID REquest
-            Object can also be sent by reference. Parameters that affect the
+            <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
+            that is passed as the value of the "<spanx style="verb">request</spanx>"
+            parameter in the authorization request. The OpenID Request Object
+            can also be sent by reference. Parameters that affect the
             information returned from the UserInfo endpoint are in the "<spanx
             style="verb">userinfo</spanx>" member. Parameters that affect the
             information returned from the ID Token and Check Session endpoint
@@ -473,12 +463,12 @@ Host: server.example.com]]></artwork>
 }]]></artwork>
               </figure></t>
 
-            <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
-            that MAY contain a set of members defined by this specification
-            and MAY contain other members that are not defined by this
-            specification. The JWT MAY be signed or unsigned. When it is
-            unsigned, it will be indicated by the JWT <spanx style="verb">"signed":"none"</spanx>
-            convention in the JWT header.</t>
+            <t>The OpenID Request object MAY contain a set of members defined
+            by this specification and MAY contain other members that are not
+            defined by this specification. The JWT MAY be signed or unsigned.
+            When it is unsigned, it will be indicated by the JWT <spanx
+            style="verb">"signed":"none"</spanx> convention in the JWT
+            header.</t>
 
             <t>The members defined by this specification are:</t>
 
@@ -494,7 +484,8 @@ Host: server.example.com]]></artwork>
                 Token contents are used. If present, these parameters are used
                 to request deltas to the default contents of the ID Token.</t>
               </list>If signed, the OpenID Request object SHOULD contain the
-            standard JWT "iss" and "aud" claims.</t>
+            standard JWT "<spanx style="verb">iss</spanx>" and "<spanx
+            style="verb">aud</spanx>" claims.</t>
 
             <t>All members of the OpenID Request object are OPTIONAL. Other
             members MAY be present and if so, SHOULD be understood by both
@@ -634,7 +625,10 @@ Host: server.example.com]]></artwork>
           Response MUST return the parameters defined in section 4.2.2 of
           <xref target="OAuth.2.0">OAuth 2.0</xref>. In addition, the ID Token
           MUST be returned as the value of the <spanx style="verb">id_token</spanx>
-          parameter in the response.</t>
+          parameter in the fragment part of the response. The specification
+          only supports <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>.
+          The OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
+          MUST be set to "<spanx style="verb">Bearer</spanx>".</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
           includes <spanx style="verb">code</spanx>, the Authorization
@@ -645,22 +639,6 @@ Host: server.example.com]]></artwork>
           <t>The <spanx style="verb">response_type</spanx> "<spanx
           style="verb">none</spanx>" preempts all other values and no other
           response parameter values are returned.</t>
-
-          <t>Example: The request is sent over to the Authorization Server
-          through HTTP redirect as follows: <figure>
-              <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&state=xyz
-        &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb&state=1f_8skd]]></artwork>
-            </figure></t>
-
-          <t>Then, after appropriate user authenticaiton and authorization,
-          the Authorization Server redirects the End-User's user-agent by
-          sending the following HTTP response:</t>
-
-          <figure>
-            <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwork>
-          </figure>
         </section>
 
         <section title="Authorization Error Response">
@@ -702,7 +680,8 @@ Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwor
 
       <section anchor="token_ep" title="Token Endpoint">
         <t>Access Token Request / Response interacts with a Token endpoint.
-        Upon a successful request, it returns an Access Token.</t>
+        Upon a successful request, it returns an Access Token and ID
+        Token.</t>
 
         <section anchor="access_token_request" title="Access Token Request">
           <t>The client obtains an access token by authenticating with the
@@ -721,6 +700,12 @@ Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwor
           parameters in the successful response are defined in Section 4.2.2
           of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
+          <t>This specification further constrains that only <xref
+          target="OAuth.2.0.Bearer">Bearer Tokens</xref> are issued at the
+          Token endpoint. The OAuth 2.0 response parameter "<spanx
+          style="verb">token_type</spanx>" MUST be set to "<spanx
+          style="verb">Bearer</spanx>".</t>
+
           <t>In addition to the OAuth 2.0 response parameters, the following
           parameters MUST be included in the response:</t>
 
@@ -728,11 +713,14 @@ Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwor
               <t hangText="id_token">REQUIRED. The ID Token value.</t>
             </list></t>
 
+          <t></t>
+
           <figure>
             <preamble>Following is a non-normative example:</preamble>
 
             <artwork><![CDATA[{
     "access_token": "SlAV32hkKG",
+    "token_type": "Bearer",
     "refresh_token": "8xLOxBtZp8",
     "expires_in": 3600,
     "id_token": "LOsxIkE8XOWds8Yg"
@@ -779,15 +767,20 @@ Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwor
               from an OpenID Connect authorization request. This parameter
               MUST NOT be sent if the access token is sent in the HTTP
               Authorization header as described in Section 7.1 of <xref
-              target="OAuth.2.0">OAuth 2.0</xref>.</t>
+              target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
+              authorization header must be <xref
+              target="OAuth.2.0.Bearer">Bearer tokens</xref>.</t>
 
               <t hangText="schema">OPTIONAL. The schema in which the data is
               to be returned. The only predefined value is <spanx
               style="verb">openid</spanx>. If this parameter is not included,
               the response may be a proprietary schema to support backwards
               compatibility. A URL MAY be passed to define custom schemes not
-              specified by short names. Custom scheme names and responses are
-              out of scope for this specification.</t>
+              specified by short names. Custom schema names such as and
+              responses are out of scope for this specification. Custome
+              schema values MAY include "<xref target="SCIM.1.0">SCIM</xref>",
+              "<xref target="RFC2425">vCard</xref>", "<xref
+              target="PortableContacts">PortableContacts</xref>"</t>
 
               <t hangText="id">This identifier is reserved for backwards
               compatibility. It MUST be ignored by the endpoint if the <spanx
@@ -991,19 +984,19 @@ Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwor
             <c>A JWT</c>
           </texttable>
 
-          <section title="Example Responses">
-            <t>The following is a non-normative normal claims responses:</t>
+          <t></t>
 
-            <t><figure>
-                <artwork><![CDATA[{
+          <t>The following is a non-normative normal claims responses:</t>
+
+          <t><figure>
+              <artwork><![CDATA[{
  "name": "Jane Doe"
  "given_name": "Jane",
  "family_name": "Doe",
  "email": "janedoe@example.com",
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
-              </figure></t>
-          </section>
+            </figure></t>
         </section>
 
         <section title="Errors">
@@ -1097,9 +1090,14 @@ Location: https://client.example.com/cb?code=i1WsRn1uB1&state=1f_8skd]]></artwor
                         <t hangText="access_token">OPTIONAL. Access token
                         enabling retrieval of the claims from the endpoint URL
                         by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
-                        BEARER</xref> scheme. Claims SHOULD be requested using
+                        Bearer</xref> scheme. Claims SHOULD be requested using
                         the Authorization request header field and claims
-                        sources MUST support this method.</t>
+                        sources MUST support this method. If the access token
+                        is not available, clients MAY need to retrieve the
+                        access token out of band or use an a priori access
+                        token that was negotiated between the claim source and
+                        client, or the claim source MAY reauthenticate the
+                        user and/or reauthorize the client.</t>
                       </list></t>
                   </list> Other members MAY be present, if understood by both
                 parties</t>
@@ -1204,7 +1202,7 @@ may be retrieved.
         Token as an opaque value, and use the Check Session endpoint to
         retrieve and examine the claims associated with the token.</t>
 
-        <t> A full explination of how to use an ID Token to perform session
+        <t>A full explination of how to use an ID Token to perform session
         management can be found in the <xref target="OpenID.Session">OpenID
         Connect Session Management 1.0</xref>.</t>
 
@@ -1221,48 +1219,7 @@ may be retrieved.
 
         <section title="Check Session Response">
           <t>The response is a <xref target="RFC4627">JSON</xref> object
-          containing the following claims:</t>
-
-          <t><list style="hanging">
-              <t hangText="iss">REQUIRED. The unique identifier of the issuer
-              of the response.</t>
-
-              <t hangText="user_id">REQUIRED. A locally unique and never
-              reassigned identifier for the user, which is intended to be
-              consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
-              or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-              It MUST NOT exceed 255 ASCII characters in length.</t>
-
-              <t hangText="aud">REQUIRED. This member identifies the audience
-              that this ID Token is intended for. It is RECOMENDED that <spanx
-              style="verb">aud</spanx> be the OAuth <spanx style="verb">client_id</spanx>
-              of the RP.</t>
-
-              <t hangText="exp">REQUIRED. Type Integer. Identifies the
-              expiration time on or after which the ID Token MUST NOT be
-              accepted for processing. The processing of this parameter
-              requires that the current date/time MUST be before the
-              expiration date/time listed in the value. Implementers MAY
-              provide for some small leeway, usually no more than a few
-              minutes, to account for clock skew. The value is number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
-
-              <t hangText="iso29115">OPTIONAL. (entity authentication
-              assurance): Specifies the X.eaa / <xref
-              target="ISO29115">ISO/IEC29115</xref> entity authentication
-              assurance level of the authentication performed.</t>
-
-              <t hangText="nonce">OPTIONAL. If the authorization request
-              includes a nonce request value, then this value is REQUIRED and
-              its value is set to the same value as the request value.</t>
-
-              <t hangText="issued_to">OPTIONAL. The OAuth identifier of the
-              client the token was issued to; this SHOULD only present if
-              different from the <spanx style="verb">aud</spanx> value.</t>
-            </list></t>
+          containing the <xref target="id_token">ID Token</xref> claims.</t>
 
           <t>Other claims MAY be returned by sending an <xref
           target="OpenIDReq">OpeID Request Object</xref> with the appropriate
@@ -1308,7 +1265,7 @@ Content-Type: application/json
 {
  "iss": "http://server.example.com",
  "user_id": "248289761001",
- "aud": "http://client.example.net",
+ "aud": "http://client.example.com",
  "exp": 1311281970
 }
 ]]></artwork>
@@ -1325,40 +1282,6 @@ Content-Type: application/json
               requested resource, is malformed, is in an incorrect format, or
               is expired.</t>
             </list></t>
-        </section>
-
-        <section anchor="verification" title="Verification">
-          <section title="Request Verification">
-            <t>If the request is signed, the authorization server MUST
-            validate the signature.</t>
-
-            <t>The authorization server also MUST validate the request to
-            ensure all required parameters are present and valid.</t>
-          </section>
-
-          <section title="Response Verification">
-            <t>To verify the validity of the Response, the client MUST do the
-            following:</t>
-
-            <t><list style="numbers">
-                <t>Check that current time is within the validity period of
-                the <spanx style="verb">exp</spanx> contained within the
-                response.</t>
-
-                <t>Verify that the response was intended for the recipient,
-                using the <spanx style="verb">aud</spanx> (audience) contained
-                within the response.</t>
-
-                <t>If <spanx style="verb">issued_to</spanx> is present, then
-                it MUST contain an identifier for a party trusted by the
-                Relying Party. If <spanx style="verb">issued_to</spanx> is
-                unknown or untrusted, then the assertion MUST be rejected.</t>
-
-                <t>Check that the server that responded was really the
-                intended server through a TLS/SSL server certificate
-                check.</t>
-              </list></t>
-          </section>
         </section>
       </section>
 
@@ -1379,10 +1302,9 @@ Content-Type: application/json
       <section anchor="qss" title="Query String Serialization">
         <t>In order to serialize the parameters using the query string
         serialization, the client constructs the string by adding the
-        following parameters to the end-user authorization endpoint URI query
-        component using the <spanx style="verb">application/x-www-form-urlencoded</spanx>
-        format as defined by <xref
-        target="W3C.REC-html401-19991224"></xref>.</t>
+        parameters and values to the query component using the <spanx
+        style="verb">application/x-www-form-urlencoded</spanx> format as
+        defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
 
         <figure>
           <preamble>Following is a non-normative example of such
@@ -1418,18 +1340,19 @@ Host: server.example.com]]></artwork>
       <t>Depending on the transport through which the messages are sent, the
       integrity of the message may not be guaranteed and the originator of the
       message may not be authenticated. To mitigate these risks, OpenID
-      Connect tokens MAY utilize <xref target="JWS">JSON Web Signatures
-      (JWS)</xref> to sign the token content.</t>
+      Connect messages MAY utilize <xref target="JWS">JSON Web Signatures
+      (JWS)</xref> to sign the content.</t>
 
-      <t>To achieve message confidentiality, OpenID Connect tokens MAY use
-      <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the token
+      <t>To achieve message confidentiality, OpenID Connect messages MAY use
+      <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the
       content.</t>
     </section>
 
     <section title="Verification">
       <section title="Authorization Request Verification">
-        <t>If the request was signed, the Server MUST verify the signature as
-        in JWT.</t>
+        <t>If the request is signed, the authorization server MUST validate
+        the signature according to Section 5 of <xref
+        target="JWS">JWS</xref>.</t>
       </section>
 
       <section title="Authorization Response Verification">
@@ -1441,10 +1364,7 @@ Host: server.example.com]]></artwork>
             signature as the first step.</t>
 
             <t>Check that current time is within the validity period contained
-            within the token.</t>
-
-            <t>Verify that the token was intended for the recipient, using the
-            audience contained within the token.</t>
+            within the response.</t>
 
             <t>Check that the OP that responded was really the intended OP
             through a TLS/SSL server certificate check.</t>
@@ -1454,9 +1374,33 @@ Host: server.example.com]]></artwork>
         a request to the Check Session Endpoint to validate the token.</t>
       </section>
 
+      <section title="Token Request Verification">
+        <t>If the request is signed, the authorization server MUST validate
+        the signature according to Section 5 of <xref
+        target="JWS">JWS</xref>.</t>
+      </section>
+
+      <section title="Token Response Verification">
+        <t>To verify the validity of the Token response, the client MUST do
+        the following:</t>
+
+        <t><list style="numbers">
+            <t>If the response is signed, the Client SHOULD validate the
+            signature according to Section 5 of <xref
+            target="JWS">JWS</xref>.</t>
+
+            <t>Check that current time is within the validity period contained
+            within the response.</t>
+
+            <t>Check that the OP that responded was really the intended OP
+            through a TLS/SSL server certificate check.</t>
+          </list></t>
+      </section>
+
       <section title="UserInfo Request Verification">
-        <t>If the request was signed, the Server MUST verify the signature as
-        in <xref target="JWS">JWS</xref>.</t>
+        <t>If the request is signed, the authorization server MUST validate
+        the signature according to Section 5 of <xref
+        target="JWS">JWS</xref>.</t>
       </section>
 
       <section title="UserInfo Response Verification">
@@ -1464,32 +1408,58 @@ Host: server.example.com]]></artwork>
         the following:</t>
 
         <t><list style="numbers">
-            <t>If the response was signed, the Client SHOULD verify the token
-            signature as the first step.</t>
-
-            <t>If the response was signed, check that current time is within
-            the validity period contained within the response.</t>
-
-            <t>If the response was signed, verify that the response was
-            intended for the recipient, using the audience contained within
-            the response.</t>
+            <t>If the response was signed, the Client SHOULD validate the
+            signature according to Section 5 of <xref
+            target="JWS">JWS</xref>.</t>
 
             <t>Check that the OP that responded was really the intended OP
             through a TLS/SSL server certificate check.</t>
           </list></t>
       </section>
-    </section>
 
-    <section anchor="extensions" title="Extensions"></section>
+      <section title="Check Session Request Verification">
+        <t>If the request is signed, the authorization server MUST validate
+        the signature according to Section 5 of <xref
+        target="JWS">JWS</xref>.</t>
+
+        <t>The authorization server also MUST validate the request to ensure
+        all required parameters are present and valid.</t>
+      </section>
+
+      <section title="Check Session Response Verification">
+        <t>To verify the validity of the Response, the client MUST do the
+        following:</t>
+
+        <t><list style="numbers">
+            <t>Check that current time is within the validity period of the
+            <spanx style="verb">exp</spanx> contained within the response.</t>
+
+            <t>Verify that the response was intended for the recipient, using
+            the <spanx style="verb">aud</spanx> (audience) contained within
+            the response.</t>
+
+            <t>Verify that <spanx style="verb">iss</spanx> is a trusted issuer
+            of the response.</t>
+
+            <t>If <spanx style="verb">issued_to</spanx> is present, then it
+            MUST contain an identifier for a party trusted by the client. If
+            <spanx style="verb">issued_to</spanx> is unknown or untrusted,
+            then the assertion MUST be rejected.</t>
+
+            <t>If <spanx style="verb">nonce</spanx> is preset, verify that is
+            has the same value as the one that was sent in the authorization
+            request.</t>
+
+            <t>Check that the server that responded was really the intended
+            server through a TLS/SSL server certificate check.</t>
+          </list></t>
+      </section>
+    </section>
 
     <section anchor="related" title="Related Specifications">
       <t>These related OpenID Connect specifications MAY OPTIONALLY be used in
       combination with this specification to provide additional functionality:
       <list style="symbols">
-          <t><xref target="OpenID.UserInfo">OpenID Connect UserInfo 1.0</xref>
-          - Schema and format of claims returned by the UserInfo endpoint of
-          OpenID Connect</t>
-
           <t><xref target="OpenID.Discovery">OpenID Connect Discovery
           1.0</xref> - Dynamic discovery for user and server endpoints and
           information</t>
@@ -1642,11 +1612,11 @@ Host: server.example.com]]></artwork>
     <section anchor="iana" title="IANA Considerations">
       <section anchor="oauth_params" title="OAuth Parameters Registry">
         <section title="Scope Parameters">
-          <t>The following is the parameter registration request for the
+          <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
-              <t>Parameter name: openid</t>
+              <t>Parameter name: openid, profile, email, address, PPID</t>
 
               <t>Parameter usage location: The end-user authorization endpoint
               request, the end-user authorization endpoint response, the token
@@ -1661,12 +1631,12 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Authorization Request Parameters">
+        <section title="Authorization Request Parameter (display)">
           <t>The following is the parameter registration request for the
           Authorization Request in this specification:</t>
 
           <t><list style="symbols">
-              <t>Parameter name: openid</t>
+              <t>Parameter name: display</t>
 
               <t>Parameter usage location: Authorization Request</t>
 
@@ -1678,20 +1648,246 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Access Token Response Parameters">
+        <section title="Authorization Request Parameter (prompt)">
           <t>The following is the parameter registration request for the
-          Access Token Response in this specification:</t>
+          Authorization Request in this specification:</t>
 
           <t><list style="symbols">
-              <t>Parameter name: openid</t>
+              <t>Parameter name: prompt</t>
 
-              <t>Parameter usage location: Access Token Response</t>
+              <t>Parameter usage location: Authorization Request</t>
 
               <t>Change controller: IETF</t>
 
               <t>Specification document(s): [[ this document ]]</t>
 
               <t>Related information: None</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization Request Parameter (nonce)">
+          <t>The following is the parameter registration request for the
+          Authorization Request in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Parameter name: nonce</t>
+
+              <t>Parameter usage location: Authorization Request</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[ this document ]]</t>
+
+              <t>Related information: None</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization Request Parameter (audience)">
+          <t>The following is the parameter registration request for the
+          Authorization Request in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Parameter name: audience</t>
+
+              <t>Parameter usage location: Authorization Request</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[ this document ]]</t>
+
+              <t>Related information: None</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization Request Parameter (request)">
+          <t>The following is the parameter registration request for the
+          Authorization Request in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Parameter name: request</t>
+
+              <t>Parameter usage location: Authorization Request</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[ this document ]]</t>
+
+              <t>Related information: None</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization Request Parameter (request_uri)">
+          <t>The following is the parameter registration request for the
+          Authorization Request in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Parameter name: request_uri</t>
+
+              <t>Parameter usage location: Authorization Request</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[ this document ]]</t>
+
+              <t>Related information: None</t>
+            </list></t>
+        </section>
+
+        <section title="ID Token Response Parameters">
+          <t>The following is the parameter registration request for the ID
+          Token Response in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Parameter name: id_token</t>
+
+              <t>Parameter usage location: Authoriztion Response, Access Token
+              Response</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[ this document ]]</t>
+
+              <t>Related information: None</t>
+            </list></t>
+        </section>
+      </section>
+
+      <section title="OAuth Extensions Error Registry">
+        <t></t>
+
+        <section title="Authorization endpoint error (invalid_request_redirect_uri)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: invalid_request_redirect_uri </t>
+
+              <t>Error usage location: Authorization endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization endpoint error (login_required)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: login_required </t>
+
+              <t>Error usage location: Authorization endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization endpoint error (session_selection_required)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: session_selection_required </t>
+
+              <t>Error usage location: Authorization endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization endpoint error (approval_required)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: approval_required </t>
+
+              <t>Error usage location: Authorization endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="Authorization endpoint error (user_mismatched)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: user_mismatched </t>
+
+              <t>Error usage location: Authorization endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="Token endpoint error (invalid_authorization_code)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: invalid_authorization_code </t>
+
+              <t>Error usage location: Token endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="UserInfo endpoint error (invalid_schema)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: invalid_schema </t>
+
+              <t>Error usage location: UserInfo endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
+            </list></t>
+        </section>
+
+        <section title="Check Session endpoint error (invalid_id_token)">
+          <t>The following is the parameter value registration request for the
+          "scope" parameter as defined in this specification:</t>
+
+          <t><list style="symbols">
+              <t>Error name: invalid_schema</t>
+
+              <t>Error usage location: UserInfo endpoint</t>
+
+              <t>Related protocol extension:</t>
+
+              <t>Change controller: IETF</t>
+
+              <t>Specification document(s): [[this document ]]</t>
             </list></t>
         </section>
       </section>
@@ -1721,6 +1917,8 @@ Host: server.example.com]]></artwork>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
+
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2425"?>
 
       <reference anchor="OpenID.Lite">
         <front>
@@ -2217,6 +2415,48 @@ Host: server.example.com]]></artwork>
         </front>
 
         <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML" />
+      </reference>
+
+      <reference anchor="SCIM.1.0">
+        <front>
+          <title>Simple Cloud Identity Management: Core Schema 1.0</title>
+
+          <author fullname="Chuck Mortimer" initials="C." surname="Mortimer">
+            <organization abbrev="">SalesForce.com</organization>
+          </author>
+
+          <author fullname="Joseph Smarr" initials="J." surname="Smarr">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="Patrick Harding" initials="P." surname="Harding">
+            <organization abbrev="">Ping Identity</organization>
+          </author>
+
+          <author fullname="Paul Madsen" initials="P." surname="Madsen">
+            <organization abbrev="">Ping Identity</organization>
+          </author>
+
+          <date day="13" month="June" year="2011" />
+        </front>
+
+        <format target="http://www.simplecloud.info/specs/draft-scim-core-schema-01.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="PortableContacts">
+        <front>
+          <title>Portable Contacts 1.0 Draft C.</title>
+
+          <author fullname="Joseph Smarr" initials="J." surname="Smarr">
+            <organization abbrev="Plaxo">Plaxo</organization>
+          </author>
+
+          <date day="5" month="August" year="2008" />
+        </front>
+
+        <format target="http://portablecontacts.net/draft-spec.html"
+                type="HTML" />
       </reference>
     </references>
 
