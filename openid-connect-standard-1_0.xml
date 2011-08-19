@@ -19,7 +19,7 @@
 
   <front>
     <title abbrev="OpenID Connect Standard 1.0 - draft 01">OpenID Connect
-    Standard 1.0 - draft 02</title>
+    Standard 1.0 - draft 01</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -64,7 +64,7 @@
       </address>
     </author>
 
-    <date day="18" month="August" year="2011" />
+    <date day="08" month="August" year="2011" />
 
     <abstract>
       <t>OpenID Connect Standard 1.0 is a HTTP protocol binding of OpenID
@@ -203,15 +203,11 @@
 
               <t hangText="display">A string value that can be <spanx
               style="verb">none</spanx>, <spanx style="verb">popup</spanx>, or
-              <spanx style="verb">mobile</spanx>. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
-              more information.</t>
+              <spanx style="verb">mobile</spanx>.</t>
 
               <t hangText="prompt">A space delimited list that can contain
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
-              and <spanx style="verb">select_account</spanx>. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
-              more information</t>
+              and <spanx style="verb">select_account</spanx>.</t>
 
               <t hangText="nonce">A random, unique string value.</t>
 
@@ -225,19 +221,12 @@
 
           <t>The query parameters method is used in simple cases when default
           UserInfo and ID Token claims are desired and requests and responses
-          do not need to be signed or encrypted.</t>
-
-          <t>The request parameter method is used by sending an OpenID Request
-          Object when the client desires to retrieve a different set of
-          UserInfo and ID Token claims. The request parameter method also
-          allows requests and responses to be signed or enrypted. </t>
-
-          <t>The request file method works similar to the request parameter
-          method but differs in that it sends an URL as a reference to the
-          OpendID Request Object. It enables large requests to be sent
-          securely and compactly even on browsers with limited capabilities.
-          Clients SHOULD use the request file method to minimize the request
-          size.</t>
+          do not need to be signed or encrypted. The request parameter method
+          is used by sending a OpenID Request Object when a different set of
+          UserInfo and ID Token claims are desired. The request parameter
+          method also allows requests and responses to be signed or enrypted.
+          Clients SHOULD use the request file method when passing the OpenID
+          Request Object to minimize the request string.</t>
 
           <t>Authorization servers MUST support the use of the HTTP "GET"
           method as define in <xref target="RFC2616">RFC 2616</xref> and MAY
@@ -261,7 +250,7 @@
                 Authorization Request URL. Note that the line wraps within the
                 values are for display purpose only:</preamble>
 
-                <artwork><![CDATA[https://server.example.com/op/authorize?
+                <artwork><![CDATA[https://server.com/op/authorize?
 response_type=code
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
@@ -286,7 +275,7 @@ response_type=code
 
               <figure>
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?
+Location: https://server.com/op/authorize?
 response_type=code
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
@@ -347,19 +336,8 @@ response_type=code
                 that the line wraps within the values are for display purpose
                 only:</preamble>
 
-                <artwork><![CDATA[
-JWT algorithm = HS256
-HMAC HASH Key = 'aaa'
-
-JSON Encoded Header = "{"alg":"HS256","typ":"JWT"}"
-JSON Encoded Payload =  "{"userinfo":{"claims":{"name":null,"nickname":{"optional":true},"email":null,"verified":null,
-                                                   "picture":{"optional":true}},"format":"signed"},
-                           "id_token":{"max_age":86400,"iso29115":"2"}}"
-
-
-JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
-      WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmV
-      kIn0sImlkX3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso]]></artwork>
+                <artwork><![CDATA[// replace with JWT string
+jwt_header.jwt_part2.jwt_part3]]></artwork>
               </figure></t>
 
             <t><figure>
@@ -367,15 +345,13 @@ JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZ
                 Authorization Request URL. Note that the line wraps within the
                 values are for display purpose only:</preamble>
 
-                <artwork><![CDATA[https://server.example.com/authorize?
+                <artwork><![CDATA[https://server.com/op/authorize?
 response_type=code
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
-WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmVkIn0sImlk
-X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso]]></artwork>
+&request=jwt_header.jwt_part2.jwt_part3]]></artwork>
               </figure></t>
 
             <section anchor="request_req"
@@ -395,15 +371,13 @@ X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW
 
               <figure>
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?
+Location: https://server.com/op/authorize?
 response_type=code
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
-WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmVkIn0sImlk
-X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso
+&request=jwt_header.jwt_part2.jwt_part3
 ]]></artwork>
               </figure>
             </section>
@@ -485,8 +459,8 @@ X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW
                 wraps are for display purpose only:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?response_type=code&cliend_id=s6BhdRkqt3
-&request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
+Location: https://rp.example.com/rp.php?response_type=code&cliend_id=ab1
+&request_uri=https%3A%2F%2Frp%2Eexample%2Ecom%2Frf%2Ejs
 &state=A02FB8C]]></artwork>
               </figure>
             </section>
@@ -503,7 +477,7 @@ Location: https://server.example.com/authorize?response_type=code&cliend_id=s6Bh
                 only:</preamble>
 
                 <artwork><![CDATA[GET /rf.js HTTP/1.1
-Host: client.example.com]]></artwork>
+Host: rp.example.com]]></artwork>
               </figure>
             </section>
           </section>
@@ -555,7 +529,7 @@ Host: client.example.com]]></artwork>
               only:</preamble>
 
               <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb?
+Location: https://client.com/rp?
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 &state=af0ifjsldkj]]></artwork>
             </figure>
@@ -577,7 +551,7 @@ code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
                 only:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb?
+Location: https://client.com/rp?
 error=invalid_request
 &error_description=the%20request%20is%20not%20valid%20or%20malformed
 &state=af0ifjsldkj]]></artwork>
@@ -589,7 +563,7 @@ error=invalid_request
           <t>Upon receipt of the <spanx style="verb">"code"</spanx>, the
           Client requests an Assertion that includes the <spanx style="verb">"access_token"</spanx>
           and other variables. The requests and responses are described in the
-          <xref target="token_ep">Token endpoint</xref> section.</t>
+          <xref target="token_ep">Token endpoint</xref> section. </t>
         </section>
       </section>
 
@@ -646,7 +620,7 @@ error=invalid_request
 
           <figure>
             <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?
+Location: https://server.com/op/authorize?
 response_type=token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
@@ -686,11 +660,6 @@ response_type=token
             "application/x-www-form-urlencoded" format:<list style="hanging">
                 <t hangText="access_token">REQUIRED. The Access Token</t>
 
-                <t hangText="token_type">REQUIRED. This specification only
-                supports the <xref target="OAuth.2.0.Bearer">Bearer
-                Token</xref> scheme. As such, this value MUST be set to
-                "<spanx style="verb">bearer</spanx>".</t>
-
                 <t hangText="state">REQUIRED if the <spanx style="verb">"state"</spanx>
                 parameter in the request. Set to the exact value of the <spanx
                 style="verb">"state"</spanx> parameter received from the
@@ -710,7 +679,7 @@ response_type=token
               only:</preamble>
 
               <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb#
+Location: https://client.com/rp#
 access_token=SlAV32hkKG&
 token_type=JWT&
 expires_in=3600&
@@ -772,7 +741,7 @@ expires_in=3600&
       <section title="Requesting an Access Token">
         <t>To retrieve an access token, a client MUST have an authorization
         code obtained via the method as described in <xref
-        target="code_flow">Authorization Code Flow</xref>.</t>
+        target="code_flow">Authorization Code Flow</xref>. </t>
 
         <section title="Access Token Request">
           <t>To obtain a access token assertion, the client MUST send the
@@ -890,7 +859,7 @@ Pragma: no-cache
             <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
             <spanx style="verb">address</spanx>, and <spanx style="verb">PPID</spanx>.
             The values specify an additive list of claims that are returned by
-            the UserInfo endpoint.</t>
+            the UserInfo endpoint. </t>
           </list>The authoriziation MUST verify the validity of the refresh
         token</t>
 
@@ -968,11 +937,9 @@ Pragma: no-cache
             from an OpenID Connect authorization request. This parameter MUST
             NOT be sent if the access token is sent in the HTTP Authorization
             header as described in Section 7.1 of <xref
-            target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
-            authorization header must be <xref
-            target="OAuth.2.0.Bearer">Bearer tokens</xref>. If the client is
-            using the HTTP GET method, it SHOULD send the access token in the
-            authorization header. </t>
+            target="OAuth.2.0">OAuth 2.0</xref>. If the client is using the
+            HTTP GET method, it SHOULD send the access token in the
+            authorization header.</t>
 
             <t hangText="schema">OPTIONAL. The schema in which the data is to
             be returned. The only predefined value is <spanx style="verb">openid</spanx>.
@@ -1097,7 +1064,7 @@ Content-Type: application/json
 {
  "iss": "http://server.example.com",
  "user_id": "248289761001",
- "aud": "http://client.example.com",
+ "aud": "http://client.example.net",
  "exp": 1311281970
 }
 ]]></artwork>
@@ -1655,30 +1622,6 @@ Content-Type: application/json
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OAuth.2.0.Bearer">
-        <front>
-          <title>OAuth 2.0 Protocol: Bearer Tokens</title>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="">Independent</organization>
-          </author>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
-          </author>
-
-          <date day="27" month="July" year="2011" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
                 type="HTML" />
       </reference>
 
