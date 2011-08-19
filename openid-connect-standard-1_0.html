@@ -1,10 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en"><head><title>Draft: OpenID Connect
-    Standard 1.0 - draft 01</title>
-<meta http-equiv="Expires" content="Fri, 12 Aug 2011 22:02:22 +0000">
+    Standard 1.0 - draft 02</title>
+<meta http-equiv="Expires" content="Fri, 19 Aug 2011 19:25:32 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="OpenID Connect
-    Standard 1.0 - draft 01">
+    Standard 1.0 - draft 02">
 <meta name="generator" content="xml2rfc v1.34 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
@@ -154,10 +154,10 @@
 <tr><td class="header">&nbsp;</td><td class="header">Microsoft</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">E. Jay</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">MGI1</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">August 08, 2011</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">August 18, 2011</td></tr>
 </table></td></tr></table>
 <h1><br />OpenID Connect
-    Standard 1.0 - draft 01</h1>
+    Standard 1.0 - draft 02</h1>
 
 <h3>Abstract</h3>
 
@@ -410,12 +410,14 @@ Client prepares an Authorization Request</h3>
 </dd>
 <dt>display</dt>
 <dd>A string value that can be <tt>none</tt>, <tt>popup</tt>, or
-              <tt>mobile</tt>.
+              <tt>mobile</tt>. Refer to <a class='info' href='#OpenID.Messages'>OpenID Connect Messages 1.0<span> (</span><span class='info'>Recordon, D., Sakimura, N., Bradley, J., de Medeiros, B., Jones, M., and E. Jay, &ldquo;OpenID Connect Messages 1.0,&rdquo; August&nbsp;2011.</span><span>)</span></a> [OpenID.Messages] for
+              more information.
 </dd>
 <dt>prompt</dt>
 <dd>A space delimited list that can contain
               <tt>login</tt>, <tt>consent</tt>,
-              and <tt>select_account</tt>.
+              and <tt>select_account</tt>. Refer to <a class='info' href='#OpenID.Messages'>OpenID Connect Messages 1.0<span> (</span><span class='info'>Recordon, D., Sakimura, N., Bradley, J., de Medeiros, B., Jones, M., and E. Jay, &ldquo;OpenID Connect Messages 1.0,&rdquo; August&nbsp;2011.</span><span>)</span></a> [OpenID.Messages] for
+              more information
 </dd>
 <dt>nonce</dt>
 <dd>A random, unique string value.
@@ -432,12 +434,19 @@ Client prepares an Authorization Request</h3>
 </p>
 <p>The query parameters method is used in simple cases when default
           UserInfo and ID Token claims are desired and requests and responses
-          do not need to be signed or encrypted. The request parameter method
-          is used by sending a OpenID Request Object when a different set of
-          UserInfo and ID Token claims are desired. The request parameter
-          method also allows requests and responses to be signed or enrypted.
-          Clients SHOULD use the request file method when passing the OpenID
-          Request Object to minimize the request string.
+          do not need to be signed or encrypted.
+</p>
+<p>The request parameter method is used by sending an OpenID Request
+          Object when the client desires to retrieve a different set of
+          UserInfo and ID Token claims. The request parameter method also
+          allows requests and responses to be signed or enrypted. 
+</p>
+<p>The request file method works similar to the request parameter
+          method but differs in that it sends an URL as a reference to the
+          OpendID Request Object. It enables large requests to be sent
+          securely and compactly even on browsers with limited capabilities.
+          Clients SHOULD use the request file method to minimize the request
+          size.
 </p>
 <p>Authorization servers MUST support the use of the HTTP "GET"
           method as define in <a class='info' href='#RFC2616'>RFC 2616<span> (</span><span class='info'>Fielding, R., Gettys, J., Mogul, J., Frystyk, H., Masinter, L., Leach, P., and T. Berners-Lee, &ldquo;Hypertext Transfer Protocol -- HTTP/1.1,&rdquo; June&nbsp;1999.</span><span>)</span></a> [RFC2616] and MAY
@@ -462,7 +471,7 @@ Query Parameters Method</h3>
 <p>The following is a non-normative example of an
                 Authorization Request URL. Note that the line wraps within the
                 values are for display purpose only:
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>https://server.com/op/authorize?
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>https://server.example.com/op/authorize?
 response_type=code
 &amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
@@ -481,12 +490,12 @@ Client sends a request to the Authorization Server</h3>
 </p>
 <p>The Client SHOULD send the request using the HTTPS GET
               method, but MAY send it via the HTTPS POST if the authorization
-              server supports it as defined in <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Raggett, D., Hors, A., and I. Jacobs, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>
+              server supports it as defined in <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Hors, A., Jacobs, I., and D. Raggett, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>
 </p>
 <p>Following is a non-normative example using HTTP redirect.
               Note: Line wraps are for display purpose only.
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://server.com/op/authorize?
+Location: https://server.example.com/authorize?
 response_type=code
 &amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
@@ -539,20 +548,33 @@ Request Parameter Method</h3>
 <p>The following is a non-normative example of a <a class='info' href='#JWT'>JWT<span> (</span><span class='info'>Jones, M., Balfanz, D., Bradley, J., Goland, Y., Panzer, J., Sakimura, N., and P. Tarjan, &ldquo;JSON Web Token,&rdquo; July&nbsp;2011.</span><span>)</span></a> [JWT] encoded OpenID Request Object. Note
                 that the line wraps within the values are for display purpose
                 only:
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>// replace with JWT string
-jwt_header.jwt_part2.jwt_part3</pre></div>
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+JWT algorithm = HS256
+HMAC HASH Key = 'aaa'
+
+JSON Encoded Header = "{"alg":"HS256","typ":"JWT"}"
+JSON Encoded Payload =  "{"userinfo":{"claims":{"name":null,"nickname":{"optional":true},"email":null,"verified":null,
+                                                "picture":{"optional":true}},"format":"signed"},
+                           "id_token":{"max_age":86400,"iso29115":"2"}}"
+
+
+JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
+      WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmV
+      kIn0sImlkX3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso</pre></div>
 
 <p>
 <p>The following is a non-normative example of an
                 Authorization Request URL. Note that the line wraps within the
                 values are for display purpose only:
-</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>https://server.com/op/authorize?
+</p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>https://server.example.com/authorize?
 response_type=code
 &amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &amp;scope=openid
 &amp;state=af0ifjsldkj
-&amp;request=jwt_header.jwt_part2.jwt_part3</pre></div>
+&amp;request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
+WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmVkIn0sImlk
+X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso</pre></div>
 
 <a name="request_req"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -566,18 +588,20 @@ Client Sends a Request to the Authorization Server</h3>
 </p>
 <p>The Client MAY send the request using the HTTP GET method,
               but MUST send it via the HTTP POST if the authorization server
-              supports it as defined in <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Raggett, D., Hors, A., and I. Jacobs, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>
+              supports it as defined in <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Hors, A., Jacobs, I., and D. Raggett, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>
 </p>
 <p>Following is a non-normative example using HTTP redirect.
               Note: Line wraps are for display purpose only.
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://server.com/op/authorize?
+Location: https://server.example.com/authorize?
 response_type=code
 &amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &amp;scope=openid
 &amp;state=af0ifjsldkj
-&amp;request=jwt_header.jwt_part2.jwt_part3
+&amp;request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
+WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmVkIn0sImlk
+X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso
 </pre></div>
 <a name="anchor5"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -660,13 +684,13 @@ Client Sends a Request to Authorization Server via HTTPS Redirect</h3>
 </p>
 <p>The Client SHOULD send the request using the HTTP GET method,
               but MAY send it via the HTTP POST if the authorization server
-              supports it as defined in <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Raggett, D., Hors, A., and I. Jacobs, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>
+              supports it as defined in <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Hors, A., Jacobs, I., and D. Raggett, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>
 </p>
 <p>Following is a non-normative example. Note: Line
                 wraps are for display purpose only:
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://rp.example.com/rp.php?response_type=code&amp;cliend_id=ab1
-&amp;request_uri=https%3A%2F%2Frp%2Eexample%2Ecom%2Frf%2Ejs
+Location: https://server.example.com/authorize?response_type=code&amp;cliend_id=s6BhdRkqt3
+&amp;request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
 &amp;state=A02FB8C</pre></div>
 <a name="anchor6"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -682,7 +706,7 @@ Authorization Server Fetches the Request File</h3>
                 process. Note: Line wraps are for display purpose
                 only:
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>GET /rf.js HTTP/1.1
-Host: rp.example.com</pre></div>
+Host: client.example.com</pre></div>
 <a name="anchor7"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.4.1.2"></a><h3>4.1.2.&nbsp;
@@ -743,7 +767,7 @@ End-User Grants Authorization</h3>
               after the second line is for the display purpose
               only:
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://client.com/rp?
+Location: https://client.example.com/cb?
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 &amp;state=af0ifjsldkj</pre></div>
 <a name="authz_error"></a><br /><hr />
@@ -764,7 +788,7 @@ End-User Denies Authorization or Invalid Request</h3>
                 after the second line is for the display purpose
                 only:
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://client.com/rp?
+Location: https://client.example.com/cb?
 error=invalid_request
 &amp;error_description=the%20request%20is%20not%20valid%20or%20malformed
 &amp;state=af0ifjsldkj</pre></div>
@@ -777,7 +801,7 @@ Client Request Assertion Using the &quot;Code&quot;</h3>
 <p>Upon receipt of the <tt>"code"</tt>, the
           Client requests an Assertion that includes the <tt>"access_token"</tt>
           and other variables. The requests and responses are described in the
-          <a class='info' href='#token_ep'>Token endpoint<span> (</span><span class='info'>Token Endpoint</span><span>)</span></a> section. 
+          <a class='info' href='#token_ep'>Token endpoint<span> (</span><span class='info'>Token Endpoint</span><span>)</span></a> section.
 </p>
 <a name="implicit_flow"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -843,7 +867,7 @@ Client Sends a Request to the Authorization Server</h3>
 <p>Following is a non-normative example using HTTP redirect. Note:
           Line wraps are for display purpose only.
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://server.com/op/authorize?
+Location: https://server.example.com/authorize?
 response_type=token
 &amp;client_id=s6BhdRkqt3
 &amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
@@ -895,6 +919,12 @@ End-User Grants Authorization</h3>
 <dt>access_token</dt>
 <dd>REQUIRED. The Access Token
 </dd>
+<dt>token_type</dt>
+<dd>REQUIRED. This specification only
+                supports the <a class='info' href='#OAuth.2.0.Bearer'>Bearer
+                Token<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;OAuth 2.0 Protocol: Bearer Tokens,&rdquo; July&nbsp;2011.</span><span>)</span></a> [OAuth.2.0.Bearer] scheme. As such, this value MUST be set to
+                "<tt>bearer</tt>".
+</dd>
 <dt>state</dt>
 <dd>REQUIRED if the <tt>"state"</tt>
                 parameter in the request. Set to the exact value of the <tt>"state"</tt> parameter received from the
@@ -914,7 +944,7 @@ End-User Grants Authorization</h3>
               after the second line is for the display purpose
               only:
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>HTTP/1.1 302 Found
-Location: https://client.com/rp#
+Location: https://client.example.com/cb#
 access_token=SlAV32hkKG&amp;
 token_type=JWT&amp;
 expires_in=3600&amp;
@@ -979,7 +1009,7 @@ Token Endpoint</h3>
 Requesting an Access Token</h3>
 
 <p>To retrieve an access token, a client MUST have an authorization
-        code obtained via the method as described in <a class='info' href='#code_flow'>Authorization Code Flow<span> (</span><span class='info'>Authorization Code Flow</span><span>)</span></a>. 
+        code obtained via the method as described in <a class='info' href='#code_flow'>Authorization Code Flow<span> (</span><span class='info'>Authorization Code Flow</span><span>)</span></a>.
 </p>
 <a name="anchor13"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -1110,7 +1140,7 @@ Refreshing an Access Token</h3>
             <tt>profile</tt>, <tt>email</tt>,
             <tt>address</tt>, and <tt>PPID</tt>.
             The values specify an additive list of claims that are returned by
-            the UserInfo endpoint. 
+            the UserInfo endpoint.
 </dd>
 </dl></blockquote><p>The authoriziation MUST verify the validity of the refresh
         token
@@ -1198,9 +1228,10 @@ UserInfo Request</h3>
 <dd>REQUIRED. The access_token obtained
             from an OpenID Connect authorization request. This parameter MUST
             NOT be sent if the access token is sent in the HTTP Authorization
-            header as described in Section 7.1 of <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; July&nbsp;2011.</span><span>)</span></a> [OAuth.2.0]. If the client is using the
-            HTTP GET method, it SHOULD send the access token in the
-            authorization header.
+            header as described in Section 7.1 of <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; July&nbsp;2011.</span><span>)</span></a> [OAuth.2.0]. Access tokens sent in the
+            authorization header must be <a class='info' href='#OAuth.2.0.Bearer'>Bearer tokens<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;OAuth 2.0 Protocol: Bearer Tokens,&rdquo; July&nbsp;2011.</span><span>)</span></a> [OAuth.2.0.Bearer]. If the client is
+            using the HTTP GET method, it SHOULD send the access token in the
+            authorization header. 
 </dd>
 <dt>schema</dt>
 <dd>OPTIONAL. The schema in which the data is to
@@ -1327,7 +1358,7 @@ Content-Type: application/json
 {
  "iss": "http://server.example.com",
  "user_id": "248289761001",
- "aud": "http://client.example.net",
+ "aud": "http://client.example.com",
  "exp": 1311281970
 }
 </pre></div>
@@ -1414,6 +1445,8 @@ IANA Considerations</h3>
 <td class="author-text">Jones, M., Balfanz, D., Bradley, J., Goland, Y., Panzer, J., Sakimura, N., and P. Tarjan, &ldquo;<a href="http://tools.ietf.org/html/draft-jones-json-web-token">JSON Web Token</a>,&rdquo; July&nbsp;2011.</td></tr>
 <tr><td class="author-text" valign="top"><a name="OAuth.2.0">[OAuth.2.0]</a></td>
 <td class="author-text">Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2">OAuth 2.0 Authorization Protocol</a>,&rdquo; July&nbsp;2011.</td></tr>
+<tr><td class="author-text" valign="top"><a name="OAuth.2.0.Bearer">[OAuth.2.0.Bearer]</a></td>
+<td class="author-text">Jones, M., Hardt, D., and D. Recordon, &ldquo;<a href="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer">OAuth 2.0 Protocol: Bearer Tokens</a>,&rdquo; July&nbsp;2011.</td></tr>
 <tr><td class="author-text" valign="top"><a name="OpenID.Core">[OpenID.Core]</a></td>
 <td class="author-text">Recordon, D., Sakimura, N., Bradley, J., de Medeiros, B., Jones, M., and E. Jay, &ldquo;<a href="http://openid.net/specs/openid-connect-core-1_0.html">OpenID Connect Core 1.0</a>,&rdquo; July&nbsp;2011.</td></tr>
 <tr><td class="author-text" valign="top"><a name="OpenID.Discovery">[OpenID.Discovery]</a></td>
@@ -1447,7 +1480,7 @@ IANA Considerations</h3>
             Technology, &ldquo;<a href="http://csrc.nist.gov/publications/drafts/800-63-rev1/SP800-63-Rev1_Dec2008.pdf">NIST SP800-63rev.1: Electronic Authentication
           Guideline</a>,&rdquo; NIST&nbsp;SP800-63.</td></tr>
 <tr><td class="author-text" valign="top"><a name="W3C.REC-html401-19991224">[W3C.REC-html401-19991224]</a></td>
-<td class="author-text">Raggett, D., Hors, A., and I. Jacobs, &ldquo;<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML 4.01 Specification</a>,&rdquo; World Wide Web Consortium Recommendation&nbsp;REC-html401-19991224, December&nbsp;1999 (<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML</a>).</td></tr>
+<td class="author-text">Hors, A., Jacobs, I., and D. Raggett, &ldquo;<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML 4.01 Specification</a>,&rdquo; World Wide Web Consortium Recommendation&nbsp;REC-html401-19991224, December&nbsp;1999 (<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML</a>).</td></tr>
 <tr><td class="author-text" valign="top"><a name="zoneinfo">[zoneinfo]</a></td>
 <td class="author-text">Public Domain, &ldquo;<a href="http://www.twinsun.com/tz/tz-link.htm">The tz database</a>,&rdquo; June&nbsp;2011.</td></tr>
 </table>
