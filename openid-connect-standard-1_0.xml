@@ -19,7 +19,7 @@
 
   <front>
     <title abbrev="OpenID Connect Standard 1.0 - draft 01">OpenID Connect
-    Standard 1.0 - draft 02</title>
+    Standard 1.0 - draft 03</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -64,7 +64,7 @@
       </address>
     </author>
 
-    <date day="18" month="August" year="2011" />
+    <date day="29" month="August" year="2011" />
 
     <abstract>
       <t>OpenID Connect Standard 1.0 is a HTTP protocol binding of OpenID
@@ -120,7 +120,7 @@
     <section title="Authorization Endpoint">
       <t>Authorization requests follow two paths, the authorization code flow
       and the implicit grant flow. The authorization code flow is suitable for
-      clients that can securely maintain client state between itself and the
+      clients that can securely maintain client secrets between itself and the
       authorization server whereas the implicit grant flow is suitable for
       clients that cannot.</t>
 
@@ -166,7 +166,8 @@
           parameters</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">It MUST include <spanx style="verb">code</spanx>.</t>
+              <t hangText="response_type">It MUST include <spanx style="verb">code</spanx>
+              and <spanx style="verb">id_token</spanx>.</t>
             </list></t>
 
           <t>Other required parameters in the request include the
@@ -262,7 +263,7 @@
                 values are for display purpose only:</preamble>
 
                 <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=code
+response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
@@ -287,7 +288,7 @@ response_type=code
               <figure>
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize?
-response_type=code
+response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
@@ -323,6 +324,11 @@ response_type=code
                 values are for display purpose only:</preamble>
 
                 <artwork><![CDATA[{
+ "response_type": "code id_token",
+ "client_id": "s6BhdRkqt3",
+ "redirect_uri": "https://client.example.com/cb",
+ "scope": "openid profile",
+ "state": "af0ifjsldkj",
  "userinfo":
    {
      "claims":
@@ -352,14 +358,18 @@ JWT algorithm = HS256
 HMAC HASH Key = 'aaa'
 
 JSON Encoded Header = "{"alg":"HS256","typ":"JWT"}"
-JSON Encoded Payload =  "{"userinfo":{"claims":{"name":null,"nickname":{"optional":true},"email":null,"verified":null,
+JSON Encoded Payload =  "{"response_type":"code id_token","client_id":"s6BhdRkqt3",
+                          "redirect_uri":"https:\/\/client.example.com\/cb","scope":"openid profile","state":"af0ifjsldkj",
+                          "userinfo":{"claims":{"name":null,"nickname":{"optional":true},"email":null,"verified":null,
                                                 "picture":{"optional":true}},"format":"signed"},
-                           "id_token":{"max_age":86400,"iso29115":"2"}}"
+                          "id_token":{"max_age":86400,"iso29115":"2"}}"
 
-
-JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
-      WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmV
-      kIn0sImlkX3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso]]></artwork>
+JWT =  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
+       dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
+       GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
+       wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
+       0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
+]]></artwork>
               </figure></t>
 
             <t><figure>
@@ -368,14 +378,16 @@ JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZ
                 values are for display purpose only:</preamble>
 
                 <artwork><![CDATA[https://server.example.com/authorize?
-response_type=code
+response_type=code%02id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
-WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmVkIn0sImlk
-X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso]]></artwork>
+&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
+dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
+GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
+wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
+0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY]]></artwork>
               </figure></t>
 
             <section anchor="request_req"
@@ -396,14 +408,16 @@ X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW
               <figure>
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize?
-response_type=code
+response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6bnVsbCwibmlja25hbWUiOnsib3B0aW9uY
-WwiOnRydWV9LCJlbWFpbCI6bnVsbCwidmVyaWZpZWQiOm51bGwsInBpY3R1cmUiOnsib3B0aW9uYWwiOnRydWV9fSwiZm9ybWF0Ijoic2lnbmVkIn0sImlk
-X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW2L32KLBFbghu7-NZXso
+&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
+dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
+GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
+wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
+0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 ]]></artwork>
               </figure>
             </section>
@@ -430,9 +444,9 @@ X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW
                 display purpose only:</preamble>
 
                 <artwork><![CDATA[{
-    "response_type": "code",
+    "response_type": "code id_token",
     "client_id": "s6BhdRkqt3",
-    "redirect_uri": "https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb",
+    "redirect_uri": "https://client.example.com/cb",
     "scope": "openid",
     "state": "af0ifjsldkj"
 }]]></artwork>
@@ -485,9 +499,9 @@ X3Rva2VuIjp7Im1heF9hZ2UiOjg2NDAwLCJpc28yOTExNSI6IjIifX0.DeWt4Quf3OQFB58gYpwNrXhW
                 wraps are for display purpose only:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?response_type=code&cliend_id=s6BhdRkqt3
+Location: https://server.example.com/authorize?response_type=code%20id_token&cliend_id=s6BhdRkqt3
 &request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
-&state=A02FB8C]]></artwork>
+&state=af0ifjsldkj]]></artwork>
               </figure>
             </section>
 
@@ -625,7 +639,8 @@ error=invalid_request
           parameters</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">It MUST include <spanx style="verb">token</spanx>.</t>
+              <t hangText="response_type">It MUST include <spanx style="verb">token</spanx>
+              and <spanx style="verb">id_token</spanx>.</t>
             </list></t>
 
           <t>The request MUST contain the other required parameters and MAY
@@ -689,7 +704,7 @@ response_type=token
                 <t hangText="token_type">REQUIRED. This specification only
                 supports the <xref target="OAuth.2.0.Bearer">Bearer
                 Token</xref> scheme. As such, this value MUST be set to
-                "<spanx style="verb">bearer</spanx>".</t>
+                "<spanx style="verb">Bearer</spanx>".</t>
 
                 <t hangText="state">REQUIRED if the <spanx style="verb">"state"</spanx>
                 parameter in the request. Set to the exact value of the <spanx
@@ -712,9 +727,13 @@ response_type=token
               <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
 access_token=SlAV32hkKG&
-token_type=JWT&
+token_type=Bearer&
 expires_in=3600&
-&state=af0ifjsldkj]]></artwork>
+&state=af0ifjsldkj
+&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMj
+Q4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrf
+aeWYjuRCEPNXVtaazNQ
+]]></artwork>
             </figure>
           </section>
 
@@ -739,8 +758,9 @@ expires_in=3600&
       format.</t>
 
       <t>Clients MAY provide authentication parameters in the request to the
-      Token endpoint as described in Section 3.2.1 of <xref
-      target="OAuth.2.0">OAuth 2.0</xref>.</t>
+      Token endpoint as described in section 3.2 of <xref
+      target="OpenID.Messages">OpenID Connect Messages</xref> and section
+      3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
       <t>Authorization servers MUST require the use of a transport-layer
       security mechanism. The authorization server MUST support TLS 1.2 as
@@ -798,6 +818,8 @@ expires_in=3600&
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
+client_id=s6BhdRkqt3
+&client_secret=some_secret12345
 grant_type=authorization_code
 &code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 ]]></artwork>
@@ -825,7 +847,7 @@ grant_type=authorization_code
                 authentication session.</t>
 
                 <t hangText="token_type">Specifies the access token type. This
-                specification defines the "JWT" type for a JWT token.</t>
+                specification only support the "Bearer" token type.</t>
               </list> In addition, it can contain the optional <spanx
             style="verb">refresh_token</spanx>, <spanx style="verb">expires_in</spanx>,
             and <spanx style="verb">scope</spanx> values.</t>
@@ -844,7 +866,9 @@ Pragma: no-cache
     "token_type": "Bearer",
     "refresh_token": "8xLOxBtZp8",
     "expires_in": 3600,
-    "id_token":"OjkdKlsdHV3JdsZmP"
+    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMj
+Q4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrfaeWYjuR
+CEPNXVtaazNQ"
 }]]></artwork>
             </figure>
           </section>
@@ -924,7 +948,9 @@ Pragma: no-cache
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=refresh_token
+client_id=s6BhdRkqt3
+&client_secret=some_secret12345
+&grant_type=refresh_token
 &refresh_token=8xLOxBtZp8
 &scope=openid
 
@@ -939,7 +965,9 @@ Pragma: no-cache
     "token_type": "Bearer",
     "refresh_token": "9yNOxJtZa5",
     "expires_in": 3600,
-    "id_token":"OjkdKlsdHV3JdsZmP"
+    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMj
+Q4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrfaeWYjuR
+CEPNXVtaazNQ"
 }]]></artwork>
           </figure>
         </section>
