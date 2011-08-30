@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Messages 1.0 - draft 02</title>
+    <title>OpenID Connect Messages 1.0 - draft 03</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="18" month="August" year="2011" />
+    <date day="29" month="August" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -309,11 +309,12 @@
               <t hangText="response_type">A space delimited, case sensitive
               list of string values. Acceptable values include <spanx
               style="verb">code</spanx>, <spanx style="verb">token</spanx>,
-              and <spanx style="verb">none</spanx>. The value MUST include
-              <spanx style="verb">code</spanx> for requesting an Authorization
-              Code, <spanx style="verb">token</spanx> for requesting an Access
-              Token, and <spanx style="verb">none</spanx> if no response is
-              needed.</t>
+              <spanx style="verb">id_token</spanx>, and <spanx style="verb">none</spanx>.
+              The value MUST include <spanx style="verb">code</spanx> for
+              requesting an Authorization Code, <spanx style="verb">token</spanx>
+              for requesting an Access Token, <spanx style="verb">id_token</spanx>
+              for requesting an ID Token, and <spanx style="verb">none</spanx>
+              if no response is needed.</t>
 
               <t hangText="scope">A space delimited, case sensitive list of
               string values. The values specify an additive list of claims
@@ -341,12 +342,6 @@
                   <t hangText="email">OPTIONAL. This requests that access to
                   the <spanx style="verb">email</spanx> claim at the UserInfo
                   endpoint be granted by the issued Access Token.</t>
-
-                  <t hangText="PPID">OPTIONAL. This requests that the <spanx
-                  style="verb">id</spanx> claim returned by the UserInfo
-                  endpoint and the <spanx style="verb">user_id</spanx> claim
-                  returned by the Check Session endpoint be a Pairwise
-                  Pseudonymouse Identifier (PPID).</t>
                 </list></t>
             </list></t>
 
@@ -420,7 +415,7 @@
             support for the OpenID Request object is OPTIONAL. Supporting it
             is necessary for implementations that need to request or provide
             sets of claims other than the default <xref
-            target="userinfo_ep">UserInfo</xref> and <xref
+            target="userinfo_ep">UserInfo</xref>, ID Token, and <xref
             target="checksession_ep">Check Session</xref> claim sets.</t>
 
             <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
@@ -434,12 +429,44 @@
             same parameters are available both as query strings and in the
             OpenID Request Object, the later takes the precedence.</t>
 
-            <t><figure>
+            <t>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
+            authorization request parameters and MAY contain optional and
+            extension parameters.</t>
+
+            <t>The OpenID Request object MAY contain a set of members defined
+            by this specification and MAY contain other members that are not
+            defined by this specification. OpenID Request object members
+            SHOULD be understood by both parties.</t>
+
+            <t>The JWT MAY be signed or unsigned. When it is unsigned, it will
+            be indicated by the JWT <spanx style="verb">"signed":"none"</spanx>
+            convention in the JWT header. If signed, the OpenID Request object
+            SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>"
+            and "<spanx style="verb">aud</spanx>" claims.</t>
+
+            <t>The members defined by this specification are:</t>
+
+            <t><list style="hanging">
+                <t hangText="userinfo">OPTIONAL. (UserInfo request): Requests
+                affecting the values to be returned from the UserInfo
+                endpoint. If not present, the UserInfo endpoint behaves in the
+                default manner.</t>
+
+                <t hangText="id_token">OPTIONAL. (ID request): Requests
+                affecting the values to be to be returned from the ID Token
+                and Check Session endpoint. If not present, the default ID
+                Token contents are used. If present, these parameters are used
+                to request deltas to the default contents of the ID Token.</t>
+              </list><figure>
                 <preamble>An example an OpenID request object is as
                 follows:</preamble>
 
                 <artwork><![CDATA[{
- "userinfo":
+ "response_type": "code id_token",
+ "client_id": "s6BhdRkqt3",
+ "redirect_uri": "https://client.example.com/cb",
+ "scope": "openid profile",
+ "state": "af0ifjsldkj", "userinfo":
    {
      "claims":
        {
@@ -462,34 +489,6 @@
    }
 }]]></artwork>
               </figure></t>
-
-            <t>The OpenID Request object MAY contain a set of members defined
-            by this specification and MAY contain other members that are not
-            defined by this specification. The JWT MAY be signed or unsigned.
-            When it is unsigned, it will be indicated by the JWT <spanx
-            style="verb">"signed":"none"</spanx> convention in the JWT
-            header.</t>
-
-            <t>The members defined by this specification are:</t>
-
-            <t><list style="hanging">
-                <t hangText="userinfo">OPTIONAL. (UserInfo request): Requests
-                affecting the values to be returned from the UserInfo
-                endpoint. If not present, the UserInfo endpoint behaves in the
-                default manner.</t>
-
-                <t hangText="id_token">OPTIONAL. (ID request): Requests
-                affecting the values to be to be returned from the ID Token
-                and Check Session endpoint. If not present, the default ID
-                Token contents are used. If present, these parameters are used
-                to request deltas to the default contents of the ID Token.</t>
-              </list>If signed, the OpenID Request object SHOULD contain the
-            standard JWT "<spanx style="verb">iss</spanx>" and "<spanx
-            style="verb">aud</spanx>" claims.</t>
-
-            <t>All members of the OpenID Request object are OPTIONAL. Other
-            members MAY be present and if so, SHOULD be understood by both
-            parties.</t>
 
             <section title="&quot;userinfo&quot; member">
               <t>The structure of the "userinfo" (UserInfo request) member is
@@ -623,18 +622,20 @@
           <t>When the <spanx style="verb">response_type</spanx> in the request
           includes <spanx style="verb">token</spanx>, the Authorization
           Response MUST return the parameters defined in section 4.2.2 of
-          <xref target="OAuth.2.0">OAuth 2.0</xref>. In addition, the ID Token
-          MUST be returned as the value of the <spanx style="verb">id_token</spanx>
-          parameter in the fragment part of the response. The specification
-          only supports <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>.
-          The OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
+          <xref target="OAuth.2.0">OAuth 2.0</xref>. This specification only
+          supports <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>. The
+          OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
           MUST be set to "<spanx style="verb">Bearer</spanx>".</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
           includes <spanx style="verb">code</spanx>, the Authorization
           Response MUST return the parameters defined in section 4.1.2 of
-          <xref target="OAuth.2.0">OAuth 2.0</xref>. The ID Token value is
-          returned at the Token endpoint.</t>
+          <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
+
+          <t>If the <spanx style="verb">response_type</spanx> includes <spanx
+          style="verb">id_token</spanx>, the ID Token MUST be returned as the
+          value of the <spanx style="verb">id_token</spanx> parameter in the
+          fragment part of the response.</t>
 
           <t>The <spanx style="verb">response_type</spanx> "<spanx
           style="verb">none</spanx>" preempts all other values and no other
@@ -689,8 +690,52 @@
           an authorization code, resource owner credentials, an assertion, or
           a refresh token).</t>
 
-          <t>The request parameters of the Access Token Request are defined in
-          section 4.1.3 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
+          <t>Clients required to authenticate with the authorization server
+          MUST do so according to section 3.2.1 of <xref
+          target="OAuth.2.0">OAuth 2.0</xref>. OAuth defines an alternative
+          method for clients to authenticate with symmetric client keys
+          through the use of the <spanx style="verb">client_id</spanx> and
+          <spanx style="verb">client_secret</spanx> parameter in the message
+          request body. This specification extends the client authentication
+          scheme to allow clients to authenticate with asymmetric keys.
+          Asymmetric client authentication allows the client to authenticate
+          with the authorization server without sending it's secret key. The
+          asymmetric client authentication parameters are the following:</t>
+
+          <t><list style="hanging">
+              <t hangText="client_id">REQUIRED. The client identifier of the
+              client.</t>
+
+              <t hangText="secret_type">OPTIONAL. Specifies the client
+              authentication type which determines how the <spanx
+              style="verb">client_secret</spanx> parameter is interpreted. It
+              can be one of "basic" or "JWT". The defaults value is "<spanx
+              style="verb">basic</spanx>". If the value is "basic", the client
+              is performing symmetric key authentication as specified in OAuth
+              2.0. If the value is "JWT", the client is performing asymmetric
+              key authentication. </t>
+
+              <t hangText="client_secret">REQUIRED. The client secret. If the
+              secret_type is "<spanx style="verb">basic</spanx>", the value is
+              the pre-shared secret that was issued to the client during
+              client registration. If the "<spanx style="verb">secret_type</spanx>"
+              is "JWT", the value is the <xref target="JWS">JWS</xref>
+              signature of a JSON object containing one of the following
+              claims:<list style="hanging">
+                  <t hangText="code">REQUIRED. The authorization code that was
+                  issued by the authorization server.</t>
+
+                  <t hangText="refresh_token">REQUIRED. The refresh token that
+                  was issued.</t>
+                </list></t>
+            </list></t>
+
+          <t>In addtion to the client authentication parameters, the client
+          MUST send the request parameter for the Access Token endpoint as
+          specified in section 4.1.3 of <xref target="OAuth.2.0">OAuth
+          2.0</xref>.</t>
+
+          <t></t>
         </section>
 
         <section anchor="access_token_response" title="Access Token Response">
@@ -707,7 +752,9 @@
           style="verb">Bearer</spanx>".</t>
 
           <t>In addition to the OAuth 2.0 response parameters, the following
-          parameters MUST be included in the response:</t>
+          parameters MUST be included in the response if the authorization
+          request <spanx style="verb">response_type</spanx> parameter contains
+          <spanx style="verb">id_token</spanx>:</t>
 
           <t><list style="hanging">
               <t hangText="id_token">REQUIRED. The ID Token value.</t>
@@ -723,7 +770,7 @@
     "token_type": "Bearer",
     "refresh_token": "8xLOxBtZp8",
     "expires_in": 3600,
-    "id_token": "LOsxIkE8XOWds8Yg"
+    "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
 }]]></artwork>
           </figure>
 
@@ -815,6 +862,12 @@
             <c>string</c>
 
             <c>Identifier for the user at the issuer.</c>
+
+            <c>id_token</c>
+
+            <c>string</c>
+
+            <c>ID Token of the authentication session.</c>
 
             <c>name</c>
 

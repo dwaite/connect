@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"><head><title>Draft: OpenID Connect Messages 1.0 - draft 02</title>
-<meta http-equiv="Expires" content="Fri, 19 Aug 2011 19:25:44 +0000">
+<html lang="en"><head><title>Draft: OpenID Connect Messages 1.0 - draft 03</title>
+<meta http-equiv="Expires" content="Tue, 30 Aug 2011 18:20:14 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OpenID Connect Messages 1.0 - draft 02">
+<meta name="description" content="OpenID Connect Messages 1.0 - draft 03">
 <meta name="generator" content="xml2rfc v1.34 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
@@ -154,9 +154,9 @@
 <tr><td class="header">&nbsp;</td><td class="header">Microsoft</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">E. Jay</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">MGI1</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">August 18, 2011</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">August 29, 2011</td></tr>
 </table></td></tr></table>
-<h1><br />OpenID Connect Messages 1.0 - draft 02</h1>
+<h1><br />OpenID Connect Messages 1.0 - draft 03</h1>
 
 <h3>Abstract</h3>
 
@@ -582,11 +582,12 @@ Authorization Request</h3>
 <dt>response_type</dt>
 <dd>A space delimited, case sensitive
               list of string values. Acceptable values include <tt>code</tt>, <tt>token</tt>,
-              and <tt>none</tt>. The value MUST include
-              <tt>code</tt> for requesting an Authorization
-              Code, <tt>token</tt> for requesting an Access
-              Token, and <tt>none</tt> if no response is
-              needed.
+              <tt>id_token</tt>, and <tt>none</tt>.
+              The value MUST include <tt>code</tt> for
+              requesting an Authorization Code, <tt>token</tt>
+              for requesting an Access Token, <tt>id_token</tt>
+              for requesting an ID Token, and <tt>none</tt>
+              if no response is needed.
 </dd>
 <dt>scope</dt>
 <dd>A space delimited, case sensitive list of
@@ -619,12 +620,6 @@ Authorization Request</h3>
 <dd>OPTIONAL. This requests that access to
                   the <tt>email</tt> claim at the UserInfo
                   endpoint be granted by the issued Access Token.
-</dd>
-<dt>PPID</dt>
-<dd>OPTIONAL. This requests that the <tt>id</tt> claim returned by the UserInfo
-                  endpoint and the <tt>user_id</tt> claim
-                  returned by the Check Session endpoint be a Pairwise
-                  Pseudonymouse Identifier (PPID).
 </dd>
 </dl></blockquote>
 </dd>
@@ -728,7 +723,7 @@ OpenID Request Object</h3>
             parameters that MAY differ from the default ones. Implementing
             support for the OpenID Request object is OPTIONAL. Supporting it
             is necessary for implementations that need to request or provide
-            sets of claims other than the default <a class='info' href='#userinfo_ep'>UserInfo<span> (</span><span class='info'>UserInfo Endpoint</span><span>)</span></a> and <a class='info' href='#checksession_ep'>Check Session<span> (</span><span class='info'>Check Session Endpoint</span><span>)</span></a> claim sets.
+            sets of claims other than the default <a class='info' href='#userinfo_ep'>UserInfo<span> (</span><span class='info'>UserInfo Endpoint</span><span>)</span></a>, ID Token, and <a class='info' href='#checksession_ep'>Check Session<span> (</span><span class='info'>Check Session Endpoint</span><span>)</span></a> claim sets.
 </p>
 <p>The OpenID Request object is a <a class='info' href='#JWT'>JWT<span> (</span><span class='info'>Jones, M., Balfanz, D., Bradley, J., Goland, Y., Panzer, J., Sakimura, N., and P. Tarjan, &ldquo;JSON Web Token,&rdquo; July&nbsp;2011.</span><span>)</span></a> [JWT]
             that is passed as the value of the "<tt>request</tt>"
@@ -740,11 +735,47 @@ OpenID Request Object</h3>
             same parameters are available both as query strings and in the
             OpenID Request Object, the later takes the precedence.
 </p>
-<p>
-<p>An example an OpenID request object is as
+<p>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
+            authorization request parameters and MAY contain optional and
+            extension parameters.
+</p>
+<p>The OpenID Request object MAY contain a set of members defined
+            by this specification and MAY contain other members that are not
+            defined by this specification. OpenID Request object members
+            SHOULD be understood by both parties.
+</p>
+<p>The JWT MAY be signed or unsigned. When it is unsigned, it will
+            be indicated by the JWT <tt>"signed":"none"</tt>
+            convention in the JWT header. If signed, the OpenID Request object
+            SHOULD contain the standard JWT "<tt>iss</tt>"
+            and "<tt>aud</tt>" claims.
+</p>
+<p>The members defined by this specification are:
+</p>
+<p></p>
+<blockquote class="text"><dl>
+<dt>userinfo</dt>
+<dd>OPTIONAL. (UserInfo request): Requests
+                affecting the values to be returned from the UserInfo
+                endpoint. If not present, the UserInfo endpoint behaves in the
+                default manner.
+</dd>
+<dt>id_token</dt>
+<dd>OPTIONAL. (ID request): Requests
+                affecting the values to be to be returned from the ID Token
+                and Check Session endpoint. If not present, the default ID
+                Token contents are used. If present, these parameters are used
+                to request deltas to the default contents of the ID Token.
+</dd>
+</dl></blockquote>
+<p><p>An example an OpenID request object is as
                 follows:
 </p><div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>{
- "userinfo":
+ "response_type": "code id_token",
+ "client_id": "s6BhdRkqt3",
+ "redirect_uri": "https://client.example.com/cb",
+ "scope": "openid profile",
+ "state": "af0ifjsldkj", "userinfo":
    {
      "claims":
        {
@@ -767,36 +798,6 @@ OpenID Request Object</h3>
    }
 }</pre></div>
 
-<p>The OpenID Request object MAY contain a set of members defined
-            by this specification and MAY contain other members that are not
-            defined by this specification. The JWT MAY be signed or unsigned.
-            When it is unsigned, it will be indicated by the JWT <tt>"signed":"none"</tt> convention in the JWT
-            header.
-</p>
-<p>The members defined by this specification are:
-</p>
-<p></p>
-<blockquote class="text"><dl>
-<dt>userinfo</dt>
-<dd>OPTIONAL. (UserInfo request): Requests
-                affecting the values to be returned from the UserInfo
-                endpoint. If not present, the UserInfo endpoint behaves in the
-                default manner.
-</dd>
-<dt>id_token</dt>
-<dd>OPTIONAL. (ID request): Requests
-                affecting the values to be to be returned from the ID Token
-                and Check Session endpoint. If not present, the default ID
-                Token contents are used. If present, these parameters are used
-                to request deltas to the default contents of the ID Token.
-</dd>
-</dl></blockquote><p>If signed, the OpenID Request object SHOULD contain the
-            standard JWT "<tt>iss</tt>" and "<tt>aud</tt>" claims.
-</p>
-<p>All members of the OpenID Request object are OPTIONAL. Other
-            members MAY be present and if so, SHOULD be understood by both
-            parties.
-</p>
 <a name="anchor4"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.3.1.2.1.1"></a><h3>3.1.2.1.1.&nbsp;
@@ -958,18 +959,19 @@ Authorization Response</h3>
 <p>When the <tt>response_type</tt> in the request
           includes <tt>token</tt>, the Authorization
           Response MUST return the parameters defined in section 4.2.2 of
-          <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0]. In addition, the ID Token
-          MUST be returned as the value of the <tt>id_token</tt>
-          parameter in the fragment part of the response. The specification
-          only supports <a class='info' href='#OAuth.2.0.Bearer'>Bearer Tokens<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;OAuth 2.0 Protocol: Bearer Tokens,&rdquo; July&nbsp;2011.</span><span>)</span></a> [OAuth.2.0.Bearer].
-          The OAuth 2.0 response parameter "<tt>token_type</tt>"
+          <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0]. This specification only
+          supports <a class='info' href='#OAuth.2.0.Bearer'>Bearer Tokens<span> (</span><span class='info'>Jones, M., Hardt, D., and D. Recordon, &ldquo;OAuth 2.0 Protocol: Bearer Tokens,&rdquo; July&nbsp;2011.</span><span>)</span></a> [OAuth.2.0.Bearer]. The
+          OAuth 2.0 response parameter "<tt>token_type</tt>"
           MUST be set to "<tt>Bearer</tt>".
 </p>
 <p>When the <tt>response_type</tt> in the request
           includes <tt>code</tt>, the Authorization
           Response MUST return the parameters defined in section 4.1.2 of
-          <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0]. The ID Token value is
-          returned at the Token endpoint.
+          <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0].
+</p>
+<p>If the <tt>response_type</tt> includes <tt>id_token</tt>, the ID Token MUST be returned as the
+          value of the <tt>id_token</tt> parameter in the
+          fragment part of the response.
 </p>
 <p>The <tt>response_type</tt> "<tt>none</tt>" preempts all other values and no other
           response parameter values are returned.
@@ -1041,8 +1043,58 @@ Access Token Request</h3>
           an authorization code, resource owner credentials, an assertion, or
           a refresh token).
 </p>
-<p>The request parameters of the Access Token Request are defined in
-          section 4.1.3 of <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0].
+<p>Clients required to authenticate with the authorization server
+          MUST do so according to section 3.2.1 of <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0]. OAuth defines an alternative
+          method for clients to authenticate with symmetric client keys
+          through the use of the <tt>client_id</tt> and
+          <tt>client_secret</tt> parameter in the message
+          request body. This specification extends the client authentication
+          scheme to allow clients to authenticate with asymmetric keys.
+          Asymmetric client authentication allows the client to authenticate
+          with the authorization server without sending it's secret key. The
+          asymmetric client authentication parameters are the following:
+</p>
+<p></p>
+<blockquote class="text"><dl>
+<dt>client_id</dt>
+<dd>REQUIRED. The client identifier of the
+              client.
+</dd>
+<dt>secret_type</dt>
+<dd>OPTIONAL. Specifies the client
+              authentication type which determines how the <tt>client_secret</tt> parameter is interpreted. It
+              can be one of "basic" or "JWT". The defaults value is "<tt>basic</tt>". If the value is "basic", the client
+              is performing symmetric key authentication as specified in OAuth
+              2.0. If the value is "JWT", the client is performing asymmetric
+              key authentication. 
+</dd>
+<dt>client_secret</dt>
+<dd>REQUIRED. The client secret. If the
+              secret_type is "<tt>basic</tt>", the value is
+              the pre-shared secret that was issued to the client during
+              client registration. If the "<tt>secret_type</tt>"
+              is "JWT", the value is the <a class='info' href='#JWS'>JWS<span> (</span><span class='info'>Jones, M., Balfanz, D., Bradley, J., Goland, Y., Panzer, J., Sakimura, N., and P. Tarjan, &ldquo;JSON Web Signatures,&rdquo; April&nbsp;2011.</span><span>)</span></a> [JWS]
+              signature of a JSON object containing one of the following
+              claims:
+<blockquote class="text"><dl>
+<dt>code</dt>
+<dd>REQUIRED. The authorization code that was
+                  issued by the authorization server.
+</dd>
+<dt>refresh_token</dt>
+<dd>REQUIRED. The refresh token that
+                  was issued.
+</dd>
+</dl></blockquote>
+</dd>
+</dl></blockquote>
+
+<p>In addtion to the client authentication parameters, the client
+          MUST send the request parameter for the Access Token endpoint as
+          specified in section 4.1.3 of <a class='info' href='#OAuth.2.0'>OAuth
+          2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0].
+</p>
+<p>
 </p>
 <a name="access_token_response"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -1059,7 +1111,9 @@ Access Token Response</h3>
           Token endpoint. The OAuth 2.0 response parameter "<tt>token_type</tt>" MUST be set to "<tt>Bearer</tt>".
 </p>
 <p>In addition to the OAuth 2.0 response parameters, the following
-          parameters MUST be included in the response:
+          parameters MUST be included in the response if the authorization
+          request <tt>response_type</tt> parameter contains
+          <tt>id_token</tt>:
 </p>
 <p></p>
 <blockquote class="text"><dl>
@@ -1076,7 +1130,7 @@ Access Token Response</h3>
     "token_type": "Bearer",
     "refresh_token": "8xLOxBtZp8",
     "expires_in": 3600,
-    "id_token": "LOsxIkE8XOWds8Yg"
+    "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
 }</pre></div>
 <p>As in the <a class='info' href='#OAuth.2.0'>OAuth 2.0<span> (</span><span class='info'>Hammer-Lahav, E., Ed., Recordon, D., and D. Hardt, &ldquo;OAuth 2.0 Authorization Protocol,&rdquo; Jul&nbsp;2011.</span><span>)</span></a> [OAuth.2.0], Clients
           SHOULD ignore unrecognized response parameters.
@@ -1177,6 +1231,11 @@ Responses</h3>
 <td align="left">id</td>
 <td align="left">string</td>
 <td align="left">Identifier for the user at the issuer.</td>
+</tr>
+<tr>
+<td align="left">id_token</td>
+<td align="left">string</td>
+<td align="left">ID Token of the authentication session.</td>
 </tr>
 <tr>
 <td align="left">name</td>
@@ -1686,7 +1745,7 @@ Query String Serialization</h3>
 <p>In order to serialize the parameters using the query string
         serialization, the client constructs the string by adding the
         parameters and values to the query component using the <tt>application/x-www-form-urlencoded</tt> format as
-        defined by <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Hors, A., Jacobs, I., and D. Raggett, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>.
+        defined by <a class='info' href='#W3C.REC-html401-19991224'>[W3C.REC&#8209;html401&#8209;19991224]<span> (</span><span class='info'>Hors, A., Raggett, D., and I. Jacobs, &ldquo;HTML 4.01 Specification,&rdquo; December&nbsp;1999.</span><span>)</span></a>.
 </p>
 <p>Following is a non-normative example of such
           serialization:
@@ -2513,7 +2572,7 @@ References</h3>
             Technology, &ldquo;<a href="http://csrc.nist.gov/publications/drafts/800-63-rev1/SP800-63-Rev1_Dec2008.pdf">NIST SP800-63rev.1: Electronic Authentication
           Guideline</a>,&rdquo; NIST&nbsp;SP800-63.</td></tr>
 <tr><td class="author-text" valign="top"><a name="W3C.REC-html401-19991224">[W3C.REC-html401-19991224]</a></td>
-<td class="author-text">Hors, A., Jacobs, I., and D. Raggett, &ldquo;<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML 4.01 Specification</a>,&rdquo; World Wide Web Consortium Recommendation&nbsp;REC-html401-19991224, December&nbsp;1999 (<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML</a>).</td></tr>
+<td class="author-text">Hors, A., Raggett, D., and I. Jacobs, &ldquo;<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML 4.01 Specification</a>,&rdquo; World Wide Web Consortium Recommendation&nbsp;REC-html401-19991224, December&nbsp;1999 (<a href="http://www.w3.org/TR/1999/REC-html401-19991224">HTML</a>).</td></tr>
 <tr><td class="author-text" valign="top"><a name="zoneinfo">[zoneinfo]</a></td>
 <td class="author-text">Public Domain, &ldquo;<a href="http://www.twinsun.com/tz/tz-link.htm">The tz database</a>,&rdquo; June&nbsp;2011.</td></tr>
 </table>
