@@ -286,7 +286,7 @@ HTTP/1.1 200 O.K.
 Content-Type: application/json
 
 {
- "locations":["https://example.com/auth"]
+ "locations":["https://example.com"]
 }]]></artwork>
             </figure></t>
         </section>
@@ -324,7 +324,7 @@ HTTP/1.1 200 O.K.
 Content-Type: application/json
 
 {
- "locations":["https://example.com/auth"]
+ "locations":["https://example.com"]
 }]]></artwork>
             </figure></t>
         </section>
@@ -362,7 +362,7 @@ HTTP/1.1 200 O.K.
 Content-Type: application/json
 
 {
- "locations":["https://example.com/auth"]
+ "locations":["https://example.com"]
 }]]></artwork>
             </figure></t>
         </section>
@@ -447,8 +447,9 @@ Content-Type: application/json
         <t>An OpenID Provider Configuration Document is queried using a HTTPS
         GET request with the previously specified path.</t>
 
-        <t>The client would make the following request to get the
-        Configuration information</t>
+        <t>The client would make the following request to the <spanx
+        style="verb">issuer </spanx>using TLS to get the Configuration
+        information</t>
 
         <t><figure>
             <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
@@ -588,6 +589,7 @@ Host: example.com
         <t><figure>
             <artwork><![CDATA[{
  "authorization_endpoint": "https://example.com/connect/authorize",
+ "issuer" : "https://example.com",
  "token_endpoint": "https://example.com/connect/token"
  "user_info_endpoint": "https://example.com/connect/user",
  "check_session_endpoint": "https://example.com/connect/check_session",
@@ -601,6 +603,12 @@ Host: example.com
  "identifiers_supported": ["public", "ppid"]
 }]]></artwork>
           </figure></t>
+      </section>
+
+      <section title="Provider Configuration Verification">
+        <t>If the configuration response contains the <spanx style="verb">issuer</spanx>
+        eliment, the value MUST exactly match the <spanx style="verb">issuer</spanx>
+        URL that was used to retreave it.</t>
       </section>
     </section>
 
@@ -839,6 +847,9 @@ Host: example.com
           <t>Deleted duplicate check session endpoint from 4.2</t>
 
           <t>Ticket #40 Added clarification of issuer url to 4.2</t>
+
+          <t>Ticket #39 Cleaned up issuer examples and added verification
+          text.</t>
         </list></t>
 
       <t>-03 <list style="symbols">
