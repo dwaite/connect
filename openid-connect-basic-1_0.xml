@@ -18,7 +18,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Basic 1.0 - draft 11">OpenID Connect Basic Client 1.0 - draft 11</title>
+    <title abbrev="OpenID Connect Basic 1.0 - draft 11">OpenID Connect Basic
+    Client 1.0 - draft 12</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -71,7 +72,7 @@
       </address>
     </author>
 
-    <date day="2" month="September" year="2011" />
+    <date day="6" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
@@ -80,11 +81,11 @@
       basic profile information about the user in an interoperable and RESTful
       manner.</t>
 
-      <t>OpenID Connect Basic Client is a profile of the full OpenID Connect 1.0
-      Specification that is designed to be easy to read and implement for Relying
-      Parties. Identity providers should consult the main specification. This
-      profile omits implementation and security considerations for identity
-      providers.</t>
+      <t>OpenID Connect Basic Client is a profile of the full OpenID Connect
+      1.0 Specification that is designed to be easy to read and implement for
+      Relying Parties. Identity providers should consult the main
+      specification. This profile omits implementation and security
+      considerations for identity providers.</t>
     </abstract>
   </front>
 
@@ -112,9 +113,9 @@
 
           <t hangText="ID Token">A token that contains information about the
           authentication event. It is a signed token, but can be treated as
-          opaque by the Basic Client profile. Relying Parties wanting to process the
-          token directly should refer to the OpenID Connect Standard 1.0
-          specification.</t>
+          opaque by the Basic Client profile. Relying Parties wanting to
+          process the token directly should refer to the OpenID Connect
+          Standard 1.0 specification.</t>
 
           <t hangText="Indirect Communication">In indirect communication,
           messages are passed through the User-Agent.</t>
@@ -137,21 +138,21 @@
       suitable for clients that cannot. Clients that do not support TLS MUST
       use the code flow to prevent the interception of access tokens.</t>
 
-      <t> The OpenID Connect Basic Client profile only documents clients using the
-      implicit grant flow. Identity Providers MUST support both flows. Clients
-      wanting to use the code flow and Identity Providers should consult the
-      full OpenID Connect 1.0 specification.</t>
+      <t>The OpenID Connect Basic Client profile only documents clients using
+      the implicit grant flow. Identity Providers MUST support both flows.
+      Clients wanting to use the code flow and Identity Providers should
+      consult the full OpenID Connect 1.0 specification.</t>
 
       <section title="OpenID Connect Scopes">
         <t>This profile describes two OpenID Connect endpoints that the client
-        may request scopes for. </t>
+        may request scopes for.</t>
 
         <t>The scopes request what information is to be made available from
         each of the endpoints for the current user. The User may decline a
         scope request by the client.</t>
 
-        <t>To increase conversion, a site may elect to only request a subset of
-        the information from the User Info endpoint.</t>
+        <t>To increase conversion, a site may elect to only request a subset
+        of the information from the User Info endpoint.</t>
 
         <t>OpenID Connect uses scopes as defined in 4.2.1 of <xref
         target="OAuth.2.0">OAuth 2.0</xref>.</t>
@@ -214,8 +215,9 @@
 
           <t><list style="hanging">
               <t hangText="response_type">It MUST include <spanx style="verb">token and id_token</spanx>,
-              as a space separated list. This requests both an access token and
-              id_token to be returned in the URL fragment of the response.</t>
+              as a space separated list. This requests both an access token
+              and id_token to be returned in the URL fragment of the
+              response.</t>
             </list></t>
 
           <t>Other REQUIRED parameters in the request include the
@@ -224,12 +226,10 @@
           <t><list style="hanging">
               <t hangText="client_id">The OAuth client identifier.</t>
 
-              <t hangText="scope">It MUST include <spanx
-              style="verb">openid</spanx> as one of the space separated
-              strings.  Optional scope strings of <spanx
-              style="verb">profile</spanx>, <spanx
-              style="verb">email</spanx>, and <spanx
-              style="verb">address</spanx> are also supported.</t>
+              <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
+              as one of the space separated strings. Optional scope strings of
+              <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
+              and <spanx style="verb">address</spanx> are also supported.</t>
 
               <t hangText="redirect_uri">A redirection URI where the response
               will be sent (This MUST be pre-registered with the provider.</t>
@@ -313,11 +313,11 @@ response_type=token id_token
           consenting to and obtain his consent or by establishing approval via
           other means (for example, via previous administrative approval).</t>
 
-          <t>The <spanx style="verb">openid</spanx> scope grants the RP access to the user identifier of
-          the authenticated user of the session.</t>
+          <t>The <spanx style="verb">openid</spanx> scope grants the RP access
+          to the user identifier of the authenticated user of the session.</t>
 
-          <t>If the user doesn't grant access to the <spanx style="verb">openid</spanx> scope then an
-          error MUST be returned by the Identity provider.</t>
+          <t>If the user doesn't grant access to the <spanx style="verb">openid</spanx>
+          scope then an error MUST be returned by the Identity provider.</t>
 
           <t>All other scopes are optional. It is up to the Identity provider
           to determine if the authentication should proceed if the user
@@ -334,7 +334,7 @@ response_type=token id_token
             authorization server issues an access token and delivers it to the
             client by adding the following parameters to the fragment
             component of the redirection URI using the <spanx style="verb">application/x-www-form-urlencoded</spanx>
-            format: </t>
+            format:</t>
 
             <t>In the implicit flow the entire response is returned in the
             fragment component of the redirect URL, as defined in 4.2.2 of
@@ -344,18 +344,19 @@ response_type=token id_token
                 <t hangText="access_token">REQUIRED. The Access Token for the
                 User Info Endpoint.</t>
 
-                <t hangText="token_type">REQUIRED. The value MUST be "bearer"</t>
+                <t hangText="token_type">REQUIRED. The value MUST be
+                "bearer"</t>
 
-                <t hangText="id_token">REQUIRED. The Access Token for the Check
-                Session Endpoint.</t>
+                <t hangText="id_token">REQUIRED. The Access Token for the
+                Check Session Endpoint.</t>
 
                 <t hangText="state">REQUIRED. if the <spanx style="verb">state</spanx>
                 parameter in the request. Set to the exact value of the <spanx
                 style="verb">state</spanx> parameter received from the
                 client.</t>
 
-                <t hangText="expires_in">OPTIONAL. The expiration time in seconds
-                of the access_token</t>
+                <t hangText="expires_in">OPTIONAL. The expiration time in
+                seconds of the access_token</t>
 
                 <t hangText="state">RECOMENDED. This is the state value that
                 was sent in the request. It SHOULD be validated to prevent
@@ -399,37 +400,42 @@ expires_in=3600&
         <t>The id_token is used to manage the signon event and user
         identifier, separately from access to the UserInfo endpoint and other
         OAuth 2.0 protected resources that the user is granting access to. The
-        id_token is scoped to a particular client via the audience and nonce.
-        </t>
+        id_token is scoped to a particular client via the audience and
+        nonce.</t>
 
         <t>A full explanation of how to use the id_token to perform session
         management can be found in the <xref target="OpenID.Session">OpenID
         Connect Session Management 1.0</xref></t>
 
         <section title="Check Session Request">
-          <t>The Check Session endpoint is an <xref target="OAuth.2.0">OAuth
-          2.0</xref> protected resource that complies with the <xref
-          target="OAuth.2.0.Bearer">Bearer Token</xref> specification. As
-          such, the access token SHOULD be specified via the HTTP
-          Authorization header. </t>
-
           <t>To request the information about the authentication performed on
           the user, the following parameter is sent to the Check Session
-          Endpoint. </t>
+          Endpoint.</t>
+
+          <t>The paramaters may be passed as query paramaters in a GET or as
+          form encoded in a POST.</t>
+
+          <t>Authorization servers MUST support the use of the HTTP "GET"
+          method as defined in <xref target="RFC2616">RFC 2616</xref> and MAY
+          support the "POST" method for the check session endpoint.</t>
 
           <t><list style="hanging">
               <t hangText="id_token">REQUIRED. The access_token obtained from
-              an OpenID Connect authorization request. This token MUST be sent
-              as the access token.</t>
+              an OpenID Connect authorization request. </t>
             </list><figure>
               <preamble>The following is a non-normative example of a request
               to the Check Session endpoint:</preamble>
 
               <artwork><![CDATA[Request:
 
-GET /check_session
+GET /op/check_session?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
+ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
+ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
+WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
+JwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
+
 Host: server.example.com
-Authorization: Bearer 7Fjfp0Z.Br1KtDRb.nfVdmIw
+
 
 ]]></artwork>
             </figure></t>
@@ -486,9 +492,13 @@ Authorization: Bearer 7Fjfp0Z.Br1KtDRb.nfVdmIw
 
             <artwork><![CDATA[Request:
 
-GET /check_session
+GET /op/check_session?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
+ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
+ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
+WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
+JwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
+
 Host: server.example.com
-Authorization: Bearer 7Fjfp0Z.Br1KtDRb.nfVdmIw
 
 Response:
 
@@ -1120,8 +1130,7 @@ Authorization: Bearer vF9dft4qmT
 
       <reference anchor="OpenID.Registration">
         <front>
-          <title>OpenID Connect Dynamic Client
-          Registration 1.0</title>
+          <title>OpenID Connect Dynamic Client Registration 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -1201,6 +1210,11 @@ Authorization: Bearer vF9dft4qmT
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-12<list style="symbols">
+          <t>Ticket #48 Changed Check Session to take the id_token as a
+          paramater.</t>
+        </list></t>
+
       <t>-11 <list style="symbols">
           <t>Renamed from "Lite" to "Basic Client".</t>
 
@@ -1213,8 +1227,8 @@ Authorization: Bearer vF9dft4qmT
           <t>Changed endpoint name in example from id_token to
           check_session.</t>
 
-          <t>Added token_type to the response and explanations of the
-          optional parameters.</t>
+          <t>Added token_type to the response and explanations of the optional
+          parameters.</t>
         </list></t>
 
       <t>-09 <list style="symbols">
@@ -1231,10 +1245,9 @@ Authorization: Bearer vF9dft4qmT
           <t>Reverted back to GET for introspection based on Google
           feedback.</t>
 
-          <t>Changed scopes to <spanx style="verb">openid</spanx>,
-          <spanx style="verb">profile</spanx>, <spanx
-          style="verb">address</spanx>, and <spanx
-          style="verb">email</spanx> to make them additive.</t>
+          <t>Changed scopes to <spanx style="verb">openid</spanx>, <spanx
+          style="verb">profile</spanx>, <spanx style="verb">address</spanx>,
+          and <spanx style="verb">email</spanx> to make them additive.</t>
 
           <t>Changed introspection to Check Session Endpoint to be consistent
           with session management.</t>
@@ -1250,9 +1263,9 @@ Authorization: Bearer vF9dft4qmT
       <t>-07 <list style="symbols">
           <t>Changed introspection to post</t>
 
-          <t>Changed user_info from <spanx style="verb">ide</spanx> to
-          <spanx style="verb">user_ide</spanx> to be consistent with
-          introspection endpoint.</t>
+          <t>Changed user_info from <spanx style="verb">ide</spanx> to <spanx
+          style="verb">user_ide</spanx> to be consistent with introspection
+          endpoint.</t>
 
           <t>Fixed introspection example to use id_token rather than access
           token.</t>
