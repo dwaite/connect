@@ -150,14 +150,14 @@
         each of the endpoints for the current user. The User may decline a
         scope request by the client.</t>
 
-        <t>To increase conversion a site may elect to only request a subset of
+        <t>To increase conversion, a site may elect to only request a subset of
         the information from the User Info endpoint.</t>
 
         <t>OpenID Connect uses scopes as defined in 4.2.1 of <xref
         target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
         <t>The Check Session Endpoint has a single scope<list style="hanging">
-            <t hangText="openid">REQUIRED requests the user_id and other
+            <t hangText="openid">REQUIRED. Requests the user_id and other
             session information.</t>
           </list></t>
 
@@ -238,7 +238,7 @@
           <t>The request MAY contain the following optional parameters:</t>
 
           <t><list style="hanging">
-              <t hangText="state">RECOMENDED An opaque value used to maintain
+              <t hangText="state">RECOMENDED. An opaque value used to maintain
               state between the request and the callback, used to protect
               against XSRF attacks.</t>
 
@@ -344,20 +344,20 @@ response_type=token id_token
                 <t hangText="access_token">REQUIRED. The Access Token for the
                 User Info Endpoint.</t>
 
-                <t hangText="token_type">REQUIRED Value MUST be "bearer"</t>
+                <t hangText="token_type">REQUIRED. The value MUST be "bearer"</t>
 
-                <t hangText="id_token">REQUIRED The Access Token for the Check
+                <t hangText="id_token">REQUIRED. The Access Token for the Check
                 Session Endpoint.</t>
 
-                <t hangText="state">REQUIRED if the <spanx style="verb">state</spanx>
+                <t hangText="state">REQUIRED. if the <spanx style="verb">state</spanx>
                 parameter in the request. Set to the exact value of the <spanx
                 style="verb">state</spanx> parameter received from the
                 client.</t>
 
-                <t hangText="expires_in">OPTIONAL The expiration time in seconds
+                <t hangText="expires_in">OPTIONAL. The expiration time in seconds
                 of the access_token</t>
 
-                <t hangText="state">RECOMENDED This is the state value that
+                <t hangText="state">RECOMENDED. This is the state value that
                 was sent in the request. It SHOULD be validated to prevent
                 XRSF attacks.</t>
               </list></t>
