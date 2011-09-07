@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
+                           "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-session-1_0" ipr="trust200902">
+
   <?rfc toc="yes" ?>
-
   <?rfc tocdepth="3" ?>
-
   <?rfc symrefs="yes" ?>
-
   <?rfc sortrefs="yes"?>
-
   <?rfc strict="no" ?>
-
   <?rfc iprnotified="no" ?>
-
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Session Management 1.0 - draft 03</title>
+    <title abbrev="OpenID Connect Session 1.0 - draft 04">OpenID Connect Session Management 1.0 - draft 04</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -69,7 +65,7 @@
       </address>
     </author>
 
-    <date day="11" month="July" year="2011" />
+    <date day="2" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -116,11 +112,10 @@
           <t hangText="Client">An application obtaining authorization and
           making protected resource requests.</t>
 
-          <t hangText="Client Identifier">An OAuth 2.0 "client_id". A unique identifier that the client
+          <t hangText="Client Identifier">A unique identifier that the client
           uses to identify itself to the OP.</t>
 
-          <t hangText="Identifier">An Identifier is a string that identifies 
-		  the entity. Typically, it is either an "http" or
+          <t hangText="Identifier">An Identifier is either an "http" or
           "https" URI, (commonly referred to as a "URL" within this document),
           or an account URI. This document defines various kinds of
           Identifiers, designed for use in different contexts.</t>
@@ -270,7 +265,7 @@ Host: server.example.com]]></artwork>
     "token_type": "JWT",
     "refresh_token": "8xLOxBtZp8",
     "expires_in": 3600,
-    "id_token":"jwtheader.jwtpayload.jwtcrypto"
+    "id_token":"jwt_header.jwt_part2.jwt_part3"
 }]]></artwork>
             </figure>
 
@@ -309,15 +304,15 @@ Host: server.example.com]]></artwork>
 |          |>----(1)-------------|------|-->| Authorization |  |    | 
 |          |<----(3)-------------|------|--<| Endpoint  (2) |  |    | 
 +----------+                     |      |   +---------------+  |    | 
-    ^                 +----------|------|--<| Check_Session |  |    | 
-    |                 | +--------|------|-->| EndPoint      |  |    | 
+    ^                 +----------|------|-->| Check_Session |  |    | 
+    |                 | +--------|------|--<| EndPoint      |  |    | 
     |                 | |        |      |   +---------------+  |    | 
     v                 | |        |      +----------------------+    | 
 +----------+       (4)| |        |                                  | 
 |          |          | |        |                                  | 
-|client    |<---------+ |        |      +----------------------+    | 
-|servlet   |>-----------+        |      |     Profile API/     |    | 
-|          |                     |      |     UserInfo Endpoint|    | 
+|client    |>---------+ |        |      +----------------------+    | 
+|servlet   |<-----------+        |      |                      |    | 
+|          |                     |      | UserInfo Endpoint    |    | 
 |          |                     |      |                      |    | 
 |          |>--------------------|----->|                      |    | 
 |          |<--------------------|-----<|                      |    | 
@@ -391,7 +386,7 @@ Host: server.example.com]]></artwork>
                 response:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb#token=i1WsRn1uB1&token_type=JWT&id_token=jwt_header.jwt_payload.jwt_crypto]]></artwork>
+Location: https://client.example.com/cb#access_token=i1WsRn1uB1&token_type=JWT&id_token=jwt_header.jwt_part2.jwt_part3]]></artwork>
               </figure></t>
           </section>
         </section>
@@ -434,20 +429,20 @@ Location: https://client.example.com/cb#token=i1WsRn1uB1&token_type=JWT&id_token
 |          |>-----(1)------------|------|-->| Authorization |  |    |
 |          |<-----(3)------------|------|--<| Endpoint (2)  |  |    |
 +----------+                     |      |   +---------------+  |    |
-    ^                 +----------|------|--<| Access Token  |  |    |
-    |                 | +--------|------|-->| EndPoint      |  |    |
+    ^                 +----------|------|-->| Access Token  |  |    |
+    |                 | +--------|------|--<| EndPoint      |  |    |
     |                 | |        |      |   +---------------+  |    |
     v                 | |        |      |   | Session       |  |    |
 +----------+          | |        |      |   | Management    |  |    |
 |          |          | |        |      |   | Endpoints     |  +    |
-|client    |<-----(4)-+ |        |      |   +---------------+  |    |
-|servlet   |>-----(5)---+        |      +----------------------+    |
+|client    |>-----(4)-+ |        |      |   +---------------+  |    |
+|servlet   |<-----(5)---+        |      +----------------------+    |
 |          |                     |                                  |
 |          |                     |      +----------------------+    |
-|          |                     |      |     Profile API/     |    |
-|          |                     |      |     UserInfo Endpoint|    |
-|          |<--------------------|-----<|                      |    |
+|          |                     |      |                      |    |
+|          |                     |      | UserInfo Endpoint    |    |
 |          |>--------------------|----->|                      |    |
+|          |<--------------------|-----<|                      |    |
 +----------+                     |      +----------------------+    |
                                  |                                  |
                                  |                                  |
@@ -541,7 +536,7 @@ Cache-Control: no-store
   "token_type":"JWT",
   "expires_in":3600,
   "refresh_token":"8xLOxBtZp8",
-  "id_token":"jwt_header.jwt_payload.jwt_crypto"
+  "id_token":"jwt_header.jwt_part2.jwt_part3"
 }]]></artwork>
               </figure></t>
           </section>
@@ -607,7 +602,7 @@ Cache-Control: no-store
 
           <t><figure>
               <artwork><![CDATA[GET /resource1
-Auth: idtoken_jwt_header.idtoken_jwt_payload.idtoken_jwtcrypto
+Auth: jwt_header.jwt_part2.jwt_part3
 Host: servlet.example.com
 
 ]]></artwork>
@@ -1055,12 +1050,16 @@ Location: http://client.example.com/endtoken_cb?state=bar
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-      <t>-03 <list style="symbols">
+      <t>-04 <list style="symbols">
           <t>Changes associated with renaming "Lite" to "Basic Client"
           and replacing "Core" and "Framework" with "Messages" and
           "Standard".</t>
 
           <t>Numerous cleanups, including updating references.</t>
+        </list></t>
+
+      <t>-03 <list style="symbols">
+          <t>Corrected examples.</t>
         </list></t>
 
       <t>-02 <list style="symbols">

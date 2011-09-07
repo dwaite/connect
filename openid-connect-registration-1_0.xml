@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
+                           "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="draft-openid-connect-registration-1_0" ipr="trust200902">
 
   <?rfc toc="yes" ?>
@@ -12,8 +13,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Client Registration 1.0 - draft 05">
-      OpenID Connect Dynamic Client Registration 1.0 - draft 05
+    <title abbrev="OpenID Connect Registration 1.0 draft 06">
+      OpenID Connect Dynamic Client Registration 1.0 - draft 06
     </title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -43,7 +44,7 @@
       </address>
     </author>
 
-    <date day="12" month="July" year="2011" />
+    <date day="2" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -105,18 +106,18 @@
         encoded as top level elements of a JSON object:</t>
 
         <t><list style="hanging">
-            <t hangText="type">REQUIRED. Values "client_associate",
-            "client_update"</t>
+            <t hangText="type">REQUIRED. Values <spanx style="verb">client_associate</spanx>,
+            <spanx style="verb">client_update</spanx></t>
 
-            <t hangText="client_id">OPTIONAL. Used with "client_update"</t>
+            <t hangText="client_id">OPTIONAL. Used with <spanx style="verb">client_update</spanx></t>
 
             <t hangText="client_secret">OPTIONAL. Used with
-            "client_update"</t>
+            <spanx style="verb">client_update</spanx></t>
 
             <t hangText="contact">OPTIONAL. JSON Array of e-mail addresses for
             people allowed to administer the application.</t>
 
-            <t hangText="application_type">OPTIONAL. "native" or "web"</t>
+            <t hangText="application_type">OPTIONAL. <spanx style="verb">native</spanx> or <spanx style="verb">web</spanx>.</t>
 
             <t hangText="application_name">OPTIONAL. Name of the application
             to be presented to the user.</t>
@@ -124,18 +125,18 @@
             <t hangText="logo_url">OPTIONAL. URL that a logo for the
             application can be retrieved from.</t>
 
-            <t hangText="redirect_url">OPTIONAL. JSON Array of redirect
-            URL</t>
+            <t hangText="redirect_uri">OPTIONAL. JSON array of redirect
+            URIs</t>
 
-            <t hangText="js_origin_url">OPTIONAL. JSON Array of Java Script
-            Origins (used for Post Message flow)</t>
+            <t hangText="js_origin_uri">OPTIONAL. JSON array of JavaScript
+            Origin URIs (used for Post Message flow)</t>
 
             <t hangText="jwk_url">OPTIONAL. URL for the RP's <xref
             target="JWK">JSON Web Key</xref></t>
 
             <t hangText="sector_identifier">OPTIONAL URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
-            file with an array of redirect_url</t>
+            file with an array of redirect_uri values.</t>
           </list><figure>
             <artwork><![CDATA[POST /connect/register HTTP/1.1
 Accept: application/json
@@ -154,13 +155,13 @@ Host: server.example.com
         as top level elements.</t>
 
         <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The unique client identifier</t>
+            <t hangText="client_id">REQUIRED. The unique client identifier.</t>
 
             <t hangText="client_secret">REQUIRED. The client secret. This
             should change with each response.</t>
 
             <t hangText="expires_in">REQUIRED. The number of seconds that this
-            id and secret are good for or "0" if it does not expire.</t>
+            id and secret are good for or <spanx style="verb">0</spanx> if it does not expire.</t>
           </list></t>
 
         <t>The following is an example response.</t>
@@ -314,13 +315,23 @@ Cache-Control: no-store
         [[ To be removed from the final specification ]]
       </t>
 
-      <t>-05 <list style="symbols">
+      <t>-06 <list style="symbols">
           <t>Changes associated with renaming "Lite" to "Basic Client"
           and replacing "Core" and "Framework" with "Messages" and
           "Standard".</t>
 
           <t>Numerous cleanups, including updating references.</t>
         </list></t>
+
+      <t>
+	-05
+	<list style="symbols">
+          <t>Changed <spanx style="verb">redirect_url</spanx> to
+          <spanx style="verb">redirect_uri</spanx> and <spanx
+          style="verb">js_origin_url</spanx> to <spanx
+          style="verb">js_origin_uri</spanx>.</t>
+        </list>
+      </t>
 
       <t>
 	-04
