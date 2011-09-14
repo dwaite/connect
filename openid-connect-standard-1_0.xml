@@ -18,8 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Standard 1.0 - draft 01">OpenID Connect
-    Standard 1.0 - draft 03</title>
+    <title>OpenID Connect Standard 1.0 - draft 04</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -64,11 +63,17 @@
       </address>
     </author>
 
-    <date day="29" month="August" year="2011" />
+    <date day="2" month="September" year="2011" />
 
     <abstract>
-      <t>OpenID Connect Standard 1.0 is a HTTP protocol binding of OpenID
-      Connect Messages 1.0 request and response messages.</t>
+      <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
+      2.0 protocol. It allows a web site or application to verify the
+      identity of the user based on the authentication performed by
+      the server, as well as to obtain basic profile information about
+      the user in an interoperable and RESTful manner.</t>
+
+      <t>OpenID Connect Standard 1.0 is an HTTP protocol binding for
+      OpenID Connect Messages 1.0 request and response messages.</t>
     </abstract>
   </front>
 
@@ -87,7 +92,7 @@
     <section anchor="terminology" title="Terminology">
       <t>Followings are the additional terminology defined in this
       specification in addition to those defined in <xref
-      target="OpenID.Core">OpenID Connect Messages 1.0</xref> and <xref
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref> and <xref
       target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
       <t><list style="hanging">
@@ -113,7 +118,7 @@
       application level protocol for distribute, collaborative, hypermedia
       systems. It's ubiquitousness makes it an ideal protocol for use by
       OpenID Connect. This specification describes the binding of the HTTP
-      protocol with the the various endpoints described in <xref
+      protocol with the various endpoints described in <xref
       target="OpenID.Messages"> OpenID Connect Messages</xref>.</t>
     </section>
 
@@ -231,11 +236,11 @@
           <t>The request parameter method is used by sending an OpenID Request
           Object when the client desires to retrieve a different set of
           UserInfo and ID Token claims. The request parameter method also
-          allows requests and responses to be signed or enrypted. </t>
+          allows requests and responses to be signed or encrypted. </t>
 
           <t>The request file method works similar to the request parameter
           method but differs in that it sends an URL as a reference to the
-          OpendID Request Object. It enables large requests to be sent
+          OpenID Request Object. It enables large requests to be sent
           securely and compactly even on browsers with limited capabilities.
           Clients SHOULD use the request file method to minimize the request
           size.</t>
@@ -581,7 +586,7 @@ code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
             fails, the server MUST return the negative authorization response
             as defined in <xref target="OpenID.Messages">OpenID Connect
             Messages 1.0</xref>. The authorization server returns the client
-            the the redirection URI specified in the authorization request
+            the redirection URI specified in the authorization request
             with the appropriate error parameters in the HTTP query string. No
             other parameters SHOULD be returned.</t>
 
@@ -907,7 +912,7 @@ Pragma: no-cache
             <t hangText="grant_type">REQUIRED. A string "refresh_token".</t>
 
             <t hangText="refresh_token">REQUIRED. The refresh token that was
-            issued in a previous Token endpoint request..</t>
+            issued in a previous Token endpoint request.</t>
 
             <t hangText="scope">REQUIRED. It MUST include <spanx style="verb">openid</spanx>
             as one of the strings. Other values that MAY be included are
@@ -915,7 +920,7 @@ Pragma: no-cache
             <spanx style="verb">address</spanx>, and <spanx style="verb">PPID</spanx>.
             The values specify an additive list of claims that are returned by
             the UserInfo endpoint.</t>
-          </list>The authoriziation MUST verify the validity of the refresh
+          </list>The authorization MUST verify the validity of the refresh
         token</t>
 
         <section title="Positive Assertion">
@@ -1155,9 +1160,24 @@ Content-Type: application/json
     </section>
 
     <section anchor="session_eps" title="Session Management Endpoints">
-      <t>The Session Mangement endpoints are specified in the <xref
+      <t>The Session Management endpoints are specified in the <xref
       target="OpenID.Session">OpenID Connect Session Management</xref>
       specification.</t>
+    </section>
+
+    <section anchor="disco_reg" title="Discovery and Registration">
+      <t>Some OpenID Connect installations can use a pre-configured set of
+      OpenID Providers and/or Relying Parties. In those cases, it may not be
+      necessary to support dynamic discovery of information about identities
+      or services or dynamic registration of clients.</t>
+
+      <t>However, if installations choose to support unanticipated
+      interactions between Relying Parties and OpenID Providers that do not
+      have pre-configured relationships, they SHOULD accomplish this by
+      implementing the facilities defined in the <xref
+      target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
+      target="OpenID.Registration">OpenID Connect Dynamic Client Registration
+      1.0</xref> specifications.</t>
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
@@ -1285,21 +1305,9 @@ Content-Type: application/json
             Corporation</organization>
           </author>
 
-          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization abbrev="goog">Google</organization>
-          </author>
-
           <author fullname="John Bradley" initials="J." surname="Bradley">
             <organization abbrev="pgs">rotivity Government
             Service</organization>
-          </author>
-
-          <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="msft">Microsoft</organization>
-          </author>
-
-          <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization abbrev="goog">Google</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -1307,53 +1315,10 @@ Content-Type: application/json
             Ltd.</organization>
           </author>
 
-          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="fb">Facebook</organization>
-          </author>
-
-          <date day="28" month="March" year="2011" />
+          <date day="23" month="July" year="2011" />
         </front>
 
         <format target="http://self-issued.info/docs/draft-jones-json-web-encryption.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OpenID.Core">
-        <front>
-          <title>OpenID Connect Core 1.0</title>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
-          </author>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protiviti">Protiviti Government
-            Services</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <author fullname="Edmund" initials="E." surname="Jay">
-            <organization abbrev="">MGI1</organization>
-          </author>
-
-          <date day="28" month="July" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-core-1_0.html"
                 type="HTML" />
       </reference>
 
@@ -1361,14 +1326,14 @@ Content-Type: application/json
         <front>
           <title>OpenID Connect Messages 1.0</title>
 
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
-          </author>
-
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
             Ltd.</organization>
           </author>
+
+	  <author fullname="David Recordon" initials="D." surname="Recordon">
+	    <organization abbrev="Facebook">Facebook</organization>
+	  </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
             <organization abbrev="Protiviti">Protiviti Government
@@ -1385,171 +1350,21 @@ Content-Type: application/json
             Corporation</organization>
           </author>
 
-          <author fullname="Edmund" initials="E." surname="Jay">
-            <organization abbrev="">MGI1</organization>
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="August" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
                 type="HTML" />
       </reference>
 
-      <reference anchor="OpenID.Framework">
-        <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Framework
-          1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protiviti">Protiviti Government
-            Services</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="">Google</organization>
-          </author>
-
-          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-            <organization abbrev="Salesforce">Salesforce</organization>
-          </author>
-
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
-          </author>
-
-          <date day="28" month="July" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-framework-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OpenID.UserInfo">
-        <front>
-          <title>OpenID Connect UserInfo 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protiviti">Protiviti Government
-            Services</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <date day="28" month="July" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-userinfo-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OpenID.Lite">
-        <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Lite 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protiviti">Protiviti Government
-            Services</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="">Google</organization>
-          </author>
-
-          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-            <organization abbrev="Salesforce">Salesforce</organization>
-          </author>
-
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
-          </author>
-
-          <date day="1" month="August" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-lite-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OpenID.Standard">
-        <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Standard
-          1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protiviti">Protiviti Government
-            Services</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="">Google</organization>
-          </author>
-
-          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-            <organization abbrev="Salesforce">Salesforce</organization>
-          </author>
-
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
-          </author>
-
-          <date day="1" month="August" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
-                type="HTML" />
-      </reference>
-
       <reference anchor="OpenID.Registration">
         <front>
           <title abbrev="Abbreviated-Title">OpenID Connect Dynamic Client
-          Registration 1.0 - draft 02</title>
+          Registration 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -1567,7 +1382,7 @@ Content-Type: application/json
             Corporation</organization>
           </author>
 
-          <date day="28" month="July" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1596,7 +1411,7 @@ Content-Type: application/json
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="28" month="July" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1625,7 +1440,7 @@ Content-Type: application/json
 
           <author fullname="Breno de Medeiros" initials="B."
                   surname="de Medeiros">
-            <organization abbrev="">Google</organization>
+            <organization abbrev="Google">Google</organization>
           </author>
 
           <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
@@ -1636,30 +1451,11 @@ Content-Type: application/json
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="28" month="July" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
                 type="HTML" />
-      </reference>
-
-      <reference anchor="SP800-63">
-        <front>
-          <title>NIST SP800-63rev.1: Electronic Authentication
-          Guideline</title>
-
-          <author>
-            <organization>National Institute of Standards and
-            Technology</organization>
-          </author>
-        </front>
-
-        <seriesInfo name="NIST" value="SP800-63" />
-
-        <format target="http://csrc.nist.gov/publications/drafts/800-63-rev1/SP800-63-Rev1_Dec2008.pdf"
-                type="PDF" />
-
-        <!-- <annotation>Defines LoA</annotation> -->
       </reference>
 
       <reference anchor="OAuth.2.0">
@@ -1668,11 +1464,11 @@ Content-Type: application/json
 
           <author fullname="Eran Hammer-Lahav" initials="E." role="editor"
                   surname="Hammer-Lahav">
-            <organization abbrev="">Yahoo</organization>
+            <organization abbrev="Yahoo">Yahoo</organization>
           </author>
 
           <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
           <author fullname="Dick Hardt" initials="D." surname="Hardt">
@@ -1696,11 +1492,11 @@ Content-Type: application/json
           </author>
 
           <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="">Independent</organization>
+            <organization>Independent</organization>
           </author>
 
           <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
           <date day="27" month="July" year="2011" />
@@ -1708,71 +1504,6 @@ Content-Type: application/json
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
                 type="HTML" />
-      </reference>
-
-      <reference anchor="ISO29115">
-        <front>
-          <title>ITU-T Recommendation X.eaa | ISO/IEC 2nd CD 29115 --
-          Information technology - Security techniques - Entity authentication
-          assurance framework</title>
-
-          <author fullname="Erika McCallister et al." initials="E"
-                  surname="McCallister">
-            <organization>National Institute of Standards and
-            Technology</organization>
-          </author>
-        </front>
-
-        <seriesInfo name="ISO/IEC" value="29115" />
-
-        <!-- <annotation>Defines LoA</annotation> -->
-      </reference>
-
-      <reference anchor="ISO639-1">
-        <front>
-          <title>ISO 639-1:2002. Codes for the representation of names of
-          languages -- Part 1: Alpha-2 code</title>
-
-          <author fullname="International Organization for Standardization"
-                  initials="" surname="">
-            <organization abbrev="ISO">International Organization for
-            Standardization</organization>
-          </author>
-
-          <date year="2002" />
-        </front>
-      </reference>
-
-      <reference anchor="ISO3166-1">
-        <front>
-          <title>ISO 3166-1:1997. Codes for the representation of names of
-          countries and their subdivisions -- Part 1: Country codes</title>
-
-          <author fullname="International Organization for Standardization"
-                  initials="" surname="">
-            <organization abbrev="ISO">International Organization for
-            Standardization</organization>
-          </author>
-
-          <date year="1997" />
-        </front>
-
-        <format target="http://www.w3.org/WAI/ER/IG/ert/iso639.htm"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="zoneinfo">
-        <front>
-          <title>The tz database</title>
-
-          <author fullname="" initials="" surname="">
-            <organization abbrev="Public">Public Domain</organization>
-          </author>
-
-          <date month="June" year="2011" />
-        </front>
-
-        <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML" />
       </reference>
     </references>
 
@@ -1811,6 +1542,8 @@ Content-Type: application/json
           <t>Nat Sakimura (n-sakimura@nri.co.jp)), Nomura Research Institute,
           Ltd.</t>
 
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+
           <t>Ryo Itou (ritou@yahoo-corp.jp), Yahoo! Japan</t>
         </list></t>
     </section>
@@ -1818,29 +1551,27 @@ Content-Type: application/json
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-      <t>-05 <list style="symbols">
-          <t>Corrected examples.</t>
-        </list></t>
-
       <t>-04 <list style="symbols">
-          <t>Correct issues raised by Pam Dingle and discussed on the mailing
-          list after the 7-Jul-11 working group call.</t>
+          <t>Changes associated with renaming "Lite" to "Basic Client"
+          and replacing "Core" and "Framework" with "Messages" and
+          "Standard".</t>
 
-          <t>Adopted long_names.</t>
+          <t>Numerous cleanups, including updating references.</t>
         </list></t>
 
       <t>-03 <list style="symbols">
-          <t>Correct issues raised by Johnny Bufu and discussed on the
-          7-Jul-11 working group call.</t>
+          <t>Added secret_type to the Token endpoint.</t>
+
+	  <t>Minor edits to the samples.</t>
         </list></t>
 
       <t>-02 <list style="symbols">
-          <t>Consistency and cleanup pass, including removing unused
-          references.</t>
+          <t>Incorporates feedback from Nat Sakimura.</t>
         </list></t>
 
       <t>-01 <list style="symbols">
-          <t>Initial draft</t>
+          <t>First Draft that incorporates the merge of the Core and Framework
+          specs.</t>
         </list></t>
     </section>
   </back>

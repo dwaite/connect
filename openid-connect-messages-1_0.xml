@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Messages 1.0 - draft 03</title>
+    <title>OpenID Connect Messages 1.0 - draft 04</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -31,7 +31,7 @@
     </author>
 
     <author fullname="David Recordon" initials="D." surname="Recordon">
-      <organization abbrev="Facebook">Facebook Inc.</organization>
+      <organization abbrev="Facebook">Facebook</organization>
 
       <address>
         <email>dr@fb.com</email>
@@ -71,17 +71,19 @@
       </address>
     </author>
 
-    <date day="29" month="August" year="2011" />
+    <date day="2" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
       authorization, and attribute transmission capability. It allows third
-      party attested claims from distributed sources. The specification suite
-      builds on OAuth 2.0 and consists of Building Blocks (Messages,
-      Discovery, Dynamic Client Registration, Session Management, JSON Web
-      Token, JSON Web Signature, JSON WEB Encryption, JSON Web Keys, Simple
-      Web Discovery), Protocol Bindings (e.g., Standard and Lite) and
-      Extensions. This specification covers the core "Messages" of the suite
+      party attested claims from distributed sources.
+      The specification suite builds on OAuth 2.0 and consists of
+      Building Blocks (Messages, Discovery, Dynamic Client
+      Registration, Session Management, JSON Web Token, JSON Web
+      Signature, JSON WEB Encryption, JSON Web Keys, Simple Web
+      Discovery), Protocol Bindings (e.g., Standard and Basic Client)
+      and Extensions.
+      This specification covers the core "Messages" of the suite
       that defines the messages used and abstract flow which will be further
       constrained or extended in the companion specifications in the
       suite.</t>
@@ -182,8 +184,8 @@
       encrypted, it MUST be signed first then encrypted. This specification
       only defines the abstract message flow and message formats. The actual
       use MUST be based on one of the companion protocol bindings
-      specifications such as <xref target="OpenID.Lite">OpenID Connect
-      Lite</xref> or <xref target="OpenID.Standard">OpenID Connect
+      specifications such as <xref target="OpenID.Basic">OpenID Connect
+      Basic Client</xref> or <xref target="OpenID.Standard">OpenID Connect
       Standard</xref>.</t>
     </section>
 
@@ -319,13 +321,13 @@
               <t hangText="scope">A space delimited, case sensitive list of
               string values. The values specify an additive list of claims
               that are returned by the UserInfo endpoint. The following values
-              are defined :<list style="hanging">
+              are defined:<list style="hanging">
                   <t hangText="openid">REQUIRED. This requests that the ID
                   Token associated with the authentication session be
                   returned. If the <spanx style="verb">response_type</spanx>
                   includes <spanx style="verb">token</spanx>, the ID Token is
                   returned in the authorization response along with the Access
-                  Token. If the <spanx style="verb">respone_type</spanx>
+                  Token. If the <spanx style="verb">response_type</spanx>
                   includes <spanx style="verb">code</spanx>, the ID Token is
                   returned as part of the Token endpoint response.</t>
 
@@ -497,7 +499,7 @@
               <t><list style="hanging">
                   <t hangText="claims">OPTIONAL. (Requested Claims): Set of
                   requested claims from the UserInfo endpoint. If not present,
-                  the default UserInfo claims held by the IdP are
+                  the default UserInfo claims held by the OP are
                   returned.</t>
 
                   <t hangText="format">OPTIONAL. (Format): The requested
@@ -699,7 +701,7 @@
           request body. This specification extends the client authentication
           scheme to allow clients to authenticate with asymmetric keys.
           Asymmetric client authentication allows the client to authenticate
-          with the authorization server without sending it's secret key. The
+          with the authorization server without sending its secret key. The
           asymmetric client authentication parameters are the following:</t>
 
           <t><list style="hanging">
@@ -730,7 +732,7 @@
                 </list></t>
             </list></t>
 
-          <t>In addtion to the client authentication parameters, the client
+          <t>In addition to the client authentication parameters, the client
           MUST send the request parameter for the Access Token endpoint as
           specified in section 4.1.3 of <xref target="OAuth.2.0">OAuth
           2.0</xref>.</t>
@@ -824,7 +826,7 @@
               the response may be a proprietary schema to support backwards
               compatibility. A URL MAY be passed to define custom schemes not
               specified by short names. Custom schema names such as and
-              responses are out of scope for this specification. Custome
+              responses are out of scope for this specification. Custom
               schema values MAY include "<xref target="SCIM.1.0">SCIM</xref>",
               "<xref target="RFC2425">vCard</xref>", "<xref
               target="PortableContacts">PortableContacts</xref>"</t>
@@ -857,12 +859,17 @@
 
             <ttcol align="left">Description</ttcol>
 
-            <c>user_id</c>
+            <c>id</c>
 
             <c>string</c>
 
             <c>Identifier for the user at the issuer.</c>
 
+            <c>id_token</c>
+
+            <c>string</c>
+
+            <c>ID Token of the authentication session.</c>
 
             <c>name</c>
 
@@ -1012,7 +1019,7 @@
           authorization request. The UserInfo endpoint MAY return claims in
           JWT format which can be signed or encrypted via <xref
           target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
-          respectively. <xref target="OpenIDReq">The OpenID REquest
+          respectively. <xref target="OpenIDReq">The OpenID Request
           Object</xref> describes how to request a different format. The
           UserInfo endpoint MUST return a content-type header to indicate
           which format is being returned. The following are accepted content
@@ -1250,7 +1257,7 @@ may be retrieved.
         Token as an opaque value, and use the Check Session endpoint to
         retrieve and examine the claims associated with the token.</t>
 
-        <t>A full explination of how to use an ID Token to perform session
+        <t>A full explanation of how to use an ID Token to perform session
         management can be found in the <xref target="OpenID.Session">OpenID
         Connect Session Management 1.0</xref>.</t>
 
@@ -1270,13 +1277,13 @@ may be retrieved.
           containing the <xref target="id_token">ID Token</xref> claims.</t>
 
           <t>Other claims MAY be returned by sending an <xref
-          target="OpenIDReq">OpeID Request Object</xref> with the appropriate
+          target="OpenIDReq">OpenID Request Object</xref> with the appropriate
           parameters in the request. The Check Session endpoint MUST return
           claims in JSON format unless a request for a different format is
           made by the client in the authorization request. The Check Session
           endpoint MAY return claims in JWT format which can be <xref
           target="JWS">JWS</xref> signed or <xref target="JWE">JWE</xref>
-          encrypted. <xref target="OpenIDReq">The OpenID REquest Object</xref>
+          encrypted. <xref target="OpenIDReq">The OpenID Request Object</xref>
           describes how to request a different format. The Check Session
           endpoint MUST return a content-type header to indicate which format
           is being returned. The following are accepted content types:</t>
@@ -1334,7 +1341,7 @@ Content-Type: application/json
       </section>
 
       <section title="Session Management Endpoints">
-        <t>The Session Mangement endpoints provide endpoints to manage and
+        <t>The Session Management endpoints provide endpoints to manage and
         synchronize authentication sessions at the authorization server and
         clients. The endpoints are specified in the <xref
         target="OpenID.Session">OpenID Connect Session Management</xref>
@@ -1349,8 +1356,8 @@ Content-Type: application/json
 
       <section anchor="qss" title="Query String Serialization">
         <t>In order to serialize the parameters using the query string
-        serialization, the query string is constructed by adding the
-        parameters and values to the query component of the URI using the <spanx
+        serialization, the client constructs the string by adding the
+        parameters and values to the query component using the <spanx
         style="verb">application/x-www-form-urlencoded</spanx> format as
         defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
 
@@ -1522,9 +1529,9 @@ Host: server.example.com]]></artwork>
           <t><xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
           - Protocol binding for the full set of OpenID Connect Messages</t>
 
-          <t><xref target="OpenID.Lite">OpenID Connect Lite 1.0</xref> -
-          Protocol binding for a subset of of the OpenID Connect Messages
-          which is intended for use by relying parties.</t>
+          <t><xref target="OpenID.Basic">OpenID Connect Basic Client 1.0</xref> -
+          Protocol binding for a subset of the OpenID Connect Messages
+          which is intended for use by basic relying parties.</t>
         </list></t>
     </section>
 
@@ -1788,7 +1795,7 @@ Host: server.example.com]]></artwork>
           <t><list style="symbols">
               <t>Parameter name: id_token</t>
 
-              <t>Parameter usage location: Authoriztion Response, Access Token
+              <t>Parameter usage location: Authorization Response, Access Token
               Response</t>
 
               <t>Change controller: IETF</t>
@@ -1941,17 +1948,6 @@ Host: server.example.com]]></artwork>
       </section>
     </section>
 
-    <section title="Open Issues and Things To Be Done (TBD)">
-      <t>[[ To be removed from the final specification ]]</t>
-
-      <t>Following items remain to be done in this draft:</t>
-
-      <t><list style="symbols">
-          <t></t>
-        </list></t>
-
-      <t></t>
-    </section>
   </middle>
 
   <back>
@@ -1968,9 +1964,9 @@ Host: server.example.com]]></artwork>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2425"?>
 
-      <reference anchor="OpenID.Lite">
+      <reference anchor="OpenID.Basic">
         <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Lite 1.0</title>
+          <title>OpenID Connect Basic Client 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -1989,7 +1985,7 @@ Host: server.example.com]]></artwork>
 
           <author fullname="Breno de Medeiros" initials="B."
                   surname="de Medeiros">
-            <organization abbrev="">Google</organization>
+            <organization abbrev="Google">Google</organization>
           </author>
 
           <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
@@ -2000,16 +1996,16 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="1" month="August" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-lite-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
                 type="HTML" />
       </reference>
 
       <reference anchor="OpenID.Standard">
         <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Standard
+          <title>OpenID Connect Standard
           1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -2029,7 +2025,7 @@ Host: server.example.com]]></artwork>
 
           <author fullname="Breno de Medeiros" initials="B."
                   surname="de Medeiros">
-            <organization abbrev="">Google</organization>
+            <organization abbrev="Google">Google</organization>
           </author>
 
           <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
@@ -2040,49 +2036,10 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="1" month="August" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OpenID.UserInfo">
-        <front>
-          <title>OpenID Connect UserInfo 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="protiviti">Protiviti Government
-            Services</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
-
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
-          </author>
-
-          <author fullname="George Fletcher" initials="G." surname="George">
-            <organization abbrev="AOL">AOL</organization>
-          </author>
-
-          <date day="28" month="July" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-userinfo-1_0.html"
                 type="HTML" />
       </reference>
 
@@ -2108,7 +2065,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="28" month="July" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2117,8 +2074,8 @@ Host: server.example.com]]></artwork>
 
       <reference anchor="OpenID.Registration">
         <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Dynamic Client
-          Registration 1.0 - draft 02</title>
+          <title>OpenID Connect Dynamic Client
+          Registration 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -2136,7 +2093,7 @@ Host: server.example.com]]></artwork>
             Corporation</organization>
           </author>
 
-          <date day="28" month="July" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -2145,7 +2102,7 @@ Host: server.example.com]]></artwork>
 
       <reference anchor="OpenID.Session">
         <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Session Management
+          <title>OpenID Connect Session Management
           1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -2165,7 +2122,7 @@ Host: server.example.com]]></artwork>
 
           <author fullname="Breno de Medeiros" initials="B."
                   surname="de Medeiros">
-            <organization abbrev="">Google</organization>
+            <organization abbrev="Google">Google</organization>
           </author>
 
           <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
@@ -2176,7 +2133,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="28" month="July" year="2011" />
+          <date day="2" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -2189,11 +2146,11 @@ Host: server.example.com]]></artwork>
 
           <author fullname="Eran Hammer-Lahav" initials="E." role="editor"
                   surname="Hammer-Lahav">
-            <organization abbrev="">Yahoo</organization>
+            <organization abbrev="Yahoo">Yahoo</organization>
           </author>
 
           <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
           <author fullname="Dick Hardt" initials="D." surname="Hardt">
@@ -2213,15 +2170,15 @@ Host: server.example.com]]></artwork>
 
           <author fullname="Torsten Lodderstedt" initials="T." role="editor"
                   surname="Lodderstedt">
-            <organization abbrev="">Deutsche Telekom AG</organization>
+            <organization abbrev="DT">Deutsche Telekom AG</organization>
           </author>
 
           <author fullname="Mark McGloin" initials="M." surname="McGloin">
-            <organization abbrev="">IBM</organization>
+            <organization abbrev="IBM">IBM</organization>
           </author>
 
           <author fullname="Phil Hunt" initials="P." surname="Hunt">
-            <organization abbrev="">Oracle Corporation</organization>
+            <organization abbrev="Oracle">Oracle Corporation</organization>
           </author>
 
           <date day="1" month="July" year="2011" />
@@ -2241,11 +2198,11 @@ Host: server.example.com]]></artwork>
           </author>
 
           <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="">Independent</organization>
+            <organization>Independent</organization>
           </author>
 
           <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
           <date day="27" month="July" year="2011" />
@@ -2348,21 +2305,9 @@ Host: server.example.com]]></artwork>
             Corporation</organization>
           </author>
 
-          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization abbrev="goog">Google</organization>
-          </author>
-
           <author fullname="John Bradley" initials="J." surname="Bradley">
             <organization abbrev="pgs">rotivity Government
             Service</organization>
-          </author>
-
-          <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="msft">Microsoft</organization>
-          </author>
-
-          <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization abbrev="goog">Google</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -2370,11 +2315,7 @@ Host: server.example.com]]></artwork>
             Ltd.</organization>
           </author>
 
-          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="fb">Facebook</organization>
-          </author>
-
-          <date day="28" month="March" year="2011" />
+          <date day="23" month="July" year="2011" />
         </front>
 
         <format target="http://self-issued.info/docs/draft-jones-json-web-encryption.html"
@@ -2470,19 +2411,19 @@ Host: server.example.com]]></artwork>
           <title>Simple Cloud Identity Management: Core Schema 1.0</title>
 
           <author fullname="Chuck Mortimer" initials="C." surname="Mortimer">
-            <organization abbrev="">SalesForce.com</organization>
+            <organization abbrev="Salesforce">SalesForce.com</organization>
           </author>
 
           <author fullname="Joseph Smarr" initials="J." surname="Smarr">
-            <organization abbrev="goog">Google</organization>
+            <organization abbrev="Google">Google</organization>
           </author>
 
           <author fullname="Patrick Harding" initials="P." surname="Harding">
-            <organization abbrev="">Ping Identity</organization>
+            <organization>Ping Identity</organization>
           </author>
 
           <author fullname="Paul Madsen" initials="P." surname="Madsen">
-            <organization abbrev="">Ping Identity</organization>
+            <organization>Ping Identity</organization>
           </author>
 
           <date day="13" month="June" year="2011" />
@@ -2535,7 +2476,7 @@ Host: server.example.com]]></artwork>
       refer to Appendix C of OpenID Authentication 2.0 for the full list of
       the contributors for that specification.</t>
 
-      <t>This specification is largely compliant with OAuth 2.0 draft 16.
+      <t>This specification is largely compliant with OAuth 2.0 draft 20.
       Please refer to the OAuth 2.0 specification for the list of
       contributors.</t>
 
@@ -2563,7 +2504,7 @@ Host: server.example.com]]></artwork>
           <t>John Bradley (jbradely@mac.com), Protiviti Government
           Services</t>
 
-          <t>Mike Jones (Michael.Jones@microsoft.com), Microsoft</t>
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
 
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute,
           Ltd.</t>
@@ -2576,6 +2517,24 @@ Host: server.example.com]]></artwork>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-04 <list style="symbols">
+          <t>Changes associated with renaming "Lite" to "Basic Client"
+          and replacing "Core" and "Framework" with "Messages" and
+          "Standard".</t>
+
+          <t>Numerous cleanups, including updating references.</t>
+        </list></t>
+
+      <t>-03 <list style="symbols">
+          <t>Added secret_type to the Token endpoint.</t>
+
+	  <t>Minor edits to the samples.</t>
+        </list></t>
+
+      <t>-02 <list style="symbols">
+          <t>Incorporates feedback from Nat Sakimura.</t>
+        </list></t>
 
       <t>-01 <list style="symbols">
           <t>First Draft that incorporates the merge of the Core and Framework
