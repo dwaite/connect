@@ -113,18 +113,11 @@
         <t hangText="OpenID Provider (OP)">A service capable of providing
           identity information to a Relying Party.</t>
 
-          <t hangText="Direct Communication">Direct communication is a Client
-            to Server communication which does not pass through the
-            User-Agent.</t>
-
           <t hangText="ID Token">A token that contains information about the
           authentication event. It is a signed token, but can be treated as
           opaque by the Basic Client profile. Relying Parties wanting to
           process the token directly should refer to the OpenID Connect
           Standard 1.0 specification.</t>
-
-          <t hangText="Indirect Communication">In indirect communication,
-          messages are passed through the User-Agent.</t>
 
           <t hangText="Check Session Endpoint">A protected resource that, when
           presented with an access token by the client, returns authentication
@@ -295,8 +288,7 @@ response_type=token id_token
           <t>Having constructed the URL, the client sends the End-User to the
           HTTPS End-User Authorization Endpoint using the URL. This MAY happen
           via HTTPS redirect, hyperlinking, or any other secure means of
-          directing the User-Agent to the URL through Indirect
-          Communication.</t>
+          directing the User-Agent to the URL.</t>
 
           <t>Following is a non-normative example using HTTP redirect. Note:
           Line wraps are for display purpose only.</t>
@@ -398,13 +390,13 @@ expires_in=3600&
       </section>
 
       <section title="Check Session Endpoint">
-        <t>The Check Session endpoint validates the id_token and returns a
+        <t>The Check Session Endpoint validates the id_token and returns a
         text <xref target="RFC4627">JSON</xref> object which contains
         information about the end user associated with the supplied
         id-token.</t>
 
         <t>The id_token is used to manage the signon event and user
-        identifier, separately from access to the UserInfo endpoint and other
+        identifier, separately from access to the UserInfo Endpoint and other
         OAuth 2.0 protected resources that the user is granting access to. The
         id_token is scoped to a particular client via the audience and
         nonce.</t>
@@ -430,7 +422,7 @@ expires_in=3600&
               an OpenID Connect authorization request. </t>
             </list><figure>
               <preamble>The following is a non-normative example of a request
-              to the Check Session endpoint:</preamble>
+              to the Check Session Endpoint:</preamble>
 
               <artwork><![CDATA[Request:
 
@@ -494,7 +486,7 @@ Host: server.example.com
 
           <figure>
             <preamble>The following is a non-normative example of a request to
-            the Check Session endpoint:</preamble>
+            the Check Session Endpoint:</preamble>
 
             <artwork><![CDATA[Request:
 
@@ -527,7 +519,7 @@ Content-Type: application/json
           following error codes.</t>
 
           <t><list style="hanging">
-              <t hangText="invalid_id_token">The ID token is not valid for the
+              <t hangText="invalid_id_token">The ID Token is not valid for the
               requested resource, malformed, is in an incorrect format, or
               expired.</t>
             </list></t>
@@ -573,8 +565,8 @@ Content-Type: application/json
       GET or POST request to the UserInfo Endpoint.</t>
 
       <t>NOTE: In the OAuth 2.0 implicit flow, possession of an access token
-      for a UserInfo endpoint is not proof that the user presenting the token
-      is the subject of the UserInfo endpoint. These tokens may be long lived
+      for a UserInfo Endpoint is not proof that the user presenting the token
+      is the subject of the UserInfo Endpoint. These tokens may be long lived
       and do not contain audience information to validate that they were
       issued to a particular RP.</t>
 
@@ -583,8 +575,8 @@ Content-Type: application/json
 
       <section title="Requesting UserInfo">
         <t>Clients MAY send requests with the following parameters to the
-        UserInfo endpoint to obtain further information about the user. The
-        UserInfo endpoint is an <xref target="OAuth.2.0">OAuth 2.0</xref>
+        UserInfo Endpoint to obtain further information about the user. The
+        UserInfo Endpoint is an <xref target="OAuth.2.0">OAuth 2.0</xref>
         protected resource that complies with the <xref
         target="OAuth.2.0.Bearer">Bearer Token</xref> specification. As such,
         the access token SHOULD be specified via the HTTP Authorization
@@ -803,9 +795,9 @@ Authorization: Bearer vF9dft4qmT
         </figure>
 
         <section title="Error Response">
-          <t>When some error condition arises, the UserInfo endpoint returns
+          <t>When some error condition arises, the UserInfo Endpoint returns
           the Error Response. In addition to the standard <xref
-          target="OAuth.2.0">OAuth 2.0</xref> errors, the UserInfo endpoint
+          target="OAuth.2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
           may return the following errors:</t>
 
           <t><list style="hanging">
