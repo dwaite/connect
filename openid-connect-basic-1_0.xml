@@ -83,9 +83,9 @@
 
       <t>OpenID Connect Basic Client is a profile of the OpenID Connect
       Standard 1.0 Specification that is designed to be easy to read and 
-      implement for Relying Parties. Identity providers should consult the 
+      implement for Relying Parties. OpenID Providers should consult the 
       main specification. This profile omits implementation and security
-      considerations for identity providers.</t>
+      considerations for OpenID Providers.</t>
     </abstract>
   </front>
 
@@ -107,9 +107,15 @@
       target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
       <t><list style="hanging">
+          <t hangText="Relying Party (RP)">An application requiring identity
+          information from an OpenID Provider.</t>
+
+        <t hangText="OpenID Provider (OP)">A service capable of providing
+          identity information to a Relying Party.</t>
+
           <t hangText="Direct Communication">Direct communication is a Client
-          to Server communication which does not pass through the
-          User-Agent.</t>
+            to Server communication which does not pass through the
+            User-Agent.</t>
 
           <t hangText="ID Token">A token that contains information about the
           authentication event. It is a signed token, but can be treated as
@@ -139,8 +145,8 @@
       use the code flow to prevent the interception of access tokens.</t>
 
       <t>The OpenID Connect Basic Client profile only documents clients using
-      the implicit grant flow. Identity Providers MUST support both flows.
-      Clients wanting to use the code flow and Identity Providers should
+      the implicit grant flow. OpenID Providers MUST support both flows.
+      Clients wanting to use the code flow and OpenID Providers should
       consult the OpenID Connect Standard 1.0 specification.</t>
 
       <section title="OpenID Connect Scopes">
@@ -317,9 +323,9 @@ response_type=token id_token
           to the user identifier of the authenticated user of the session.</t>
 
           <t>If the user doesn't grant access to the <spanx style="verb">openid</spanx>
-          scope then an error MUST be returned by the Identity provider.</t>
+          scope then an error MUST be returned by the OpenID Provider.</t>
 
-          <t>All other scopes are optional. It is up to the Identity provider
+          <t>All other scopes are optional. It is up to the OpenID Provider
           to determine if the authentication should proceed if the user
           declines to authorize scopes other than <spanx style="verb">openid</spanx>.</t>
         </section>
