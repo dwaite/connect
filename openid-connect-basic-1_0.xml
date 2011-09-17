@@ -276,9 +276,10 @@
           style="verb">POST</spanx> method at the authorization endpoint.</t>
 
           <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
-          parameters are serialized using URI Query String Serialization. If
-          using the HTTP <spanx style="verb">POST</spanx> method, the request
-          parameters are added to the HTTP request entity-body using the
+          parameters are serialized using <xref target="qss">Query String 
+          Serialization</xref>. If using the HTTP <spanx style="verb">POST
+          </spanx> method, the request parameters are added to the HTTP request 
+          entity-body using the 
           <spanx style="verb">application/x-www-form-urlencoded</spanx> format
           as defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
 
@@ -836,6 +837,24 @@ Authorization: Bearer vF9dft4qmT
       target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
       target="OpenID.Registration">OpenID Connect Dynamic Client Registration
       1.0</xref> specifications.</t>
+    </section>
+
+    <section anchor="qss" title="Query String Serialization">
+      <t>In order to serialize the parameters using the query string
+      serialization, the client constructs the string by adding the
+      parameters and values to the query component using the <spanx
+      style="verb">application/x-www-form-urlencoded</spanx> format as
+      defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
+
+      <figure>
+        <preamble>Following is a non-normative example of such
+        serialization:</preamble>
+
+        <artwork><![CDATA[GET /authorize?scope=openid&response_type=code
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
+Host: server.example.com]]></artwork>
+      </figure>
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
