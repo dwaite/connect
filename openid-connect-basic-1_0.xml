@@ -127,11 +127,11 @@
 
           <t hangText="ID Token">A token that contains information about the
           authentication event. It is a signed token, but can be treated as
-          opaque by clients that uses the Check Session Endpoint. Relying 
+          opaque by clients that uses the Check ID Endpoint. Relying 
           Parties wanting to process the token directly should refer to the 
           OpenID Connect Standard 1.0 specification.</t>
 
-          <t hangText="Check Session Endpoint">A protected resource that, when
+          <t hangText="Check ID Endpoint">A protected resource that, when
           presented with an ID Token by the client, returns authentication
           information about the user represented by that ID Token.</t>
 
@@ -168,7 +168,7 @@
         <t>OpenID Connect uses scopes as defined in 4.2.1 of <xref
         target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
-        <t>The Check Session Endpoint has a single scope<list style="hanging">
+        <t>The Check ID Endpoint has a single scope<list style="hanging">
             <t hangText="openid">REQUIRED. Requests the user_id and other
             session information.</t>
           </list></t>
@@ -266,7 +266,7 @@
 
               <t hangText="nonce">A random, unique string value used to
               mitigate the replay attack this value is returned from the Check
-              Session endpoint.</t>
+              ID Endpoint.</t>
             </list></t>
 
           <t>Authorization servers MUST support the use of the HTTP <spanx
@@ -358,7 +358,7 @@ response_type=token id_token
                 "bearer"</t>
 
                 <t hangText="id_token">REQUIRED. The ID Token for the
-                Check Session Endpoint.</t>
+                Check ID Endpoint.</t>
 
                 <t hangText="state">REQUIRED. if the <spanx style="verb">state</spanx>
                 parameter in the request. Set to the exact value of the <spanx
@@ -401,8 +401,8 @@ expires_in=3600&
         </section>
       </section>
 
-      <section title="Check Session Endpoint">
-        <t>The Check Session Endpoint validates the id_token and returns a
+      <section title="Check ID Endpoint">
+        <t>The Check ID Endpoint validates the id_token and returns a
         text <xref target="RFC4627">JSON</xref> object which contains
         information about the end user associated with the supplied
         id-token.</t>
@@ -417,9 +417,9 @@ expires_in=3600&
         management can be found in the <xref target="OpenID.Session">OpenID
         Connect Session Management 1.0</xref></t>
 
-        <section title="Check Session Request">
+        <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the user, the following parameter is sent to the Check Session
+          the user, the following parameter is sent to the Check ID
           Endpoint.</t>
 
           <t>The paramaters may be passed as query paramaters in a GET or as
@@ -427,18 +427,18 @@ expires_in=3600&
 
           <t>Authorization servers MUST support the use of the HTTP "GET"
           method as defined in <xref target="RFC2616">RFC 2616</xref> and MAY
-          support the "POST" method for the check session endpoint.</t>
+          support the "POST" method for the Check ID Endpoint.</t>
 
           <t><list style="hanging">
               <t hangText="id_token">REQUIRED. The id_token obtained from
               an OpenID Connect authorization request. </t>
             </list><figure>
               <preamble>The following is a non-normative example of a request
-              to the Check Session Endpoint:</preamble>
+              to the Check ID Endpoint:</preamble>
 
               <artwork><![CDATA[Request:
 
-GET /op/check_session?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
+GET /op/check_id?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
 ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
 ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
 WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
@@ -451,7 +451,7 @@ Host: server.example.com
             </figure></t>
         </section>
 
-        <section title="Check Session Response">
+        <section title="Check ID Response">
           <t>The response is a text <xref target="RFC4627">JSON</xref> object
           using the <spanx style="verb">application/json</spanx> media type
           with the following parameters.</t>
@@ -498,11 +498,11 @@ Host: server.example.com
 
           <figure>
             <preamble>The following is a non-normative example of a request to
-            the Check Session Endpoint:</preamble>
+            the Check ID Endpoint:</preamble>
 
             <artwork><![CDATA[Request:
 
-GET /op/check_session?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
+GET /op/check_id?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
 ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
 ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
 WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
@@ -564,7 +564,7 @@ Content-Type: application/json
                 intended server through a TLS/SSL server certificate
                 check.</t>
 
-                <t>The Check Session Endpoint has not returned an error for
+                <t>The Check ID Endpoint has not returned an error for
                 the token being expired or invalid.</t>
               </list></t>
           </section>
@@ -582,7 +582,7 @@ Content-Type: application/json
       and do not contain audience information to validate that they were
       issued to a particular RP.</t>
 
-      <t>The id_token and Check Session Endpoint MUST be used to validate the
+      <t>The id_token and Check ID Endpoint MUST be used to validate the
       identity of a session.</t>
 
       <section title="Requesting UserInfo">
@@ -878,7 +878,7 @@ Authorization: Bearer vF9dft4qmT
         ensure that the assertion is currently valid.</t>
 
         <t>The use of a nonce in the request is recommended. The response from
-        the Check Session Endpoint contains the nonce sent in the original
+        the Check ID Endpoint contains the nonce sent in the original
         request. This SHOULD be checked against a list of already received ID
         assertions to check for replays.</t>
       </section>
