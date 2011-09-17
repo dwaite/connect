@@ -77,9 +77,9 @@
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
       protocol. It allows a web site to verify the identity of the user based
-      on the authentication performed by the server, as well as to obtain
-      basic profile information about the user in an interoperable and RESTful
-      manner.</t>
+      on the authentication performed by the authorization server, as well as to
+      obtain basic profile information about the user in an interoperable and 
+      RESTful manner.</t>
 
       <t>OpenID Connect Basic Client is a profile of the OpenID Connect
       Standard 1.0 Specification that is designed to be easy to read and 
@@ -376,7 +376,7 @@ response_type=token id_token
               </list></t>
 
             <t>The client can then use the Access Token to access protected
-            resources at resource servers.</t>
+            resources at Resource Servers.</t>
 
             <figure>
               <preamble>The following is a non-normative example. Line wraps
@@ -396,9 +396,10 @@ expires_in=3600&
           <section anchor="implicit_authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the user denies the authorization or the user authentication
-            fails, the server MUST return the negative authorization response
-            as defined in 4.2.2.1 of <xref target="OAuth.2.0">OAuth
-            2.0</xref>. No other parameter SHOULD be returned.</t>
+            fails, the authorization server MUST return the negative 
+            authorization response as defined in 4.2.2.1 of 
+            <xref target="OAuth.2.0">OAuth 2.0</xref>. No other parameters 
+            SHOULD be returned.</t>
           </section>
         </section>
       </section>
@@ -562,9 +563,9 @@ Content-Type: application/json
                 <spanx style="verb">issued_to </spanx>is unknown then the
                 assertion MUST be rejected.</t>
 
-                <t>Check that the server that responded was really the
-                intended server through a TLS/SSL server certificate
-                check.</t>
+                <t>Check that the authorization server that responded was really
+                the intended authorization server through a TLS/SSL server 
+                certificate check.</t>
 
                 <t>The Check ID Endpoint has not returned an error for
                 the token being expired or invalid.</t>
@@ -848,16 +849,16 @@ Authorization: Bearer vF9dft4qmT
       <section anchor="assertion_manufacture"
                title="Assertion Manufacture/Modification">
         <t>An assertion is the result of the authentication performed by the
-        server that was provided to the client. The assertion is used to pass
-        information about the user or the authentication process from the
-        server to the client.</t>
+        authorization server that was provided to the client. The assertion is 
+        used to pass information about the user or the authentication process 
+        from the authorization server to the client.</t>
 
         <t><list style="numbers">
             <t>To mitigate this attack, the assertion may be sent over a
             protected channel such as TLS/SSL. In order to protect the
-            integrity of assertions from malicious attack, the server MUST be
-            authenticated. In this specification, the assertion is always sent
-            over TLS/SSL protected channel.</t>
+            integrity of assertions from malicious attack, the authorization 
+            server MUST be authenticated. In this specification, the assertion 
+            is always sent over TLS/SSL protected channel.</t>
           </list></t>
       </section>
 
@@ -925,17 +926,17 @@ Authorization: Bearer vF9dft4qmT
 
       <section title="Implicit Flow Threats">
         <t>In the implicit flow, the access token is returned in the
-        fragment part of the client's redirect_uri through HTTPS, thus it is
-        protected between the Server and the User-Agent, and User-Agent and
-        the Client. The only the place it can be captured is the User-Agent
-        where the TLS session is terminated, and is possible if the User-Agent
-        is infested by malware.</t>
+        fragment part of the client's redirect_uri through HTTPS. Thus it is
+        protected between the Authorization Server and the User-Agent, and 
+        User-Agent and the Client. The only the place it can be captured is the 
+        User-Agent where the TLS session is terminated, and is possible if the 
+        User-Agent is infested by malware.</t>
       </section>
 
       <section title="Availability">
-        <t>When the server is down, user is likely to become unable to access
-        the web server. To mitigate this risk, the client SHOULD allow user to
-        associate multiple servers.</t>
+        <t>When the authorization server is down, users will likely be unable 
+        to access it. To mitigate this risk, the client SHOULD allow users to
+        associate multiple authorization servers.</t>
       </section>
     </section>
 
@@ -951,8 +952,8 @@ Authorization: Bearer vF9dft4qmT
       client SHOULD associate the received data with the purpose of use
       statement.</t>
 
-      <t>The server SHOULD make the UserInfo access log available to the user
-      so that the user can monitor who accessed his data.</t>
+      <t>The Resource Server SHOULD make the UserInfo access log available to 
+      the user so that the user can monitor who accessed his data.</t>
 
       <t>To protect the user from a possible correlation among clients, the
       use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
