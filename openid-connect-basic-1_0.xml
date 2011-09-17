@@ -245,6 +245,10 @@
 
               <t hangText="redirect_uri">A redirection URI where the response
               will be sent. This MUST be pre-registered with the provider.</t>
+            
+              <t hangText="nonce">A random, unique string value used to
+              mitigate the replay attack this value is returned from the Check
+              ID Endpoint.</t>
             </list></t>
 
           <t>The request MAY contain the following optional parameters:</t>
@@ -264,10 +268,6 @@
               and <spanx style="verb">select_account</spanx>. It is used to
               control the dialogue that is to be shown to the user upon the
               request.</t>
-
-              <t hangText="nonce">A random, unique string value used to
-              mitigate the replay attack this value is returned from the Check
-              ID Endpoint.</t>
             </list></t>
 
           <t>Authorization servers MUST support the use of the HTTP <spanx
@@ -482,9 +482,9 @@ Host: server.example.com
               target="ISO29115">ISO/IEC29115</xref> entity authentication
               assurance level of the authentication performed.</t>
 
-              <t hangText="nonce">OPTIONAL. If the authorization request
-              includes a nonce request value, then this value is REQUIRED and
-              its value is set to the same value as the request value.</t>
+              <t hangText="nonce">REQUIRED. It MUST be set to the
+              exact value of the <spanx style="verb">nonce</spanx> parameter
+              received from the client in the authorization request.</t>
 
               <t hangText="issued_to">OPTIONAL. The OAuth identifier of the
               client the token was issued to, only present if different from
