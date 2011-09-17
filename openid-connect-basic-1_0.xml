@@ -142,17 +142,18 @@
     </section>
 
     <section title="Protocol Flows">
-      <t>Authorization requests follow two paths, the implicit grant flow,
-      and, the authorization code flow. The authorization code flow is
+      <t>Authorization requests follow two paths; the implicit flow
+      and the authorization code flow. The authorization code flow is
       suitable for clients that can securely maintain a client secret between
-      itself and the authorization server whereas the implicit grant flow is
+      itself and the authorization server whereas the implicit flow is
       suitable for clients that cannot. Clients that do not support TLS MUST
-      use the code flow to prevent the interception of access tokens.</t>
+      use the authorization code flow to prevent the interception of access 
+      tokens.</t>
 
       <t>The OpenID Connect Basic Client profile only documents clients using
-      the implicit grant flow. OpenID Providers MUST support both flows.
-      Clients wanting to use the code flow and OpenID Providers should
-      consult the OpenID Connect Standard 1.0 specification.</t>
+      the implicit flow. OpenID Providers MUST support both flows.
+      Clients wanting to use the authorization code flow and OpenID Providers 
+      should consult the OpenID Connect Standard 1.0 specification.</t>
 
       <section title="OpenID Connect Scopes">
         <t>This profile describes two OpenID Connect endpoints that the client
@@ -196,7 +197,7 @@
       </section>
 
       <section title="Implicit Flow">
-        <t>The implicit grant flow consists of the following steps:</t>
+        <t>The implicit flow consists of the following steps:</t>
 
         <t><list style="numbers">
             <t>Client Prepares an Authorization Request containing the desired
@@ -343,10 +344,11 @@ response_type=token id_token
             <t>If the resource owner grants the access request, the
             authorization server issues an access token and delivers it to the
             client by adding the following parameters to the fragment
-            component of the redirection URI using the <spanx style="verb">application/x-www-form-urlencoded</spanx>
+            component of the redirection URI using the 
+            <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format:</t>
 
-            <t>In the implicit flow the entire response is returned in the
+            <t>In the implicit flow, the entire response is returned in the
             fragment component of the redirect URL, as defined in 4.2.2 of
             <xref target="OAuth.2.0">OAuth 2.0</xref></t>
 
@@ -921,8 +923,8 @@ Authorization: Bearer vF9dft4qmT
         SHOULD be taken to achieve appropriate protection.</t>
       </section>
 
-      <section title="Implicit Grant Flow Threats">
-        <t>In the implicit grant flow, the access token is returned in the
+      <section title="Implicit Flow Threats">
+        <t>In the implicit flow, the access token is returned in the
         fragment part of the client's redirect_uri through HTTPS, thus it is
         protected between the Server and the User-Agent, and User-Agent and
         the Client. The only the place it can be captured is the User-Agent
