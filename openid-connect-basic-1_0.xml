@@ -841,11 +841,8 @@ Host: server.example.com]]></artwork>
 
     <section anchor="security_considerations" title="Security Considerations">
       <t>In addition to the Security Considerations in <xref
-      target="OAuth.2.0"> OAuth 2.0</xref>, followings are the list of attack
-      vectors and remedies that were considered for this specification.</t>
-
-      <t>For details of the attack vector, see <xref
-      target="SP800-63"></xref>.</t>
+      target="OAuth.2.0"> OAuth 2.0</xref>, the following are the list of 
+      threats and remedies that were considered for this specification.</t>
 
       <section anchor="assertion_manufacture"
                title="Assertion Manufacture/Modification">
@@ -861,12 +858,16 @@ Host: server.example.com]]></artwork>
             server MUST be authenticated. In this specification, the assertion 
             is always sent over TLS/SSL protected channel.</t>
           </list></t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section anchor="assertion_disclosure" title="Assertion Disclosure">
         <t>This profile is subject to assertion disclosure in the user's
         browser, if it is compromised. Other OpenID Connect profiles should be
         used if this threat needs to be mitigated.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section anchor="assertion_redirect" title="Assertion Redirect">
@@ -874,6 +875,8 @@ Host: server.example.com]]></artwork>
         client for whom it was generated as <spanx style="verb">client_id</spanx>.
         The client verifies that incoming assertions include its identity as
         the recipient of the assertion.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section anchor="assertion_reuse" title="Assertion Reuse">
@@ -881,10 +884,12 @@ Host: server.example.com]]></artwork>
         validity. The client checks the timestamp and lifetime values to
         ensure that the assertion is currently valid.</t>
 
-        <t>The use of a nonce in the request is recommended. The response from
-        the Check ID Endpoint contains the nonce sent in the original
+        <t>The use of a nonce in the request is RECOMMENDED. The response from
+        the Check ID Endpoint contains the nonce sent in the authorization
         request. This SHOULD be checked against a list of already received ID
         assertions to check for replays.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section anchor="assertion_substitution" title="Assertion Substitution">
@@ -892,6 +897,8 @@ Host: server.example.com]]></artwork>
         requests by message order in HTTP, as both assertions and requests are
         protected by TLS that can detect and disallow malicious reordering of
         packets.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section anchor="auth_req_disclosure"
@@ -899,6 +906,8 @@ Host: server.example.com]]></artwork>
         <t>Since the authentication request is sent over a protected channel,
         the disclosure may only happen at the User-Agent where the information
         is decrypted.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section anchor="authn_proc_threats"
@@ -923,6 +932,8 @@ Host: server.example.com]]></artwork>
           </list> The authentication process, per se, as described in <xref
         target="SP800-63"></xref> is out of scope for this protocol, but care
         SHOULD be taken to achieve appropriate protection.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
       </section>
 
       <section title="Implicit Flow Threats">
