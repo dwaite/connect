@@ -566,11 +566,10 @@ Content-Type: application/json
       <t>To obtain the additional attributes and tokens, the client makes a
       GET or POST request to the UserInfo Endpoint.</t>
 
-      <t>NOTE: In the OAuth 2.0 implicit flow, possession of an access token
-      for a UserInfo Endpoint is not proof that the user presenting the token
-      is the subject of the UserInfo Endpoint. These tokens may be long lived
-      and do not contain audience information to validate that they were
-      issued to a particular RP.</t>
+      <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
+      Subject in the session. Therefore, it MUST NOT be used as an assertion
+      about the user in the session unless the user_id matches the user_id in
+      the ID Token.</t>
 
       <t>The id_token and Check ID Endpoint MUST be used to validate the
       identity of a session.</t>
