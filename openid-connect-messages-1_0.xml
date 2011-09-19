@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="2" month="September" year="2011" />
+    <date day="19" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -129,6 +129,9 @@
 
           <t hangText="ID Token">A token that contains claims about the
           authentication event.</t>
+		  
+          <t hangText="Message">A request or a response between an OpenID 
+		  Relying Party and an OpenID Provider.</t>
 
           <t hangText="OpenID Provider (OP)">A service capable of providing
           identity information to a Relying Party.</t>
@@ -180,13 +183,14 @@
 
           <t>OPTIONAL. The Check Session endpoint responds with authentication
           information pertaining to the supplied id_token.</t>
-        </list>Each message may be signed and encrypted. When the message is
-      encrypted, it MUST be signed first then encrypted. This specification
+        </list>
+		This specification
       only defines the abstract message flow and message formats. The actual
       use MUST be based on one of the companion protocol bindings
       specifications such as <xref target="OpenID.Basic">OpenID Connect
       Basic Client</xref> or <xref target="OpenID.Standard">OpenID Connect
-      Standard</xref>.</t>
+      Standard</xref>.
+		</t>
     </section>
 
     <section title="Messages">
@@ -1402,6 +1406,9 @@ Host: server.example.com]]></artwork>
       <t>To achieve message confidentiality, OpenID Connect messages MAY use
       <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the
       content.</t>
+	  
+	  <t>When the message is both signed and 
+      encrypted, it MUST be signed first then encrypted. </t>
 
       <section anchor="sigs" title="Signing">
         <t><list style="hanging">
