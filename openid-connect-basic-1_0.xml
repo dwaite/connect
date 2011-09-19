@@ -404,7 +404,10 @@ expires_in=3600&
         <t>The Check ID Endpoint validates the id_token and returns a
         text <xref target="RFC4627">JSON</xref> object which contains
         information about the end user associated with the supplied
-        id-token.</t>
+        id_token.</t>
+
+        <t>Clients MUST verify the validity of the id_token using the Check ID
+        Endpoint.</t>
 
         <t>The id_token is used to manage the signon event and user
         identifier, separately from access to the UserInfo Endpoint and other
@@ -418,11 +421,9 @@ expires_in=3600&
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the user, the following listed parameters are sent to the Check ID
-          Endpoint.</t>
-
-          <t>The paramaters MAY be passed as query paramaters in a GET or as
-          form encoded in a POST.</t>
+          the user and verify the id_token, the following parameters MAY be sent
+          to the Check ID Endpoint as query parameters in a GET or as form
+          encoded in a POST request:</t>
 
           <t><list style="hanging">
               <t hangText="id_token">REQUIRED. The id_token obtained from
