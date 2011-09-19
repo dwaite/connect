@@ -178,10 +178,10 @@
           supported by the Server.</t>
 
           <t>OPTIONAL. The Client sends a request with the id_token to the
-          Server's <xref target="checksession_ep">Check Session
+          Server's <xref target="checksession_ep">Check ID
           endpoint</xref>.</t>
 
-          <t>OPTIONAL. The Check Session endpoint responds with authentication
+          <t>OPTIONAL. The Check ID endpoint responds with authentication
           information pertaining to the supplied id_token.</t>
         </list>
 		This specification
@@ -218,7 +218,7 @@
           MAY be sent to the UserInfo endpoint to obtain claims about the
           user.</t>
 
-          <t>Check Session Endpoint: An id_token MAY be sent to the Check
+          <t>Check ID Endpoint: An id_token MAY be sent to the Check
           Session endpoint to obtain information about the authentication
           event.</t>
 
@@ -422,7 +422,7 @@
             is necessary for implementations that need to request or provide
             sets of claims other than the default <xref
             target="userinfo_ep">UserInfo</xref>, ID Token, and <xref
-            target="checksession_ep">Check Session</xref> claim sets.</t>
+            target="checksession_ep">Check ID</xref> claim sets.</t>
 
             <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
@@ -430,7 +430,7 @@
             can also be sent by reference. Parameters that affect the
             information returned from the UserInfo endpoint are in the "<spanx
             style="verb">userinfo</spanx>" member. Parameters that affect the
-            information returned from the ID Token and Check Session endpoint
+            information returned from the ID Token and Check ID endpoint
             are in the "<spanx style="verb">id_token</spanx>" member. If the
             same parameters are available both as query strings and in the
             OpenID Request Object, the later takes the precedence.</t>
@@ -460,7 +460,7 @@
 
                 <t hangText="id_token">OPTIONAL. (ID request): Requests
                 affecting the values to be to be returned from the ID Token
-                and Check Session endpoint. If not present, the default ID
+                and Check ID endpoint. If not present, the default ID
                 Token contents are used. If present, these parameters are used
                 to request deltas to the default contents of the ID Token.</t>
               </list><figure>
@@ -1251,24 +1251,24 @@ may be retrieved.
         </section>
       </section>
 
-      <section anchor="checksession_ep" title="Check Session Endpoint">
-        <t>The Check Session endpoint validates ID Tokens and returns a <xref
+      <section anchor="checksession_ep" title="Check ID Endpoint">
+        <t>The Check ID endpoint validates ID Tokens and returns a <xref
         target="RFC4627">JSON</xref> object which contains information about
         the end user and authentication event associated with the supplied ID
         Token.</t>
 
         <t>This endpoint can be used by clients that are not able to or do not
         wish to handle ID Tokens. In such cases, clients MAY treat the ID
-        Token as an opaque value, and use the Check Session endpoint to
+        Token as an opaque value, and use the Check ID endpoint to
         retrieve and examine the claims associated with the token.</t>
 
         <t>A full explanation of how to use an ID Token to perform session
         management can be found in the <xref target="OpenID.Session">OpenID
         Connect Session Management 1.0</xref>.</t>
 
-        <section title="Check Session Request">
+        <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the user, the following parameters are sent to the Check Session
+          the user, the following parameters are sent to the Check ID
           endpoint:</t>
 
           <t><list style="hanging">
@@ -1277,19 +1277,19 @@ may be retrieved.
             </list></t>
         </section>
 
-        <section title="Check Session Response">
+        <section title="Check ID Response">
           <t>The response is a <xref target="RFC4627">JSON</xref> object
           containing the <xref target="id_token">ID Token</xref> claims.</t>
 
           <t>Other claims MAY be returned by sending an <xref
           target="OpenIDReq">OpenID Request Object</xref> with the appropriate
-          parameters in the request. The Check Session endpoint MUST return
+          parameters in the request. The Check ID endpoint MUST return
           claims in JSON format unless a request for a different format is
-          made by the client in the authorization request. The Check Session
+          made by the client in the authorization request. The Check ID
           endpoint MAY return claims in JWT format which can be <xref
           target="JWS">JWS</xref> signed or <xref target="JWE">JWE</xref>
           encrypted. <xref target="OpenIDReq">The OpenID Request Object</xref>
-          describes how to request a different format. The Check Session
+          describes how to request a different format. The Check ID
           endpoint MUST return a content-type header to indicate which format
           is being returned. The following are accepted content types:</t>
 
@@ -1309,7 +1309,7 @@ may be retrieved.
 
           <figure>
             <preamble>The following is a non-normative example of a request to
-            the Check Session endpoint:</preamble>
+            the Check ID endpoint:</preamble>
 
             <artwork><![CDATA[
 POST /id_token HTTP/1.1
@@ -1482,7 +1482,7 @@ Host: server.example.com]]></artwork>
           </list></t>
 
         <t>If the client does not directly verify the signature, it MUST make
-        a request to the Check Session Endpoint to validate the token.</t>
+        a request to the Check ID Endpoint to validate the token.</t>
       </section>
 
       <section title="Token Request Verification">
@@ -1528,7 +1528,7 @@ Host: server.example.com]]></artwork>
           </list></t>
       </section>
 
-      <section title="Check Session Request Verification">
+      <section title="Check ID Request Verification">
         <t>If the request is signed, the authorization server MUST validate
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
@@ -1537,7 +1537,7 @@ Host: server.example.com]]></artwork>
         all required parameters are present and valid.</t>
       </section>
 
-      <section title="Check Session Response Verification">
+      <section title="Check ID Response Verification">
         <t>To verify the validity of the Response, the client MUST do the
         following:</t>
 
@@ -1985,7 +1985,7 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Check Session endpoint error (invalid_id_token)">
+        <section title="Check ID endpoint error (invalid_id_token)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
