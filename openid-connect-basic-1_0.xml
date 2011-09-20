@@ -280,15 +280,31 @@
                   user interface pages. An error is returned if either the user 
                   is not already authenticated or the client does not have 
                   pre-configured approval for the requested
-                  <spanx style="verb">scopes</spanx>. This MAY be used as a
+                  <spanx style="verb">scopes</spanx>. This can be used as a
                   method to check for existing authentication and/or approval.</t>
                 </list></t>
 
-              <t hangText="prompt">A space delimited list that can contain
-              <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
-              and <spanx style="verb">select_account</spanx>. It is used to
-              control the dialogue that is to be shown to the user upon the
-              request.</t>
+              <t hangText="prompt">A space delimited, case sensitive list of
+              string values that specifies how the Authorization Server prompts
+              the user for reauthentication and reapproval. The possible values
+              are:<list style="hanging">
+                  <t hangText="login">The Authorization Server MUST prompt the
+                  user for reauthentication.</t>
+
+                  <t hangText="consent">The Authorization Server MUST prompt
+                  the user for reapproval before returning information to the
+                  client.</t>
+
+                  <t hangText="select_account">The Authorization Server MUST
+                  prompt the user to select a user account if the account has
+                  multiple accounts associated with it.</t>
+                </list>
+                This can be used by the client to make sure that the user is
+                still present for the current session or to bring attention to the
+                request. If this parameter is used in conjunction with the 
+                <spanx style="verb">display</spanx> parameter set to "none", an
+                error is returned.
+            </t>
             </list></t>
 
           <figure>
