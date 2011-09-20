@@ -77,7 +77,7 @@
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
       protocol. It allows a web site to verify the identity of the user based
-      on the authentication performed by the authorization server, as well as to
+      on the authentication performed by the Authorization Server, as well as to
       obtain basic profile information about the user in an interoperable and 
       RESTful manner.</t>
 
@@ -145,7 +145,7 @@
       <t>Authorization requests follow two paths; the implicit flow
       and the authorization code flow. The authorization code flow is
       suitable for clients that can securely maintain a client secret between
-      itself and the authorization server whereas the implicit flow is
+      itself and the Authorization Server whereas the implicit flow is
       suitable for clients that cannot. Clients that do not support TLS MUST
       use the authorization code flow to prevent the interception of access 
       tokens.</t>
@@ -273,9 +273,9 @@
               against XSRF attacks.</t>
 
               <t hangText="display">A string value that specifies
-              how the authorization server displays the authentication page to
+              how the Authorization Server displays the authentication page to
               the user. The following values are supported:<list style="hanging">
-                  <t hangText="none">This value informs the authorization server
+                  <t hangText="none">This value informs the Authorization Server
                   that it MUST NOT display any authentication or confirmation
                   user interface pages. An error is returned if either the user 
                   is not already authenticated or the client does not have 
@@ -349,7 +349,7 @@ response_type=token%20id_token
 
           <section anchor="implicit_ok" title="End-User Grants Authorization">
             <t>If the resource owner grants the access request, the
-            authorization server issues an access token and delivers it to the
+            Authorization Server issues an access token and delivers it to the
             client by adding the following parameters to the fragment
             component of the redirection URI using the 
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
@@ -402,7 +402,7 @@ expires_in=3600&
           <section anchor="implicit_authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the user denies the authorization or the user authentication
-            fails, the authorization server MUST return the negative 
+            fails, the Authorization Server MUST return the negative 
             authorization response as defined in 4.2.2.1 of 
             <xref target="OAuth.2.0">OAuth 2.0</xref>. No other parameters 
             SHOULD be returned.</t>
@@ -861,9 +861,9 @@ Host: server.example.com]]></artwork>
       <section anchor="assertion_manufacture"
                title="Assertion Manufacture/Modification">
         <t>An assertion is the result of the authentication performed by the
-        authorization server that was provided to the client. The assertion is 
+        Authorization Server that was provided to the client. The assertion is 
         used to pass information about the user or the authentication process 
-        from the authorization server to the client.</t>
+        from the Authorization Server to the client.</t>
 
         <t><list style="numbers">
             <t>To mitigate this attack, the assertion may be sent over a
@@ -960,9 +960,9 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="Availability">
-        <t>When the authorization server is down, users will likely be unable 
+        <t>When the Authorization Server is down, users will likely be unable 
         to access it. To mitigate this risk, the client SHOULD allow users to
-        associate multiple authorization servers.</t>
+        associate multiple Authorization Servers.</t>
       </section>
     </section>
 
