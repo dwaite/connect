@@ -272,10 +272,17 @@
               state between the request and the callback, used to protect
               against XSRF attacks.</t>
 
-              <t hangText="display">A string value used to convey desired
-              display format. The value are either <spanx style="verb">none</spanx>,
-              <spanx style="verb">popup</spanx>, <spanx style="verb">touch</spanx>,
-              or <spanx style="verb">mobile</spanx>.</t>
+              <t hangText="display">A string value that specifies
+              how the authorization server displays the authentication page to
+              the user. The following values are supported:<list style="hanging">
+                  <t hangText="none">This value informs the authorization server
+                  that it MUST NOT display any authentication or confirmation
+                  user interface pages. An error is returned if either the user 
+                  is not already authenticated or the client does not have 
+                  pre-configured approval for the requested
+                  <spanx style="verb">scopes</spanx>. This MAY be used as a
+                  method to check for existing authentication and/or approval.</t>
+                </list></t>
 
               <t hangText="prompt">A space delimited list that can contain
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
