@@ -220,7 +220,21 @@
           End-User Authorization has not yet been obtained, the Client
           prepares an Authorization Request to the authorization endpoint.</t>
 
-          <t>The scheme used in the Authorization URL MUST be HTTPS.</t>
+          <t>The scheme used in the Authorization Endpoint URL MUST be HTTPS.</t>
+
+          <t>Clients MAY construct the request using the HTTP
+          <spanx style="verb">GET</spanx> or the HTTP 
+          <spanx style="verb">POST</spanx> method as defined in 
+          <xref target="RFC2616">RFC 2616</xref>.</t>
+
+          <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
+          parameters are serialized using <xref target="qss">Query String 
+          Serialization</xref>. If using the HTTP 
+          <spanx style="verb">POST</spanx> method, the request parameters are 
+          added to the HTTP request entity-body using the 
+          <spanx style="verb">application/x-www-form-urlencoded</spanx> format
+          as defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
+
 
           <t>This profile further constrains the following request
           parameters:</t>
@@ -269,19 +283,6 @@
               control the dialogue that is to be shown to the user upon the
               request.</t>
             </list></t>
-
-          <t>Authorization servers MUST support the use of the HTTP <spanx
-          style="verb">GET</spanx> method as defined in <xref
-          target="RFC2616">RFC 2616</xref> and MAY support the <spanx
-          style="verb">POST</spanx> method at the authorization endpoint.</t>
-
-          <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
-          parameters are serialized using <xref target="qss">Query String 
-          Serialization</xref>. If using the HTTP <spanx style="verb">POST
-          </spanx> method, the request parameters are added to the HTTP request 
-          entity-body using the 
-          <spanx style="verb">application/x-www-form-urlencoded</spanx> format
-          as defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
 
           <figure>
             <preamble>The following is a non-normative example of an
