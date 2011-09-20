@@ -445,6 +445,19 @@ Host: server.example.com
 
 ]]></artwork>
             </figure></t>
+
+          <section title="Request Verification">
+            <t>Clients MUST verify the request with the following:</t>
+
+            <t><list style="numbers">
+                <t>When connecting to the Endpoint, verify that the TLS peer
+                matches that of the Endpoint.</t>
+
+                <t>Make sure that the Endpoint that the client connected to is 
+                a trusted Check ID Endpoint for the Entity via pre-configuration
+                meta-data or discovery.</t>
+              </list></t>
+          </section>
         </section>
 
         <section title="Check ID Response">
@@ -514,6 +527,28 @@ Content-Type: application/json
 }
 ]]></artwork>
           </figure>
+
+          <section title="Response Verification">
+            <t>To verify the validity of the Response, the client MUST do the
+            following:</t>
+
+            <t><list style="numbers">
+                <t>The Check ID Endpoint has not returned an error for
+                the ID Token being expired or invalid.</t>
+
+                <t>Check that the <spanx style="verb">iss</spanx> is equal to 
+                that of the pre-configured or discovered Issuer Identifier for 
+                the user session. </t>
+
+                <t>Check that the returned <spanx style="verb">nonce</spanx> is
+                equal to the <spanx style="verb">nonce</spanx> in the
+                Authorization Request.</t>
+
+                <t>Verify that the <spanx style="verb">aud</spanx> (audience) 
+                contained within the response is the client's
+                <spanx style="verb">client_id</spanx>.</t>
+            </list></t>
+          </section>
         </section>
 
         <section title="Error Codes">
@@ -526,45 +561,6 @@ Content-Type: application/json
               requested resource, malformed, is in an incorrect format, or
               expired.</t>
             </list></t>
-        </section>
-
-        <section anchor="verification" title="Verification">
-          <section title="Request Verification">
-            <t>Clients MUST verify the request with the following:</t>
-
-            <t><list style="numbers">
-                <t>Verify the TLS peer when connecting to the endpoint.</t>
-
-                <t>Make sure that the Endpoint that the client connected to is 
-                a trusted Check ID Endpoint for the Entity. </t>
-              </list></t>
-          </section>
-
-          <section title="Response Verification">
-            <t>To verify the validity of the Response, the client MUST do the
-            following:</t>
-
-            <t><list style="numbers">
-                <t>Check that the returned nonce is equal to the nonce in the
-                Authorization Request.</t>
-
-                <t>Verify that the response was intended for the recipient,
-                using the <spanx style="verb">aud</spanx> (audience) contained
-                within the response.</t>
-
-                <t>If <spanx style="verb">issued_to</spanx> is present then it
-                MUST contain an identifier for a trusted intermediary. If
-                <spanx style="verb">issued_to </spanx>is unknown then the
-                assertion MUST be rejected.</t>
-
-                <t>Check that the authorization server that responded was really
-                the intended authorization server through a TLS/SSL server 
-                certificate check.</t>
-
-                <t>The Check ID Endpoint has not returned an error for
-                the ID Token being expired or invalid.</t>
-              </list></t>
-          </section>
         </section>
       </section>
     </section>
