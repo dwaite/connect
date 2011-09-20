@@ -156,37 +156,41 @@
       should consult the OpenID Connect Standard 1.0 specification.</t>
 
       <section title="OpenID Connect Scopes">
-        <t>This profile describes two OpenID Connect endpoints that the client
-        may request scopes for.</t>
+        <t>OpenID Connect clients use scopes as defined in 3.3 of 
+        <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
+        access privileges are requested for access tokens. The scopes associated
+        with access tokens determine what will be returned when they are 
+        submitted to protected resource endpoints. For OpenID Connect, scopes 
+        request what information is to be made available from the Token Endpoint
+        and UserInfo Endpoint.
+        This specification only describes how scopes affect what will be
+        returned from the UserInfo Endpoint. The UserInfo endpoint returns 
+        claims regarding the user associated with the supplied access token.</t>
 
-        <t>The scopes request what information is to be made available from
-        each of the endpoints for the current user. The User may decline a
-        scope request by the client.</t>
-
-        <t>To increase conversion, a site may elect to only request a subset
-        of the information from the User Info endpoint.</t>
-
-        <t>OpenID Connect uses scopes as defined in 4.2.1 of <xref
-        target="OAuth.2.0">OAuth 2.0</xref>.</t>
-
-        <t>The Check ID Endpoint has a single scope<list style="hanging">
-            <t hangText="openid">REQUIRED. Requests the user_id and other
-            session information.</t>
-          </list></t>
-
-        <t>The User Info Endpoint scopes are:</t>
+        <t>OpenID Connect defines the following scopes:</t>
 
         <t><list style="hanging">
-            <t hangText="profile">OPTIONAL requests default profile
+            <t hangText="openid">REQUIRED. Informs the Authorization Server that
+            the client is making an OpenID request. An error will be returned if
+            the Authorization Request includes parameter values specific to
+            OpenID Connect and the <spanx style="verb">openid</spanx> scope is
+            not specified.</t>
+
+            <t hangText="profile">OPTIONAL. Requests default profile
             information.</t>
 
-            <t hangText="email">OPTIONAL requests an email address.</t>
+            <t hangText="email">OPTIONAL. Requests an email address.</t>
 
-            <t hangText="address">OPTIONAL requests an address.</t>
+            <t hangText="address">OPTIONAL. Requests an address.</t>
           </list></t>
 
-        <t>These scopes are additive if a RP wanted the default profile
-        including email and address they would request:</t>
+        <t>Multiple scopes MAY be requested by creating a space delimited, case
+        sensitive list of scope values.</t>
+        
+        <t>The User may decline a scope request by the client.</t>
+
+        <t>To increase conversion, a site may elect to only request a subset
+        of the information from the UserInfo Endpoint.</t>
 
         <t><figure>
             <preamble>The following is a non-normative example of a Scope
@@ -240,7 +244,9 @@
           parameters:</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">It MUST include <spanx style="verb">token and id_token</spanx>,
+              <t hangText="response_type">It MUST include 
+              <spanx style="verb">token</spanx> and
+              <spanx style="verb">id_token</spanx>,
               as a space separated list. This requests both an access token
               and id_token to be returned in the URL fragment of the
               response.</t>
