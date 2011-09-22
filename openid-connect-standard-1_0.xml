@@ -534,7 +534,29 @@ Host: client.example.com]]></artwork>
           the authorization server MUST authenticate the End-User. The way in
           which the authorization server authenticates the End-User (e.g.
           username and password login, session cookies) is beyond the scope of
-          this specification.</t>
+          this specification. An authentication user interface MAY be displayed
+          by the Authorization Server depending on the authentication method
+          used.</t>
+
+          <t>The Authorization Server MUST attempt to authenticate the 
+          user in the following cases:
+          <list style="symbols">
+                <t>The End-User is not already authenticated by the Authorization
+                Server.</t>
+
+                <t>The Authorization Request contains the <spanx 
+                style="verb">prompt</spanx> parameter with a value "login". The
+                Authorization Server MUST reauthenticate the user
+                even if the user is already authenticated.</t>
+          </list></t>
+          <t>The Authorization Server MUST NOT attempt authentication
+          in the following cases:
+          <list style="symbols">
+                <t>The Authorization Request contains the <spanx 
+                style="verb">"display"</spanx> parameter with a value "none".
+                The Authorization Server MUST return an error if the user is 
+                unauthenticated.</t>
+          </list></t>
         </section>
 
         <section title="Authorization Server Obtains the End-User Consent/Authorization">
@@ -542,8 +564,27 @@ Host: client.example.com]]></artwork>
           obtain an authorization decision. This MAY be done by presenting the
           user with a dialogue that allows the user to recognize what he is
           consenting to and obtain his consent or by establishing approval via
-          other means ( for example, via previous administrative approval
-          )</t>
+          other means (for example, via previous administrative approval).</t>
+
+          <t>The Authorization Server MUST attempt to request authorization
+          from the user in the following cases:
+          <list style="symbols">
+                <t>The End-User has not pre-authorized the client for the
+                authorization request.</t>
+
+                <t>The Authorization Request contains the <spanx 
+                style="verb">prompt</spanx> parameter with a value "consent". The
+                Authorization Server MUST request user authorization even if the
+                user has previously authorized the client.</t>
+          </list></t>
+          <t>The Authorization Server MUST NOT request user authorization in the
+          following cases:
+          <list style="symbols">
+                <t>The Authorization Request contains the <spanx 
+                style="verb">"display"</spanx> parameter with a value "none".
+                The Authorization Server MUST return an error if the user has
+                not pre-authorized the client.</t>
+          </list></t>
         </section>
 
         <section anchor="art_res"
@@ -681,7 +722,29 @@ response_type=token
           the authorization server MUST authenticate the End-User. The way in
           which the authorization server authenticates the End-User (e.g.
           username and password login, session cookies) is beyond the scope of
-          this specification.</t>
+          this specification. An authentication user interface MAY be displayed
+          by the Authorization Server depending on the authentication method
+          used.</t>
+
+          <t>The Authorization Server MUST attempt to authenticate the 
+          user in the following cases:
+          <list style="symbols">
+                <t>The End-User is not already authenticated by the Authorization
+                Server.</t>
+
+                <t>The Authorization Request contains the <spanx 
+                style="verb">prompt</spanx> parameter with a value "login". The
+                Authorization Server MUST reauthenticate the user
+                even if the user is already authenticated.</t>
+          </list></t>
+          <t>The Authorization Server MUST NOT attempt authentication
+          in the following cases:
+          <list style="symbols">
+                <t>The Authorization Request contains the <spanx 
+                style="verb">"display"</spanx> parameter with a value "none".
+                The Authorization Server MUST return an error if the user is 
+                unauthenticated.</t>
+          </list></t>
         </section>
 
         <section title="Authorization Server Obtains the End-User Consent/Authorization">
@@ -689,8 +752,27 @@ response_type=token
           obtain an authorization decision. This MAY be done by presenting the
           user with a dialogue that allows the user to recognize what he is
           consenting to and obtain his consent or by establishing approval via
-          other means ( for example, via previous administrative approval
-          )</t>
+          other means (for example, via previous administrative approval).</t>
+
+          <t>The Authorization Server MUST attempt to request authorization
+          from the user in the following cases:
+          <list style="symbols">
+                <t>The End-User has not pre-authorized the client for the
+                authorization request.</t>
+
+                <t>The Authorization Request contains the <spanx 
+                style="verb">prompt</spanx> parameter with a value "consent". The
+                Authorization Server MUST request user authorization even if the
+                user has previously authorized the client.</t>
+          </list></t>
+          <t>The Authorization Server MUST NOT request user authorization in the
+          following cases:
+          <list style="symbols">
+                <t>The Authorization Request contains the <spanx 
+                style="verb">"display"</spanx> parameter with a value "none".
+                The Authorization Server MUST return an error if the user has
+                not pre-authorized the client.</t>
+          </list></t>
         </section>
 
         <section anchor="implicit_res"
