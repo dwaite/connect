@@ -18,8 +18,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Basic 1.0 - draft 12">OpenID Connect Basic
-    Client 1.0 - draft 12</title>
+    <title abbrev="OpenID Connect Basic 1.0 - draft 13">OpenID Connect Basic
+    Client 1.0 - draft 13</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -72,7 +72,7 @@
       </address>
     </author>
 
-    <date day="6" month="September" year="2011" />
+    <date day="21" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
@@ -131,9 +131,9 @@
           Parties wanting to process the token directly should refer to the 
           OpenID Connect Standard 1.0 specification.</t>
 
-          <t hangText="Check ID Endpoint">A protected resource that, when
+          <t hangText="Check ID Endpoint">A resource that, when
           presented with an ID Token by the client, returns authentication
-          information about the user represented by that ID Token.</t>
+          information about the user session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
           presented with an access token by the client, returns authorized
@@ -142,10 +142,10 @@
     </section>
 
     <section title="Protocol Flows">
-      <t>Authorization requests follow two paths; the implicit flow
-      and the authorization code flow. The authorization code flow is
+      <t>Authorization requests can follow one of two paths; the implicit flow
+      or the authorization code flow. The authorization code flow is
       suitable for clients that can securely maintain a client secret between
-      itself and the Authorization Server whereas the implicit flow is
+      themselves and the Authorization Server whereas, the implicit flow is
       suitable for clients that cannot. Clients that do not support TLS MUST
       use the authorization code flow to prevent the interception of access 
       tokens.</t>
@@ -159,22 +159,20 @@
         <t>OpenID Connect clients use scopes as defined in 3.3 of 
         <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for access tokens. The scopes associated
-        with access tokens determine what will be returned when they are 
-        submitted to protected resource endpoints. For OpenID Connect, scopes 
-        request what information is to be made available from the Token Endpoint
-        and UserInfo Endpoint.
-        This specification only describes how scopes affect what will be
-        returned from the UserInfo Endpoint. The UserInfo endpoint returns 
-        claims regarding the user associated with the supplied access token.</t>
+        with access tokens determine what resources will be available when they are 
+        used to access OAuth 2 protected endpoints. For OpenID Connect, scopes 
+        request what information is to be made available from the UserInfo Endpoint,
+        and to request a id_token.
+        OAuth 2.0 allows additional scopes to be specified, as extensions.
+        This specification only describes scopes that are part of openID Connect.</t>
 
         <t>OpenID Connect defines the following scopes:</t>
 
         <t><list style="hanging">
             <t hangText="openid">REQUIRED. Informs the Authorization Server that
-            the client is making an OpenID request. An error will be returned if
-            the Authorization Request includes parameter values specific to
-            OpenID Connect and the <spanx style="verb">openid</spanx> scope is
-            not specified.</t>
+            the client is making an OpenID request. If the <spanx style="verb">openid</spanx>
+            scope is not specified, the server SHOULD treat the request as a generic 
+            OAuth 2.0 request, and perform no OpenID Connect processing.</t>
 
             <t hangText="profile">OPTIONAL. Requests default profile
             information.</t>
@@ -435,7 +433,7 @@ expires_in=3600&
       <section title="Check ID Endpoint">
         <t>The Check ID Endpoint validates the id_token and returns a
         text <xref target="RFC4627">JSON</xref> object which contains
-        information about the end user associated with the supplied
+        information about the end user session associated with the supplied
         id_token.</t>
 
         <t>Clients MUST verify the validity of the id_token using the Check ID
@@ -622,11 +620,10 @@ Content-Type: application/json
             only be sent using one method through either HTTP Authorization
             header or query string.</t>
 
-            <t hangText="schema">OPTIONAL. The schema in which the data is to
-            be returned. The only predefined value is <spanx style="verb">openid</spanx>.
-            If this parameter is not included, the response may be a
-            proprietary schema to support backwards compatibility. A URL MAY
-            be passed to define custom schemes not specified by short names.
+            <t hangText="schema">REQUIRED. The schema in which the data is to
+            be returned. The default value is <spanx style="verb">openid</spanx>.
+            If the value of this parameter is omitted, or not <spanx style="verb">openid</spanx>, the response may be a
+            proprietary schema to support backwards compatibility. 
             Custom schema names and responses are out of scope for this
             specification.</t>
 
