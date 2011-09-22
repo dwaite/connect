@@ -167,23 +167,23 @@
       steps.</t>
 
       <t><list style="numbers">
-          <t>The Client sends a request to the Server's end-user authorization
-          endpoint.</t>
+          <t>The Client sends a request to the Authorization Server's end-user
+          authorization endpoint.</t>
 
-          <t>The Server authenticates the user and obtains appropriate
-          authorization.</t>
+          <t>The Authorization Server authenticates the user and obtains 
+          appropriate authorization.</t>
 
-          <t>The Server responds with access_token, id_token, and a few other
-          variables.</t>
+          <t>The Authorization Server responds with access_token, id_token, 
+          and a few other variables.</t>
 
           <t>The Client sends a request with the access_token to the <xref
           target="userinfo_ep">UserInfo endpoint</xref>.</t>
 
           <t>UserInfo endpoint returns the additional user information
-          supported by the Server.</t>
+          supported by the Resource Server.</t>
 
           <t>OPTIONAL. The Client sends a request with the id_token to the
-          Server's <xref target="checksession_ep">Check ID
+          Authorization Server's <xref target="checksession_ep">Check ID
           endpoint</xref>.</t>
 
           <t>OPTIONAL. The Check ID endpoint responds with authentication
@@ -204,14 +204,15 @@
       involved.</t>
 
       <t><list style="numbers">
-          <t>Authorization Endpoint: The Client sends a request to the Server
-          at the authorization endpoint. The Server then authenticates the
-          End-User to find out if he is eligible to make the authorization.
-          Then, upon the authorization action of the End-User, the Server
-          returns an Authorization Response that includes Authorization Code,
-          <spanx style="verb">code</spanx>. For some Clients, Implicit Grant
-          may be used to obtain <spanx style="verb">access_token</spanx>
-          without using <spanx style="verb">code</spanx>. In this case, <spanx
+          <t>Authorization Endpoint: The Client sends a request to the 
+          Authorization Server at the authorization endpoint. The Authorization
+          Server then authenticates the End-User to find out if he is eligible
+          to make the authorization. Then, upon the authorization action of the
+          End-User, the Authorization Server returns an Authorization Response
+          that includes Authorization Code, <spanx style="verb">code</spanx>.
+          For some Clients, Implicit Grant may be used to obtain <spanx 
+          style="verb">access_token</spanx> without using <spanx 
+          style="verb">code</spanx>. In this case, <spanx
           style="verb">response_type</spanx> MUST be set to <spanx
           style="verb">token</spanx>.</t>
 
@@ -1578,8 +1579,8 @@ Host: server.example.com]]></artwork>
       combination with this specification to provide additional functionality:
       <list style="symbols">
           <t><xref target="OpenID.Discovery">OpenID Connect Discovery
-          1.0</xref> - Dynamic discovery for user and server endpoints and
-          information</t>
+          1.0</xref> - Dynamic discovery for user and authorization server 
+          endpoints and information</t>
 
           <t><xref target="OpenID.Registration">OpenID Connect Dynamic Client
           Registration 1.0</xref> - Dynamic registration of OpenID Connect
