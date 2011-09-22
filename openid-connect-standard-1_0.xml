@@ -69,8 +69,8 @@
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
       2.0 protocol. It allows a web site or application to verify the
       identity of the user based on the authentication performed by
-      the server, as well as to obtain basic profile information about
-      the user in an interoperable and RESTful manner.</t>
+      the authorization server, as well as to obtain basic profile information
+      about the user in an interoperable and RESTful manner.</t>
 
       <t>OpenID Connect Standard 1.0 is an HTTP protocol binding for
       OpenID Connect Messages 1.0 request and response messages.</t>
@@ -583,8 +583,8 @@ code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
           <section anchor="authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the user denies the authorization or the user authentication
-            fails, the server MUST return the negative authorization response
-            as defined in <xref target="OpenID.Messages">OpenID Connect
+            fails, the authorization server MUST return the negative authorization 
+            response as defined in <xref target="OpenID.Messages">OpenID Connect
             Messages 1.0</xref>. The authorization server returns the client
             the redirection URI specified in the authorization request
             with the appropriate error parameters in the HTTP query string. No
@@ -745,9 +745,10 @@ aeWYjuRCEPNXVtaazNQ
           <section anchor="implicit_authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the user denies the authorization or the user authentication
-            fails, the server MUST return the negative authorization response
-            as defined in <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref>. No other parameter SHOULD be returned.</t>
+            fails, the authorization server MUST return the negative
+            authorization response as defined in <xref 
+            target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+            No other parameter SHOULD be returned.</t>
           </section>
         </section>
       </section>
@@ -804,7 +805,7 @@ aeWYjuRCEPNXVtaazNQ
           following parameters via HTTPS POST to the Token endpoint using
           <spanx style="verb">application/x-www-form-urlencoded</spanx> format
           in the HTTP request entity-body as specified in Section 4.1.3 of 
-		  <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
+      <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
 
           <t><list style="hanging">
               <t hangText="grant_type">REQUIRED. A string "<spanx
@@ -812,19 +813,19 @@ aeWYjuRCEPNXVtaazNQ
 
               <t hangText="code">REQUIRED. The authorization code received
               from the authorization server.</t>
-			  
-			  <t hangText="redirect_uri">REQUIRED, if the 
-			  <spanx style='verb'>redirect_uri</spanx>  
-			  parameter was included in the authorization request described 
-			  in Section 4.1.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>, 
-			  and their values MUST be identical.</t>
-			  
+        
+        <t hangText="redirect_uri">REQUIRED, if the 
+        <spanx style='verb'>redirect_uri</spanx>  
+        parameter was included in the authorization request described 
+        in Section 4.1.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>, 
+        and their values MUST be identical.</t>
+        
             </list></t>
 
           <t> If the client type is confidential or was issued client credentials
-		  (or assigned other authentication requirements), the client MUST
-		  authenticate with the authorization server as described in 
-		  Section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
+      (or assigned other authentication requirements), the client MUST
+      authenticate with the authorization server as described in 
+      Section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
           <figure>
             <preamble>The following is a non-normative example. Line wraps
@@ -867,9 +868,9 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
         </section>
 
         <section title="Access Token Response">
-          <t>Upon receipt of the Token Request, the Server MUST return either
-          Positive or Negative Assertion that corresponds to the received
-          authorization code.</t>
+          <t>Upon receipt of the Token Request, the Authorization Server MUST
+          return either Positive or Negative Assertion that corresponds to the 
+          received authorization code.</t>
 
           <section title="Positive Assertion">
             <t>A Positive Assertion response returns the "<spanx style="verb">application/json</spanx>"
@@ -1366,9 +1367,9 @@ Content-Type: application/json
             Ltd.</organization>
           </author>
 
-	  <author fullname="David Recordon" initials="D." surname="Recordon">
-	    <organization abbrev="Facebook">Facebook</organization>
-	  </author>
+    <author fullname="David Recordon" initials="D." surname="Recordon">
+      <organization abbrev="Facebook">Facebook</organization>
+    </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
             <organization abbrev="Protiviti">Protiviti Government
@@ -1597,7 +1598,7 @@ Content-Type: application/json
       <t>-03 <list style="symbols">
           <t>Added secret_type to the Token endpoint.</t>
 
-	  <t>Minor edits to the samples.</t>
+          <t>Minor edits to the samples.</t>
         </list></t>
 
       <t>-02 <list style="symbols">
