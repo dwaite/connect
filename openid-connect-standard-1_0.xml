@@ -1199,15 +1199,15 @@ Content-Type: application/json
       </section>
     </section>
 
-    <section anchor="checksession_ep" title="Check Session Endpoint">
-      <t>The Check Session endpoint validates ID Tokens and returns the claims
+    <section anchor="checkid_ep" title="Check ID Endpoint">
+      <t>The Check ID endpoint validates ID Tokens and returns the claims
       of an issued ID Token in JSON text format. This endpoint is used by
       clients that are not able to or do not wish to process ID Tokens.
-      Clients MAY treat ID Tokens as opaque values and use the Check Session
+      Clients MAY treat ID Tokens as opaque values and use the Check ID
       endpoint to validate and retrieve the claims associated with the ID
       Token in plain text JSON format.</t>
 
-      <section title="Client Session Requests">
+      <section title="Client ID Requests">
         <t>Clients MUST make a HTTP POST request using transport-layer
         security with the following <spanx style="verb">application/x-www-form-urlencoded</spanx>
         parameters in the request body:</t>
@@ -1217,9 +1217,9 @@ Content-Type: application/json
             OpenID Connect authorization request.</t>
           </list><figure>
             <preamble>The Following is a non-normative example of an Check
-            Session request:</preamble>
+            ID request:</preamble>
 
-            <artwork><![CDATA[POST /check_session HTTP/1.1
+            <artwork><![CDATA[POST /check_id HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
@@ -1228,9 +1228,9 @@ id_token=OjkdKlsdHV3JdsZmP
           </figure></t>
       </section>
 
-      <section anchor="intro_res" title="Check Session Response">
-        <t>The Check Session endpoint MUST return the JSON serialized claims
-        associated with the ID Token as described in Check Session Response
+      <section anchor="intro_res" title="Check ID Response">
+        <t>The Check ID Endpoint MUST return the JSON serialized claims
+        associated with the ID Token as described in Check ID Response
         section of <xref target="OpenID.Messages">OpenID Messages</xref> in
         the HTTP response body. The content-type of the HTTP response MUST be
         set to <spanx style="verb">application/json</spanx> if the response
@@ -1240,7 +1240,7 @@ id_token=OjkdKlsdHV3JdsZmP
 
         <figure>
           <preamble>The following is a non-normative example of a response
-          from the Check Session endpoint:</preamble>
+          from the Check ID endpoint:</preamble>
 
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
@@ -1254,7 +1254,7 @@ Content-Type: application/json
 ]]></artwork>
         </figure>
 
-        <section title="Check Session Error Response">
+        <section title="Check ID Error Response">
           <t>When some error condition arises, the UserInfo endpoint returns
           the JSON serialized Error Response defined in section 3.4.3 of <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
