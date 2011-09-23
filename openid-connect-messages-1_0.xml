@@ -369,7 +369,10 @@
           <t>The following extension parameters are also defined:</t>
 
           <t><list style="hanging">
-              <t hangText="display">OPTIONAL. A string value that specifies
+              <t hangText="nonce">REQUIRED. A random, unique string value used
+              to mitigate replay attacks.</t>
+
+            <t hangText="display">OPTIONAL. A string value that specifies
               how the authorization server displays the authentication page to
               the user.<list style="hanging">
                   <t hangText="none">The authorization server
@@ -401,9 +404,6 @@
                 request. If this parameter is used in conjunction with the 
                 <spanx style="verb">display</spanx> parameter set to "none", an
                 error is returned.</t>
-
-              <t hangText="nonce">OPTIONAL. A random, unique string value used
-              to mitigate the replay attack.</t>
 
               <t hangText="audience">OPTIONAL. The target audience identifier
               for the ID Token.</t>
@@ -1564,8 +1564,8 @@ Host: server.example.com]]></artwork>
             <spanx style="verb">issued_to</spanx> is unknown or untrusted,
             then the assertion MUST be rejected.</t>
 
-            <t>If <spanx style="verb">nonce</spanx> is preset, verify that is
-            has the same value as the one that was sent in the authorization
+            <t>If <spanx style="verb">nonce</spanx> is present, verify that
+            it is the same value as the one that was sent in the authorization
             request.</t>
 
             <t>Check that the server that responded was really the intended
