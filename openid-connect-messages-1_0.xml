@@ -335,11 +335,16 @@
               string values. The values specify an additive list of claims
               that are returned by the UserInfo endpoint. The following values
               are defined:<list style="hanging">
-                  <t hangText="openid">REQUIRED. This requests that the ID
-                  Token associated with the authentication session be
+                  <t hangText="openid">REQUIRED. Informs the Authorization
+                  Server that the client is making an OpenID request. If the
+                  <spanx style="verb">openid</spanx> scope is not specified,
+                  the server SHOULD treat the request as a generic OAuth 2.0
+                  request, and perform no OpenID Connect processing.
+                  The <spanx style="verb">openid</spanx> value also requests
+                  that the ID Token associated with the authentication session be
                   returned. If the <spanx style="verb">response_type</spanx>
                   includes <spanx style="verb">token</spanx>, the ID Token is
-                  returned in the authorization response along with the Access
+                  returned in the Authorization Response along with the Access
                   Token. If the <spanx style="verb">response_type</spanx>
                   includes <spanx style="verb">code</spanx>, the ID Token is
                   returned as part of the Token endpoint response.</t>
@@ -650,10 +655,10 @@
           Response MUST return the parameters defined in section 4.1.2 of
           <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
-          <t>If the <spanx style="verb">response_type</spanx> includes <spanx
+          <t>When the <spanx style="verb">response_type</spanx> includes <spanx
           style="verb">id_token</spanx>, the ID Token MUST be returned as the
           value of the <spanx style="verb">id_token</spanx> parameter in the
-          fragment part of the response.</t>
+          response.</t>
         </section>
 
         <section title="Authorization Error Response">
@@ -766,12 +771,13 @@
           style="verb">Bearer</spanx>".</t>
 
           <t>In addition to the OAuth 2.0 response parameters, the following
-          parameters MUST be included in the response if the authorization
-          request <spanx style="verb">response_type</spanx> parameter contains
-          <spanx style="verb">id_token</spanx>:</t>
+          parameters MUST be included in the response if the Authorization
+          Request <spanx style="verb">scope</spanx> parameter contains
+          <spanx style="verb">openid</spanx>:</t>
 
           <t><list style="hanging">
-              <t hangText="id_token">REQUIRED. The ID Token value.</t>
+              <t hangText="id_token">The ID Token value associated with the
+              authentication session.</t>
             </list></t>
 
           <t></t>

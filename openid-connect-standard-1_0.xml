@@ -1112,20 +1112,28 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
             the <xref target="OpenID.Messages">OpenID Connect Messages
             1.0</xref>.</t>
 
-            <t>The assertion is a JSON structure which MUST contain the
+            <t>The assertion is a JSON structure which contains the
             following values:</t>
 
             <t><list style="hanging">
-                <t hangText="access_token">The access token.</t>
+              <t hangText="access_token">REQUIRED. The Access Token.</t>
 
-                <t hangText="id_token">The ID Token associated with the
-                authentication session.</t>
+              <t hangText="token_type">REQUIRED. Specifies the access token type.
+              This specification only supports the "Bearer" token type.</t>
 
-                <t hangText="token_type">Specifies the access token type. This
-                specification only support the "Bearer" token type.</t>
-              </list> In addition, it can contain the optional <spanx
-            style="verb">refresh_token</spanx>, <spanx style="verb">expires_in</spanx>,
-            and <spanx style="verb">scope</spanx> values.</t>
+              <t hangText="id_token">REQUIRED if 
+              <spanx style="verb">scope</spanx> in the Authorization
+              Request contains the value "openid". The ID Token associated with
+              the authentication session.</t>
+
+              <t hangText="refresh_token">OPTIONAL. The Refresh Token that can
+              be used to obtain a new Access Token.</t>
+
+              <t hangText="expires_in">OPTIONAL. The lifetime of the
+              Access Token in seconds.</t>
+
+              <t hangText="scope">OPTIONAL. The scope of the Access Token.</t>
+              </list></t>
 
             <figure>
               <preamble>Following is a non-normative example of the Positive
@@ -1254,20 +1262,28 @@ Pragma: no-cache
           <xref target="OpenID.Messages">OpenID Connect Messages
           1.0</xref>.</t>
 
-          <t>The assertion is a JSON structure which MUST contain the
+          <t>The assertion is a JSON structure which contains the
           following values:</t>
 
           <t><list style="hanging">
-              <t hangText="access_token">The access token.</t>
+              <t hangText="access_token">REQUIRED. The Access token.</t>
 
-              <t hangText="id_token">The ID Token associated with the
-              authentication session.</t>
+              <t hangText="token_type">REQUIRED. Specifies the access token type.
+              This specification only supports the "Bearer" token type.</t>
 
-              <t hangText="token_type">Specifies the access token type. This
-              specification defines the "JWT" type for a JWT token.</t>
-            </list> In addition, it can contain the optional <spanx
-          style="verb">refresh_token</spanx>, <spanx style="verb">expires_in</spanx>,
-          and <spanx style="verb">scope</spanx> values.</t>
+              <t hangText="id_token">REQUIRED if 
+              <spanx style="verb">scope</spanx> in the Authorization
+              Request contains the value "openid". The ID Token associated with
+              the authentication session.</t>
+
+              <t hangText="refresh_token">OPTIONAL. The Refresh Token that can
+              be used to obtain a new Access Token.</t>
+
+              <t hangText="expires_in">OPTIONAL. The lifetime of the
+              Access Token in seconds.</t>
+
+              <t hangText="scope">OPTIONAL. The scope of the Access Token.</t>
+              </list></t>
 
           <figure>
             <preamble>Following is a non-normative example of the refresh
@@ -1438,7 +1454,7 @@ Content-Type: application/json
         the request parameters are added to the HTTP request entity-body using
         "application/x-www-form-urlencoded" format.</t>
 
-      <section title="Client ID Requests">
+      <section title="Check ID Requests">
           <t>The client prepares an Check ID Endpoint Request to the Check ID
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be HTTPS.</t>
