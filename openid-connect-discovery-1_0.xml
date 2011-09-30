@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
-                           "http://xml.resource.org/authoring/rfc2629.dtd">
+"http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-discovery-1_0" ipr="trust200902">
   <?rfc toc="yes" ?>
 
@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Discovery 1.0 - draft 05</title>
+    <title>OpenID Connect Discovery 1.0 - draft 06</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -54,7 +54,7 @@
       </address>
     </author>
 
-    <date day="6" month="September" year="2011" />
+    <date day="29" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -104,10 +104,11 @@
           Provider. An <spanx style="verb">issuer</spanx> is a HTTPS URL with
           no path component.</t>
 
-          <t hangText="Identifier">An Identifier is either an <spanx style="verb">http</spanx> or
-          <spanx style="verb">https</spanx> URI (commonly referred to as a <spanx style="verb">URL</spanx> within this document),
-          or an account URI. This document defines various kinds of
-          Identifiers, designed for use in different contexts.</t>
+          <t hangText="Identifier">An Identifier is either an <spanx
+          style="verb">http</spanx> or <spanx style="verb">https</spanx> URI
+          (commonly referred to as a <spanx style="verb">URL</spanx> within
+          this document), or an account URI. This document defines various
+          kinds of Identifiers, designed for use in different contexts.</t>
         </list></t>
     </section>
 
@@ -216,9 +217,9 @@
 
       <section title="Non-Normative Examples">
         <section title="E-Mail Address">
-          <t>To find the <spanx style="verb">issuer</spanx> for the
-          given e-mail address, <spanx style="verb">joe@example.com</spanx>, the SWD parameters
-          are as follows:</t>
+          <t>To find the <spanx style="verb">issuer</spanx> for the given
+          e-mail address, <spanx style="verb">joe@example.com</spanx>, the SWD
+          parameters are as follows:</t>
 
           <texttable>
             <ttcol>SWD Parameter</ttcol>
@@ -255,9 +256,9 @@ Content-Type: application/json
         </section>
 
         <section title="URL">
-          <t>To find the <spanx style="verb">issuer</spanx> for the
-          given URL, <spanx style="verb">https://example.com/joe</spanx>, the SWD parameters are
-          as follows:</t>
+          <t>To find the <spanx style="verb">issuer</spanx> for the given URL,
+          <spanx style="verb">https://example.com/joe</spanx>, the SWD
+          parameters are as follows:</t>
 
           <texttable>
             <ttcol>SWD Parameter</ttcol>
@@ -294,9 +295,9 @@ Content-Type: application/json
         </section>
 
         <section title="Account URI">
-          <t>To find the <spanx style="verb">issuer</spanx> for the
-          given URI, <spanx style="verb">acct://joe@example.com</spanx>, the SWD parameters are
-          as follows:</t>
+          <t>To find the <spanx style="verb">issuer</spanx> for the given URI,
+          <spanx style="verb">acct://joe@example.com</spanx>, the SWD
+          parameters are as follows:</t>
 
           <texttable>
             <ttcol>SWD Parameter</ttcol>
@@ -333,9 +334,9 @@ Content-Type: application/json
         </section>
 
         <section title="Hostname &amp; Port">
-          <t>To find the <spanx style="verb">issuer</spanx> for the
-          given hostname, <spanx style="verb">example.com:8080</spanx>, the SWD parameters are
-          as follows:</t>
+          <t>To find the <spanx style="verb">issuer</spanx> for the given
+          hostname, <spanx style="verb">example.com:8080</spanx>, the SWD
+          parameters are as follows:</t>
 
           <texttable>
             <ttcol>SWD Parameter</ttcol>
@@ -438,10 +439,10 @@ Content-Type: application/json
       Provider's configuration can be retrieved.</t>
 
       <t>OpenID Providers MUST make available a JSON document at the path
-      .well-known/openid-configuration. The syntax and semantics of
-      <spanx style="verb">.well-known</spanx> are defined in <xref target="RFC5785">RFC 5785</xref>.
-      <spanx style="verb">openid-configuration</spanx> MUST point to a JSON document compliant with this
-      specification.</t>
+      .well-known/openid-configuration. The syntax and semantics of <spanx
+      style="verb">.well-known</spanx> are defined in <xref
+      target="RFC5785">RFC 5785</xref>. <spanx style="verb">openid-configuration</spanx>
+      MUST point to a JSON document compliant with this specification.</t>
 
       <t>OpenID Providers MUST support receiving SWD requests via TLS 1.2 as
       defined in <xref target="RFC5246">RFC 5246</xref> and MAY support other
@@ -516,11 +517,11 @@ Host: example.com
           <c>URL of the OP's UserInfo Endpoint <xref
           target="OpenID.Messages"></xref></c>
 
-          <c>check_session_endpoint</c>
+          <c>check_id_endpoint</c>
 
           <c>string</c>
 
-          <c>URL of the OP's Check Session Endpoint <xref
+          <c>URL of the OP's Check ID Endpoint <xref
           target="OpenID.Session"></xref></c>
 
           <c>refresh_session_endpoint</c>
@@ -544,7 +545,7 @@ Host: example.com
           <c>URL of the OP's JSON Web Key <xref target="JWK"></xref>
           document</c>
 
-          <c>certs_url</c>
+          <c>x509_url</c>
 
           <c>string</c>
 
@@ -845,6 +846,16 @@ Host: example.com
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-06</t>
+
+      <t><list style="symbols">
+          <t>Change Check Session Endpoint to Check ID Endpoint to match
+          Basic</t>
+
+          <t>canged certs_url to x509_url to match registration and JWE
+          format</t>
+        </list></t>
+
       <t>-05<list style="symbols">
           <t>Ticket #46 Added text to 3.3</t>
 
@@ -857,9 +868,8 @@ Host: example.com
         </list></t>
 
       <t>-04 <list style="symbols">
-          <t>Changes associated with renaming "Lite" to "Basic Client"
-          and replacing "Core" and "Framework" with "Messages" and
-          "Standard".</t>
+          <t>Changes associated with renaming "Lite" to "Basic Client" and
+          replacing "Core" and "Framework" with "Messages" and "Standard".</t>
 
           <t>Numerous cleanups, including updating references.</t>
         </list></t>
