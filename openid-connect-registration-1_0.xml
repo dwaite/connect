@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
-                           "http://xml.resource.org/authoring/rfc2629.dtd">
-<rfc category="exp" docName="draft-openid-connect-registration-1_0" ipr="trust200902">
-
+"http://xml.resource.org/authoring/rfc2629.dtd">
+<rfc category="exp" docName="draft-openid-connect-registration-1_0"
+     ipr="trust200902">
   <?rfc toc="yes" ?>
+
   <?rfc tocdepth="3" ?>
+
   <?rfc symrefs="yes" ?>
+
   <?rfc sortrefs="yes"?>
+
   <?rfc strict="no" ?>
+
   <?rfc iprnotified="no" ?>
+
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Registration 1.0 draft 06">
-      OpenID Connect Dynamic Client Registration 1.0 - draft 06
-    </title>
+    <title abbrev="OpenID Connect Registration 1.0 draft 06">OpenID Connect
+    Dynamic Client Registration 1.0 - draft 07</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -28,8 +33,8 @@
 
     <author fullname="John Bradley" initials="J." role="editor"
             surname="Bradley">
-      <organization abbrev="Protiviti">Protiviti
-      Government Services</organization>
+      <organization abbrev="Protiviti">Protiviti Government
+      Services</organization>
 
       <address>
         <email>jbradley@mac.com</email>
@@ -44,20 +49,19 @@
       </address>
     </author>
 
-    <date day="2" month="September" year="2011" />
+    <date day="29" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
       authorization, and attribute transmission capability. It allows third
-      party attested claims from distributed sources.
-      The specification suite builds on OAuth 2.0 and consists of
-      Building Blocks (Messages, Discovery, Dynamic Client
-      Registration, Session Management, JSON Web Token, JSON Web
-      Signature, JSON WEB Encryption, JSON Web Keys, Simple Web
-      Discovery), Protocol Bindings (e.g., Standard and Basic Client)
-      and Extensions.
-      This specification is the "Dynamic Client Registration" part of
-      the suite that defines how clients register with OpenID Providers.</t>
+      party attested claims from distributed sources. The specification suite
+      builds on OAuth 2.0 and consists of Building Blocks (Messages,
+      Discovery, Dynamic Client Registration, Session Management, JSON Web
+      Token, JSON Web Signature, JSON WEB Encryption, JSON Web Keys, Simple
+      Web Discovery), Protocol Bindings (e.g., Standard and Basic Client) and
+      Extensions. This specification is the "Dynamic Client Registration" part
+      of the suite that defines how clients register with OpenID
+      Providers.</t>
     </abstract>
 
     <note title="Requirements Language">
@@ -70,10 +74,9 @@
 
   <middle>
     <section title="Introduction">
-      <t>In order for an OpenID Connect
-      client to utilize OpenID services for a user,
-      the client needs to register with the OpenID Provider to acquire a
-      client ID and shared secret. This document describes how a new client
+      <t>In order for an OpenID Connect client to utilize OpenID services for
+      a user, the client needs to register with the OpenID Provider to acquire
+      a client ID and shared secret. This document describes how a new client
       can register with the provider, and how a client already in possession
       of a client_id can retrieve updated registration information.</t>
 
@@ -82,19 +85,20 @@
     </section>
 
     <section anchor="terminology" title="Terminology">
-      <t>This specification uses the terms "Access Token", "Refresh
-      Token", "Authorization Code", "Authorization Grant",
-      "Authorization Server", "Authorization Endpoint", "Client",
-      "Client Identifier", "Client Secret", "Protected Resource",
-      "Resource Owner", "Resource Server", and "Token Endpoint" that
-      are defined by <xref target="OAuth.2.0">OAuth 2.0</xref>, and
-      the terminology defined in the <xref target="OpenID.Messages">OpenID
-      Connect Messages 1.0</xref> specification.</t>
+      <t>This specification uses the terms "Access Token", "Refresh Token",
+      "Authorization Code", "Authorization Grant", "Authorization Server",
+      "Authorization Endpoint", "Client", "Client Identifier", "Client
+      Secret", "Protected Resource", "Resource Owner", "Resource Server", and
+      "Token Endpoint" that are defined by <xref target="OAuth.2.0">OAuth
+      2.0</xref>, and the terminology defined in the <xref
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+      specification.</t>
     </section>
 
     <section title="Discovery">
       <t>OpenID Connect uses the registration_endpoint from the Provider
-      Configuration Response <xref target="OpenID.Discovery">Sec 4.2</xref>.</t>
+      Configuration Response <xref target="OpenID.Discovery">Sec
+      4.2</xref>.</t>
     </section>
 
     <section title="Client Registration Endpoint">
@@ -103,7 +107,8 @@
 
       <section title="Request">
         <t>Clients MUST send requests encoded as POST with the following
-        encoded as top level elements of a JSON object:</t>
+        parameters added to the HTTP request entity-body using
+        "application/x-www-form-urlencoded" format.:</t>
 
         <t><list style="hanging">
             <t hangText="type">REQUIRED. Values <spanx style="verb">client_associate</spanx>,
@@ -111,13 +116,14 @@
 
             <t hangText="client_id">OPTIONAL. Used with <spanx style="verb">client_update</spanx></t>
 
-            <t hangText="client_secret">OPTIONAL. Used with
-            <spanx style="verb">client_update</spanx></t>
+            <t hangText="client_secret">OPTIONAL. Used with <spanx
+            style="verb">client_update</spanx></t>
 
-            <t hangText="contact">OPTIONAL. JSON Array of e-mail addresses for
-            people allowed to administer the application.</t>
+            <t hangText="contact">OPTIONAL. space separated of e-mail
+            addresses for people allowed to administer the application.</t>
 
-            <t hangText="application_type">OPTIONAL. <spanx style="verb">native</spanx> or <spanx style="verb">web</spanx>.</t>
+            <t hangText="application_type">OPTIONAL. <spanx style="verb">native</spanx>
+            or <spanx style="verb">web</spanx>.</t>
 
             <t hangText="application_name">OPTIONAL. Name of the application
             to be presented to the user.</t>
@@ -125,27 +131,29 @@
             <t hangText="logo_url">OPTIONAL. URL that a logo for the
             application can be retrieved from.</t>
 
-            <t hangText="redirect_uri">OPTIONAL. JSON array of redirect
-            URIs</t>
+            <t hangText="redirect_uri">OPTIONAL. space separated list of
+            redirect URIs</t>
 
-            <t hangText="js_origin_uri">OPTIONAL. JSON array of JavaScript
-            Origin URIs (used for Post Message flow)</t>
+            <t hangText="js_origin_uri">OPTIONAL. space separated list of
+            JavaScript Origin URIs (used for Post Message flow)</t>
 
             <t hangText="jwk_url">OPTIONAL. URL for the RP's <xref
             target="JWK">JSON Web Key</xref></t>
+
+            <t hangText="x509_url">OPTIONAL URL for the RP's PEM encoded X.509
+            Certificate or Certificate chain.</t>
 
             <t hangText="sector_identifier">OPTIONAL URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with an array of redirect_uri values.</t>
           </list><figure>
             <artwork><![CDATA[POST /connect/register HTTP/1.1
-Accept: application/json
+Accept: application/x-www-form-urlencoded
 Host: server.example.com
 
-{ "type": "client_associate",
-   "redirect_uri": ["https://client.example.com/callback", "https://client.example.com/callback2"],
-   "logo_url" : "https://client.example.com/logo.png"
-}
+type=client_associate
+&redirect_uri=https://client.example.com/callback https://client.example.com/callback2
+&logo_url=https://client.example.com/logo.png
 ]]></artwork>
           </figure></t>
       </section>
@@ -155,13 +163,15 @@ Host: server.example.com
         as top level elements.</t>
 
         <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The unique client identifier.</t>
+            <t hangText="client_id">REQUIRED. The unique client
+            identifier.</t>
 
             <t hangText="client_secret">REQUIRED. The client secret. This
             should change with each response.</t>
 
             <t hangText="expires_in">REQUIRED. The number of seconds that this
-            id and secret are good for or <spanx style="verb">0</spanx> if it does not expire.</t>
+            id and secret are good for or <spanx style="verb">0</spanx> if it
+            does not expire.</t>
           </list></t>
 
         <t>The following is an example response.</t>
@@ -207,9 +217,9 @@ Cache-Control: no-store
             Ltd.</organization>
           </author>
 
-	  <author fullname="David Recordon" initials="D." surname="Recordon">
-	    <organization abbrev="Facebook">Facebook</organization>
-	  </author>
+          <author fullname="David Recordon" initials="D." surname="Recordon">
+            <organization abbrev="Facebook">Facebook</organization>
+          </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
             <organization abbrev="Protiviti">Protiviti Government
@@ -311,63 +321,49 @@ Cache-Control: no-store
     </section>
 
     <section title="Document History">
-      <t>
-        [[ To be removed from the final specification ]]
-      </t>
+      <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-07</t>
+
+      <t><list style="symbols">
+          <t>Change request from posting a JSON object to HTTP Form
+          encoded</t>
+
+          <t>added x509_url to support optional encryption</t>
+        </list></t>
 
       <t>-06 <list style="symbols">
-          <t>Changes associated with renaming "Lite" to "Basic Client"
-          and replacing "Core" and "Framework" with "Messages" and
-          "Standard".</t>
+          <t>Changes associated with renaming "Lite" to "Basic Client" and
+          replacing "Core" and "Framework" with "Messages" and "Standard".</t>
 
           <t>Numerous cleanups, including updating references.</t>
         </list></t>
 
-      <t>
-	-05
-	<list style="symbols">
-          <t>Changed <spanx style="verb">redirect_url</spanx> to
-          <spanx style="verb">redirect_uri</spanx> and <spanx
-          style="verb">js_origin_url</spanx> to <spanx
-          style="verb">js_origin_uri</spanx>.</t>
-        </list>
-      </t>
+      <t>-05 <list style="symbols">
+          <t>Changed <spanx style="verb">redirect_url</spanx> to <spanx
+          style="verb">redirect_uri</spanx> and <spanx style="verb">js_origin_url</spanx>
+          to <spanx style="verb">js_origin_uri</spanx>.</t>
+        </list></t>
 
-      <t>
-	-04
-	<list style="symbols">
+      <t>-04 <list style="symbols">
           <t>Correct issues raised by Johnny Bufu and discussed on the
           7-Jul-11 working group call.</t>
-        </list>
-      </t>
-      <t>
-	-03
-	<list style='symbols'>
-          <t>
-	    Incorporate working group decisions from 5-Jul-11 spec call.
-	  </t>
-	  <t>
-	    Consistency and cleanup pass, including removing unused references.
-	  </t>
-	</list>
-      </t>
-      <t>
-	-02
-	<list style='symbols'>
-          <t>
-	    Incorporate working group decisions from 23-Jun-11 spec call.
-	  </t>
-	</list>
-      </t>
-      <t>
-	-01
-	<list style='symbols'>
-          <t>
-	    Initial version.
-	  </t>
-        </list>
-      </t>
-    </section>
+        </list></t>
 
+      <t>-03 <list style="symbols">
+          <t>Incorporate working group decisions from 5-Jul-11 spec call.</t>
+
+          <t>Consistency and cleanup pass, including removing unused
+          references.</t>
+        </list></t>
+
+      <t>-02 <list style="symbols">
+          <t>Incorporate working group decisions from 23-Jun-11 spec call.</t>
+        </list></t>
+
+      <t>-01 <list style="symbols">
+          <t>Initial version.</t>
+        </list></t>
+    </section>
   </back>
 </rfc>
