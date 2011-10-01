@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="26" month="September" year="2011" />
+    <date day="30" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -296,9 +296,6 @@
               includes a nonce request value, then this value is REQUIRED and
               its value is set to the same value as the request value.</t>
 
-              <t hangText="issued_to">OPTIONAL. The OAuth identifier of the
-              client the token was issued to; this SHOULD only present if
-              different from the <spanx style="verb">aud</spanx> value.</t>
             </list></t>
 
           <t>JWT ID Tokens MAY be signed or signed and encrypted via <xref
@@ -356,7 +353,7 @@
                   be granted by the issued Access Token.</t>
 
                   <t hangText="address">OPTIONAL. This requests that access to
-                  the <spanx style="verb">address</spanx> claim at the
+                  <spanx style="verb">address</spanx> claim at the
                   UserInfo endpoint be granted by the issued Access Token.</t>
 
                   <t hangText="email">OPTIONAL. This requests that access to
@@ -592,7 +589,7 @@
               <t>The structure and function of the "id_token" (ID Token
               request) member of the OpenID Request object is similar to that
               of the "userinfo" member. It MAY include "claims", "format",
-              "locale". The same structure of these members are the same as
+              "locale". The structure of these members is the same as
               that for the "userinfo" member. If the "claims" member is
               present in the "id_token" object, the claims requested within it
               modify the default claim set that would otherwise be returned in
@@ -838,7 +835,7 @@
               authorization header must be <xref
               target="OAuth.2.0.Bearer">Bearer tokens</xref>.</t>
 
-              <t hangText="schema">REQUIRED. The schema in which the data is to
+              <t hangText="schema">REQUIRED. The schema in which the data is
               be returned. The default value is <spanx 
               style="verb">openid</spanx>. If the value of this parameter is
               omitted, or not <spanx style="verb">openid</spanx>, the response
@@ -1182,7 +1179,7 @@
 
 Claims Provider A signs the JSON claims, resulting in a signed JWT:
 
-JWT-A_header.JWT-A_payload.JWT-A_signature
+jwt_header.jwt_part2.jwt_part3
 
 
 Authorization Server returns Jane Doe's aggregated claims from Claims Provider A : 
@@ -1199,7 +1196,7 @@ Authorization Server returns Jane Doe's aggregated claims from Claims Provider A
    "phone_number": "src1",
   },
  "_claim_sources": {
-   "src1": {"JWT": "JWT-A_header.JWT-A_payload.JWT-A_signature"},
+   "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"},
   }
 }
 
@@ -1432,7 +1429,7 @@ Host: server.example.com]]></artwork>
             <spanx style="verb">ES256</spanx> respectively. 
             As the key, either <spanx style="verb">x5u</spanx>
             or <spanx style="verb">x5t</spanx> registered/obtained 
-            MUST be used to retrived the relevant key. 
+            MUST be used to retrieve the relevant key. 
             If there were multiple keys in <spanx style="verb">jku</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there were multiple certificates in <spanx style="verb">
@@ -1453,7 +1450,7 @@ Host: server.example.com]]></artwork>
             [tbd] . 
             As the key, either <spanx style="verb">x5u</spanx>
             or <spanx style="verb">x5t</spanx> registered/obtained 
-            MUST be used to retrived the relevant key. 
+            MUST be used to retrieve the relevant key. 
             If there were multiple keys in <spanx style="verb">jku</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there were multiple certificates in <spanx style="verb">
@@ -1557,11 +1554,6 @@ Host: server.example.com]]></artwork>
 
             <t>Verify that <spanx style="verb">iss</spanx> is a trusted issuer
             of the response.</t>
-
-            <t>If <spanx style="verb">issued_to</spanx> is present, then it
-            MUST contain an identifier for a party trusted by the client. If
-            <spanx style="verb">issued_to</spanx> is unknown or untrusted,
-            then the assertion MUST be rejected.</t>
 
             <t>If <spanx style="verb">nonce</spanx> is present, verify that
             it is the same value as the one that was sent in the authorization
@@ -1695,7 +1687,7 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="Timing Attack">
-        <t>Timing attack can be used to reduce the effective key length of the
+        <t>Timing attacks can be used to reduce the effective key length of the
         signature if the time required to return the response in case of a
         signature error and a correct signature differs. Care should be taken
         in the implementation to avoid this attack.</t>
@@ -2024,8 +2016,6 @@ Host: server.example.com]]></artwork>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
 
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2425"?>
-
       <reference anchor="OpenID.Basic">
         <front>
           <title>OpenID Connect Basic Client 1.0</title>
@@ -2058,7 +2048,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -2098,7 +2088,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -2127,7 +2117,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2155,7 +2145,7 @@ Host: server.example.com]]></artwork>
             Corporation</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -2219,7 +2209,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="25" month="Jul" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -2267,7 +2257,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="27" month="July" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
@@ -2467,48 +2457,6 @@ Host: server.example.com]]></artwork>
 
         <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML" />
       </reference>
-
-      <reference anchor="SCIM.1.0">
-        <front>
-          <title>Simple Cloud Identity Management: Core Schema 1.0</title>
-
-          <author fullname="Chuck Mortimer" initials="C." surname="Mortimer">
-            <organization abbrev="Salesforce">SalesForce.com</organization>
-          </author>
-
-          <author fullname="Joseph Smarr" initials="J." surname="Smarr">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <author fullname="Patrick Harding" initials="P." surname="Harding">
-            <organization>Ping Identity</organization>
-          </author>
-
-          <author fullname="Paul Madsen" initials="P." surname="Madsen">
-            <organization>Ping Identity</organization>
-          </author>
-
-          <date day="13" month="June" year="2011" />
-        </front>
-
-        <format target="http://www.simplecloud.info/specs/draft-scim-core-schema-01.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="PortableContacts">
-        <front>
-          <title>Portable Contacts 1.0 Draft C.</title>
-
-          <author fullname="Joseph Smarr" initials="J." surname="Smarr">
-            <organization abbrev="Plaxo">Plaxo</organization>
-          </author>
-
-          <date day="5" month="August" year="2008" />
-        </front>
-
-        <format target="http://portablecontacts.net/draft-spec.html"
-                type="HTML" />
-      </reference>
     </references>
 
     <references title="Informative References">
@@ -2579,6 +2527,16 @@ Host: server.example.com]]></artwork>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-05<list style="symbols">
+          <t>Changed check_session to check_id.</t>
+
+	  <t>schema=openid now required when requesting UserInfo.</t>
+
+          <t>Removed issued_to, since not well defined.</t>
+
+          <t>Removed display values popup, touch, and mobile, since not well defined.</t>
+        </list></t>
 
       <t>-04 <list style="symbols">
           <t>Changes associated with renaming "Lite" to "Basic Client"
