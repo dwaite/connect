@@ -276,7 +276,7 @@
               Token in the response body</t>
 
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
-              target="checkid_ep">Check ID Endpoint</xref></t>
+              target="check_id_ep">Check ID Endpoint</xref></t>
 
               <t>(OPTIONAL) Client receives ID Token Response with the End-Users's
               identity</t>
@@ -309,7 +309,7 @@
               an Access Token and an ID Token if requested</t>
 
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
-              target="checkid_ep">Check ID Endpoint</xref></t>
+              target="check_id_ep">Check ID Endpoint</xref></t>
 
               <t>(OPTIONAL) Client receives ID Token Response with the End-Users's
               identity</t>
@@ -414,7 +414,7 @@
               how the Authorization Server displays the authentication page to
               the user. The following values are supported: <spanx
               style="verb">none</spanx> or <spanx style="verb">scopes</spanx>.
-	      Refer to <xref
+              Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
 
@@ -575,17 +575,24 @@ JWT algorithm = HS256
 HMAC HASH Key = 'aaa'
 
 JSON Encoded Header = "{"alg":"HS256","typ":"JWT"}"
-JSON Encoded Payload =  "{"response_type":"code id_token","client_id":"s6BhdRkqt3",
-                          "redirect_uri":"https:\/\/client.example.com\/cb","scope":"openid profile","state":"af0ifjsldkj",
-                          "userinfo":{"claims":{"name":null,"nickname":{"optional":true},"email":null,"verified":null,
-                                                "picture":{"optional":true}},"format":"signed"},
-                          "id_token":{"max_age":86400,"iso29115":"2"}}"
+JSON Encoded Payload = "{"response_type":"code id_token",
+    "client_id":"s6BhdRkqt3",
+    "redirect_uri":"https://client.example.com/cb",
+    "scope":"openid profile",
+    "state":"af0ifjsldkj",
+    "userinfo":{"claims":{"name":null,"nickname":{"optional":true},
+        "email":null,"verified":null,
+        "picture":{"optional":true}},"format":"signed"},
+    "id_token":{"max_age":86400,"iso29115":"2"}}"
 
-JWT =  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
-       dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
-       GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
-       wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
-       0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
+JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZ
+    SBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiO
+    iJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkI
+    HByb2ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zI
+    jp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfSwiZW1haWwiO
+    m51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sI
+    mZvcm1hdCI6InNpZ25lZCJ9LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvM
+    jkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 ]]></artwork>
               </figure></t>
 
@@ -601,11 +608,14 @@ response_type=code%02id_token
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
-dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
-GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
-wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
-0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY]]></artwork>
+&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY2
+9kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
+JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2
+ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbW
+UiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfSwiZW1haWwiOm51bGwsInZlcm
+lmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ2
+5lZCJ9LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqR
+grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY]]></artwork>
               </figure></t>
 
             <section anchor="request_req"
@@ -626,11 +636,14 @@ response_type=code%20id_token
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
-dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
-GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
-wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
-0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
+&request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY2
+9kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
+JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2
+ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbW
+UiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfSwiZW1haWwiOm51bGwsInZlcm
+lmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ2
+5lZCJ9LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqR
+grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 ]]></artwork>
               </figure>
             </section>
@@ -678,11 +691,14 @@ wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sIm
                 display purpose only:</preamble>
 
                 <artwork><![CDATA[{
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtx
-dDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzd
-GF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGwsIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfS
-wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJpZF9
-0b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF9
+0b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczp
+cL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJ
+zdGF0ZSI6ImFmMGlmanNsZGtqIiwidXNlcmluZm8iOnsiY2xhaW1zIjp7Im5hbWUiOm51bGw
+sIm5pY2tuYW1lIjp7Im9wdGlvbmFsIjp0cnVlfSwiZW1haWwiOm51bGwsInZlcmlmaWVkIjp
+udWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sImZvcm1hdCI6InNpZ25lZCJ9LCJ
+pZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiaXNvMjkxMTUiOiIyIn19.2OiqRgrbrHkA1F
+Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 }]]></artwork>
               </figure></t>
 
@@ -712,7 +728,9 @@ wiZW1haWwiOm51bGwsInZlcmlmaWVkIjpudWxsLCJwaWN0dXJlIjp7Im9wdGlvbmFsIjp0cnVlfX0sIm
                 wraps are for display purpose only:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?response_type=code%20id_token&cliend_id=s6BhdRkqt3
+Location: https://server.example.com/authorize
+?response_type=code%20id_token
+&cliend_id=s6BhdRkqt3
 &request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
 &state=af0ifjsldkj&scope=openid]]></artwork>
               </figure>
@@ -885,19 +903,16 @@ code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 &token_type=Bearer
 &state=af0ifjsldkj
 
-
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 &token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
-&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIu
-ZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW5
-0LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrfaeWYjuRCEPN
-XVtaazNQ
+&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZ
+XJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0c
+DpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1
+G3liaTNOrfaeWYjuRCEPNXVtaazNQ
 &state=af0ifjsldkj
-
-
 ]]></artwork>
             </figure>
 
@@ -1154,9 +1169,10 @@ Pragma: no-cache
     "token_type": "Bearer",
     "refresh_token": "8xLOxBtZp8",
     "expires_in": 3600,
-    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMj
-Q4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrfaeWYjuR
-CEPNXVtaazNQ"
+    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOl
+wvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIj
+oiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0
+vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 }]]></artwork>
             </figure>
           </section>
@@ -1315,9 +1331,10 @@ Pragma: no-cache
     "token_type": "Bearer",
     "refresh_token": "9yNOxJtZa5",
     "expires_in": 3600,
-    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMj
-Q4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrfaeWYjuR
-CEPNXVtaazNQ"
+    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOl
+wvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIj
+oiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0
+vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 }]]></artwork>
           </figure>
         </section>
@@ -1359,18 +1376,18 @@ CEPNXVtaazNQ"
             target="OAuth.2.0.Bearer">Bearer Tokens</xref>. If the client is
             using the HTTP GET method, it SHOULD send the Access Token in the
             authorization header.
-	    The access_token MAY alternatively be sent in the message
-	    body, as described in the <xref target="OAuth.2.0">OAuth
-	    2.0</xref> specification.</t>
+            The access_token MAY alternatively be sent in the message
+            body, as described in the <xref target="OAuth.2.0">OAuth
+            2.0</xref> specification.</t>
 
             <t hangText="schema">REQUIRED. The schema in which the data is to
             be returned. The only defined value is <spanx style="verb">openid</spanx>.
             If the value of this parameter is omitted, or not
-	    <spanx style="verb">openid</spanx>, the response may be a
+            <spanx style="verb">openid</spanx>, the response may be a
             proprietary schema to support backwards compatibility.
-	    A URL MAY be passed to define custom schemes not specified
-	    by short names.  Custom scheme names and responses are out
-	    of scope for this specification.</t>
+            A URL MAY be passed to define custom schemes not specified
+            by short names.  Custom scheme names and responses are out
+            of scope for this specification.</t>
 
             <t hangText="id">This identifier is reserved for backwards
             compatibility. It MUST be ignored by the endpoint if the <spanx
@@ -1481,9 +1498,10 @@ Content-Type: application/json
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
-id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMj
-Q4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G3liaTNOrfaeWYjuR
-CEPNXVtaazNQ
+id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZX
+J2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cD
+pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
+3liaTNOrfaeWYjuRCEPNXVtaazNQ
 ]]></artwork>
           </figure></t>
       </section>
@@ -1583,8 +1601,6 @@ Content-Type: application/json
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
-
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
 
@@ -1934,12 +1950,12 @@ Content-Type: application/json
       <t>-05<list style="symbols">
           <t>Changed check_session to check_id.</t>
 
-	  <t>schema=openid now required when requesting UserInfo.</t>
+          <t>schema=openid now required when requesting UserInfo.</t>
 
           <t>Removed display values popup, touch, and mobile, since not well defined.</t>
 
-	  <t>Resolve issue #135, clarifying that the access_token MAY
-	  be sent in the message body.</t>
+          <t>Resolve issue #135, clarifying that the access_token MAY
+          be sent in the message body.</t>
         </list></t>
 
       <t>-04 <list style="symbols">

@@ -187,7 +187,7 @@
           supported by the Resource Server.</t>
 
           <t>OPTIONAL. The Client sends a request with the id_token to the
-          Authorization Server's <xref target="checksession_ep">Check ID
+          Authorization Server's <xref target="check_id_ep">Check ID
           endpoint</xref>.</t>
 
           <t>OPTIONAL. The Check ID endpoint responds with authentication
@@ -308,8 +308,8 @@
           <t>Clients SHOULD verify and decipher signed or encrypted ID Tokens
           independently. Clients that do not understand the ID Token format or
           do not wish to process ID Tokens MAY treat ID Tokens as opaque
-          values and submit them to the <xref target="checksession_ep"> Check
-          Session Endpoint</xref> for verification and decoding.</t>
+          values and submit them to the <xref target="check_id_ep">Check
+          ID Endpoint</xref> for verification and decoding.</t>
         </section>
 
         <section anchor="auth_req" title="Authorization Request">
@@ -326,7 +326,7 @@
               The value MUST include <spanx style="verb">code</spanx> for
               requesting an Authorization Code, <spanx style="verb">token</spanx>
               for requesting an Access Token, and <spanx 
-              style="verb">id_token</spanx> for requesting an ID Token</t>
+              style="verb">id_token</spanx> for requesting an ID Token.</t>
 
               <t hangText="scope">A space delimited, case sensitive list of
               string values. The values specify an additive list of claims
@@ -436,7 +436,7 @@
             is necessary for implementations that need to request or provide
             sets of claims other than the default <xref
             target="userinfo_ep">UserInfo</xref>, ID Token, and <xref
-            target="checksession_ep">Check ID</xref> claim sets.</t>
+            target="check_id_ep">Check ID</xref> claim sets.</t>
 
             <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
@@ -1253,7 +1253,7 @@ may be retrieved.
         </section>
       </section>
 
-      <section anchor="checksession_ep" title="Check ID Endpoint">
+      <section anchor="check_id_ep" title="Check ID Endpoint">
         <t>The Check ID endpoint validates ID Tokens and returns a <xref
         target="RFC4627">JSON</xref> object which contains information about
         the end user and authentication event associated with the supplied ID
