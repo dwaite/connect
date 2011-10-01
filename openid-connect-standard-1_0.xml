@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Standard 1.0 - draft 04</title>
+    <title>OpenID Connect Standard 1.0 - draft 05</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="29" month="September" year="2011" />
+    <date day="30" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -116,7 +116,7 @@
     <section title="HTTP Protocol Binding">
       <t>The <xref target="RFC2616">HTTP</xref> protocol is a widely used
       application level protocol for distribute, collaborative, hypermedia
-      systems. It's ubiquitousness makes it an ideal protocol for use by
+      systems. Its ubiquitousness makes it an ideal protocol for use by
       OpenID Connect. This specification describes the binding of the HTTP
       protocol with the various endpoints described in <xref
       target="OpenID.Messages"> OpenID Connect Messages</xref>.</t>
@@ -200,16 +200,18 @@
 
               <t hangText="request">A <xref target="JWT">JWT</xref> encoded
               <eref
-              target="http://openid.net/specs/openid-connect-framework-1_0.html#OpenIDReq">OpenID
+              target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
               Request Object</eref>.</t>
 
               <t hangText="request_uri">A URL that points to an <eref
-              target="http://openid.net/specs/openid-connect-framework-1_0.html#OpenIDReq">OpenID
+              target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
               Request Object</eref>.</t>
 
-              <t hangText="display">A string value that can be <spanx
-              style="verb">none</spanx>, <spanx style="verb">popup</spanx>, or
-              <spanx style="verb">mobile</spanx>. Refer to <xref
+              <t hangText="display">A string value that specifies
+              how the Authorization Server displays the authentication page to
+              the user. The following values are supported: <spanx
+              style="verb">none</spanx> or <spanx style="verb">scopes</spanx>.
+	      Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
 
@@ -311,7 +313,7 @@ response_type=code%20id_token
             target="rf_prep">Client Prepares an Authorization Request</xref>
             section. The <spanx style="verb">request</spanx> parameter is a
             <xref target="JWT">JWT</xref> encoded <eref
-            target="http://openid.net/specs/openid-connect-framework-1_0.html#OpenIDReq">OpenID
+            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
             Request Object</eref> which specifies the content and format of
             the response returned from the UserInfo endpoint and ID Token
             endpoint. The JWT object MAY be signed or signed and encrypted via
@@ -320,7 +322,7 @@ response_type=code%20id_token
             non-repudiation and/or confidentiality.</t>
 
             <t>Request parameters in the <eref
-            target="http://openid.net/specs/openid-connect-framework-1_0.html#OpenIDReq">OpenID
+            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
             Request Object</eref> takes precedence over query parameters.</t>
 
             <t><figure>
@@ -545,7 +547,7 @@ Host: client.example.com]]></artwork>
                 Server.</t>
 
                 <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with a value "login". The
+                style="verb">prompt</spanx> parameter with the value "login". The
                 Authorization Server MUST reauthenticate the user
                 even if the user is already authenticated.</t>
           </list></t>
@@ -553,7 +555,7 @@ Host: client.example.com]]></artwork>
           in the following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"display"</spanx> parameter with a value "none".
+                style="verb">"display"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the user is 
                 unauthenticated.</t>
           </list></t>
@@ -573,7 +575,7 @@ Host: client.example.com]]></artwork>
                 authorization request.</t>
 
                 <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with a value "consent". The
+                style="verb">prompt</spanx> parameter with the value "consent". The
                 Authorization Server MUST request user authorization even if the
                 user has previously authorized the client.</t>
           </list></t>
@@ -581,7 +583,7 @@ Host: client.example.com]]></artwork>
           following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"display"</spanx> parameter with a value "none".
+                style="verb">"display"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the user has
                 not pre-authorized the client.</t>
           </list></t>
@@ -733,7 +735,7 @@ response_type=token
                 Server.</t>
 
                 <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with a value "login". The
+                style="verb">prompt</spanx> parameter with the value "login". The
                 Authorization Server MUST reauthenticate the user
                 even if the user is already authenticated.</t>
           </list></t>
@@ -741,7 +743,7 @@ response_type=token
           in the following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"display"</spanx> parameter with a value "none".
+                style="verb">"display"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the user is 
                 unauthenticated.</t>
           </list></t>
@@ -761,7 +763,7 @@ response_type=token
                 authorization request.</t>
 
                 <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with a value "consent". The
+                style="verb">prompt</spanx> parameter with the value "consent". The
                 Authorization Server MUST request user authorization even if the
                 user has previously authorized the client.</t>
           </list></t>
@@ -769,7 +771,7 @@ response_type=token
           following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"display"</spanx> parameter with a value "none".
+                style="verb">"display"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the user has
                 not pre-authorized the client.</t>
           </list></t>
@@ -883,7 +885,7 @@ aeWYjuRCEPNXVtaazNQ
         target="code_flow">Authorization Code Flow</xref>.</t>
 
         <section title="Access Token Request">
-          <t>To obtain a access token assertion, the client MUST send the
+          <t>To obtain an access token assertion, the client MUST send the
           following parameters via HTTPS POST to the Token endpoint using
           <spanx style="verb">application/x-www-form-urlencoded</spanx> format
           in the HTTP request entity-body as specified in Section 4.1.3 of 
@@ -1120,18 +1122,22 @@ CEPNXVtaazNQ"
             NOT be sent if the access token is sent in the HTTP Authorization
             header as described in Section 7.1 of <xref
             target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
-            authorization header must be <xref
+            authorization header MUST be <xref
             target="OAuth.2.0.Bearer">Bearer tokens</xref>. If the client is
             using the HTTP GET method, it SHOULD send the access token in the
-            authorization header. </t>
+            authorization header.
+	    The access_token MAY alternatively be sent in the message
+	    body, as described in the <xref target="OAuth.2.0">OAuth
+	    2.0</xref> specification.</t>
 
-            <t hangText="schema">OPTIONAL. The schema in which the data is to
-            be returned. The only predefined value is <spanx style="verb">openid</spanx>.
-            If this parameter is not included, the response may be a
-            proprietary schema to support backwards compatibility. A URL MAY
-            be passed to define custom schemes not specified by short names.
-            Custom scheme names and responses are out of scope for this
-            specification.</t>
+            <t hangText="schema">REQUIRED. The schema in which the data is to
+            be returned. The only defined value is <spanx style="verb">openid</spanx>.
+            If the value of this parameter is omitted, or not
+	    <spanx style="verb">openid</spanx>, the response may be a
+            proprietary schema to support backwards compatibility.
+	    A URL MAY be passed to define custom schemes not specified
+	    by short names.  Custom scheme names and responses are out
+	    of scope for this specification.</t>
 
             <t hangText="id">This identifier is reserved for backwards
             compatibility. It MUST be ignored by the endpoint if the <spanx
@@ -1199,7 +1205,7 @@ Content-Type: application/json
       </section>
     </section>
 
-    <section anchor="checkid_ep" title="Check ID Endpoint">
+    <section anchor="check_id_ep" title="Check ID Endpoint">
       <t>The Check ID endpoint validates ID Tokens and returns the claims
       of an issued ID Token in JSON text format. This endpoint is used by
       clients that are not able to or do not wish to process ID Tokens.
@@ -1216,7 +1222,7 @@ Content-Type: application/json
             <t hangText="id_token">REQUIRED. The ID Token obtained from an
             OpenID Connect authorization request.</t>
           </list><figure>
-            <preamble>The Following is a non-normative example of an Check
+            <preamble>The Following is a non-normative example of a Check
             ID request:</preamble>
 
             <artwork><![CDATA[POST /check_id HTTP/1.1
@@ -1472,7 +1478,7 @@ Content-Type: application/json
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1500,7 +1506,7 @@ Content-Type: application/json
             Corporation</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1529,7 +1535,7 @@ Content-Type: application/json
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1593,7 +1599,7 @@ Content-Type: application/json
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="25" month="July" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -1617,7 +1623,7 @@ Content-Type: application/json
             <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="27" month="July" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
@@ -1668,6 +1674,17 @@ Content-Type: application/json
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-05<list style="symbols">
+          <t>Changed check_session to check_id.</t>
+
+	  <t>schema=openid now required when requesting UserInfo.</t>
+
+          <t>Removed display values popup, touch, and mobile, since not well defined.</t>
+
+	  <t>Resolve issue #135, clarifying that the access_token MAY
+	  be sent in the message body.</t>
+        </list></t>
 
       <t>-04 <list style="symbols">
           <t>Changes associated with renaming "Lite" to "Basic Client"

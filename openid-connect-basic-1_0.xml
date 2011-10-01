@@ -72,7 +72,7 @@
       </address>
     </author>
 
-    <date day="21" month="September" year="2011" />
+    <date day="30" month="September" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
@@ -127,7 +127,7 @@
 
           <t hangText="ID Token">A token that contains information about the
           authentication event. It is a signed token, but can be treated as
-          opaque by clients that uses the Check ID Endpoint. Relying 
+          opaque by clients that use the Check ID Endpoint. Relying 
           Parties wanting to process the token directly should refer to the 
           OpenID Connect Standard 1.0 specification.</t>
 
@@ -162,9 +162,9 @@
         with access tokens determine what resources will be available when they are 
         used to access OAuth 2 protected endpoints. For OpenID Connect, scopes 
         request what information is to be made available from the UserInfo Endpoint,
-        and to request a id_token.
+        and to request an id_token.
         OAuth 2.0 allows additional scopes to be specified, as extensions.
-        This specification only describes scopes that are part of openID Connect.</t>
+        This specification only describes scopes that are part of OpenID Connect.</t>
 
         <t>OpenID Connect defines the following scopes:</t>
 
@@ -179,7 +179,7 @@
 
             <t hangText="email">OPTIONAL. Requests an email address.</t>
 
-            <t hangText="address">OPTIONAL. Requests an address.</t>
+            <t hangText="address">OPTIONAL. Requests address information.</t>
           </list></t>
 
         <t>Multiple scopes MAY be requested by creating a space delimited, case
@@ -621,11 +621,13 @@ Content-Type: application/json
             header or query string.</t>
 
             <t hangText="schema">REQUIRED. The schema in which the data is to
-            be returned. The default value is <spanx style="verb">openid</spanx>.
-            If the value of this parameter is omitted, or not <spanx style="verb">openid</spanx>, the response may be a
+            be returned. The only defined value is <spanx style="verb">openid</spanx>.
+            If the value of this parameter is omitted, or not
+	    <spanx style="verb">openid</spanx>, the response may be a
             proprietary schema to support backwards compatibility. 
-            Custom schema names and responses are out of scope for this
-            specification.</t>
+	    A URL MAY be passed to define custom schemes not specified
+	    by short names.  Custom scheme names and responses are out
+	    of scope for this specification.</t>
 
             <t hangText="id">This identifier is reserved for backwards
             compatibility. It MUST be ignored by the endpoint if the <spanx
@@ -1078,7 +1080,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="25" month="July" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -1103,7 +1105,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="Independent">Independent</organization>
           </author>
 
-          <date day="27" month="July" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
@@ -1179,7 +1181,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1206,7 +1208,7 @@ Host: server.example.com]]></artwork>
             Corporation</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="30" month="September" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1268,9 +1270,19 @@ Host: server.example.com]]></artwork>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-13<list style="symbols">
+          <t>Changed check_session to check_id.</t>
+
+	  <t>schema=openid now required when requesting UserInfo.</t>
+
+          <t>Removed issued_to, since not well defined.</t>
+
+          <t>Removed display values popup, touch, and mobile, since not well defined.</t>
+        </list></t>
+
       <t>-12<list style="symbols">
           <t>Ticket #48 Changed Check Session to take the id_token as a
-          paramater.</t>
+          parameter.</t>
         </list></t>
 
       <t>-11 <list style="symbols">
