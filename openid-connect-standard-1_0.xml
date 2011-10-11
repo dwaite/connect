@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Standard 1.0 - draft 05</title>
+    <title>OpenID Connect Standard 1.0 - draft 06</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="30" month="September" year="2011" />
+    <date day="11" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -214,35 +214,42 @@
 
         <section anchor="retrieving_code_token" 
         title="How To Get An Authorization Code, Access Token, and ID Token">
-          <t>To use the Implicit Flow, the client requests an Access
-          Token be returned in the Authorization Response. To use the
-          Authorization Code Flow, the client requests an Authorization Code
-          be returnd in the Authorization Response. The Authorization Request
-          contains the parameter, <spanx style="verb">response_type</spanx>,
-          which specifies which values are to be returned in the Authorization Response.</t>
-          <t>The <spanx style="verb">response_type</spanx> is a space, delimited,
-          case sensitive list of string values. Acceptable values include 
-          <spanx style="verb">code</spanx>, <spanx style="verb">token</spanx>,
-          and <spanx style="verb">id_token</spanx>. The <spanx style="verb">response_type</spanx> values
-          are not position dependent.</t>
-          <t anchor="response_type_combos">The following 
-          <spanx style="verb">request_type</spanx> combinations are supported:
-            <list style="symbols">
-              <t><spanx style="verb">code</spanx></t>
+          <t>The client may request any OAuth registered response type supported by the Authorization server.
+          The OAuth 2 specification documents two response types
+          
+          <list style="hanging">
+              <t hangText="code"> When supplied as the value for the response_type parameter, a successful
+          response MUST include an authorization code as defined in the OAuth2
+          specification. Both successful and error responses MUST be added as paramaters to the query component of the response.
+         All tokens are returned from the Token Endpont.</t>
 
-              <t><spanx style="verb">code id_token</spanx></t>
-
-              <t><spanx style="verb">token</spanx></t>
-
-              <t><spanx style="verb">token id_token</spanx></t>
-
-              <t><spanx style="verb">code token</spanx></t>
-
-              <t><spanx style="verb">code token id_token</spanx></t>
+              <t hangText="token"> When supplied as the value for the response_type parameter, a successful
+          response MUST include both an access token as defined in the OAuth2 specification. Both successful and error responses 
+          MUST be fragment-encoded.
+              No id_token is provided to the client.</t>
+        
             </list>
-            The client can then use the Authorization Code, Access Token, or ID
-            Token.
-          </t>
+          
+          Openid Connect supports these
+			<xref target="RESPONSE.TYPES">additional flows</xref>
+			 that have been registered:
+          
+            <t><list style="hanging">
+        <t hangText="code token">When supplied as the value for the response_type parameter, a successful
+          response MUST include both an access token and an authorization code as defined in the OAuth2
+          specification. Both successful and error responses SHOULD be fragment-encoded.</t>
+        <t hangText="code id_token">When supplied as the value for the response_type parameter,
+          a successful response MUST include both an authorization code as well as an id_token.
+          Both success and error responses SHOULD be fragment-encoded.</t>
+        <t hangText="id_token token">When supplied as the value for the response_type parameter,
+          a successful response MUST include both an access token as well as an id_token.
+          Both success and error responses SHOULD be fragment-encoded.</t>
+        <t hangText="code id_token token">When supplied as the value for the response_type parameter,
+          a successful response MUST include an authorization code, an id_token, and an access token.
+          Both success and error responses SHOULD be fragment-encoded.</t> 
+      </list></t>
+            </t>
+         
         </section>
 
         <section anchor="code_flow" title="Authorization Code Flow">
@@ -351,12 +358,10 @@
           <t>The required Authorization Request parameters are as follows:</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">A space delimited, case sensitive list
-              of values that specifies whether the Access Token, Authorization
-              Code, and ID Token are to be returned. As described in 
-              <xref target="retrieving_code_token"
+              <t hangText="response_type">A OAuth registered response type that determines how the authorization response is returned to the client.
+              As described in <xref target="retrieving_code_token"
               >How To Get An Authorization Code, Access Token, and ID Token</xref>
-              , the following values are supported:
+              , the following registered values are supported:
                 <list style="symbols">
                   <t><spanx style="verb">code</spanx></t>
 
@@ -1894,7 +1899,28 @@ Content-Type: application/json
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
                 type="HTML" />
       </reference>
-    </references>
+    
+	<reference anchor="RESPONSE.TYPES">
+	  <front>
+		<title>OAuth2 Multiple Response Type Encoding Practices</title>
+		<author fullname="Breno" initials="B." surname="de Medeiros">
+			<organization abbrev="Google">Google, Inc.</organization>
+		</author>
+		<author fullname="Marius" initials="M." surname="Scurtescu">
+		<organization abbrev="Google">Google, Inc.</organization>
+		<address>
+		<email>mscurtescu@google.com</email>
+		</address>
+		</author>
+		<author fullname="Paul" initials="P." surname="Tarjan">
+		<organization abbrev="Facebook"> Facebook</organization>
+		<address><email>pt@fb.com</email>
+		</address>
+		</author>
+		<date day="22" month="September" year="2011"></date>
+	  </front>
+	</reference>
+</references>
 
     <!-- <references title="Informative References"> -->
 
@@ -1970,6 +1996,15 @@ Content-Type: application/json
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+      
+      <t>-06<list style="symbols">
+          <t>Reworked return type wording in Sec4.4.1 re ticket #174</t>
+
+          <t>Added reference to registered return types</t>
+
+          <t>Bumped Version number and date</t>
+        </list></t>
+
 
       <t>-05<list style="symbols">
           <t>Changed check_session to check_id.</t>
