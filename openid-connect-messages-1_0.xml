@@ -640,7 +640,7 @@
 
         <section title="Authorization Response">
           <t>When the <spanx style="verb">response_type</spanx> in the request
-          includes <spanx style="verb">token</spanx>, the Authorization
+          is <spanx style="verb">token</spanx>, the Authorization
           Response MUST return the parameters defined in section 4.2.2 of
           <xref target="OAuth.2.0">OAuth 2.0</xref>. This specification only
           supports <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>. The
@@ -648,14 +648,12 @@
           MUST be set to "<spanx style="verb">Bearer</spanx>".</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
-          includes <spanx style="verb">code</spanx>, the Authorization
+          is <spanx style="verb">code</spanx>, the Authorization
           Response MUST return the parameters defined in section 4.1.2 of
           <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
-          <t>When the <spanx style="verb">response_type</spanx> includes <spanx
-          style="verb">id_token</spanx>, the ID Token MUST be returned as the
-          value of the <spanx style="verb">id_token</spanx> parameter in the
-          response.</t>
+          <t>When the <spanx style="verb">response_type</spanx> includes other values they must be returned as defined by there registration.
+          the id_token return type is defined in <xref target="RESPONSE.TYPES">OAuth2 Multiple Response Type Encoding Practices</xref>.</t>
         </section>
 
         <section title="Authorization Error Response">
@@ -2479,6 +2477,27 @@ Host: server.example.com]]></artwork>
         <format target="http://www.openid.net/specs/openid-authentication-2_0.html"
                 type="HTML" />
       </reference>
+      
+      	<reference anchor="RESPONSE.TYPES">
+	  <front>
+		<title>OAuth2 Multiple Response Type Encoding Practices</title>
+		<author fullname="Breno" initials="B." surname="de Medeiros">
+			<organization abbrev="Google">Google, Inc.</organization>
+		</author>
+		<author fullname="Marius" initials="M." surname="Scurtescu">
+		<organization abbrev="Google">Google, Inc.</organization>
+		<address>
+		<email>mscurtescu@google.com</email>
+		</address>
+		</author>
+		<author fullname="Paul" initials="P." surname="Tarjan">
+		<organization abbrev="Facebook"> Facebook</organization>
+		<address><email>pt@fb.com</email>
+		</address>
+		</author>
+		<date day="22" month="September" year="2011"></date>
+	  </front>
+	</reference>
     </references>
 
     <section title="Acknowledgements">
@@ -2534,6 +2553,8 @@ Host: server.example.com]]></artwork>
 
 	  <t>Bumped version + Date</t>
 	  <t>fix sec 3.3.3 to refer to errors in Bearer Token</t>
+	  <t>fix 3.1.3 to ref the other response types ticket #173</t>
+	  <t>included ref to multiple response types</t>
 
 
         </list></t>
