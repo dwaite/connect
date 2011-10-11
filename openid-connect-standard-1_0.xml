@@ -472,6 +472,7 @@ response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
+&nonce=af0ifjsldkj
 &state=af0ifjsldkj]]></artwork>
               </figure></t>
 
@@ -492,6 +493,7 @@ response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
+&nonce=af0ifjsldkj
 &state=af0ifjsldkj
 ]]></artwork>
               </figure>
@@ -544,6 +546,7 @@ response_type=code%20id_token
  "redirect_uri": "https://client.example.com/cb",
  "scope": "openid profile",
  "state": "af0ifjsldkj",
+ "nonce": "af0ifjsldkj",
  "userinfo":
    {
      "claims":
@@ -578,6 +581,7 @@ JSON Encoded Payload = "{"response_type":"code id_token",
     "redirect_uri":"https://client.example.com/cb",
     "scope":"openid profile",
     "state":"af0ifjsldkj",
+    "nonce": "af0ifjsldkj",
     "userinfo":{"claims":{"name":null,"nickname":{"optional":true},
         "email":null,"verified":null,
         "picture":{"optional":true}},"format":"signed"},
@@ -606,6 +610,7 @@ response_type=code%02id_token
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
+&nonce=af0ifjsldkj
 &request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY2
 9kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
 JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2
@@ -634,6 +639,7 @@ response_type=code%20id_token
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
+&nonce=af0ifjsldkj
 &request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY2
 9kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
 JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2
@@ -730,7 +736,7 @@ Location: https://server.example.com/authorize
 ?response_type=code%20id_token
 &cliend_id=s6BhdRkqt3
 &request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
-&state=af0ifjsldkj&scope=openid]]></artwork>
+&state=af0ifjsldkj&nonce=af0ifjsldkj&scope=openid]]></artwork>
               </figure>
             </section>
 
@@ -2009,6 +2015,7 @@ Content-Type: application/json
           
           <t>make clear the server passes the value of nonce through untouched. Ticket #97</t>
           <t>prevent caching of request_uri. ticket #148</t>
+        <t>add nonce to request examples. ticket #147</t>
         </list></t>
 
 
