@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Messages 1.0 - draft 05</title>
+    <title>OpenID Connect Messages 1.0 - draft 06</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="30" month="September" year="2011" />
+    <date day="11" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -665,7 +665,7 @@
           target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
           <section title="Error Codes">
-            <t>In addition to the error codes defined in section 4.1.2.1 of
+            <t>In addition to the error codes defined in section 4.1.2.1 and 4.2.2.1 of
             <xref target="OAuth.2.0">OAuth 2.0</xref>, this specification
             defines the following additional error codes:</t>
 
@@ -691,6 +691,7 @@
                 the authorization server does not match the requested
                 user.</t>
               </list></t>
+				<t>Errors are returned as defined by the registered OAuth 2.0 response_type.</t>
           </section>
         </section>
       </section>
@@ -1062,8 +1063,8 @@
         </section>
 
         <section title="Errors">
-          <t>In addition to the error codes defined in section 4.1.2.1 of
-          <xref target="OAuth.2.0">OAuth 2.0</xref>, this specification
+          <t>In addition to the error codes defined in section 2.4.1 of
+          <xref target="OAuth.2.0.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
           defines the following additional error codes:</t>
 
           <t><list style="hanging">
@@ -2527,6 +2528,15 @@ Host: server.example.com]]></artwork>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+ 	<t>-06<list style="symbols">
+          <t>Changed sec 3.1.4.1 to say the errors are returned as defined by the response type not always as query paramaters. per ticket #174</t>
+
+	  <t>Bumped version + Date</t>
+	  <t>fix sec 3.3.3 to refer to errors in Bearer Token</t>
+
+
+        </list></t>
 
       <t>-05<list style="symbols">
           <t>Changed check_session to check_id.</t>
