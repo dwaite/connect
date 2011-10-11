@@ -444,10 +444,11 @@
             can also be sent by reference. Parameters that affect the
             information returned from the UserInfo endpoint are in the "<spanx
             style="verb">userinfo</spanx>" member. Parameters that affect the
-            information returned from the ID Token and Check ID endpoint
+            information returned in the ID Token
             are in the "<spanx style="verb">id_token</spanx>" member. If the
             same parameters are available both as query strings and in the
-            OpenID Request Object, the later takes the precedence.</t>
+            OpenID Request Object, the later takes the precedence.
+            </t>
 
             <t>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
             authorization request parameters and MAY contain optional and
@@ -473,10 +474,11 @@
                 default manner.</t>
 
                 <t hangText="id_token">OPTIONAL. (ID request): Requests
-                affecting the values to be to be returned from the ID Token
-                and Check ID endpoint. If not present, the default ID
-                Token contents are used. If present, these parameters are used
-                to request deltas to the default contents of the ID Token.</t>
+                affecting the values to be to be returned in the ID Token. 
+                If not present, the default ID Token contents are used. 
+                If present, these parameters are used
+                to request additional claims incremental to the <xref target="id_token">
+				default claims of the ID Token.</xref></t>
               </list><figure>
                 <preamble>An example an OpenID request object before JWT 
                 encoding is as follows:</preamble>
@@ -2555,6 +2557,7 @@ Host: server.example.com]]></artwork>
 	  <t>fix sec 3.3.3 to refer to errors in Bearer Token</t>
 	  <t>fix 3.1.3 to ref the other response types ticket #173</t>
 	  <t>included ref to multiple response types</t>
+	  <t>fix 3.1.2.1 to indicate default claims in id_token</t>
 
 
         </list></t>
