@@ -214,14 +214,17 @@
 
         <section anchor="retrieving_code_token" 
         title="How To Get An Authorization Code, Access Token, and ID Token">
-          <t>The client may request any OAuth registered response type supported by the Authorization server.
-          The OAuth 2 specification documents two response types
+         <t>
+         <t>The Authorization server MUST support both the <spanx style="verb">"code"</spanx> and the <spanx style="verb">"id_token token"</spanx> response_type.</t>
+          <t>The client may request any OAuth registered response type supported by the Authorization server.</t>
+          
+          <t>The OAuth 2 specification documents two response types:</t>
           
           <list style="hanging">
               <t hangText="code"> When supplied as the value for the response_type parameter, a successful
           response MUST include an authorization code as defined in the OAuth2
           specification. Both successful and error responses MUST be added as paramaters to the query component of the response.
-         All tokens are returned from the Token Endpont.</t>
+         All tokens are returned from the Token Endpont. Authorization servers MUST support this response_type.</t>
 
               <t hangText="token"> When supplied as the value for the response_type parameter, a successful
           response MUST include both an access token as defined in the OAuth2 specification. Both successful and error responses 
@@ -235,14 +238,14 @@
 			 that have been registered:
           
             <t><list style="hanging">
+            <t hangText="id_token token">When supplied as the value for the response_type parameter,
+          a successful response MUST include both an access token as well as an id_token.
+          Both success and error responses SHOULD be fragment-encoded. Authorization servers MUST support this response_type.</t>
         <t hangText="code token">When supplied as the value for the response_type parameter, a successful
           response MUST include both an access token and an authorization code as defined in the OAuth2
           specification. Both successful and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token">When supplied as the value for the response_type parameter,
           a successful response MUST include both an authorization code as well as an id_token.
-          Both success and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an access token as well as an id_token.
           Both success and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token token">When supplied as the value for the response_type parameter,
           a successful response MUST include an authorization code, an id_token, and an access token.
@@ -1996,6 +1999,8 @@ Content-Type: application/json
         <t>fix 4.3.2 to remove display scopes per ticket #172</t>
         <t>make scope optional for refresh in 5.2</t>
           <t>reference messages 3.2.2 for field definitions in Sec 5.2.1 per ticket #159</t>
+          <t>removed scopes from display value in 4.3.1 per ticket #172</t>
+          <t>make "code" and "id_token token" response types mandatory for Authorization servers to support</t>
         </list></t>
 
 
