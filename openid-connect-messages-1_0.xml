@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="12" month="October" year="2011" />
+    <date day="14" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -474,7 +474,7 @@
                 If not present, the default ID Token contents are used. 
                 If present, these parameters are used
                 to request additional claims incremental to the <xref target="id_token">
-				default claims of the ID Token.</xref></t>
+                                default claims of the ID Token.</xref></t>
               </list><figure>
                 <preamble>An example an OpenID request object before JWT 
                 encoding is as follows:</preamble>
@@ -650,8 +650,11 @@
           Response MUST return the parameters defined in section 4.1.2 of
           <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
-          <t>When the <spanx style="verb">response_type</spanx> includes other values they must be returned as defined by there registration.
-          the id_token return type is defined in <xref target="RESPONSE.TYPES">OAuth2 Multiple Response Type Encoding Practices</xref>.</t>
+          <t>When the <spanx style="verb">response_type</spanx>
+          includes other values, they must be returned as defined by
+          there registration.  The id_token return type is defined in
+          <xref target="RESPONSE.TYPES">OAuth 2.0 Multiple Response Type
+          Encoding Practices</xref>.</t>
         </section>
 
         <section title="Authorization Error Response">
@@ -687,7 +690,8 @@
                 the authorization server does not match the requested
                 user.</t>
               </list></t>
-				<t>Errors are returned as defined by the registered OAuth 2.0 response_type.</t>
+            <t>Errors are returned as defined by the registered OAuth
+            2.0 <spanx style="verb">response_type</spanx>.</t>
           </section>
         </section>
       </section>
@@ -716,35 +720,35 @@
           asymmetric client authentication parameters are the following:</t>
 
           <t><list style="hanging">
-              <t hangText="client_id">REQUIRED. The client identifier of the
-              client.</t>
+            <t hangText="client_id">REQUIRED. The client identifier of the
+            client.</t>
 
-              <t hangText="secret_type">OPTIONAL. Specifies the client
-              authentication type which determines how the <spanx
-              style="verb">client_secret</spanx> parameter is interpreted. It
-              can be one of "basic" or "JWT". The defaults value is "<spanx
-              style="verb">basic</spanx>". If the value is "basic", the client
-              is performing symmetric key authentication as specified in OAuth
-              2.0. If the value is "JWT", the client is performing asymmetric
-              key authentication. </t>
+            <t hangText="secret_type">OPTIONAL. Specifies the client
+            authentication type which determines how the <spanx
+            style="verb">client_secret</spanx> parameter is interpreted. It
+            can be one of "basic" or "JWT". The defaults value is "<spanx
+            style="verb">basic</spanx>". If the value is "basic", the client
+            is performing symmetric key authentication as specified in OAuth
+            2.0. If the value is "JWT", the client is performing asymmetric
+            key authentication. </t>
 
-              <t hangText="client_secret">REQUIRED. The client secret. If the
-              secret_type is "<spanx style="verb">basic</spanx>", the value is
-              the pre-shared secret that was issued to the client during
-              client registration. If the "<spanx style="verb">secret_type</spanx>"
-              is "JWT", the value is the <xref target="JWS">JWS</xref>
-              signature of a JSON object containing one of the following
-              claims:<list style="hanging">
-                  <t hangText="code">REQUIRED. The authorization code that was
-                  issued by the authorization server.</t>
+            <t hangText="client_secret">REQUIRED. The client secret. If the
+            secret_type is "<spanx style="verb">basic</spanx>", the value is
+            the pre-shared secret that was issued to the client during
+            client registration. If the "<spanx style="verb">secret_type</spanx>"
+            is "JWT", the value is the <xref target="JWS">JWS</xref>
+            signature of a JSON object containing one of the following
+            claims:<list style="hanging">
+            <t hangText="code">REQUIRED. The authorization code that was
+            issued by the authorization server.</t>
 
-                  <t hangText="refresh_token">REQUIRED. The refresh token that
-                  was issued.</t>
-                </list></t>
+            <t hangText="refresh_token">REQUIRED. The refresh token that
+            was issued.</t>
             </list></t>
+          </list></t>
 
-          <t>In addition to the client authentication parameters.
-          If this is a Refresh token request, the client MUST send the additional parameters 
+          <t>In addition to the client authentication parameters,
+          if this is a Refresh token request, the client MUST send the additional parameters 
           specified in Section 6 of <xref target="OAuth.2.0">OAuth
           2.0</xref>.
           Otherwise the client
@@ -774,9 +778,9 @@
           <spanx style="verb">openid</spanx>:</t>
 
           <t><list style="hanging">
-              <t hangText="id_token">The ID Token value associated with the
-              authentication session.</t>
-            </list></t>
+            <t hangText="id_token">The ID Token value associated with the
+            authentication session.</t>
+          </list></t>
 
           <t></t>
 
@@ -784,12 +788,12 @@
             <preamble>Following is a non-normative example:</preamble>
 
             <artwork><![CDATA[{
-    "access_token": "SlAV32hkKG",
-    "token_type": "Bearer",
-    "refresh_token": "8xLOxBtZp8",
-    "expires_in": 3600,
-    "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
-}]]></artwork>
+            "access_token": "SlAV32hkKG",
+            "token_type": "Bearer",
+            "refresh_token": "8xLOxBtZp8",
+            "expires_in": 3600,
+            "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
+            }]]></artwork>
           </figure>
 
           <t>As in the <xref target="OAuth.2.0">OAuth 2.0</xref>, Clients
@@ -808,9 +812,9 @@
             the following error codes.</t>
 
             <t><list style="hanging">
-                <t hangText="invalid_authorization_code">The authorization
-                code is missing, malformed, or invalid.</t>
-              </list></t>
+              <t hangText="invalid_authorization_code">The authorization
+              code is missing, malformed, or invalid.</t>
+            </list></t>
           </section>
         </section>
       </section>
@@ -828,27 +832,27 @@
           UserInfo endpoint to obtain further information about the user.</t>
 
           <t><list style="hanging">
-              <t hangText="access_token">REQUIRED. The access_token obtained
-              from an OpenID Connect authorization request. This parameter
-              MUST NOT be sent if the access token is sent in the HTTP
-              Authorization header as described in Section 7.1 of <xref
-              target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
-              authorization header must be <xref
-              target="OAuth.2.0.Bearer">Bearer tokens</xref>.</t>
+            <t hangText="access_token">REQUIRED. The access_token obtained
+            from an OpenID Connect authorization request. This parameter
+            MUST NOT be sent if the access token is sent in the HTTP
+            Authorization header as described in Section 7.1 of <xref
+            target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
+            authorization header must be <xref
+            target="OAuth.2.0.Bearer">Bearer tokens</xref>.</t>
 
-              <t hangText="schema">REQUIRED. The schema in which the data is
-              be returned. The default value is <spanx 
-              style="verb">openid</spanx>. If the value of this parameter is
-              omitted, or not <spanx style="verb">openid</spanx>, the response
-              may be a proprietary schema to support backwards compatibility.
-              A URL MAY be passed to define custom schemes not specified by 
-              short names. Custom schema names and responses are out of scope
-              for this specification.</t>
+            <t hangText="schema">REQUIRED. The schema in which the data is
+            be returned. The default value is <spanx 
+            style="verb">openid</spanx>. If the value of this parameter is
+            omitted, or not <spanx style="verb">openid</spanx>, the response
+            may be a proprietary schema to support backwards compatibility.
+            A URL MAY be passed to define custom schemes not specified by 
+            short names. Custom schema names and responses are out of scope
+            for this specification.</t>
 
-              <t hangText="id">This identifier is reserved for backwards
-              compatibility. It MUST be ignored by the endpoint if the <spanx
-              style="verb">openid</spanx> schema is used.</t>
-            </list></t>
+            <t hangText="id">This identifier is reserved for backwards
+            compatibility. It MUST be ignored by the endpoint if the <spanx
+            style="verb">openid</spanx> schema is used.</t>
+          </list></t>
         </section>
 
         <section title="Responses">
@@ -989,7 +993,7 @@
 
             <c>The user's preferred telephone number. For example, <spanx
             style="verb">+1 (425)
-          555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
+            555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
 
             <c>address</c>
 
@@ -1052,14 +1056,14 @@
           <t>The following is a non-normative normal claims responses:</t>
 
           <t><figure>
-              <artwork><![CDATA[{
- "name": "Jane Doe"
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
-            </figure></t>
+            <artwork><![CDATA[{
+            "name": "Jane Doe"
+            "given_name": "Jane",
+            "family_name": "Doe",
+            "email": "janedoe@example.com",
+            "picture": "http://example.com/janedoe/me.jpg"
+            }]]></artwork>
+          </figure></t>
         </section>
 
         <section title="Errors">
@@ -1068,9 +1072,9 @@
           defines the following additional error codes:</t>
 
           <t><list style="hanging">
-              <t hangText="invalid_schema">The requested schema is invalid or
-              unsupported.</t>
-            </list></t>
+            <t hangText="invalid_schema">The requested schema is invalid or
+            unsupported.</t>
+          </list></t>
         </section>
 
         <section title="Claim Types">
@@ -1078,17 +1082,17 @@
           following three types of claims:</t>
 
           <t><list style="hanging">
-              <t hangText="Normal Claims">Claims that are directly asserted by
-              the OpenID Provider.</t>
+            <t hangText="Normal Claims">Claims that are directly asserted by
+            the OpenID Provider.</t>
 
-              <t hangText="Aggregated Claims">Claims that are asserted by a
-              claims provider other than the OpenID Provider but are returned
-              by OpenID Provider.</t>
+            <t hangText="Aggregated Claims">Claims that are asserted by a
+            claims provider other than the OpenID Provider but are returned
+            by OpenID Provider.</t>
 
-              <t hangText="Distributed Claims">Claims that are asserted by a
-              claims provider other than the OpenID Provider but are returned
-              as references by the OpenID Provider.</t>
-            </list>The UserInfo endpoint MUST support normal claims.</t>
+            <t hangText="Distributed Claims">Claims that are asserted by a
+            claims provider other than the OpenID Provider but are returned
+            as references by the OpenID Provider.</t>
+          </list>The UserInfo endpoint MUST support normal claims.</t>
 
           <t>Aggregated and distributed claims support is OPTIONAL.</t>
 
@@ -1101,12 +1105,12 @@
 
             <figure>
               <artwork><![CDATA[{
- "name": "Jane Doe"
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
+              "name": "Jane Doe"
+              "given_name": "Jane",
+              "family_name": "Doe",
+              "email": "janedoe@example.com",
+              "picture": "http://example.com/janedoe/me.jpg"
+              }]]></artwork>
             </figure>
 
             <t></t>
@@ -1119,137 +1123,137 @@
             objects.</t>
 
             <t><list style="hanging">
-                <t hangText="_claim_names">This is a JSON object whose member
-                names are the claims names for the aggregated and distributed
-                claims. The member values are references to the member names
-                in the "_claim_sources" member of the claim object from which
-                the actual value can be retrieved.</t>
+              <t hangText="_claim_names">This is a JSON object whose member
+              names are the claims names for the aggregated and distributed
+              claims. The member values are references to the member names
+              in the "_claim_sources" member of the claim object from which
+              the actual value can be retrieved.</t>
 
-                <t hangText="_claim_sources">This is a JSON object whose
-                member names are referenced by the member values of the
-                "_claim_names" member of the claim object. The member values
-                contain sets of aggregated claims or reference locations for
-                distributed claims. The member values can have one of the
-                following formats depending on whether it's providing
-                aggregated or distributed claims: <list style="hanging">
-                    <t hangText="Aggregated Claims">A JSON object which MUST
-                    contain the "JWT" member whose value is a <xref
-                    target="JWT">JWT</xref> which MUST contain all the claims
-                    in the "_claim_names" object which references the
-                    corresponding "_claim_sources" member. Other members MAY
-                    be present if they are understood by both parties.<list
-                        style="hanging">
-                        <t hangText="JWT">REQUIRED. JWT Value</t>
-                      </list></t>
-
-                    <t hangText="Distributed Claims">A JSON object which
-                    contains the following members and values:<list
-                        style="hanging">
-                        <t hangText="endpoint">REQUIRED. The value is the
-                        OAuth 2.0 resource endpoint from which the associated
-                        claim can be retrieved. The endpoint URL MUST return
-                        the claim as a JWT.</t>
-
-                        <t hangText="access_token">OPTIONAL. Access token
-                        enabling retrieval of the claims from the endpoint URL
-                        by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
-                        Bearer</xref> scheme. Claims SHOULD be requested using
-                        the Authorization request header field and claims
-                        sources MUST support this method. If the access token
-                        is not available, clients MAY need to retrieve the
-                        access token out of band or use an a priori access
-                        token that was negotiated between the claim source and
-                        client, or the claim source MAY reauthenticate the
-                        user and/or reauthorize the client.</t>
-                      </list></t>
-                  </list> Other members MAY be present, if understood by both
-                parties</t>
+              <t hangText="_claim_sources">This is a JSON object whose
+              member names are referenced by the member values of the
+              "_claim_names" member of the claim object. The member values
+              contain sets of aggregated claims or reference locations for
+              distributed claims. The member values can have one of the
+              following formats depending on whether it's providing
+              aggregated or distributed claims: <list style="hanging">
+              <t hangText="Aggregated Claims">A JSON object which MUST
+              contain the "JWT" member whose value is a <xref
+              target="JWT">JWT</xref> which MUST contain all the claims
+              in the "_claim_names" object which references the
+              corresponding "_claim_sources" member. Other members MAY
+              be present if they are understood by both parties.<list
+              style="hanging">
+              <t hangText="JWT">REQUIRED. JWT Value</t>
               </list></t>
+
+              <t hangText="Distributed Claims">A JSON object which
+              contains the following members and values:<list
+              style="hanging">
+              <t hangText="endpoint">REQUIRED. The value is the
+              OAuth 2.0 resource endpoint from which the associated
+              claim can be retrieved. The endpoint URL MUST return
+              the claim as a JWT.</t>
+
+              <t hangText="access_token">OPTIONAL. Access token
+              enabling retrieval of the claims from the endpoint URL
+              by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
+              Bearer</xref> scheme. Claims SHOULD be requested using
+              the Authorization request header field and claims
+              sources MUST support this method. If the access token
+              is not available, clients MAY need to retrieve the
+              access token out of band or use an a priori access
+              token that was negotiated between the claim source and
+              client, or the claim source MAY reauthenticate the
+              user and/or reauthorize the client.</t>
+              </list></t>
+              </list> Other members MAY be present, if understood by both
+              parties</t>
+            </list></t>
 
             <t>The following is a non-normative response with aggregated
             claims:</t>
 
             <t><figure>
-                <artwork><![CDATA[Claims Provider A contains the following claims for Jane Doe :
+              <artwork><![CDATA[Claims Provider A contains the following claims for Jane Doe :
 
-{
-   "address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
-   "phone_number": "+1 (310) 123-4567"
-}
-
-
-Claims Provider A signs the JSON claims, resulting in a signed JWT:
-
-jwt_header.jwt_part2.jwt_part3
+              {
+              "address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
+              "phone_number": "+1 (310) 123-4567"
+              }
 
 
-Authorization Server returns Jane Doe's aggregated claims from Claims Provider A : 
+              Claims Provider A signs the JSON claims, resulting in a signed JWT:
 
-{
- "name": "Jane Doe",
- "given_name": "Jane",
- "family_name": "Doe",
- "birthday": "01/01/2001",
- "eye_color": "blue",
- "email": "janedoe@example.com",
- "_claim_names": {
-   "address": "src1",
-   "phone_number": "src1",
-  },
- "_claim_sources": {
-   "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"},
-  }
-}
+              jwt_header.jwt_part2.jwt_part3
 
-]]></artwork>
-              </figure></t>
+
+              Authorization Server returns Jane Doe's aggregated claims from Claims Provider A : 
+
+              {
+              "name": "Jane Doe",
+              "given_name": "Jane",
+              "family_name": "Doe",
+              "birthday": "01/01/2001",
+              "eye_color": "blue",
+              "email": "janedoe@example.com",
+              "_claim_names": {
+              "address": "src1",
+              "phone_number": "src1",
+              },
+              "_claim_sources": {
+              "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"},
+              }
+              }
+
+              ]]></artwork>
+            </figure></t>
 
             <t>The following is a non-normative response with distributed
             claims:</t>
 
             <t><figure>
-                <artwork><![CDATA[
-Claims Provider A (Jane Doe's Bank) contains the following claims for Jane Doe :
+              <artwork><![CDATA[
+              Claims Provider A (Jane Doe's Bank) contains the following claims for Jane Doe :
 
-{
-   "shipping_address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
-   "payment_info": "Some_Card 1234 5678 90123 4562"
-   "phone_number": "+1 (310) 123-4567"
-}
-
-
-A Claims Provider B (Credit Agency) contains the following claims for Jane Doe :
-
-{
-   "credit_score": "650"
-}
+              {
+              "shipping_address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
+              "payment_info": "Some_Card 1234 5678 90123 4562"
+              "phone_number": "+1 (310) 123-4567"
+              }
 
 
-Authorization Server returns Jane Doe's claims along with the distributed claims from
-Claims Provider A and B by sending the access tokens and URL locations where the claims
-may be retrieved.
+              A Claims Provider B (Credit Agency) contains the following claims for Jane Doe :
 
-{
- "name": "Jane Doe",
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "birthday": "01/01/2001",
- "eye_color": "blue",
- "_claim_names": {
-   "payment_info": "src1",
-   "shipping_address": "src1",
-   "credit_score": "src2"
-  },
- "_claim_sources": {
-   "src1": {"endpoint": "https://bank.example.com/claimsource"},
-   "src2": {"endpoint": "https://creditagency.example.com/claimshere", "access_token": "ksj3n283dke"}
-  }
-}
+              {
+              "credit_score": "650"
+              }
 
 
-]]></artwork>
-              </figure></t>
+              Authorization Server returns Jane Doe's claims along with the distributed claims from
+              Claims Provider A and B by sending the access tokens and URL locations where the claims
+              may be retrieved.
+
+              {
+              "name": "Jane Doe",
+              "given_name": "Jane",
+              "family_name": "Doe",
+              "email": "janedoe@example.com",
+              "birthday": "01/01/2001",
+              "eye_color": "blue",
+              "_claim_names": {
+              "payment_info": "src1",
+              "shipping_address": "src1",
+              "credit_score": "src2"
+              },
+              "_claim_sources": {
+              "src1": {"endpoint": "https://bank.example.com/claimsource"},
+              "src2": {"endpoint": "https://creditagency.example.com/claimshere", "access_token": "ksj3n283dke"}
+              }
+              }
+
+
+              ]]></artwork>
+            </figure></t>
           </section>
         </section>
       </section>
@@ -1275,9 +1279,9 @@ may be retrieved.
           endpoint:</t>
 
           <t><list style="hanging">
-              <t hangText="id_token">REQUIRED. The ID Token obtained from an
-              OpenID Connect authorization request.</t>
-            </list></t>
+            <t hangText="id_token">REQUIRED. The ID Token obtained from an
+            OpenID Connect authorization request.</t>
+          </list></t>
         </section>
 
         <section title="Check ID Response">
@@ -1316,23 +1320,23 @@ may be retrieved.
             the Check ID endpoint:</preamble>
 
             <artwork><![CDATA[
-POST /id_token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-encoded
+            POST /id_token HTTP/1.1
+            Host: server.example.com
+            Content-Type: application/x-www-form-encoded
 
-id_token=eyJ0eXAiOiJKV1QiL
+            id_token=eyJ0eXAiOiJKV1QiL
 
 
-HTTP/1.1 200 OK
-Content-Type: application/json
+            HTTP/1.1 200 OK
+            Content-Type: application/json
 
-{
- "iss": "http://server.example.com",
- "user_id": "248289761001",
- "aud": "http://client.example.com",
- "exp": 1311281970
-}
-]]></artwork>
+            {
+            "iss": "http://server.example.com",
+            "user_id": "248289761001",
+            "aud": "http://client.example.com",
+            "exp": 1311281970
+            }
+            ]]></artwork>
           </figure>
         </section>
 
@@ -1342,10 +1346,10 @@ Content-Type: application/json
           following error codes.</t>
 
           <t><list style="hanging">
-              <t hangText="invalid_id_token">The ID Token is not valid for the
-              requested resource, is malformed, is in an incorrect format, or
-              is expired.</t>
-            </list></t>
+            <t hangText="invalid_id_token">The ID Token is not valid for the
+            requested resource, is malformed, is in an incorrect format, or
+            is expired.</t>
+          </list></t>
         </section>
       </section>
 
@@ -2049,7 +2053,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="14" month="October" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -2089,7 +2093,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="14" month="October" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -2371,7 +2375,7 @@ Host: server.example.com]]></artwork>
           <date day="23" month="July" year="2011" />
         </front>
 
-        <format target="http://self-issued.info/docs/draft-jones-json-web-encryption.html"
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
                 type="HTML" />
       </reference>
 
@@ -2479,27 +2483,29 @@ Host: server.example.com]]></artwork>
         <format target="http://www.openid.net/specs/openid-authentication-2_0.html"
                 type="HTML" />
       </reference>
-      
-      	<reference anchor="RESPONSE.TYPES">
-	  <front>
-		<title>OAuth2 Multiple Response Type Encoding Practices</title>
-		<author fullname="Breno" initials="B." surname="de Medeiros">
-			<organization abbrev="Google">Google, Inc.</organization>
-		</author>
-		<author fullname="Marius" initials="M." surname="Scurtescu">
-		<organization abbrev="Google">Google, Inc.</organization>
-		<address>
-		<email>mscurtescu@google.com</email>
-		</address>
-		</author>
-		<author fullname="Paul" initials="P." surname="Tarjan">
-		<organization abbrev="Facebook"> Facebook</organization>
-		<address><email>pt@fb.com</email>
-		</address>
-		</author>
-		<date day="22" month="September" year="2011"></date>
-	  </front>
-	</reference>
+
+      <reference anchor="RESPONSE.TYPES">
+        <front>
+           <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
+           <author fullname="Breno" initials="B." surname="de Medeiros">
+             <organization abbrev="Google">Google, Inc.</organization>
+           </author>
+           <author fullname="Marius" initials="M." surname="Scurtescu">
+             <organization abbrev="Google">Google, Inc.</organization>
+             <address>
+               <email>mscurtescu@google.com</email>
+             </address>
+           </author>
+           <author fullname="Paul" initials="P." surname="Tarjan">
+             <organization abbrev="Facebook"> Facebook</organization>
+             <address><email>pt@fb.com</email>
+             </address>
+           </author>
+           <date day="14" month="October" year="2011"></date>
+        </front>
+      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
+              type="HTML" />
+      </reference>
     </references>
 
     <section title="Acknowledgements">
@@ -2550,25 +2556,24 @@ Host: server.example.com]]></artwork>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
- 	<t>-06<list style="symbols">
-          <t>Changed sec 3.1.4.1 to say the errors are returned as defined by the response type not always as query paramaters. per ticket #174</t>
-
-	  <t>Bumped version + Date</t>
-	  <t>fix sec 3.3.3 to refer to errors in Bearer Token</t>
-	  <t>fix 3.1.3 to ref the other response types ticket #173</t>
-	  <t>included ref to multiple response types</t>
-	  <t>fix 3.1.2.1 to indicate default claims in id_token</t>
-	  <t>fix sec 3.2.2 to reference the access token response from the token endpoint 4.1.4</t>
-	  <t>fix sec 3.2.1 to include refresh tokens</t>
-	  <t>fix sec 3.1.1 to be clear on JWT being the token format per ticket #171</t>
-
-
+         <t>-06<list style="symbols">
+          <t>Changed section 3.1.4.1 to say the errors are returned as
+          defined by the response type not always as query
+          paramaters. per ticket #174.</t>
+          <t>Bumped version + date.</t>
+          <t>Fixed section 3.3.3 to refer to errors in Bearer Token.</t>
+          <t>Fixed 3.1.3 to ref the other response types ticket #173.</t>
+          <t>Included reference to multiple response types.</t>
+          <t>Fixed 3.1.2.1 to indicate default claims in id_token.</t>
+          <t>Fixed section 3.2.2 to reference the access token response from the token endpoint 4.1.4.</t>
+          <t>Fixed section 3.2.1 to include refresh tokens.</t>
+          <t>Fixed section 3.1.1 to be clear on JWT being the token format per ticket #171.</t>
         </list></t>
 
       <t>-05<list style="symbols">
           <t>Changed check_session to check_id.</t>
 
-	  <t>schema=openid now required when requesting UserInfo.</t>
+          <t>schema=openid now required when requesting UserInfo.</t>
 
           <t>Removed issued_to, since not well defined.</t>
 

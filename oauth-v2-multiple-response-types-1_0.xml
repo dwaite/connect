@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
-<rfc category="exp" docName="oauth2-multiple-response-type-encoding-practices-1_0" ipr="trust200902">
+<rfc category="exp" docName="oauth-v2-multiple-response-types-1_0" ipr="trust200902">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="3" ?>
@@ -18,7 +18,9 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="Additional OAuth2 Response Type-draft 1">OAuth2 Multiple Response Type Encoding Practices</title>
+    <title abbrev="OAuth 2.0 Multiple Response Types">
+      OAuth 2.0 Multiple Response Type Encoding Practices - draft 02
+    </title>
 
     <author fullname="Breno" initials="B." role="editor" surname="de Medeiros">
       <organization abbrev="Google">Google, Inc.</organization>
@@ -44,12 +46,11 @@
       </address>
     </author>
 
-
-    <date day="22" month="September" year="2011" />
+    <date day="14" month="October" year="2011" />
 
     <abstract>
       <t>This specification aims to provide guidance on proper encoding of responses to
-        OAuth2 Authorization requests, where the request specifies a response type including
+        OAuth 2.0 Authorization requests, where the request specifies a response type including
         space characters.</t>
 
       <t>This specification also serves as the registration document for several
@@ -81,19 +82,19 @@
             resource (protected resource) on the server by authenticating
             with the server using the resource owner's credentials. </t>
 
-          <t hangText="Authorization Endpoint">A web resource mantained by
+          <t hangText="Authorization Endpoint">A web resource maintained by
             the server, and used to obtain authorization (grant) from the
             resource owner via user-agent redirection.</t>
 
-	  <t hangText="Response Type">The client informs the
+          <t hangText="Response Type">The client informs the
             authorization server of the desired authorization processing flow using the
             parameter response_type.</t>
 
           <t hangText="Authorization Endpoint Response Type Registry">
-	    Process established by the OAuth2 specification for the registration of new
+            Process established by the OAuth 2.0 specification for the registration of new
             response_type parameters.</t>
 
-          <t hangText="Multiple-valued Response Types">The OAuth2 specification allows
+          <t hangText="Multiple-Valued Response Types">The OAuth 2.0 specification allows
             for registration of space-separated response_type values. 
             If a response type contains one of more space characters (%20), it is
             compared as a space-delimited list of values in which the order of
@@ -101,7 +102,7 @@
        </list></t>
     </section>
 
-    <section title="Encoding Multiple-valued Response Types">
+    <section title="Encoding Multiple-Valued Response Types">
       <t>This specification does not provide guidance if, in a request, response_type includes
         a value that requires the server to return data partially encoded in the query string
         and partially encoded in the fragment.</t>
@@ -131,16 +132,16 @@
         Therefore, full fragment encoding always results in lower latency for response processing.</t>
     </section>
 
-    <section title="Id Token Response Type">
+    <section title="ID Token Response Type">
       <t>This section registers a new response type, the id_token, in accordance
-        with the stipulations in the OAuth2 specification, Section 8.4. The intended purpose of
+        with the stipulations in the OAuth 2.0 specification, Section 8.4. The intended purpose of
         the id_token is that it MUST provide an assertion of
         the identity of the resource owner as understood by the server. The assertion MUST 
         specify a targeted audience, e.g. the requesting client. However, the specific semantics of
         the assertion and how it can be validated are not specified in this document.</t>
 
       <t><list style="hanging">
-        <t hangText="id_token">If supplied as the response_type parameter in an OAuth2
+        <t hangText="id_token">If supplied as the response_type parameter in an OAuth 2.0
           Authorization Request, a successful response should include the parameter
           id_token encoded in the fragment of the response URI.</t>
       </list></t>
@@ -151,7 +152,7 @@
 
     <section title="None Response Type">
       <t>This section registers the response type none, in accordance
-        with the stipulations in the OAuth2 specification, Section 8.4.
+        with the stipulations in the OAuth 2.0 specification, Section 8.4.
         The intended purpose is to enable
         use cases where a party requests the server to register a grant of access to a protected
         resource on behalf of a client but requires
@@ -165,13 +166,13 @@
         to return access credentials simultaneously to the authorization step.</t>
 
       <t><list style="hanging">
-        <t hangText="none">When supplied as the response_type parameter in an OAuth2 authorization
-          request, the Authorization server SHOULD NOT return an OAuth2 code nor a token in a succesful
+        <t hangText="none">When supplied as the response_type parameter in an OAuth 2.0 authorization
+          request, the Authorization server SHOULD NOT return an OAuth 2.0 code nor a token in a successful
           response to the grant request. If a redirect_uri is supplied, the user-agent SHOULD be redirected
           there after granting or denying access. The request MAY include a state parameter, and if so the
           server MUST echo its value by adding it to the redirect_uri when issuing a successful response.
           Any parameters added to the redirect_uri should be query encoded. This applies to both successful
-          responses or error responses.</t>
+          responses and error responses.</t>
       </list></t>
       <t>The response type none SHOULD NOT be combined with other response types.</t>
     </section>
@@ -181,7 +182,7 @@
 
       <t><list style="hanging">
         <t hangText="code token">When supplied as the value for the response_type parameter, a successful
-          response MUST include both an access token and an authorization code as defined in the OAuth2
+          response MUST include both an access token and an authorization code as defined in the OAuth 2.0
           specification. Both successful and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token">When supplied as the value for the response_type parameter,
           a successful response MUST include both an authorization code as well as an id_token.
@@ -217,12 +218,6 @@ expires_in=3600&
   <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
 
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
-
       <reference anchor="OAuth.2.0">
         <front>
           <title>OAuth 2.0 Authorization Protocol</title>
@@ -240,7 +235,7 @@ expires_in=3600&
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="25" month="July" year="2011" />
+          <date day="22" month="September" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -262,6 +257,10 @@ expires_in=3600&
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-02 <list style="symbols">
+          <t>Editorial corrections</t>
+        </list></t>
 
       <t>-01 <list style="symbols">
           <t>Initial draft</t>

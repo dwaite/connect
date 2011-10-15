@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="12" month="October" year="2011" />
+    <date day="14" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -108,7 +108,7 @@
           <t hangText="Request Registration Endpoint">An HTTPS Endpoint URL
           provided by the Authorization Server that enables the client to store
           a Request File at the Authorization Server and receive back a Request
-          URI that uniquelyidentifies the registered Request File.</t>
+          URI that uniquely identifies the registered Request File.</t>
         </list></t>
     </section>
 
@@ -147,11 +147,11 @@
         <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they
-        are used to access OAuth 2 protected endpoints. For OpenID Connect,
+        are used to access OAuth 2.0 protected endpoints. For OpenID Connect,
         scopes request what information is to be made available from the
-        UserInfo Endpoint and to request a ID Token. OAuth 2.0 allows additional
+        UserInfo Endpoint and to request an ID Token. OAuth 2.0 allows additional
         scopes to be specified as extensions. This specification only describes
-        scopes that are part of openID Connect.</t>
+        scopes that are part of OpenID Connect.</t>
 
         <t>OpenID Connect defines the following scopes:</t>
 
@@ -191,7 +191,7 @@
         <t>Authorization requests follow two main paths to obtain Access Tokens
         and ID Tokens, the Implicit Flow and the Authorization Code Flow. The 
         flows determine how the Access Token and ID Token are returned to the 
-        client. Access Token contain Resource Owners' credentials to protected 
+        client. Access Tokens contain Resource Owners' credentials to access protected 
         resources. As such, they SHOULD NOT be exposed.</t>
 
         <t>The Implicit Flow is mainly used by clients implemented in a browser
@@ -204,7 +204,7 @@
         <t>The Authorization Code Flow returns an Authorization Code to the
         client, which can then exchange it for an Access Token directly. This
         provides the added benefit of not exposing the Access Token to the 
-        Resource Owner and possibly other mailicious applications with access
+        Resource Owner and possibly other malicious applications with access
         to the Resource Owner's user-agent. The Authorization Server can also
         authenticate the client before exchanging the Authorization Code for an
         Access Token. The Authorization Code flow is suitable for clients that 
@@ -213,46 +213,69 @@
         that cannot.</t>
 
         <section anchor="retrieving_code_token" 
-        title="How To Get An Authorization Code, Access Token, and ID Token">
-         <t>
-         <t>The Authorization server MUST support both the <spanx style="verb">"code"</spanx> and the <spanx style="verb">"id_token token"</spanx> response_type.</t>
-          <t>The client may request any OAuth registered response type supported by the Authorization server.</t>
-          
-          <t>The OAuth 2 specification documents two response types:</t>
-          
-          <list style="hanging">
-              <t hangText="code"> When supplied as the value for the response_type parameter, a successful
-          response MUST include an authorization code as defined in the OAuth2
-          specification. Both successful and error responses MUST be added as paramaters to the query component of the response.
-         All tokens are returned from the Token Endpont. Authorization servers MUST support this response_type.</t>
+                 title="How to Get an Authorization Code, Access Token, and ID Token">
+          <t>The Authorization server MUST support both the <spanx
+          style="verb">"code"</spanx> and the <spanx
+          style="verb">"id_token token"</spanx> <spanx
+          style="verb">response_type</spanx>.</t>
 
-              <t hangText="token"> When supplied as the value for the response_type parameter, a successful
-          response MUST include both an access token as defined in the OAuth2 specification. Both successful and error responses 
-          MUST be fragment-encoded.
-              No id_token is provided to the client.</t>
-        
+          <t>The client may request any OAuth 2.0 registered response
+          type supported by the Authorization Server.</t>
+          
+          <t>The OAuth 2.0 specification documents two response types:
+
+            <list style="hanging">
+              <t hangText="code"> When supplied as the value for the
+              <spanx style="verb">response_type</spanx> parameter, a
+              successful response MUST include an authorization code as
+              defined in the OAuth 2.0 specification. Both successful
+              and error responses MUST be added as parameters to the
+              query component of the response.  All tokens are returned
+              from the Token Endpoint. Authorization servers MUST support
+              this <spanx style="verb">response_type</spanx>.</t>
+
+              <t hangText="token"> When supplied as the value for the
+              <spanx style="verb">response_type</spanx> parameter, a
+              successful response MUST include an access token as
+              defined in the OAuth 2.0 specification.  Both successful
+              and error responses MUST be fragment-encoded.  No id_token
+              is provided to the client.</t>
             </list>
+          </t>
+
+          <t>Openid Connect supports these <xref
+          target="RESPONSE.TYPES">additional flows</xref> that have
+          been registered:</t>
           
-          Openid Connect supports these
-			<xref target="RESPONSE.TYPES">additional flows</xref>
-			 that have been registered:
-          
-            <t><list style="hanging">
-            <t hangText="id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an access token as well as an id_token.
-          Both success and error responses SHOULD be fragment-encoded. Authorization servers MUST support this response_type.</t>
-        <t hangText="code token">When supplied as the value for the response_type parameter, a successful
-          response MUST include both an access token and an authorization code as defined in the OAuth2
-          specification. Both successful and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="code id_token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an authorization code as well as an id_token.
-          Both success and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="code id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include an authorization code, an id_token, and an access token.
-          Both success and error responses SHOULD be fragment-encoded.</t> 
-      </list></t>
-            </t>
-         
+          <t><list style="hanging">
+            <t hangText="id_token token">When supplied as the value
+            for the <spanx style="verb">response_type</spanx>
+            parameter, a successful response MUST include both an
+            access token as well as an id_token.  Both success and
+            error responses SHOULD be fragment-encoded. Authorization
+            servers MUST support this <spanx
+            style="verb">response_type</spanx>.</t>
+
+            <t hangText="code token">When supplied as the value for
+            the <spanx style="verb">response_type</spanx> parameter, a
+            successful response MUST include both an access token and
+            an authorization code as defined in the OAuth 2.0
+            specification. Both successful and error responses SHOULD
+            be fragment-encoded.</t>
+
+            <t hangText="code id_token">When supplied as the value for
+            the <spanx style="verb">response_type</spanx> parameter, a
+            successful response MUST include both an authorization
+            code as well as an id_token.  Both success and error
+            responses SHOULD be fragment-encoded.</t>
+
+            <t hangText="code id_token token">When supplied as the
+            value for the <spanx style="verb">response_type</spanx>
+            parameter, a successful response MUST include an
+            authorization code, an id_token, and an access token.
+            Both success and error responses SHOULD be
+            fragment-encoded.</t>
+          </list></t>
         </section>
 
         <section anchor="code_flow" title="Authorization Code Flow">
@@ -281,7 +304,7 @@
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
               target="check_id_ep">Check ID Endpoint</xref></t>
 
-              <t>(OPTIONAL) Client receives ID Token Response with the End-Users's
+              <t>(OPTIONAL) Client receives ID Token Response with the End-User's
               identity</t>
 
               <t>(OPTIONAL) Client accesses the <xref 
@@ -314,7 +337,7 @@
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
               target="check_id_ep">Check ID Endpoint</xref></t>
 
-              <t>(OPTIONAL) Client receives ID Token Response with the End-Users's
+              <t>(OPTIONAL) Client receives ID Token Response with the End-User's
               identity</t>
 
               <t>(OPTIONAL) Client accesses the <xref 
@@ -353,7 +376,7 @@
         "application/x-www-form-urlencoded" format.</t>
 
         <section anchor="rf_prep"
-                 title="">
+                 title="Client Prepares an Authorization Request">
           <t>The client prepares an Authorization Request to the Authorization
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be HTTPS.</t>
@@ -361,10 +384,12 @@
           <t>The required Authorization Request parameters are as follows:</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">A OAuth registered response type that determines how the authorization response is returned to the client.
-              As described in <xref target="retrieving_code_token"
-              >How To Get An Authorization Code, Access Token, and ID Token</xref>
-              , the following registered values are supported:
+              <t hangText="response_type">An OAuth 2.0 registered
+              response type that determines how the authorization
+              response is returned to the client.  As described in
+              <xref target="retrieving_code_token" >How to Get an
+              Authorization Code, Access Token, and ID Token</xref> ,
+              the following registered values are supported:
                 <list style="symbols">
                   <t><spanx style="verb">code</spanx></t>
 
@@ -394,7 +419,7 @@
 
               <t hangText="nonce">A random, unique string value used
               to mitigate replay attacks. The value is passed through unmodified to the id_token.</t>
-          </list></t>
+            </list></t>
 
           <t>The request can contain the following optional parameters:</t>
 
@@ -475,13 +500,13 @@ response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
-&nonce=af0ifjsldkj
+&nonce=n-0S6_WzA2Mj
 &state=af0ifjsldkj]]></artwork>
               </figure></t>
 
             <section anchor="norm_req"
                      title="Client sends a request to the Authorization Server">
-              <t>Having constructed the Authorization Request, the client it
+              <t>Having constructed the Authorization Request, the client sends it
               to the HTTPS End-User Authorization Endpoint. This
               MAY happen via HTTPS redirect, hyperlinking, or any other means
               of directing the User-Agent to the Authorization Endpoint URL.</t>
@@ -496,9 +521,8 @@ response_type=code%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
-&nonce=af0ifjsldkj
-&state=af0ifjsldkj
-]]></artwork>
+&nonce=n-0S6_WzA2Mj
+&state=af0ifjsldkj]]></artwork>
               </figure>
             </section>
           </section>
@@ -548,7 +572,7 @@ response_type=code%20id_token
  "client_id": "s6BhdRkqt3",
  "redirect_uri": "https://client.example.com/cb",
  "scope": "openid profile",
- "state": "af0ifjsldkj",
+ "state": "n-0S6_WzA2Mj",
  "nonce": "af0ifjsldkj",
  "userinfo":
    {
@@ -584,7 +608,7 @@ JSON Encoded Payload = "{"response_type":"code id_token",
     "redirect_uri":"https://client.example.com/cb",
     "scope":"openid profile",
     "state":"af0ifjsldkj",
-    "nonce": "af0ifjsldkj",
+    "nonce":"n-0S6_WzA2Mj",
     "userinfo":{"claims":{"name":null,"nickname":{"optional":true},
         "email":null,"verified":null,
         "picture":{"optional":true}},"format":"signed"},
@@ -613,7 +637,7 @@ response_type=code%02id_token
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&nonce=af0ifjsldkj
+&nonce=n-0S6_WzA2Mj
 &request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY2
 9kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
 JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2
@@ -642,7 +666,7 @@ response_type=code%20id_token
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid
 &state=af0ifjsldkj
-&nonce=af0ifjsldkj
+&nonce=n-0S6_WzA2Mj
 &request=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY2
 9kZSBpZF90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
 JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2
@@ -726,7 +750,7 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             <section anchor="art_req"
                      title="Client Sends a Request to Authorization Server via HTTPS Redirect">
               <t>The Client sends the Authorization Request to the Authorization
-              Endpooint.</t>
+              Endpoint.</t>
 
               <t>The entire URL MUST NOT exceed 512 bytes.</t>
 
@@ -739,7 +763,7 @@ Location: https://server.example.com/authorize
 ?response_type=code%20id_token
 &cliend_id=s6BhdRkqt3
 &request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
-&state=af0ifjsldkj&nonce=af0ifjsldkj&scope=openid]]></artwork>
+&state=af0ifjsldkj&nonce=n-0S6_WzA2Mj&scope=openid]]></artwork>
               </figure>
             </section>
 
@@ -748,7 +772,7 @@ Location: https://server.example.com/authorize
               send a GET request to the <spanx style="verb">request_uri</spanx>
               to retrieve the content unless it is already cached and parse it
               to recreate the authorization request parameters.</t>
-              <t>Note if the RP SHOULD use a unique URI for each request, or otherwise 
+              <t>Note that the RP SHOULD use a unique URI for each request, or otherwise 
               prevent the Authorization server from caching the <spanx style="verb">request_uri</spanx>.
               </t>
 
@@ -849,7 +873,7 @@ Host: client.example.com]]></artwork>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
             Authorization Request includes the string value "token", the
-            following response parameters are included :
+            following response parameters are included:
               <list style="hanging">
                 <t hangText="access_token">REQUIRED. The Access Token</t>
 
@@ -867,7 +891,7 @@ Host: client.example.com]]></artwork>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
             Authorization Request includes the string value "id_token", the
-            following response parameters are returned :
+            following response parameters are returned:
               <list style="hanging">
                 <t hangText="id_token">REQUIRED. The ID Token of the for the
                 authentication session.</t>
@@ -946,7 +970,7 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
                 encoded text description of the error.</t>
 
                 <t hangText="error_uri">OPTIONAL. A URI to a web page that
-                includes addtional information about the error.</t>
+                includes additional information about the error.</t>
 
                 <t hangText="state">REQUIRED if the Authorization Request
                 included the <spanx style="verb">state</spanx> parameter. Set
@@ -1111,18 +1135,18 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
           <t>
             <list style='symbols'>
               <t>
-                require client authentication for confidential clients or for any client issued
+                Require client authentication for confidential clients or for any client issued
                 client credentials (or with other authentication requirements),
               </t>
               <t>
-                authenticate the client if client authentication is included and ensure the
+                Authenticate the client if client authentication is included and ensure the
                 authorization code was issued to the authenticated client,
               </t>
               <t>
-                verify that the authorization code is valid, and
+                Verify that the authorization code is valid, and
               </t>
               <t>
-                ensure that the <spanx style='verb'>redirect_uri</spanx> parameter is present if
+                Ensure that the <spanx style='verb'>redirect_uri</spanx> parameter is present if
                 the <spanx style='verb'>redirect_uri</spanx> parameter was included in the initial
                 authorization request and that their
                 values are identical.
@@ -1230,7 +1254,7 @@ Pragma: no-cache
               OPTIONAL. The scope of the access request.  If not omitted is treated as
               equal to the scope originally granted by the resource owner.  
               If omitted or includes <spanx style="verb">openid</spanx>
-              as one of the strings, a id_token is returned in addition to the access_token.
+              as one of the strings, an id_token is returned in addition to the access_token.
             </t>
           </list>The Authorization Server MUST verify the validity of the refresh
           token.</t>
@@ -1288,9 +1312,8 @@ Pragma: no-cache
           <t>Upon successful verification of the refresh token, a positive
           assertion response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
-          <xref target="OpenID.Messages">Section 3.2.2 of OpenID Connect MessagesOpenID Connect Messages
+          <xref target="OpenID.Messages">Section 3.2.2 of OpenID Connect Messages
           1.0</xref>.</t>
-
         
           <figure>
             <preamble>Following is a non-normative example of the refresh
@@ -1467,7 +1490,7 @@ Content-Type: application/json
         "application/x-www-form-urlencoded" format.</t>
 
       <section title="Check ID Requests">
-          <t>The client prepares an Check ID Endpoint Request to the Check ID
+          <t>The client prepares a Check ID Endpoint Request to the Check ID
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be HTTPS.</t>
 
@@ -1700,7 +1723,7 @@ Content-Type: application/json
           <date day="23" month="July" year="2011" />
         </front>
 
-        <format target="http://self-issued.info/docs/draft-jones-json-web-encryption.html"
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
                 type="HTML" />
       </reference>
 
@@ -1736,7 +1759,7 @@ Content-Type: application/json
             <organization abbrev="MGI1">MGI1</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="14" month="October" year="2011" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1888,27 +1911,29 @@ Content-Type: application/json
                 type="HTML" />
       </reference>
     
-	<reference anchor="RESPONSE.TYPES">
-	  <front>
-		<title>OAuth2 Multiple Response Type Encoding Practices</title>
-		<author fullname="Breno" initials="B." surname="de Medeiros">
-			<organization abbrev="Google">Google, Inc.</organization>
-		</author>
-		<author fullname="Marius" initials="M." surname="Scurtescu">
-		<organization abbrev="Google">Google, Inc.</organization>
-		<address>
-		<email>mscurtescu@google.com</email>
-		</address>
-		</author>
-		<author fullname="Paul" initials="P." surname="Tarjan">
-		<organization abbrev="Facebook"> Facebook</organization>
-		<address><email>pt@fb.com</email>
-		</address>
-		</author>
-		<date day="22" month="September" year="2011"></date>
-	  </front>
-	</reference>
-</references>
+      <reference anchor="RESPONSE.TYPES">
+        <front>
+           <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
+           <author fullname="Breno" initials="B." surname="de Medeiros">
+             <organization abbrev="Google">Google, Inc.</organization>
+           </author>
+           <author fullname="Marius" initials="M." surname="Scurtescu">
+             <organization abbrev="Google">Google, Inc.</organization>
+             <address>
+               <email>mscurtescu@google.com</email>
+             </address>
+           </author>
+           <author fullname="Paul" initials="P." surname="Tarjan">
+             <organization abbrev="Facebook"> Facebook</organization>
+             <address><email>pt@fb.com</email>
+             </address>
+           </author>
+           <date day="14" month="October" year="2011"></date>
+        </front>
+      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
+              type="HTML" />
+      </reference>
+    </references>
 
     <!-- <references title="Informative References"> -->
 
@@ -1942,7 +1967,7 @@ Content-Type: application/json
           <t>John Bradley (jbradely@mac.com), Protiviti Government
           Services</t>
 
-          <t>Nat Sakimura (n-sakimura@nri.co.jp)), Nomura Research Institute,
+          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute,
           Ltd.</t>
 
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
@@ -1950,59 +1975,58 @@ Content-Type: application/json
           <t>Ryo Itou (ritou@yahoo-corp.jp), Yahoo! Japan</t>
         </list></t>
     </section>
-	
-	<section title="Notices">
-	  <t>Copyright (c) 2011 The OpenID Foundation. </t>
-	  
-	  <t>The technology described in this specification was 
-	  made available from contributions from various sources, 
-	  including members of the OpenID Foundation and others.  
-	  Although the OpenID Foundation has taken steps to help ensure 
-	  that the technology is available for distribution, it takes 
-	  no position regarding the validity or scope of any intellectual 
-	  property or other rights that might be claimed to  pertain to 
-	  the implementation or use of the technology described in 
-	  this specification or  the extent to which  any license under 
-	  such rights might or might not be available; neither does it 
-	  represent that it has made any independent effort to identify 
-	  any such rights.  The OpenID Foundation and the contributors 
-	  to this specification make no (and hereby expressly disclaim any) 
-	  warranties (express, implied, or otherwise), including implied 
-	  warranties of merchantability, non-infringement, fitness for 
-	  a particular purpose, or title, related to this specification, 
-	  and the entire risk as to implementing this specification is 
-	  assumed by the implementer.  The OpenID Intellectual 
-	  Property Rights policy requires contributors to offer 
-	  a patent promise not to assert certain patent claims against 
-	  other contributors and  against implementers.  OpenID invites 
-	  any interested party to bring to its attention any copyrights, 
-	  patents, patent applications, or other proprietary rights 
-	  that may cover technology that may be required to practice 
-	  this specification. </t>
-	  
-	</section>
+        
+        <section title="Notices">
+          <t>Copyright (c) 2011 The OpenID Foundation. </t>
+          
+          <t>The technology described in this specification was 
+          made available from contributions from various sources, 
+          including members of the OpenID Foundation and others.  
+          Although the OpenID Foundation has taken steps to help ensure 
+          that the technology is available for distribution, it takes 
+          no position regarding the validity or scope of any intellectual 
+          property or other rights that might be claimed to  pertain to 
+          the implementation or use of the technology described in 
+          this specification or  the extent to which  any license under 
+          such rights might or might not be available; neither does it 
+          represent that it has made any independent effort to identify 
+          any such rights.  The OpenID Foundation and the contributors 
+          to this specification make no (and hereby expressly disclaim any) 
+          warranties (express, implied, or otherwise), including implied 
+          warranties of merchantability, non-infringement, fitness for 
+          a particular purpose, or title, related to this specification, 
+          and the entire risk as to implementing this specification is 
+          assumed by the implementer.  The OpenID Intellectual 
+          Property Rights policy requires contributors to offer 
+          a patent promise not to assert certain patent claims against 
+          other contributors and  against implementers.  OpenID invites 
+          any interested party to bring to its attention any copyrights, 
+          patents, patent applications, or other proprietary rights 
+          that may cover technology that may be required to practice 
+          this specification. </t>
+          
+        </section>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       
       <t>-06<list style="symbols">
-          <t>Reworked return type wording in Sec4.4.1 re ticket #174</t>
+          <t>Reworked return type wording in section 4.4.1 per ticket #174.</t>
 
-          <t>Added reference to registered return types</t>
+          <t>Added reference to registered return types.</t>
 
-          <t>Bumped Version number and date</t>
+          <t>Bumped Version number and date.</t>
           
-          <t>make clear the server passes the value of nonce through untouched. Ticket #97</t>
-          <t>prevent caching of request_uri. ticket #148</t>
-        <t>add nonce to request examples. ticket #147</t>
-        <t> fix 4.3.1.3 per ticket #150 </t>
-        <t>fix 4.3.2 to remove display scopes per ticket #172</t>
-        <t>make scope optional for refresh in 5.2</t>
-          <t>reference messages 3.2.2 for field definitions in Sec 5.2.1 per ticket #159</t>
-          <t>removed scopes from display value in 4.3.1 per ticket #172</t>
-          <t>make "code" and "id_token token" response types mandatory for Authorization servers to support</t>
+          <t>Make clear the server passes the value of nonce through untouched. Ticket #97.</t>
+          <t>Prevent caching of request_uri. Ticket #148.</t>
+          <t>Add nonce to request examples. Ticket #147.</t>
+          <t>Fixed 4.3.1.3 per ticket #150.</t>
+          <t>Fixed 4.3.2 to remove display scopes per ticket #172.</t>
+          <t>Make scope optional for refresh in 5.2.</t>
+          <t>Reference messages 3.2.2 for field definitions in section 5.2.1 per ticket #159.</t>
+          <t>Removed scopes from display value in 4.3.1 per ticket #172.</t>
+          <t>Make "code" and "id_token token" response types mandatory for Authorization Servers to support.</t>
         </list></t>
-
 
       <t>-05<list style="symbols">
           <t>Changed check_session to check_id.</t>

@@ -72,7 +72,7 @@
       </address>
     </author>
 
-    <date day="12" month="October" year="2011" />
+    <date day="14" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
@@ -160,7 +160,7 @@
         <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for access tokens. The scopes associated
         with access tokens determine what resources will be available when they are 
-        used to access OAuth 2 protected endpoints. For OpenID Connect, scopes 
+        used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes 
         request what information is to be made available from the UserInfo Endpoint,
         and to request an id_token.
         OAuth 2.0 allows additional scopes to be specified, as extensions.
@@ -321,7 +321,8 @@ response_type=token%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 &scope=openid%20profile
-&state=af0ifjsldkj]]></artwork>
+&state=af0ifjsldkj
+&nonce=n-0S6_WzA2Mj]]></artwork>
           </figure>
         </section>
 
@@ -341,8 +342,9 @@ Location: https://server.example.com/authorize?
 response_type=token%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+&scope=openid%20profile
 &state=af0ifjsldkj
-]]></artwork>
+&nonce=n-0S6_WzA2Mj]]></artwork>
           </figure>
         </section>
 
@@ -623,11 +625,11 @@ Content-Type: application/json
             <t hangText="schema">REQUIRED. The schema in which the data is to
             be returned. The only defined value is <spanx style="verb">openid</spanx>.
             If the value of this parameter is omitted, or not
-	    <spanx style="verb">openid</spanx>, the response may be a
+            <spanx style="verb">openid</spanx>, the response may be a
             proprietary schema to support backwards compatibility. 
-	    A URL MAY be passed to define custom schemes not specified
-	    by short names.  Custom scheme names and responses are out
-	    of scope for this specification.</t>
+            A URL MAY be passed to define custom schemes not specified
+            by short names.  Custom scheme names and responses are out
+            of scope for this specification.</t>
 
             <t hangText="id">This identifier is reserved for backwards
             compatibility. It MUST be ignored by the endpoint if the <spanx
@@ -1271,13 +1273,11 @@ Host: server.example.com]]></artwork>
       <t>[[ To be removed from the final specification ]]</t>
       
        <t>-14<list style="symbols">
-          <t>changed se3.2.1 to refer to acces_token ticket #134</t>
-           <t>bump ver + date </t>
-           <t>change 7.4 in security considerations to show none is REQUIRED</t>
-           <t>change 3.2.4.1 User Info to UserInfo per Ticket #137</t>
-           <t>change formatting of 7.1 per ticket #140</t>
-
-	  
+          <t>Changed section 3.2.1 to refer to access_token ticket #134.</t>
+           <t>Bumped version + date.</t>
+           <t>Changed 7.4 in security considerations to show none is REQUIRED.</t>
+           <t>Changed 3.2.4.1 User Info to UserInfo per Ticket #137.</t>
+           <t>Changed formatting of 7.1 per ticket #140.</t>
         </list></t>
 
       <t>-13<list style="symbols">
