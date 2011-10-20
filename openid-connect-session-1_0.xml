@@ -596,7 +596,7 @@ Cache-Control: no-store
           the native application sends the ID Token as an Auth HTTP
           header in the request. The client servlet can check the
           validity of the ID Token by verifying the cryptographic
-          information or by sending the token to the Check Session
+          information or by sending the ID Token to the Check ID
           Endpoint <xref target="OpenID.Messages">OpenID Connect
           Messages 1.0</xref>.</t>
 
@@ -663,9 +663,6 @@ Location: https://foo.com/oauth2callback?state=bar&session=$new_id_token
 
         <t><list style="hanging">
             <t hangText="Refresh Session">Refreshes an expired ID Token</t>
-
-            <t hangText="Check Session">Get a plain text JSON structure from a
-            ID Token</t>
 
             <t hangText="End Session">Ends a session</t>
           </list></t>
@@ -734,54 +731,6 @@ lwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20
 iLCJhdWRpZW5jZSI6ImNsaWVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJle
 HAiOjEzMDM4NTI4ODB9.aJwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ&state=bar&
 expires_in=3600
-]]></artwork>
-            </figure></t>
-        </section>
-
-        <section title="Check Session">
-          <t>For clients that are not capable of dealing with JWS signed ID
-          Tokens, they can send the ID Token to the Check Session endpoint. It
-          will validate the ID Token and return a plain text JSON structure of
-          the ID Token.</t>
-
-          <t>Request Parameters:<list style="hanging">
-              <t hangText="id_token">REQUIRED. A previously issued ID
-              Token</t>
-            </list></t>
-
-          <t>Response:</t>
-
-          <t>The response body is a plain text JSON structure of the claims in
-          the ID token.</t>
-
-          <t>If the ID token is a <xref target="JWS">JWS</xref>, then it is
-          the base64url decoded payload of the signed ID Token. In a typical
-          HTTP binding, the response is a HTTP 200 response code with the
-          content-type header set to "application/json".</t>
-
-          <t>The following is a non-normative example of a check session
-          request:</t>
-
-          <t><figure>
-              <artwork><![CDATA[Request:
-POST /op/check_session?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
-ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
-ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
-WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
-JwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
-
-Response:
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-  "issuer":"http://server.example.com",
-  "client_id","http://client.example.com",
-  "audience", "http://client.example.com",
-  "user_id":"user_328723",
-  "exp":1303852880
-}
-
 ]]></artwork>
             </figure></t>
         </section>
