@@ -484,7 +484,8 @@
  "client_id": "s6BhdRkqt3",
  "redirect_uri": "https://client.example.com/cb",
  "scope": "openid profile",
- "state": "af0ifjsldkj", "userinfo":
+ "state": "af0ifjsldkj",
+ "userinfo":
    {
      "claims":
        {
@@ -492,16 +493,16 @@
          "nickname": {"optional": true},
          "email": null,
          "verified": null,
-         "picture": {"optional": true},
-       }
+         "picture": {"optional": true}
+       },
      "format": "signed"
-   }
+   },
  "id_token":
    {
      "claims":
        {
         "auth_time": null
-       }
+       },
      "max_age": 86400,
      "iso29115": "2"
    }
@@ -788,12 +789,12 @@
             <preamble>Following is a non-normative example:</preamble>
 
             <artwork><![CDATA[{
-            "access_token": "SlAV32hkKG",
-            "token_type": "Bearer",
-            "refresh_token": "8xLOxBtZp8",
-            "expires_in": 3600,
-            "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
-            }]]></artwork>
+ "access_token": "SlAV32hkKG",
+ "token_type": "Bearer",
+ "refresh_token": "8xLOxBtZp8",
+ "expires_in": 3600,
+ "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
+}]]></artwork>
           </figure>
 
           <t>As in the <xref target="OAuth.2.0">OAuth 2.0</xref>, Clients
@@ -1057,12 +1058,12 @@
 
           <t><figure>
             <artwork><![CDATA[{
-            "name": "Jane Doe"
-            "given_name": "Jane",
-            "family_name": "Doe",
-            "email": "janedoe@example.com",
-            "picture": "http://example.com/janedoe/me.jpg"
-            }]]></artwork>
+ "name": "Jane Doe"
+ "given_name": "Jane",
+ "family_name": "Doe",
+ "email": "janedoe@example.com",
+ "picture": "http://example.com/janedoe/me.jpg"
+}]]></artwork>
           </figure></t>
         </section>
 
@@ -1105,12 +1106,12 @@
 
             <figure>
               <artwork><![CDATA[{
-              "name": "Jane Doe"
-              "given_name": "Jane",
-              "family_name": "Doe",
-              "email": "janedoe@example.com",
-              "picture": "http://example.com/janedoe/me.jpg"
-              }]]></artwork>
+ "name": "Jane Doe"
+ "given_name": "Jane",
+ "family_name": "Doe",
+ "email": "janedoe@example.com",
+ "picture": "http://example.com/janedoe/me.jpg"
+}]]></artwork>
             </figure>
 
             <t></t>
@@ -1174,38 +1175,36 @@
             claims:</t>
 
             <t><figure>
-              <artwork><![CDATA[Claims Provider A contains the following claims for Jane Doe :
-
-              {
-              "address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
-              "phone_number": "+1 (310) 123-4567"
-              }
-
-
-              Claims Provider A signs the JSON claims, resulting in a signed JWT:
-
-              jwt_header.jwt_part2.jwt_part3
+              <artwork><![CDATA[
+Claims Provider A contains the following claims for Jane Doe:
+{
+ "address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
+ "phone_number": "+1 (310) 123-4567"
+}
 
 
-              Authorization Server returns Jane Doe's aggregated claims from Claims Provider A : 
+Claims Provider A signs the JSON claims, resulting in a signed JWT:
+jwt_header.jwt_part2.jwt_part3
 
-              {
-              "name": "Jane Doe",
-              "given_name": "Jane",
-              "family_name": "Doe",
-              "birthday": "01/01/2001",
-              "eye_color": "blue",
-              "email": "janedoe@example.com",
-              "_claim_names": {
-              "address": "src1",
-              "phone_number": "src1",
-              },
-              "_claim_sources": {
-              "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"},
-              }
-              }
 
-              ]]></artwork>
+Authorization Server returns Jane Doe's aggregated claims from Claims Provider A : 
+{
+ "name": "Jane Doe",
+ "given_name": "Jane",
+ "family_name": "Doe",
+ "birthday": "01/01/2001",
+ "eye_color": "blue",
+ "email": "janedoe@example.com",
+ "_claim_names": {
+  "address": "src1",
+  "phone_number": "src1"
+ },
+ "_claim_sources": {
+  "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"}
+ }
+}
+
+]]></artwork>
             </figure></t>
 
             <t>The following is a non-normative response with distributed
@@ -1213,46 +1212,42 @@
 
             <t><figure>
               <artwork><![CDATA[
-              Claims Provider A (Jane Doe's Bank) contains the following claims for Jane Doe :
-
-              {
-              "shipping_address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
-              "payment_info": "Some_Card 1234 5678 90123 4562"
-              "phone_number": "+1 (310) 123-4567"
-              }
-
-
-              A Claims Provider B (Credit Agency) contains the following claims for Jane Doe :
-
-              {
-              "credit_score": "650"
-              }
+Claims Provider A (Jane Doe's Bank) contains the following claims for Jane Doe:
+{
+ "shipping_address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
+ "payment_info": "Some_Card 1234 5678 90123 4562",
+ "phone_number": "+1 (310) 123-4567"
+}
 
 
-              Authorization Server returns Jane Doe's claims along with the distributed claims from
-              Claims Provider A and B by sending the access tokens and URL locations where the claims
-              may be retrieved.
-
-              {
-              "name": "Jane Doe",
-              "given_name": "Jane",
-              "family_name": "Doe",
-              "email": "janedoe@example.com",
-              "birthday": "01/01/2001",
-              "eye_color": "blue",
-              "_claim_names": {
-              "payment_info": "src1",
-              "shipping_address": "src1",
-              "credit_score": "src2"
-              },
-              "_claim_sources": {
-              "src1": {"endpoint": "https://bank.example.com/claimsource"},
-              "src2": {"endpoint": "https://creditagency.example.com/claimshere", "access_token": "ksj3n283dke"}
-              }
-              }
+A Claims Provider B (Credit Agency) contains the following claims for Jane Doe:
+{
+ "credit_score": "650"
+}
 
 
-              ]]></artwork>
+Authorization Server returns Jane Doe's claims along with the distributed claims from
+Claims Provider A and B by sending the access tokens and URL locations where the claims
+may be retrieved:
+{
+ "name": "Jane Doe",
+ "given_name": "Jane",
+ "family_name": "Doe",
+ "email": "janedoe@example.com",
+ "birthday": "01/01/2001",
+ "eye_color": "blue",
+ "_claim_names": {
+  "payment_info": "src1",
+  "shipping_address": "src1",
+  "credit_score": "src2"
+ },
+ "_claim_sources": {
+  "src1": {"endpoint": "https://bank.example.com/claimsource"},
+  "src2": {"endpoint": "https://creditagency.example.com/claimshere", "access_token": "ksj3n283dke"}
+ }
+}
+
+]]></artwork>
             </figure></t>
           </section>
         </section>
@@ -1320,23 +1315,23 @@
             the Check ID endpoint:</preamble>
 
             <artwork><![CDATA[
-            POST /id_token HTTP/1.1
-            Host: server.example.com
-            Content-Type: application/x-www-form-encoded
+POST /id_token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-encoded
 
-            id_token=eyJ0eXAiOiJKV1QiL
+id_token=eyJ0eXAiOiJKV1QiL
 
 
-            HTTP/1.1 200 OK
-            Content-Type: application/json
+HTTP/1.1 200 OK
+Content-Type: application/json
 
-            {
-            "iss": "http://server.example.com",
-            "user_id": "248289761001",
-            "aud": "http://client.example.com",
-            "exp": 1311281970
-            }
-            ]]></artwork>
+{
+ "iss": "http://server.example.com",
+ "user_id": "248289761001",
+ "aud": "http://client.example.com",
+ "exp": 1311281970
+}
+]]></artwork>
           </figure>
         </section>
 
@@ -1396,9 +1391,9 @@ Host: server.example.com]]></artwork>
           serialization:</preamble>
 
           <artwork><![CDATA[{
-  "access_token":"SlAV32hkKG",
-  "expires_in":3600,
-  "refresh_token":"8xLOxBtZp8"
+ "access_token":"SlAV32hkKG",
+ "expires_in":3600,
+ "refresh_token":"8xLOxBtZp8"
 }]]></artwork>
         </figure>
       </section>

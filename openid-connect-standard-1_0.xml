@@ -128,7 +128,7 @@
       accesses a Relying Party client application which requires
       the End-User's identity and other information, it sends the End-User to
       the Authorization Server's Authorization Endpoint for authentication and
-      authorization. The Authorization Sever then issues an ID Token which
+      authorization. The Authorization Server then issues an ID Token which
       asserts the End-User's identity and an Access Token which allows the
       client to access the End-User's information at protected resource
       endpoints. Protected resource endpoints MAY perform different actions or
@@ -476,7 +476,7 @@
           UserInfo and ID Token claims. The request parameter method also
           allows requests and responses to be signed or encrypted. </t>
 
-          <t>The Request Rile Method works similar to the Request Parameter
+          <t>The Request File Method works similar to the Request Parameter
           Method but differs in that it sends an URL as a reference to the
           OpenID Request Object. It enables large requests to be sent
           securely and compactly even on browsers with limited capabilities.
@@ -575,8 +575,8 @@ response_type=code%20id_token
  "client_id": "s6BhdRkqt3",
  "redirect_uri": "https://client.example.com/cb",
  "scope": "openid profile",
- "state": "n-0S6_WzA2Mj",
- "nonce": "af0ifjsldkj",
+ "state": "af0ifjsldkj",
+ "nonce": "n-0S6_WzA2Mj",
  "userinfo":
    {
      "claims":
@@ -585,10 +585,10 @@ response_type=code%20id_token
          "nickname": {"optional": true},
          "email": null,
          "verified": null,
-         "picture": {"optional": true},
+         "picture": {"optional": true}
        },
      "format": "signed"
-   }
+   },
  "id_token":
    {
      "max_age": 86400,
@@ -1030,8 +1030,6 @@ error=invalid_request
       sensitive information MUST include the following HTTP response header
       fields and values:</t>
 
-      <t></t>
-
       <texttable title="HTTP Response Headers and Values">
         <ttcol>Header Name</ttcol>
 
@@ -1045,8 +1043,6 @@ error=invalid_request
 
         <c>no-cache</c>
       </texttable>
-
-      <t></t>
 
       <section title="Requesting an Access Token">
         <t>To retrieve an access token, a client MUST have an Authorization
@@ -1231,7 +1227,7 @@ Cache-Control: no-store
 Pragma: no-cache
 
 {
-  "error":"invalid_request"
+  "error": "invalid_request"
 }]]></artwork>
             </figure>
           </section>
@@ -1414,7 +1410,8 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
-access_token=SlAV32hkKG]]></artwork>
+access_token=SlAV32hkKG
+&schema=openid]]></artwork>
         </figure>
       </section>
 
@@ -1459,7 +1456,7 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "error":"invalid_request"
+  "error": "invalid_request"
 }
 ]]></artwork>
             </figure></t>

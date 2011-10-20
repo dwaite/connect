@@ -202,17 +202,17 @@
         <t>The implicit flow consists of the following steps:</t>
 
         <t><list style="numbers">
-            <t>Client Prepares an Authorization Request containing the desired
+            <t>Client prepares an Authorization Request containing the desired
             request parameters.</t>
 
             <t>Client sends a request to the Authorization Server.</t>
 
-            <t>Authorization Server Authenticates the End-User.</t>
+            <t>Authorization Server authenticates the End-User.</t>
 
-            <t>Authorization Server Obtains the End-User
+            <t>Authorization Server obtains the End-User
             Consent/Authorization.</t>
 
-            <t>Authorization Server Sends the End-User back to the Client with
+            <t>Authorization Server sends the End-User back to the Client with
             an Access Token and ID Token.</t>
           </list></t>
 
@@ -220,7 +220,7 @@
                  title="Client Prepares an Authorization Request">
           <t>When the user wishes to access a Protected Resource, and the
           End-User Authorization has not yet been obtained, the Client
-          prepares an Authorization Request to the authorization endpoint.</t>
+          prepares an Authorization Request to the Authorization Endpoint.</t>
 
           <t>The scheme used in the Authorization Endpoint URL MUST be HTTPS.</t>
 
@@ -254,7 +254,7 @@
           following:</t>
 
           <t><list style="hanging">
-              <t hangText="client_id">The OAuth client identifier.</t>
+              <t hangText="client_id">The OAuth Client Identifier.</t>
 
               <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
               as one of the space separated strings. Optional scope strings of
@@ -327,7 +327,7 @@ response_type=token%20id_token
         </section>
 
         <section anchor="implicit_req"
-                 title="Client Sends a Request to the Authorization Server">
+                 title="Client sends a request to the Authorization Server">
           <t>Having constructed the Authorization Request, the client sends it
           to the Authorization Endpoint. This MAY happen via HTTPS redirect, 
           hyperlinking, or any other secure means of directing the User-Agent 
@@ -413,10 +413,10 @@ response_type=token%20id_token
 
               <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://client.example.com/#
-access_token=SlAV32hkKG&
-token_type=bearer&
-id_token=1234567.SlAV32hkKG.abcde1234&
-expires_in=3600&
+access_token=SlAV32hkKG
+&token_type=bearer
+&id_token=1234567.SlAV32hkKG.abcde1234
+&expires_in=3600
 &state=af0ifjsldkj]]></artwork>
             </figure>
           </section>
@@ -553,10 +553,10 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
-"iss": "http://server.example.com",
-"user_id": "Jane Doe",
-"aud": "http://client.example.net",
-"exp":1311281970
+ "iss": "http://server.example.com",
+ "user_id": "AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4",
+ "aud": "http://client.example.com",
+ "exp": 1311281970
 }
 ]]></artwork>
           </figure>
