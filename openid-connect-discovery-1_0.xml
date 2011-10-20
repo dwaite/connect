@@ -373,7 +373,7 @@ Content-Type: application/json
         </section>
       </section>
 
-      <section title="Redirection">
+      <section title="Redirection" anchor="redirection">
         <t>In cases where the SWD request is handled at a host or location
         other than the one derived from the end-user's identifier, the host
         will return a JSON object containing the new location.</t>
@@ -613,7 +613,11 @@ Host: example.com
       <section title="Provider Configuration Verification">
         <t>If the configuration response contains the <spanx style="verb">issuer</spanx>
         element, the value MUST exactly match the <spanx style="verb">issuer</spanx>
-        URL that was used to retrieve it.</t>
+        for the URL that was directly used to retrieve the configuration. Since the 
+        discovery process allows for multiple levels of 
+        <xref target="redirection">redirection</xref>, this 
+        <spanx style="verb">issuer</spanx> URL may be different from the one originally 
+        used to begin the discovery process.</t>
       </section>
     </section>
 
