@@ -141,8 +141,8 @@
           <t hangText="OpenID Provider (OP)">A service capable of providing
           identity information to a Relying Party.</t>
 
-          <t hangText="OP Endpoints">End-User Authentication Endpoint,
-          Authorization Endpoint, and Token Endpoint.</t>
+          <t hangText="OP Endpoints">End-User Authorization Endpoint, Token
+          Endpoint, and UserInfo Endpoint.</t>
 
           <t hangText="OpenID Request Object">A JSON object that holds the
           request variables. It holds OpenID request variables. It MAY also
@@ -161,8 +161,8 @@
           information about the user session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
-          presented with an access token by the client, returns authorized
-          information about the user represented by that access token.</t>
+          presented with an Access Token by the client, returns authorized
+          information about the user represented by that Access Token.</t>
         </list></t>
     </section>
 
@@ -171,26 +171,26 @@
       steps.</t>
 
       <t><list style="numbers">
-          <t>The Client sends a request to the Authorization Server's end-user
-          authorization endpoint.</t>
+          <t>The Client sends a request to the Authorization Server's End-User
+          Authorization Endpoint.</t>
 
-          <t>The Authorization Server authenticates the user and obtains 
+          <t>The Authorization Server authenticates the End-User and obtains 
           appropriate authorization.</t>
 
           <t>The Authorization Server responds with access_token, id_token, 
           and a few other variables.</t>
 
           <t>The Client sends a request with the access_token to the <xref
-          target="userinfo_ep">UserInfo endpoint</xref>.</t>
+          target="userinfo_ep">UserInfo Endpoint</xref>.</t>
 
-          <t>UserInfo endpoint returns the additional user information
+          <t>UserInfo Endpoint returns the additional user information
           supported by the Resource Server.</t>
 
           <t>OPTIONAL. The Client sends a request with the id_token to the
           Authorization Server's <xref target="check_id_ep">Check ID
-          endpoint</xref>.</t>
+          Endpoint</xref>.</t>
 
-          <t>OPTIONAL. The Check ID endpoint responds with authentication
+          <t>OPTIONAL. The Check ID Endpoint responds with authentication
           information pertaining to the supplied id_token.</t>
         </list>
       This specification
@@ -209,7 +209,7 @@
 
       <t><list style="numbers">
           <t>Authorization Endpoint: The Client sends a request to the 
-          Authorization Server at the authorization endpoint. The Authorization
+          Authorization Server at the Authorization Endpoint. The Authorization
           Server then authenticates the End-User to find out if he is eligible
           to make the authorization. Then, upon the authorization action of the
           End-User, the Authorization Server returns an Authorization Response
@@ -220,27 +220,25 @@
           style="verb">response_type</spanx> MUST be set to <spanx
           style="verb">token</spanx>.</t>
 
-          <t>Token Endpoint: The Client sends the access token request to the
-          token endpoint to obtain Access Token Response which includes an
+          <t>Token Endpoint: The Client sends the Access Token Request to the
+          Token Endpoint to obtain a Access Token Response which includes an
           <spanx style="verb">access_token</spanx>.</t>
 
           <t>UserInfo Endpoint: The <spanx style="verb">access_token</spanx>
-          MAY be sent to the UserInfo endpoint to obtain claims about the
-          user.</t>
+          MAY be sent to the UserInfo Endpoint to obtain claims about the
+          End-User.</t>
 
           <t>Check ID Endpoint: An id_token MAY be sent to the Check ID
-          endpoint to obtain information about the authentication
+          Endpoint to obtain information about the authentication
           event.</t>
 
           <t>Session Management Endpoints: The ID Token MAY be sent to these
           endpoints to manage the session.</t>
-        </list>Both Request and Response may either be serialized into <xref
-      target="qss">Query String Serialization</xref> or <xref
-      target="RFC4627">JSON</xref>.</t>
+        </list></t>
 
       <section title="Authorization Endpoint">
-        <t>The client sends an Authorization Request to the authorization
-        endpoint to obtain an Authorization Response and an <xref
+        <t>The client sends an Authorization Request to the Authorization
+        Endpoint to obtain an Authorization Response and an <xref
         target="id_token">ID Token</xref>.</t>
 
         <section anchor="id_token" title="ID Token">
@@ -288,7 +286,7 @@
               target="ISO29115">ISO/IEC29115</xref> entity authentication
               assurance level of the authentication performed.</t>
 
-              <t hangText="nonce">OPTIONAL. If the authorization request
+              <t hangText="nonce">OPTIONAL. If the Authorization Request
               includes a nonce request value, then this value is REQUIRED and
               its value is set to the same value as the request value.</t>
 
@@ -340,21 +338,21 @@
                   returned in the Authorization Response along with the Access
                   Token. If the <spanx style="verb">response_type</spanx>
                   includes <spanx style="verb">code</spanx>, the ID Token is
-                  returned as part of the Token endpoint response.</t>
+                  returned as part of the Token Endpoint response.</t>
 
                   <t hangText="profile">OPTIONAL. This requests that access to
                   the user's <xref target="ClaimTable">profile claims</xref>
                   excluding the <spanx style="verb">address</spanx> and <spanx
-                  style="verb">email</spanx> claims at the UserInfo endpoint
+                  style="verb">email</spanx> claims at the UserInfo Endpoint
                   be granted by the issued Access Token.</t>
 
                   <t hangText="address">OPTIONAL. This requests that access to
                   <spanx style="verb">address</spanx> claim at the
-                  UserInfo endpoint be granted by the issued Access Token.</t>
+                  UserInfo Endpoint be granted by the issued Access Token.</t>
 
                   <t hangText="email">OPTIONAL. This requests that access to
                   the <spanx style="verb">email</spanx> claim at the UserInfo
-                  endpoint be granted by the issued Access Token.</t>
+                  Endpoint be granted by the issued Access Token.</t>
                 </list></t>
             </list></t>
 
@@ -374,9 +372,9 @@
               to mitigate replay attacks.</t>
 
             <t hangText="display">OPTIONAL. A string value that specifies
-              how the authorization server displays the authentication page to
+              how the Authorization Server displays the authentication page to
               the user.<list style="hanging">
-                  <t hangText="none">The authorization server
+                  <t hangText="none">The Authorization Server
                   MUST NOT display any authentication or confirmation
                   user interface pages. An error is returned if either the user 
                   is not already authenticated or the client does not have 
@@ -386,17 +384,17 @@
                 </list></t>
 
               <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
-              list of string values that specifies how the authorization
-              server prompts the user for reauthentication and reapproval. The
+              list of string values that specifies how the Authorization
+              Server prompts the user for reauthentication and reapproval. The
               possible values are:<list style="hanging">
-                  <t hangText="login">The authorization server MUST prompt the
+                  <t hangText="login">The Authorization Server MUST prompt the
                   user for reauthentication.</t>
 
-                  <t hangText="consent">The authorization server MUST prompt
+                  <t hangText="consent">The Authorization Server MUST prompt
                   the user for reapproval before returning information to the
                   client.</t>
 
-                  <t hangText="select_account">The authorization server MUST
+                  <t hangText="select_account">The Authorization Server MUST
                   prompt the user to select a user account if the account has
                   multiple accounts associated with it</t>
                 </list>
@@ -436,9 +434,9 @@
 
             <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
-            parameter in the authorization request. The OpenID Request Object
+            parameter in the Authorization Request. The OpenID Request Object
             can also be sent by reference. Parameters that affect the
-            information returned from the UserInfo endpoint are in the "<spanx
+            information returned from the UserInfo Endpoint are in the "<spanx
             style="verb">userinfo</spanx>" member. Parameters that affect the
             information returned in the ID Token
             are in the "<spanx style="verb">id_token</spanx>" member. If the
@@ -447,17 +445,17 @@
             </t>
 
             <t>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
-            authorization request parameters and MAY contain optional and
+            Authorization Request parameters and MAY contain optional and
             extension parameters.</t>
 
             <t>The OpenID Request object MAY contain a set of members defined
             by this specification and MAY contain other members that are not
-            defined by this specification. OpenID Request object members
+            defined by this specification. OpenID Request Object members
             SHOULD be understood by both parties.</t>
 
             <t>The JWT MAY be signed or unsigned. When it is unsigned, it will
             be indicated by the JWT <spanx style="verb">"signed":"none"</spanx>
-            convention in the JWT header. If signed, the OpenID Request object
+            convention in the JWT header. If signed, the OpenID Request Object
             SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>"
             and "<spanx style="verb">aud</spanx>" claims.</t>
 
@@ -466,7 +464,7 @@
             <t><list style="hanging">
                 <t hangText="userinfo">OPTIONAL. (UserInfo request): Requests
                 affecting the values to be returned from the UserInfo
-                endpoint. If not present, the UserInfo endpoint behaves in the
+                endpoint. If not present, the UserInfo Endpoint behaves in the
                 default manner.</t>
 
                 <t hangText="id_token">OPTIONAL. (ID request): Requests
@@ -476,7 +474,7 @@
                 to request additional claims incremental to the <xref target="id_token">
                                 default claims of the ID Token.</xref></t>
               </list><figure>
-                <preamble>An example an OpenID request object before JWT 
+                <preamble>An example an OpenID request Object before JWT 
                 encoding is as follows:</preamble>
 
                 <artwork><![CDATA[{
@@ -510,17 +508,17 @@
               </figure></t>
 
             <section title="&quot;userinfo&quot; member">
-              <t>The structure of the "userinfo" (UserInfo request) member is
+              <t>The structure of the "userinfo" (UserInfo Request) member is
               a JSON object that MAY contain the following members:</t>
 
               <t><list style="hanging">
                   <t hangText="claims">OPTIONAL. (Requested Claims): Set of
-                  requested claims from the UserInfo endpoint. If not present,
+                  requested claims from the UserInfo Endpoint. If not present,
                   the default UserInfo claims held by the OP are
                   returned.</t>
 
                   <t hangText="format">OPTIONAL. (Format): The requested
-                  format for the UserInfo endpoint information. If not
+                  format for the UserInfo Endpoint information. If not
                   present, the format is an unsigned JSON object.</t>
 
                   <t hangText="locale">OPTIONAL. (Locale): The default
@@ -564,10 +562,10 @@
               information about the requested claim. If the "claims" member is
               present in the "userinfo" object, the claims requested within it
               override the default claim set that would otherwise be returned
-              from the UserInfo endpoint.</t>
+              from the UserInfo Endpoint.</t>
 
               <t>The "format" member of the "userinfo" object is used to
-              specify the requested format of the UserInfo endpoint contents.
+              specify the requested format of the UserInfo Endpoint contents.
               Values defined are:</t>
 
               <t><list style="hanging">
@@ -586,7 +584,7 @@
 
             <section title="&quot;id_token&quot; member">
               <t>The structure and function of the "id_token" (ID Token
-              request) member of the OpenID Request object is similar to that
+              request) member of the OpenID Request Object is similar to that
               of the "userinfo" member. It MAY include "claims", "format",
               "locale". The structure of these members is the same as
               that for the "userinfo" member. If the "claims" member is
@@ -659,8 +657,8 @@
         </section>
 
         <section title="Authorization Error Response">
-          <t>If the end-user denies the access request or if the request
-          fails, the authorization server informs the client by returning
+          <t>If the End-User denies the access request or if the request
+          fails, the Authorization Server informs the client by returning
           parameters defined in section 4.1.2.1 of <xref
           target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
@@ -673,22 +671,22 @@
                 <t hangText="invalid_request_redirect_uri">The redirect_uri in
                 the request is missing or malformed.</t>
 
-                <t hangText="login_required">The authorization server requires
+                <t hangText="login_required">The Authorization Server requires
                 user authentication.</t>
 
                 <t hangText="session_selection_required">The user is required
-                to select a session at the authorization server. The user may
-                be authenticated at the authorization server with different
+                to select a session at the Authorization Server. The user may
+                be authenticated at the Authorization Server with different
                 associated accounts, but the user did not select a session or
                 no session selection is requested from the user due to the
                 <spanx style="verb">display</spanx> parameter being set to
                 <spanx style="verb">none</spanx>.</t>
 
-                <t hangText="approval_required">The authorization server
+                <t hangText="approval_required">The Authorization Server
                 requires user approval.</t>
 
                 <t hangText="user_mismatched">The current logged in user at
-                the authorization server does not match the requested
+                the Authorization Server does not match the requested
                 user.</t>
               </list></t>
             <t>Errors are returned as defined by the registered OAuth
@@ -698,17 +696,17 @@
       </section>
 
       <section anchor="token_ep" title="Token Endpoint">
-        <t>Access Token Request / Response interacts with a Token endpoint.
+        <t>Access Token Request / Response interacts with a Token Endpoint.
         Upon a successful request, it returns an Access Token and ID
         Token.</t>
 
         <section anchor="access_token_request" title="Access Token Request">
-          <t>The client obtains an access token by authenticating with the
-          authorization server and presenting its access grant (in the form of
-          an authorization code, resource owner credentials, an assertion, or
-          a refresh token).</t>
+          <t>The client obtains an Access Token by authenticating with the
+          Authorization Server and presenting its access grant (in the form of
+          an Authorization Code, resource owner credentials, an Assertion, or
+          a Refresh Token).</t>
 
-          <t>Clients required to authenticate with the authorization server
+          <t>Clients required to authenticate with the Authorization Server
           MUST do so according to section 3.2.1 of <xref
           target="OAuth.2.0">OAuth 2.0</xref>. OAuth defines an alternative
           method for clients to authenticate with symmetric client keys
@@ -717,7 +715,7 @@
           request body. This specification extends the client authentication
           scheme to allow clients to authenticate with asymmetric keys.
           Asymmetric client authentication allows the client to authenticate
-          with the authorization server without sending its secret key. The
+          with the Authorization Server without sending its secret key. The
           asymmetric client authentication parameters are the following:</t>
 
           <t><list style="hanging">
@@ -740,20 +738,20 @@
             is "JWT", the value is the <xref target="JWS">JWS</xref>
             signature of a JSON object containing one of the following
             claims:<list style="hanging">
-            <t hangText="code">REQUIRED. The authorization code that was
-            issued by the authorization server.</t>
+            <t hangText="code">REQUIRED. The Authorization Code that was
+            issued by the Authorization Server.</t>
 
-            <t hangText="refresh_token">REQUIRED. The refresh token that
+            <t hangText="refresh_token">REQUIRED. The Refresh Token that
             was issued.</t>
             </list></t>
           </list></t>
 
           <t>In addition to the client authentication parameters,
-          if this is a Refresh token request, the client MUST send the additional parameters 
+          if this is a Refresh Token Request, the client MUST send the additional parameters 
           specified in Section 6 of <xref target="OAuth.2.0">OAuth
           2.0</xref>.
           Otherwise the client
-          MUST send the request parameter for the Access Token endpoint as
+          MUST send the request parameter for the Access Token Endpoint as
           specified in section 4.1.3 of <xref target="OAuth.2.0">OAuth
           2.0</xref>.</t>
 
@@ -803,7 +801,7 @@
 
         <section title="Token Error Response">
           <t>If the token request is invalid or unauthorized, the
-          authorization server constructs the error response. The parameters
+          Authorization Server constructs the error response. The parameters
           of the Token Error Response are defined as in Section 5.2 of <xref
           target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
@@ -813,8 +811,8 @@
             the following error codes.</t>
 
             <t><list style="hanging">
-              <t hangText="invalid_authorization_code">The authorization
-              code is missing, malformed, or invalid.</t>
+              <t hangText="invalid_authorization_code">The Authorization
+              Code is missing, malformed, or invalid.</t>
             </list></t>
           </section>
         </section>
@@ -830,14 +828,14 @@
 
         <section title="Requests">
           <t>Clients MAY send requests with the following parameters to the
-          UserInfo endpoint to obtain further information about the user.</t>
+          UserInfo Endpoint to obtain further information about the user.</t>
 
           <t><list style="hanging">
             <t hangText="access_token">REQUIRED. The access_token obtained
-            from an OpenID Connect authorization request. This parameter
-            MUST NOT be sent if the access token is sent in the HTTP
+            from an OpenID Connect Authorization Request. This parameter
+            MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
-            target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
+            target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header must be <xref
             target="OAuth.2.0.Bearer">Bearer tokens</xref>.</t>
 
@@ -1027,9 +1025,9 @@
           <t>For privacy reasons, OpenID providers may elect to not provide
           values for some schema elements as part of the "openid" scope.</t>
 
-          <t>The UserInfo endpoint MUST return claims in JSON format unless a
+          <t>The UserInfo Endpoint MUST return claims in JSON format unless a
           request for a different format is made by the client in the
-          authorization request. The UserInfo endpoint MAY return claims in
+          Authorization Request. The UserInfo Endpoint MAY return claims in
           JWT format which can be signed or encrypted via <xref
           target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
           respectively. <xref target="OpenIDReq">The OpenID Request
@@ -1079,7 +1077,7 @@
         </section>
 
         <section title="Claim Types">
-          <t>The UserInfo endpoint MAY return a claim object containing the
+          <t>The UserInfo Endpoint MAY return a claim object containing the
           following three types of claims:</t>
 
           <t><list style="hanging">
@@ -1087,11 +1085,11 @@
             the OpenID Provider.</t>
 
             <t hangText="Aggregated Claims">Claims that are asserted by a
-            claims provider other than the OpenID Provider but are returned
+            Claims Provider other than the OpenID Provider but are returned
             by OpenID Provider.</t>
 
             <t hangText="Distributed Claims">Claims that are asserted by a
-            claims provider other than the OpenID Provider but are returned
+            Claims Provider other than the OpenID Provider but are returned
             as references by the OpenID Provider.</t>
           </list>The UserInfo endpoint MUST support normal claims.</t>
 
@@ -1155,15 +1153,15 @@
               claim can be retrieved. The endpoint URL MUST return
               the claim as a JWT.</t>
 
-              <t hangText="access_token">OPTIONAL. Access token
+              <t hangText="access_token">OPTIONAL. Access Token
               enabling retrieval of the claims from the endpoint URL
               by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
               Bearer</xref> scheme. Claims SHOULD be requested using
-              the Authorization request header field and claims
-              sources MUST support this method. If the access token
+              the Authorization Request header field and claims
+              sources MUST support this method. If the Access Token
               is not available, clients MAY need to retrieve the
-              access token out of band or use an a priori access
-              token that was negotiated between the claim source and
+              Access Token out of band or use an a priori Access
+              Token that was negotiated between the claim source and
               client, or the claim source MAY reauthenticate the
               user and/or reauthorize the client.</t>
               </list></t>
@@ -1254,24 +1252,24 @@ may be retrieved:
       </section>
 
       <section anchor="check_id_ep" title="Check ID Endpoint">
-        <t>The Check ID endpoint validates ID Tokens and returns a <xref
+        <t>The Check ID Endpoint validates ID Tokens and returns a <xref
         target="RFC4627">JSON</xref> object which contains information about
-        the end user and authentication event associated with the supplied ID
+        the End-User and authentication event associated with the supplied ID
         Token.</t>
 
         <t>This endpoint can be used by clients that are not able to or do not
         wish to handle ID Tokens. In such cases, clients MAY treat the ID
-        Token as an opaque value, and use the Check ID endpoint to
-        retrieve and examine the claims associated with the token.</t>
+        Token as an opaque value, and use the Check ID Endpoint to
+        retrieve and examine the claims associated with the ID Token.</t>
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
           the user, the following parameters are sent to the Check ID
-          endpoint:</t>
+          Endpoint:</t>
 
           <t><list style="hanging">
             <t hangText="id_token">REQUIRED. The ID Token obtained from an
-            OpenID Connect authorization request.</t>
+            OpenID Connect Authorization Request.</t>
           </list></t>
         </section>
 
@@ -1282,14 +1280,14 @@ may be retrieved:
           <t>Other claims MAY be returned by specifying the desired ID Token 
           claims to be returned in an <xref
           target="OpenIDReq">OpenID Request Object</xref> when making an
-          authorization request. The Check ID endpoint MUST return
+          Authorization Request. The Check ID endpoint MUST return
           claims in JSON format unless a request for a different format is
-          made by the client in the authorization request. The Check ID
-          endpoint MAY return claims in JWT format which can be <xref
+          made by the client in the Authorization Request. The Check ID
+          Endpoint MAY return claims in JWT format which can be <xref
           target="JWS">JWS</xref> signed or <xref target="JWE">JWE</xref>
           encrypted. <xref target="OpenIDReq">The OpenID Request Object</xref>
           describes how to request a different format. The Check ID
-          endpoint MUST return a content-type header to indicate which format
+          Endpoint MUST return a content-type header to indicate which format
           is being returned. The following are accepted content types:</t>
 
           <texttable style="all">
@@ -1346,7 +1344,7 @@ Content-Type: application/json
 
       <section title="Session Management Endpoints">
         <t>The Session Management endpoints provide endpoints to manage and
-        synchronize authentication sessions at the authorization server and
+        synchronize authentication sessions at the Authorization Server and
         clients. The endpoints are specified in the <xref
         target="OpenID.Session">OpenID Connect Session Management</xref>
         specification.</t>
@@ -1354,27 +1352,8 @@ Content-Type: application/json
     </section>
 
     <section anchor="Serializations" title="Serializations">
-      <t>Each message can be serialized either in query parameter
-      serialization or JSON serialization unless it was explicitly stated in
-      the previous sections.</t>
-
-      <section anchor="qss" title="Query String Serialization">
-        <t>In order to serialize the parameters using the query string
-        serialization, the client constructs the string by adding the
-        parameters and values to the query component using the <spanx
-        style="verb">application/x-www-form-urlencoded</spanx> format as
-        defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
-
-        <figure>
-          <preamble>Following is a non-normative example of such
-          serialization:</preamble>
-
-          <artwork><![CDATA[GET /authorize?scope=openid&response_type=code
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
-Host: server.example.com]]></artwork>
-        </figure>
-      </section>
+      <t>Parameter names and values MAY be JSON serialized into a JSON
+      structure.</t>
 
       <section anchor="js" title="JSON Serialization">
         <t>The parameters are serialized into a JSON structure by adding each
@@ -1460,7 +1439,7 @@ Host: server.example.com]]></artwork>
 
     <section title="Verification">
       <section title="Authorization Request Verification">
-        <t>If the request is signed, the authorization server MUST validate
+        <t>If the request is signed, the Authorization Server MUST validate
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
       </section>
@@ -1485,7 +1464,7 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="Token Request Verification">
-        <t>If the request is signed, the authorization server MUST validate
+        <t>If the request is signed, the Authorization Server MUST validate
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
       </section>
@@ -1508,7 +1487,7 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="UserInfo Request Verification">
-        <t>If the request is signed, the authorization server MUST validate
+        <t>If the request is signed, the Authorization Server MUST validate
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
       </section>
@@ -1528,11 +1507,11 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="Check ID Request Verification">
-        <t>If the request is signed, the authorization server MUST validate
+        <t>If the request is signed, the Authorization Server MUST validate
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
 
-        <t>The authorization server also MUST validate the request to ensure
+        <t>The Authorization Server also MUST validate the request to ensure
         all required parameters are present and valid.</t>
       </section>
 
@@ -1566,7 +1545,7 @@ Host: server.example.com]]></artwork>
       combination with this specification to provide additional functionality:
       <list style="symbols">
           <t><xref target="OpenID.Discovery">OpenID Connect Discovery
-          1.0</xref> - Dynamic discovery for user and authorization server 
+          1.0</xref> - Dynamic discovery for user and Authorization Server 
           endpoints and information</t>
 
           <t><xref target="OpenID.Registration">OpenID Connect Dynamic Client
@@ -1723,8 +1702,8 @@ Host: server.example.com]]></artwork>
           <t><list style="symbols">
               <t>Parameter name: openid, profile, email, address, PPID</t>
 
-              <t>Parameter usage location: The end-user authorization endpoint
-              request, the end-user authorization endpoint response, the token
+              <t>Parameter usage location: The end-user Authorization Endpoint
+              request, the end-user Authorization Endpoint response, the token
               endpoint request, the token endpoint response, and the <spanx
               style="verb">WWW-Authenticate</spanx> header field.</t>
 
@@ -1860,14 +1839,14 @@ Host: server.example.com]]></artwork>
       <section title="OAuth Extensions Error Registry">
         <t></t>
 
-        <section title="Authorization endpoint error (invalid_request_redirect_uri)">
+        <section title="Authorization Endpoint error (invalid_request_redirect_uri)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_request_redirect_uri </t>
 
-              <t>Error usage location: Authorization endpoint</t>
+              <t>Error usage location: Authorization Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -1877,14 +1856,14 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Authorization endpoint error (login_required)">
+        <section title="Authorization Endpoint error (login_required)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: login_required </t>
 
-              <t>Error usage location: Authorization endpoint</t>
+              <t>Error usage location: Authorization Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -1894,14 +1873,14 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Authorization endpoint error (session_selection_required)">
+        <section title="Authorization Endpoint error (session_selection_required)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: session_selection_required </t>
 
-              <t>Error usage location: Authorization endpoint</t>
+              <t>Error usage location: Authorization Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -1911,14 +1890,14 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Authorization endpoint error (approval_required)">
+        <section title="Authorization Endpoint error (approval_required)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: approval_required </t>
 
-              <t>Error usage location: Authorization endpoint</t>
+              <t>Error usage location: Authorization Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -1928,14 +1907,14 @@ Host: server.example.com]]></artwork>
             </list></t>
         </section>
 
-        <section title="Authorization endpoint error (user_mismatched)">
+        <section title="Authorization Endpoint error (user_mismatched)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: user_mismatched </t>
 
-              <t>Error usage location: Authorization endpoint</t>
+              <t>Error usage location: Authorization Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -2005,8 +1984,6 @@ Host: server.example.com]]></artwork>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
-
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
 

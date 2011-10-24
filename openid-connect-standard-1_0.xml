@@ -188,7 +188,7 @@
       
       <section anchor="protocol_flows" title="Protocol Flows">
 
-        <t>Authorization requests follow two main paths to obtain Access Tokens
+        <t>Authorization Requests follow two main paths to obtain Access Tokens
         and ID Tokens, the Implicit Flow and the Authorization Code Flow. The 
         flows determine how the Access Token and ID Token are returned to the 
         client. Access Tokens are credentials used to access protected 
@@ -217,7 +217,7 @@
 
         <section anchor="retrieving_code_token" 
                  title="How to Get an Authorization Code, Access Token, and ID Token">
-          <t>The Authorization server MUST support both the <spanx
+          <t>The Authorization Server MUST support both the <spanx
           style="verb">"code"</spanx> and the <spanx
           style="verb">"id_token token"</spanx> <spanx
           style="verb">response_type</spanx>.</t>
@@ -230,18 +230,18 @@
             <list style="hanging">
               <t hangText="code"> When supplied as the value for the
               <spanx style="verb">response_type</spanx> parameter, a
-              successful response MUST include an authorization code as
+              successful response MUST include an Authorization Code as
               defined in the OAuth 2.0 specification. Both successful
               and error responses MUST be added as parameters to the
               query component of the response.  All tokens are returned
-              from the Token Endpoint. Authorization servers MUST support
+              from the Token Endpoint. Authorization Servers MUST support
               this <spanx style="verb">response_type</spanx>.</t>
 
               <t hangText="token"> When supplied as the value for the
               <spanx style="verb">response_type</spanx> parameter, a
-              successful response MUST include an access token as
+              successful response MUST include an Access Token as
               defined in the OAuth 2.0 specification.  Both successful
-              and error responses MUST be fragment-encoded.  No id_token
+              and error responses MUST be fragment-encoded.  No ID Token
               is provided to the client.</t>
             </list>
           </t>
@@ -254,28 +254,28 @@
             <t hangText="id_token token">When supplied as the value
             for the <spanx style="verb">response_type</spanx>
             parameter, a successful response MUST include both an
-            access token as well as an id_token.  Both success and
+            Access Token as well as an ID Token.  Both success and
             error responses SHOULD be fragment-encoded. Authorization
-            servers MUST support this <spanx
+            Servers MUST support this <spanx
             style="verb">response_type</spanx>.</t>
 
             <t hangText="code token">When supplied as the value for
             the <spanx style="verb">response_type</spanx> parameter, a
-            successful response MUST include both an access token and
-            an authorization code as defined in the OAuth 2.0
+            successful response MUST include both an Access Token and
+            an Authorization Code as defined in the OAuth 2.0
             specification. Both successful and error responses SHOULD
             be fragment-encoded.</t>
 
             <t hangText="code id_token">When supplied as the value for
             the <spanx style="verb">response_type</spanx> parameter, a
-            successful response MUST include both an authorization
-            code as well as an id_token.  Both success and error
+            successful response MUST include both an Authorization
+            Code as well as an ID Token.  Both success and error
             responses SHOULD be fragment-encoded.</t>
 
             <t hangText="code id_token token">When supplied as the
             value for the <spanx style="verb">response_type</spanx>
             parameter, a successful response MUST include an
-            authorization code, an id_token, and an access token.
+            Authorization Code, an ID Token, and an Access Token.
             Both success and error responses SHOULD be
             fragment-encoded.</t>
           </list></t>
@@ -358,7 +358,7 @@
       <section anchor="auth_request" title="Authorization Request">
         <t>When the user wishes to access a Protected Resource, and the
         End-User Authorization has not yet been obtained, the Client
-        prepares an Authorization Request to the authorization endpoint.</t>
+        prepares an Authorization Request to the Authorization Endpoint.</t>
 
         <t>Authorization servers MUST require the use of a transport-layer
         security mechanism at the Authorization Endpoint. The Authorization 
@@ -366,17 +366,16 @@
         target="RFC5246">RFC 5246</xref> and MAY support other transport-layer 
         mechanisms with equivalent security.</t>
 
-        <t>Authorization servers MUST support the use of the HTTP "GET" and 
+        <t>Authorization Servers MUST support the use of the HTTP "GET" and 
         "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
         Authorization Endpoint. </t>
 
         <t>Clients MAY use the HTTP "GET" or "POST" method to send the
         Authorization Request to the Authorization Server. If using the HTTP
-        "GET" method, the request parameters are serialized using URI query 
-        string serialization as defined in <xref target="OpenID.Messages"
-        >OpenID Connect Messages 1.0</xref>. If using the HTTP "POST" method,
-        the request parameters are added to the HTTP request entity-body using
-        "application/x-www-form-urlencoded" format.</t>
+        "GET" method, the request parameters are serialized using URI <xref
+        target="qss">query string serialization</xref>. If using the HTTP "POST"
+        method, the request parameters are serialized using 
+        <xref target="form_serialization">form serialization</xref>.</t>
 
         <section anchor="rf_prep"
                  title="Client Prepares an Authorization Request">
@@ -388,8 +387,8 @@
 
           <t><list style="hanging">
               <t hangText="response_type">An OAuth 2.0 registered
-              response type that determines how the authorization
-              response is returned to the client.  As described in
+              response type that determines how the Authorization
+              Response is returned to the client.  As described in
               <xref target="retrieving_code_token" >How to Get an
               Authorization Code, Access Token, and ID Token</xref> ,
               the following registered values are supported:
@@ -458,7 +457,7 @@
             </list></t>
 
           <t>There are three methods to construct and send the request to the 
-          authorization endpoint: 
+          Authorization Endpoint: 
           <list style="letters">
               <t>Simple Request Method</t>
 
@@ -480,18 +479,16 @@
           Method but differs in that it sends an URL as a reference to the
           OpenID Request Object. It enables large requests to be sent
           securely and compactly even on browsers with limited capabilities.
-          Clients SHOULD use the request file method to minimize the request
+          Clients SHOULD use the Request File Method to minimize the request
           size.</t>
 
           <section title="Simple Request Method">
             <t>The Client prepares an Authorization Request to the
-            Authorization endpoint using the appropriate parameters. If using 
+            Authorization Endpoint using the appropriate parameters. If using 
             the HTTP "GET" method, the request parameters are serialized using
-            URI query string serialization as defined in <xref 
-            target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. If using
-            the HTTP "POST" method, the request parameters are added to the HTTP
-            request entity-body using "application/x-www-form-urlencoded"
-            format.</t>
+            URI <xref target="qss">query string serialization</xref>. If using
+            the HTTP "POST" method, the request parameters are serialized using 
+            <xref target="form_serialization">form serialization</xref>.</t>
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
@@ -687,7 +684,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             <t>The Request File Method differs from the other methods in that
             it uses a request file which contains a JSON encoded <eref
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref>. It then sends the request file URL as
+            OpenID Request Object</eref>. It then sends the Request Rile URL as
             part of the Authorization Request.</t>
 
             <t>The Client prepares an Authorization Request using the desired 
@@ -774,9 +771,9 @@ Location: https://server.example.com/authorize
               <t>Upon receipt of the Request, the Authorization Server MUST
               send a GET request to the <spanx style="verb">request_uri</spanx>
               to retrieve the content unless it is already cached and parse it
-              to recreate the authorization request parameters.</t>
+              to recreate the Authorization Request parameters.</t>
               <t>Note that the RP SHOULD use a unique URI for each request, or otherwise 
-              prevent the Authorization server from caching the <spanx style="verb">request_uri</spanx>.
+              prevent the Authorization Server from caching the <spanx style="verb">request_uri</spanx>.
               </t>
 
               <figure>
@@ -794,8 +791,8 @@ Host: client.example.com]]></artwork>
         <section title="Authorization Server Authenticates the End-User">
           <t>The Authorization Server validates the request to ensure all
           required parameters are present and valid. If the request is valid,
-          the authorization server MUST authenticate the End-User. The way in
-          which the authorization server authenticates the End-User (e.g.
+          the Authorization Server MUST authenticate the End-User. The way in
+          which the Authorization Server authenticates the End-User (e.g.
           username and password login, session cookies) is beyond the scope of
           this specification. An authentication user interface MAY be displayed
           by the Authorization Server depending on the authentication method
@@ -872,7 +869,7 @@ Host: client.example.com]]></artwork>
             Client requests an Assertion that includes the <spanx
             style="verb">"access_token"</spanx> and other variables. The
             requests and responses are described in the <xref 
-            target="token_ep">Token endpoint</xref> section.</t>
+            target="token_ep">Token Endpoint</xref> section.</t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
             Authorization Request includes the string value "token", the
@@ -958,10 +955,10 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
           <section anchor="authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the user denies the authorization or the user authentication
-            fails, the authorization server MUST return the negative authorization 
+            fails, the Authorization Server MUST return the negative authorization 
             response as defined in <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref>. The authorization server returns the client to
-            the redirection URI specified in the authorization request
+            Messages 1.0</xref>. The Authorization Server returns the client to
+            the redirection URI specified in the Authorization Request
             with the appropriate error parameters. No
             other parameters SHOULD be returned.</t>
 
@@ -1004,29 +1001,28 @@ error=invalid_request
     </section>
 
     <section anchor="token_ep" title="Token Endpoint">
-      <t>The Token endpoint handles requests for retrieving and refreshing
-      access tokens.</t>
+      <t>The Token Endpoint handles requests for retrieving and refreshing
+      Access Tokens.</t>
 
       <t>Clients MUST use the HTTP "POST" method to make requests to the Token
-      endpoint. Request parameters are added to the HTTP request entity-body
-      using the <spanx style="verb">application/x-www-form-urlencoded</spanx>
-      format.</t>
+      Endpoint. Request parameters are added using
+      <xref target="form_serialization">form serialization</xref>.</t>
 
       <t>Clients MAY provide authentication parameters in the request to the
-      Token endpoint as described in section 3.2 of <xref
+      Token Endpoint as described in section 3.2 of <xref
       target="OpenID.Messages">OpenID Connect Messages</xref> and section
       3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
-        <t>Authorization servers MUST support the use of the HTTP "POST"
+        <t>Authorization Servers MUST support the use of the HTTP "POST"
         method defined in <xref target="RFC2616">RFC 2616</xref> at the
         Token Endpoint. </t>
 
-      <t>Authorization servers MUST require the use of a transport-layer
+      <t>Authorization Servers MUST require the use of a transport-layer
       security mechanism. The authorization server MUST support TLS 1.2 as
       described in <xref target="RFC5246">RFC 5246</xref> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
-      <t>All Token endpoint responses that contain tokens, secrets, or other
+      <t>All Token Endpoint responses that contain tokens, secrets, or other
       sensitive information MUST include the following HTTP response header
       fields and values:</t>
 
@@ -1045,34 +1041,34 @@ error=invalid_request
       </texttable>
 
       <section title="Requesting an Access Token">
-        <t>To retrieve an access token, a client MUST have an Authorization
+        <t>To retrieve an Access Token, a client MUST have an Authorization
         Code obtained via the method as described in <xref
         target="code_flow">Authorization Code Flow</xref>.</t>
 
         <section title="Access Token Request">
-          <t>To obtain an access token assertion, the client MUST send the
-          following parameters via HTTPS POST to the Token endpoint using
-          <spanx style="verb">application/x-www-form-urlencoded</spanx> format
-          in the HTTP request entity-body as specified in Section 4.1.3 of 
+          <t>To obtain an Access Token Assertion, the client MUST send the
+          following parameters via HTTPS POST to the Token Endpoint using
+          <xref target="form_serialization">form serialization</xref> as 
+          specified in Section 4.1.3 of 
           <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
 
           <t><list style="hanging">
               <t hangText="grant_type">REQUIRED. A string "<spanx
               style="verb">authorization_code</spanx>".</t>
 
-              <t hangText="code">REQUIRED. The authorization code received
+              <t hangText="code">REQUIRED. The Authorization Code received
               from the authorization server.</t>
 
               <t hangText="redirect_uri">REQUIRED, if the 
               <spanx style='verb'>redirect_uri</spanx>  
-              parameter was included in the authorization request described 
+              parameter was included in the Authorization Request described 
               in Section 4.1.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>, 
               and their values MUST be identical.</t></list>
           </t>
 
           <t>If the client type is confidential or was issued client credentials
           (or assigned other authentication requirements), the client MUST
-          authenticate with the authorization server as described in 
+          authenticate with the Authorization Server as described in 
           Section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
           <t>The client MAY authenticate by sending the <spanx 
@@ -1102,16 +1098,16 @@ error=invalid_request
               is "JWT", the value is the <xref target="JWS">JWS</xref>
               signature of a JSON object containing one of the following
               claims:<list style="hanging">
-                  <t hangText="code">REQUIRED. The authorization code that was
+                  <t hangText="code">REQUIRED. The Authorization Code that was
                   issued by the authorization server.</t>
 
-                  <t hangText="refresh_token">REQUIRED. The refresh token that
+                  <t hangText="refresh_token">REQUIRED. The Refresh Token that
                   was issued.</t>
                 </list></t>
             </list>
           </t>
 
-        <t>Authorization servers MUST support both forms of client authentication
+        <t>Authorization Servers MUST support both forms of client authentication
         at the Token Endpoint. </t>
 
           <figure>
@@ -1122,14 +1118,13 @@ error=invalid_request
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
-Content-Type: application/x-www-form-urlencoded;charset=UTF-8
 
 grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
 ]]></artwork>
           </figure>
           <t>
-            The authorization server MUST:
+            The Authorization Server MUST:
           </t>
           <t>
             <list style='symbols'>
@@ -1139,15 +1134,15 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
               </t>
               <t>
                 Authenticate the client if client authentication is included and ensure the
-                authorization code was issued to the authenticated client,
+                Authorization Code was issued to the authenticated client,
               </t>
               <t>
-                Verify that the authorization code is valid, and
+                Verify that the Authorization Code is valid, and
               </t>
               <t>
                 Ensure that the <spanx style='verb'>redirect_uri</spanx> parameter is present if
                 the <spanx style='verb'>redirect_uri</spanx> parameter was included in the initial
-                authorization request and that their
+                Authorization Request and that their
                 values are identical.
               </t>
             </list>
@@ -1165,13 +1160,13 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
             the <xref target="OpenID.Messages">OpenID Connect Messages
             1.0</xref>.</t>
 
-            <t>The assertion is a JSON structure which contains the
+            <t>The Assertion is a JSON structure which contains the
             following values:</t>
 
             <t><list style="hanging">
               <t hangText="access_token">REQUIRED. The Access Token.</t>
 
-              <t hangText="token_type">REQUIRED. Specifies the access token type.
+              <t hangText="token_type">REQUIRED. Specifies the Access Token type.
               This specification only supports the "Bearer" token type.</t>
 
               <t hangText="id_token">REQUIRED if 
@@ -1235,18 +1230,17 @@ Pragma: no-cache
       </section>
 
       <section title="Refreshing an Access Token">
-        <t>To refresh an Access token that has expired, the client sends a
-        POST request to the Token endpoint with the following parameters in
-        the entity-body using the application/x-www-form-urlencoded
-        format:</t>
+        <t>To refresh an Access Token that has expired, the client sends a
+        POST request to the Token Endpoint with the following parameters using
+        <xref target="form_serialization">form serialization</xref>:</t>
 
         <t>
           <list style="hanging">
             <t hangText="grant_type">REQUIRED. A string "refresh_token".</t>
 
             <t hangText="refresh_token">
-              REQUIRED. The refresh token that was
-              issued in a previous Token endpoint request.
+              REQUIRED. The Refresh Token that was
+              issued in a previous Token Endpoint request.
             </t>
 
             <t hangText="scope">
@@ -1255,8 +1249,8 @@ Pragma: no-cache
               If omitted or includes <spanx style="verb">openid</spanx>
               as one of the strings, an id_token is returned in addition to the access_token.
             </t>
-          </list>The Authorization Server MUST verify the validity of the refresh
-          token.</t>
+          </list>The Authorization Server MUST verify the validity of the Refresh
+          Token.</t>
         
           <t>If the client type is confidential or was issued client credentials
           (or assigned other authentication requirements), the client MUST
@@ -1291,20 +1285,20 @@ Pragma: no-cache
               is "JWT", the value is the <xref target="JWS">JWS</xref>
               signature of a JSON object containing one of the following
               claims:<list style="hanging">
-                  <t hangText="code">REQUIRED. The authorization code that was
+                  <t hangText="code">REQUIRED. The Authorization Code that was
                   issued by the authorization server.</t>
 
-                  <t hangText="refresh_token">REQUIRED. The refresh token that
+                  <t hangText="refresh_token">REQUIRED. The Refresh Token that
                   was issued.</t>
                 </list></t>
             </list>
           </t>
 
-        <t>Authorization servers MUST support both forms of client authentication
+        <t>Authorization Servers MUST support both forms of client authentication
         at the Token Endpoint. </t>
         
-        <t>The Authorization Server MUST verify the validity of the refresh
-          token.
+        <t>The Authorization Server MUST verify the validity of the Refresh
+          Token.
         </t>
 
         <section title="Positive Assertion">
@@ -1359,16 +1353,16 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
       described in <xref target="RFC5246">RFC 5246</xref> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
-      <t>Authorization servers MUST support the use of the HTTP "GET" and HTTP
+      <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
       "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
       UserInfo Endpoint. </t>
 
-      <t>Authorization servers MUST be able to accept Access Tokens via
+      <t>Authorization Servers MUST be able to accept Access Tokens via
       <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>
       specification.</t>
 
       <section title="UserInfo Request">
-        <t>Client SHOULD send the UserInfo request defined in section 3.3 of
+        <t>Client SHOULD send the UserInfo Request defined in section 3.3 of
         the <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
         either in HTTP GET or POST request.</t>
 
@@ -1379,7 +1373,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
             from an OpenID Connect Authorization Request. This parameter MUST
             NOT be sent if the Access Token is sent in the HTTP Authorization
             header as described in Section 7.1 of <xref
-            target="OAuth.2.0">OAuth 2.0</xref>. Access tokens sent in the
+            target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header MUST be <xref
             target="OAuth.2.0.Bearer">Bearer Tokens</xref>. If the client is
             using the HTTP GET method, it SHOULD send the Access Token in the
@@ -1416,7 +1410,7 @@ access_token=SlAV32hkKG
       </section>
 
       <section anchor="id_res" title="UserInfo Response">
-        <t>Upon receipt of the UserInfo request, the UserInfo endpoint MUST
+        <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
         return the JSON Serialization of the UserInfo response as in <xref
         target="OpenID.Messages">OpenID Messages</xref> in the HTTP response
         body. The content-type of the HTTP response MUST be set to <spanx
@@ -1442,7 +1436,7 @@ Content-Type: application/json
         </figure>
 
         <section title="UserInfo Error Response">
-          <t>When some error condition arises, the UserInfo endpoint returns
+          <t>When some error condition arises, the UserInfo Endpoint returns
           the JSON serialized Error Response defined in section 3.3.3 of <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
           entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
@@ -1465,11 +1459,11 @@ Content-Type: application/json
     </section>
 
     <section anchor="check_id_ep" title="Check ID Endpoint">
-      <t>The Check ID endpoint validates ID Tokens and returns the claims
+      <t>The Check ID Endpoint validates ID Tokens and returns the claims
       of an issued ID Token in JSON text format. This endpoint is used by
       clients that are not able to or do not wish to process ID Tokens.
       Clients MAY treat ID Tokens as opaque values and use the Check ID
-      endpoint to validate and retrieve the claims associated with the ID
+      Endpoint to validate and retrieve the claims associated with the ID
       Token in plain text JSON format.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
@@ -1483,11 +1477,10 @@ Content-Type: application/json
 
         <t>Clients MAY use the HTTP "GET" or "POST" method to send the
         Authorization Request to the Authorization Server. If using the HTTP
-        "GET" method, the request parameters are serialized using URI query 
-        string serialization as defined in <xref target="OpenID.Messages"
-        >OpenID Connect Messages 1.0</xref>. If using the HTTP "POST" method,
-        the request parameters are added to the HTTP request entity-body using
-        "application/x-www-form-urlencoded" format.</t>
+        "GET" method, the request parameters are serialized using URI <xref
+        target="qss">query string serialization</xref>. If using the HTTP "POST"
+        method, the request parameters are serialized using 
+        <xref target="form_serialization">form serialization</xref>.</t>
 
       <section title="Check ID Requests">
           <t>The client prepares a Check ID Endpoint Request to the Check ID
@@ -1497,7 +1490,7 @@ Content-Type: application/json
           <t>The request parameters are as follows:</t>
           <t><list style="hanging">
             <t hangText="id_token">REQUIRED. The ID Token obtained from an
-            OpenID Connect authorization request.</t>
+            OpenID Connect Authorization Request.</t>
           </list>
             <figure>
             <preamble>The Following is a non-normative example of a Check
@@ -1527,7 +1520,7 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 
         <figure>
           <preamble>The following is a non-normative example of a response
-          from the Check ID endpoint:</preamble>
+          from the Check ID Endpoint:</preamble>
 
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
@@ -1542,7 +1535,7 @@ Content-Type: application/json
         </figure>
 
         <section title="Check ID Error Response">
-          <t>When some error condition arises, the UserInfo endpoint returns
+          <t>When some error condition arises, the UserInfo Endpoint returns
           the JSON serialized Error Response defined in section 3.4.3 of <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
           entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
@@ -1585,6 +1578,56 @@ Content-Type: application/json
       1.0</xref> specifications.</t>
     </section>
 
+    <section anchor="Serializations" title="Serializations">
+      <t>A request message MAY be serialized using one of the following methods:
+        <list style="numbers">
+            <t>Query String Serialization</t>
+            <t>Form Serialization</t>
+        </list>
+      </t>
+
+      <section anchor="qss" title="Query String Serialization">
+        <t>In order to serialize the parameters using the query string
+        serialization, the client constructs the string by adding the
+        parameters and values to the query component of a URL using the <spanx
+        style="verb">application/x-www-form-urlencoded</spanx> format as
+        defined by <xref target="W3C.REC-html401-19991224"></xref>. Query string
+        serialization is typically used in HTTP GET requests.</t>
+
+        <figure>
+          <preamble>Following is a non-normative example of such
+          serialization:</preamble>
+
+          <artwork><![CDATA[GET /authorize?scope=openid&response_type=code
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
+Host: server.example.com]]></artwork>
+        </figure>
+      </section>
+
+      <section anchor="form_serialization" title="Form Serialization">
+        <t>Parameters and their values are form serialized by adding the 
+        parameter names and values to the entity body of the HTTP request using
+        the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
+        as defined by <xref target="W3C.REC-html401-19991224"></xref>. Form
+        serialization is typically used in HTTP POST requests.</t>
+
+        <figure>
+          <preamble>Following is a non-normative example of such
+          serialization:</preamble>
+
+          <artwork><![CDATA[POST /authorize HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+scope=openid&response_type=code
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+]]></artwork>
+        </figure>
+      </section>
+    </section>
+
     <section anchor="security_considerations" title="Security Considerations">
       <t>This specification references the security considerations defined in
       <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
@@ -1593,7 +1636,7 @@ Content-Type: application/json
       also considered.</t>
 
       <section title="Implicit Grant Flow Threats">
-        <t>In the implicit grant flow, the access token is returned in the
+        <t>In the implicit grant flow, the Access Token is returned in the
         fragment part of the client's redirect_uri through HTTPS, thus it is
         protected between the OP and the User-Agent, and User-Agent and the
         RP. The only the place it can be captured is the User-Agent where the
@@ -1616,6 +1659,8 @@ Content-Type: application/json
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617"?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
       <reference anchor="JWT">
         <front>
@@ -2049,7 +2094,7 @@ Content-Type: application/json
         </list></t>
 
       <t>-03 <list style="symbols">
-          <t>Added secret_type to the Token endpoint.</t>
+          <t>Added secret_type to the Token Endpoint.</t>
 
           <t>Minor edits to the samples.</t>
         </list></t>
