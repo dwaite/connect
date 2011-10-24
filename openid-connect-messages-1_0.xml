@@ -1460,8 +1460,9 @@ Content-Type: application/json
 
     <section title="Verification">
       <section title="Authorization Request Verification">
-        <t>If the request is signed, the Authorization Server MUST validate
-        the signature according to Section 5 of <xref
+        <t>If the request is signed or contains a signed <xref
+        target="OpenIDReq">OpenID Request Object</xref>, the Authorization 
+        Server MUST validate the signatures according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
       </section>
 
@@ -1470,8 +1471,9 @@ Content-Type: application/json
         MUST to the following:</t>
 
         <t><list style="numbers">
-            <t>If the response was signed, the Client SHOULD verify the token
-            signature as the first step.</t>
+            <t>If the Authorization Response contains a signed ID Token, the
+            Client SHOULD verify the ID Token signature according to Section 5
+            of <xref target="JWS">JWS</xref>.</t>
 
             <t>Check that current time is within the validity period contained
             within the response.</t>
@@ -1480,8 +1482,8 @@ Content-Type: application/json
             through a TLS/SSL server certificate check.</t>
           </list></t>
 
-        <t>If the client does not directly verify the signature, it MUST make
-        a request to the Check ID Endpoint to validate the token.</t>
+        <t>If the client does not directly verify the ID Token signature, it
+        MUST make a request to the Check ID Endpoint to validate the ID Token.</t>
       </section>
 
       <section title="Token Request Verification">
