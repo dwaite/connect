@@ -672,22 +672,43 @@
                 the request is missing or malformed.</t>
 
                 <t hangText="login_required">The Authorization Server requires
-                user authentication.</t>
+                user authentication. This error MAY be returned when the 
+                <spanx style="verb">display</spanx> parameter in the
+                Authorization Request is set to 'none' to request that the
+                Authorization Server should not display any user interfaces to
+                the End-User, but the Authorization Request cannot be completed
+                without displaying a user interface for user authentication.
+              </t>
 
                 <t hangText="session_selection_required">The user is required
                 to select a session at the Authorization Server. The user may
                 be authenticated at the Authorization Server with different
-                associated accounts, but the user did not select a session or
-                no session selection is requested from the user due to the
-                <spanx style="verb">display</spanx> parameter being set to
-                <spanx style="verb">none</spanx>.</t>
+                associated accounts, but the user did not select a session.
+                This error MAY be returned 
+                when the <spanx style="verb">display</spanx> parameter in the
+                Authorization Request is set to 'none' to request that the
+                Authorization Server should not display any user interfaces to
+                the End-User, but the Authorization Request cannot be completed
+                without displaying a user interface to prompt for a session to
+                use.</t>
 
                 <t hangText="approval_required">The Authorization Server
-                requires user approval.</t>
+                requires user approval. This error MAY be returned when the 
+                <spanx style="verb">display</spanx> parameter in the
+                Authorization Request is set to 'none' to request that the
+                Authorization Server should not display any user interfaces to
+                the End-User, but the Authorization Request cannot be completed
+                without displaying a user interface for user approval.</t>
 
                 <t hangText="user_mismatched">The current logged in user at
                 the Authorization Server does not match the requested
-                user.</t>
+                user. This error MAY be returned when the 
+                <spanx style="verb">display</spanx> parameter in the
+                Authorization Request is set to 'none' to request that the
+                Authorization Server should not display any user interfaces to
+                the End-User, but the Authorization Request cannot be completed
+                without displaying a user interface to prompt for the correct
+                user authentication.</t>
               </list></t>
             <t>Errors are returned as defined by the registered OAuth
             2.0 <spanx style="verb">response_type</spanx>.</t>
