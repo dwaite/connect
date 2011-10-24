@@ -136,33 +136,33 @@
           information about the user session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
-          presented with an access token by the client, returns authorized
-          information about the user represented by that access token.</t>
+          presented with an Access Token by the client, returns authorized
+          information about the user represented by that Access Token.</t>
         </list></t>
     </section>
 
     <section title="Protocol Flows">
-      <t>Authorization requests can follow one of two paths; the implicit flow
-      or the authorization code flow. The authorization code flow is
+      <t>Authorization Requests can follow one of two paths; the Implicit Flow
+      or the Authorization Code Flow. The Authorization Code Flow is
       suitable for clients that can securely maintain a client secret between
-      themselves and the Authorization Server whereas, the implicit flow is
+      themselves and the Authorization Server whereas, the Implicit Flow is
       suitable for clients that cannot. Clients that do not support TLS MUST
-      use the authorization code flow to prevent the interception of access 
-      tokens.</t>
+      use the Authorization Code Flow to prevent the interception of Access 
+      Tokens.</t>
 
       <t>The OpenID Connect Basic Client profile only documents clients using
-      the implicit flow. OpenID Providers MUST support both flows.
-      Clients wanting to use the authorization code flow and OpenID Providers 
+      the Implicit Flow. OpenID Providers MUST support both flows.
+      Clients wanting to use the Authorization Code Flow and OpenID Providers 
       should consult the OpenID Connect Standard 1.0 specification.</t>
 
       <section title="OpenID Connect Scopes">
         <t>OpenID Connect clients use scopes as defined in 3.3 of 
         <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
-        access privileges are requested for access tokens. The scopes associated
-        with access tokens determine what resources will be available when they are 
+        access privileges are requested for Access Tokens. The scopes associated
+        with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes 
         request what information is to be made available from the UserInfo Endpoint,
-        and to request an id_token.
+        and to request an ID Token.
         OAuth 2.0 allows additional scopes to be specified, as extensions.
         This specification only describes scopes that are part of OpenID Connect.</t>
 
@@ -199,7 +199,7 @@
       </section>
 
       <section title="Implicit Flow">
-        <t>The implicit flow consists of the following steps:</t>
+        <t>The Implicit Flow consists of the following steps:</t>
 
         <t><list style="numbers">
             <t>Client prepares an Authorization Request containing the desired
@@ -265,7 +265,7 @@
               will be sent. This MUST be pre-registered with the provider.</t>
             
               <t hangText="nonce">A random, unique string value used to
-              mitigate the replay attack this value is returned from the Check
+              mitigate the replay attack. This value is returned from the Check
               ID Endpoint.</t>
             </list></t>
 
@@ -371,14 +371,14 @@ response_type=token%20id_token
 
           <section anchor="implicit_ok" title="End-User Grants Authorization">
             <t>If the resource owner grants the access request, the
-            Authorization Server issues an access token and delivers it to the
+            Authorization Server issues an Access Token and delivers it to the
             client by adding the following parameters to the fragment
             component of the redirection URI using the 
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format as defined in Section 4.2.2 of
             <xref target="OAuth.2.0">OAuth 2.0</xref></t>
 
-            <t>In the implicit flow, the entire response is returned in the
+            <t>In the Implicit Flow, the entire response is returned in the
             fragment component of the redirect URL, as defined in 4.2.2 of
             <xref target="OAuth.2.0">OAuth 2.0</xref></t>
 
@@ -613,12 +613,12 @@ Content-Type: application/json
         UserInfo Endpoint is an <xref target="OAuth.2.0">OAuth 2.0</xref>
         protected resource that complies with the <xref
         target="OAuth.2.0.Bearer">Bearer Token</xref> specification. As such,
-        the access token SHOULD be specified via the HTTP Authorization
+        the Access Token SHOULD be specified via the HTTP Authorization
         header.</t>
 
         <t><list style="hanging">
             <t hangText="access_token">REQUIRED. The access_token obtained
-            from an OpenID Connect authorization request. This parameter MUST
+            from an OpenID Connect Authorization Request. This parameter MUST
             only be sent using one method through either HTTP Authorization
             header or query string.</t>
 
@@ -891,8 +891,8 @@ Host: server.example.com]]></artwork>
 
             <t>To mitigate this attack, the assertion may be sent over a
             protected channel such as TLS/SSL. In order to protect the
-            integrity of assertions from malicious attack, the authorization 
-            server MUST be authenticated. In this specification, the assertion 
+            integrity of assertions from malicious attack, the Authorization 
+            Server MUST be authenticated. In this specification, the assertion 
             is always sent over TLS/SSL protected channel.</t>
 
 
@@ -922,8 +922,8 @@ Host: server.example.com]]></artwork>
         ensure that the assertion is currently valid.</t>
 
         <t>The use of a nonce in the request is REQUIRED. The response from
-        the Check ID Endpoint contains the nonce sent in the authorization
-        request. This SHOULD be checked against a list of already received ID
+        the Check ID Endpoint contains the nonce sent in the Authorization
+        Request. This SHOULD be checked against a list of already received ID
         assertions to check for replays.</t>
 
         <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
@@ -974,7 +974,7 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="Implicit Flow Threats">
-        <t>In the implicit flow, the access token is returned in the
+        <t>In the Implicit Flow, the Access Token is returned in the
         fragment part of the client's redirect_uri through HTTPS. Thus it is
         protected between the Authorization Server and the User-Agent, and 
         User-Agent and the Client. The only the place it can be captured is the 
@@ -1337,7 +1337,7 @@ Host: server.example.com]]></artwork>
           to check expiration.</t>
 
           <t>Added explanation of why an id_token is used to verify identity
-          rather than the user_info access token.</t>
+          rather than the user_info Access Token.</t>
         </list></t>
 
       <t>-07 <list style="symbols">
