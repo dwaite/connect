@@ -120,7 +120,7 @@
           Claims Provider asserts about that Entity.</t>
 
           <t hangText="Claims Provider">An Authorization Server that can
-          return claims about a user.</t>
+          return claims about an End-User.</t>
 
           <t hangText="End-User">A human resource owner.</t>
 
@@ -162,7 +162,7 @@
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
           presented with an Access Token by the client, returns authorized
-          information about the user represented by that Access Token.</t>
+          information about the End-User represented by that Access Token.</t>
         </list></t>
     </section>
 
@@ -183,7 +183,7 @@
           <t>The Client sends a request with the access_token to the <xref
           target="userinfo_ep">UserInfo Endpoint</xref>.</t>
 
-          <t>UserInfo Endpoint returns the additional user information
+          <t>UserInfo Endpoint returns the additional End-User information
           supported by the Resource Server.</t>
 
           <t>OPTIONAL. The Client sends a request with the id_token to the
@@ -259,7 +259,7 @@
               of the response.</t>
 
               <t hangText="user_id">REQUIRED. A locally unique and never
-              reassigned identifier for the user, which is intended to be
+              reassigned identifier for the End-User, which is intended to be
               consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
               or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
               It MUST NOT exceed 255 ASCII characters in length.</t>
@@ -341,7 +341,7 @@
                   returned as part of the Token Endpoint response.</t>
 
                   <t hangText="profile">OPTIONAL. This requests that access to
-                  the user's <xref target="ClaimTable">profile claims</xref>
+                  the End-User's <xref target="ClaimTable">profile claims</xref>
                   excluding the <spanx style="verb">address</spanx> and <spanx
                   style="verb">email</spanx> claims at the UserInfo Endpoint
                   be granted by the issued Access Token.</t>
@@ -373,10 +373,10 @@
 
             <t hangText="display">OPTIONAL. A string value that specifies
               how the Authorization Server displays the authentication page to
-              the user.<list style="hanging">
+              the End-User.<list style="hanging">
                   <t hangText="none">The Authorization Server
                   MUST NOT display any authentication or confirmation
-                  user interface pages. An error is returned if either the user 
+                  user interface pages. An error is returned if either the End-User 
                   is not already authenticated or the client does not have 
                   pre-configured approval for the requested
                   <spanx style="verb">scopes</spanx>. This can be used as a
@@ -385,20 +385,20 @@
 
               <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
               list of string values that specifies how the Authorization
-              Server prompts the user for reauthentication and reapproval. The
+              Server prompts the End-User for reauthentication and reapproval. The
               possible values are:<list style="hanging">
                   <t hangText="login">The Authorization Server MUST prompt the
-                  user for reauthentication.</t>
+                  End-User for reauthentication.</t>
 
                   <t hangText="consent">The Authorization Server MUST prompt
-                  the user for reapproval before returning information to the
+                  the End-User for reapproval before returning information to the
                   client.</t>
 
                   <t hangText="select_account">The Authorization Server MUST
-                  prompt the user to select a user account if the account has
+                  prompt the End-User to select a user account if the account has
                   multiple accounts associated with it</t>
                 </list>
-                This can be used by the client to make sure that the user is
+                This can be used by the client to make sure that the End-User is
                 still present for the current session or to bring attention to the
                 request. If this parameter is used in conjunction with the 
                 <spanx style="verb">display</spanx> parameter set to "none", an
@@ -600,7 +600,7 @@
                   <t hangText="auth_time">OPTIONAL. (authenticated at):
                   Requests that the "auth_time" claim be present. The claim
                   value is the number of seconds from 1970-01-01T0:0:0Z as
-                  measured in UTC until the date/time that the user
+                  measured in UTC until the date/time that the End-User
                   authentication occurred. (The "auth_time" claim semantically
                   corresponds to the openid.pape.auth_time response
                   parameter.)</t>
@@ -610,7 +610,7 @@
 
               <t><list style="hanging">
                   <t hangText="max_age">OPTIONAL. (max authentication age):
-                  Specifies that the user must be actively authenticated if
+                  Specifies that the End-User must be actively authenticated if
                   any present authentication is older than the specified
                   number of seconds. (The "max_age" request parameter
                   corresponds to the OpenID 2.0 openid.pape.max_auth_age
@@ -674,7 +674,7 @@
                 pre-registered redirect_uris.</t>
 
                 <t hangText="login_required">The Authorization Server requires
-                user authentication. This error MAY be returned when the 
+                End-User authentication. This error MAY be returned when the 
                 <spanx style="verb">display</spanx> parameter in the
                 Authorization Request is set to 'none' to request that the
                 Authorization Server should not display any user interfaces to
@@ -682,10 +682,10 @@
                 without displaying a user interface for user authentication.
               </t>
 
-                <t hangText="session_selection_required">The user is required
-                to select a session at the Authorization Server. The user may
+                <t hangText="session_selection_required">The End-User is required
+                to select a session at the Authorization Server. The End-User may
                 be authenticated at the Authorization Server with different
-                associated accounts, but the user did not select a session.
+                associated accounts, but the End-User did not select a session.
                 This error MAY be returned 
                 when the <spanx style="verb">display</spanx> parameter in the
                 Authorization Request is set to 'none' to request that the
@@ -695,14 +695,14 @@
                 use.</t>
 
                 <t hangText="approval_required">The Authorization Server
-                requires user approval. This error MAY be returned when the 
+                requires End-User approval. This error MAY be returned when the 
                 <spanx style="verb">display</spanx> parameter in the
                 Authorization Request is set to 'none' to request that the
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
-                without displaying a user interface for user approval.</t>
+                without displaying a user interface for End-User approval.</t>
 
-                <t hangText="user_mismatched">The current logged in user at
+                <t hangText="user_mismatched">The current logged in End-User at
                 the Authorization Server does not match the requested
                 user. This error MAY be returned when the 
                 <spanx style="verb">display</spanx> parameter in the
@@ -710,7 +710,7 @@
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
                 without displaying a user interface to prompt for the correct
-                user authentication.</t>
+                End-User authentication.</t>
               </list></t>
             <t>Errors are returned as defined by the registered OAuth
             2.0 <spanx style="verb">response_type</spanx>.</t>
@@ -844,14 +844,14 @@
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
         <t>The UserInfo endpoint is an OAuth 2.0 protected resource that
         returns a claim object which contains claims about the authenticated
-        user. Claim objects are objects that contain members and members'
+        End-User. Claim objects are objects that contain members and members'
         values which are the individual claims and claims values. A claim
         object is represented by a JSON object which contains a collection of
         name and value pairs for the claims.</t>
 
         <section title="Requests">
           <t>Clients MAY send requests with the following parameters to the
-          UserInfo Endpoint to obtain further information about the user.</t>
+          UserInfo Endpoint to obtain further information about the End-User.</t>
 
           <t><list style="hanging">
             <t hangText="access_token">REQUIRED. The access_token obtained
@@ -903,38 +903,38 @@
 
             <c>string</c>
 
-            <c>Identifier for the user at the issuer.</c>
+            <c>Identifier for the End-User at the issuer.</c>
 
             <c>name</c>
 
             <c>string</c>
 
-            <c>User's full name in displayable form including all name parts,
-            ordered according to user's locale and preferences.</c>
+            <c>End-User's full name in displayable form including all name parts,
+            ordered according to End-User's locale and preferences.</c>
 
             <c>given_name</c>
 
             <c>string</c>
 
-            <c>Given name or first name of the user.</c>
+            <c>Given name or first name of the End-User.</c>
 
             <c>family_name</c>
 
             <c>string</c>
 
-            <c>Surname or last name of the user.</c>
+            <c>Surname or last name of the End-User.</c>
 
             <c>middle_name</c>
 
             <c>string</c>
 
-            <c>Middle name of the user.</c>
+            <c>Middle name of the End-User.</c>
 
             <c>nickname</c>
 
             <c>string</c>
 
-            <c>Casual name of the user that may or may not be the same as the
+            <c>Casual name of the End-User that may or may not be the same as the
             <spanx style="verb">given_name</spanx>. For instance, a <spanx
             style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
             might be returned alongside a <spanx style="verb">given_name</spanx>
@@ -944,45 +944,45 @@
 
             <c>string</c>
 
-            <c>URL of user's profile page.</c>
+            <c>URL of End-User's profile page.</c>
 
             <c>picture</c>
 
             <c>string</c>
 
-            <c>URL of the user's profile picture.</c>
+            <c>URL of the End-User's profile picture.</c>
 
             <c>website</c>
 
             <c>string</c>
 
-            <c>URL of user's web page or blog.</c>
+            <c>URL of End-User's web page or blog.</c>
 
             <c>email</c>
 
             <c>string</c>
 
-            <c>The user's preferred e-mail address.</c>
+            <c>The End-User's preferred e-mail address.</c>
 
             <c>verified</c>
 
             <c>boolean</c>
 
-            <c>True if the user's e-mail address has been verified; otherwise
+            <c>True if the End-User's e-mail address has been verified; otherwise
             false.</c>
 
             <c>gender</c>
 
             <c>string</c>
 
-            <c>The user's gender: <spanx style="verb">female</spanx> or <spanx
+            <c>The End-User's gender: <spanx style="verb">female</spanx> or <spanx
             style="verb">male</spanx>.</c>
 
             <c>birthday</c>
 
             <c>string</c>
 
-            <c>The user's birthday, represented as a date string in MM/DD/YYYY
+            <c>The End-User's birthday, represented as a date string in MM/DD/YYYY
             format. The year MAY be <spanx style="verb">0000</spanx>,
             indicating that it is omitted.</c>
 
@@ -998,7 +998,7 @@
 
             <c>string</c>
 
-            <c>The user's locale, represented as an <xref target="RFC5646">RFC
+            <c>The End-User's locale, represented as an <xref target="RFC5646">RFC
             5646</xref> language tag. This is typically an <xref
             target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
             lowercase and an <xref target="ISO3166-1">ISO 3166-1
@@ -1013,7 +1013,7 @@
 
             <c>string</c>
 
-            <c>The user's preferred telephone number. For example, <spanx
+            <c>The End-User's preferred telephone number. For example, <spanx
             style="verb">+1 (425)
             555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
 
@@ -1021,7 +1021,7 @@
 
             <c>JSON object</c>
 
-            <c>The user's preferred address. The value of the <spanx
+            <c>The End-User's preferred address. The value of the <spanx
             style="verb">address</spanx> member is a <xref
             target="RFC4627">JSON</xref> structure containing some or all of
             these string-valued fields: <spanx style="verb">formatted</spanx>,
@@ -1031,7 +1031,7 @@
             field MAY contain multiple lines if the address representation
             requires it. Implementations MAY return only a subset of the
             fields of an <spanx style="verb">address</spanx>, depending upon
-            the information available and the user's privacy preferences. For
+            the information available and the End-User's privacy preferences. For
             example, the <spanx style="verb">country</spanx> and <spanx
             style="verb">region</spanx> might be returned without returning
             more fine-grained address information.</c>
@@ -1040,7 +1040,7 @@
 
             <c>string</c>
 
-            <c>Time the user's information was last updated, represented as a
+            <c>Time the End-User's information was last updated, represented as a
             <xref target="RFC3339">RFC 3339</xref> datetime. For example,
             <spanx style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
           </texttable>
@@ -1186,7 +1186,7 @@
               Access Token out of band or use an a priori Access
               Token that was negotiated between the claim source and
               client, or the claim source MAY reauthenticate the
-              user and/or reauthorize the client.</t>
+              End-User and/or reauthorize the client.</t>
               </list></t>
               </list> Other members MAY be present, if understood by both
               parties</t>
@@ -1287,7 +1287,7 @@ may be retrieved:
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the user, the following parameters are sent to the Check ID
+          the End-User, the following parameters are sent to the Check ID
           Endpoint:</t>
 
           <t><list style="hanging">
@@ -1716,9 +1716,9 @@ Content-Type: application/json
           <t><list style="symbols">
               <t>Parameter name: openid, profile, email, address, PPID</t>
 
-              <t>Parameter usage location: The end-user Authorization Endpoint
-              request, the end-user Authorization Endpoint response, the token
-              endpoint request, the token endpoint response, and the <spanx
+              <t>Parameter usage location: The End-User Authorization Endpoint
+              request, the End-User Authorization Endpoint response, the Token
+              Endpoint request, the Token Endpoint response, and the <spanx
               style="verb">WWW-Authenticate</spanx> header field.</t>
 
               <t>Change controller: IETF</t>
@@ -1955,14 +1955,14 @@ Content-Type: application/json
             </list></t>
         </section>
 
-        <section title="UserInfo endpoint error (invalid_schema)">
+        <section title="UserInfo Endpoint error (invalid_schema)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_schema </t>
 
-              <t>Error usage location: UserInfo endpoint</t>
+              <t>Error usage location: UserInfo Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -1979,7 +1979,7 @@ Content-Type: application/json
           <t><list style="symbols">
               <t>Error name: invalid_schema</t>
 
-              <t>Error usage location: UserInfo endpoint</t>
+              <t>Error usage location: UserInfo Endpoint</t>
 
               <t>Related protocol extension:</t>
 

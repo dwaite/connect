@@ -68,9 +68,9 @@
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
       2.0 protocol. It allows a web site or application to verify the
-      identity of the user based on the authentication performed by
-      the authorization server, as well as to obtain basic profile information
-      about the user in an interoperable and RESTful manner.</t>
+      identity of the End-User based on the authentication performed by
+      the Authorization Server, as well as to obtain basic profile information
+      about the End-User in an interoperable and RESTful manner.</t>
 
       <t>OpenID Connect Standard 1.0 is an HTTP protocol binding for
       OpenID Connect Messages 1.0 request and response messages.</t>
@@ -356,7 +356,7 @@
       </section>
 
       <section anchor="auth_request" title="Authorization Request">
-        <t>When the user wishes to access a Protected Resource, and the
+        <t>When the End-User wishes to access a Protected Resource, and the
         End-User Authorization has not yet been obtained, the Client
         prepares an Authorization Request to the Authorization Endpoint.</t>
 
@@ -440,7 +440,7 @@
 
               <t hangText="display">A string value that specifies
               how the Authorization Server displays the authentication page to
-              the user. The following value is supported: <spanx
+              the End-User. The following value is supported: <spanx
               style="verb">none</spanx>.
               Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
@@ -799,50 +799,50 @@ Host: client.example.com]]></artwork>
           used.</t>
 
           <t>The Authorization Server MUST attempt to authenticate the 
-          user in the following cases:
+          End-User in the following cases:
           <list style="symbols">
                 <t>The End-User is not already authenticated by the Authorization
                 Server.</t>
 
                 <t>The Authorization Request contains the <spanx 
                 style="verb">prompt</spanx> parameter with the value "login". The
-                Authorization Server MUST reauthenticate the user
-                even if the user is already authenticated.</t>
+                Authorization Server MUST reauthenticate the End-User
+                even if the End-User is already authenticated.</t>
           </list></t>
           <t>The Authorization Server MUST NOT attempt authentication
           in the following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
                 style="verb">"display"</spanx> parameter with the value "none".
-                The Authorization Server MUST return an error if the user is 
+                The Authorization Server MUST return an error if the End-User is 
                 unauthenticated.</t>
           </list></t>
         </section>
 
         <section title="Authorization Server Obtains the End-User Consent/Authorization">
-          <t>Once the user is authenticated, the Authorization Server MUST
+          <t>Once the End-User is authenticated, the Authorization Server MUST
           obtain an authorization decision. This MAY be done by presenting the
-          user with a dialogue that allows the user to recognize what he is
+          End-User with a dialogue that allows the End-User to recognize what he is
           consenting to and obtain his consent or by establishing approval via
           other means (for example, via previous administrative approval).</t>
 
           <t>The Authorization Server MUST attempt to request authorization
-          from the user in the following cases:
+          from the End-User in the following cases:
           <list style="symbols">
                 <t>The End-User has not pre-authorized the client for the
                 authorization request.</t>
 
                 <t>The Authorization Request contains the <spanx 
                 style="verb">prompt</spanx> parameter with the value "consent". The
-                Authorization Server MUST request user authorization even if the
-                user has previously authorized the client.</t>
+                Authorization Server MUST request End-User authorization even if the
+                End-User has previously authorized the client.</t>
           </list></t>
-          <t>The Authorization Server MUST NOT request user authorization in the
+          <t>The Authorization Server MUST NOT request End-User authorization in the
           following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
                 style="verb">"display"</spanx> parameter with the value "none".
-                The Authorization Server MUST return an error if the user has
+                The Authorization Server MUST return an error if the End-User has
                 not pre-authorized the client.</t>
           </list></t>
         </section>
@@ -954,7 +954,7 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
 
           <section anchor="authz_error"
                    title="End-User Denies Authorization or Invalid Request">
-            <t>If the user denies the authorization or the user authentication
+            <t>If the End-User denies the authorization or the user authentication
             fails, the Authorization Server MUST return the negative authorization 
             response as defined in <xref target="OpenID.Messages">OpenID Connect
             Messages 1.0</xref>. The Authorization Server returns the client to
