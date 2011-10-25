@@ -178,9 +178,11 @@ type=client_associate
             <t hangText="client_secret">REQUIRED. The client secret. This
             should change with each response.</t>
 
-            <t hangText="expires_in">REQUIRED. The number of seconds that this
-            id and secret are good for or <spanx style="verb">0</spanx> if it
-            does not expire.</t>
+            <t hangText="expires_in">REQUIRED. The number of
+            seconds from 1970-01-01T0:0:0Z as measured in UTC that the client_id
+            and client_secret will expire or <spanx style="verb">0</spanx> if
+            they do not expire. See <xref target="RFC3339">RFC 3339</xref>
+            for details regarding date/times in general and UTC in particular.</t>
           </list></t>
 
         <t>Following is a non-normative example response:</t>
@@ -216,6 +218,8 @@ Cache-Control: no-store
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
+
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
 
       <reference anchor="OpenID.Messages">
         <front>
