@@ -76,9 +76,9 @@
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
-      protocol. It allows a web site to verify the identity of the user based
+      protocol. It allows a web site to verify the identity of the End-User based
       on the authentication performed by the Authorization Server, as well as to
-      obtain basic profile information about the user in an interoperable and 
+      obtain basic profile information about the End-User in an interoperable and 
       RESTful manner.</t>
 
       <t>OpenID Connect Basic Client is a profile of the OpenID Connect
@@ -120,7 +120,9 @@
           Claims Provider asserts about that Entity.</t>
 
           <t hangText="Claims Provider">An Authorization Server that can
-          return claims about a user.</t>
+          return claims about a End-User.</t>
+
+          <t hangText="End-User">A human resource owner.</t>
 
           <t hangText="Entity">Something that has separate and distinct
           existence and that can be identified in context.</t>
@@ -133,11 +135,11 @@
 
           <t hangText="Check ID Endpoint">A resource that, when
           presented with an ID Token by the client, returns authentication
-          information about the user session represented by that ID Token.</t>
+          information about the End-User session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
           presented with an Access Token by the client, returns authorized
-          information about the user represented by that Access Token.</t>
+          information about the End-User represented by that Access Token.</t>
         </list></t>
     </section>
 
@@ -185,7 +187,7 @@
         <t>Multiple scopes MAY be requested by creating a space delimited, case
         sensitive list of scope values.</t>
         
-        <t>The User may decline a scope request by the client.</t>
+        <t>The End-User may decline a scope request by the client.</t>
 
         <t>To increase conversion, a site may elect to only request a subset
         of the information from the UserInfo Endpoint.</t>
@@ -218,7 +220,7 @@
 
         <section anchor="rf_prep"
                  title="Client Prepares an Authorization Request">
-          <t>When the user wishes to access a Protected Resource, and the
+          <t>When the End-User wishes to access a Protected Resource, and the
           End-User Authorization has not yet been obtained, the Client
           prepares an Authorization Request to the Authorization Endpoint.</t>
 
@@ -278,10 +280,10 @@
 
               <t hangText="display">A string value that specifies
               how the Authorization Server displays the authentication page to
-              the user. The following values are supported:<list style="hanging">
+              the End-User. The following values are supported:<list style="hanging">
                   <t hangText="none">This value informs the Authorization Server
                   that it MUST NOT display any authentication or confirmation
-                  user interface pages. An error is returned if either the user 
+                  user interface pages. An error is returned if either the End-User 
                   is not already authenticated or the client does not have 
                   pre-configured approval for the requested
                   <spanx style="verb">scopes</spanx>. This can be used as a
@@ -290,20 +292,20 @@
 
               <t hangText="prompt">A space delimited, case sensitive list of
               string values that specifies how the Authorization Server prompts
-              the user for reauthentication and reapproval. The possible values
+              the End-User for reauthentication and reapproval. The possible values
               are:<list style="hanging">
                   <t hangText="login">The Authorization Server MUST prompt the
-                  user for reauthentication.</t>
+                  End-User for reauthentication.</t>
 
                   <t hangText="consent">The Authorization Server MUST prompt
-                  the user for reapproval before returning information to the
+                  the End-User for reapproval before returning information to the
                   client.</t>
 
                   <t hangText="select_account">The Authorization Server MUST
-                  prompt the user to select a user account if the account has
+                  prompt the End-User to select a user account if the account has
                   multiple accounts associated with it.</t>
                 </list>
-                This can be used by the client to make sure that the user is
+                This can be used by the client to make sure that the End-User is
                 still present for the current session or to bring attention to the
                 request. If this parameter is used in conjunction with the 
                 <spanx style="verb">display</spanx> parameter set to "none", an
@@ -350,16 +352,16 @@ response_type=token%20id_token
 
         <section title="Authorization Server Obtains the End-User Consent/Authorization">
           <t>The Authorization Server obtains an authorization decision,
-          for the requested scopes. This can done by presenting the user
-          with a dialogue that allows the user to recognize what he is
+          for the requested scopes. This can done by presenting the End-User
+          with a dialogue that allows the End-User to recognize what he is
           consenting to and obtain his consent or by establishing approval via
           other means (for example, via previous administrative approval).</t>
 
           <t>The <spanx style="verb">openid</spanx> scope grants the RP access
-          to the user identifier of the authenticated user of the session.</t>
+          to the user identifier of the authenticated End-User of the session.</t>
 
           <t>All other scopes are optional. It is up to the OpenID Provider
-          to determine if an error should be returned in the case of the user 
+          to determine if an error should be returned in the case of the End-User 
           declining to authorize scopes other than 
           <spanx style="verb">openid</spanx>.</t>
         </section>
@@ -423,7 +425,7 @@ access_token=SlAV32hkKG
 
           <section anchor="implicit_authz_error"
                    title="End-User Denies Authorization or Invalid Request">
-            <t>If the user denies the authorization or the user authentication
+            <t>If the End-User denies the authorization or the End-User authentication
             fails, the Authorization Server MUST return the negative 
             authorization response as defined in 4.2.2.1 of 
             <xref target="OAuth.2.0">OAuth 2.0</xref>. No other parameters 
@@ -435,7 +437,7 @@ access_token=SlAV32hkKG
       <section title="Check ID Endpoint">
         <t>The Check ID Endpoint validates the id_token and returns a
         text <xref target="RFC4627">JSON</xref> object which contains
-        information about the end user session associated with the supplied
+        information about the End-User session associated with the supplied
         id_token.</t>
 
         <t>Clients MUST verify the validity of the id_token using the Check ID
@@ -443,7 +445,7 @@ access_token=SlAV32hkKG
 
         <t>The id_token is used to manage the signon event and user
         identifier, separately from access to the UserInfo Endpoint and other
-        OAuth 2.0 protected resources that the user is granting access to. The
+        OAuth 2.0 protected resources that the End-User is granting access to. The
         id_token is audience restricted to a particular client via the audience 
         and nonce.</t>
 
@@ -453,7 +455,7 @@ access_token=SlAV32hkKG
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the user and verify the id_token, the following parameters MAY be sent
+          the End-User and verify the id_token, the following parameters MAY be sent
           to the Check ID Endpoint as query parameters in a GET or as form
           encoded in a POST request:</t>
 
@@ -502,7 +504,7 @@ Host: server.example.com
               of the response.</t>
 
               <t hangText="user_id">REQUIRED. A locally unique and never
-              reassigned identifier for the user, which is intended to be
+              reassigned identifier for the End-User, which is intended to be
               consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
               or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
               It MUST NOT exceed 255 ASCII characters in length.</t>
@@ -604,12 +606,12 @@ Content-Type: application/json
 
       <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
       Subject in the session. Therefore, it MUST NOT be used as an assertion
-      about the user in the session unless the user_id matches the user_id in
+      about the End-User in the session unless the user_id matches the user_id in
       the ID Token.</t>
 
       <section title="Requesting UserInfo">
         <t>Clients MAY send requests with the following parameters to the
-        UserInfo Endpoint to obtain further information about the user. The
+        UserInfo Endpoint to obtain further information about the End-User. The
         UserInfo Endpoint is an <xref target="OAuth.2.0">OAuth 2.0</xref>
         protected resource that complies with the <xref
         target="OAuth.2.0.Bearer">Bearer Token</xref> specification. As such,
@@ -674,38 +676,38 @@ Authorization: Bearer vF9dft4qmT
 
           <c>string</c>
 
-          <c>Identifier for the user at the issuer.</c>
+          <c>Identifier for the End-User at the issuer.</c>
 
           <c>name</c>
 
           <c>string</c>
 
-          <c>User's full name in displayable form including all name parts,
-          ordered according to user's locale and preferences.</c>
+          <c>End-User's full name in displayable form including all name parts,
+          ordered according to End-User's locale and preferences.</c>
 
           <c>given_name</c>
 
           <c>string</c>
 
-          <c>Given name or first name of the user.</c>
+          <c>Given name or first name of the End-User.</c>
 
           <c>family_name</c>
 
           <c>string</c>
 
-          <c>Surname or last name of the user.</c>
+          <c>Surname or last name of the End-User.</c>
 
           <c>middle_name</c>
 
           <c>string</c>
 
-          <c>Middle name of the user.</c>
+          <c>Middle name of the End-User.</c>
 
           <c>nickname</c>
 
           <c>string</c>
 
-          <c>Casual name of the user that may or may not be the same as the
+          <c>Casual name of the End-User that may or may not be the same as the
           <spanx style="verb">given_name</spanx>. For instance, a <spanx
           style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
           might be returned alongside a <spanx style="verb">given_name</spanx>
@@ -715,45 +717,45 @@ Authorization: Bearer vF9dft4qmT
 
           <c>string</c>
 
-          <c>URL of user's profile page.</c>
+          <c>URL of End-User's profile page.</c>
 
           <c>picture</c>
 
           <c>string</c>
 
-          <c>URL of the user's profile picture.</c>
+          <c>URL of the End-User's profile picture.</c>
 
           <c>website</c>
 
           <c>string</c>
 
-          <c>URL of user's web page or blog.</c>
+          <c>URL of End-User's web page or blog.</c>
 
           <c>email</c>
 
           <c>string</c>
 
-          <c>The user's preferred e-mail address.</c>
+          <c>The End-User's preferred e-mail address.</c>
 
           <c>verified</c>
 
           <c>boolean</c>
 
-          <c>True if the user's e-mail address has been verified; otherwise
+          <c>True if the End-User's e-mail address has been verified; otherwise
           false.</c>
 
           <c>gender</c>
 
           <c>string</c>
 
-          <c>The user's gender: <spanx style="verb">female</spanx> or <spanx
+          <c>The End-User's gender: <spanx style="verb">female</spanx> or <spanx
           style="verb">male</spanx>.</c>
 
           <c>birthday</c>
 
           <c>string</c>
 
-          <c>The user's birthday, represented as a date string in MM/DD/YYYY
+          <c>The End-User's birthday, represented as a date string in MM/DD/YYYY
           format. The year MAY be <spanx style="verb">0000</spanx>, indicating
           that it is omitted.</c>
 
@@ -769,7 +771,7 @@ Authorization: Bearer vF9dft4qmT
 
           <c>string</c>
 
-          <c>The user's locale, represented as an <xref target="RFC5646">RFC
+          <c>The End-User's locale, represented as an <xref target="RFC5646">RFC
           5646</xref> language tag. This is typically an <xref
           target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
           lowercase and an <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref>
@@ -784,7 +786,7 @@ Authorization: Bearer vF9dft4qmT
 
           <c>string</c>
 
-          <c>The user's preferred telephone number. For example, <spanx
+          <c>The End-User's preferred telephone number. For example, <spanx
           style="verb">+1 (425)
           555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
 
@@ -792,7 +794,7 @@ Authorization: Bearer vF9dft4qmT
 
           <c>JSON object</c>
 
-          <c>The user's preferred address. The value of the <spanx
+          <c>The End-User's preferred address. The value of the <spanx
           style="verb">address</spanx> member is a <xref
           target="RFC4627">JSON</xref> structure containing some or all of
           these string-valued fields: <spanx style="verb">formatted</spanx>,
@@ -802,7 +804,7 @@ Authorization: Bearer vF9dft4qmT
           field MAY contain multiple lines if the address representation
           requires it. Implementations MAY return only a subset of the fields
           of an <spanx style="verb">address</spanx>, depending upon the
-          information available and the user's privacy preferences. For
+          information available and the End-User's privacy preferences. For
           example, the <spanx style="verb">country</spanx> and <spanx
           style="verb">region</spanx> might be returned without returning more
           fine-grained address information.</c>
@@ -811,7 +813,7 @@ Authorization: Bearer vF9dft4qmT
 
           <c>string</c>
 
-          <c>Time the user's information was last updated, represented as a
+          <c>Time the End-User's information was last updated, represented as a
           <xref target="RFC3339">RFC 3339</xref> datetime. For example, <spanx
           style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
         </texttable>
@@ -885,7 +887,7 @@ Host: server.example.com]]></artwork>
                title="Assertion Manufacture/Modification">
         <t>An assertion is the result of the authentication performed by the
         Authorization Server that was provided to the client. The assertion is 
-        used to pass information about the user or the authentication process 
+        used to pass information about the End-User or the authentication process 
         from the Authorization Server to the client.</t>
 
 
@@ -900,7 +902,7 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section anchor="assertion_disclosure" title="Assertion Disclosure">
-        <t>This profile is subject to assertion disclosure in the user's
+        <t>This profile is subject to assertion disclosure in the End-User's
         browser, if it is compromised. Other OpenID Connect profiles should be
         used if this threat needs to be mitigated.</t>
 
@@ -983,15 +985,15 @@ Host: server.example.com]]></artwork>
       </section>
 
       <section title="Availability">
-        <t>When the Authorization Server is down, users will likely be unable 
-        to access it. To mitigate this risk, the client SHOULD allow users to
+        <t>When the Authorization Server is down, End-Users will likely be unable 
+        to access it. To mitigate this risk, the client SHOULD allow End-Users to
         associate multiple Authorization Servers.</t>
       </section>
     </section>
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
       <t>The UserInfo response typically contains Personally Identifiable
-      Information. As such, user consent for the release of the information
+      Information. As such, End-User consent for the release of the information
       for the specified purpose SHOULD be obtained at or prior to the
       authorization time in accordance with relevant regulations. The purpose
       of use is typically registered in association with the <spanx
@@ -1002,9 +1004,9 @@ Host: server.example.com]]></artwork>
       statement.</t>
 
       <t>The Resource Server SHOULD make the UserInfo access log available to 
-      the user so that the user can monitor who accessed his data.</t>
+      the End-User so that the End-User can monitor who accessed his data.</t>
 
-      <t>To protect the user from a possible correlation among clients, the
+      <t>To protect the End-User from a possible correlation among clients, the
       use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
       style="verb">user_id</spanx> SHOULD be considered.</t>
     </section>
