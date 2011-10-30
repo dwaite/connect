@@ -216,6 +216,27 @@ Cache-Control: no-store
  "expires_in":3600
 }]]></artwork>
           </figure></t>
+
+              <section title="Client Registration Error Response">
+          <t>When some error condition arises, the Client Registration Endpoint returns
+          the JSON serialized Error Response defined in section 3.3.3 of <xref
+          target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
+          entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
+          media type with HTTP response code 400.</t>
+
+          <t><figure>
+              <preamble>Following is a non-normative example of an error
+              response:</preamble>
+
+              <artwork><![CDATA[HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{
+  "error": "invalid_request"
+}
+]]></artwork>
+            </figure></t>
+        </section>
       </section>
     </section>
 
