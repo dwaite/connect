@@ -19,8 +19,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Registration 1.0 draft 07">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 07</title>
+    <title abbrev="OpenID Connect Registration 1.0 draft 08">OpenID Connect
+    Dynamic Client Registration 1.0 - draft 08</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -49,7 +49,7 @@
       </address>
     </author>
 
-    <date day="30" month="September" year="2011" />
+    <date day="30" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -102,8 +102,17 @@
     </section>
 
     <section title="Client Registration Endpoint">
-      <t>The Client Registration Endpoint returns registration information for
+      <t>The Client Registration Endpoint is an OAuth 2.0 protected resource that returns registration information for
       the client to configure itself for the OpenID Provider.</t>
+      
+      <t>The Client Registration Endpoint may accept requests that are not OAuth 2.0 authenticated.</t>
+      
+      <t>How a developer gets a Access Token to use at this endpoint is out of scope for this specification.</t>
+      
+      <t>If a Access Token is required for client registration the Client Registration Endpoint
+      MUST be able to accept Access Tokens via
+      <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>
+      specification.</t>
 
       <section title="Request">
         <t>Clients MUST send requests encoded as a POST with the following
@@ -111,6 +120,7 @@
         "application/x-www-form-urlencoded" format:</t>
 
         <t><list style="hanging">
+            
             <t hangText="type">REQUIRED. Values <spanx style="verb">client_associate</spanx>,
             <spanx style="verb">client_update</spanx></t>
 
@@ -118,6 +128,14 @@
 
             <t hangText="client_secret">OPTIONAL. Used with <spanx
             style="verb">client_update</spanx></t>
+            
+            <t hangText="access_token">OPTIONAL. An access_token obtained
+            out of band to identify the registrent. This parameter
+            MUST NOT be sent if the Access Token is sent in the HTTP
+            Authorization header as described in Section 7.1 of <xref
+            target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens sent in the
+            authorization header must be <xref
+            target="OAuth.2.0.Bearer">Bearer tokens</xref>.</t>
 
             <t hangText="contact">OPTIONAL. Space-separated list of email
             addresses for people allowed to administer the application.</t>
@@ -330,6 +348,30 @@ Cache-Control: no-store
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
                 type="HTML" />
       </reference>
+      
+      <reference anchor="OAuth.2.0.Bearer">
+        <front>
+          <title>OAuth 2.0 Protocol: Bearer Tokens</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="Dick Hardt" initials="D." surname="Hardt">
+            <organization>Independent</organization>
+          </author>
+
+          <author fullname="David Recordon" initials="D." surname="Recordon">
+            <organization abbrev="Facebook">Facebook</organization>
+          </author>
+
+          <date day="22" month="September" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
+                type="HTML" />
+      </reference>
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -338,6 +380,13 @@ Cache-Control: no-store
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+      <t>-08</t>
+
+      <t><list style="symbols">
+          <t>Made the Client Registration endpoint OAuth 2.0 protected.</t>
+
+          
+        </list></t>
 
       <t>-07</t>
 
