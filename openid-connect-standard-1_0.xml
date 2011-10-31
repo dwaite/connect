@@ -462,13 +462,12 @@
           </list></t>
 
           <t>The Simple Request Method is used in simple cases when default
-          UserInfo and ID Token claims are desired and requests and responses
-          do not need to be signed or encrypted.</t>
+          UserInfo and ID Token claims are desired.</t>
 
           <t>The Request Parameter Method is used by sending an OpenID Request
           Object when the client desires to retrieve a different set of
           UserInfo and ID Token claims. The request parameter method also
-          allows requests and responses to be signed or encrypted. </t>
+          allows requests to be signed or encrypted. </t>
 
           <t>The Request File Method works similar to the Request Parameter
           Method but differs in that it sends an URL as a reference to the
@@ -539,7 +538,7 @@ response_type=code%20id_token
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
               Request Object</eref>
               which contains the Authorization Request and also
-              specifies the content and format of
+              specifies the content of
               the responses returned from the UserInfo and Check ID
               Endpoints. The JWT object MAY be signed or signed and encrypted via
               <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
@@ -2321,6 +2320,7 @@ scope=openid&response_type=code
       <t>-07<list style="symbols">
         <t>Moved IANA considerations From Messages</t>
         <t>fixes #258 make check_id response only JSON Sec 7.2</t>
+        <t>removed some language about the request object being able to select signed/encrypted responses</t>
         </list></t>
         
       <t>-06<list style="symbols">
