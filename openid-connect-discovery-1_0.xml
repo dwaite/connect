@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Discovery 1.0 - draft 06</title>
+    <title>OpenID Connect Discovery 1.0 - draft 07</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -54,7 +54,7 @@
       </address>
     </author>
 
-    <date day="30" month="September" year="2011" />
+    <date day="30" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -65,7 +65,7 @@
       Token, JSON Web Signature, JSON WEB Encryption, JSON Web Keys, Simple
       Web Discovery), Protocol Bindings (e.g., Standard and Basic Client) and
       Extensions. This specification is the "Discovery" part of the suite that
-      defines how user and server endpoints are discovered.</t>
+      defines how user and server endpoints are discovered.<?rfc include='reference.'?></t>
     </abstract>
 
     <note title="Requirements Language">
@@ -373,7 +373,7 @@ Content-Type: application/json
         </section>
       </section>
 
-      <section title="Redirection" anchor="redirection">
+      <section anchor="redirection" title="Redirection">
         <t>In cases where the SWD request is handled at a host or location
         other than the one derived from the end-user's identifier, the host
         will return a JSON object containing the new location.</t>
@@ -453,8 +453,7 @@ Content-Type: application/json
         GET request with the previously specified path.</t>
 
         <t>The client would make the following request to the <spanx
-        style="verb">issuer </spanx>using TLS to get the Configuration
-        information</t>
+        style="verb">issuer </spanx>to get the Configuration information</t>
 
         <t><figure>
             <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
@@ -613,11 +612,11 @@ Host: example.com
       <section title="Provider Configuration Verification">
         <t>If the configuration response contains the <spanx style="verb">issuer</spanx>
         element, the value MUST exactly match the <spanx style="verb">issuer</spanx>
-        for the URL that was directly used to retrieve the configuration. Since the 
-        discovery process allows for multiple levels of 
-        <xref target="redirection">redirection</xref>, this 
-        <spanx style="verb">issuer</spanx> URL may be different from the one originally 
-        used to begin the discovery process.</t>
+        for the URL that was directly used to retrieve the configuration.
+        Since the discovery process allows for multiple levels of <xref
+        target="redirection">redirection</xref>, this <spanx style="verb">issuer</spanx>
+        URL may be different from the one originally used to begin the
+        discovery process.</t>
       </section>
     </section>
 
@@ -849,6 +848,12 @@ Host: example.com
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-07</t>
+
+      <t><list style="symbols">
+          <t>Removed extra reference to TLS in sec 4.1 per ticket #235</t>
+        </list></t>
 
       <t>-06</t>
 
