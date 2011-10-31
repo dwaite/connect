@@ -18,7 +18,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title>OpenID Connect Messages 1.0 - draft 06</title>
+    <title>OpenID Connect Messages 1.0 - draft 07</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="14" month="October" year="2011" />
+    <date day="30" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -1603,7 +1603,8 @@ Content-Type: application/json
             issued by a legitimate OP.</t>
 
             <t>The assertion may be sent over a protected channel such as
-            TLS/SSL. In order to protect the integrity of assertions from
+            TLS/SSL as defined in <xref target="RFC5246">RFC 5246</xref>. 
+            In order to protect the integrity of assertions from
             malicious attack, the OP MUST be authenticated. In this
             specification, the assertion is always sent over TLS/SSL protected
             channel.</t>
@@ -2006,6 +2007,8 @@ Content-Type: application/json
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
+      
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml"?>
 
       <reference anchor="OpenID.Basic">
         <front>
@@ -2542,6 +2545,11 @@ Content-Type: application/json
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+           <t>-07<list style="symbols">
+          <t>Added reference to RFC 5246. per ticket #235.</t>
+          <t>Bumped version + date.</t>
+
+        </list></t>
          <t>-06<list style="symbols">
           <t>Changed section 3.1.4.1 to say the errors are returned as
           defined by the response type not always as query
