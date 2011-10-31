@@ -49,7 +49,7 @@
       </address>
     </author>
 
-    <date day="30" month="October" year="2011" />
+    <date day="31" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -156,7 +156,7 @@
             JavaScript Origin URIs (used for Post Message flow)</t>
 
             <t hangText="jwk_url">OPTIONAL. URL for the RP's <xref
-            target="JWK">JSON Web Key</xref></t>
+            target="JWK">JSON Web Key</xref> used for <xref target="JWE">JWE</xref> encryption.</t>
 
             <t hangText="policy_url">OPTIONAL. A URL location which the Relying 
             Party client provides to the End User to read about the how the
@@ -164,11 +164,31 @@
             URL to the End User if it is given.</t>
 
             <t hangText="x509_url">OPTIONAL URL for the RP's PEM encoded X.509
-            Certificate or Certificate chain.</t>
+            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption.</t>
 
             <t hangText="sector_identifier">OPTIONAL URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with an array of redirect_uri values.</t>
+            
+            <t hangText="require_signed_request">OPTIONAL if the value of the string
+             is set to true, the Authorization Server MUST reject all requests from this client_id not
+             containing a signed request object.</t>
+             
+             <t hangText="user_info_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
+             algorithm required for user_info responses. If this is specified the response will be 
+             <xref target="JWT">JWT</xref> serialized</t>
+             
+             <t hangText="user_info_require_encrypted_response">OPTIONAL the <xref target="JWE">JWE</xref> encryption 
+             algorithm required for user_info responses. If this is requested in combination with signing the response will be signed then encrypted. 
+             If this is specified the response will be 
+             <xref target="JWT">JWT</xref> serialized</t>
+             
+             <t hangText="id_token_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
+             algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
+             
+             <t hangText="id_token_require_encrypted_response">OPTIONAL the <xref target="JWE">JWE</xref> encryption 
+             algorithm required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
+             The default if not specified is no encryption</t>
           </list></t>
           
           <t>Following is a non-normative example request:</t>
@@ -330,6 +350,116 @@ Content-Type: application/json
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
                 type="HTML" />
       </reference>
+      
+      <reference anchor="JWT">
+        <front>
+          <title>JSON Web Token</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+            <organization abbrev="msft">Microsoft</organization>
+          </author>
+
+          <author fullname="John Panzer" initials="J." surname="Panzer">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
+            <organization abbrev="fb">Facebook</organization>
+          </author>
+
+          <date day="11" month="July" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="JWS">
+        <front>
+          <title>JSON Web Signatures</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+            <organization abbrev="msft">Microsoft</organization>
+          </author>
+
+          <author fullname="John Panzer" initials="J." surname="Panzer">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
+            <organization abbrev="fb">Facebook</organization>
+          </author>
+
+          <date day="29" month="April" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-signature"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="JWE">
+        <front>
+          <title>JSON Web Encryption</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <date day="23" month="July" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
+                type="HTML" />
+      </reference>
 
       <reference anchor="JWK">
         <front>
@@ -405,7 +535,8 @@ Content-Type: application/json
 
       <t><list style="symbols">
           <t>Made the Client Registration endpoint OAuth 2.0 protected.</t>
-
+          <t>Added paramaters for requiring encryption and asymmetric signature</t>
+          <t>Added JWT, JWE and JWS refrence </t>
           
         </list></t>
 
