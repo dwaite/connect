@@ -54,7 +54,7 @@
       </address>
     </author>
 
-    <date day="30" month="October" year="2011" />
+    <date day="31" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -575,7 +575,7 @@ Host: example.com
 
           <c>iso29115_supported</c>
 
-          <c>array</c>
+          <c>string</c>
 
           <c>A JSON array containing a list of the ISO 29115 assurance
           contexts that this server supports.</c>
@@ -586,6 +586,21 @@ Host: example.com
 
           <c>A JSON array containing a list of the user identifier types that
           this server supports</c>
+          
+          <c>user_info_supported_alg</c>
+
+          <c>array</c>
+
+          <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+           supported by the user_info_endpoint.</c>
+           
+           <c>id_token_supported_alg</c>
+
+          <c>array</c>
+
+          <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+           supported by the Authorization Server for id_token.</c>
+           
         </texttable>
 
         <t>Example response</t>
@@ -750,6 +765,116 @@ Host: example.com
         <format target="http://self-issued.info/docs/draft-jones-simple-web-discovery.html"
                 type="HTML" />
       </reference>
+      
+      <reference anchor="JWT">
+        <front>
+          <title>JSON Web Token</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+            <organization abbrev="msft">Microsoft</organization>
+          </author>
+
+          <author fullname="John Panzer" initials="J." surname="Panzer">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
+            <organization abbrev="fb">Facebook</organization>
+          </author>
+
+          <date day="11" month="July" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="JWS">
+        <front>
+          <title>JSON Web Signatures</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+            <organization abbrev="msft">Microsoft</organization>
+          </author>
+
+          <author fullname="John Panzer" initials="J." surname="Panzer">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
+            <organization abbrev="fb">Facebook</organization>
+          </author>
+
+          <date day="29" month="April" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-signature"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="JWE">
+        <front>
+          <title>JSON Web Encryption</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <date day="23" month="July" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
+                type="HTML" />
+      </reference>
 
       <reference anchor="JWK">
         <front>
@@ -853,6 +978,8 @@ Host: example.com
 
       <t><list style="symbols">
           <t>Removed extra reference to TLS in sec 4.1 per ticket #235</t>
+          <t>Added references to JWE and JWS</t>
+          <t>Added discovery elements for user_info_supported_alg and id_token_supported_alg </t>
         </list></t>
 
       <t>-06</t>
