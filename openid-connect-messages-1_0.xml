@@ -490,10 +490,10 @@
      "claims":
        {
          "name": null,
-         "nickname": {"optional": false},
+         "nickname": {"optional": true},
          "email": null,
          "verified": null,
-         "picture": {"optional": false}
+         "picture": {"optional": true}
        }
    },
  "id_token":
@@ -513,7 +513,8 @@
               a JSON object that MAY contain the following members:</t>
 
               <t><list style="hanging">
-                  <t hangText="claims">OPTIONAL. (Requested Claims): Set of
+                  <t hangText="claims">OPTIONAL. (Requested Claims): A JSON object 
+                  containing a Set of
                   requested claims from the UserInfo Endpoint. If not present,
                   the default UserInfo claims held by the OP are
                   returned.</t>
@@ -522,7 +523,14 @@
                   languages and scripts of the entire claim request,
                   represented as a space-separated list of <xref
                   target="RFC5646">BCP47</xref> language tags.</t>
-                </list>The "claims" member is a JSON object with a member for
+                </list>
+                </t>
+                 <t>All members of the "userinfo" object are OPTIONAL.
+              Other members MAY be present and if so, SHOULD understood by
+              both parties.</t>
+                
+                <section title="&quot;claims&quot; member">
+                <t>The "claims" member is a JSON object with a member for
               each requested claim. The member names are the requested claim
               names. The member values may be either:</t>
 
@@ -546,14 +554,14 @@
 
               <t>All members of the "claims" object are OPTIONAL.</t>
 
+              <section title="&quot;requested claim&quot; member">
               <t>The members of the JSON object value following a claim name
               defined by this specification are:</t>
 
               <t><list style="hanging">
-                  <t hangText="optional">If this is an optional claim, this
-                  member's value MUST be <spanx style="verb">true</spanx>,
-                  else, if present, its value MUST be <spanx style="verb">false</spanx>,
-                  which indicates that it is a required claim. If it is not
+                  <t hangText="optional">This is an optional claim paramater, 
+                  if present, its value MUST be <spanx style="verb">true</spanx>,
+                  which indicates that it is a optional claim. If it is not
                   present, it is a required claim.</t>
                 </list>
                 Other members MAY be defined to provide additional
@@ -562,9 +570,8 @@
               override the default claim set that would otherwise be returned
               from the UserInfo Endpoint.</t>
 
-                 <t>All members of the "userinfo" object are OPTIONAL.
-              Other members MAY be present and if so, SHOULD understood by
-              both parties.</t>
+                </section>
+              </section>
             </section>
 
             <section title="&quot;id_token&quot; member">
@@ -2530,6 +2537,7 @@ Content-Type: application/json
           <t>Added reference to RFC 5246. per ticket #235.</t>
           <t>Bumped version + date.</t>
           <t>Removed format from user_info member of request Object</t>
+          <t>Fix optional claim logic in 3.1.2.1.1</t>
 
         </list></t>
          <t>-06<list style="symbols">
