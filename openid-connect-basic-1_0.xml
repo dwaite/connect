@@ -18,8 +18,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Basic 1.0 - draft 14">OpenID Connect Basic
-    Client 1.0 - draft 14</title>
+    <title abbrev="OpenID Connect Basic 1.0 - draft 15">OpenID Connect Basic
+    Client 1.0 - draft 15</title>
 
     <author fullname="Nat Sakimura" initials="N." role="editor"
             surname="Sakimura">
@@ -72,7 +72,7 @@
       </address>
     </author>
 
-    <date day="14" month="October" year="2011" />
+    <date day="30" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
@@ -603,6 +603,12 @@ Content-Type: application/json
     <section anchor="userinfo" title="UserInfo Endpoint">
       <t>To obtain the additional attributes and tokens, the client makes a
       GET or POST request to the UserInfo Endpoint.</t>
+      
+      <t>User Info Endpoint Servers MUST require the use of a transport-layer
+      security mechanism. The authorization server MUST support TLS 1.2 as
+      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
+      other transport-layer mechanisms with equivalent security.</t>
+
 
       <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
       Subject in the session. Therefore, it MUST NOT be used as an assertion
@@ -1029,6 +1035,8 @@ Host: server.example.com]]></artwork>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
+      
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
 
       <reference anchor="ISO29115">
         <front>
@@ -1274,6 +1282,11 @@ Host: server.example.com]]></artwork>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       
+             <t>-15<list style="symbols">
+          <t>Added TLS requirement to Sec 4 to match standard</t>
+          <t>Added reference for RFC5246 per ticket #235</t>
+        </list></t>
+
        <t>-14<list style="symbols">
           <t>Changed section 3.2.1 to refer to access_token ticket #134.</t>
            <t>Bumped version + date.</t>
