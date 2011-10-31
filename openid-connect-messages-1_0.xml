@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="30" month="October" year="2011" />
+    <date day="31" month="October" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -299,9 +299,7 @@
           <t>JWT ID Tokens MAY be signed or signed and encrypted via <xref
           target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
           respectively, thereby providing authentication, integrity,
-          non-repudiation and/or confidentiality. ID Tokens in other formats
-          MAY be signed or encrypted with methods suitable for the respective
-          formats.</t>
+          non-repudiation and/or confidentiality.</t>
 
           <t>Clients SHOULD verify and decipher signed or encrypted ID Tokens
           independently. Clients that do not understand the ID Token format or
@@ -496,8 +494,7 @@
          "email": null,
          "verified": null,
          "picture": {"optional": true}
-       },
-     "format": "signed"
+       }
    },
  "id_token":
    {
@@ -562,26 +559,14 @@
                   else, if present, its value MUST be <spanx style="verb">false</spanx>,
                   which indicates that it is a required claim. If it is not
                   present, it is a required claim.</t>
-                </list>Other members MAY be defined to provide additional
+                </list>
+                Other members MAY be defined to provide additional
               information about the requested claim. If the "claims" member is
               present in the "userinfo" object, the claims requested within it
               override the default claim set that would otherwise be returned
               from the UserInfo Endpoint.</t>
 
-              <t>The "format" member of the "userinfo" object is used to
-              specify the requested format of the UserInfo Endpoint contents.
-              Values defined are:</t>
-
-              <t><list style="hanging">
-                  <t hangText="unsigned">- in which case the contents are an
-                  unsigned JSON object</t>
-
-                  <t hangText="signed">- in which case the contents are a
-                  signed JWT</t>
-
-                  <t hangText="encrypted">- in which case the contents are an
-                  signed and encrypted JWT</t>
-                </list>All members of the "userinfo" object are OPTIONAL.
+                 <t>All members of the "userinfo" object are OPTIONAL.
               Other members MAY be present and if so, SHOULD understood by
               both parties.</t>
             </section>
@@ -2548,6 +2533,7 @@ Content-Type: application/json
            <t>-07<list style="symbols">
           <t>Added reference to RFC 5246. per ticket #235.</t>
           <t>Bumped version + date.</t>
+          <t>Removed format from user_info member of request Object</t>
 
         </list></t>
          <t>-06<list style="symbols">
