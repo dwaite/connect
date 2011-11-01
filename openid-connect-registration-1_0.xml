@@ -49,7 +49,7 @@
       </address>
     </author>
 
-    <date day="31" month="October" year="2011" />
+    <date day="1" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -154,6 +154,14 @@
 
             <t hangText="js_origin_uri">OPTIONAL. Space-separated list of
             JavaScript Origin URIs (used for Post Message flow)</t>
+            
+            <t hangText="token_endpoint_auth_type">OPTIONAL. The requested authentication
+            type for the token_endpoint.  If unspecified or omitted the default is the HTTP Basic Authentication Scheme as specified in
+            section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
+            
+            <t hangText="jwk_signing_url">OPTIONAL. URL for the RP's <xref
+            target="JWK">JSON Web Key</xref> used for <xref target="JWS">JWS</xref> signing of 
+            token_endpoint and request objects.</t>
 
             <t hangText="jwk_url">OPTIONAL. URL for the RP's <xref
             target="JWK">JSON Web Key</xref> used for <xref target="JWE">JWE</xref> encryption.</t>
@@ -164,8 +172,14 @@
             URL to the End User if it is given.</t>
 
             <t hangText="x509_url">OPTIONAL URL for the RP's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption.</t>
-
+            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption. If both x509_url and jwk_url are specified 
+            x509_url MUST be used.</t>
+            
+			<t hangText="x509_signing_url">OPTIONAL URL for the RP's PEM encoded X.509
+            Certificate or Certificate chain, used for <xref target="JWS">JWS</xref> encryption.signing of 
+            token_endpoint and request objects. If both x509_signing_url and jwk_signing_url are specified 
+            x509_signing_url MUST be used.</t>
+            
             <t hangText="sector_identifier">OPTIONAL URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with an array of redirect_uri values.</t>
@@ -537,6 +551,8 @@ Content-Type: application/json
           <t>Made the Client Registration endpoint OAuth 2.0 protected.</t>
           <t>Added paramaters for requiring encryption and asymmetric signature</t>
           <t>Added JWT, JWE and JWS refrence </t>
+          <t>Added token_endpoint_auth_type</t>
+          <t>Added JWK and x5u signing links</t>
           
         </list></t>
 
