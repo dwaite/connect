@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="31" month="October" year="2011" />
+    <date day="1" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -996,8 +996,7 @@ error=invalid_request
 
       <t>Clients MAY provide authentication parameters in the request to the
       Token Endpoint as described in section 3.2 of <xref
-      target="OpenID.Messages">OpenID Connect Messages</xref> and section
-      3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
+      target="OpenID.Messages">OpenID Connect Messages</xref> </t>
 
         <t>Authorization Servers MUST support the use of the HTTP "POST"
         method defined in <xref target="RFC2616">RFC 2616</xref> at the
@@ -1032,69 +1031,15 @@ error=invalid_request
         target="code_flow">Authorization Code Flow</xref>.</t>
 
         <section title="Access Token Request">
-          <t>To obtain an Access Token Assertion, the client MUST send the
-          following parameters via HTTPS POST to the Token Endpoint using
+          <t>To obtain an Access Token, Refresh Token or ID token, the client MUST
+          authenticate to the token endpoint using the authentication method registered for it's client_id,
+          as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+          
+          The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 4.1.3 of 
           <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
 
-          <t><list style="hanging">
-              <t hangText="grant_type">REQUIRED. A string "<spanx
-              style="verb">authorization_code</spanx>".</t>
-
-              <t hangText="code">REQUIRED. The Authorization Code received
-              from the authorization server.</t>
-
-              <t hangText="redirect_uri">REQUIRED, if the 
-              <spanx style='verb'>redirect_uri</spanx>  
-              parameter was included in the Authorization Request described 
-              in Section 4.1.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>, 
-              and their values MUST be identical.</t></list>
-          </t>
-
-          <t>If the client was issued client credentials
-          (or assigned other authentication requirements), the client MUST
-          authenticate with the Authorization Server as described in 
-          Section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
-
-          <t>The client MAY authenticate by sending the <spanx 
-          style='verb'>client_id</spanx> and <spanx style='verb'
-          >client_secret</spanx> using the HTTP Basic authentication scheme as
-          defined in <xref target="RFC2617">RFC2617</xref>. Alternatively, the 
-          client MAY send the following client credentials in the HTTP request-entity body:
-          </t>
-
-          <t><list style="hanging">
-              <t hangText="client_id">REQUIRED. The client identifier of the
-              client.</t>
-
-              <t hangText="secret_type">OPTIONAL. Specifies the client
-              authentication type which determines how the <spanx
-              style="verb">client_secret</spanx> parameter is interpreted. It
-              can be one of "basic" or "JWT". The defaults value is "<spanx
-              style="verb">basic</spanx>". If the value is "basic", the client
-              is performing symmetric key authentication as specified in OAuth
-              2.0. If the value is "JWT", the client is performing asymmetric
-              key authentication. </t>
-
-              <t hangText="client_secret">REQUIRED. The client secret. If the
-              secret_type is "<spanx style="verb">basic</spanx>", the value is
-              the pre-shared secret that was issued to the client during
-              client registration. If the "<spanx style="verb">secret_type</spanx>"
-              is "JWT", the value is the <xref target="JWS">JWS</xref>
-              signature of a JSON object containing one of the following
-              claims:<list style="hanging">
-                  <t hangText="code">REQUIRED. The Authorization Code that was
-                  issued by the authorization server.</t>
-
-                  <t hangText="refresh_token">REQUIRED. The Refresh Token that
-                  was issued.</t>
-                </list></t>
-            </list>
-          </t>
-
-        <t>Authorization Servers MUST support both forms of client authentication
-        at the Token Endpoint. </t>
 
           <figure>
             <preamble>The following is a non-normative example. Line wraps
@@ -1115,7 +1060,7 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
           <t>
             <list style='symbols'>
               <t>
-                Require client authentication for confidential clients or for any client issued
+                Require client authentication for any client issued
                 client credentials (or with other authentication requirements),
               </t>
               <t>
@@ -1216,72 +1161,14 @@ Pragma: no-cache
       </section>
 
       <section title="Refreshing an Access Token">
-        <t>To refresh an Access Token that has expired, the client sends a
-        POST request to the Token Endpoint with the following parameters using
-        <xref target="form_serialization">form serialization</xref>:</t>
+         <t>To refresh an Access Token, the client MUST
+          authenticate to the token endpoint using the authentication method registered for it's client_id,
+          as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+        The Client sends the parameters via HTTPS POST to the Token Endpoint using
+          <xref target="form_serialization">form serialization</xref> as 
+          specified in Section 6 of 
+          <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
 
-        <t>
-          <list style="hanging">
-            <t hangText="grant_type">REQUIRED. A string "refresh_token".</t>
-
-            <t hangText="refresh_token">
-              REQUIRED. The Refresh Token that was
-              issued in a previous Token Endpoint request.
-            </t>
-
-            <t hangText="scope">
-              OPTIONAL. The scope of the access request.  If not omitted is treated as
-              equal to the scope originally granted by the resource owner.  
-              If omitted or includes <spanx style="verb">openid</spanx>
-              as one of the strings, an id_token is returned in addition to the access_token.
-            </t>
-          </list>The Authorization Server MUST verify the validity of the Refresh
-          Token.</t>
-        
-          <t>If the client type is confidential or was issued client credentials
-          (or assigned other authentication requirements), the client MUST
-          authenticate with the authorization server as described in 
-          Section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
-
-          <t>The client MAY authenticate by sending the <spanx 
-          style='verb'>client_id</spanx> and <spanx style='verb'
-          >client_secret</spanx> using the HTTP Basic authentication scheme as
-          defined in <xref target="RFC2617">RFC2617</xref>. Alternatively, the 
-          client MAY send the following client credentials in the HTTP 
-          request-entity body:
-          </t>
-
-          <t><list style="hanging">
-              <t hangText="client_id">REQUIRED. The client identifier of the
-              client.</t>
-
-              <t hangText="secret_type">OPTIONAL. Specifies the client
-              authentication type which determines how the <spanx
-              style="verb">client_secret</spanx> parameter is interpreted. It
-              can be one of "basic" or "JWT". The defaults value is "<spanx
-              style="verb">basic</spanx>". If the value is "basic", the client
-              is performing symmetric key authentication as specified in OAuth
-              2.0. If the value is "JWT", the client is performing asymmetric
-              key authentication. </t>
-
-              <t hangText="client_secret">REQUIRED. The client secret. If the
-              secret_type is "<spanx style="verb">basic</spanx>", the value is
-              the pre-shared secret that was issued to the client during
-              client registration. If the "<spanx style="verb">secret_type</spanx>"
-              is "JWT", the value is the <xref target="JWS">JWS</xref>
-              signature of a JSON object containing one of the following
-              claims:<list style="hanging">
-                  <t hangText="code">REQUIRED. The Authorization Code that was
-                  issued by the authorization server.</t>
-
-                  <t hangText="refresh_token">REQUIRED. The Refresh Token that
-                  was issued.</t>
-                </list></t>
-            </list>
-          </t>
-
-        <t>Authorization Servers MUST support both forms of client authentication
-        at the Token Endpoint. </t>
         
         <t>The Authorization Server MUST verify the validity of the Refresh
           Token.
@@ -2356,6 +2243,7 @@ scope=openid&response_type=code
         <t>fixes #258 make check_id response only JSON Sec 7.2</t>
         <t>removed some language about the request object being able to select signed/encrypted responses</t>
         <t>fixes #244 remove extraneous reference to confidential clients</t>
+        <t>Rework Sec 5 </t>
         </list></t>
         
       <t>-06<list style="symbols">
