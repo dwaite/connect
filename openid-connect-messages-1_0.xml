@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="31" month="October" year="2011" />
+    <date day="1" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -724,52 +724,94 @@
         <t>Access Token Request / Response interacts with a Token Endpoint.
         Upon a successful request, it returns an Access Token and ID
         Token.</t>
+        
+        <section anchor="client_authentication" title="Client Authentication">
+
+          <t>Durring Client Registration the client may register a authentication method.
+          If no method is registered the default method of client_secret_basic MUST be used.</t>
+          <t>The Supported options are:</t>
+          
+          <t><list style="hanging">
+        
+          <t hangText="client_secret_basic"> 
+          Clients in possession of a client password authenticate with the Authorization Server
+          in accordance with section 3.2.1 of <xref
+          target="OAuth.2.0">OAuth 2.0</xref> using HTTP Basic authentication scheme. </t>
+          
+          <t hangText="client_secret_post">
+          Clients in possession of a client password authenticate with the Authorization Server
+          in accordance with section 3.2.1 of <xref
+          target="OAuth.2.0">OAuth 2.0</xref> by including the client credentials in the request body. </t>
+          
+          <t hangText="client_secret_jwt"> 
+          Clients in possession of a client password sign a JWT using the h256 algorithm.
+          The JWT must contain the claims:</t>
+         
+          <t><list style="hanging">
+          <t hangText="client_id">REQUIRED. The client identifier of the
+            client.</t>
+           <t hangText="aud">REQUIRED. The issuer identifier of the token_endpoint.</t>
+           <t hangText="nonce">REQUIRED.  A random, unique string value used
+              to mitigate replay attacks. </t>
+            <t hangText="iat">REQUIRED.  The iat (issued at) claim identifies the time at which the JWT was issued. </t>
+            </list></t>
+             
+             <t>
+	  The authentication token MUST be sent in the <spanx
+	  style='verb'>Authorization</spanx> request header field
+	  defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
+	  client uses the <spanx style='verb'>Bearer</spanx>
+	  authentication scheme to transmit the access token.
+        </t>
+
+            
+          
+          
+          <t hangText="private_key_jwt">
+           Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
+          The JWT must contain the claims:</t>
+          <t><list style="hanging">
+          <t hangText="client_id">REQUIRED. The client identifier of the
+            client.</t>
+           <t hangText="aud">REQUIRED. The issuer identifier of the token_endpoint.</t>
+           <t hangText="nonce">REQUIRED.  A random, unique string value used
+              to mitigate replay attacks. </t>
+            <t hangText="iat">REQUIRED.  The iat (issued at) claim identifies the time at which the JWT was issued. </t>
+            </list></t>
+                         <t>
+	  The authentication token MUST be sent in the <spanx
+	  style='verb'>Authorization</spanx> request header field
+	  defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
+	  client uses the <spanx style='verb'>Bearer</spanx>
+	  authentication scheme to transmit the access token.
+        </t>
+        <figure>
+          <preamble>
+            For example:
+          </preamble>
+          <artwork>
+<![CDATA[POST /resource HTTP/1.1
+Host: server.example.com
+Authorization: Bearer vF9dft4qmT]]>
+          </artwork>
+        </figure>
+  
+          
+          
+          </list></t>
+          
+          
+       
+        
+        
+        </section>
 
         <section anchor="access_token_request" title="Access Token Request">
           <t>The client obtains an Access Token by authenticating with the
           Authorization Server and presenting its access grant (in the form of
-          an Authorization Code, resource owner credentials, an Assertion, or
-          a Refresh Token).</t>
+          an Authorization Code, or Refresh Token).</t>
 
-          <t>Clients required to authenticate with the Authorization Server
-          MUST do so according to section 3.2.1 of <xref
-          target="OAuth.2.0">OAuth 2.0</xref>. OAuth defines an alternative
-          method for clients to authenticate with symmetric client keys
-          through the use of the <spanx style="verb">client_id</spanx> and
-          <spanx style="verb">client_secret</spanx> parameter in the message
-          request body. This specification extends the client authentication
-          scheme to allow clients to authenticate with asymmetric keys.
-          Asymmetric client authentication allows the client to authenticate
-          with the Authorization Server without sending its secret key. The
-          asymmetric client authentication parameters are the following:</t>
 
-          <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The client identifier of the
-            client.</t>
-
-            <t hangText="secret_type">OPTIONAL. Specifies the client
-            authentication type which determines how the <spanx
-            style="verb">client_secret</spanx> parameter is interpreted. It
-            can be one of "basic" or "JWT". The defaults value is "<spanx
-            style="verb">basic</spanx>". If the value is "basic", the client
-            is performing symmetric key authentication as specified in OAuth
-            2.0. If the value is "JWT", the client is performing asymmetric
-            key authentication. </t>
-
-            <t hangText="client_secret">REQUIRED. The client secret. If the
-            secret_type is "<spanx style="verb">basic</spanx>", the value is
-            the pre-shared secret that was issued to the client during
-            client registration. If the "<spanx style="verb">secret_type</spanx>"
-            is "JWT", the value is the <xref target="JWS">JWS</xref>
-            signature of a JSON object containing one of the following
-            claims:<list style="hanging">
-            <t hangText="code">REQUIRED. The Authorization Code that was
-            issued by the Authorization Server.</t>
-
-            <t hangText="refresh_token">REQUIRED. The Refresh Token that
-            was issued.</t>
-            </list></t>
-          </list></t>
 
           <t>In addition to the client authentication parameters,
           if this is a Refresh Token Request, the client MUST send the additional parameters 
@@ -1729,6 +1771,7 @@ Content-Type: application/json
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml"?>
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-httpbis-p7-auth-16.xml'?>
 
       <reference anchor="OpenID.Basic">
         <front>
@@ -2272,6 +2315,7 @@ Content-Type: application/json
           <t>Fix optional claim logic in 3.1.2.1.1</t>
           <t>Moved IANA considerations to Standard</t>
           <t>re #256 added invalid_request_uri and invalid_openid_request_object </t>
+          <t>fixes #195 reworked 3.2 </t>
 
         </list></t>
          <t>-06<list style="symbols">
