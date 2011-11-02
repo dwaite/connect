@@ -88,8 +88,10 @@
       constrained or extended in the companion specifications in the
       suite.</t>
     </abstract>
+  </front>
 
-    <note title="Requirements Language">
+  <middle>
+    <section anchor="rnc" title="Requirements Notation and Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
       document are to be interpreted as described in <xref
@@ -98,10 +100,8 @@
       <t>Throughout this document, values are quoted to indicate that they are
       to be taken literally. When using these values in protocol messages, the
       quotes MUST NOT be used as part of the value.</t>
-    </note>
-  </front>
+    </section>
 
-  <middle>
     <section anchor="terminology" title="Terminology">
       <t>In addition to the terms "Access Token", "Refresh Token",
       "Authorization Code", "Authorization Grant", "Authorization Server",
@@ -139,7 +139,7 @@
           Relying Party and an OpenID Provider.</t>
 
           <t hangText="OpenID Provider (OP)">A service capable of providing
-          identity information to a Relying Party.</t>
+          claims about an End-User to a Relying Party.</t>
 
           <t hangText="OP Endpoints">End-User Authorization Endpoint, Token
           Endpoint, and UserInfo Endpoint.</t>
@@ -728,8 +728,8 @@
         
         <section anchor="client_authentication" title="Client Authentication">
 
-          <t>Durring Client Registration the client may register a authentication method.
-          If no method is registered the default method of client_secret_basic MUST be used.</t>
+          <t>Durring Client Registration, the client may register a authentication method.
+          If no method is registered, the default method of client_secret_basic MUST be used.</t>
           <t>The Supported options are:</t>
           
           <t><list style="hanging">
@@ -780,12 +780,12 @@
             <t hangText="iat">REQUIRED.  The iat (issued at) claim identifies the time at which the JWT was issued. </t>
             </list></t>
                          <t>
-	  The authentication token MUST be sent in the <spanx
-	  style='verb'>Authorization</spanx> request header field
-	  defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
-	  client uses the <spanx style='verb'>Bearer</spanx>
-	  authentication scheme to transmit the access token.
-        </t>
+    The authentication token MUST be sent in the <spanx
+    style='verb'>Authorization</spanx> request header field
+    defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
+    client uses the <spanx style='verb'>Bearer</spanx>
+    authentication scheme to transmit the access token.
+
         <figure>
           <preamble>
             For example:
@@ -796,15 +796,10 @@ Host: server.example.com
 Authorization: Bearer vF9dft4qmT]]>
           </artwork>
         </figure>
-  
-          
-          
-          </list></t>
-          
-          
-       
-        
-        
+        </t>
+          </list>
+          </t>
+
         </section>
 
         <section anchor="access_token_request" title="Access Token Request">
