@@ -1232,36 +1232,16 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
         <t>Client SHOULD send the UserInfo Request defined in section 3.3 of
         the <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
         either in HTTP GET or POST request.</t>
-
-        <t>The request parameters are the following:</t>
-
-        <t><list style="hanging">
-            <t hangText="access_token">REQUIRED. The Access Token obtained
-            from an OpenID Connect Authorization Request. This parameter MUST
-            NOT be sent if the Access Token is sent in the HTTP Authorization
-            header as described in Section 7.1 of <xref
-            target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens sent in the
-            authorization header MUST be <xref
-            target="OAuth.2.0.Bearer">Bearer Tokens</xref>. If the client is
-            using the HTTP GET method, it SHOULD send the Access Token in the
-            authorization header.
-            The access_token MAY alternatively be sent in the message
-            body, as described in the <xref target="OAuth.2.0">OAuth
-            2.0</xref> specification.</t>
-
-            <t hangText="schema">REQUIRED. The schema in which the data is to
-            be returned. The only defined value is <spanx style="verb">openid</spanx>.
-            If the value of this parameter is omitted, or not
-            <spanx style="verb">openid</spanx>, the response may be a
-            proprietary schema to support backwards compatibility.
-            Custom scheme names and responses are out
-            of scope for this specification.</t>
-
-            <t hangText="id">This identifier is reserved for backwards
-            compatibility. It MUST be ignored by the endpoint if the <spanx
-            style="verb">openid</spanx> schema is used.</t>
-          </list></t>
-
+        
+        <t>The Access Token obtained
+            from an OpenID Connect Authorization Request MUST be sent as a <xref
+            target="OAuth.2.0.Bearer">Bearer Token</xref></t>
+            <t>Section 2 of the<xref target="OAuth.2.0.Bearer">OAuth 2.0 Bearer Token</xref>
+            specification documents the permissible methods of sending the Access Token.</t> 
+            <t>It is RECOMMENDED that the client use the authorization header method for all 
+            requests using GET.</t>
+            
+            
         <figure>
           <preamble>The following is a non-normative example. Line wraps are
           for display purpose only:</preamble>
@@ -2238,6 +2218,7 @@ scope=openid&response_type=code
         <t>fixes #244 remove extraneous reference to confidential clients</t>
         <t>Rework Sec 5 </t>
         <t>re #159 make 5.2.1 refer to sec 3.2.3 of Messages</t>
+        <t>fixes #160 make 6.1 refer to sec 3.3 of Messages</t>
         </list></t>
         
       <t>-06<list style="symbols">
