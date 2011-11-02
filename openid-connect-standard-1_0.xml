@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="1" month="November" year="2011" />
+    <date day="2" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -1088,33 +1088,11 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 
           <section title="Positive Assertion">
             <t>A Positive Assertion response returns the "<spanx style="verb">application/json</spanx>"
-            media type and the response body is the Access Token Response of
-            the <xref target="OpenID.Messages">OpenID Connect Messages
+            media type and the response body is the Access Token Response documented in Sec 3.2.3 of
+            <xref target="OpenID.Messages">OpenID Connect Messages
             1.0</xref>.</t>
 
-            <t>The Assertion is a JSON structure which contains the
-            following values:</t>
-
-            <t><list style="hanging">
-              <t hangText="access_token">REQUIRED. The Access Token.</t>
-
-              <t hangText="token_type">REQUIRED. Specifies the Access Token type.
-              This specification only supports the "Bearer" token type.</t>
-
-              <t hangText="id_token">REQUIRED if 
-              <spanx style="verb">scope</spanx> in the Authorization
-              Request contains the value "openid". The ID Token associated with
-              the authentication session.</t>
-
-              <t hangText="refresh_token">OPTIONAL. The Refresh Token that can
-              be used to obtain a new Access Token.</t>
-
-              <t hangText="expires_in">OPTIONAL. The lifetime of the
-              Access Token in seconds.</t>
-
-              <t hangText="scope">OPTIONAL. The scope of the Access Token.</t>
-              </list></t>
-
+            
             <figure>
               <preamble>Following is a non-normative example of the Positive
               Assertion:</preamble>
@@ -2259,6 +2237,7 @@ scope=openid&response_type=code
         <t>removed some language about the request object being able to select signed/encrypted responses</t>
         <t>fixes #244 remove extraneous reference to confidential clients</t>
         <t>Rework Sec 5 </t>
+        <t>re #159 make 5.2.1 refer to sec 3.2.3 of Messages</t>
         </list></t>
         
       <t>-06<list style="symbols">
