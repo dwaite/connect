@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="2" month="November" year="2011" />
+    <date day="3" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -876,31 +876,102 @@ Host: client.example.com]]></artwork>
             </t>
 
             <figure>
-              <preamble>The following are some non-normative examples. Line wraps
+              <preamble>The following are non-normative examples of requests with differing return_type values and there responses. Line wraps
               are for display purpose only:</preamble>
+             
+              <artwork><![CDATA[
+https://server.example.com/op/authorize?
+response_type=code
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+&scope=openid
+&nonce=n-0S6_WzA2Mj
+&state=af0ifjsldkj
 
-              <artwork><![CDATA[HTTP/1.1 302 Found
+              
+HTTP/1.1 302 Found
 Location: https://client.example.com/cb?
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+&state=af0ifjsldkj]]></artwork>
+            </figure>
+
+            <figure>
+              <artwork><![CDATA[              
+https://server.example.com/op/authorize?
+response_type=token%20id_token
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+&scope=openid
+&nonce=n-0S6_WzA2Mj
 &state=af0ifjsldkj
 
+              
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
-token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
+access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
+&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZ
+XJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0c
+DpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1
+G3liaTNOrfaeWYjuRCEPNXVtaazNQ
+&state=af0ifjsldkj]]></artwork>
+            </figure>
+
+            <figure>
+              <artwork><![CDATA[   
+https://server.example.com/op/authorize?
+response_type=code%20id_token
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+&scope=openid
+&nonce=n-0S6_WzA2Mj
 &state=af0ifjsldkj
+
+              
+HTTP/1.1 302 Found
+Location: https://client.example.com/cb#
+code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+&id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZ
+XJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0c
+DpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1
+G3liaTNOrfaeWYjuRCEPNXVtaazNQ
+&state=af0ifjsldkj]]></artwork>
+            </figure>
+
+            <figure>
+              <artwork><![CDATA[   
+https://server.example.com/op/authorize?
+response_type=token%20code
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+&scope=openid
+&nonce=n-0S6_WzA2Mj
+&state=af0ifjsldkj
+
 
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
+&access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
+&state=af0ifjsldkj]]></artwork>
+            </figure>
+
+            <figure>
+              <artwork><![CDATA[   
+https://server.example.com/op/authorize?
+response_type=token%20code%20id_token
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+&scope=openid
+&nonce=n-0S6_WzA2Mj
 &state=af0ifjsldkj
+
 
 HTTP/1.1 302 Found
 Location: https://client.example.com/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
+&access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
 &id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZ
 XJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0c
@@ -2181,6 +2252,7 @@ scope=openid&response_type=code
         <t>fixes #271 Sec 7.2 response change aud value to client_id add nonce</t>
         <t>fixes #269 Standard - Move display=none to prompt=none</t>
         <t>fixes #273 Remove duplicate quotes in Sec 4.2.1 "code" "token id_token"</t>
+        <t>fixes #274 Examples in 4.3.4.1 change token to access_token, add request to response</t>
         </list></t>
         
       <t>-06<list style="symbols">
