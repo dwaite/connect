@@ -280,8 +280,31 @@
               against XSRF attacks.</t>
 
               <t hangText="display">A string value that specifies
-              how the Authorization Server displays the authentication page to
-              the End-User. The following values are supported:<list style="hanging">
+              how the Authorization Server displays the authentication and
+              consent user interface pages to the End-User. The following values
+              are supported:<list style="hanging">
+              <t hangText="page">The Authorization Server SHOULD display
+              authentication and consent UI consistent with a full browser page
+              view. If the display parameter is not specified this is the
+              default display mode.</t>
+
+              <t hangText="popup">The Authorization Server SHOULD display
+              authentication and consent UI consistent with a popup browser
+              window. The popup browser window SHOULD be 450 pixels wide
+              and 500 pixels tall.</t>
+
+              <t hangText="touch">The Authorization Server SHOULD display
+              authentication and consent UI consistent with a device that
+              leverages a touch interface. The Authorization Server MAY attempt
+              to detect the touch device and further customize the interface.</t>
+
+              <t hangText="wap">The Authorization Server SHOULD display
+              authentication and consent UI consistent with a "feature phone"
+              type display.</t>
+
+              <t hangText="embedded">The Authorization Server SHOULD display
+              authentication and consent UI consistent with the limitations of
+              an embedded browser.</t>
                 </list></t>
 
               <t hangText="prompt">A space delimited, case sensitive list of
@@ -289,7 +312,7 @@
               the End-User for reauthentication and reapproval. The possible values
               are:<list style="hanging">
                   <t hangText="none">This value informs the Authorization Server
-                  that it MUST NOT display any authentication or confirmation
+                  that it MUST NOT display any authentication or consent
                   user interface pages. An error is returned if either the End-User 
                   is not already authenticated or the client does not have 
                   pre-configured approval for the requested
