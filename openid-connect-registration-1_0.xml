@@ -49,7 +49,7 @@
       </address>
     </author>
 
-    <date day="2" month="November" year="2011" />
+    <date day="3" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -187,7 +187,7 @@
             
             <t hangText="sector_identifier">OPTIONAL URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
-            file with an array of redirect_uri values.</t>
+            file with a single JSON array of redirect_uri values.</t>
             
             <t hangText="user_id_type">OPTIONAL the type of user Identifier requested for 
             responses to this client_id. The identifiers_supported element of discovery 
@@ -197,8 +197,9 @@
              is set to true, the Authorization Server MUST reject all requests from this client_id not
              containing a signed request object.</t>
              
-             <t hangText="user_info_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
-             algorithm required for user_info responses. If this is specified the response will be 
+             <t hangText="user_info_require_signed_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
+             <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
+             algorithms required for user_info responses. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized</t>
              
              <t hangText="user_info_require_encrypted_response">OPTIONAL the <xref target="JWE">JWE</xref> encryption 
@@ -209,8 +210,9 @@
              <t hangText="id_token_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
              algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
              
-             <t hangText="id_token_require_encrypted_response">OPTIONAL the <xref target="JWE">JWE</xref> encryption 
-             algorithm required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
+             <t hangText="id_token_require_encrypted_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
+             <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
+             algorithms required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption</t>
           </list></t>
           
@@ -222,8 +224,13 @@ Accept: application/x-www-form-urlencoded
 Host: server.example.com
 
 type=client_associate
-&redirect_uri=https://client.example.com/callback https://client.example.com/callback2
+&redirect_uri=https://client.example.com/callback%20https://client.example.com/callback2
 &logo_url=https://client.example.com/logo.png
+&user_id_type=pairwise
+&sector_identifier=https://othercompany.com/file_of_redirect_uri_for_our_sites.js
+&token_endpoint_auth_type=client_secret_basic
+&jwk_url=https://client.example.com/my_rsa_public_key.jwk
+&user_info_require_encrypted_response=RSA1_5%20A128CBC
 ]]></artwork>
           </figure></t>
       </section>
@@ -564,6 +571,8 @@ Content-Type: application/json
           <t>Added JWK and x5u signing links</t>
           <t>Added list of authentication types</t>
           <t>fixes #216 added user_id_type</t>
+          <t>fixes #275 made encryption a space separated list</t>
+          <t>fixed example in 5.1 to be more realistic</t>
           
         </list></t>
 
