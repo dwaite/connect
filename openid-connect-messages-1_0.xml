@@ -376,20 +376,21 @@
             <t hangText="display">OPTIONAL. A string value that specifies
               how the Authorization Server displays the authentication page to
               the End-User.<list style="hanging">
-                  <t hangText="none">The Authorization Server
-                  MUST NOT display any authentication or confirmation
-                  user interface pages. An error is returned if either the End-User 
-                  is not already authenticated or the client does not have 
-                  pre-configured approval for the requested
-                  <spanx style="verb">scopes</spanx>. This can be used as a
-                  method to check for existing authentication and/or approval.</t>
                 </list></t>
 
               <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
-              list of string values that specifies how the Authorization
+              list of string values that specifies whether the Authorization
               Server prompts the End-User for reauthentication and reapproval. The
               possible values are:<list style="hanging">
-                  <t hangText="login">The Authorization Server MUST prompt the
+                <t hangText="none">The Authorization Server
+                MUST NOT display any authentication or confirmation
+                user interface pages. An error is returned if either the End-User 
+                is not already authenticated or the client does not have 
+                pre-configured approval for the requested
+                <spanx style="verb">scopes</spanx>. This can be used as a
+                method to check for existing authentication and/or approval.</t>
+
+                <t hangText="login">The Authorization Server MUST prompt the
                   End-User for reauthentication.</t>
 
                   <t hangText="consent">The Authorization Server MUST prompt
@@ -402,8 +403,7 @@
                 </list>
                 This can be used by the client to make sure that the End-User is
                 still present for the current session or to bring attention to the
-                request. If this parameter is used in conjunction with the 
-                <spanx style="verb">display</spanx> parameter set to "none", an
+                request. If this parameter contains "none" with any other value, an
                 error is returned.</t>
 
               <t hangText="request">OPTIONAL. A <xref target="JWT">JWT</xref>
@@ -664,8 +664,8 @@
 
                 <t hangText="login_required">The Authorization Server requires
                 End-User authentication. This error MAY be returned when the 
-                <spanx style="verb">display</spanx> parameter in the
-                Authorization Request is set to 'none' to request that the
+                <spanx style="verb">prompt</spanx> parameter in the
+                Authorization Request is set to "none" to request that the
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
                 without displaying a user interface for user authentication.
@@ -676,8 +676,8 @@
                 be authenticated at the Authorization Server with different
                 associated accounts, but the End-User did not select a session.
                 This error MAY be returned 
-                when the <spanx style="verb">display</spanx> parameter in the
-                Authorization Request is set to 'none' to request that the
+                when the <spanx style="verb">prompt</spanx> parameter in the
+                Authorization Request is set to "none" to request that the
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
                 without displaying a user interface to prompt for a session to
@@ -685,8 +685,8 @@
 
                 <t hangText="approval_required">The Authorization Server
                 requires End-User approval. This error MAY be returned when the 
-                <spanx style="verb">display</spanx> parameter in the
-                Authorization Request is set to 'none' to request that the
+                <spanx style="verb">prompt</spanx> parameter in the
+                Authorization Request is set to "none" to request that the
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
                 without displaying a user interface for End-User approval.</t>
@@ -695,7 +695,7 @@
                 the Authorization Server does not match the requested
                 user. This error MAY be returned when the 
                 <spanx style="verb">display</spanx> parameter in the
-                Authorization Request is set to 'none' to request that the
+                Authorization Request is set to "none" to request that the
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
                 without displaying a user interface to prompt for the correct
