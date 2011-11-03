@@ -54,7 +54,7 @@
       </address>
     </author>
 
-    <date day="2" month="November" year="2011" />
+    <date day="3" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -593,7 +593,7 @@ Host: example.com
           <c>array</c>
 
           <c>A JSON array containing a list of the user identifier types that
-          this server supports, the valid types include "pair_wise" and "public"</c>
+          this server supports, the valid types include "pairwise" and "public"</c>
           
           <c>user_info_supported_alg</c>
 
@@ -619,17 +619,20 @@ Host: example.com
             <artwork><![CDATA[{
  "authorization_endpoint": "https://server.example.com/connect/authorize",
  "issuer" : "https://server.example.com",
- "token_endpoint": "https://server.example.com/connect/token"
+ "token_endpoint": "https://server.example.com/connect/token",
+ "token_endpoint_supported_auth_types": ["client_secret_basic", "private_key_jwt"],
  "user_info_endpoint": "https://server.example.com/connect/user",
  "check_id_endpoint": "https://server.example.com/connect/check_id",
  "refresh_session_endpoint": "https://server.example.com/connect/refresh_session",
  "end_session_endpoint": "https://server.example.com/connect/end_session",
  "jwk_url": "https://server.example.com/jwk.json",
  "registration_endpoint": "https://server.example.com/connect/register",
- "scopes_supported": ["openid"],
- "flows_supported": ["code", "token"],
+ "scopes_supported": ["openid", "profile", "email", "address"],
+ "flows_supported": ["code", "code id_token", "token id_token"],
  "iso29115_supported": ["http://www.idmanagement.gov/schema/2009/05/icam/openid-trust-level1.pdf"],
- "identifiers_supported": ["public", "ppid"]
+ "identifiers_supported": ["public", "pairwise"],
+ "user_info_supported_alg": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
+ "id_token_supported_alg": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"]
 }]]></artwork>
           </figure></t>
       </section>
@@ -993,6 +996,7 @@ Host: example.com
           <t>Added token_endpoint_supported_auth_types</t>
           <t>Added list of authentication types</t>
           <t>fixes #216 added "pair_wise" and "public" to list of identifier types</t>
+          <t>fixes #216 changed pair_wise to pairwise and fixed up examples in sec 5.2</t>
         </list></t>
 
       <t>-06</t>
