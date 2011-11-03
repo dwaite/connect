@@ -138,41 +138,19 @@
         <t>Clients MUST specify the desired scopes in an authorization request to
         obtain an Access Token with the proper permissions.</t>
         
-        <t>OpenID Connect clients use scopes as defined in 3.3 of 
-        <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
-        access privileges are requested for Access Tokens. The scopes associated
-        with Access Tokens determine what resources will be available when they
-        are used to access OAuth 2.0 protected endpoints. For OpenID Connect,
-        scopes request what information is to be made available from the
-        UserInfo Endpoint and to request an ID Token. OAuth 2.0 allows additional
-        scopes to be specified as extensions. This specification only describes
-        scopes that are part of OpenID Connect.</t>
-
-        <t>OpenID Connect defines the following scopes:</t>
-
-        <t><list style="hanging">
-            <t hangText="openid">REQUIRED. Informs the Authorization Server that
-            the client is making an OpenID request. If the <spanx 
-            style="verb">openid</spanx> scope is not specified, the Authorization
-            Server SHOULD treat the request as a generic OAuth 2.0 request, and
-            perform no OpenID Connect processing.</t>
-
-            <t hangText="profile">OPTIONAL. Requests default profile
-            information.</t>
-
-            <t hangText="email">OPTIONAL. Requests the email address and its
-            verified status.</t>
-
-            <t hangText="address">OPTIONAL. Requests an address.</t>
-          </list></t>
-
-        <t>Multiple scopes MAY be requested by creating a space delimited, case
-        sensitive list of scope values.</t>
+        <t>Scopes names defined for openID Connect are in Section 3.1.2 of <xref
+          target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
+           OAuth 2.0 allows additional scopes to be specified as extensions.</t>
+         
+        <t>OpenID Connect's scope use is consistent with Section 3.3 of 
+        <xref target="OAuth.2.0">OAuth 2.0</xref>. </t>
         
-        <t>The End-User may decline a scope request by the client.</t>
+        <t>The authorization server MAY fully or partially ignore the scope
+         requested by the client based on the authorization server policy or
+         the End User's instructions.</t>
 
-        <t>To increase conversion, a client may elect to only request a subset
-        of the information from the UserInfo Endpoint.</t>
+        <t>To increase new account activation, a client may elect to only request a subset
+        of the scopes available for the UserInfo Endpoint.</t>
 
         <t><figure>
             <preamble>The following is a non-normative example of a Scope
@@ -2219,6 +2197,8 @@ scope=openid&response_type=code
         <t>Rework Sec 5 </t>
         <t>re #159 make 5.2.1 refer to sec 3.2.3 of Messages</t>
         <t>fixes #160 make 6.1 refer to sec 3.3 of Messages</t>
+        <t>fixes #216 remove PPID scope</t>
+        <t>remove duplicated scope descriptions in Sec 4.1 + reference messages</t>
         </list></t>
         
       <t>-06<list style="symbols">
