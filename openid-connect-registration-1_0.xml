@@ -177,7 +177,8 @@
             URL to the End User if it is given.</t>
 
             <t hangText="x509_url">OPTIONAL URL for the RP's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption. If both x509_url and jwk_url are specified 
+            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> 
+            encryption. If both x509_url and jwk_url are specified 
             x509_url MUST be used.</t>
             
 			<t hangText="x509_signing_url">OPTIONAL URL for the RP's PEM encoded X.509
@@ -193,18 +194,20 @@
             responses to this client_id. The identifiers_supported element of discovery 
             contains a list of the supported user_id_type for this server.</t>
             
-            <t hangText="require_signed_request">OPTIONAL if the value of the string
-             is set to true, the Authorization Server MUST reject all requests from this client_id not
-             containing a signed request object.</t>
-             
-             <t hangText="user_info_require_signed_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
-             <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
-             algorithms required for user_info responses. If this is specified the response will be 
+            <t hangText="require_signed_request_object">OPTIONAL the <xref target="JWE">JWS</xref> encryption 
+             algorithm that must be required by the Authorization Server. All OpenID Request Objects from
+             this client_id MUST be rejected if not signed by this algorithem.</t>
+              
+             <t hangText="user_info_require_signed_response">OPTIONAL the <xref target="JWE">JWS</xref> encryption 
+             algorithm required for user_info responses. 
+             If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized</t>
              
-             <t hangText="user_info_require_encrypted_response">OPTIONAL the <xref target="JWE">JWE</xref> encryption 
-             algorithm required for user_info responses. If this is requested in combination with signing the response will be signed then encrypted. 
-             If this is specified the response will be 
+             <t hangText="user_info_require_encrypted_response">OPTIONAL a space separated
+             list of the <xref target="JWE">JWE</xref> 
+             <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
+             algorithms required for user_info responses. If this is requested in combination with signing the response 
+             will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized</t>
              
              <t hangText="id_token_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
@@ -573,6 +576,8 @@ Content-Type: application/json
           <t>fixes #216 added user_id_type</t>
           <t>fixes #275 made encryption a space separated list</t>
           <t>fixed example in 5.1 to be more realistic</t>
+          <t>fixed typos in user_info_require_encrypted_response</t>
+          <t>fixes #278 change require_signed_request_object to string to take alg</t>
           
         </list></t>
 
