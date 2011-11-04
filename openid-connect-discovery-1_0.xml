@@ -609,7 +609,13 @@ Host: example.com
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
            supported by the Authorization Server for id_token.</c>
            
-           
+           <c>request_object_supported_alg</c>
+
+          <c>array</c>
+
+          <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+           supported by the Authorization Server for the OpenID Request Object described in Sec 4.1.2.1 of <xref
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</c>
            
         </texttable>
 
@@ -632,8 +638,9 @@ Host: example.com
  "iso29115_supported": ["http://www.idmanagement.gov/schema/2009/05/icam/openid-trust-level1.pdf"],
  "identifiers_supported": ["public", "pairwise"],
  "user_info_supported_alg": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "id_token_supported_alg": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"]
-}]]></artwork>
+ "id_token_supported_alg": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"],
+ "request_object_supported_alg": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"]
+ }]]></artwork>
           </figure></t>
       </section>
 
@@ -997,6 +1004,7 @@ Host: example.com
           <t>Added list of authentication types</t>
           <t>fixes #216 added "pair_wise" and "public" to list of identifier types</t>
           <t>fixes #216 changed pair_wise to pairwise and fixed up examples in sec 5.2</t>
+          <t>fixes #276 add supported algorithms for request_object Sec 5.2</t>
         </list></t>
 
       <t>-06</t>
