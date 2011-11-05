@@ -634,6 +634,30 @@ Host: example.com
            supported by the Authorization Server for the OpenID Request Object described in Sec 4.1.2.1 of <xref
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</c>
            
+
+           <c>token_endpoint_auth_type_supported</c>
+
+          <c>array</c>
+
+          <c>A JSON array containing a list of authentication
+            types supported by this token_endpoint. The options are client_secret_post, 
+            client_secret_basic, client_secret_jwt, and private_key_jwt.
+            Other Authentication methods may be defined by extension. If unspecified or
+             omitted, the default is client_secret_basic HTTP Basic Authentication 
+             Scheme as specified in
+            section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</c>
+      
+           
+           <c>token_endpoint_auth_supported_alg</c>
+
+          <c>array</c>
+
+          <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> signing and algorithms
+           supported by the Token Endpoint for the private_key_jwt method.
+            Servers SHOULD support <spanx style="verb">RS256</spanx>.</c>
+      
+      
+           
         </texttable>
 
         <t>Example response</t>
@@ -1023,6 +1047,7 @@ Host: example.com
           <t>fixes #216 changed pair_wise to pairwise and fixed up examples in sec 5.2</t>
           <t>fixes #276 add supported algorithms for request_object Sec 5.2</t>
           <t>fixes #277 add missing encryption certificates for server</t>
+          <t>add token_endpoint_auth_type_supported and token_endpoint_auth_supported_alg</t>
         </list></t>
 
       <t>-06</t>
