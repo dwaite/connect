@@ -49,7 +49,7 @@
       </address>
     </author>
 
-    <date day="3" month="November" year="2011" />
+    <date day="4" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -186,7 +186,7 @@
             token_endpoint and request objects. If both x509_signing_url and jwk_signing_url are specified 
             x509_signing_url MUST be used.</t>
             
-            <t hangText="sector_identifier_url">OPTIONAL URL to be used in
+            <t hangText="sector_identifier_url">OPTIONAL a HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with a single JSON array of redirect_uri values.</t>
             
@@ -238,6 +238,29 @@ type=client_associate
           </figure></t>
       </section>
 
+      <section title="sector_identifier_url Verification">
+        <t>Providers who use pairwise user_id values SHOULD support this element</t>
+        <t>It provides a way for a group of websites under a single administrative control
+         to have consistent pairwise user_id values independent of the individual domain names.
+         It also provides a way for clients to change redirect_uri domains without having to 
+         reregister all of there users.</t> 
+         <t>This is further described in Section 4.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+        <t>The value of the sector_identifer_url must be a HTTPS scheme URL that identifies
+           a JSON file containing a array containing redirect_uri.</t>
+           <t>The values of the registered redirect_uri must be included in the elements of the array,
+           or registration MUST fail.</t>
+           
+           <t><figure>
+            <artwork><![CDATA[GET /connect/sector_identifier.js HTTP/1.1
+Accept: application/json
+Host: client.example.com
+
+[ "https://client.example.com/callback",
+  "https://client.example.com/callback2",
+  "https://client.other_company.com/callback" ]
+  ]]></artwork>
+</figure></t>
+	  </section>
       <section title="Response">
         <t>The response is returned as a JSON object with all the parameters
         as top level elements.</t>
@@ -578,6 +601,8 @@ Content-Type: application/json
           <t>fixed example in 5.1 to be more realistic</t>
           <t>fixed typos in user_info_require_encrypted_response</t>
           <t>fixes #278 change require_signed_request_object to string to take alg</t>
+          <t>re #278 change sector_identifier to sector_identifier_url </t>
+          <t>fixes #278 add sec 5.2 on Sector Identifier URL verification</t>
           
         </list></t>
 
