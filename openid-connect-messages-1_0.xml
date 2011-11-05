@@ -330,7 +330,7 @@
               <t hangText="pairwise"> This provides a different user_id value to each client, to prevent
               correlation of the users activities by clients without the users permission.</t>
            </list></t>
-           <section anchor="idtype" title="Pairwise Identifyer Algorithem">
+           <section anchor="idtype.pairwise.alg" title="Pairwise Identifyer Algorithem">
            <t>The Provider MUST calculate a unique user_id value for each sector_identifer</t>
            <t>If the client has not provided a value for sector_identifier_url in registration,
            the sector_identifier used for pairwise identifier calculation is the host component 
@@ -1506,8 +1506,8 @@ Content-Type: application/json
            
            <t hangText="request_object_supported_alg">
            A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the Authorization Server for the OpenID Request Object described in Sec 4.1.2.1 of <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</t>
+           supported by the Authorization Server for the OpenID Request Object described in  <xref
+      target="OpenIDReq">Sec 4.1.2.1</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</t>
       
       <t hangText="token_endpoint_auth_supported_alg">
            A JSON array containing a list of the <xref target="JWS">JWS</xref> signing algorithms
@@ -1559,7 +1559,6 @@ Content-Type: application/json
           to the Server if x509_url_Encryption is not specified.</t>
           
         <t hangText="jwk_url_Encryption">          
-          <c>jwk_url_Encryption</c>
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
           document. Servers Encryption Key, if not present it's value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx></t>
@@ -1610,23 +1609,25 @@ Content-Type: application/json
       
 
       <section anchor="sigs" title="Signing">
+        <t>Based on the supported algorithms of the recipient in <xref
+        target="sigenc.alg"></xref>, select an encryption algorithm.</t>
+        
         <t><list style="hanging">
-          <t hangText="HMAC-SHA256 Signatures">
-            When using HMAC-SHA256 Signatures, <spanx style="verb">
-            alg</spanx> claim of the JWS header MUST be set to 
-            <spanx style="verb">HS256</spanx>. 
+          <t hangText="Symetric Signatures">
+            When using HMAC Signatures, the <spanx style="verb">alg</spanx>
+             claim of the JWS header MUST be set to the appropriate algorithm
+             as defined in <xref target="JWS">JSON Web Signatures</xref>. 
             The <spanx style="verb">client_secret</spanx> MUST 
             be used as the signature key. 
           </t>
-          <t hangText="RSA and ECDSA Signatures">
-            When using RSA-SHA256 or ECDSA-SHA256 Signatures, 
-            <spanx style="verb">alg</spanx> MUST be set to 
-            <spanx style="verb">RS256</spanx> and 
-            <spanx style="verb">ES256</spanx> respectively. 
-            As the key, either <spanx style="verb">x5u</spanx>
-            or <spanx style="verb">x5t</spanx> registered/obtained 
-            MUST be used to retrieve the relevant key. 
-            If there were multiple keys in <spanx style="verb">jku</spanx>, 
+          <t hangText="Asymetric Signatures">
+            When using RSA or ECDSA Signatures, 
+            the <spanx style="verb">alg</spanx>
+             claim of the JWS header MUST be set to the appropriate algorithm
+             as defined in <xref target="JWS">JSON Web Signatures</xref>.
+            The private key associated with the Public Signing Key provided in
+            <xref target="sigenc.key"></xref>. 
+            If there were multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there were multiple certificates in <spanx style="verb">
             x5u</spanx>, then <spanx style="verb">x5t</spanx> MUST be 
@@ -2293,6 +2294,21 @@ Content-Type: application/json
         <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
                 type="HTML" />
       </reference>
+      
+      <reference anchor="JWK">
+        <front>
+          <title>JSON Web Key (JWK)</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <date day="25" month="July" year="2011" />
+        </front>
+
+        <format target="http://self-issued.info/docs/draft-jones-json-web-key.html"
+                type="HTML" />
+        </reference>
 
       <reference anchor="ISO29115">
         <front>
@@ -2483,6 +2499,7 @@ Content-Type: application/json
           <t>fixes #227 7.1 7.2 reference validation in standard, add decryption step.</t>
           <t>re #221 Add section 4.1.1.1 on user_id types and calculating pairwise identifiers</t>
           <t>re #88 Add sec 6.1 and 6.2 </t>
+          <t>re #88 add JWK reference</t>
 
         </list></t>
          <t>-06<list style="symbols">
