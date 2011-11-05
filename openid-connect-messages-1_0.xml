@@ -316,6 +316,41 @@
           do not wish to process ID Tokens MAY treat ID Tokens as opaque
           values and submit them to the <xref target="check_id_ep">Check
           ID Endpoint</xref> for verification and decoding.</t>
+          
+          <section anchor="idtype" title="User Identifyer Types">
+           <t>Providers Discovery documents SHOULD list there supported identifier types in the 
+           identifiers_supported element.</t>
+           <t>If there is more than one type listed in the array, the client may elect to
+           provide its preferred identifier type using the user_id_type paramater durring registration.</t>
+           <t>The types supported by this specification are:</t>
+           
+           <t><list style="hanging">
+              <t hangText="public"> This provides the same user_id value to all clients. It is the default if
+              the provider has no identifiers_supported element in there discovery document.</t>
+              <t hangText="pairwise"> This provides a different user_id value to each client, to prevent
+              correlation of the users activities by clients without the users permission.</t>
+           </list></t>
+           <section anchor="idtype" title="Pairwise Identifyer Algorithem">
+           <t>The Provider MUST calculate a unique user_id value for each sector_identifer</t>
+           <t>If the client has not provided a value for sector_identifier_url in registration,
+           the sector_identifier used for pairwise identifier calculation is the host component 
+           of the registered redirect_uri.</t>
+           <t>If there are multiple hostnames in the registered redirect_uri, the client MUST register a 
+           sector_identifer_url</t>
+           <t>If a sector_identifer_url is provided, the host component of that URL is used as
+           the sector sector_identifer for the pairwise identifier calculation.</t>
+           <t>The value of the sector_identifer_url must be a HTTPS URL that identifies
+           a JSON file containing a array containing redirect_uri.</t>
+           <t>The values of the registered redirect_uri must be included in the elements of the array,
+           or the registration will fail.</t>
+           <t>A number of algorithms may be used by Providers to calculate the pairwise identifier.
+           This specification includes a simple example.</t>
+           <t>The sector_identifer is concatenated with a local account ID and a salt 
+           value that is kept secret by the provider. the concatinated string is then 
+           hashed by an appropriate algorithm</t>
+           <t>Calculate SHA256 ( sector_identifer | local_account_id | salt ) = user_id </t>
+        </section>
+          </section>
         </section>
 
         <section anchor="auth_req" title="Authorization Request">
