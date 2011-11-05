@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="3" month="November" year="2011" />
+    <date day="4" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
@@ -747,6 +747,54 @@ Host: client.example.com]]></artwork>
             </section>
           </section>
         </section>
+
+		<section title="Authorization Server Validates Request Object">
+          <t>If a Request Object was sent in the <spanx 
+          style="verb">request</spanx> paramater or by reference in the
+          <spanx style="verb">request_uri</spanx> paramater, the 
+          Request Object must be JWT decoded.</t>
+          
+
+          <t>If the JWT header contains no "typ" element or it's value is "JWT" skip to 
+          <xref target="signed.req.obj.var">Signed Request Object</xref></t>
+          
+         <section title="Encrypted Request Object">
+          <t>If the JWT is encrypted "typ" element of the header will contain the value "JWS"
+          indicating that it's payload is a JWS, requiring additional processing.</t>
+          
+          <t>The Authorization server has advertised JWE encryption algorithms
+          in the <spanx style="verb">id_token_supported_alg</spanx> element of its 
+          Discovery Document, these are used by the client to encrypt the JWT</t>
+          
+          <t>Based on the <spanx style="verb">alg</spanx>, <spanx style="verb">enc</spanx>
+          , and other paramaters in the JWE header decrypt the JWT, in accordance with
+          <xref target="JWE">JSON Web Encryption</xref> specification.</t>
+          
+          <t>The Authorization Server MUST return the negative authorization 
+            response as defined in <xref target="OpenID.Messages">OpenID Connect
+            Messages 1.0</xref> if there is a decryption error.</t>
+            </section>
+            
+            <section anchor="signed.req.obj.var" title="Signed Request Object">
+            <t>The decrypted body of the JWT will contain a Signed JWT, perform
+            signature verification with this as the JWT input.</t> 
+
+          <t>To perform Signature Verification 
+          the <spanx style="verb">alg</spanx> paramater in the JWT header MUST match the value
+          of the <spanx style="verb">require_signed_request_object</spanx> set durring
+          <xref target="OpenID.Registration">Client Registration</xref>.</t>
+          
+          <t>The signature must be validated against the key registered for that client_id
+          and algorithm, in accordance with the 
+          <xref target="JWS">JSON Web Signature</xref> specification.</t>
+          
+          <t>The Authorization Server MUST return the negative authorization 
+            response as defined in <xref target="OpenID.Messages">OpenID Connect
+            Messages 1.0</xref> if there is a decryption error.</t>
+          </section>
+          
+        </section>
+
 
         <section title="Authorization Server Authenticates the End-User">
           <t>The Authorization Server validates the request to ensure all
@@ -2253,6 +2301,7 @@ scope=openid&response_type=code
         <t>fixes #269 Standard - Move display=none to prompt=none</t>
         <t>fixes #273 Remove duplicate quotes in Sec 4.2.1 "code" "token id_token"</t>
         <t>fixes #274 Examples in 4.3.4.1 change token to access_token, add request to response</t>
+        <t>fixes #149 added sec 4.3.2 to validate request object encryption and signature</t>
         </list></t>
         
       <t>-06<list style="symbols">
