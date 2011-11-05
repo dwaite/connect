@@ -49,7 +49,7 @@
       </address>
     </author>
 
-    <date day="4" month="November" year="2011" />
+    <date day="5" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
@@ -160,31 +160,44 @@
             JavaScript Origin URIs (used for Post Message flow)</t>
             
             <t hangText="token_endpoint_auth_type">OPTIONAL. The requested authentication
-            type for the token_endpoint. The options are client_secret_post, client_secret_basic, client_secret_jwt, and private_key_jwt.
-          Other Authentication methods may be defined by extension. If unspecified or omitted, the default is client_secret_basic HTTP Basic Authentication Scheme as specified in
+            type for the token_endpoint. The options are client_secret_post, 
+            client_secret_basic, client_secret_jwt, and private_key_jwt.
+            Other Authentication methods may be defined by extension. If unspecified or
+             omitted, the default is client_secret_basic HTTP Basic Authentication 
+             Scheme as specified in
             section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
-            
-            <t hangText="jwk_signing_url">OPTIONAL. URL for the RP's <xref
-            target="JWK">JSON Web Key</xref> used for <xref target="JWS">JWS</xref> signing of 
-            token_endpoint and request objects.</t>
-
-            <t hangText="jwk_url">OPTIONAL. URL for the RP's <xref
-            target="JWK">JSON Web Key</xref> used for <xref target="JWE">JWE</xref> encryption.</t>
 
             <t hangText="policy_url">OPTIONAL. A URL location which the Relying 
             Party client provides to the End User to read about the how the
             profile data will be used. The OpenID Provider SHOULD display this
             URL to the End User if it is given.</t>
 
+            <t hangText="jwk_url">OPTIONAL. URL for the client's <xref
+            target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
+             signing of token_endpoint and request objects.
+            If jwk_encryption_url is not 
+            provided it is used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the client.
+            </t>
+
+            <t hangText="jwk_encryption_url">OPTIONAL. URL for the RP's <xref
+            target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
+            signing of token_endpoint and request objects.</t>
+
             <t hangText="x509_url">OPTIONAL URL for the RP's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> 
-            encryption. If both x509_url and jwk_url are specified 
-            x509_url MUST be used.</t>
+            Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
+             signing of token_endpoint and request objects.
+            If x509_encryption_url is not 
+            provided it is used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the client.
+            If both x509_url and jwk_url are specified 
+            x509_url the keys MUST be the same.</t>
             
-			<t hangText="x509_signing_url">OPTIONAL URL for the RP's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWS">JWS</xref> encryption.signing of 
-            token_endpoint and request objects. If both x509_signing_url and jwk_signing_url are specified 
-            x509_signing_url MUST be used.</t>
+			<t hangText="x509_encryption_url">OPTIONAL URL for the RP's PEM encoded X.509
+            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the client. If both x509_signing_url 
+            and jwk_signing_url are specified 
+            x509_signing_url the keys MUST be the same</t>
             
             <t hangText="sector_identifier_url">OPTIONAL a HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
@@ -603,6 +616,7 @@ Content-Type: application/json
           <t>fixes #278 change require_signed_request_object to string to take alg</t>
           <t>re #278 change sector_identifier to sector_identifier_url </t>
           <t>fixes #278 add sec 5.2 on Sector Identifier URL verification</t>
+          <t>Make key names consistent with discovery jwk_url and jwk_encryption_url rather than jwk_signing_url</t>
           
         </list></t>
 
