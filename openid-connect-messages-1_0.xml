@@ -1610,7 +1610,7 @@ Content-Type: application/json
 
       <section anchor="sigs" title="Signing">
         <t>Based on the supported algorithms of the recipient in <xref
-        target="sigenc.alg"></xref>, select an encryption algorithm.</t>
+        target="sigenc.alg"></xref>, select an signature algorithm.</t>
         
         <t><list style="hanging">
           <t hangText="Symetric Signatures">
@@ -1638,22 +1638,47 @@ Content-Type: application/json
       </section>
 
       <section anchor="enc" title="Encryption">
+      <t>Based on the supported algorithms of the recipient in <xref
+        target="sigenc.alg"></xref>, select an encryption algorithm.</t>
+        <t>All JWT MUST be signed before encryption to provide integrity and
+        to verify the issuer.</t>
+        <t>Symmetric Encryption algorithms that provide a integrated integrity check MUST 
+        be used if supported by both the sender and receiver. A128GCM and A256GCM 
+        algorithms support this.</t>
+        
         <t><list style="hanging">
-          <t hangText="Using client_secret">
-            [tbd] To use client_secret to encrypt the payload, 
-            Keywrap MUST be used. 
+          <t hangText="Symentric Encryption">
+            Use the client_secret to KeyWrap a random 
+            <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
+            the signed JWT.  
           </t>
-          <t hangText="Asymmetric Encryption">
-            [tbd] . 
-            As the key, either <spanx style="verb">x5u</spanx>
-            or <spanx style="verb">x5t</spanx> registered/obtained 
-            MUST be used to retrieve the relevant key. 
-            If there were multiple keys in <spanx style="verb">jku</spanx>, 
+          <t hangText="Asymmetric Encryption RSA">
+            Use thelink registered/discovered in <xref target="sigenc.alg"></xref>.
+            to retrieve the relevant key.
+            The encryption_url link MUST be used if provided.
+            If there were multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there were multiple certificates in <spanx style="verb">
             x5u</spanx>, then <spanx style="verb">x5t</spanx> MUST be 
-            specified in JWS header. 
-            The key usage of the respective keys MUST include signature. 
+            specified in JWS header.  
+            Use the supported RSA KeyWrap algorithm to KeyWrap a random 
+            <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
+            the signed JWT.
+          </t>
+          <t hangText="Asymmetric Encryption EC">
+            Create a ephemeral EC public key for the <spanx style="verb">epk</spanx>
+            element of the JWE header. 
+            Use the link registered/discovered in <xref target="sigenc.alg"></xref>.
+            to retrieve the relevant key.
+            The encryption_url link MUST be used if provided.
+            If there were multiple keys in <spanx style="verb">jwk</spanx>, 
+            <spanx style="verb">kid</spanx> MUST be specified in JWE header. 
+            If there were multiple certificates in <spanx style="verb">x5u</spanx>,
+            then <spanx style="verb">x5t</spanx> MUST be 
+            specified in JWS header.  
+            Use the ECDH-ES algorithm to KeyWrap a random 
+            <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
+            the signed JWT.
           </t>
         </list></t>
       </section>
@@ -2500,6 +2525,8 @@ Content-Type: application/json
           <t>re #221 Add section 4.1.1.1 on user_id types and calculating pairwise identifiers</t>
           <t>re #88 Add sec 6.1 and 6.2 </t>
           <t>re #88 add JWK reference</t>
+          <t>re #88 update sec 6.3 signing</t>
+          <t>fixes #88 Update Sec 6.4 encryption</t>
 
         </list></t>
          <t>-06<list style="symbols">
