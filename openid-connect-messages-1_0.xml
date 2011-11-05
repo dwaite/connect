@@ -1489,7 +1489,125 @@ Content-Type: application/json
       content.</t>
     
     <t>When the message is both signed and 
-      encrypted, it MUST be signed first then encrypted. </t>
+      encrypted, it MUST be signed first then encrypted. 
+      The value of the typ paramater in the enclosing JWT header MUST be "JWS"</t>
+<section anchor="sigenc.alg" title="Supported Algorithms">
+<t>The server advertises it's supported signing and encryption algorithms
+      in it's discovery document. The related elements are:</t>
+      
+      <t><list style="hanging">
+      <t hangText="user_info_supported_alg">
+          A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+           supported by the user_info_endpoint.</t>
+           
+           <t hangText="id_token_supported_alg">
+          A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+           supported by the Authorization Server for id_token.</t>
+           
+           <t hangText="request_object_supported_alg">
+           A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+           supported by the Authorization Server for the OpenID Request Object described in Sec 4.1.2.1 of <xref
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</t>
+      
+      <t hangText="token_endpoint_auth_supported_alg">
+           A JSON array containing a list of the <xref target="JWS">JWS</xref> signing algorithms
+           supported by the Token Endpoint for the private_key_jwt method.
+            Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
+      
+      
+      </list></t>
+      
+      <t>The client registers it's required algorithms for Signing and Encryption 
+      using the following Registration paramaters:</t>
+      <t><list style="hanging">
+             <t hangText="require_signed_request_object">OPTIONAL the <xref target="JWS">JWS</xref> signature 
+             algorithm that MUST be required by the Authorization Server. All OpenID Request Objects from
+             this client_id MUST be rejected if not signed by this algorithm.</t>
+              
+             <t hangText="user_info_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> encryption 
+             algorithm required for user_info responses. 
+             If this is specified the response will be 
+             <xref target="JWT">JWT</xref> serialized</t>
+             
+             <t hangText="user_info_require_encrypted_response">OPTIONAL a space separated
+             list of the <xref target="JWE">JWE</xref> 
+             <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
+             algorithms required for user_info responses. If this is requested in combination with signing the response 
+             will be signed then encrypted. If this is specified the response will be 
+             <xref target="JWT">JWT</xref> serialized</t>
+             
+             <t hangText="id_token_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
+             algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
+             
+             <t hangText="id_token_require_encrypted_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
+             <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
+             algorithms required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
+             The default if not specified is no encryption</t>
+      </list></t>
+    </section>
+    <section anchor="sigenc.key" title="Keys">
+      
+      <t>The server advertises it's supported signing and encryption algorithms
+      in it's discovery document. The related elements are:</t>
+      
+      <t>The Provider provides it's public Keys durring Discovery in the following elements.</t>
+      <t><list style="hanging">
+        <t hangText="jwk_url">
+          URL of the OP's <xref target="JWK">JSON Web Key </xref>
+          document. Servers signing Key.
+          Used byt the server for Signing JWT, may be used by the client to Encrypt JWT
+          to the Server if x509_url_Encryption is not specified.</t>
+          
+        <t hangText="jwk_url_Encryption">          
+          <c>jwk_url_Encryption</c>
+          URL of the OP's <xref target="JWK">JSON Web Key </xref>
+          document. Servers Encryption Key, if not present it's value 
+          is the same as the URL provided by <spanx style="verb">jwk_url</spanx></t>
+
+        <t hangText="x509_url">
+          URL of the OP's X.509 certificates in PEM format. 
+          Used byt the server for Signing JWT, may be used by the client to Encrypt JWT
+          to the Server if x509_url_Encryption is not specified.</t>
+          
+        <t hangText="x509_url_Encryption"> 
+          URL of the OP's OP's X.509 certificates in PEM format.
+          Servers Encryption Key, if not present it's value 
+          is the same as the URL provided by <spanx style="verb">x509_url</spanx></t>
+
+      </list></t>
+      <t>The client provides it's public Keys durring Registration, in the following elements:</t>
+      <t><list style="hanging">      
+            <t hangText="jwk_url">OPTIONAL. URL for the client's <xref
+            target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
+             signing of token_endpoint and request objects.
+            If jwk_encryption_url is not 
+            provided it is used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the client.
+            </t>
+
+            <t hangText="jwk_encryption_url">OPTIONAL. URL for the client's <xref
+            target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
+            signing of token_endpoint and request objects.</t>
+
+            <t hangText="x509_url">OPTIONAL URL for the client's PEM encoded X.509
+            Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
+             signing of token_endpoint and request objects.
+            If x509_encryption_url is not 
+            provided it is used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the client.</t>
+            
+			<t hangText="x509_encryption_url">OPTIONAL URL for the client's PEM encoded X.509
+            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the client. </t>
+      
+      
+      </list></t>      
+         <t>If keys are specified in both x509 and jwk they MUST be the same keys</t>
+         <t>Key algorithms like EC signing and key agrement require separate keys for 
+         signing and encryption for security. For RSA a single key may be used for both,
+         but it is good practice to separate them.</t>
+       </section>  
+      
 
       <section anchor="sigs" title="Signing">
         <t><list style="hanging">
@@ -2364,6 +2482,7 @@ Content-Type: application/json
           <t>fixes #194 created auth_time claim in id_token section and moved explanation of response value to it</t>
           <t>fixes #227 7.1 7.2 reference validation in standard, add decryption step.</t>
           <t>re #221 Add section 4.1.1.1 on user_id types and calculating pairwise identifiers</t>
+          <t>re #88 Add sec 6.1 and 6.2 </t>
 
         </list></t>
          <t>-06<list style="symbols">
