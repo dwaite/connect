@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="3" month="November" year="2011" />
+    <date day="4" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -1507,20 +1507,23 @@ Content-Type: application/json
 
     <section title="Verification">
       <section title="Authorization Request Verification">
-        <t>If the request contains a signed <xref
+        <t>If the request contains a <xref
         target="OpenIDReq">OpenID Request Object</xref>, the Authorization 
-        Server MUST validate the signature according to Section 5 of <xref
-        target="JWS">JWS</xref>.</t>
+        Server MUST validate the signature according to Section 4.3.2 of 
+        <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>.</t>
       </section>
 
       <section title="Authorization Response Verification">
-        <t>To verify the validity of the Authorization Response, the client
+        <t>To verify the validity of ID Token in the Authorization Response, the client
         MUST do the following:</t>
 
         <t><list style="numbers">
-            <t>If the Authorization Response contains a signed ID Token, the
-            Client SHOULD verify the ID Token signature according to Section 5
-            of <xref target="JWS">JWS</xref>.</t>
+            <t>If the client has provided a user_info_require_encrypted_response
+            paramater durring registration, decrypt the <xref target="JWE">id_token</xref>,
+            using the key pair specified durring registration.</t>
+            <t>The Client SHOULD verify the ID Token signature according to Section 5
+            of <xref target="JWS">JWS</xref> using the HMAC-SHA256 algorithm or 
+            the id_token_require_signed_response paramater sent by the client during registration.</t>
 
             <t>Check that the current time is within the validity period contained
             within the response.</t>
@@ -2324,6 +2327,7 @@ Content-Type: application/json
           <t>re #256 added invalid_request_uri and invalid_openid_request_object </t>
           <t>fixes #195 reworked 3.2 </t>
           <t>fixes #194 created auth_time claim in id_token section and moved explanation of response value to it</t>
+          <t>fixes #227 7.1 7.2 reference validation in standard, add decryption step.</t>
 
         </list></t>
          <t>-06<list style="symbols">
