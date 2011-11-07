@@ -71,7 +71,7 @@
       </address>
     </author>
 
-    <date day="4" month="November" year="2011" />
+    <date day="6" month="November" year="2011" />
 
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
@@ -1692,7 +1692,7 @@ Content-Type: application/json
         <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>.</t>
       </section>
 
-      <section title="Authorization Response Verification">
+      <section title="ID Token Verification">
         <t>To verify the validity of ID Token in the Authorization Response, the client
         MUST do the following:</t>
 
@@ -1700,40 +1700,112 @@ Content-Type: application/json
             <t>If the client has provided a user_info_require_encrypted_response
             paramater durring registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified durring registration.</t>
+            
+            <t>The Client SHOULD validate that the client_id in the 
+            <spanx style="verb">aud</spanx> (audience) claim is one
+             it has registered for the Issuer identified by the value in the 
+             <spanx style="verb">iss</spanx> (issuer) claim.
+              The id_token MUST be rejected if the value of 
+              <spanx style="verb">aud</spanx> (audience) is not valid for the 
+              issuer</t>
+             
             <t>The Client SHOULD verify the ID Token signature according to Section 5
-            of <xref target="JWS">JWS</xref> using the HMAC-SHA256 algorithm or 
-            the id_token_require_signed_response paramater sent by the client during registration.</t>
+            of <xref target="JWS">JWS</xref> using the algorithm specified in the "alg"
+            paramater of the JWT header.</t>
+            
+            <t>This SHOULD be the algorithm sent by the client 
+            in the id_token_require_signed_response paramater during registration.</t>
+            
+            <t>If the "alg" paramater of the header is HS256 the client_secret for the 
+            <spanx style="verb">client_id</spanx> contained in the 
+            <spanx style="verb">aud</spanx> (audience) claim is used to validate the signature.</t> 
+            
+            <t>For other Signing algorithms the client must use the signing key provided
+             in Discovery
+            by the issuer exactly matching the value of the 
+            <spanx style="verb">iss</spanx> (issuer) claim.</t>
 
-            <t>Check that the current time is within the validity period contained
-            within the response.</t>
-
-            <t>Check that the OP that responded was really the intended OP
-            through a TLS/SSL server certificate check.</t>
+            <t>The current time MUST be less than the value of the 
+            <spanx style="verb">exp</spanx> claim.</t>
+            
+            <t>The value of the <spanx style="verb">nonce</spanx>
+             claim MUST be checked to verify that
+            it is the same value as the one that was sent in the Authorization
+            Request. The Client SHOULD check the nonce value for replay attacks.
+            Replay attack mitigation is out of scope for this specification.</t>
+            
+            <t>If the <spanx style="verb">iso29115</spanx> claim was requested, the 
+            client SHOULD check that the 
+            the asserted claim value is appropriate.  The meaning and processing of 
+            "iso29115" claim values is out of scope for this specification.</t>
+            
+            <t>If the <spanx style="verb">auth_time</spanx> claim was requested, the 
+            client SHOULD check the value 
+            and request re-authentication if it determines too much time has elapsed 
+            since the last user authentication.</t>
+            
           </list></t>
 
-        <t>If the client does not directly verify the ID Token signature, it
-        MUST make a request to the Check ID Endpoint to validate the ID Token.</t>
+        
       </section>
 
-      <section title="Token Response Verification">
+      <section title="Check ID Request Verification">
+        <t>The Authorization Server MUST check that the id_token parameter is
+        present and that if it is signed, it MUST be verify
+        the signature according to Section 5 of <xref
+        target="JWS">JWS</xref>.</t>
+        <t>The Authorization Server MUST check that the id_token parameter contains
+        all REQUIRED claims.</t>
+      </section>
+
+      <section title="Check ID Response Verification">
+      <t>If the client does not directly verify the ID Token signature, it
+        MUST make a request to the Check ID Endpoint to validate the ID Token.</t>
         <t>To verify the validity of the Token response, the client MUST do
         the following:</t>
 
         <t><list style="numbers">
-            <t>If the response contains a signed ID Token, the Client SHOULD validate the
-            signature according to Section 5 of <xref
-            target="JWS">JWS</xref>.</t>
+            <t>Check that the OP that responded was really the intended OP
+            through a TLS/SSL server certificate check.</t>
+            <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> 
+            in the <spanx style="verb">aud</spanx> (audience) claim is one
+             it has registered for the Issuer identified by the value in the 
+             <spanx style="verb">iss</spanx> (issuer) claim.
+              The id_token MUST be rejected if the value of 
+              <spanx style="verb">aud</spanx> (audience) is not valid for the 
+              issuer</t>
+              
+              <t>The value of the <spanx style="verb">iss</spanx> (issuer)
+               claim must match the issuer for the Check ID 
+               Endpoint"</t>
 
-            <t>Check that current time is within the validity period contained
-            within the response.</t>
-
+            <t>The current time MUST be less than the value of the 
+            <spanx style="verb">exp</spanx> claim.</t>
+            
+            <t>The value of the <spanx style="verb">nonce</spanx> claim 
+            MUST be checked to verify that
+            it is the same value as the one that was sent in the Authorization
+            Request. The Client SHOULD check the nonce value for replay attacks.
+            Replay attack mitigation is out of scope for this specification.</t>
+            
+            <t>If the <spanx style="verb">iso29115</spanx> claim was requested, the 
+            client SHOULD check that the 
+            the asserted claim value is appropriate.  The meaning and processing of 
+            "iso29115" claim values is out of scope for this specification.</t>
+            
+            <t>If the <spanx style="verb">auth_time</spanx> claim was requested, the 
+            client SHOULD check the value 
+            and request re-authentication if it determines too much time has elapsed 
+            since the last user authentication.</t>
+            
             <t>Check that the OP that responded was really the intended OP
             through a TLS/SSL server certificate check.</t>
           </list></t>
 
-        <t>If the client does not directly verify the ID Token signature, it
-        MUST make a request to the Check ID Endpoint to validate the ID Token.</t>
+
       </section>
+
+
 
       <section title="UserInfo Response Verification">
         <t>To verify the validity of the UserInfo response, the client MUST do
@@ -1749,42 +1821,8 @@ Content-Type: application/json
           </list></t>
       </section>
 
-      <section title="Check ID Request Verification">
-        <t>The Authorization Server MUST check that the id_token parameter is
-        present and that if it is signed, it MUST be verify
-        the signature according to Section 5 of <xref
-        target="JWS">JWS</xref>.</t>
-        <t>The Authorization Server MUST check that the id_token parameter contains
-        all REQUIRED claims.</t>
-      </section>
 
-      <section title="Check ID Response Verification">
-        <t>To verify the validity of the Response, the client MUST do the
-        following:</t>
 
-        <t><list style="numbers">
-            <t>Check that current time is within the validity period of the
-            <spanx style="verb">exp</spanx> contained within the response.</t>
-
-            <t>Verify that the response was intended for the recipient, using
-            the <spanx style="verb">aud</spanx> (audience) contained within
-            the response. It MUST match the Client's 
-            <spanx style="verb">client_id</spanx>.</t>
-
-            <t>Verify that <spanx style="verb">iss</spanx> (issuer) is a trusted issuer
-            of the response. It MUST be an Issuer Identifier for an OpenID
-            Provider that the client trusts and accepts assertions 
-            from.</t>
-
-            <t>If <spanx style="verb">nonce</spanx> is present, verify that
-            it is the same value as the one that was sent in the Authorization
-            Request. The Client SHOULD check the nonce value for replay attacks.
-            Replay attack mitigation is out of scope for this specification.</t>
-
-            <t>Check that the server that responded was really the intended
-            server through a TLS/SSL server certificate check.</t>
-          </list></t>
-      </section>
     </section>
 
     <section anchor="related" title="Related Specifications">
@@ -2527,6 +2565,7 @@ Content-Type: application/json
           <t>re #88 add JWK reference</t>
           <t>re #88 update sec 6.3 signing</t>
           <t>fixes #88 Update Sec 6.4 encryption</t>
+          <t>fixes #200 add id_token verification rules to Sec 7</t>
 
         </list></t>
          <t>-06<list style="symbols">
