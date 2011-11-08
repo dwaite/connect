@@ -228,7 +228,7 @@
             <t hangText="id_token token">When supplied as the value
             for the <spanx style="verb">response_type</spanx>
             parameter, a successful response MUST include both an
-            Access Token as well as an ID Token.  Both success and
+            Access Token as well as an ID Token.  Both successful and
             error responses SHOULD be fragment-encoded. Authorization
             Servers MUST support this <spanx
             style="verb">response_type</spanx>.</t>
@@ -243,14 +243,14 @@
             <t hangText="code id_token">When supplied as the value for
             the <spanx style="verb">response_type</spanx> parameter, a
             successful response MUST include both an Authorization
-            Code as well as an ID Token.  Both success and error
+            Code as well as an ID Token.  Both successful and error
             responses SHOULD be fragment-encoded.</t>
 
             <t hangText="code id_token token">When supplied as the
             value for the <spanx style="verb">response_type</spanx>
             parameter, a successful response MUST include an
             Authorization Code, an ID Token, and an Access Token.
-            Both success and error responses SHOULD be
+            Both successful and error responses SHOULD be
             fragment-encoded.</t>
           </list></t>
         </section>
@@ -272,10 +272,10 @@
               <t>Authorization Server Sends the End-User back to the Client with
               an Authorization Code</t>
 
-              <t>Client requests Assertion using the Authorization Code at the
+              <t>Client requests a response using the Authorization Code at the
               <xref target="token_ep">Token Endpoint</xref></t>
 
-              <t>Client receives Assertion which contains an Access Token and ID
+              <t>Client receives a response which contains an Access Token and ID
               Token in the response body</t>
 
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
@@ -755,12 +755,12 @@ Host: client.example.com]]></artwork>
           Request Object must be JWT decoded.</t>
           
 
-          <t>If the JWT header contains no "typ" element or it's value is "JWT" skip to 
+          <t>If the JWT header contains no "typ" element or its value is "JWT" skip to 
           <xref target="signed.req.obj.var">Signed Request Object</xref></t>
           
          <section title="Encrypted Request Object">
           <t>If the JWT is encrypted "typ" element of the header will contain the value "JWS"
-          indicating that it's payload is a JWS, requiring additional processing.</t>
+          indicating that its payload is a JWS, requiring additional processing.</t>
           
           <t>The Authorization server has advertised JWE encryption algorithms
           in the <spanx style="verb">id_token_supported_alg</spanx> element of its 
@@ -770,7 +770,7 @@ Host: client.example.com]]></artwork>
           , and other paramaters in the JWE header decrypt the JWT, in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification.</t>
           
-          <t>The Authorization Server MUST return the negative authorization 
+          <t>The Authorization Server MUST return the error authorization 
             response as defined in <xref target="OpenID.Messages">OpenID Connect
             Messages 1.0</xref> if there is a decryption error.</t>
             </section>
@@ -788,7 +788,7 @@ Host: client.example.com]]></artwork>
           and algorithm, in accordance with the 
           <xref target="JWS">JSON Web Signature</xref> specification.</t>
           
-          <t>The Authorization Server MUST return the negative authorization 
+          <t>The Authorization Server MUST return the error authorization 
             response as defined in <xref target="OpenID.Messages">OpenID Connect
             Messages 1.0</xref> if there is a decryption error.</t>
           </section>
@@ -858,7 +858,7 @@ Host: client.example.com]]></artwork>
         <section anchor="art_res"
                  title="Authorization Server Sends the End-User Back to the Client ">
           <t>Once the authorization is determined, the Authorization Server
-          returns a positive or negative response.</t>
+          returns a successful or error response.</t>
 
           <section anchor="art_res_ok" title="End-User Grants Authorization">
             <t>If the resource owner grants the access request, the
@@ -874,7 +874,7 @@ Host: client.example.com]]></artwork>
                 <t hangText="code">REQUIRED. The Authorization Code.</t>
               </list>
             Upon receipt of the <spanx style="verb">"code"</spanx>, the
-            Client requests an Assertion that includes the <spanx
+            Client requests a response that includes the <spanx
             style="verb">"access_token"</spanx> and other variables. The
             requests and responses are described in the <xref 
             target="token_ep">Token Endpoint</xref> section.</t>
@@ -1034,7 +1034,7 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
           <section anchor="authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the End-User denies the authorization or the user authentication
-            fails, the Authorization Server MUST return the negative authorization 
+            fails, the Authorization Server MUST return the error authorization 
             response as defined in <xref target="OpenID.Messages">OpenID Connect
             Messages 1.0</xref>. The Authorization Server returns the client to
             the redirection URI specified in the Authorization Request
@@ -1125,7 +1125,7 @@ error=invalid_request
 
         <section title="Access Token Request">
           <t>To obtain an Access Token, Refresh Token or ID token, the client MUST
-          authenticate to the token endpoint using the authentication method registered for it's client_id,
+          authenticate to the token endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
           
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
@@ -1175,19 +1175,19 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 
         <section title="Access Token Response">
           <t>Upon receipt of the Token Request, the Authorization Server MUST
-          return either a Positive or a Negative Assertion that corresponds to
+          return either a successful response or an error response that corresponds to
           the received Authorization Code.</t>
 
-          <section title="Positive Assertion">
-            <t>A Positive Assertion response returns the "<spanx style="verb">application/json</spanx>"
+          <section title="Successful Response">
+            <t>A successful response returns the "<spanx style="verb">application/json</spanx>"
             media type and the response body is the Access Token Response documented in Sec 3.2.3 of
             <xref target="OpenID.Messages">OpenID Connect Messages
             1.0</xref>.</t>
 
             
             <figure>
-              <preamble>Following is a non-normative example of the Positive
-              Assertion:</preamble>
+              <preamble>Following is a non-normative example of a
+              successful response:</preamble>
 
               <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
@@ -1233,7 +1233,7 @@ Pragma: no-cache
 
       <section title="Refreshing an Access Token">
          <t>To refresh an Access Token, the client MUST
-          authenticate to the token endpoint using the authentication method registered for it's client_id,
+          authenticate to the token endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
         The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
@@ -1249,12 +1249,12 @@ Pragma: no-cache
 
         <section title="Refresh Token Response">
           <t>Upon receipt of the Refresh Token Request, the Authorization Server MUST
-          return either a Positive or a Negative Assertion that corresponds to
+          return either a successful response or an error response that corresponds to
           the received Refresh Token.</t>
 
-        <section title="Positive Assertion">
-          <t>Upon successful verification of the refresh token, a positive
-          assertion response returns the "<spanx style="verb">application/json</spanx>"
+        <section title="Successful Response">
+          <t>Upon successful verification of the refresh token, a successful
+          response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
           <xref target="OpenID.Messages">Section 3.2.2 of OpenID Connect Messages
           1.0</xref>.</t>
@@ -1303,7 +1303,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
     </section>
 
     <section anchor="userinfo_ep" title="UserInfo Endpoint">
-      <t>To obtain the additional attributes and tokens/assertions, the client
+      <t>To obtain the requested Claims about the End-User, the client
       makes a GET or POST request to the UserInfo Endpoint as in <xref
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 

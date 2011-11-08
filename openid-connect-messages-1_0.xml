@@ -110,9 +110,6 @@
       "Token Endpoint" that are defined by <xref target="OAuth.2.0">OAuth
       2.0</xref>, this specification defines the following terms: <list
           style="hanging">
-          <t hangText="Assertion">A set of Claims that are attested to 
-          by an Issuer.</t>
-
           <t hangText="Authentication">An act of verifying End-User's identity
           through the verification of the credential.</t>
 
@@ -131,7 +128,7 @@
           <t hangText="ID Token">A token that contains claims about the
           authentication event.</t>
 
-          <t hangText="Issuer">An Entity who issues an Assertion.</t>
+          <t hangText="Issuer">An Entity that issues a set of Claims.</t>
 
           <t hangText="Issuer Identifier">A verifiable identifier for
           an Issuer.  An Issuer Identifier is an HTTPS URL that only
@@ -161,12 +158,12 @@
           returned through redirect.</t>
 
           <t hangText="Check ID Endpoint">A resource that, when
-          presented with an ID Token by the client, returns authentication
-          information about the user session represented by that ID Token.</t>
+          presented with an ID Token by the client, returns Claims
+          about the user session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
-          presented with an Access Token by the client, returns authorized
-          information about the End-User represented by that Access Token.</t>
+          presented with an Access Token by the client, returns Claims
+          about the End-User represented by that Access Token.</t>
         </list></t>
     </section>
 
@@ -229,7 +226,7 @@
           <spanx style="verb">access_token</spanx>.</t>
 
           <t>UserInfo Endpoint: The <spanx style="verb">access_token</spanx>
-          MAY be sent to the UserInfo Endpoint to obtain claims about the
+          MAY be sent to the UserInfo Endpoint to obtain Claims about the
           End-User.</t>
 
           <t>Check ID Endpoint: An id_token MAY be sent to the Check ID
@@ -889,8 +886,8 @@ Authorization: Bearer vF9dft4qmT]]>
 
         <section anchor="access_token_response" title="Access Token Response">
           <t>After receiving and verifying a valid and authorized Access Token
-          Request from the client, the Authorization Server returns a Positive
-          Assertion that includes an Access Token and an ID Token. The
+          Request from the client, the Authorization Server returns a successful
+          response that includes an Access Token and an ID Token.  The
           parameters in the successful response are defined in Section 4.1.4
           of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
@@ -949,10 +946,8 @@ Authorization: Bearer vF9dft4qmT]]>
 
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
         <t>The UserInfo endpoint is an OAuth 2.0 protected resource that
-        returns a claim object which contains claims about the authenticated
-        End-User. Claim objects are objects that contain members and members'
-        values which are the individual claims and claims values. A claim
-        object is represented by a JSON object which contains a collection of
+        returns Claims about the authenticated End-User. Claims are
+        represented by a JSON object that contains a collection of
         name and value pairs for the claims.</t>
 
         <section title="Requests">
@@ -1205,7 +1200,7 @@ Authorization: Bearer vF9dft4qmT]]>
         </section>
 
         <section title="Claim Types">
-          <t>The UserInfo Endpoint MAY return a claim object containing the
+          <t>The UserInfo Endpoint MAY return the
           following three types of claims:</t>
 
           <t><list style="hanging">
@@ -1224,7 +1219,7 @@ Authorization: Bearer vF9dft4qmT]]>
           <t>Aggregated and distributed claims support is OPTIONAL.</t>
 
           <section title="Normal Claims">
-            <t>Normal claims are represented as members in a claim object. The
+            <t>Normal Claims are represented as members in a JSON object. The
             claim name is the member name and the claim value is the member
             value.</t>
 
@@ -1244,24 +1239,23 @@ Authorization: Bearer vF9dft4qmT]]>
           </section>
 
           <section title="Aggregated and Distributed Claims">
-            <t>Aggregated and distributed claims are represented within the
-            "_claim_names" and "_claim_sources" members of a claim object.
-            Both "_claim_names" and "_claim_sources" members are claim
-            objects.</t>
+            <t>Aggregated and distributed Claims are represented by
+            using special "_claim_names" and "_claim_sources" members
+            of the JSON object containing the Claims.</t>
 
             <t><list style="hanging">
-              <t hangText="_claim_names">This is a JSON object whose member
+              <t hangText="_claim_names">This value is a JSON object whose member
               names are the claims names for the aggregated and distributed
               claims. The member values are references to the member names
-              in the "_claim_sources" member of the claim object from which
+              in the "_claim_sources" member from which
               the actual value can be retrieved.</t>
 
-              <t hangText="_claim_sources">This is a JSON object whose
+              <t hangText="_claim_sources">This value is a JSON object whose
               member names are referenced by the member values of the
-              "_claim_names" member of the claim object. The member values
+              "_claim_names" member. The member values
               contain sets of aggregated claims or reference locations for
               distributed claims. The member values can have one of the
-              following formats depending on whether it's providing
+              following formats depending on whether it is providing
               aggregated or distributed claims: <list style="hanging">
               <t hangText="Aggregated Claims">A JSON object which MUST
               contain the "JWT" member whose value is a <xref
@@ -1495,8 +1489,8 @@ Content-Type: application/json
       encrypted, it MUST be signed first then encrypted. 
       The value of the typ paramater in the enclosing JWT header MUST be "JWS"</t>
 <section anchor="sigenc.alg" title="Supported Algorithms">
-<t>The server advertises it's supported signing and encryption algorithms
-      in it's discovery document. The related elements are:</t>
+<t>The server advertises its supported signing and encryption algorithms
+      in its discovery document. The related elements are:</t>
       
       <t><list style="hanging">
       <t hangText="user_info_supported_alg">
@@ -1520,7 +1514,7 @@ Content-Type: application/json
       
       </list></t>
       
-      <t>The client registers it's required algorithms for Signing and Encryption 
+      <t>The client registers its required algorithms for Signing and Encryption 
       using the following Registration paramaters:</t>
       <t><list style="hanging">
              <t hangText="require_signed_request_object">OPTIONAL the <xref target="JWS">JWS</xref> signature 
@@ -1550,10 +1544,10 @@ Content-Type: application/json
     </section>
     <section anchor="sigenc.key" title="Keys">
       
-      <t>The server advertises it's supported signing and encryption algorithms
-      in it's discovery document. The related elements are:</t>
+      <t>The server advertises its supported signing and encryption algorithms
+      in its discovery document. The related elements are:</t>
       
-      <t>The Provider provides it's public Keys durring Discovery in the following elements.</t>
+      <t>The Provider provides its public Keys durring Discovery in the following elements.</t>
       <t><list style="hanging">
         <t hangText="jwk_url">
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
@@ -1563,7 +1557,7 @@ Content-Type: application/json
           
         <t hangText="jwk_url_Encryption">          
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Servers Encryption Key, if not present it's value 
+          document. Servers Encryption Key, if not present its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx></t>
 
         <t hangText="x509_url">
@@ -1573,11 +1567,11 @@ Content-Type: application/json
           
         <t hangText="x509_url_Encryption"> 
           URL of the OP's OP's X.509 certificates in PEM format.
-          Servers Encryption Key, if not present it's value 
+          Servers Encryption Key, if not present its value 
           is the same as the URL provided by <spanx style="verb">x509_url</spanx></t>
 
       </list></t>
-      <t>The client provides it's public Keys durring Registration, in the following elements:</t>
+      <t>The client provides its public Keys during Registration, in the following elements:</t>
       <t><list style="hanging">      
             <t hangText="jwk_url">OPTIONAL. URL for the client's <xref
             target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
@@ -1929,7 +1923,7 @@ Content-Type: application/json
         <t>The only place where it can be captured is the User-Agent where the TLS
         session is terminated; this is possible if the User-Agent is infested
         by malware. However, capturing it is not useful as long as the profile
-        uses either RP authentication or assertion encryption.</t>
+        uses either RP authentication or encryption.</t>
       </section>
 
       <section anchor="assertion_substitution" title="Assertion Substitution">

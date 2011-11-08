@@ -114,9 +114,6 @@
           <t hangText="OpenID Provider (OP)">A service capable of providing
           claims to a Relying Party.</t>
 
-          <t hangText="Assertion">A set of Claims about the End-User that are
-          attested to by the OpenID Provider and Resource Servers.</t>
-
           <t hangText="Claim">A piece of information about an Entity that a
           Claims Provider asserts about that Entity.</t>
 
@@ -396,7 +393,7 @@ response_type=token%20id_token
         <section anchor="implicit_res"
                  title="Authorization Server Sends the End-User Back to the Client">
           <t>Once the authorization is determined, the Authorization Server
-          returns a positive or negative response.</t>
+          returns a successful response or an error response.</t>
 
           <section anchor="implicit_ok" title="End-User Grants Authorization">
             <t>If the resource owner grants the access request, the
@@ -453,7 +450,7 @@ access_token=SlAV32hkKG
           <section anchor="implicit_authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the End-User denies the authorization or the End-User authentication
-            fails, the Authorization Server MUST return the negative 
+            fails, the Authorization Server MUST return the error
             authorization response as defined in 4.2.2.1 of 
             <xref target="OAuth.2.0">OAuth 2.0</xref>. No other parameters 
             SHOULD be returned.</t>
@@ -639,8 +636,8 @@ Content-Type: application/json
 
 
       <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
-      Subject in the session. Therefore, it MUST NOT be used as an assertion
-      about the End-User in the session unless the user_id matches the user_id in
+      Subject of the session. Therefore, it MUST NOT be assumed to be about the
+      Subject of the session unless the user_id matches the user_id in
       the ID Token.</t>
 
       <section title="Requesting UserInfo">
