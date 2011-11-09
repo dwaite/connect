@@ -150,7 +150,10 @@
       Then it makes a HTTPS request to the host's Simple Web Discovery
       endpoint with the <spanx style="verb">principal</spanx> and <spanx
       style="verb">service</spanx> parameters to obtain the location of the
-      requested service.</t>
+      requested service.
+      The client MUST perform a TLS/SSL server certificate check, per
+      <xref target="RFC6125">RFC 6125</xref>.
+      </t>
 
       <t>What MUST be returned in the response is the <spanx style="verb">issuer</spanx>.
       This includes URI scheme, HOST, and OPTIONALLY, port.</t>
@@ -450,7 +453,10 @@ Content-Type: application/json
 
       <section title="Provider Configuration Request">
         <t>An OpenID Provider Configuration Document is queried using a HTTPS
-        GET request with the previously specified path.</t>
+        GET request with the previously specified path.
+	The client MUST perform a TLS/SSL server certificate check, per
+	<xref target="RFC6125">RFC 6125</xref>.
+	</t>
 
         <t>The client would make the following request to the <spanx
         style="verb">issuer </spanx>to get the Configuration information.</t>
@@ -617,14 +623,16 @@ Host: example.com
           <c>array</c>
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the UserInfo Endpoint.</c>
+           supported by the UserInfo Endpoint
+	   to encode the JWT <xref target="JWT" />.</c>
            
            <c>id_token_supported_algs</c>
 
           <c>array</c>
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the Authorization Server for id_token.</c>
+           supported by the Authorization Server for the id_token
+	   to encode the JWT <xref target="JWT" />.</c>
            
            <c>request_object_supported_algs</c>
 
@@ -632,8 +640,9 @@ Host: example.com
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
            supported by the Authorization Server for the OpenID Request Object described in Sec 4.1.2.1 of <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</c>
-           
+	   target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+	   to encode the JWT <xref target="JWT" />.
+	   Servers SHOULD support <spanx style="verb">HS256</spanx>.</c>
 
            <c>token_endpoint_supported_auth_types</c>
 
@@ -646,17 +655,15 @@ Host: example.com
              omitted, the default is client_secret_basic HTTP Basic Authentication 
              Scheme as specified in
             section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</c>
-      
            
            <c>token_endpoint_supported_auth_algs</c>
 
           <c>array</c>
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> signing algorithms
-           supported by the Token Endpoint for the private_key_jwt method.
+           supported by the Token Endpoint for the private_key_jwt method
+	   to encode the JWT <xref target="JWT" />.
             Servers SHOULD support <spanx style="verb">RS256</spanx>.</c>
-      
-      
            
         </texttable>
 
@@ -721,13 +728,11 @@ Host: example.com
 
   <back>
     <references title="Normative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5785.xml"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
-
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml'?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986'?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5785"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
 
       <reference anchor="OpenID.Messages">
         <front>
@@ -804,6 +809,30 @@ Host: example.com
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OAuth.2.0">
+        <front>
+          <title>OAuth 2.0 Authorization Protocol</title>
+
+          <author fullname="Eran Hammer-Lahav" initials="E." role="editor"
+                  surname="Hammer-Lahav">
+            <organization abbrev="Yahoo">Yahoo</organization>
+          </author>
+
+          <author fullname="David Recordon" initials="D." surname="Recordon">
+            <organization abbrev="Facebook">Facebook</organization>
+          </author>
+
+          <author fullname="Dick Hardt" initials="D." surname="Hardt">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <date day="22" month="September" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
                 type="HTML" />
       </reference>
 

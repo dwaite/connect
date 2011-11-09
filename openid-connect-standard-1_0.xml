@@ -355,7 +355,10 @@
                  title="Client Prepares an Authorization Request">
           <t>The client prepares an Authorization Request to the Authorization
           Endpoint with the request parameters using the HTTP "GET" or "POST"
-          method. The scheme used in the Authorization URL MUST be HTTPS.</t>
+          method. The scheme used in the Authorization URL MUST be HTTPS.
+	  The client MUST perform a TLS/SSL server certificate check, per
+	  <xref target="RFC6125">RFC 6125</xref>.
+	  </t>
 
           <t>The required Authorization Request parameters are as follows:</t>
 
@@ -656,7 +659,11 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
             <t>The Client prepares an Authorization Request using the desired 
             HTTP "GET" or "POST" method. The Client SHOULD use the HTTP "GET"
-            method, but MAY use the HTTP "POST" method. The scheme used in the Authorization URL MUST be HTTPS.</t>
+            method, but MAY use the HTTP "POST" method.
+	    The scheme used in the Authorization URL MUST be HTTPS.
+	    The client MUST perform a TLS/SSL server certificate check, per
+	    <xref target="RFC6125">RFC 6125</xref>.
+	    </t>
 
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
@@ -1233,7 +1240,7 @@ Pragma: no-cache
          <t>To refresh an Access Token, the client MUST
           authenticate to the token endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
-        The Client sends the parameters via HTTPS POST to the Token Endpoint using
+	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 6 of 
           <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
@@ -1421,7 +1428,10 @@ Content-Type: application/json
       <section title="Check ID Requests">
           <t>The client prepares a Check ID Endpoint Request to the Check ID
           Endpoint with the request parameters using the HTTP "GET" or "POST"
-          method. The scheme used in the Authorization URL MUST be HTTPS.</t>
+          method. The scheme used in the Authorization URL MUST be HTTPS.
+	  The client MUST perform a TLS/SSL server certificate check, per
+	  <xref target="RFC6125">RFC 6125</xref>.
+	  </t>
 
           <t>The request parameters are as follows:</t>
           <t><list style="hanging">
@@ -1883,12 +1893,9 @@ scope=openid&response_type=code
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
-
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617"?>
-
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
 
       <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 

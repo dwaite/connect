@@ -201,7 +201,10 @@
             
             <t hangText="sector_identifier_url">OPTIONAL a HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
-            file with a single JSON array of redirect_uri values.</t>
+            file with a single JSON array of redirect_uri values.
+	    The client MUST perform a TLS/SSL server certificate check, per
+	    <xref target="RFC6125">RFC 6125</xref>.
+	    </t>
             
             <t hangText="user_id_type">OPTIONAL the type of user Identifier requested for 
             responses to this client_id. The identifiers_supported element of discovery 
@@ -259,7 +262,11 @@ type=client_associate
          reregister all of there users.</t> 
          <t>This is further described in Section 4.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         <t>The value of the sector_identifer_url must be a HTTPS scheme URL that identifies
-           a JSON file containing a array containing redirect_uri.</t>
+	a JSON file containing an array containing redirect_uri.
+	The client MUST perform a TLS/SSL server certificate check, per
+	<xref target="RFC6125">RFC 6125</xref>.
+	</t>
+
            <t>The values of the registered redirect_uri must be included in the elements of the array,
            or registration MUST fail.</t>
            
@@ -340,17 +347,19 @@ Content-Type: application/json
       mechanism when sending requests to the token endpoint. The server MUST
       support TLS 1.2 as defined in <xref target="RFC5246">RFC 5246</xref>, 
       and MAY support additional transport-layer mechanisms meeting its security
-      requirements.</t>
+      requirements.
+      When using TLS, the client MUST perform a TLS/SSL server certificate check, per
+      <xref target="RFC6125">RFC 6125</xref>.
+      </t>
     </section>
   </middle>
 
   <back>
     <references title="Normative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
 
       <reference anchor="OpenID.Messages">
         <front>
