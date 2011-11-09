@@ -453,7 +453,7 @@ Content-Type: application/json
         GET request with the previously specified path.</t>
 
         <t>The client would make the following request to the <spanx
-        style="verb">issuer </spanx>to get the Configuration information</t>
+        style="verb">issuer </spanx>to get the Configuration information.</t>
 
         <t><figure>
             <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
@@ -517,7 +517,7 @@ Host: example.com
           The options are client_secret_post, client_secret_basic, client_secret_jwt, and private_key_jwt.
           Other Authentication methods may be defined by extension.</c>
 
-          <c>user_info_endpoint</c>
+          <c>userinfo_endpoint</c>
 
           <c>string</c>
 
@@ -612,21 +612,21 @@ Host: example.com
           <c>A JSON array containing a list of the user identifier types that
           this server supports, the valid types include "pairwise" and "public"</c>
           
-          <c>user_info_supported_alg</c>
+          <c>userinfo_supported_algs</c>
 
           <c>array</c>
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the user_info_endpoint.</c>
+           supported by the UserInfo Endpoint.</c>
            
-           <c>id_token_supported_alg</c>
+           <c>id_token_supported_algs</c>
 
           <c>array</c>
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
            supported by the Authorization Server for id_token.</c>
            
-           <c>request_object_supported_alg</c>
+           <c>request_object_supported_algs</c>
 
           <c>array</c>
 
@@ -635,7 +635,7 @@ Host: example.com
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</c>
            
 
-           <c>token_endpoint_auth_type_supported</c>
+           <c>token_endpoint_supported_auth_types</c>
 
           <c>array</c>
 
@@ -648,7 +648,7 @@ Host: example.com
             section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</c>
       
            
-           <c>token_endpoint_auth_supported_alg</c>
+           <c>token_endpoint_supported_auth_algs</c>
 
           <c>array</c>
 
@@ -660,7 +660,7 @@ Host: example.com
            
         </texttable>
 
-        <t>Example response</t>
+        <t>Example response:</t>
 
         <t><figure>
             <artwork><![CDATA[{
@@ -668,7 +668,7 @@ Host: example.com
  "issuer" : "https://server.example.com",
  "token_endpoint": "https://server.example.com/connect/token",
  "token_endpoint_supported_auth_types": ["client_secret_basic", "private_key_jwt"],
- "user_info_endpoint": "https://server.example.com/connect/user",
+ "userinfo_endpoint": "https://server.example.com/connect/user",
  "check_id_endpoint": "https://server.example.com/connect/check_id",
  "refresh_session_endpoint": "https://server.example.com/connect/refresh_session",
  "end_session_endpoint": "https://server.example.com/connect/end_session",
@@ -678,9 +678,9 @@ Host: example.com
  "flows_supported": ["code", "code id_token", "token id_token"],
  "iso29115_supported": ["http://www.idmanagement.gov/schema/2009/05/icam/openid-trust-level1.pdf"],
  "identifiers_supported": ["public", "pairwise"],
- "user_info_supported_alg": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "id_token_supported_alg": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"],
- "request_object_supported_alg": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"]
+ "userinfo_supported_algs": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
+ "id_token_supported_algs": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"],
+ "request_object_supported_algs": ["HS256", "RS256", "A128CBC",  "A128KW", "RSA1_5"]
  }]]></artwork>
           </figure></t>
       </section>
@@ -1040,14 +1040,14 @@ Host: example.com
       <t><list style="symbols">
           <t>Removed extra reference to TLS in sec 4.1 per ticket #235</t>
           <t>Added references to JWE and JWS</t>
-          <t>Added discovery elements for user_info_supported_alg and id_token_supported_alg </t>
+          <t>Added discovery elements for userinfo_supported_algs and id_token_supported_algs </t>
           <t>Added token_endpoint_supported_auth_types</t>
           <t>Added list of authentication types</t>
           <t>fixes #216 added "pair_wise" and "public" to list of identifier types</t>
           <t>fixes #216 changed pair_wise to pairwise and fixed up examples in sec 5.2</t>
           <t>fixes #276 add supported algorithms for request_object Sec 5.2</t>
           <t>fixes #277 add missing encryption certificates for server</t>
-          <t>add token_endpoint_auth_type_supported and token_endpoint_auth_supported_alg</t>
+          <t>Added token_endpoint_supported_auth_types and token_endpoint_supported_auth_algs</t>
         </list></t>
 
       <t>-06</t>

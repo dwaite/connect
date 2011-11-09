@@ -319,7 +319,7 @@
            <t>Providers Discovery documents SHOULD list there supported identifier types in the 
            identifiers_supported element.</t>
            <t>If there is more than one type listed in the array, the client may elect to
-           provide its preferred identifier type using the user_id_type paramater durring registration.</t>
+           provide its preferred identifier type using the user_id_type paramater during registration.</t>
            <t>The types supported by this specification are:</t>
            
            <t><list style="hanging">
@@ -329,12 +329,12 @@
               correlation of the users activities by clients without the users permission.</t>
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifyer Algorithem">
-           <t>The Provider MUST calculate a unique user_id value for each sector_identifer</t>
+           <t>The Provider MUST calculate a unique user_id value for each sector_identifer.</t>
            <t>If the client has not provided a value for sector_identifier_url in registration,
            the sector_identifier used for pairwise identifier calculation is the host component 
            of the registered redirect_uri.</t>
            <t>If there are multiple hostnames in the registered redirect_uri, the client MUST register a 
-           sector_identifer_url</t>
+           sector_identifer_url.</t>
            <t>If a sector_identifer_url is provided, the host component of that URL is used as
            the sector sector_identifer for the pairwise identifier calculation.</t>
            <t>The value of the sector_identifer_url must be a HTTPS URL that identifies
@@ -345,8 +345,8 @@
            This specification includes a simple example.</t>
            <t>The sector_identifer is concatenated with a local account ID and a salt 
            value that is kept secret by the provider. the concatenated string is then 
-           hashed by an appropriate algorithm</t>
-           <t>Calculate SHA256 ( sector_identifer | local_account_id | salt ) = user_id </t>
+           hashed by an appropriate algorithm.</t>
+           <t>Calculate SHA256 ( sector_identifer | local_account_id | salt ) = user_id.</t>
         </section>
           </section>
         </section>
@@ -473,7 +473,7 @@
 
                   <t hangText="select_account">The Authorization Server MUST
                   prompt the End-User to select a user account if the account has
-                  multiple accounts associated with it</t>
+                  multiple accounts associated with it.</t>
                 </list>
                 This can be used by the client to make sure that the End-User is
                 still present for the current session or to bring attention to the
@@ -603,7 +603,7 @@
               <t><list style="hanging">
                   <t hangText="null">This indicates that this claim is being
                   requested in the default manner. In particular, this is a
-                  required claim. OR</t>
+                  required claim.</t>
 
                   <t hangText="A JSON Object">This is used to provide
                   additional information about the claim being requested.</t>
@@ -643,8 +643,8 @@
             <section anchor="req.obj.id_token" title="&quot;id_token&quot; member">
               <t>The structure and function of the "id_token" (ID Token
               request) member of the OpenID Request Object is similar to that
-              of the "userinfo" member. It MAY include "claims", "format",
-              "locale". The structure of these members is the same as
+              of the "userinfo" member. It MAY include the OPTIONAL "claims" and
+              "locale" members. The structure of these members is the same as
               that for the "userinfo" member. If the "claims" member is
               present in the "id_token" object, the claims requested within it
               modify the default claim set that would otherwise be returned in
@@ -686,7 +686,7 @@
 
               <t>All members of the "id_token" object are OPTIONAL. Other
               members MAY be present and if so, SHOULD understood by both
-              parties</t>
+              parties.</t>
             </section>
           </section>
         </section>
@@ -707,7 +707,7 @@
 
           <t>When the <spanx style="verb">response_type</spanx>
           includes other values, they must be returned as defined by
-          there registration.  The id_token return type is defined in
+          their registration.  The id_token return type is defined in
           <xref target="RESPONSE.TYPES">OAuth 2.0 Multiple Response Type
           Encoding Practices</xref>.</t>
         </section>
@@ -791,7 +791,7 @@
         
         <section anchor="client_authentication" title="Client Authentication">
 
-          <t>Durring Client Registration, the client may register a authentication method.
+          <t>Durring Client Registration, the client may register an authentication method.
           If no method is registered, the default method of client_secret_basic MUST be used.</t>
           <t>The Supported options are:</t>
           
@@ -1149,12 +1149,12 @@ Authorization: Bearer vF9dft4qmT]]>
           values for some schema elements as part of the "openid" scope.</t>
 
           <t>The UserInfo Endpoint MUST return claims in JSON format unless a
-          request for a different format is made by the client in the
-          Authorization Request. The UserInfo Endpoint MAY return claims in
-          JWT format which can be signed or encrypted via <xref
+          different format was specified during client Registration.
+	  The UserInfo Endpoint MAY return claims in
+          JWT format which can be signed and/or encrypted via <xref
           target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
-          respectively. <xref target="OpenIDReq">The OpenID Request
-          Object</xref> describes how to request a different format. The
+          respectively.
+	  The
           UserInfo endpoint MUST return a content-type header to indicate
           which format is being returned. The following are accepted content
           types:</t>
@@ -1243,52 +1243,61 @@ Authorization: Bearer vF9dft4qmT]]>
             using special "_claim_names" and "_claim_sources" members
             of the JSON object containing the Claims.</t>
 
-            <t><list style="hanging">
-              <t hangText="_claim_names">This value is a JSON object whose member
-              names are the claims names for the aggregated and distributed
-              claims. The member values are references to the member names
-              in the "_claim_sources" member from which
-              the actual value can be retrieved.</t>
+            <t>
+	      <list style="hanging">
+		<t hangText="_claim_names">This value is a JSON object whose member
+		names are the claims names for the aggregated and distributed
+		claims. The member values are references to the member names
+		in the "_claim_sources" member from which
+		the actual value can be retrieved.</t>
 
-              <t hangText="_claim_sources">This value is a JSON object whose
-              member names are referenced by the member values of the
-              "_claim_names" member. The member values
-              contain sets of aggregated claims or reference locations for
-              distributed claims. The member values can have one of the
-              following formats depending on whether it is providing
-              aggregated or distributed claims: <list style="hanging">
-              <t hangText="Aggregated Claims">A JSON object which MUST
-              contain the "JWT" member whose value is a <xref
-              target="JWT">JWT</xref> which MUST contain all the claims
-              in the "_claim_names" object which references the
-              corresponding "_claim_sources" member. Other members MAY
-              be present if they are understood by both parties.<list
-              style="hanging">
-              <t hangText="JWT">REQUIRED. JWT Value</t>
-              </list></t>
+		<t hangText="_claim_sources">This value is a JSON object whose
+		member names are referenced by the member values of the
+		"_claim_names" member. The member values
+		contain sets of aggregated claims or reference locations for
+		distributed claims. The member values can have one of the
+		following formats depending on whether it is providing
+		aggregated or distributed claims:
 
-              <t hangText="Distributed Claims">A JSON object which
-              contains the following members and values:<list
-              style="hanging">
-              <t hangText="endpoint">REQUIRED. The value is the
-              OAuth 2.0 resource endpoint from which the associated
-              claim can be retrieved. The endpoint URL MUST return
-              the claim as a JWT.</t>
+		<list style="hanging">
 
-              <t hangText="access_token">OPTIONAL. Access Token
-              enabling retrieval of the claims from the endpoint URL
-              by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
-              Bearer</xref> scheme. Claims SHOULD be requested using
-              the Authorization Request header field and claims
-              sources MUST support this method. If the Access Token
-              is not available, clients MAY need to retrieve the
-              Access Token out of band or use an a priori Access
-              Token that was negotiated between the claim source and
-              client, or the claim source MAY reauthenticate the
-              End-User and/or reauthorize the client.</t>
-              </list></t>
-              </list> Other members MAY be present, if understood by both
-              parties</t>
+		  <t hangText="Aggregated Claims">A JSON object that MUST
+		  contain the "JWT" member whose value is a <xref
+		  target="JWT">JWT</xref> that MUST contain all the claims
+		  in the "_claim_names" object that references the
+		  corresponding "_claim_sources" member. Other members MAY
+		  be present if they are understood by both parties.
+
+		  <list style="hanging">
+		    <t hangText="JWT">REQUIRED. JWT Value.</t>
+		  </list>
+		  </t>
+
+		  <t hangText="Distributed Claims">A JSON object that
+		  contains the following members and values:
+
+		  <list style="hanging">
+		    <t hangText="endpoint">REQUIRED. The value is the
+		    OAuth 2.0 resource endpoint from which the associated
+		    claim can be retrieved. The endpoint URL MUST return
+		    the claim as a JWT.</t>
+
+		    <t hangText="access_token">OPTIONAL. Access Token
+		    enabling retrieval of the claims from the endpoint URL
+		    by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
+		    Bearer</xref> scheme. Claims SHOULD be requested using
+		    the Authorization Request header field and claims
+		    sources MUST support this method. If the Access Token
+		    is not available, clients MAY need to retrieve the
+		    Access Token out of band or use an a priori Access
+		    Token that was negotiated between the claim source and
+		    client, or the claim source MAY reauthenticate the
+		    End-User and/or reauthorize the client.</t>
+
+		  </list></t>
+		</list>
+	      Other members MAY be present, if understood by both
+	      parties.</t>
             </list></t>
 
             <t>The following is a non-normative response with aggregated
@@ -1399,11 +1408,12 @@ may be retrieved:
           <t>The response is a <xref target="RFC4627">JSON</xref> object
           containing the <xref target="id_token">ID Token</xref> claims.</t>
 
-          <t>Other claims MAY be returned by specifying the desired ID Token 
+          <t>Other claims MAY be requested by specifying the desired ID Token 
           claims to be returned in an <xref
           target="OpenIDReq">OpenID Request Object</xref> when making an
-          Authorization Request. The Check ID endpoint MUST return
-          claims in JSON format.</t>
+          Authorization Request.  The Check ID endpoint MUST return
+          claims in JSON format unless a different format was specified
+	  during client Registration.</t>
           <figure>
             <preamble>The following is a non-normative example of a request to
             the Check ID endpoint:</preamble>
@@ -1493,45 +1503,44 @@ Content-Type: application/json
       in its discovery document. The related elements are:</t>
       
       <t><list style="hanging">
-      <t hangText="user_info_supported_alg">
-          A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the user_info_endpoint.</t>
+	  <t hangText="userinfo_supported_algs">
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+            supported by the UserInfo Endpoint.</t>
            
-           <t hangText="id_token_supported_alg">
-          A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the Authorization Server for id_token.</t>
+          <t hangText="id_token_supported_algs">
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    supported by the Authorization Server for the ID Token.</t>
            
-           <t hangText="request_object_supported_alg">
-           A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the Authorization Server for the OpenID Request Object described in  <xref
+          <t hangText="request_object_supported_algs">
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    supported by the Authorization Server for the OpenID Request Object described in  <xref
       target="OpenIDReq">Sec 4.1.2.1</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</t>
       
-      <t hangText="token_endpoint_auth_supported_alg">
-           A JSON array containing a list of the <xref target="JWS">JWS</xref> signing algorithms
-           supported by the Token Endpoint for the private_key_jwt method.
+	  <t hangText="token_endpoint_supported_auth_algs">
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> signing algorithms
+	    supported by the Token Endpoint for the private_key_jwt method.
             Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
-      
-      
+
       </list></t>
       
       <t>The client registers its required algorithms for Signing and Encryption 
-      using the following Registration paramaters:</t>
+      using the following Registration parameters:</t>
       <t><list style="hanging">
              <t hangText="require_signed_request_object">OPTIONAL the <xref target="JWS">JWS</xref> signature 
              algorithm that MUST be required by the Authorization Server. All OpenID Request Objects from
              this client_id MUST be rejected if not signed by this algorithm.</t>
               
-             <t hangText="user_info_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> encryption 
-             algorithm required for user_info responses. 
+             <t hangText="userinfo_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> encryption 
+             algorithm required for userinfo responses. 
              If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized</t>
+             <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="user_info_require_encrypted_response">OPTIONAL a space separated
+             <t hangText="userinfo_require_encrypted_response">OPTIONAL a space separated
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
-             algorithms required for user_info responses. If this is requested in combination with signing the response 
+             algorithms required for userinfo responses. If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized</t>
+             <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="id_token_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
              algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
@@ -1539,7 +1548,7 @@ Content-Type: application/json
              <t hangText="id_token_require_encrypted_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
              algorithms required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
-             The default if not specified is no encryption</t>
+             The default if not specified is no encryption.</t>
       </list></t>
     </section>
     <section anchor="sigenc.key" title="Keys">
@@ -1598,7 +1607,7 @@ Content-Type: application/json
       
       
       </list></t>      
-         <t>If keys are specified in both x509 and jwk they MUST be the same keys</t>
+         <t>If keys are specified in both x509 and jwk they MUST be the same keys.</t>
          <t>Key algorithms like EC signing and key agrement require separate keys for 
          signing and encryption for security. For RSA a single key may be used for both,
          but it is good practice to separate them.</t>
@@ -1694,9 +1703,9 @@ Content-Type: application/json
         MUST do the following:</t>
 
         <t><list style="numbers">
-            <t>If the client has provided a user_info_require_encrypted_response
-            paramater durring registration, decrypt the <xref target="JWE">id_token</xref>,
-            using the key pair specified durring registration.</t>
+            <t>If the client has provided a userinfo_require_encrypted_response
+            parameter durring Registration, decrypt the <xref target="JWE">id_token</xref>,
+            using the key pair specified durring Registration.</t>
             
             <t>The Client SHOULD validate that the client_id in the 
             <spanx style="verb">aud</spanx> (audience) claim is one
@@ -1704,14 +1713,14 @@ Content-Type: application/json
              <spanx style="verb">iss</spanx> (issuer) claim.
               The id_token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
-              issuer</t>
+              issuer.</t>
              
             <t>The Client SHOULD verify the ID Token signature according to Section 5
             of <xref target="JWS">JWS</xref> using the algorithm specified in the "alg"
             paramater of the JWT header.</t>
             
             <t>This SHOULD be the algorithm sent by the client 
-            in the id_token_require_signed_response paramater during registration.</t>
+            in the id_token_require_signed_response paramater during Registration.</t>
             
             <t>If the "alg" paramater of the header is HS256 the client_secret for the 
             <spanx style="verb">client_id</spanx> contained in the 
@@ -1770,7 +1779,7 @@ Content-Type: application/json
              <spanx style="verb">iss</spanx> (issuer) claim.
               The id_token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
-              issuer</t>
+              issuer.</t>
               
               <t>The value of the <spanx style="verb">iss</spanx> (issuer)
                claim must match the issuer for the Check ID 
@@ -2547,10 +2556,10 @@ Content-Type: application/json
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-           <t>-07<list style="symbols">
+      <t>-07<list style="symbols">
           <t>Added reference to RFC 5246. per ticket #235.</t>
           <t>Bumped version + date.</t>
-          <t>Removed format from user_info member of request Object</t>
+          <t>Removed format from userinfo member of request Object</t>
           <t>Fix optional claim logic in 3.1.2.1.1</t>
           <t>Moved IANA considerations to Standard</t>
           <t>re #256 added invalid_request_uri and invalid_openid_request_object </t>
@@ -2563,9 +2572,9 @@ Content-Type: application/json
           <t>re #88 update sec 6.3 signing</t>
           <t>fixes #88 Update Sec 6.4 encryption</t>
           <t>fixes #200 add id_token verification rules to Sec 7</t>
-
         </list></t>
-         <t>-06<list style="symbols">
+
+	<t>-06<list style="symbols">
           <t>Changed section 3.1.4.1 to say the errors are returned as
           defined by the response type not always as query
           paramaters. per ticket #174.</t>

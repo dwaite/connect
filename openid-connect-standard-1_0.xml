@@ -264,31 +264,31 @@
 
               <t>Client sends a request to the Authorization Server.</t>
 
-              <t>Authorization Server Authenticates the End-User</t>
+              <t>Authorization Server Authenticates the End-User.</t>
 
               <t>Authorization Server Obtains the End-User
-              Consent/Authorization</t>
+              Consent/Authorization.</t>
 
               <t>Authorization Server Sends the End-User back to the Client with
-              an Authorization Code</t>
+              an Authorization Code.</t>
 
               <t>Client requests a response using the Authorization Code at the
-              <xref target="token_ep">Token Endpoint</xref></t>
+              <xref target="token_ep">Token Endpoint</xref>.</t>
 
               <t>Client receives a response which contains an Access Token and ID
-              Token in the response body</t>
+              Token in the response body.</t>
 
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
-              target="check_id_ep">Check ID Endpoint</xref></t>
+              target="check_id_ep">Check ID Endpoint</xref>.</t>
 
               <t>(OPTIONAL) Client receives ID Token Response with the End-User's
-              identity</t>
+              identity.</t>
 
               <t>(OPTIONAL) Client accesses the <xref 
               target="userinfo_ep">UserInfo Endpoint</xref>  with the Access
-              Token</t>
+              Token.</t>
 
-              <t>(OPTIONAL) Client receives UserInfo Response</t>
+              <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
           MUST verify it according to the verification rule set in <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
@@ -303,25 +303,25 @@
 
               <t>Client sends a request to the Authorization Server.</t>
 
-              <t>Authorization Server Authenticates the End-User</t>
+              <t>Authorization Server Authenticates the End-User.</t>
 
               <t>Authorization Server Obtains the End-User
-              Consent/Authorization</t>
+              Consent/Authorization.</t>
 
               <t>Authorization Server Sends the End-User back to the Client with
-              an Access Token and an ID Token if requested</t>
+              an Access Token and an ID Token if requested.</t>
 
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
-              target="check_id_ep">Check ID Endpoint</xref></t>
+              target="check_id_ep">Check ID Endpoint</xref>.</t>
 
               <t>(OPTIONAL) Client receives ID Token Response with the End-User's
-              identity</t>
+              identity.</t>
 
               <t>(OPTIONAL) Client accesses the <xref 
               target="userinfo_ep">UserInfo Endpoint</xref>  with the Access
-              Token</t>
+              Token.</t>
 
-              <t>(OPTIONAL) Client receives UserInfo Response</t>
+              <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
           MUST verify it according to the verification rule set in <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
@@ -422,7 +422,7 @@
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
               <spanx style="verb">select_account</spanx> and <spanx style="verb">none</spanx>. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
-              more information</t>
+              more information.</t>
             </list></t>
 
           <t>There are three methods to construct and send the request to the 
@@ -551,8 +551,7 @@ response_type=code%20id_token
          "email": null,
          "verified": null,
          "picture": {"optional": true}
-       },
-     "format": "signed"
+       }
    },
  "id_token":
    {
@@ -579,7 +578,7 @@ JSON Encoded Payload = "{"response_type":"code id_token",
     "nonce":"n-0S6_WzA2Mj",
     "userinfo":{"claims":{"name":null,"nickname":{"optional":true},
         "email":null,"verified":null,
-        "picture":{"optional":true}},"format":"signed"},
+        "picture":{"optional":true}}},
     "id_token":{"max_age":86400,"iso29115":"2"}}"
 
 JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZ
@@ -748,12 +747,11 @@ Host: client.example.com]]></artwork>
           </section>
         </section>
 
-		<section title="Authorization Server Validates Request Object">
+	<section title="Authorization Server Validates Request Object">
           <t>If a Request Object was sent in the <spanx 
           style="verb">request</spanx> paramater or by reference in the
           <spanx style="verb">request_uri</spanx> paramater, the 
           Request Object must be JWT decoded.</t>
-          
 
           <t>If the JWT header contains no "typ" element or its value is "JWT" skip to 
           <xref target="signed.req.obj.var">Signed Request Object</xref></t>
@@ -763,11 +761,11 @@ Host: client.example.com]]></artwork>
           indicating that its payload is a JWS, requiring additional processing.</t>
           
           <t>The Authorization server has advertised JWE encryption algorithms
-          in the <spanx style="verb">id_token_supported_alg</spanx> element of its 
-          Discovery Document, these are used by the client to encrypt the JWT</t>
+          in the <spanx style="verb">id_token_supported_algs</spanx> element of its 
+          Discovery Document, these are used by the client to encrypt the JWT.</t>
           
-          <t>Based on the <spanx style="verb">alg</spanx>, <spanx style="verb">enc</spanx>
-          , and other paramaters in the JWE header decrypt the JWT, in accordance with
+          <t>Based on the <spanx style="verb">alg</spanx>, <spanx style="verb">enc</spanx>,
+          and other paramaters in the JWE header, decrypt the JWT, in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification.</t>
           
           <t>The Authorization Server MUST return the error authorization 
@@ -883,7 +881,7 @@ Host: client.example.com]]></artwork>
             Authorization Request includes the string value "token", the
             following response parameters are included:
               <list style="hanging">
-                <t hangText="access_token">REQUIRED. The Access Token</t>
+                <t hangText="access_token">REQUIRED. The Access Token.</t>
 
                 <t hangText="token_type">REQUIRED. This specification only
                 supports the <xref target="OAuth.2.0.Bearer">Bearer
