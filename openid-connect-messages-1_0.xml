@@ -454,21 +454,21 @@
 
               <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
               list of string values that specifies whether the Authorization
-              Server prompts the End-User for reauthentication and reapproval. The
+              Server prompts the End-User for reauthentication and consent. The
               possible values are:<list style="hanging">
                 <t hangText="none">The Authorization Server
                 MUST NOT display any authentication or consent
                 user interface pages. An error is returned if the End-User 
                 is not already authenticated or the client does not have 
-                pre-configured approval for the requested
+                pre-configured consent for the requested
                 <spanx style="verb">scopes</spanx>. This can be used as a
-                method to check for existing authentication and/or approval.</t>
+                method to check for existing authentication and/or consent.</t>
 
                 <t hangText="login">The Authorization Server MUST prompt the
                   End-User for reauthentication.</t>
 
                   <t hangText="consent">The Authorization Server MUST prompt
-                  the End-User for reapproval before returning information to the
+                  the End-User for consent before returning information to the
                   client.</t>
 
                   <t hangText="select_account">The Authorization Server MUST
@@ -750,13 +750,13 @@
                 without displaying a user interface to prompt for a session to
                 use.</t>
 
-                <t hangText="approval_required">The Authorization Server
-                requires End-User approval. This error MAY be returned when the 
+                <t hangText="consent_required">The Authorization Server
+                requires End-User consent. This error MAY be returned when the 
                 <spanx style="verb">prompt</spanx> parameter in the
                 Authorization Request is set to "none" to request that the
                 Authorization Server should not display any user interfaces to
                 the End-User, but the Authorization Request cannot be completed
-                without displaying a user interface for End-User approval.</t>
+                without displaying a user interface for End-User consent.</t>
 
                 <t hangText="user_mismatched">The current logged in End-User at
                 the Authorization Server does not match the requested
