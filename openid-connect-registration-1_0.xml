@@ -54,23 +54,23 @@
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
       authorization, and attribute transmission capability. It allows third
-      party attested claims from distributed sources. The specification suite
+      party attested Claims from distributed sources. The specification suite
       builds on OAuth 2.0 and consists of Building Blocks (Messages,
       Discovery, Dynamic Client Registration, Session Management, JSON Web
       Token, JSON Web Signature, JSON WEB Encryption, JSON Web Keys, Simple
       Web Discovery), Protocol Bindings (e.g., Standard and Basic Client) and
       Extensions. This specification is the "Dynamic Client Registration" part
-      of the suite that defines how clients register with OpenID
+      of the suite that defines how Clients register with OpenID
       Providers.</t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t>In order for an OpenID Connect client to utilize OpenID services for
-      a user, the client needs to register with the OpenID Provider to acquire
-      a client ID and shared secret. This document describes how a new client
-      can register with the provider, and how a client already in possession
+      <t>In order for an OpenID Connect Client to utilize OpenID services for
+      a user, the Client needs to register with the OpenID Provider to acquire
+      a Client ID and shared secret. This document describes how a new Client
+      can register with the provider, and how a Client already in possession
       of a client_id can retrieve updated registration information.</t>
 
       <t>The Client Registration endpoint may be co-resident with the token
@@ -107,13 +107,13 @@
 
     <section title="Client Registration Endpoint">
       <t>The Client Registration Endpoint is an OAuth 2.0 protected resource that returns registration information for
-      the client to configure itself for the OpenID Provider.</t>
+      the Client to configure itself for the OpenID Provider.</t>
       
       <t>The Client Registration Endpoint may accept requests that are not OAuth 2.0 authenticated.</t>
       
       <t>How a developer gets a Access Token to use at this endpoint is out of scope for this specification.</t>
       
-      <t>If a Access Token is required for client registration the Client Registration Endpoint
+      <t>If a Access Token is required for Client registration the Client Registration Endpoint
       MUST be able to accept Access Tokens via
       <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>
       specification.</t>
@@ -168,41 +168,41 @@
             section 3.2.1 of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
             <t hangText="policy_url">OPTIONAL. A URL location which the Relying 
-            Party client provides to the End User to read about the how the
+            Party Client provides to the End-User to read about the how the
             profile data will be used. The OpenID Provider SHOULD display this
-            URL to the End User if it is given.</t>
+            URL to the End-User if it is given.</t>
 
-            <t hangText="jwk_url">OPTIONAL. URL for the client's <xref
+            <t hangText="jwk_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
              signing of token_endpoint and request objects.
             If jwk_encryption_url is not 
             provided it is used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the client.
+            of <xref target="JWT">JWT</xref> to the Client.
             </t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL. URL for the client's <xref
+            <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
             signing of token_endpoint and request objects.</t>
 
-            <t hangText="x509_url">OPTIONAL URL for the client's PEM encoded X.509
+            <t hangText="x509_url">OPTIONAL URL for the Client's PEM encoded X.509
             Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
              signing of token_endpoint and request objects.
             If x509_encryption_url is not 
             provided it is used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the client.
+            of <xref target="JWT">JWT</xref> to the Client.
             If both x509_url and jwk_url are specified 
             x509_url the keys MUST be the same.</t>
             
-			<t hangText="x509_encryption_url">OPTIONAL URL for the client's PEM encoded X.509
+			<t hangText="x509_encryption_url">OPTIONAL URL for the Client's PEM encoded X.509
             Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the client. If both x509_signing_url 
+            of <xref target="JWT">JWT</xref> to the Client. If both x509_signing_url 
             and jwk_signing_url are specified 
             x509_signing_url the keys MUST be the same.</t>
             
             <t hangText="sector_identifier_url">OPTIONAL a HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with a single JSON array of redirect_uri values.
-	    The client MUST perform a TLS/SSL server certificate check, per
+	    The Client MUST perform a TLS/SSL server certificate check, per
 	    <xref target="RFC6125">RFC 6125</xref>.
 	    </t>
             
@@ -231,7 +231,7 @@
              
              <t hangText="id_token_require_encrypted_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
-             algorithms required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
+             algorithms required for id_token issued to this client_id. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
           </list></t>
           
@@ -258,12 +258,12 @@ type=client_associate
         <t>Providers who use pairwise user_id values SHOULD support this element.</t>
         <t>It provides a way for a group of websites under a single administrative control
          to have consistent pairwise user_id values independent of the individual domain names.
-         It also provides a way for clients to change redirect_uri domains without having to 
+         It also provides a way for Clients to change redirect_uri domains without having to 
          reregister all of there users.</t> 
          <t>This is further described in Section 4.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         <t>The value of the sector_identifer_url must be a HTTPS scheme URL that identifies
 	a JSON file containing an array containing redirect_uri.
-	The client MUST perform a TLS/SSL server certificate check, per
+	The Client MUST perform a TLS/SSL server certificate check, per
 	<xref target="RFC6125">RFC 6125</xref>.
 	</t>
 
@@ -341,14 +341,14 @@ Content-Type: application/json
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>Since requests to the client registration endpoint result in the
+      <t>Since requests to the Client Registration Endpoint result in the
       transmission of clear-text credentials (in the HTTP request and
       response), the server MUST require the use of a transport-layer security
       mechanism when sending requests to the token endpoint. The server MUST
       support TLS 1.2 as defined in <xref target="RFC5246">RFC 5246</xref>, 
       and MAY support additional transport-layer mechanisms meeting its security
       requirements.
-      When using TLS, the client MUST perform a TLS/SSL server certificate check, per
+      When using TLS, the Client MUST perform a TLS/SSL server certificate check, per
       <xref target="RFC6125">RFC 6125</xref>.
       </t>
     </section>
@@ -626,7 +626,7 @@ Content-Type: application/json
           <t>re #278 change sector_identifier to sector_identifier_url </t>
           <t>fixes #278 add sec 5.2 on Sector Identifier URL verification</t>
           <t>Make key names consistent with discovery jwk_url and jwk_encryption_url rather than jwk_signing_url</t>
-          <t>change RP to client</t>
+          <t>change RP to Client</t>
           <t>fix typo in require_signed_request_object</t>
           <t>fix 2 references to JWS</t>
           

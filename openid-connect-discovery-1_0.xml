@@ -59,7 +59,7 @@
     <abstract>
       <t>OpenID Connect is an identity protocol that provides authentication,
       authorization, and attribute transmission capability. It allows third
-      party attested claims from distributed sources. The specification suite
+      party attested Claims from distributed sources. The specification suite
       builds on OAuth 2.0 and consists of Building Blocks (Messages,
       Discovery, Dynamic Client Registration, Session Management, JSON Web
       Token, JSON Web Signature, JSON WEB Encryption, JSON Web Keys, Simple
@@ -71,10 +71,10 @@
 
   <middle>
     <section title="Introduction">
-      <t>In order for an OpenID client to utilize OpenID Connect services for
-      a user, the client needs to know where the OpenID Provider is. OpenID
+      <t>In order for an OpenID Client to utilize OpenID Connect services for
+      a user, the Client needs to know where the OpenID Provider is. OpenID
       Connect uses <xref target="SWD">Simple Web Discovery</xref> to locate
-      the OpenID Provider for an end-user.</t>
+      the OpenID Provider for an End-User.</t>
 
       <t>Once an OpenID Provider is identified, the endpoint and other
       configuration information for that OP is retrieved from a well-known
@@ -101,7 +101,7 @@
       2.0</xref>, and the terminology defined in the <xref
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
       specification, the following terms are defined:<list style="hanging">
-          <t hangText="Principal">An entity that is the target of a request
+          <t hangText="Principal">An Entity that is the target of a request
           in Simple Web Discovery.</t>
 
           <t hangText="Identifier">An Identifier is either an <spanx
@@ -121,7 +121,7 @@
       discovery request:</t>
 
       <t><list style="hanging">
-          <t hangText="Principal">Identifier of the target end-user who is the
+          <t hangText="Principal">Identifier of the target End-User who is the
           subject of the discovery request</t>
 
           <t hangText="Host">Server where a Simple Web Discovery service is
@@ -144,14 +144,14 @@
         <c>http://openid.net/specs/connect/1.0/issuer</c>
       </texttable>
 
-      <t>To start discovery of OpenID end points, the end-user supplies an
-      identifier to the client or relying party. The client performs
+      <t>To start discovery of OpenID endpoints, the End-User supplies an
+      identifier to the Client or Relying Party. The Client performs
       normalization rules to the identifier to extract the principal and host.
       Then it makes a HTTPS request to the host's Simple Web Discovery
       endpoint with the <spanx style="verb">principal</spanx> and <spanx
       style="verb">service</spanx> parameters to obtain the location of the
       requested service.
-      The client MUST perform a TLS/SSL server certificate check, per
+      The Client MUST perform a TLS/SSL server certificate check, per
       <xref target="RFC6125">RFC 6125</xref>.
       </t>
 
@@ -242,7 +242,7 @@
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the client would make the
+          <t>Following the SWD specification, the Client would make the
           following request to get the discovery information:</t>
 
           <t><figure>
@@ -281,7 +281,7 @@ Content-Type: application/json
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the client would make the
+          <t>Following the SWD specification, the Client would make the
           following request to get the discovery information:</t>
 
           <t><figure>
@@ -320,7 +320,7 @@ Content-Type: application/json
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the client would make the
+          <t>Following the SWD specification, the Client would make the
           following request to get the discovery information:</t>
 
           <t><figure>
@@ -359,7 +359,7 @@ Content-Type: application/json
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the client would make the
+          <t>Following the SWD specification, the Client would make the
           following request to get the discovery information:</t>
 
           <t><figure>
@@ -378,7 +378,7 @@ Content-Type: application/json
 
       <section anchor="redirection" title="Redirection">
         <t>In cases where the SWD request is handled at a host or location
-        other than the one derived from the end-user's identifier, the host
+        other than the one derived from the End-User's identifier, the host
         will return a JSON object containing the new location.</t>
 
         <t>To enable service level redirection a SWD server MAY return a 200
@@ -454,11 +454,11 @@ Content-Type: application/json
       <section title="Provider Configuration Request">
         <t>An OpenID Provider Configuration Document is queried using a HTTPS
         GET request with the previously specified path.
-	The client MUST perform a TLS/SSL server certificate check, per
+	The Client MUST perform a TLS/SSL server certificate check, per
 	<xref target="RFC6125">RFC 6125</xref>.
 	</t>
 
-        <t>The client would make the following request to the <spanx
+        <t>The Client would make the following request to the <spanx
         style="verb">issuer </spanx>to get the Configuration information.</t>
 
         <t><figure>
@@ -469,17 +469,17 @@ Host: example.com
       </section>
 
       <section title="Provider Configuration Response">
-        <t>The response is a set of claims about the OpenID Provider's
+        <t>The response is a set of Claims about the OpenID Provider's
         configuration, including all necessary endpoint, supported scope, and
         public key location information.</t>
 
         <t>The response MUST return a plain text JSON object that contains a
-        set of claims that are a subset of those defined below.</t>
+        set of Claims that are a subset of those defined below.</t>
 
         <t>Claims that return multiple values are JSON arrays. Claims with 0
         elements must be omitted from the response.</t>
 
-        <t>Other claims MAY also be returned.</t>
+        <t>Other Claims MAY also be returned.</t>
 
         <texttable anchor="ClaimTable" title="Reserved Claim Definitions">
           <ttcol align="left">Claim</ttcol>

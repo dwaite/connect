@@ -70,7 +70,7 @@
     <abstract>
       <t>OpenID Connect is an identity framework that provides authentication,
       authorization, and attribute transmission capability. It allows third
-      party attested claims from distributed sources.
+      party attested Claims from distributed sources.
       The specification suite builds on OAuth 2.0 and consists of
       Building Blocks (Messages, Discovery, Dynamic Client
       Registration, Session Management, JSON Web Token, JSON Web
@@ -111,7 +111,7 @@
           Claims Provider asserts about that Entity.</t>
 
           <t hangText="Claims Provider">An Authorization Server that can
-          return claims about an Entity.</t>
+          return Claims about an Entity.</t>
 
           <t hangText="End-User">A human resource owner.</t>
 
@@ -119,7 +119,7 @@
           distinct existence and that can be identified in context.
           An End-User is one example of an Entity.</t>
 
-          <t hangText="ID Token">A token that contains claims about the
+          <t hangText="ID Token">A token that contains Claims about the
           authentication event.</t>
 
           <t hangText="Issuer">An Entity that issues a set of Claims.</t>
@@ -133,7 +133,7 @@
           Relying Party and an OpenID Provider.</t>
 
           <t hangText="OpenID Provider (OP)">A service capable of providing
-          claims to a Relying Party.</t>
+          Claims to a Relying Party.</t>
 
           <t hangText="OP Endpoints">End-User Authorization Endpoint, Token
           Endpoint, and UserInfo Endpoint.</t>
@@ -142,7 +142,7 @@
           OpenID request parameters.</t>
 
           <t hangText="Relying Party (RP)">An application requiring
-          claims from an OpenID Provider.</t>
+          Claims from an OpenID Provider.</t>
 
           <t hangText="Request File">A JSON structure that captures the
           Authorization Request parameters that can be pointed by a URL that
@@ -152,11 +152,11 @@
           returned through redirect.</t>
 
           <t hangText="Check ID Endpoint">A resource that, when
-          presented with an ID Token by the client, returns Claims
+          presented with an ID Token by the Client, returns Claims
           about the user session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
-          presented with an Access Token by the client, returns Claims
+          presented with an Access Token by the Client, returns Claims
           about the End-User represented by that Access Token.</t>
         </list></t>
     </section>
@@ -199,7 +199,7 @@
 
     <section title="Messages">
       <t>In OpenID Connect protocols, in abstract, the process proceeds by the
-      client interacting with endpoints. There are a number of endpoints
+      Client interacting with endpoints. There are a number of endpoints
       involved.</t>
 
       <t><list style="numbers">
@@ -232,22 +232,22 @@
         </list></t>
 
       <section title="Authorization Endpoint">
-        <t>The client sends an Authorization Request to the Authorization
+        <t>The Client sends an Authorization Request to the Authorization
         Endpoint to obtain an Authorization Response and an <xref
         target="id_token">ID Token</xref>.</t>
 
         <section anchor="id_token" title="ID Token">
-          <t>The ID Token is a token that contains claims pertinent to the
+          <t>The ID Token is a token that contains Claims pertinent to the
           authentication event. The Token is a <xref target="JWT">JWT</xref>
-          which contains JSON claims. </t>
+          which contains JSON Claims. </t>
 
           <t>The ID Token is used to manage the authentication event and user
-          identifier and is scoped to a particular client via the <spanx
+          identifier and is scoped to a particular Client via the <spanx
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          claims. It MUST NOT be used as an access token to access OAuth 2.0
+          Claims. It MUST NOT be used as an access token to access OAuth 2.0
           protected resources.</t>
 
-          <t>The ID Token MUST attests minimally to the following claims:</t>
+          <t>The ID Token MUST attests minimally to the following Claims:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED. The Issuer Identifier for the issuer
@@ -275,8 +275,8 @@
               for details regarding date/times in general and UTC in
               particular.</t>
 
-              <t hangText="iso29115">OPTIONAL. (entity authentication
-              assurance): Specifies the X.eaa / <xref
+              <t hangText="iso29115">OPTIONAL. (Entity Authentication
+              Assurance): Specifies the X.eaa / <xref
               target="ISO29115">ISO/IEC29115</xref> entity authentication
               assurance level of the authentication performed.</t>
 
@@ -288,11 +288,11 @@
               <t hangText="auth_time">OPTIONAL. If the 
                   <xref target="req.obj.id_token">id_token</xref> member of the 
                   <xref target="OpenIDReq">OpenID Request Object</xref> 
-                  contains the claim request 
-                  auth_time then this claim is REQUIRED the claim value
+                  contains the Claim request 
+                  auth_time then this Claim is REQUIRED the Claim Value
                   is the number of seconds from 1970-01-01T0:0:0Z as
                   measured in UTC until the date/time that the End-User
-                  authentication occurred. (The "auth_time" claim semantically
+                  authentication occurred. (The "auth_time" Claim semantically
                   corresponds to the openid.pape.auth_time response
                   parameter.)</t>
 
@@ -312,22 +312,22 @@
           <section anchor="idtype" title="User Identifier Types">
            <t>Providers Discovery documents SHOULD list there supported identifier types in the 
            identifiers_supported element.</t>
-           <t>If there is more than one type listed in the array, the client may elect to
+           <t>If there is more than one type listed in the array, the Client may elect to
            provide its preferred identifier type using the user_id_type paramater during registration.</t>
            <t>The types supported by this specification are:</t>
            
            <t><list style="hanging">
-              <t hangText="public"> This provides the same user_id value to all clients. It is the default if
+              <t hangText="public"> This provides the same user_id value to all Clients. It is the default if
               the provider has no identifiers_supported element in there discovery document.</t>
-              <t hangText="pairwise"> This provides a different user_id value to each client, to prevent
-              correlation of the users activities by clients without the users permission.</t>
+              <t hangText="pairwise"> This provides a different user_id value to each Client, to prevent
+              correlation of the users activities by Clients without the users permission.</t>
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifyer Algorithem">
            <t>The Provider MUST calculate a unique user_id value for each sector_identifer.</t>
-           <t>If the client has not provided a value for sector_identifier_url in registration,
+           <t>If the Client has not provided a value for sector_identifier_url in registration,
            the sector_identifier used for pairwise identifier calculation is the host component 
            of the registered redirect_uri.</t>
-           <t>If there are multiple hostnames in the registered redirect_uri, the client MUST register a 
+           <t>If there are multiple hostnames in the registered redirect_uri, the Client MUST register a 
            sector_identifer_url.</t>
            <t>If a sector_identifer_url is provided, the host component of that URL is used as
            the sector sector_identifer for the pairwise identifier calculation.</t>
@@ -362,11 +362,11 @@
               style="verb">id_token</spanx> for requesting an ID Token.</t>
 
               <t hangText="scope">A space delimited, case sensitive list of
-              string values. The values specify an additive list of claims
+              string values. The values specify an additive list of Claims
               that are returned by the UserInfo endpoint. The following values
               are defined:<list style="hanging">
                   <t hangText="openid">REQUIRED. Informs the Authorization
-                  Server that the client is making an OpenID Connect request. If the
+                  Server that the Client is making an OpenID Connect request. If the
                   <spanx style="verb">openid</spanx> scope is not present,
                   the request MUST NOT be treated as an OpenID Connect request.
                   The <spanx style="verb">openid</spanx> value also requests
@@ -379,18 +379,18 @@
                   returned as part of the Token Endpoint response.</t>
 
                   <t hangText="profile">OPTIONAL. This requests that access to
-                  the End-User's <xref target="ClaimTable">profile claims</xref>
+                  the End-User's <xref target="ClaimTable">profile Claims</xref>
                   excluding the <spanx style="verb">address</spanx> and <spanx
-                  style="verb">email</spanx> claims at the UserInfo Endpoint
+                  style="verb">email</spanx> Claims at the UserInfo Endpoint
                   be granted by the issued Access Token.</t>
 
                   <t hangText="address">OPTIONAL. This requests that access to
-                  <spanx style="verb">address</spanx> claim at the
+                  <spanx style="verb">address</spanx> Claim at the
                   UserInfo Endpoint be granted by the issued Access Token.</t>
 
                   <t hangText="email">OPTIONAL. This requests that access to
                   the <spanx style="verb">email</spanx> and 
-                  <spanx style="verb">verified</spanx> claims at the UserInfo
+                  <spanx style="verb">verified</spanx> Claims at the UserInfo
                   Endpoint be granted by the issued Access Token.</t>
                 </list></t>
             </list></t>
@@ -453,7 +453,7 @@
                 <t hangText="none">The Authorization Server
                 MUST NOT display any authentication or consent
                 user interface pages. An error is returned if the End-User 
-                is not already authenticated or the client does not have 
+                is not already authenticated or the Client does not have 
                 pre-configured consent for the requested
                 <spanx style="verb">scopes</spanx>. This can be used as a
                 method to check for existing authentication and/or consent.</t>
@@ -463,13 +463,13 @@
 
                   <t hangText="consent">The Authorization Server MUST prompt
                   the End-User for consent before returning information to the
-                  client.</t>
+                  Client.</t>
 
                   <t hangText="select_account">The Authorization Server MUST
                   prompt the End-User to select a user account if the account has
                   multiple accounts associated with it.</t>
                 </list>
-                This can be used by the client to make sure that the End-User is
+                This can be used by the Client to make sure that the End-User is
                 still present for the current session or to bring attention to the
                 request. If this parameter contains "none" with any other value, an
                 error is returned.</t>
@@ -488,9 +488,9 @@
             parameters that MAY differ from the default ones. Implementing
             support for the OpenID Request object is OPTIONAL. Supporting it
             is necessary for implementations that need to request or provide
-            sets of claims other than the default <xref
+            sets of Claims other than the default <xref
             target="userinfo_ep">UserInfo</xref>, ID Token, and <xref
-            target="check_id_ep">Check ID</xref> claim sets.</t>
+            target="check_id_ep">Check ID</xref> Claim sets.</t>
 
             <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
@@ -519,7 +519,7 @@
             be indicated by the JWT <spanx style="verb">"signed":"none"</spanx>
             convention in the JWT header. If signed, the OpenID Request Object
             SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>" (issuer)
-            and "<spanx style="verb">aud</spanx>" (audience) claims.</t>
+            and "<spanx style="verb">aud</spanx>" (audience) Claims.</t>
 
             <t>The members defined by this specification are:</t>
 
@@ -533,8 +533,8 @@
                 affecting the values to be to be returned in the ID Token. 
                 If not present, the default ID Token contents are used. 
                 If present, these parameters are used
-                to request additional claims incremental to the <xref target="id_token">
-                                default claims of the ID Token.</xref></t>
+                to request additional Claims incremental to the <xref target="id_token">
+                                default Claims of the ID Token.</xref></t>
               </list><figure>
                 <preamble>An example OpenID Request Object body before JWT 
                 encoding is as follows:</preamble>
@@ -575,8 +575,8 @@
               <t><list style="hanging">
                   <t hangText="claims">OPTIONAL. (Requested Claims): A JSON object 
                   containing a Set of
-                  requested claims from the UserInfo Endpoint. If not present,
-                  the default UserInfo claims held by the OP are
+                  requested Claims from the UserInfo Endpoint. If not present,
+                  the default UserInfo Claims held by the OP are
                   returned.</t>
 
                   <t hangText="locale">OPTIONAL. (Locale): The default
@@ -591,22 +591,22 @@
                 
                 <section title="&quot;claims&quot; member">
                 <t>The "claims" member is a JSON object with a member for
-              each requested claim. The member names are the requested claim
+              each requested Claim. The member names are the requested Claim
               names. The member values may be either:</t>
 
               <t><list style="hanging">
-                  <t hangText="null">This indicates that this claim is being
+                  <t hangText="null">This indicates that this Claim is being
                   requested in the default manner. In particular, this is a
-                  required claim.</t>
+                  required Claim.</t>
 
                   <t hangText="A JSON Object">This is used to provide
-                  additional information about the claim being requested.</t>
-                </list>The claims MAY be represented in multiple languages and
+                  additional information about the Claim being requested.</t>
+                </list>The Claims MAY be represented in multiple languages and
               scripts. To specify languages and scripts for the claim request,
               <xref target="RFC5646">BCP47</xref> language tags delimited by a
-              "#" MUST be added to each requested claim name for which a
+              "#" MUST be added to each requested Claim Name for which a
               particular language and script is requested. For example, the
-              claim <spanx style="verb">family_name#ja-Kana-JP</spanx> is used
+              Claim <spanx style="verb">family_name#ja-Kana-JP</spanx> is used
               for expressing Family Name in Katakana in Japanese, which is
               commonly used to index and represent the phonetics of the Kanji
               representation of the same value represented as <spanx
@@ -614,20 +614,20 @@
 
               <t>All members of the "claims" object are OPTIONAL.</t>
 
-              <section title="&quot;requested claim&quot; member">
-              <t>The members of the JSON object value following a claim name
+              <section title="Requested Claims Member">
+              <t>The members of the JSON object value following a Claim Name
               defined by this specification are:</t>
 
               <t><list style="hanging">
-                  <t hangText="optional">This is an optional claim paramater, 
+                  <t hangText="optional">This is an optional Claim paramater, 
                   if present, its value MUST be <spanx style="verb">true</spanx>,
-                  which indicates that it is a optional claim. If it is not
-                  present, it is a required claim.</t>
+                  which indicates that it is a optional Claim. If it is not
+                  present, it is a required Claim.</t>
                 </list>
                 Other members MAY be defined to provide additional
-              information about the requested claim. If the "claims" member is
-              present in the "userinfo" object, the claims requested within it
-              override the default claim set that would otherwise be returned
+              information about the requested Claim. If the "claims" member is
+              present in the "userinfo" object, the Claims requested within it
+              override the default Claim set that would otherwise be returned
               from the UserInfo Endpoint.</t>
 
                 </section>
@@ -640,19 +640,19 @@
               of the "userinfo" member. It MAY include the OPTIONAL "claims" and
               "locale" members. The structure of these members is the same as
               that for the "userinfo" member. If the "claims" member is
-              present in the "id_token" object, the claims requested within it
-              modify the default claim set that would otherwise be returned in
+              present in the "id_token" object, the Claims requested within it
+              modify the default Claim set that would otherwise be returned in
               the ID Token. Unlike for the "userinfo" member, typically these
-              claims will augment, rather than override the default set.</t>
+              Claims will augment, rather than override the default set.</t>
 
-              <t>Following claim MAY be requested in the ID Token by
+              <t>Following Claim MAY be requested in the ID Token by
               specifying it in the "claims" member:</t>
 
               <t><list style="hanging">
                   <t hangText="auth_time">OPTIONAL. (authenticated at):
-                  Requests that the "auth_time" claim be present in the 
+                  Requests that the "auth_time" Claim be present in the 
                   <xref target="id_token">"id_token"</xref> response.
-                  The claim value in the request is <spanx style="verb">null</spanx>.  
+                  The Claim Value in the request is <spanx style="verb">null</spanx>.  
                   </t>
                 </list>In addition to the "claims" member, these additional
               members are defined within the "id_token" member of the OpenID
@@ -669,7 +669,7 @@
                   <t hangText="iso29115">OPTIONAL. (entity authentication
                   assurance): Specifies the X.eaa / <xref
                   target="ISO29115">ISO/IEC29115</xref> entity authentication
-                  assurance level that is requested by the client.</t>
+                  assurance level that is requested by the Client.</t>
                 </list>It is anticipated that additional "id_token" parameters
               MAY be defined to request that additional properties hold for
               the authentication - for instance, that certain authentication
@@ -708,7 +708,7 @@
 
         <section title="Authorization Error Response">
           <t>If the End-User denies the access request or if the request
-          fails, the Authorization Server informs the client by returning
+          fails, the Authorization Server informs the Client by returning
           parameters defined in section 4.1.2.1 of <xref
           target="OAuth.2.0">OAuth 2.0</xref>.</t>
 
@@ -720,7 +720,7 @@
             <t><list style="hanging">
                 <t hangText="invalid_request_redirect_uri">The 
                 <spanx style="verb">redirect_uri</spanx> in
-                the Authorization Request does not match any of the client's 
+                the Authorization Request does not match any of the Client's 
                 pre-registered redirect_uris.</t>
 
                 <t hangText="login_required">The Authorization Server requires
@@ -785,7 +785,7 @@
         
         <section anchor="client_authentication" title="Client Authentication">
 
-          <t>Durring Client Registration, the client may register an authentication method.
+          <t>Durring Client Registration, the Client may register an authentication method.
           If no method is registered, the default method of client_secret_basic MUST be used.</t>
           <t>The Supported options are:</t>
           
@@ -803,22 +803,22 @@
           
           <t hangText="client_secret_jwt"> 
           Clients in possession of a client password sign a JWT using the h256 algorithm.
-          The JWT must contain the claims:</t>
+          The JWT must contain the Claims:</t>
          
           <t><list style="hanging">
           <t hangText="client_id">REQUIRED. The client identifier of the
-            client.</t>
+            Client.</t>
            <t hangText="aud">REQUIRED. The issuer identifier of the token_endpoint.</t>
            <t hangText="nonce">REQUIRED.  A random, unique string value used
               to mitigate replay attacks. </t>
-            <t hangText="iat">REQUIRED.  The iat (issued at) claim identifies the time at which the JWT was issued. </t>
+            <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
             </list></t>
              
              <t>
 	  The authentication token MUST be sent in the <spanx
 	  style='verb'>Authorization</spanx> request header field
 	  defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
-	  client uses the <spanx style='verb'>Bearer</spanx>
+	  Client uses the <spanx style='verb'>Bearer</spanx>
 	  authentication scheme to transmit the access token.
         </t>
 
@@ -827,20 +827,20 @@
           
           <t hangText="private_key_jwt">
            Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
-          The JWT must contain the claims:</t>
+          The JWT must contain the Claims:</t>
           <t><list style="hanging">
           <t hangText="client_id">REQUIRED. The client identifier of the
-            client.</t>
+            Client.</t>
            <t hangText="aud">REQUIRED. The issuer identifier of the token_endpoint.</t>
            <t hangText="nonce">REQUIRED.  A random, unique string value used
               to mitigate replay attacks. </t>
-            <t hangText="iat">REQUIRED.  The iat (issued at) claim identifies the time at which the JWT was issued. </t>
+            <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
             </list></t>
                          <t>
     The authentication token MUST be sent in the <spanx
     style='verb'>Authorization</spanx> request header field
     defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
-    client uses the <spanx style='verb'>Bearer</spanx>
+    Client uses the <spanx style='verb'>Bearer</spanx>
     authentication scheme to transmit the access token.
 
         <figure>
@@ -860,17 +860,17 @@ Authorization: Bearer vF9dft4qmT]]>
         </section>
 
         <section anchor="access_token_request" title="Access Token Request">
-          <t>The client obtains an Access Token by authenticating with the
+          <t>The Client obtains an Access Token by authenticating with the
           Authorization Server and presenting its access grant (in the form of
           an Authorization Code, or Refresh Token).</t>
 
 
 
           <t>In addition to the client authentication parameters,
-          if this is a Refresh Token Request, the client MUST send the additional parameters 
+          if this is a Refresh Token Request, the Client MUST send the additional parameters 
           specified in Section 6 of <xref target="OAuth.2.0">OAuth
           2.0</xref>.
-          Otherwise the client
+          Otherwise the Client
           MUST send the request parameter for the Access Token Endpoint as
           specified in section 4.1.3 of <xref target="OAuth.2.0">OAuth
           2.0</xref>.</t>
@@ -880,7 +880,7 @@ Authorization: Bearer vF9dft4qmT]]>
 
         <section anchor="access_token_response" title="Access Token Response">
           <t>After receiving and verifying a valid and authorized Access Token
-          Request from the client, the Authorization Server returns a successful
+          Request from the Client, the Authorization Server returns a successful
           response that includes an Access Token and an ID Token.  The
           parameters in the successful response are defined in Section 4.1.4
           of <xref target="OAuth.2.0">OAuth 2.0</xref>.</t>
@@ -942,7 +942,7 @@ Authorization: Bearer vF9dft4qmT]]>
         <t>The UserInfo endpoint is an OAuth 2.0 protected resource that
         returns Claims about the authenticated End-User. Claims are
         represented by a JSON object that contains a collection of
-        name and value pairs for the claims.</t>
+        name and value pairs for the Claims.</t>
 
         <section title="Requests">
           <t>Clients MAY send requests with the following parameters to the
@@ -973,8 +973,8 @@ Authorization: Bearer vF9dft4qmT]]>
 
         <section title="Responses">
           <t>If the requested schema is "openid", the response MUST return a
-          JSON object that contains the full set or subset of claims that are
-          defined below. Additional claims (not specified below) MAY also be
+          JSON object that contains the full set or subset of Claims that are
+          defined below. Additional Claims (not specified below) MAY also be
           returned.</t>
 
           <t>The members may be represented in multiple languages and scripts.
@@ -1141,12 +1141,12 @@ Authorization: Bearer vF9dft4qmT]]>
             <spanx style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
           </texttable>
 
-          <t>For privacy reasons, OpenID providers may elect to not provide
+          <t>For privacy reasons, OpenID Providers may elect to not provide
           values for some schema elements as part of the "openid" scope.</t>
 
-          <t>The UserInfo Endpoint MUST return claims in JSON format unless a
-          different format was specified during client Registration.
-	  The UserInfo Endpoint MAY return claims in
+          <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
+          different format was specified during Client Registration.
+	  The UserInfo Endpoint MAY return Claims in
           JWT format which can be signed and/or encrypted via <xref
           target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
           respectively.
@@ -1171,7 +1171,7 @@ Authorization: Bearer vF9dft4qmT]]>
 
           <t></t>
 
-          <t>The following is a non-normative normal claims responses:</t>
+          <t>The following is a non-normative normal Claims responses:</t>
 
           <t><figure>
             <artwork><![CDATA[{
@@ -1197,7 +1197,7 @@ Authorization: Bearer vF9dft4qmT]]>
 
         <section title="Claim Types">
           <t>The UserInfo Endpoint MAY return the
-          following three types of claims:</t>
+          following three types of Claims:</t>
 
           <t><list style="hanging">
             <t hangText="Normal Claims">Claims that are directly asserted by
@@ -1210,13 +1210,13 @@ Authorization: Bearer vF9dft4qmT]]>
             <t hangText="Distributed Claims">Claims that are asserted by a
             Claims Provider other than the OpenID Provider but are returned
             as references by the OpenID Provider.</t>
-          </list>The UserInfo endpoint MUST support normal claims.</t>
+          </list>The UserInfo endpoint MUST support normal Claims.</t>
 
-          <t>Aggregated and distributed claims support is OPTIONAL.</t>
+          <t>Aggregated and Distributed Claims support is OPTIONAL.</t>
 
           <section title="Normal Claims">
             <t>Normal Claims are represented as members in a JSON object. The
-            claim name is the member name and the claim value is the member
+            Claim Name is the member name and the Claim Value is the member
             value.</t>
 
             <t>The following is a non-normative normal claims responses:</t>
@@ -1242,24 +1242,24 @@ Authorization: Bearer vF9dft4qmT]]>
             <t>
 	      <list style="hanging">
 		<t hangText="_claim_names">This value is a JSON object whose member
-		names are the claims names for the aggregated and distributed
-		claims. The member values are references to the member names
+		names are the Claims names for the Aggregated and Distributed
+		Claims. The member values are references to the member names
 		in the "_claim_sources" member from which
 		the actual value can be retrieved.</t>
 
 		<t hangText="_claim_sources">This value is a JSON object whose
 		member names are referenced by the member values of the
 		"_claim_names" member. The member values
-		contain sets of aggregated claims or reference locations for
-		distributed claims. The member values can have one of the
+		contain sets of Aggregated Claims or reference locations for
+		Distributed Claims. The member values can have one of the
 		following formats depending on whether it is providing
-		aggregated or distributed claims:
+		Aggregated or Distributed Claims:
 
 		<list style="hanging">
 
 		  <t hangText="Aggregated Claims">A JSON object that MUST
 		  contain the "JWT" member whose value is a <xref
-		  target="JWT">JWT</xref> that MUST contain all the claims
+		  target="JWT">JWT</xref> that MUST contain all the Claims
 		  in the "_claim_names" object that references the
 		  corresponding "_claim_sources" member. Other members MAY
 		  be present if they are understood by both parties.
@@ -1275,20 +1275,20 @@ Authorization: Bearer vF9dft4qmT]]>
 		  <list style="hanging">
 		    <t hangText="endpoint">REQUIRED. The value is the
 		    OAuth 2.0 resource endpoint from which the associated
-		    claim can be retrieved. The endpoint URL MUST return
-		    the claim as a JWT.</t>
+		    Claim can be retrieved. The endpoint URL MUST return
+		    the Claim as a JWT.</t>
 
 		    <t hangText="access_token">OPTIONAL. Access Token
-		    enabling retrieval of the claims from the endpoint URL
+		    enabling retrieval of the Claims from the endpoint URL
 		    by using the <xref target="OAuth.2.0.Bearer">OAuth 2.0
 		    Bearer</xref> scheme. Claims SHOULD be requested using
-		    the Authorization Request header field and claims
-		    sources MUST support this method. If the Access Token
-		    is not available, clients MAY need to retrieve the
+		    the Authorization Request header field and Claims
+		    Sources MUST support this method. If the Access Token
+		    is not available, Clients MAY need to retrieve the
 		    Access Token out of band or use an a priori Access
-		    Token that was negotiated between the claim source and
-		    client, or the claim source MAY reauthenticate the
-		    End-User and/or reauthorize the client.</t>
+		    Token that was negotiated between the Claim Source and
+		    Client, or the Claim Source MAY reauthenticate the
+		    End-User and/or reauthorize the Client.</t>
 
 		  </list></t>
 		</list>
@@ -1296,23 +1296,23 @@ Authorization: Bearer vF9dft4qmT]]>
 	      parties.</t>
             </list></t>
 
-            <t>The following is a non-normative response with aggregated
-            claims:</t>
+            <t>The following is a non-normative response with Aggregated
+            Claims:</t>
 
             <t><figure>
               <artwork><![CDATA[
-Claims Provider A contains the following claims for Jane Doe:
+Claims Provider A contains the following Claims for Jane Doe:
 {
  "address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
  "phone_number": "+1 (310) 123-4567"
 }
 
 
-Claims Provider A signs the JSON claims, resulting in a signed JWT:
+Claims Provider A signs the JSON Claims, resulting in a signed JWT:
 jwt_header.jwt_part2.jwt_part3
 
 
-Authorization Server returns Jane Doe's aggregated claims from Claims Provider A : 
+Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A : 
 {
  "name": "Jane Doe",
  "given_name": "Jane",
@@ -1332,12 +1332,12 @@ Authorization Server returns Jane Doe's aggregated claims from Claims Provider A
 ]]></artwork>
             </figure></t>
 
-            <t>The following is a non-normative response with distributed
-            claims:</t>
+            <t>The following is a non-normative response with Distributed
+            Claims:</t>
 
             <t><figure>
               <artwork><![CDATA[
-Claims Provider A (Jane Doe's Bank) contains the following claims for Jane Doe:
+Claims Provider A (Jane Doe's Bank) contains the following Claims for Jane Doe:
 {
  "shipping_address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
  "payment_info": "Some_Card 1234 5678 90123 4562",
@@ -1345,14 +1345,14 @@ Claims Provider A (Jane Doe's Bank) contains the following claims for Jane Doe:
 }
 
 
-A Claims Provider B (Credit Agency) contains the following claims for Jane Doe:
+A Claims Provider B (Credit Agency) contains the following Claims for Jane Doe:
 {
  "credit_score": "650"
 }
 
 
-Authorization Server returns Jane Doe's claims along with the distributed claims from
-Claims Provider A and B by sending the access tokens and URL locations where the claims
+Authorization Server returns Jane Doe's Claims along with the Distributed Claims from
+Claims Provider A and B by sending the access tokens and URL locations where the Claims
 may be retrieved:
 {
  "name": "Jane Doe",
@@ -1384,10 +1384,10 @@ may be retrieved:
         the End-User and authentication event associated with the supplied ID
         Token.</t>
 
-        <t>This endpoint can be used by clients that are not able to or do not
-        wish to handle ID Tokens. In such cases, clients MAY treat the ID
+        <t>This endpoint can be used by Clients that are not able to or do not
+        wish to handle ID Tokens. In such cases, Clients MAY treat the ID
         Token as an opaque value, and use the Check ID Endpoint to
-        retrieve and examine the claims associated with the ID Token.</t>
+        retrieve and examine the Claims associated with the ID Token.</t>
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
@@ -1402,14 +1402,14 @@ may be retrieved:
 
         <section title="Check ID Response">
           <t>The response is a <xref target="RFC4627">JSON</xref> object
-          containing the <xref target="id_token">ID Token</xref> claims.</t>
+          containing the <xref target="id_token">ID Token</xref> Claims.</t>
 
-          <t>Other claims MAY be requested by specifying the desired ID Token 
-          claims to be returned in an <xref
+          <t>Other Claims MAY be requested by specifying the desired ID Token 
+          Claims to be returned in an <xref
           target="OpenIDReq">OpenID Request Object</xref> when making an
           Authorization Request.  The Check ID endpoint MUST return
-          claims in JSON format unless a different format was specified
-	  during client Registration.</t>
+          Claims in JSON format unless a different format was specified
+	  during Client Registration.</t>
           <figure>
             <preamble>The following is a non-normative example of a request to
             the Check ID endpoint:</preamble>
@@ -1451,7 +1451,7 @@ Content-Type: application/json
       <section title="Session Management Endpoints">
         <t>The Session Management endpoints provide endpoints to manage and
         synchronize authentication sessions at the Authorization Server and
-        clients. The endpoints are specified in the <xref
+        Clients. The endpoints are specified in the <xref
         target="OpenID.Session">OpenID Connect Session Management</xref>
         specification.</t>
       </section>
@@ -1519,7 +1519,7 @@ Content-Type: application/json
 
       </list></t>
       
-      <t>The client registers its required algorithms for Signing and Encryption 
+      <t>The Client registers its required algorithms for Signing and Encryption 
       using the following Registration parameters:</t>
       <t><list style="hanging">
              <t hangText="require_signed_request_object">OPTIONAL the <xref target="JWS">JWS</xref> signature 
@@ -1543,7 +1543,7 @@ Content-Type: application/json
              
              <t hangText="id_token_require_encrypted_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
-             algorithms required for id_token issued to this client_id.. If this is requested the response will be signed then encrypted. 
+             algorithms required for id_token issued to this client_id. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
       </list></t>
     </section>
@@ -1557,7 +1557,7 @@ Content-Type: application/json
         <t hangText="jwk_url">
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
           document. Servers signing Key.
-          Used byt the server for Signing JWT, may be used by the client to Encrypt JWT
+          Used by the server for Signing JWT, may be used by the Client to Encrypt the JWT
           to the Server if x509_url_Encryption is not specified.</t>
           
         <t hangText="jwk_url_Encryption">          
@@ -1567,7 +1567,7 @@ Content-Type: application/json
 
         <t hangText="x509_url">
           URL of the OP's X.509 certificates in PEM format. 
-          Used byt the server for Signing JWT, may be used by the client to Encrypt JWT
+          Used byt the server for Signing JWT, may be used by the Client to Encrypt the JWT
           to the Server if x509_url_Encryption is not specified.</t>
           
         <t hangText="x509_url_Encryption"> 
@@ -1576,30 +1576,30 @@ Content-Type: application/json
           is the same as the URL provided by <spanx style="verb">x509_url</spanx></t>
 
       </list></t>
-      <t>The client provides its public Keys during Registration, in the following elements:</t>
+      <t>The Client provides its public Keys during Registration, in the following elements:</t>
       <t><list style="hanging">      
-            <t hangText="jwk_url">OPTIONAL. URL for the client's <xref
+            <t hangText="jwk_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
              signing of token_endpoint and request objects.
             If jwk_encryption_url is not 
             provided it is used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the client.
+            of <xref target="JWT">JWT</xref> to the Client.
             </t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL. URL for the client's <xref
+            <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
             signing of token_endpoint and request objects.</t>
 
-            <t hangText="x509_url">OPTIONAL URL for the client's PEM encoded X.509
+            <t hangText="x509_url">OPTIONAL URL for the Client's PEM encoded X.509
             Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
              signing of token_endpoint and request objects.
             If x509_encryption_url is not 
             provided it is used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the client.</t>
+            of <xref target="JWT">JWT</xref> to the Client.</t>
             
-			<t hangText="x509_encryption_url">OPTIONAL URL for the client's PEM encoded X.509
+			<t hangText="x509_encryption_url">OPTIONAL URL for the Client's PEM encoded X.509
             Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the client. </t>
+            of <xref target="JWT">JWT</xref> to the Client. </t>
       
       
       </list></t>      
@@ -1617,7 +1617,7 @@ Content-Type: application/json
         <t><list style="hanging">
           <t hangText="Symetric Signatures">
             When using HMAC Signatures, the <spanx style="verb">alg</spanx>
-             claim of the JWS header MUST be set to the appropriate algorithm
+             Claim of the JWS header MUST be set to the appropriate algorithm
              as defined in <xref target="JWS">JSON Web Signatures</xref>. 
             The <spanx style="verb">client_secret</spanx> MUST 
             be used as the signature key. 
@@ -1625,7 +1625,7 @@ Content-Type: application/json
           <t hangText="Asymetric Signatures">
             When using RSA or ECDSA Signatures, 
             the <spanx style="verb">alg</spanx>
-             claim of the JWS header MUST be set to the appropriate algorithm
+             Claim of the JWS header MUST be set to the appropriate algorithm
              as defined in <xref target="JWS">JSON Web Signatures</xref>.
             The private key associated with the Public Signing Key provided in
             <xref target="sigenc.key"></xref>. 
@@ -1695,18 +1695,18 @@ Content-Type: application/json
       </section>
 
       <section title="ID Token Verification">
-        <t>To verify the validity of ID Token in the Authorization Response, the client
+        <t>To verify the validity of ID Token in the Authorization Response, the Client
         MUST do the following:</t>
 
         <t><list style="numbers">
-            <t>If the client has provided a userinfo_require_encrypted_response
+            <t>If the Client has provided a userinfo_require_encrypted_response
             parameter durring Registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified durring Registration.</t>
             
             <t>The Client SHOULD validate that the client_id in the 
-            <spanx style="verb">aud</spanx> (audience) claim is one
+            <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
-             <spanx style="verb">iss</spanx> (issuer) claim.
+             <spanx style="verb">iss</spanx> (issuer) Claim.
               The id_token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
               issuer.</t>
@@ -1715,34 +1715,34 @@ Content-Type: application/json
             of <xref target="JWS">JWS</xref> using the algorithm specified in the "alg"
             paramater of the JWT header.</t>
             
-            <t>This SHOULD be the algorithm sent by the client 
+            <t>This SHOULD be the algorithm sent by the Client 
             in the id_token_require_signed_response paramater during Registration.</t>
             
             <t>If the "alg" paramater of the header is HS256 the client_secret for the 
             <spanx style="verb">client_id</spanx> contained in the 
-            <spanx style="verb">aud</spanx> (audience) claim is used to validate the signature.</t> 
+            <spanx style="verb">aud</spanx> (audience) Claim is used to validate the signature.</t> 
             
-            <t>For other Signing algorithms the client must use the signing key provided
+            <t>For other Signing algorithms the Client must use the signing key provided
              in Discovery
             by the issuer exactly matching the value of the 
-            <spanx style="verb">iss</spanx> (issuer) claim.</t>
+            <spanx style="verb">iss</spanx> (issuer) Claim.</t>
 
             <t>The current time MUST be less than the value of the 
-            <spanx style="verb">exp</spanx> claim.</t>
+            <spanx style="verb">exp</spanx> Claim.</t>
             
             <t>The value of the <spanx style="verb">nonce</spanx>
-             claim MUST be checked to verify that
+             Claim MUST be checked to verify that
             it is the same value as the one that was sent in the Authorization
             Request. The Client SHOULD check the nonce value for replay attacks.
             Replay attack mitigation is out of scope for this specification.</t>
             
-            <t>If the <spanx style="verb">iso29115</spanx> claim was requested, the 
-            client SHOULD check that the 
-            the asserted claim value is appropriate.  The meaning and processing of 
-            "iso29115" claim values is out of scope for this specification.</t>
+            <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
+            Client SHOULD check that the 
+            the asserted Claim Value is appropriate.  The meaning and processing of 
+            "iso29115" Claim Values is out of scope for this specification.</t>
             
-            <t>If the <spanx style="verb">auth_time</spanx> claim was requested, the 
-            client SHOULD check the value 
+            <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
+            Client SHOULD check the value 
             and request re-authentication if it determines too much time has elapsed 
             since the last user authentication.</t>
             
@@ -1757,13 +1757,13 @@ Content-Type: application/json
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
         <t>The Authorization Server MUST check that the id_token parameter contains
-        all REQUIRED claims.</t>
+        all REQUIRED Claims.</t>
       </section>
 
       <section title="Check ID Response Verification">
-      <t>If the client does not directly verify the ID Token signature, it
+      <t>If the Client does not directly verify the ID Token signature, it
         MUST make a request to the Check ID Endpoint to validate the ID Token.</t>
-        <t>To verify the validity of the Token response, the client MUST do
+        <t>To verify the validity of the Token response, the Client MUST do
         the following:</t>
 
         <t><list style="numbers">
@@ -1771,33 +1771,33 @@ Content-Type: application/json
             through a TLS/SSL server certificate check, per
 	    <xref target="RFC6125">RFC 6125</xref>.</t>
             <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> 
-            in the <spanx style="verb">aud</spanx> (audience) claim is one
+            in the <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
-             <spanx style="verb">iss</spanx> (issuer) claim.
+             <spanx style="verb">iss</spanx> (issuer) Claim.
               The id_token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
               issuer.</t>
               
               <t>The value of the <spanx style="verb">iss</spanx> (issuer)
-               claim must match the issuer for the Check ID 
+               Claim must match the issuer for the Check ID 
                Endpoint"</t>
 
             <t>The current time MUST be less than the value of the 
-            <spanx style="verb">exp</spanx> claim.</t>
+            <spanx style="verb">exp</spanx> Claim.</t>
             
-            <t>The value of the <spanx style="verb">nonce</spanx> claim 
+            <t>The value of the <spanx style="verb">nonce</spanx> Claim 
             MUST be checked to verify that
             it is the same value as the one that was sent in the Authorization
             Request. The Client SHOULD check the nonce value for replay attacks.
             Replay attack mitigation is out of scope for this specification.</t>
             
-            <t>If the <spanx style="verb">iso29115</spanx> claim was requested, the 
-            client SHOULD check that the 
-            the asserted claim value is appropriate.  The meaning and processing of 
-            "iso29115" claim values is out of scope for this specification.</t>
+            <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
+            Client SHOULD check that the 
+            the asserted Claim Value is appropriate.  The meaning and processing of 
+            "iso29115" Claim Values is out of scope for this specification.</t>
             
-            <t>If the <spanx style="verb">auth_time</spanx> claim was requested, the 
-            client SHOULD check the value 
+            <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
+            Client SHOULD check the value 
             and request re-authentication if it determines too much time has elapsed 
             since the last user authentication.</t>
             
@@ -1812,7 +1812,7 @@ Content-Type: application/json
 
 
       <section title="UserInfo Response Verification">
-        <t>To verify the validity of the UserInfo response, the client MUST do
+        <t>To verify the validity of the UserInfo response, the Client MUST do
         the following:</t>
 
         <t><list style="numbers">
@@ -1840,17 +1840,17 @@ Content-Type: application/json
 
           <t><xref target="OpenID.Registration">OpenID Connect Dynamic Client
           Registration 1.0</xref> - Dynamic registration of OpenID Connect
-          clients with OpenID Providers</t>
+          Clients with OpenID Providers</t>
 
           <t><xref target="OpenID.Session">OpenID Connect Session Management
           1.0</xref> - Session management for OpenID Connect sessions</t>
 
           <t><xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
-          - Protocol binding for the full set of OpenID Connect Messages</t>
+          - Protocol binding for the full set of OpenID Connect messages</t>
 
           <t><xref target="OpenID.Basic">OpenID Connect Basic Client 1.0</xref> -
           Protocol binding for a subset of the OpenID Connect Messages
-          which is intended for use by basic relying parties.</t>
+          which is intended for use by basic Relying Parties.</t>
         </list></t>
     </section>
 
@@ -2558,11 +2558,11 @@ Content-Type: application/json
           <t>Added reference to RFC 5246. per ticket #235.</t>
           <t>Bumped version + date.</t>
           <t>Removed format from userinfo member of request Object</t>
-          <t>Fix optional claim logic in 3.1.2.1.1</t>
+          <t>Fix optional Claim logic in 3.1.2.1.1</t>
           <t>Moved IANA considerations to Standard</t>
           <t>re #256 added invalid_request_uri and invalid_openid_request_object </t>
           <t>fixes #195 reworked 3.2 </t>
-          <t>fixes #194 created auth_time claim in id_token section and moved explanation of response value to it</t>
+          <t>fixes #194 created auth_time Claim in id_token section and moved explanation of response value to it</t>
           <t>fixes #227 7.1 7.2 reference validation in standard, add decryption step.</t>
           <t>re #221 Add section 4.1.1.1 on user_id types and calculating pairwise identifiers</t>
           <t>re #88 Add sec 6.1 and 6.2 </t>
@@ -2580,7 +2580,7 @@ Content-Type: application/json
           <t>Fixed section 3.3.3 to refer to errors in Bearer Token.</t>
           <t>Fixed 3.1.3 to ref the other response types ticket #173.</t>
           <t>Included reference to multiple response types.</t>
-          <t>Fixed 3.1.2.1 to indicate default claims in id_token.</t>
+          <t>Fixed 3.1.2.1 to indicate default Claims in id_token.</t>
           <t>Fixed section 3.2.2 to reference the access token response from the token endpoint 4.1.4.</t>
           <t>Fixed section 3.2.1 to include refresh tokens.</t>
           <t>Fixed section 3.1.1 to be clear on JWT being the token format per ticket #171.</t>

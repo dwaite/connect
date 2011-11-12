@@ -119,13 +119,13 @@
     <section title="Authorization Endpoint">
       <t>The Authorization Endpoint performs authentication services for the
       End-User and requests authorization from the End-User to release
-      information to OpenID Connect Relying Party clients. When an End-User 
-      accesses a Relying Party client application which requires
+      information to OpenID Connect Relying Party Clients. When an End-User 
+      accesses a Relying Party Client application which requires
       the End-User's identity and other information, it sends the End-User to
       the Authorization Server's Authorization Endpoint for authentication and
       authorization. The Authorization Server then issues an ID Token which
       asserts the End-User's identity and an Access Token which allows the
-      client to access the End-User's information at protected resource
+      Client to access the End-User's information at protected resource
       endpoints. Protected resource endpoints MAY perform different actions or
       return different information based on the scopes associated with the 
       presented Access Token.
@@ -138,7 +138,7 @@
         <t>Clients MUST specify the desired scopes in an authorization request to
         obtain an Access Token with the proper permissions.</t>
         
-        <t>Scopes names defined for openID Connect are in Section 3.1.2 of <xref
+        <t>Scopes names defined for OpenID Connect are in Section 3.1.2 of <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
            OAuth 2.0 allows additional scopes to be specified as extensions.</t>
          
@@ -146,10 +146,10 @@
         <xref target="OAuth.2.0">OAuth 2.0</xref>. </t>
         
         <t>The authorization server MAY fully or partially ignore the scope
-         requested by the client based on the authorization server policy or
-         the End User's instructions.</t>
+         requested by the Client based on the authorization server policy or
+         the End-User's instructions.</t>
 
-        <t>To increase new account activation, a client may elect to only request a subset
+        <t>To increase new account activation, a Client may elect to only request a subset
         of the scopes available for the UserInfo Endpoint.</t>
 
         <t><figure>
@@ -165,28 +165,28 @@
         <t>Authorization Requests follow two main paths to obtain Access Tokens
         and ID Tokens, the Implicit Flow and the Authorization Code Flow. The 
         flows determine how the Access Token and ID Token are returned to the 
-        client. Access Tokens are credentials used to access protected 
+        Client. Access Tokens are credentials used to access protected 
         resources, as defined in section 1.4 of 
         <xref target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens represent 
         a Resource Owner's authorization and MUST NOT be exposed to 
         unauthorized parties.</t>
 
-        <t>The Implicit Flow is mainly used by clients implemented in a browser
+        <t>The Implicit Flow is mainly used by Clients implemented in a browser
         using a scripting language. The Access Token and ID Token are returned
-        directly to the client, which MAY expose them to the Resource Owner and
+        directly to the Client, which MAY expose them to the Resource Owner and
         other applications which have access to the Resource Owner's user-agent.
-        The Authorization Server does not perform client authentication before
+        The Authorization Server does not perform Client authentication before
         issuing the Access Token.</t>
 
         <t>The Authorization Code Flow returns an Authorization Code to the
-        client, which can then exchange it for an Access Token directly. This
+        Client, which can then exchange it for an Access Token directly. This
         provides the added benefit of not exposing the Access Token to the 
         Resource Owner and possibly other malicious applications with access
         to the Resource Owner's user-agent. The Authorization Server can also
-        authenticate the client before exchanging the Authorization Code for an
-        Access Token. The Authorization Code flow is suitable for clients that 
+        authenticate the Client before exchanging the Authorization Code for an
+        Access Token. The Authorization Code flow is suitable for Clients that 
         can securely maintain a client secret between themselves and the
-        Authorization server whereas the Implicit flow is suitable for clients
+        Authorization server whereas the Implicit flow is suitable for Clients
         that cannot.</t>
 
         <section anchor="retrieving_code_token" 
@@ -196,7 +196,7 @@
           style="verb">'id_token token'</spanx> <spanx
           style="verb">response_type</spanx>.</t>
 
-          <t>The client may request any OAuth 2.0 registered response
+          <t>The Client may request any OAuth 2.0 registered response
           type supported by the Authorization Server.</t>
           
           <t>The OAuth 2.0 specification documents two response types:
@@ -216,11 +216,11 @@
               successful response MUST include an Access Token as
               defined in the OAuth 2.0 specification.  Both successful
               and error responses MUST be fragment-encoded.  No ID Token
-              is provided to the client.</t>
+              is provided to the Client.</t>
             </list>
           </t>
 
-          <t>Openid Connect supports these <xref
+          <t>OpenID Connect supports these <xref
           target="RESPONSE.TYPES">additional flows</xref> that have
           been registered:</t>
           
@@ -353,10 +353,10 @@
 
         <section anchor="rf_prep"
                  title="Client Prepares an Authorization Request">
-          <t>The client prepares an Authorization Request to the Authorization
+          <t>The Client prepares an Authorization Request to the Authorization
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be HTTPS.
-	  The client MUST perform a TLS/SSL server certificate check, per
+	  The Client MUST perform a TLS/SSL server certificate check, per
 	  <xref target="RFC6125">RFC 6125</xref>.
 	  </t>
 
@@ -365,7 +365,7 @@
           <t><list style="hanging">
               <t hangText="response_type">An OAuth 2.0 registered
               response type that determines how the Authorization
-              Response is returned to the client.  As described in
+              Response is returned to the Client.  As described in
               <xref target="retrieving_code_token" >How to Get an
               Authorization Code, Access Token, and ID Token</xref> ,
               the following registered values are supported:
@@ -389,7 +389,7 @@
               as one of the strings. Other values that MAY be included are
               <spanx style="verb">profile</spanx>, and <spanx style="verb">email</spanx>,
               <spanx style="verb">address</spanx>.
-              The values specify an additive list of claims that are returned
+              The values specify an additive list of Claims that are returned
               by the UserInfo Endpoint as described by <xref
               target="openid_scopes">OpenID Connect Scopes</xref>.</t>
 
@@ -439,11 +439,11 @@
           </list></t>
 
           <t>The Simple Request Method is used in simple cases when default
-          UserInfo and ID Token claims are desired.</t>
+          UserInfo and ID Token Claims are desired.</t>
 
           <t>The Request Parameter Method is used by sending an OpenID Request
-          Object when the client desires to retrieve a different set of
-          UserInfo and ID Token claims. The request parameter method also
+          Object when the Client desires to retrieve a different set of
+          UserInfo and ID Token Claims. The request parameter method also
           allows requests to be signed or encrypted. </t>
 
           <t>The Request File Method works similar to the Request Parameter
@@ -477,7 +477,7 @@ response_type=code%20id_token
 
             <section anchor="norm_req"
                      title="Client sends a request to the Authorization Server">
-              <t>Having constructed the Authorization Request, the client sends it
+              <t>Having constructed the Authorization Request, the Client sends it
               to the HTTPS End-User Authorization Endpoint. This
               MAY happen via HTTPS redirect, hyperlinking, or any other means
               of directing the User-Agent to the Authorization Endpoint URL.</t>
@@ -501,7 +501,7 @@ response_type=code%20id_token
           <section title="Request Parameter Method" anchor="req_param_method">
             <t>The Client prepares an Authorization Request to the
             Authorization Endpoint using the appropriate HTTP parameters
-            serialization. The client SHOULD construct the request using the
+            serialization. The Client SHOULD construct the request using the
             HTTP "POST" method, but MAY use the HTTP "GET" method.</t>
 
             <t>The Authorization Request MUST include the 
@@ -530,7 +530,7 @@ response_type=code%20id_token
             Serialized</eref> into the <eref
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
             OpenID Request Object</eref> with the same values.  This allows
-            the client to send signed and/or encrypted requests to the
+            the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0.</t>
 
             <t><figure>
@@ -620,7 +620,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY]]></artwork>
 
             <section anchor="request_req"
                      title="Client Sends a Request to the Authorization Server">
-              <t>Having constructed the Authorization Request, the client sends
+              <t>Having constructed the Authorization Request, the Client sends
               it to the HTTPS Authorization Endpoint. This
               MAY happen via HTTPS redirect, hyperlinking, or any other means
               of directing the User-Agent to the Authorization Endpoint.</t>
@@ -661,7 +661,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             HTTP "GET" or "POST" method. The Client SHOULD use the HTTP "GET"
             method, but MAY use the HTTP "POST" method.
 	    The scheme used in the Authorization URL MUST be HTTPS.
-	    The client MUST perform a TLS/SSL server certificate check, per
+	    The Client MUST perform a TLS/SSL server certificate check, per
 	    <xref target="RFC6125">RFC 6125</xref>.
 	    </t>
 
@@ -680,7 +680,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             Serialized</eref> into the <eref
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
             OpenID Request Object</eref> with the same values. This allows
-            the client to send signed and/or encrypted requests to the
+            the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0. The 
             <eref
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
@@ -769,7 +769,7 @@ Host: client.example.com]]></artwork>
           
           <t>The Authorization server has advertised JWE encryption algorithms
           in the <spanx style="verb">id_token_supported_algs</spanx> element of its 
-          Discovery Document, these are used by the client to encrypt the JWT.</t>
+          Discovery Document, these are used by the Client to encrypt the JWT.</t>
           
           <t>Based on the <spanx style="verb">alg</spanx>, <spanx style="verb">enc</spanx>,
           and other paramaters in the JWE header, decrypt the JWT, in accordance with
@@ -842,13 +842,13 @@ Host: client.example.com]]></artwork>
           <t>The Authorization Server MUST attempt to request authorization
           from the End-User in the following cases:
           <list style="symbols">
-                <t>The End-User has not pre-authorized the client for the
+                <t>The End-User has not pre-authorized the Client for the
                 authorization request.</t>
 
                 <t>The Authorization Request contains the <spanx 
                 style="verb">prompt</spanx> parameter with the value "consent". The
                 Authorization Server MUST request End-User authorization even if the
-                End-User has previously authorized the client.</t>
+                End-User has previously authorized the Client.</t>
           </list></t>
           <t>The Authorization Server MUST NOT request End-User authorization in the
           following cases:
@@ -856,7 +856,7 @@ Host: client.example.com]]></artwork>
                 <t>The Authorization Request contains the <spanx 
                 style="verb">"display"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the End-User has
-                not pre-authorized the client.</t>
+                not pre-authorized the Client.</t>
           </list></t>
         </section>
 
@@ -868,7 +868,7 @@ Host: client.example.com]]></artwork>
           <section anchor="art_res_ok" title="End-User Grants Authorization">
             <t>If the resource owner grants the access request, the
             Authorization Server issues an Authorization Response and delivers it
-            to the client by adding the response parameters to <spanx
+            to the Client by adding the response parameters to <spanx
             style="verb">redirect_uri</spanx> specified in the Authorization
             Request using the "application/x-www-form-urlencoded" format.</t>
 
@@ -916,7 +916,7 @@ Host: client.example.com]]></artwork>
                 parameter is present in the Authorization Request.
                 Set it to the exact value of the <spanx
                 style="verb">state</spanx> parameter received from the
-                client.</t>
+                Client.</t>
               </list></t>
 
             <t>No other parameter SHOULD be returned.</t>
@@ -1041,7 +1041,7 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
             <t>If the End-User denies the authorization or the user authentication
             fails, the Authorization Server MUST return the error authorization 
             response as defined in <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref>. The Authorization Server returns the client to
+            Messages 1.0</xref>. The Authorization Server returns the Client to
             the redirection URI specified in the Authorization Request
             with the appropriate error parameters. No
             other parameters SHOULD be returned.</t>
@@ -1058,7 +1058,7 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
 
                 <t hangText="state">REQUIRED if the Authorization Request
                 included the <spanx style="verb">state</spanx> parameter. Set
-                to the exact value received from the client.</t>
+                to the exact value received from the Client.</t>
               </list></t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
@@ -1124,12 +1124,12 @@ error=invalid_request
       </texttable>
 
       <section title="Requesting an Access Token">
-        <t>To retrieve an Access Token, a client MUST have an Authorization
+        <t>To retrieve an Access Token, a Client MUST have an Authorization
         Code obtained via the method as described in <xref
         target="code_flow">Authorization Code Flow</xref>.</t>
 
         <section title="Access Token Request">
-          <t>To obtain an Access Token, Refresh Token or ID token, the client MUST
+          <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
           authenticate to the token endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
           
@@ -1158,12 +1158,12 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
           <t>
             <list style='symbols'>
               <t>
-                Require client authentication for any client issued
+                Require client authentication for any Client issued
                 client credentials (or with other authentication requirements),
               </t>
               <t>
-                Authenticate the client if client authentication is included and ensure the
-                Authorization Code was issued to the authenticated client,
+                Authenticate the Client if client authentication is included and ensure the
+                Authorization Code was issued to the authenticated Client,
               </t>
               <t>
                 Verify that the Authorization Code is valid, and
@@ -1237,7 +1237,7 @@ Pragma: no-cache
       </section>
 
       <section title="Refreshing an Access Token">
-         <t>To refresh an Access Token, the client MUST
+         <t>To refresh an Access Token, the Client MUST
           authenticate to the token endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
@@ -1308,7 +1308,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
     </section>
 
     <section anchor="userinfo_ep" title="UserInfo Endpoint">
-      <t>To obtain the requested Claims about the End-User, the client
+      <t>To obtain the requested Claims about the End-User, the Client
       makes a GET or POST request to the UserInfo Endpoint as in <xref
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
@@ -1335,7 +1335,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
             target="OAuth.2.0.Bearer">Bearer Token</xref></t>
             <t>Section 2 of the<xref target="OAuth.2.0.Bearer">OAuth 2.0 Bearer Token</xref>
             specification documents the permissible methods of sending the Access Token.</t> 
-            <t>It is RECOMMENDED that the client use the authorization header method for all 
+            <t>It is RECOMMENDED that the Client use the authorization header method for all 
             requests using GET.</t>
             
             
@@ -1402,11 +1402,11 @@ Content-Type: application/json
     </section>
 
     <section anchor="check_id_ep" title="Check ID Endpoint">
-      <t>The Check ID Endpoint validates ID Tokens and returns the claims
+      <t>The Check ID Endpoint validates ID Tokens and returns the Claims
       of an issued ID Token in JSON text format. This endpoint is used by
-      clients that are not able to or do not wish to process ID Tokens.
+      Clients that are not able to or do not wish to process ID Tokens.
       Clients MAY treat ID Tokens as opaque values and use the Check ID
-      Endpoint to validate and retrieve the claims associated with the ID
+      Endpoint to validate and retrieve the Claims associated with the ID
       Token in plain text JSON format.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
@@ -1426,10 +1426,10 @@ Content-Type: application/json
         <xref target="form_serialization">form serialization</xref>.</t>
 
       <section title="Check ID Requests">
-          <t>The client prepares a Check ID Endpoint Request to the Check ID
+          <t>The Client prepares a Check ID Endpoint Request to the Check ID
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be HTTPS.
-	  The client MUST perform a TLS/SSL server certificate check, per
+	  The Client MUST perform a TLS/SSL server certificate check, per
 	  <xref target="RFC6125">RFC 6125</xref>.
 	  </t>
 
@@ -1455,7 +1455,7 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
       </section>
 
       <section anchor="intro_res" title="Check ID Response">
-        <t>The Check ID Endpoint MUST return the JSON serialized claims
+        <t>The Check ID Endpoint MUST return the JSON serialized Claims
         associated with the ID Token as described in Check ID Response
         section of <xref target="OpenID.Messages">OpenID Messages</xref> in
         the HTTP response body. The content-type of the HTTP response MUST be
@@ -1511,7 +1511,7 @@ Content-Type: application/json
       <t>Some OpenID Connect installations can use a pre-configured set of
       OpenID Providers and/or Relying Parties. In those cases, it may not be
       necessary to support dynamic discovery of information about identities
-      or services or dynamic registration of clients.</t>
+      or services or dynamic registration of Clients.</t>
 
       <t>However, if installations choose to support unanticipated
       interactions between Relying Parties and OpenID Providers that do not
@@ -1532,7 +1532,7 @@ Content-Type: application/json
 
       <section anchor="qss" title="Query String Serialization">
         <t>In order to serialize the parameters using the query string
-        serialization, the client constructs the string by adding the
+        serialization, the Client constructs the string by adding the
         parameters and values to the query component of a URL using the <spanx
         style="verb">application/x-www-form-urlencoded</spanx> format as
         defined by <xref target="W3C.REC-html401-19991224"></xref>. Query string
@@ -1581,7 +1581,7 @@ scope=openid&response_type=code
 
       <section title="Implicit Grant Flow Threats">
         <t>In the implicit grant flow, the Access Token is returned in the
-        fragment part of the client's redirect_uri through HTTPS, thus it is
+        fragment part of the Client's redirect_uri through HTTPS, thus it is
         protected between the OP and the User-Agent, and User-Agent and the
         RP. The only the place it can be captured is the User-Agent where the
         TLS session is terminated, and is possible if the User-Agent is
@@ -2296,7 +2296,7 @@ scope=openid&response_type=code
         <t>Moved IANA considerations From Messages</t>
         <t>fixes #258 make check_id response only JSON Sec 7.2</t>
         <t>removed some language about the request object being able to select signed/encrypted responses</t>
-        <t>fixes #244 remove extraneous reference to confidential clients</t>
+        <t>fixes #244 remove extraneous reference to confidential Clients</t>
         <t>Rework Sec 5 </t>
         <t>re #159 make 5.2.1 refer to sec 3.2.3 of Messages</t>
         <t>fixes #160 make 6.1 refer to sec 3.3 of Messages</t>

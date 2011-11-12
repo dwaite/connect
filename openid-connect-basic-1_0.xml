@@ -109,16 +109,16 @@
 
       <t><list style="hanging">
           <t hangText="Relying Party (RP)">An application requiring
-          claims from an OpenID Provider.</t>
+          Claims from an OpenID Provider.</t>
 
           <t hangText="OpenID Provider (OP)">A service capable of providing
-          claims to a Relying Party.</t>
+          Claims to a Relying Party.</t>
 
           <t hangText="Claim">A piece of information about an Entity that a
           Claims Provider asserts about that Entity.</t>
 
           <t hangText="Claims Provider">An Authorization Server that can
-          return claims about an Entity.</t>
+          return Claims about an Entity.</t>
 
           <t hangText="End-User">A human resource owner.</t>
 
@@ -128,16 +128,16 @@
 
           <t hangText="ID Token">A token that contains information about the
           authentication event. It is a signed token, but can be treated as
-          opaque by clients that use the Check ID Endpoint. Relying 
+          opaque by Clients that use the Check ID Endpoint. Relying 
           Parties wanting to process the token directly should refer to the 
           OpenID Connect Standard 1.0 specification.</t>
 
           <t hangText="Check ID Endpoint">A resource that, when
-          presented with an ID Token by the client, returns authentication
+          presented with an ID Token by the Client, returns authentication
           information about the End-User session represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A protected resource that, when
-          presented with an Access Token by the client, returns authorized
+          presented with an Access Token by the Client, returns authorized
           information about the End-User represented by that Access Token.</t>
         </list></t>
     </section>
@@ -145,20 +145,20 @@
     <section title="Protocol Flows">
       <t>Authorization Requests can follow one of two paths; the Implicit Flow
       or the Authorization Code Flow. The Authorization Code Flow is
-      suitable for clients that can securely maintain a client secret between
+      suitable for Clients that can securely maintain a client secret between
       themselves and the Authorization Server whereas, the Implicit Flow is
-      suitable for clients that cannot. Clients that do not support TLS MUST
+      suitable for Clients that cannot. Clients that do not support TLS MUST
       use the Authorization Code Flow to prevent the interception of Access 
       Tokens.</t>
 
-      <t>The OpenID Connect Basic Client profile only documents clients using
+      <t>The OpenID Connect Basic Client profile only documents Clients using
       the Implicit Flow. OpenID Providers MUST support both flows.
       Clients wanting to use the Authorization Code Flow and OpenID Providers 
       should consult the <xref target="OpenID.Standard">OpenID Connect Standard 
       1.0 Specification</xref>.</t>
 
       <section title="OpenID Connect Scopes">
-        <t>OpenID Connect clients use scopes as defined in 3.3 of 
+        <t>OpenID Connect Clients use scopes as defined in 3.3 of 
         <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
@@ -172,7 +172,7 @@
 
         <t><list style="hanging">
             <t hangText="openid">REQUIRED. Informs the Authorization
-                  Server that the client is making an OpenID Connect request. If the
+                  Server that the Client is making an OpenID Connect request. If the
                   <spanx style="verb">openid</spanx> scope is not present,
                   the request MUST NOT be treated as an OpenID Connect request.</t>
 
@@ -188,7 +188,7 @@
         <t>Multiple scopes MAY be requested by creating a space delimited, case
         sensitive list of scope values.</t>
         
-        <t>The End-User may decline a scope request by the client.</t>
+        <t>The End-User may decline a scope request by the Client.</t>
 
         <t>To increase conversion, a site may elect to only request a subset
         of the information from the UserInfo Endpoint.</t>
@@ -314,7 +314,7 @@
                   <t hangText="none">This value informs the Authorization Server
                   that it MUST NOT display any authentication or consent
                   user interface pages. An error is returned if the End-User 
-                  is not already authenticated or the client does not have 
+                  is not already authenticated or the Client does not have 
                   pre-configured consent for the requested
                   <spanx style="verb">scopes</spanx>. This can be used as a
                   method to check for existing authentication and/or consent.</t>
@@ -324,16 +324,16 @@
 
                   <t hangText="consent">The Authorization Server MUST prompt
                   the End-User for consent before returning information to the
-                  client.</t>
+                  Client.</t>
 
                   <t hangText="select_account">The Authorization Server MUST
                   prompt the End-User to select a user account if the account has
                   multiple accounts associated with it.</t>
                 </list>
-                This can be used by the client to make sure that the End-User is
+                This can be used by the Client to make sure that the End-User is
                 still present for the current session or to bring attention to the
                 request. If this parameter contains "none" with any other value, an
-                error is returned..
+                error is returned.
             </t>
             </list></t>
 
@@ -354,7 +354,7 @@ response_type=token%20id_token
 
         <section anchor="implicit_req"
                  title="Client sends a request to the Authorization Server">
-          <t>Having constructed the Authorization Request, the client sends it
+          <t>Having constructed the Authorization Request, the Client sends it
           to the Authorization Endpoint. This MAY happen via HTTPS redirect, 
           hyperlinking, or any other secure means of directing the User-Agent 
           to the URL.</t>
@@ -398,7 +398,7 @@ response_type=token%20id_token
           <section anchor="implicit_ok" title="End-User Grants Authorization">
             <t>If the resource owner grants the access request, the
             Authorization Server issues an Access Token and delivers it to the
-            client by adding the following parameters to the fragment
+            Client by adding the following parameters to the fragment
             component of the redirection URI using the 
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format as defined in Section 4.2.2 of
@@ -429,7 +429,7 @@ response_type=token%20id_token
                 seconds of the access_token.</t>
               </list></t>
 
-            <t>The client can then use the Access Token to access protected
+            <t>The Client can then use the Access Token to access protected
             resources at Resource Servers.</t>
 
             <figure>
@@ -470,9 +470,9 @@ access_token=SlAV32hkKG
         <t>The id_token is used to manage the signon event and user
         identifier. It differs from an Access Token which provides access to the UserInfo Endpoint and other
         OAuth 2.0 protected resources that the End-User is granting access to. The
-        id_token is restricted to a particular client via the 
+        id_token is restricted to a particular Client via the 
         <spanx style="verb">aud</spanx> (audience) and 
-        <spanx style="verb">nonce</spanx> claims.</t>
+        <spanx style="verb">nonce</spanx> Claims.</t>
 
         <t>A full explanation of how to use the id_token to perform session
         management can be found in the <xref target="OpenID.Session">OpenID
@@ -513,7 +513,7 @@ Host: server.example.com
                 certificate matches that of the Endpoint, per
 		<xref target="RFC6125">RFC 6125</xref>.</t>
 
-                <t>Make sure that the Endpoint that the client connected to is 
+                <t>Make sure that the Endpoint that the Client connected to is 
                 a trusted Check ID Endpoint for the Entity via pre-configuration
                 meta-data or discovery.</t>
               </list></t>
@@ -550,8 +550,8 @@ Host: server.example.com
               for details regarding date/times in general and UTC in
               particular.</t>
 
-              <t hangText="iso29115">OPTIONAL. (entity authentication
-              assurance): Specifies the X.eaa / <xref
+              <t hangText="iso29115">OPTIONAL. (Entity Authentication
+              Assurance): Specifies the X.eaa / <xref
               target="ISO29115">ISO/IEC29115</xref> entity authentication
               assurance level of the authentication performed.</t>
 
@@ -590,7 +590,7 @@ Content-Type: application/json
           </figure>
 
           <section title="Response Verification">
-            <t>To verify the validity of the Response, the client MUST do the
+            <t>To verify the validity of the Response, the Client MUST do the
             following:</t>
 
             <t><list style="numbers">
@@ -606,7 +606,7 @@ Content-Type: application/json
                 Authorization Request.</t>
 
                 <t>Verify that the <spanx style="verb">aud</spanx> (audience) 
-                contained within the response is the client's
+                contained within the response is the Client's
                 <spanx style="verb">client_id</spanx>.</t>
             </list></t>
           </section>
@@ -627,7 +627,7 @@ Content-Type: application/json
     </section>
 
     <section anchor="userinfo" title="UserInfo Endpoint">
-      <t>To obtain the additional attributes and tokens, the client makes a
+      <t>To obtain the additional attributes and tokens, the Client makes a
       GET or POST request to the UserInfo Endpoint.</t>
       
       <t>UserInfo Endpoint Servers MUST require the use of a transport-layer
@@ -882,7 +882,7 @@ Authorization: Bearer vF9dft4qmT
       <t>Some OpenID Connect installations can use a pre-configured set of
       OpenID Providers and/or Relying Parties. In those cases, it may not be
       necessary to support dynamic discovery of information about identities
-      or services or dynamic registration of clients.</t>
+      or services or dynamic registration of Clients.</t>
 
       <t>However, if installations choose to support unanticipated
       interactions between Relying Parties and OpenID Providers that do not
@@ -895,7 +895,7 @@ Authorization: Bearer vF9dft4qmT
 
     <section anchor="qss" title="Query String Serialization">
       <t>In order to serialize the parameters using the query string
-      serialization, the client constructs the string by adding the
+      serialization, the Client constructs the string by adding the
       parameters and values to the query component using the <spanx
       style="verb">application/x-www-form-urlencoded</spanx> format as
       defined by <xref target="W3C.REC-html401-19991224"></xref>.</t>
@@ -919,9 +919,9 @@ Host: server.example.com]]></artwork>
       <section anchor="assertion_manufacture"
                title="Assertion Manufacture/Modification">
         <t>An assertion is the result of the authentication performed by the
-        Authorization Server that was provided to the client. The assertion is 
+        Authorization Server that was provided to the Client. The assertion is 
         used to pass information about the End-User or the authentication process 
-        from the Authorization Server to the client.</t>
+        from the Authorization Server to the Client.</t>
 
 
             <t>To mitigate this attack, the assertion may be sent over a
@@ -946,8 +946,8 @@ Host: server.example.com]]></artwork>
 
       <section anchor="assertion_redirect" title="Assertion Redirect">
         <t>To mitigate this threat, the assertion includes the identity of the
-        client for whom it was generated as <spanx style="verb">client_id</spanx>.
-        The client verifies that incoming assertions include its identity as
+        Client for whom it was generated as <spanx style="verb">client_id</spanx>.
+        The Client verifies that incoming assertions include its identity as
         the recipient of the assertion.</t>
 
         <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
@@ -955,7 +955,7 @@ Host: server.example.com]]></artwork>
 
       <section anchor="assertion_reuse" title="Assertion Reuse">
         <t>The assertion includes a timestamp and a short lifetime of
-        validity. The client checks the timestamp and lifetime values to
+        validity. The Client checks the timestamp and lifetime values to
         ensure that the assertion is currently valid.</t>
 
         <t>The use of a nonce in the request is REQUIRED. The response from
@@ -1012,7 +1012,7 @@ Host: server.example.com]]></artwork>
 
       <section title="Implicit Flow Threats">
         <t>In the Implicit Flow, the Access Token is returned in the
-        fragment part of the client's redirect_uri through HTTPS. Thus it is
+        fragment part of the Client's redirect_uri through HTTPS. Thus it is
         protected between the Authorization Server and the User-Agent, and 
         User-Agent and the Client. The only the place it can be captured is the 
         User-Agent where the TLS session is terminated; this is possible if the 
@@ -1021,7 +1021,7 @@ Host: server.example.com]]></artwork>
 
       <section title="Availability">
         <t>When the Authorization Server is down, End-Users will likely be unable 
-        to access it. To mitigate this risk, the client SHOULD allow End-Users to
+        to access it. To mitigate this risk, the Client SHOULD allow End-Users to
         associate multiple Authorization Servers.</t>
       </section>
     </section>
@@ -1034,14 +1034,14 @@ Host: server.example.com]]></artwork>
       of use is typically registered in association with the <spanx
       style="verb">redirect_uri</spanx>.</t>
 
-      <t>Only necessary UserInfo data should be stored at the client and the
-      client SHOULD associate the received data with the purpose of use
+      <t>Only necessary UserInfo data should be stored at the Client and the
+      Client SHOULD associate the received data with the purpose of use
       statement.</t>
 
       <t>The Resource Server SHOULD make the UserInfo access log available to 
       the End-User so that the End-User can monitor who accessed his data.</t>
 
-      <t>To protect the End-User from a possible correlation among clients, the
+      <t>To protect the End-User from a possible correlation among Clients, the
       use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
       style="verb">user_id</spanx> SHOULD be considered.</t>
     </section>
