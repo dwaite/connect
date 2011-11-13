@@ -102,7 +102,10 @@
       "Authorization Endpoint", "Client", "Client Identifier", "Client
       Secret", "Protected Resource", "Resource Owner", "Resource Server", and
       "Token Endpoint" that are defined by <xref target="OAuth.2.0">OAuth
-      2.0</xref>, this specification defines the following terms: <list
+      2.0</xref>,
+      and the terms Claim Names and Claim Values
+      that are defined by  <xref target="JWT">JWT</xref>,
+      this specification defines the following terms: <list
           style="hanging">
           <t hangText="Authentication">An act of verifying End-User's identity
           through the verification of the credential.</t>
@@ -113,7 +116,7 @@
           <t hangText="Claims Provider">An Authorization Server that can
           return Claims about an Entity.</t>
 
-          <t hangText="End-User">A human resource owner.</t>
+          <t hangText="End-User">A human Resource Owner.</t>
 
           <t hangText="Entity">Something that has a separate and
           distinct existence and that can be identified in context.
@@ -135,7 +138,7 @@
           <t hangText="OpenID Provider (OP)">A service capable of providing
           Claims to a Relying Party.</t>
 
-          <t hangText="OP Endpoints">End-User Authorization Endpoint, Token
+          <t hangText="OP Endpoints">Authorization Endpoint, Token
           Endpoint, and UserInfo Endpoint.</t>
 
           <t hangText="OpenID Request Object">A JSON object that holds the
@@ -155,7 +158,7 @@
           presented with an ID Token by the Client, returns Claims
           about the user session represented by that ID Token.</t>
 
-          <t hangText="UserInfo Endpoint">A protected resource that, when
+          <t hangText="UserInfo Endpoint">A Protected Resource that, when
           presented with an Access Token by the Client, returns Claims
           about the End-User represented by that Access Token.</t>
         </list></t>
@@ -181,7 +184,7 @@
           <t>UserInfo Endpoint returns the additional End-User information
           supported by the Resource Server.</t>
 
-          <t>Optionally, the Client sends a request with the id_token to the
+          <t>Optionally, the Client sends a request with the ID Token to the
           Authorization Server's <xref target="check_id_ep">Check ID
           Endpoint</xref>.</t>
 
@@ -244,13 +247,13 @@
           <t>The ID Token is used to manage the authentication event and user
           identifier and is scoped to a particular Client via the <spanx
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          Claims. It MUST NOT be used as an access token to access OAuth 2.0
-          protected resources.</t>
+          Claims. It MUST NOT be used as an Access Token to access OAuth 2.0
+          Protected Resources.</t>
 
           <t>The ID Token MUST attests minimally to the following Claims:</t>
 
           <t><list style="hanging">
-              <t hangText="iss">REQUIRED. The Issuer Identifier for the issuer
+              <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
               of the response.</t>
 
               <t hangText="user_id">REQUIRED. A locally unique and never
@@ -260,7 +263,7 @@
               It MUST NOT exceed 255 ASCII characters in length.</t>
 
               <t hangText="aud">REQUIRED. This member identifies the audience
-              that this ID Token is intended for. It MUST be the OAuth <spanx style="verb">client_id</spanx>
+              that this ID Token is intended for. It MUST be the OAuth 2.0 <spanx style="verb">client_id</spanx>
               of the Client.</t>
 
               <t hangText="exp">REQUIRED. Type Integer. Identifies the
@@ -363,7 +366,7 @@
 
               <t hangText="scope">A space delimited, case sensitive list of
               string values. The values specify an additive list of Claims
-              that are returned by the UserInfo endpoint. The following values
+              that are returned by the UserInfo Endpoint. The following values
               are defined:<list style="hanging">
                   <t hangText="openid">REQUIRED. Informs the Authorization
                   Server that the Client is making an OpenID Connect request. If the
@@ -484,15 +487,15 @@
             </list></t>
 
           <section anchor="OpenIDReq" title="OpenID Request Object">
-            <t>The OpenID Request object is used to provide OpenID request
+            <t>The OpenID Request Object is used to provide OpenID request
             parameters that MAY differ from the default ones. Implementing
-            support for the OpenID Request object is OPTIONAL. Supporting it
+            support for the OpenID Request Object is OPTIONAL. Supporting it
             is necessary for implementations that need to request or provide
             sets of Claims other than the default <xref
             target="userinfo_ep">UserInfo</xref>, ID Token, and <xref
             target="check_id_ep">Check ID</xref> Claim sets.</t>
 
-            <t>The OpenID Request object is a <xref target="JWT">JWT</xref>
+            <t>The OpenID Request Object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
             parameter in the Authorization Request. The OpenID Request Object
             can also be sent by reference. Parameters that affect the
@@ -510,7 +513,7 @@
 	    The OAuth 2.0 parameter values included MUST match the
 	    actual OAuth 2.0 request parameters used.</t>
 
-            <t>The OpenID Request object MAY contain a set of members defined
+            <t>The OpenID Request Object MAY contain a set of members defined
             by this specification and MAY contain other members that are not
             defined by this specification. OpenID Request Object members
             SHOULD be understood by both parties.</t>
@@ -526,7 +529,7 @@
             <t><list style="hanging">
                 <t hangText="userinfo">OPTIONAL. (UserInfo request): Requests
                 affecting the values to be returned from the UserInfo
-                endpoint. If not present, the UserInfo Endpoint behaves in the
+                Endpoint. If not present, the UserInfo Endpoint behaves in the
                 default manner.</t>
 
                 <t hangText="id_token">OPTIONAL. (ID request): Requests
@@ -656,7 +659,7 @@
                   </t>
                 </list>In addition to the "claims" member, these additional
               members are defined within the "id_token" member of the OpenID
-              Request object:</t>
+              Request Object:</t>
 
               <t><list style="hanging">
                   <t hangText="max_age">OPTIONAL. (max authentication age):
@@ -701,7 +704,7 @@
 
           <t>When the <spanx style="verb">response_type</spanx>
           includes other values, they must be returned as defined by
-          their registration.  The id_token return type is defined in
+          their registration.  The <spanx style="verb">id_token</spanx> return type is defined in
           <xref target="RESPONSE.TYPES">OAuth 2.0 Multiple Response Type
           Encoding Practices</xref>.</t>
         </section>
@@ -808,7 +811,7 @@
           <t><list style="hanging">
           <t hangText="client_id">REQUIRED. The client identifier of the
             Client.</t>
-           <t hangText="aud">REQUIRED. The issuer identifier of the token_endpoint.</t>
+           <t hangText="aud">REQUIRED. The Issuer Identifier of the token_endpoint.</t>
            <t hangText="nonce">REQUIRED.  A random, unique string value used
               to mitigate replay attacks. </t>
             <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
@@ -819,7 +822,7 @@
 	  style='verb'>Authorization</spanx> request header field
 	  defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
 	  Client uses the <spanx style='verb'>Bearer</spanx>
-	  authentication scheme to transmit the access token.
+	  authentication scheme to transmit the Access Token.
         </t>
 
             
@@ -831,7 +834,7 @@
           <t><list style="hanging">
           <t hangText="client_id">REQUIRED. The client identifier of the
             Client.</t>
-           <t hangText="aud">REQUIRED. The issuer identifier of the token_endpoint.</t>
+           <t hangText="aud">REQUIRED. The Issuer Identifier of the token_endpoint.</t>
            <t hangText="nonce">REQUIRED.  A random, unique string value used
               to mitigate replay attacks. </t>
             <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
@@ -841,7 +844,7 @@
     style='verb'>Authorization</spanx> request header field
     defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
     Client uses the <spanx style='verb'>Bearer</spanx>
-    authentication scheme to transmit the access token.
+    authentication scheme to transmit the Access Token.
 
         <figure>
           <preamble>
@@ -887,7 +890,7 @@ Authorization: Bearer vF9dft4qmT]]>
 
           <t>This specification further constrains that only <xref
           target="OAuth.2.0.Bearer">Bearer Tokens</xref> are issued at the
-          Token endpoint. The OAuth 2.0 response parameter "<spanx
+          Token Endpoint. The OAuth 2.0 response parameter "<spanx
           style="verb">token_type</spanx>" MUST be set to "<spanx
           style="verb">Bearer</spanx>".</t>
 
@@ -939,7 +942,7 @@ Authorization: Bearer vF9dft4qmT]]>
       </section>
 
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
-        <t>The UserInfo endpoint is an OAuth 2.0 protected resource that
+        <t>The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
         returns Claims about the authenticated End-User. Claims are
         represented by a JSON object that contains a collection of
         name and value pairs for the Claims.</t>
@@ -997,7 +1000,7 @@ Authorization: Bearer vF9dft4qmT]]>
 
             <c>string</c>
 
-            <c>Identifier for the End-User at the issuer.</c>
+            <c>Identifier for the End-User at the Issuer.</c>
 
             <c>name</c>
 
@@ -1151,7 +1154,7 @@ Authorization: Bearer vF9dft4qmT]]>
           target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
           respectively.
 	  The
-          UserInfo endpoint MUST return a content-type header to indicate
+          UserInfo Endpoint MUST return a content-type header to indicate
           which format is being returned. The following are accepted content
           types:</t>
 
@@ -1352,7 +1355,7 @@ A Claims Provider B (Credit Agency) contains the following Claims for Jane Doe:
 
 
 Authorization Server returns Jane Doe's Claims along with the Distributed Claims from
-Claims Provider A and B by sending the access tokens and URL locations where the Claims
+Claims Provider A and B by sending the Access Tokens and URL locations where the Claims
 may be retrieved:
 {
  "name": "Jane Doe",
@@ -1407,12 +1410,12 @@ may be retrieved:
           <t>Other Claims MAY be requested by specifying the desired ID Token 
           Claims to be returned in an <xref
           target="OpenIDReq">OpenID Request Object</xref> when making an
-          Authorization Request.  The Check ID endpoint MUST return
+          Authorization Request.  The Check ID Endpoint MUST return
           Claims in JSON format unless a different format was specified
 	  during Client Registration.</t>
           <figure>
             <preamble>The following is a non-normative example of a request to
-            the Check ID endpoint:</preamble>
+            the Check ID Endpoint:</preamble>
 
             <artwork><![CDATA[
 POST /id_token HTTP/1.1
@@ -1643,7 +1646,7 @@ Content-Type: application/json
       <t>Based on the supported algorithms of the recipient in <xref
         target="sigenc.alg"></xref>, select an encryption algorithm.</t>
         <t>All JWT MUST be signed before encryption to provide integrity and
-        to verify the issuer.</t>
+        to verify the Issuer.</t>
         <t>Symmetric Encryption algorithms that provide a integrated integrity check MUST 
         be used if supported by both the sender and receiver. A128GCM and A256GCM 
         algorithms support this.</t>
@@ -1707,9 +1710,9 @@ Content-Type: application/json
             <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
              <spanx style="verb">iss</spanx> (issuer) Claim.
-              The id_token MUST be rejected if the value of 
+              the ID Token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
-              issuer.</t>
+              Issuer.</t>
              
             <t>The Client SHOULD verify the ID Token signature according to Section 5
             of <xref target="JWS">JWS</xref> using the algorithm specified in the "alg"
@@ -1724,7 +1727,7 @@ Content-Type: application/json
             
             <t>For other Signing algorithms the Client must use the signing key provided
              in Discovery
-            by the issuer exactly matching the value of the 
+            by the Issuer exactly matching the value of the 
             <spanx style="verb">iss</spanx> (issuer) Claim.</t>
 
             <t>The current time MUST be less than the value of the 
@@ -1752,11 +1755,11 @@ Content-Type: application/json
       </section>
 
       <section title="Check ID Request Verification">
-        <t>The Authorization Server MUST check that the id_token parameter is
+        <t>The Authorization Server MUST check that the  <spanx style="verb">id_token</spanx> parameter is
         present and that if it is signed, it MUST be verify
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
-        <t>The Authorization Server MUST check that the id_token parameter contains
+        <t>The Authorization Server MUST check that the  <spanx style="verb">id_token</spanx> parameter contains
         all REQUIRED Claims.</t>
       </section>
 
@@ -1774,12 +1777,12 @@ Content-Type: application/json
             in the <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
              <spanx style="verb">iss</spanx> (issuer) Claim.
-              The id_token MUST be rejected if the value of 
+              the ID Token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
-              issuer.</t>
+              Issuer.</t>
               
               <t>The value of the <spanx style="verb">iss</spanx> (issuer)
-               Claim must match the issuer for the Check ID 
+               Claim must match the Issuer for the Check ID 
                Endpoint"</t>
 
             <t>The current time MUST be less than the value of the 

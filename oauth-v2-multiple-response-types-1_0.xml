@@ -79,15 +79,15 @@
       <t><list style="hanging">
           <t hangText="Client and Server">In the traditional client-server
             authentication model, the client requests an access restricted
-            resource (protected resource) on the server by authenticating
-            with the server using the resource owner's credentials. </t>
+            resource (Protected Resource) on the server by authenticating
+            with the server using the Resource Owner's credentials. </t>
 
           <t hangText="Authorization Endpoint">A web resource maintained by
             the server, and used to obtain authorization (grant) from the
-            resource owner via user-agent redirection.</t>
+            Resource Owner via User-Agent redirection.</t>
 
-          <t hangText="Response Type">The client informs the
-            authorization server of the desired authorization processing flow using the
+          <t hangText="Response Type">The Client informs the
+            Authorization Server of the desired authorization processing flow using the
             parameter response_type.</t>
 
           <t hangText="Authorization Endpoint Response Type Registry">
@@ -122,13 +122,13 @@
         within the fragment. This recommendation applies to both success and error responses.</t>
 
       <t>Rationale: Whenever response_type values include fragment-encoded parts,
-        a user-agent client component must be involved to complete processing of the response.
-        If a new query parameter is added to the client URI, it will cause the user-agent
-        to re-fetch the client URI,
-        causing discontinuity of operation of the user-agent-based client components. If instead
-        only fragment encoding is used, the user-agent will simply re-active the client
+        a User-Agent Client component must be involved to complete processing of the response.
+        If a new query parameter is added to the Client URI, it will cause the User-Agent
+        to re-fetch the Client URI,
+        causing discontinuity of operation of the User-Agent-based Client components. If instead
+        only fragment encoding is used, the User-Agent will simply re-active the Client
         component, at which time this component may process the fragment and
-        also convey any parameters to a client host as necessary, e.g., via XmlHttpRequest.
+        also convey any parameters to a Client host as necessary, e.g., via XmlHttpRequest.
         Therefore, full fragment encoding always results in lower latency for response processing.</t>
     </section>
 
@@ -136,8 +136,8 @@
       <t>This section registers a new response type, the id_token, in accordance
         with the stipulations in the OAuth 2.0 specification, Section 8.4. The intended purpose of
         the id_token is that it MUST provide an assertion of
-        the identity of the resource owner as understood by the server. The assertion MUST 
-        specify a targeted audience, e.g. the requesting client. However, the specific semantics of
+        the identity of the Resource Owner as understood by the server. The assertion MUST 
+        specify a targeted audience, e.g. the requesting Client. However, the specific semantics of
         the assertion and how it can be validated are not specified in this document.</t>
 
       <t><list style="hanging">
@@ -147,28 +147,28 @@
       </list></t>
 
       <t>Returning the id_token in a fragment reduces the likelihood that the id_token leaks
-        during transport and mitigates the associated risks to the privacy of the user (resource owner).</t>
+        during transport and mitigates the associated risks to the privacy of the user (Resource Owner).</t>
     </section>
 
     <section title="None Response Type">
       <t>This section registers the response type none, in accordance
         with the stipulations in the OAuth 2.0 specification, Section 8.4.
         The intended purpose is to enable
-        use cases where a party requests the server to register a grant of access to a protected
-        resource on behalf of a client but requires
-        no access credentials to be returned to the client at that time. The means
-        by which the client eventually obtains the access credentials is left unspecified here.</t>
+        use cases where a party requests the server to register a
+	grant of access to a Protected Resource on behalf of a Client but requires
+        no access credentials to be returned to the Client at that time. The means
+        by which the Client eventually obtains the access credentials is left unspecified here.</t>
 
       <t>One scenario is where a user wishes to purchase an
         application from a market, and desires to authorize application installation and grant
-        the application access to protected resources in a single step. However, since the user is
+        the application access to Protected Resources in a single step. However, since the user is
         not presently interacting with the (not yet active) application, it is not appropriate
         to return access credentials simultaneously to the authorization step.</t>
 
       <t><list style="hanging">
         <t hangText="none">When supplied as the response_type parameter in an OAuth 2.0 authorization
-          request, the Authorization server SHOULD NOT return an OAuth 2.0 code nor a token in a successful
-          response to the grant request. If a redirect_uri is supplied, the user-agent SHOULD be redirected
+          request, the Authorization Server SHOULD NOT return an OAuth 2.0 code nor a token in a successful
+          response to the grant request. If a redirect_uri is supplied, the User-Agent SHOULD be redirected
           there after granting or denying access. The request MAY include a state parameter, and if so the
           server MUST echo its value by adding it to the redirect_uri when issuing a successful response.
           Any parameters added to the redirect_uri should be query encoded. This applies to both successful
@@ -182,19 +182,19 @@
 
       <t><list style="hanging">
         <t hangText="code token">When supplied as the value for the response_type parameter, a successful
-          response MUST include both an access token and an authorization code as defined in the OAuth 2.0
+          response MUST include both an Access Token and an Authorization Code as defined in the OAuth 2.0
           specification. Both successful and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an authorization code as well as an id_token.
+          a successful response MUST include both an Authorization Code as well as an id_token.
           Both success and error responses SHOULD be fragment-encoded.</t>
         <t hangText="id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an access token as well as an id_token.
+          a successful response MUST include both an Access Token as well as an id_token.
           Both success and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include an authorization code, an id_token, and an access token.
+          a successful response MUST include an Authorization Code, an id_token, and an Access Token.
           Both success and error responses SHOULD be fragment-encoded.</t> 
       </list></t>
-    <t>A non-normative request/response example as issued/received by the user-agent:
+    <t>A non-normative request/response example as issued/received by the User-Agent:
           <figure>
             <artwork><![CDATA[GET https://server.example.com/authorize?
 response_type=token%20id_token

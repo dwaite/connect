@@ -66,8 +66,8 @@
     <date day="4" month="November" year="2011" />
 
     <abstract>
-      <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth
-      2.0 protocol. It allows a web site or application to verify the
+      <t>OpenID Connect 1.0 is a simple identity layer on top of the
+      OAuth 2.0 protocol. It allows a web site or application to verify the
       identity of the End-User based on the authentication performed by
       the Authorization Server, as well as to obtain basic profile information
       about the End-User in an interoperable and RESTful manner.</t>
@@ -125,8 +125,8 @@
       the Authorization Server's Authorization Endpoint for authentication and
       authorization. The Authorization Server then issues an ID Token which
       asserts the End-User's identity and an Access Token which allows the
-      Client to access the End-User's information at protected resource
-      endpoints. Protected resource endpoints MAY perform different actions or
+      Client to access the End-User's information at Protected Resource
+      endpoints. Protected Resource endpoints MAY perform different actions or
       return different information based on the scopes associated with the 
       presented Access Token.
       Clients MUST specify 
@@ -145,8 +145,8 @@
         <t>OpenID Connect's scope use is consistent with Section 3.3 of 
         <xref target="OAuth.2.0">OAuth 2.0</xref>. </t>
         
-        <t>The authorization server MAY fully or partially ignore the scope
-         requested by the Client based on the authorization server policy or
+        <t>The Authorization Server MAY fully or partially ignore the scope
+         requested by the Client based on the Authorization Server policy or
          the End-User's instructions.</t>
 
         <t>To increase new account activation, a Client may elect to only request a subset
@@ -165,8 +165,8 @@
         <t>Authorization Requests follow two main paths to obtain Access Tokens
         and ID Tokens, the Implicit Flow and the Authorization Code Flow. The 
         flows determine how the Access Token and ID Token are returned to the 
-        Client. Access Tokens are credentials used to access protected 
-        resources, as defined in section 1.4 of 
+        Client. Access Tokens are credentials used to access Protected 
+        Resources, as defined in section 1.4 of 
         <xref target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens represent 
         a Resource Owner's authorization and MUST NOT be exposed to 
         unauthorized parties.</t>
@@ -174,7 +174,7 @@
         <t>The Implicit Flow is mainly used by Clients implemented in a browser
         using a scripting language. The Access Token and ID Token are returned
         directly to the Client, which MAY expose them to the Resource Owner and
-        other applications which have access to the Resource Owner's user-agent.
+        other applications which have access to the Resource Owner's User-Agent.
         The Authorization Server does not perform Client authentication before
         issuing the Access Token.</t>
 
@@ -182,11 +182,11 @@
         Client, which can then exchange it for an Access Token directly. This
         provides the added benefit of not exposing the Access Token to the 
         Resource Owner and possibly other malicious applications with access
-        to the Resource Owner's user-agent. The Authorization Server can also
+        to the Resource Owner's User-Agent. The Authorization Server can also
         authenticate the Client before exchanging the Authorization Code for an
         Access Token. The Authorization Code flow is suitable for Clients that 
-        can securely maintain a client secret between themselves and the
-        Authorization server whereas the Implicit flow is suitable for Clients
+        can securely maintain a Client Secret between themselves and the
+        Authorization Server whereas the Implicit flow is suitable for Clients
         that cannot.</t>
 
         <section anchor="retrieving_code_token" 
@@ -334,7 +334,7 @@
         End-User Authorization has not yet been obtained, the Client
         prepares an Authorization Request to the Authorization Endpoint.</t>
 
-        <t>Authorization servers MUST require the use of a transport-layer
+        <t>Authorization Servers MUST require the use of a transport-layer
         security mechanism at the Authorization Endpoint. The Authorization 
         Server MUST support TLS 1.2 as described in <xref 
         target="RFC5246">RFC 5246</xref> and MAY support other transport-layer 
@@ -397,7 +397,7 @@
               will be sent.</t>
 
               <t hangText="nonce">A random, unique string value used
-              to mitigate replay attacks. The value is passed through unmodified to the id_token.</t>
+              to mitigate replay attacks. The value is passed through unmodified to the ID Token.</t>
             </list></t>
 
           <t>The request can contain the following optional parameters:</t>
@@ -652,7 +652,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
           <section title="Request File Method">
             <t>The Request File Method differs from the other methods in that
-            it uses a request file which contains a <eref
+            it uses a Request File that contains a <eref
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
             OpenID Request Object</eref>. It then sends the Request File URL as
             part of the Authorization Request.</t>
@@ -767,7 +767,7 @@ Host: client.example.com]]></artwork>
           <t>If the JWT is encrypted "typ" element of the header will contain the value "JWS"
           indicating that its payload is a JWS, requiring additional processing.</t>
           
-          <t>The Authorization server has advertised JWE encryption algorithms
+          <t>The Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">id_token_supported_algs</spanx> element of its 
           Discovery Document, these are used by the Client to encrypt the JWT.</t>
           
@@ -866,7 +866,7 @@ Host: client.example.com]]></artwork>
           returns a successful or error response.</t>
 
           <section anchor="art_res_ok" title="End-User Grants Authorization">
-            <t>If the resource owner grants the access request, the
+            <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Authorization Response and delivers it
             to the Client by adding the response parameters to <spanx
             style="verb">redirect_uri</spanx> specified in the Authorization
@@ -1101,7 +1101,7 @@ error=invalid_request
         Token Endpoint. </t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The authorization server MUST support TLS 1.2 as
+      security mechanism. The Authorization Server MUST support TLS 1.2 as
       described in <xref target="RFC5246">RFC 5246</xref> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
@@ -1130,7 +1130,7 @@ error=invalid_request
 
         <section title="Access Token Request">
           <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
-          authenticate to the token endpoint using the authentication method registered for its client_id,
+          authenticate to the Token Endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
           
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
@@ -1238,7 +1238,7 @@ Pragma: no-cache
 
       <section title="Refreshing an Access Token">
          <t>To refresh an Access Token, the Client MUST
-          authenticate to the token endpoint using the authentication method registered for its client_id,
+          authenticate to the Token Endpoint using the authentication method registered for its client_id,
           as documented in Section 3.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
@@ -1258,15 +1258,15 @@ Pragma: no-cache
           the received Refresh Token.</t>
 
         <section title="Successful Response">
-          <t>Upon successful verification of the refresh token, a successful
+          <t>Upon successful verification of the Refresh Token, a successful
           response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
           <xref target="OpenID.Messages">Section 3.2.2 of OpenID Connect Messages
           1.0</xref>.</t>
         
           <figure>
-            <preamble>Following is a non-normative example of the refresh
-            token request and response:</preamble>
+            <preamble>Following is a non-normative example of the Refresh
+            Token request and response:</preamble>
 
             <artwork><![CDATA[POST /token HTTP/1.1
 Host: server.example.com
@@ -1313,7 +1313,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The authorization server MUST support TLS 1.2 as
+      security mechanism. The Authorization Server MUST support TLS 1.2 as
       described in <xref target="RFC5246">RFC 5246</xref> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
@@ -1410,11 +1410,11 @@ Content-Type: application/json
       Token in plain text JSON format.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The authorization server MUST support TLS 1.2 as
+      security mechanism. The Authorization Server MUST support TLS 1.2 as
       described in <xref target="RFC5246">RFC 5246</xref> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
-      <t>Authorization servers MUST support the use of the HTTP "GET" and HTTP
+      <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
       "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
       Check ID Endpoint. </t>
 
@@ -1717,7 +1717,7 @@ scope=openid&response_type=code
       <section title="OAuth Extensions Error Registry">
         <t></t>
 
-        <section title="Authorization Endpoint error (invalid_request_redirect_uri)">
+        <section title="Authorization Endpoint Error (invalid_request_redirect_uri)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1734,7 +1734,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="Authorization Endpoint error (login_required)">
+        <section title="Authorization Endpoint Error (login_required)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1751,7 +1751,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="Authorization Endpoint error (session_selection_required)">
+        <section title="Authorization Endpoint Error (session_selection_required)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1768,7 +1768,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="Authorization Endpoint error (consent_required)">
+        <section title="Authorization Endpoint Error (consent_required)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1785,7 +1785,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="Authorization Endpoint error (user_mismatched)">
+        <section title="Authorization Endpoint Error (user_mismatched)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1802,7 +1802,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
         
-        <section title="Authorization Endpoint error (invalid_request_request_uri)">
+        <section title="Authorization Endpoint Error (invalid_request_request_uri)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1819,7 +1819,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
         
-        <section title="Authorization Endpoint error (invalid_openid_request_object)">
+        <section title="Authorization Endpoint Error (invalid_openid_request_object)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1836,14 +1836,14 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="Token endpoint error (invalid_authorization_code)">
+        <section title="Token Endpoint Error (invalid_authorization_code)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_authorization_code </t>
 
-              <t>Error usage location: Token endpoint</t>
+              <t>Error usage location: Token Endpoint</t>
 
               <t>Related protocol extension:</t>
 
@@ -1853,7 +1853,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="UserInfo Endpoint error (invalid_schema)">
+        <section title="UserInfo Endpoint Error (invalid_schema)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 
@@ -1870,7 +1870,7 @@ scope=openid&response_type=code
             </list></t>
         </section>
 
-        <section title="Check ID endpoint error (invalid_id_token)">
+        <section title="Check ID Endpoint Error (invalid_id_token)">
           <t>The following is the parameter value registration request for the
           "scope" parameter as defined in this specification:</t>
 

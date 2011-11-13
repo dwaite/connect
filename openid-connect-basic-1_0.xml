@@ -75,7 +75,7 @@
     <date day="3" month="November" year="2011" />
 
     <abstract>
-      <t>OpenID Connect 1.0 is a simple identity layer on top of OAuth 2.0
+      <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
       protocol. It allows a web site to verify the identity of the End-User based
       on the authentication performed by the Authorization Server, as well as to
       obtain basic profile information about the End-User in an interoperable and 
@@ -120,7 +120,7 @@
           <t hangText="Claims Provider">An Authorization Server that can
           return Claims about an Entity.</t>
 
-          <t hangText="End-User">A human resource owner.</t>
+          <t hangText="End-User">A human Resource Owner.</t>
 
           <t hangText="Entity">Something that has a separate and
           distinct existence and that can be identified in context.
@@ -132,11 +132,18 @@
           Parties wanting to process the token directly should refer to the 
           OpenID Connect Standard 1.0 specification.</t>
 
+          <t hangText="Issuer">An Entity that issues a set of Claims.</t>
+
+          <t hangText="Issuer Identifier">A verifiable identifier for
+          an Issuer.  An Issuer Identifier is an HTTPS URL that only
+          contains scheme, host, and OPTIONALLY, port number
+          components.  (No path component may be present.)</t>
+
           <t hangText="Check ID Endpoint">A resource that, when
           presented with an ID Token by the Client, returns authentication
           information about the End-User session represented by that ID Token.</t>
 
-          <t hangText="UserInfo Endpoint">A protected resource that, when
+          <t hangText="UserInfo Endpoint">A Protected Resource that, when
           presented with an Access Token by the Client, returns authorized
           information about the End-User represented by that Access Token.</t>
         </list></t>
@@ -145,7 +152,7 @@
     <section title="Protocol Flows">
       <t>Authorization Requests can follow one of two paths; the Implicit Flow
       or the Authorization Code Flow. The Authorization Code Flow is
-      suitable for Clients that can securely maintain a client secret between
+      suitable for Clients that can securely maintain a Client Secret between
       themselves and the Authorization Server whereas, the Implicit Flow is
       suitable for Clients that cannot. Clients that do not support TLS MUST
       use the Authorization Code Flow to prevent the interception of Access 
@@ -396,7 +403,7 @@ response_type=token%20id_token
           returns a successful response or an error response.</t>
 
           <section anchor="implicit_ok" title="End-User Grants Authorization">
-            <t>If the resource owner grants the access request, the
+            <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Access Token and delivers it to the
             Client by adding the following parameters to the fragment
             component of the redirection URI using the 
@@ -459,33 +466,34 @@ access_token=SlAV32hkKG
       </section>
 
       <section title="Check ID Endpoint">
-        <t>The Check ID Endpoint validates the id_token and returns a
+        <t>The Check ID Endpoint validates the ID Token and returns a
         text <xref target="RFC4627">JSON</xref> object which contains
         information about the End-User session associated with the supplied
         id_token.</t>
 
-        <t>Clients MUST verify the validity of the id_token using the Check ID
+        <t>Clients MUST verify the validity of the ID Token using the Check ID
         Endpoint.</t>
 
-        <t>The id_token is used to manage the signon event and user
-        identifier. It differs from an Access Token which provides access to the UserInfo Endpoint and other
-        OAuth 2.0 protected resources that the End-User is granting access to. The
+        <t>The ID Token is used to manage the signon event and user
+        identifier.  It differs from an Access Token,
+	which provides access to the UserInfo Endpoint and other
+        OAuth 2.0 Protected Resources that the End-User is granting access to. The
         id_token is restricted to a particular Client via the 
         <spanx style="verb">aud</spanx> (audience) and 
         <spanx style="verb">nonce</spanx> Claims.</t>
 
-        <t>A full explanation of how to use the id_token to perform session
+        <t>A full explanation of how to use the ID Token to perform session
         management can be found in the <xref target="OpenID.Session">OpenID
         Connect Session Management 1.0</xref></t>
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the End-User and verify the id_token, the following parameters MAY be sent
+          the End-User and verify the ID Token, the following parameters MAY be sent
           to the Check ID Endpoint as query parameters in a GET or as form
           encoded in a POST request:</t>
 
           <t><list style="hanging">
-              <t hangText="id_token">REQUIRED. The id_token obtained from
+              <t hangText="id_token">REQUIRED. the ID Token obtained from
               an OpenID Connect authorization request. </t>
             </list><figure>
               <preamble>The following is a non-normative example of a request
@@ -526,7 +534,7 @@ Host: server.example.com
           with the following parameters.</t>
 
           <t><list style="hanging">
-              <t hangText="iss">REQUIRED. The Issuer Identifier for the issuer
+              <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
               of the response.</t>
 
               <t hangText="user_id">REQUIRED. A locally unique and never
@@ -631,7 +639,7 @@ Content-Type: application/json
       GET or POST request to the UserInfo Endpoint.</t>
       
       <t>UserInfo Endpoint Servers MUST require the use of a transport-layer
-      security mechanism. The authorization server MUST support TLS 1.2 as
+      security mechanism. The Authorization Server MUST support TLS 1.2 as
       described in <xref target="RFC5246">RFC 5246</xref> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
@@ -645,7 +653,7 @@ Content-Type: application/json
         <t>Clients MAY send requests with the following parameters to the
         UserInfo Endpoint to obtain further information about the End-User. The
         UserInfo Endpoint is an <xref target="OAuth.2.0">OAuth 2.0</xref>
-        protected resource that complies with the <xref
+        Protected Resource that complies with the <xref
         target="OAuth.2.0.Bearer">Bearer Token</xref> specification. As such,
         the Access Token SHOULD be specified via the HTTP Authorization
         header.</t>
@@ -707,7 +715,7 @@ Authorization: Bearer vF9dft4qmT
 
           <c>string</c>
 
-          <c>Identifier for the End-User at the issuer.</c>
+          <c>Identifier for the End-User at the Issuer.</c>
 
           <c>name</c>
 

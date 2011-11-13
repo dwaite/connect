@@ -145,8 +145,8 @@
       </texttable>
 
       <t>To start discovery of OpenID endpoints, the End-User supplies an
-      identifier to the Client or Relying Party. The Client performs
-      normalization rules to the identifier to extract the principal and host.
+      Identifier to the Client or Relying Party. The Client performs
+      normalization rules to the Identifier to extract the principal and host.
       Then it makes a HTTPS request to the host's Simple Web Discovery
       endpoint with the <spanx style="verb">principal</spanx> and <spanx
       style="verb">service</spanx> parameters to obtain the location of the
@@ -163,7 +163,7 @@
         and host from the user input. This is then used as input to SWD to
         discover the <spanx style="verb">issuer</spanx>.</t>
 
-        <t>The user identifier can be one of the following:</t>
+        <t>The user Identifier can be one of the following:</t>
 
         <t><list style="symbols">
             <t>xri</t>
@@ -173,7 +173,7 @@
             <t>URL</t>
           </list></t>
 
-        <t>The identifier normalization rules are not extensible.</t>
+        <t>The Identifier normalization rules are not extensible.</t>
 
         <t>URLs without a host segment are not supported by this discovery
         specification.</t>
@@ -185,22 +185,22 @@
               are reserved. Processing of these is out of scope for this
               document.</t>
 
-              <t>Any identifier that contains the character '@' in any other
+              <t>Any Identifier that contains the character '@' in any other
               position other than the first position must be treated as an
               e-mail address.</t>
 
-              <t>All other identifiers are treated as a URL.</t>
+              <t>All other Identifiers are treated as a URL.</t>
             </list></t>
         </section>
 
         <section title="E-mail Address">
-          <t>If the identifier is an e-mail address, the principal is the
+          <t>If the Identifier is an e-mail address, the principal is the
           entire e-mail address and the host is the portion to the right of the '@'
           character.</t>
         </section>
 
         <section title="URL">
-          <t>A URL identifier is normalized according to the following
+          <t>A URL Identifier is normalized according to the following
           rules:</t>
 
           <t><list style="symbols">
@@ -378,7 +378,7 @@ Content-Type: application/json
 
       <section anchor="redirection" title="Redirection">
         <t>In cases where the SWD request is handled at a host or location
-        other than the one derived from the End-User's identifier, the host
+        other than the one derived from the End-User's Identifier, the host
         will return a JSON object containing the new location.</t>
 
         <t>To enable service level redirection a SWD server MAY return a 200
@@ -459,7 +459,7 @@ Content-Type: application/json
 	</t>
 
         <t>The Client would make the following request to the <spanx
-        style="verb">issuer </spanx>to get the Configuration information.</t>
+        style="verb">issuer</spanx>to get the Configuration information.</t>
 
         <t><figure>
             <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
@@ -499,7 +499,7 @@ Host: example.com
           <c>string</c>
 
           <c>The https: URL with no path component the OP asserts as its
-          issuer identifier</c>
+          Issuer Identifier</c>
 
           <c>authorization_endpoint</c>
 
@@ -615,7 +615,7 @@ Host: example.com
 
           <c>array</c>
 
-          <c>A JSON array containing a list of the user identifier types that
+          <c>A JSON array containing a list of the user Identifier types that
           this server supports, the valid types include "pairwise" and "public"</c>
           
           <c>userinfo_supported_algs</c>
@@ -631,7 +631,7 @@ Host: example.com
           <c>array</c>
 
           <c>A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-           supported by the Authorization Server for the id_token
+           supported by the Authorization Server for the ID Token
 	   to encode the JWT <xref target="JWT" />.</c>
            
            <c>request_object_supported_algs</c>
