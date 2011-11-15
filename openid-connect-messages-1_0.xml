@@ -1306,7 +1306,12 @@ Authorization: Bearer vF9dft4qmT]]>
               <artwork><![CDATA[
 Claims Provider A contains the following Claims for Jane Doe:
 {
- "address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
+ "address": {
+   "street_address": "1234 Hollywood Blvd.",
+   "locality": "Los Angeles",
+   "region": "CA",
+   "postal_code": "90210",
+   "country": "US"},
  "phone_number": "+1 (310) 123-4567"
 }
 
@@ -1342,7 +1347,12 @@ Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A
               <artwork><![CDATA[
 Claims Provider A (Jane Doe's Bank) contains the following Claims for Jane Doe:
 {
- "shipping_address": "1234 Hollywood Blvd., Los Angeles, CA 90210",
+ "shipping_address": {
+   "street_address": "1234 Hollywood Blvd.",
+   "locality": "Los Angeles",
+   "region": "CA",
+   "postal_code": "90210",
+   "country": "US"},
  "payment_info": "Some_Card 1234 5678 90123 4562",
  "phone_number": "+1 (310) 123-4567"
 }
