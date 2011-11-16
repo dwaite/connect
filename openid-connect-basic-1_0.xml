@@ -126,11 +126,14 @@
           distinct existence and that can be identified in context.
           An End-User is one example of an Entity.</t>
 
-          <t hangText="ID Token">A token that contains information about the
-          authentication event. It is a signed token, but can be treated as
-          opaque by Clients that use the Check ID Endpoint. Relying 
-          Parties wanting to process the token directly should refer to the 
-          OpenID Connect Standard 1.0 specification.</t>
+          <t hangText="ID Token">A token that contains Claims about the
+          authentication event. It is a
+          <xref target="JWT">JSON Web Token (JWT)</xref>,
+          but can be treated as
+          opaque by Clients that use the Check ID Endpoint.  Relying 
+          Parties wanting to process the token contents directly should refer to the 
+          <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
+          specification.</t>
 
           <t hangText="Issuer">An Entity that issues a set of Claims.</t>
 
@@ -140,8 +143,8 @@
           components.  (No path component may be present.)</t>
 
           <t hangText="Check ID Endpoint">A resource that, when
-          presented with an ID Token by the Client, returns authentication
-          information about the End-User session represented by that ID Token.</t>
+          presented with an ID Token by the Client, returns Claims
+          about the authentication event represented by that ID Token.</t>
 
           <t hangText="UserInfo Endpoint">A Protected Resource that, when
           presented with an Access Token by the Client, returns authorized
@@ -256,8 +259,8 @@
               <t hangText="response_type">It MUST include 
               <spanx style="verb">token</spanx> and
               <spanx style="verb">id_token</spanx>,
-              as a space separated list. This requests both an access_token
-              and id_token to be returned in the URL fragment of the
+              as a space separated list. This requests that both an Access Token
+              and an ID Token be returned in the URL fragment of the
               response.</t>
             </list></t>
 
@@ -434,7 +437,7 @@ response_type=token%20id_token
                 Authorization Request.</t>
 
                 <t hangText="expires_in">OPTIONAL. The expiration time in
-                seconds of the access_token.</t>
+                seconds of the Access Token.</t>
               </list></t>
 
             <t>The Client can then use the Access Token to access protected
@@ -468,9 +471,9 @@ access_token=SlAV32hkKG
 
       <section title="Check ID Endpoint">
         <t>The Check ID Endpoint validates the ID Token and returns a
-        text <xref target="RFC4627">JSON</xref> object which contains
-        information about the End-User session associated with the supplied
-        id_token.</t>
+        text <xref target="RFC4627">JSON</xref> object that contains
+        Claims about the authentication event associated with the supplied
+        ID Token.</t>
 
         <t>Clients MUST verify the validity of the ID Token using the Check ID
         Endpoint.</t>
@@ -479,7 +482,7 @@ access_token=SlAV32hkKG
         identifier.  It differs from an Access Token,
 	which provides access to the UserInfo Endpoint and other
         OAuth 2.0 Protected Resources that the End-User is granting access to. The
-        id_token is restricted to a particular Client via the 
+        ID Token is restricted to a particular Client via the 
         <spanx style="verb">aud</spanx> (audience) and 
         <spanx style="verb">nonce</spanx> Claims.</t>
 
@@ -660,7 +663,7 @@ Content-Type: application/json
         header.</t>
 
         <t><list style="hanging">
-            <t hangText="access_token">REQUIRED. The access_token obtained
+            <t hangText="access_token">REQUIRED. The Access Token obtained
             from an OpenID Connect Authorization Request. This parameter MUST
             only be sent using one method through either the HTTP Authorization
             header or a form-encoded HTTP POST body parameter.</t>
