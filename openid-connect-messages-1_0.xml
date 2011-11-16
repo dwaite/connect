@@ -85,112 +85,114 @@
   </front>
 
   <middle>
-    <section anchor="rnc" title="Requirements Notation and Conventions">
-      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-      document are to be interpreted as described in <xref
-      target="RFC2119">RFC 2119</xref>.</t>
+    <section title='Introduction'>
+      <section anchor="rnc" title="Requirements Notation and Conventions">
+	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+	"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+	document are to be interpreted as described in <xref
+	target="RFC2119">RFC 2119</xref>.</t>
 
-      <t>Throughout this document, values are quoted to indicate that they are
-      to be taken literally. When using these values in protocol messages, the
-      quotes MUST NOT be used as part of the value.</t>
-    </section>
+	<t>Throughout this document, values are quoted to indicate that they are
+	to be taken literally. When using these values in protocol messages, the
+	quotes MUST NOT be used as part of the value.</t>
+      </section>
 
-    <section anchor="terminology" title="Terminology">
-      <t>This specification uses the terms "Access Token", "Refresh Token",
-      "Authorization Code", "Authorization Grant", "Authorization Server",
-      "Authorization Endpoint", "Client", "Client Identifier", "Client
-      Secret", "Protected Resource", "Resource Owner", "Resource Server", and
-      "Token Endpoint" defined by
-      <xref target="OAuth2.0">OAuth 2.0</xref>,
-      and the terms "Claim Names" and "Claim Values" defined by
-      <xref target="JWT">JSON Web Token (JWT)</xref>.
-      This specification also defines the following terms:
-        <list style="hanging">
-          <t hangText="Authentication">An act of verifying End-User's identity
-          through the verification of the credential.</t>
+      <section anchor="terminology" title="Terminology">
+	<t>This specification uses the terms "Access Token", "Refresh Token",
+	"Authorization Code", "Authorization Grant", "Authorization Server",
+	"Authorization Endpoint", "Client", "Client Identifier", "Client
+	Secret", "Protected Resource", "Resource Owner", "Resource Server", and
+	"Token Endpoint" defined by
+	<xref target="OAuth2.0">OAuth 2.0</xref>,
+	and the terms "Claim Names" and "Claim Values" defined by
+	<xref target="JWT">JSON Web Token (JWT)</xref>.
+	This specification also defines the following terms:
+	  <list style="hanging">
+	    <t hangText="Authentication">An act of verifying End-User's identity
+	    through the verification of the credential.</t>
 
-          <t hangText="Claim">A piece of information about an Entity that a
-          Claims Provider asserts about that Entity.</t>
+	    <t hangText="Claim">A piece of information about an Entity that a
+	    Claims Provider asserts about that Entity.</t>
 
-          <t hangText="Claims Provider">An Authorization Server that can
-          return Claims about an Entity.</t>
+	    <t hangText="Claims Provider">An Authorization Server that can
+	    return Claims about an Entity.</t>
 
-          <t hangText="End-User">A human Resource Owner.</t>
+	    <t hangText="End-User">A human Resource Owner.</t>
 
-          <t hangText="Entity">Something that has a separate and
-          distinct existence and that can be identified in context.
-          An End-User is one example of an Entity.</t>
+	    <t hangText="Entity">Something that has a separate and
+	    distinct existence and that can be identified in context.
+	    An End-User is one example of an Entity.</t>
 
-          <t hangText="ID Token">A token that contains Claims about the
-          authentication event.</t>
+	    <t hangText="ID Token">A token that contains Claims about the
+	    authentication event.</t>
 
-          <t hangText="Issuer">An Entity that issues a set of Claims.</t>
+	    <t hangText="Issuer">An Entity that issues a set of Claims.</t>
 
-          <t hangText="Issuer Identifier">A verifiable identifier for
-          an Issuer.  An Issuer Identifier is an HTTPS URL that only
-          contains scheme, host, and OPTIONALLY, port number
-          components.  (No path component may be present.)</t>
+	    <t hangText="Issuer Identifier">A verifiable identifier for
+	    an Issuer.  An Issuer Identifier is an HTTPS URL that only
+	    contains scheme, host, and OPTIONALLY, port number
+	    components.  (No path component may be present.)</t>
 
-          <t hangText="Message">A request or a response between an OpenID 
-          Relying Party and an OpenID Provider.</t>
+	    <t hangText="Message">A request or a response between an OpenID 
+	    Relying Party and an OpenID Provider.</t>
 
-          <t hangText="OpenID Provider (OP)">A service capable of providing
-          Claims to a Relying Party.</t>
+	    <t hangText="OpenID Provider (OP)">A service capable of providing
+	    Claims to a Relying Party.</t>
 
-          <t hangText="OP Endpoints">Authorization Endpoint, Token
-          Endpoint, and UserInfo Endpoint.</t>
+	    <t hangText="OP Endpoints">Authorization Endpoint, Token
+	    Endpoint, and UserInfo Endpoint.</t>
 
-          <t hangText="OpenID Request Object">A JSON object that holds the
-          OpenID request parameters.</t>
+	    <t hangText="OpenID Request Object">A JSON object that holds the
+	    OpenID request parameters.</t>
 
-          <t hangText="Relying Party (RP)">An application requiring
-          Claims from an OpenID Provider.</t>
+	    <t hangText="Relying Party (RP)">An application requiring
+	    Claims from an OpenID Provider.</t>
 
-          <t hangText="Check ID Endpoint">A resource that, when
-          presented with an ID Token by the Client, returns Claims
-          about the user session represented by that ID Token.</t>
+	    <t hangText="Check ID Endpoint">A resource that, when
+	    presented with an ID Token by the Client, returns Claims
+	    about the user session represented by that ID Token.</t>
 
-          <t hangText="UserInfo Endpoint">A Protected Resource that, when
-          presented with an Access Token by the Client, returns Claims
-          about the End-User represented by that Access Token.</t>
-        </list></t>
-    </section>
+	    <t hangText="UserInfo Endpoint">A Protected Resource that, when
+	    presented with an Access Token by the Client, returns Claims
+	    about the End-User represented by that Access Token.</t>
+	  </list></t>
+      </section>
 
-    <section title="Overview">
-      <t>The OpenID Connect protocol, in abstract, follows the following
-      steps.</t>
+      <section title="Overview">
+	<t>The OpenID Connect protocol, in abstract, follows the following
+	steps.</t>
 
-      <t><list style="numbers">
-          <t>The Client sends a request to the Authorization Server's End-User
-          Authorization Endpoint.</t>
+	<t><list style="numbers">
+	    <t>The Client sends a request to the Authorization Server's End-User
+	    Authorization Endpoint.</t>
 
-          <t>The Authorization Server authenticates the End-User and obtains 
-          appropriate authorization.</t>
+	    <t>The Authorization Server authenticates the End-User and obtains 
+	    appropriate authorization.</t>
 
-          <t>The Authorization Server responds with an Access Token, an Id Token, 
-          and a few other variables.</t>
+	    <t>The Authorization Server responds with an Access Token, an Id Token, 
+	    and a few other variables.</t>
 
-          <t>The Client sends a request with the Access Token to the <xref
-          target="userinfo_ep">UserInfo Endpoint</xref>.</t>
+	    <t>The Client sends a request with the Access Token to the <xref
+	    target="userinfo_ep">UserInfo Endpoint</xref>.</t>
 
-          <t>UserInfo Endpoint returns the additional End-User information
-          supported by the Resource Server.</t>
+	    <t>UserInfo Endpoint returns the additional End-User information
+	    supported by the Resource Server.</t>
 
-          <t>Optionally, the Client sends a request with the ID Token to the
-          Authorization Server's <xref target="check_id_ep">Check ID
-          Endpoint</xref>.</t>
+	    <t>Optionally, the Client sends a request with the ID Token to the
+	    Authorization Server's <xref target="check_id_ep">Check ID
+	    Endpoint</xref>.</t>
 
-          <t>Optionally, the Check ID Endpoint responds with authentication
-          information pertaining to the supplied ID Token.</t>
-        </list>
-      This specification
-      only defines the abstract message flow and message formats. The actual
-      use MUST be based on one of the companion protocol bindings
-      specifications such as <xref target="OpenID.Basic">OpenID Connect
-      Basic Client</xref> or <xref target="OpenID.Standard">OpenID Connect
-      Standard</xref>.
-    </t>
+	    <t>Optionally, the Check ID Endpoint responds with authentication
+	    information pertaining to the supplied ID Token.</t>
+	  </list>
+	This specification
+	only defines the abstract message flow and message formats. The actual
+	use MUST be based on one of the companion protocol bindings
+	specifications such as <xref target="OpenID.Basic">OpenID Connect
+	Basic Client</xref> or <xref target="OpenID.Standard">OpenID Connect
+	Standard</xref>.
+      </t>
+      </section>
     </section>
 
     <section title="Messages">
