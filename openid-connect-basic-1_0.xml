@@ -103,11 +103,14 @@
     </section>
 
     <section anchor="terminology" title="Terminology">
-      <t>The following definitions define additional terminology used in this
-      specification in addition to those defined in <xref
-      target="OAuth.2.0">OAuth 2.0</xref>.</t>
-
-      <t><list style="hanging">
+      <t>This specification uses the terms "Access Token", "Refresh Token",
+      "Authorization Code", "Authorization Grant", "Authorization Server",
+      "Authorization Endpoint", "Client", "Client Identifier", "Client
+      Secret", "Protected Resource", "Resource Owner", "Resource Server", and
+      "Token Endpoint" defined by
+      <xref target="OAuth2.0">OAuth 2.0</xref>.
+      This specification also defines the following terms:
+        <list style="hanging">
           <t hangText="Relying Party (RP)">An application requiring
           Claims from an OpenID Provider.</t>
 
@@ -169,7 +172,7 @@
 
       <section title="OpenID Connect Scopes">
         <t>OpenID Connect Clients use scopes as defined in 3.3 of 
-        <xref target="OAuth.2.0">OAuth 2.0</xref> to specify what
+        <xref target="OAuth2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes 
@@ -413,11 +416,11 @@ response_type=token%20id_token
             component of the redirection URI using the 
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format as defined in Section 4.2.2 of
-            <xref target="OAuth.2.0">OAuth 2.0</xref></t>
+            <xref target="OAuth2.0">OAuth 2.0</xref></t>
 
             <t>In the Implicit Flow, the entire response is returned in the
             fragment component of the redirect URL, as defined in 4.2.2 of
-            <xref target="OAuth.2.0">OAuth 2.0</xref></t>
+            <xref target="OAuth2.0">OAuth 2.0</xref></t>
 
             <t><list style="hanging">
                 <t hangText="access_token">REQUIRED. The Access Token for the
@@ -463,7 +466,7 @@ access_token=SlAV32hkKG
             <t>If the End-User denies the authorization or the End-User authentication
             fails, the Authorization Server MUST return the error
             authorization response as defined in 4.2.2.1 of 
-            <xref target="OAuth.2.0">OAuth 2.0</xref>. No other parameters 
+            <xref target="OAuth2.0">OAuth 2.0</xref>. No other parameters 
             SHOULD be returned.</t>
           </section>
         </section>
@@ -626,7 +629,7 @@ Content-Type: application/json
 
         <section title="Error Codes">
           <t>In addition to the error codes defined in Section 5.2 of <xref
-          target="OAuth.2.0">OAuth 2.0</xref>, this specification defines the
+          target="OAuth2.0">OAuth 2.0</xref>, this specification defines the
           following error codes.</t>
 
           <t><list style="hanging">
@@ -656,9 +659,9 @@ Content-Type: application/json
       <section title="Requesting UserInfo">
         <t>Clients MAY send requests with the following parameters to the
         UserInfo Endpoint to obtain further information about the End-User. The
-        UserInfo Endpoint is an <xref target="OAuth.2.0">OAuth 2.0</xref>
+        UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
         Protected Resource that complies with the <xref
-        target="OAuth.2.0.Bearer">Bearer Token</xref> specification. As such,
+        target="OAuth2.0Bearer">Bearer Token</xref> specification. As such,
         the Access Token SHOULD be specified via the HTTP Authorization
         header.</t>
 
@@ -879,7 +882,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
         <section title="Error Response">
           <t>When some error condition arises, the UserInfo Endpoint returns
           the Error Response. In addition to the standard <xref
-          target="OAuth.2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
+          target="OAuth2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
           may return the following errors:</t>
 
           <t><list style="hanging">
@@ -925,7 +928,7 @@ Host: server.example.com]]></artwork>
 
     <section anchor="security_considerations" title="Security Considerations">
       <t>In addition to the Security Considerations in <xref
-      target="OAuth.2.0"> OAuth 2.0</xref>, the following are the list of 
+      target="OAuth2.0">OAuth 2.0</xref>, the following are the list of 
       threats and remedies that were considered for this specification.</t>
 
       <section anchor="assertion_manufacture"
@@ -1112,7 +1115,7 @@ Host: server.example.com]]></artwork>
         <!-- <annotation>Defines LoA</annotation> -->
       </reference>
 
-      <reference anchor="OAuth.2.0">
+      <reference anchor="OAuth2.0">
         <front>
           <title>OAuth 2.0 Authorization Protocol</title>
 
@@ -1136,7 +1139,7 @@ Host: server.example.com]]></artwork>
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth.2.0.Bearer">
+      <reference anchor="OAuth2.0Bearer">
         <front>
           <title>The OAuth 2.0 Protocol: Bearer Tokens</title>
 
@@ -1323,6 +1326,49 @@ Host: server.example.com]]></artwork>
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
                 type="HTML" />
       </reference>
+
+      <reference anchor="JWT">
+        <front>
+          <title>JSON Web Token</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft
+            Corporation</organization>
+          </author>
+
+          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="pgs">rotivity Government
+            Service</organization>
+          </author>
+
+          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+            <organization abbrev="msft">Microsoft</organization>
+          </author>
+
+          <author fullname="John Panzer" initials="J." surname="Panzer">
+            <organization abbrev="goog">Google</organization>
+          </author>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="nri">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
+            <organization abbrev="fb">Facebook</organization>
+          </author>
+
+          <date day="30" month="October" year="2011" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+                type="HTML" />
+      </reference>
+
     </references>
 
     <section title="Acknowledgements">

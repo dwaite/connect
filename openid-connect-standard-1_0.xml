@@ -89,12 +89,16 @@
     </section>
 
     <section anchor="terminology" title="Terminology">
-      <t>Followings are the additional terminology defined in this
-      specification in addition to those defined in <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref> and <xref
-      target="OAuth.2.0">OAuth 2.0</xref>.</t>
-
-      <t><list style="hanging">
+      <t>This specification uses the terms "Access Token", "Refresh Token",
+      "Authorization Code", "Authorization Grant", "Authorization Server",
+      "Authorization Endpoint", "Client", "Client Identifier", "Client
+      Secret", "Protected Resource", "Resource Owner", "Resource Server", and
+      "Token Endpoint" defined by
+      <xref target="OAuth2.0">OAuth 2.0</xref>,
+      and the terms defined by
+      <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+      This specification also defines the following terms:
+        <list style="hanging">
           <t hangText="Request URI">A URL that points to the Request File. It
           MUST be accessible by the Authorization Server.</t>
         </list></t>
@@ -136,7 +140,7 @@
            OAuth 2.0 allows additional scopes to be specified as extensions.</t>
          
         <t>OpenID Connect's scope use is consistent with Section 3.3 of 
-        <xref target="OAuth.2.0">OAuth 2.0</xref>. </t>
+        <xref target="OAuth2.0">OAuth 2.0</xref>. </t>
         
         <t>The Authorization Server MAY fully or partially ignore the scope
          requested by the Client based on the Authorization Server policy or
@@ -161,7 +165,7 @@
         flows determine how the Access Token and ID Token are returned to the 
         Client. Access Tokens are credentials used to access Protected 
         Resources, as defined in section 1.4 of 
-        <xref target="OAuth.2.0">OAuth 2.0</xref>. Access Tokens represent 
+        <xref target="OAuth2.0">OAuth 2.0</xref>. Access Tokens represent 
         a Resource Owner's authorization and MUST NOT be exposed to 
         unauthorized parties.</t>
 
@@ -885,7 +889,7 @@ Host: client.example.com]]></artwork>
                 <t hangText="access_token">REQUIRED. The Access Token.</t>
 
                 <t hangText="token_type">REQUIRED. This specification only
-                supports the <xref target="OAuth.2.0.Bearer">Bearer
+                supports the <xref target="OAuth2.0Bearer">Bearer
                 Token</xref> scheme. As such, this value MUST be set to
                 "<spanx style="verb">Bearer</spanx>".</t>
 
@@ -1130,7 +1134,7 @@ error=invalid_request
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 4.1.3 of 
-          <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
+          <xref target="OAuth2.0">OAuth 2.0</xref>:</t>
 
 
           <figure>
@@ -1236,7 +1240,7 @@ Pragma: no-cache
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 6 of 
-          <xref target="OAuth.2.0">OAuth 2.0</xref>:</t>
+          <xref target="OAuth2.0">OAuth 2.0</xref>:</t>
 
         
         <t>The Authorization Server MUST verify the validity of the Refresh
@@ -1294,7 +1298,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
             <t>If the Refresh Token Request is invalid or unauthorized, the
             Authorization Server returns the 
             Token Error Response as defined in Section 5.2 of <xref
-            target="OAuth.2.0">OAuth 2.0</xref>.</t>
+            target="OAuth2.0">OAuth 2.0</xref>.</t>
           </section>
         </section>
       </section>
@@ -1315,7 +1319,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
       UserInfo Endpoint. </t>
 
       <t>Authorization Servers MUST be able to accept Access Tokens via
-      <xref target="OAuth.2.0.Bearer">Bearer Tokens</xref>
+      <xref target="OAuth2.0Bearer">Bearer Tokens</xref>
       specification.</t>
 
       <section title="UserInfo Request">
@@ -1325,8 +1329,8 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
         
         <t>The Access Token obtained
             from an OpenID Connect Authorization Request MUST be sent as a <xref
-            target="OAuth.2.0.Bearer">Bearer Token</xref></t>
-            <t>Section 2 of the<xref target="OAuth.2.0.Bearer">OAuth 2.0 Bearer Token</xref>
+            target="OAuth2.0Bearer">Bearer Token</xref></t>
+            <t>Section 2 of the<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Token</xref>
             specification documents the permissible methods of sending the Access Token.</t> 
             <t>It is RECOMMENDED that the Client use the authorization header method for all 
             requests using GET.</t>
@@ -1927,7 +1931,7 @@ scope=openid&response_type=code
             <organization abbrev="fb">Facebook</organization>
           </author>
 
-          <date day="11" month="July" year="2011" />
+          <date day="30" month="October" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
@@ -1969,7 +1973,7 @@ scope=openid&response_type=code
             <organization abbrev="fb">Facebook</organization>
           </author>
 
-          <date day="29" month="April" year="2011" />
+          <date day="30" month="October" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-jones-json-web-signature"
@@ -1995,7 +1999,7 @@ scope=openid&response_type=code
             Ltd.</organization>
           </author>
 
-          <date day="23" month="July" year="2011" />
+          <date day="30" month="October" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
@@ -2138,7 +2142,7 @@ scope=openid&response_type=code
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth.2.0">
+      <reference anchor="OAuth2.0">
         <front>
           <title>OAuth 2.0 Authorization Protocol</title>
 
@@ -2162,7 +2166,7 @@ scope=openid&response_type=code
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth.2.0.Bearer">
+      <reference anchor="OAuth2.0Bearer">
         <front>
           <title>OAuth 2.0 Protocol: Bearer Tokens</title>
 
