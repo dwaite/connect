@@ -1902,10 +1902,10 @@ Content-Type: application/json
 
             <t>The token may be sent over a protected channel such as
             TLS/SSL as defined in <xref target="RFC5246">RFC 5246</xref>. 
-            In order to protect the integrity of assertions from
-            malicious attack, the OP MUST be authenticated, per
+            In order to protect the integrity of the token from
+            malicious attack, the Server MUST be authenticated, per
 			<xref target="RFC6125">RFC 6125</xref>. In this
-            specification, the assertion is always sent over TLS/SSL protected
+            specification, the token is always sent over TLS/SSL protected
             channel. Note however, that this measure is only applicable 
 			to the third pary attacker and is not applicable to the case 
 			where the client is the attacker. </t>
@@ -1925,7 +1925,7 @@ Content-Type: application/json
             <t>The response is sent over TLS/SSL protected channel, where RP is
             authenticated by "client_id" and "client_secret".</t>
 
-            <t>Signed Assertion is encrypted by the Client's public key or 
+            <t>Signed response is encrypted by the Client's public key or 
 			shared secret using encrypted JWT (JWE) 
 	        with an appropirate key and cypher.</t>
           </list></t>
@@ -1946,7 +1946,7 @@ Content-Type: application/json
 	    <t>Since it is possible for a 
 		compromised or malicious Client to send request to a wrong party,  
 		a Client that was authenticated 
-		using only a bearer assertion can repudiate any transaction.
+		using only a bearer token can repudiate any transaction.
 		</t>
         <t>To mitigate this threat, the Sever MAY require that the 
 		request to be digitally signed by
@@ -1964,8 +1964,8 @@ Content-Type: application/json
 		and scope restricted. One way of implementing it is to includes 
         the identity of the resource for whom it was generated as audience. 
         The resource verifies that
-        incoming assertions include its identity as the audience of the
-        assertion.</t>
+        incoming tokens include its identity as the audience of the
+        token.</t>
       </section>
 
       <section anchor="token_reuse" title="Token Reuse">
@@ -1974,7 +1974,7 @@ Content-Type: application/json
         <t>To mitigate this threat, the token may includes a timestamp 
 		and a short lifetime of 
         validity. The Relying Party checks the timestamp and lifetime values
-        to ensure that the assertion is currently valid.</t>
+        to ensure that the token is currently valid.</t>
 		<t>Alternatively, the server may record the state of the use of 
 		the token and check the status for each request. </t>
       </section>
@@ -1990,7 +1990,7 @@ Content-Type: application/json
         uses either Client authentication or the Response encryption.</t>
       </section>
 
-      <section anchor="assertion_substitution" title="Assertion Substitution">
+      <section anchor="token_substitution" title="Token Substitution">
 	    <t>A user may attempt to impersonate a more 
         privileged user by subverting the communication channel between the 
         Token Endpoint and Client, for example by reordering the messages, 
