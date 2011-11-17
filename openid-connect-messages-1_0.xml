@@ -798,6 +798,8 @@
           
           <t hangText="client_secret_jwt"> 
           Clients in possession of a client password sign a JWT using the h256 algorithm.
+          The client Authenticates in accordance with section 2.2 of <xref
+          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
           The JWT must contain the Claims:</t>
          
           <t><list style="hanging">
@@ -813,16 +815,13 @@
             <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
              
-             <t>
-	  The authentication token MUST be sent in the <spanx
-	  style='verb'>Authorization</spanx> request header field
-	  defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
-	  Client uses the <spanx style='verb'>Bearer</spanx>
-	  authentication scheme to transmit the Access Token.
-        </t>
-          
+          <t>The authentication token MUST be sent as the value of the <spanx
+	      style='verb'>client_assertion</spanx> paramater.</t>
+          <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
           <t hangText="private_key_jwt">
            Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
+          The client Authenticates in accordance with section 2.2 of <xref
+          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
           The JWT must contain the Claims:</t>
           <t><list style="hanging">
                     <t hangText="iss">REQUIRED. The (issuer) claim, this must contain the client_id of the OAuth client.</t>
@@ -836,21 +835,24 @@
            <t hangText="exp">REQUIRED.  The iat (expiration) claim that limits the time window during which the JWT can be used.</t>
             <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
-	  <t>
-    The authentication token MUST be sent in the <spanx
-    style='verb'>Authorization</spanx> request header field
-    defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
-    Client uses the <spanx style='verb'>Bearer</spanx>
-    authentication scheme to transmit the Access Token.
+	  <t>The authentication token MUST be sent as the value of the <spanx
+	      style='verb'>client_assertion</spanx> paramater.</t>
+          <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
 
         <figure>
           <preamble>
             For example:
           </preamble>
           <artwork>
-<![CDATA[POST /resource HTTP/1.1
+<![CDATA[POST /token HTTP/1.1
 Host: server.example.com
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&
+code=i1WsRn1uB1&
+client_id=s6BhdRkqt3&
+client_assertion_type=urn%3Aoasis%3Anames%sAtc%3ASAML%3A2.0%3Aassertion&
+client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 ]]>
           </artwork>
         </figure>
@@ -2422,6 +2424,48 @@ Content-Type: application/json
         <format target="http://self-issued.info/docs/draft-jones-json-web-key.html"
                 type="HTML" />
         </reference>
+        
+      <reference anchor="JWT.Bearer">
+        <front>
+
+    <title abbrev="OAuth JWT Bearer Token Profiles">JSON Web Token (JWT) Bearer Token Profiles for OAuth 2.0</title>
+
+    <author fullname="Michael B. Jones" surname="Jones" initials="M.B."> <!-- role="editor" -->
+      <organization>Microsoft</organization>
+      <address>
+        <email>mbj@microsoft.com</email>
+        <uri>http://self-issued.info/</uri>
+      </address>
+    </author>
+
+    <author fullname="Brian Campbell" initials="B." surname="Campbell">
+      <organization>Ping Identity Corp.</organization>
+      <address>
+        <email>brian.d.campbell@gmail.com</email>
+      </address>
+    </author>
+
+    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+      <organization>Salesforce.com</organization>
+      <address>
+        <email>cmortimore@salesforce.com</email>
+      </address>
+    </author>
+
+    <date day="14" month="November" year="2011"/>
+
+
+
+
+    <abstract>
+      <t>This specification defines the use of a JSON Web Token (JWT) Bearer Token as means for requesting an OAuth 2.0 access
+        token as well as for use as a means of client authentication.
+      </t>
+    </abstract>
+    <format target="http://www.ietf.org/id/draft-jones-oauth-jwt-bearer"
+                type="HTML" />
+  </front>
+      </reference>
 
       <reference anchor="ISO29115">
         <front>
@@ -2662,6 +2706,7 @@ Content-Type: application/json
           <t>Fix #178 Messages - 1 "user" not defined</t>
           <t>Fix #177 Messages - 1 "identity information" not defined</t>
           <t>re  #334 Messages - 2.2.1 make claims consistent with oauth-jwt-bearer</t>
+          <t>Fix #334 Messages - Add example and reference.</t>
 		  </list>
       </t>
 
