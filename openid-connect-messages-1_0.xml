@@ -1862,138 +1862,171 @@ Content-Type: application/json
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
-      <t>This specification references the security considerations defined in
-      <xref target="OAuth2.0SC">OAuth 2.0 Security
-      Considerations</xref>.</t>
-
-      <t>Followings are the list of attack vectors and remedies that were
-      considered for this specification.</t>
-
-      <t>For details of the attack vector, see <xref
-      target="SP800-63"></xref>.</t>
-
-      <section anchor="assertion_manufacture"
-               title="Assertion Manufacture/Modification">
-        <t>To mitigate this attack, there are two ways to mitigate it.</t>
+      <t><xref target="OAuth2.0SC">OAuth 2.0 Threat Model and 
+      Security Considerations</xref> provides an extensive list of threats and controls 
+	  that applies to this standard as well. In addition, this standard provides 
+	  additional control measures listed below. </t>
+	  
+	  <section anchor="request_disclosure" title="Request Disclosure">
+	  <t>If appropriate measures are not taken, a request may be disclosed to 
+	  an attacker posing security and privacy threat.</t>
+	  <t>In addition to what is staed in section 5.1.1 of the <xref target="OAuth2.0SC" />, 
+	  this standard provides a way to provide the confidentiality of the request 
+      end to end through the 
+	  use of 'request' or 'request_uri' parameters, where the content of the 'request' 
+	  is an encrypted JWT with the appropriate key and cypher.  
+      This works even against a compromised user-agent in the case of indirect request. </t>
+	  </section>
+	   
+	  <section anchor="server_masquarading" title="Server Masquarading">
+	  <t>A malicious Server may masquarade the identity of a legitimate server 
+	  using various means. To detect such an attack, the Client needs to authenticate 
+	  the server. </t>
+	  <t>In adition to what is stated in section 5.1.2 of the <xref target="OAuth2.0SC" />, 
+	  this standard provides a way to authenticate the Server through either the 
+	  use of Signed or Encrypted JWT (JWS and JWE) 
+	  with an appropriate key and cypher.</t> 
+	  </section>
+	  
+      <section anchor="token_manufacture"
+               title="Token Manufacture/Modification">
+        <t>An Attacker may generate a bogus token or modify the token content 
+		(such as the authentication or 
+		attribute statements) of an existing parseable token, causing the RP to grant 
+		inappropriate access to the Client. For example, an Attacker may modify 
+		the perseable token to extend the validity period; a Client may modify the 
+		perseable token to have access to information that they should not be able to view.
+        <t>To mitigate this attack, there are two ways.</t>
 
         <t><list style="numbers">
-            <t>The assertion may be digitally signed by the OP. The Relying
+            <t>The token may be digitally signed by the OP. The Relying
             Party SHOULD check the digital signature to verify that it was
             issued by a legitimate OP.</t>
 
-            <t>The assertion may be sent over a protected channel such as
+            <t>The token may be sent over a protected channel such as
             TLS/SSL as defined in <xref target="RFC5246">RFC 5246</xref>. 
             In order to protect the integrity of assertions from
             malicious attack, the OP MUST be authenticated, per
-	    <xref target="RFC6125">RFC 6125</xref>. In this
+			<xref target="RFC6125">RFC 6125</xref>. In this
             specification, the assertion is always sent over TLS/SSL protected
-            channel.</t>
+            channel. Note however, that this measure is only applicable 
+			to the third pary attacker and is not applicable to the case 
+			where the client is the attacker. </t>
           </list></t>
       </section>
 
-      <section anchor="assertion_disclosure" title="Assertion Disclosure">
-        <t>The Assertion disclosure can be mitigated in the following two
+      <section anchor="response_disclosure" title="Server Response Disclosure">
+	    <t>Server response may contain authentication and attribute 
+		statements that include sensitive Client information. Disclosure of the 
+		response contents can make the Client vulnerable to other types of 
+		attacks.</t>
+		
+        <t>The server response disclosure can be mitigated in the following two
         ways.</t>
 
         <t><list style="numbers">
-            <t>Assertion is sent over TLS/SSL protected channel, where RP is
+            <t>The response is sent over TLS/SSL protected channel, where RP is
             authenticated by "client_id" and "client_secret".</t>
 
-            <t>Signed Assertion is encrypted by the RP's public key.</t>
+            <t>Signed Assertion is encrypted by the Client's public key or 
+			shared secret using encrypted JWT (JWE) 
+	        with an appropirate key and cypher.</t>
           </list></t>
       </section>
 
-      <section anchor="assertion_repudiation" title="Assertion Repudiation">
-        <t>To mitigate this threat, the assertion may be digitally signed by
-        the OP using a key that supports non-repudiation. The RP SHOULD check
+      <section anchor="server_response_repudiation" title="Server Response Repudiation">
+	    <t>An response may be repudiated by the server if the proper mechanisms are not in place. 
+		For example, if a Server does not digitally sign a response, the Server can claim that it was not 
+        generated through the services of the Server.</t>
+		
+        <t>To mitigate this threat, the response may be digitally signed by
+        the Server using a key that supports non-repudiation. The Client SHOULD check
         the digital signature to verify that it was issued by a legitimate
-        OP.</t>
+        Server and the integrity is intact.</t>
       </section>
+	  
+	  <section anchor="request_repudation" title="Request Repudiation">
+	    <t>Since it is possible for a 
+		compromised or malicious Client to send request to a wrong party,  
+		a Client that was authenticated 
+		using only a bearer assertion can repudiate any transaction.
+		</t>
+        <t>To mitigate this threat, the Sever MAY require that the 
+		request to be digitally signed by
+        the Client using a key that supports non-repudiation. 
+		The Server SHOULD check
+        the digital signature to verify that it was issued by a legitimate
+        Client and the integrity is intact.</t>
+	  </section>
 
-      <section anchor="assertion_redirect" title="Assertion Redirect">
-        <t>To mitigate this threat, the assertion includes the identity of the
-        RP for whom it was generated as "client_id". The RP verifies that
-        incoming assertions include its identity as the recipient of the
+      <section anchor="access_token_redirect" title="Access Token Redirect">
+	    <t>An Attacker uses the access token generated for one resource to 
+		obtain access to a second resource.
+		</t>
+        <t>To mitigate this threat, the access token should be audience 
+		and scope restricted. One way of implementing it is to includes 
+        the identity of the resource for whom it was generated as audience. 
+        The resource verifies that
+        incoming assertions include its identity as the audience of the
         assertion.</t>
-	<t>
-	  Access Tokens SHOULD include an audience restriction scoping
-	  their use to the intended Resource Server.
-	</t>
       </section>
 
-      <section anchor="assertion_reuse" title="Assertion Reuse">
-        <t>The assertion includes a timestamp and a short lifetime of
+      <section anchor="token_reuse" title="Token Reuse">
+	    <t>An Attacker attempts to use a one time token such as code that has 
+        been used once with the intended Resource. </t>
+        <t>To mitigate this threat, the token may includes a timestamp 
+		and a short lifetime of 
         validity. The Relying Party checks the timestamp and lifetime values
         to ensure that the assertion is currently valid.</t>
-      </section>
-
-      <section anchor="auth_code_manufacture"
-               title="Secondary Authenticator Manufacture">
-        <t>Due to the large entropy requirement of the secondary authenticator
-        (Authorization Code) and short life nature of its validity, the success
-        probability of this attack is extremely low.</t>
+		<t>Alternatively, the server may record the state of the use of 
+		the token and check the status for each request. </t>
       </section>
 
       <section anchor="auth_code_capture"
-               title="Secondary Authenticator Capture">
-        <t>Secondary authenticator (Authorization Code) is transmitted only through
-        HTTPS, thus it is protected between the OP and the User-Agent, and
-        User-Agent and the RP.</t>
-
-        <t>The only place where it can be captured is the User-Agent where the TLS
-        session is terminated; this is possible if the User-Agent is infested
-        by malware. However, capturing it is not useful as long as the profile
-        uses either RP authentication or encryption.</t>
+               title=" Eavesdropping or leaking authorization codes (Secondary Authenticator Capture)">
+        <t>In addition to the attack paterns described in 4.4.1.1 of OAuth SC, 
+		it can be captured in the User-Agent where the TLS
+        session is terminated if the User-Agent is infested
+        by malware. </t>
+		
+		<t>However, capturing it is not useful as long as the profile
+        uses either Client authentication or the Response encryption.</t>
       </section>
 
       <section anchor="assertion_substitution" title="Assertion Substitution">
-        <t>Responses to assertion requests is bound to the corresponding
-        requests by message order in HTTP, as both assertions and requests are
+	    <t>A user may attempt to impersonate a more 
+        privileged user by subverting the communication channel between the 
+        Token Endpoint and Client, for example by reordering the messages, 
+		to convince the Token Endpoint 
+        that his or her authorization grant corresponds to the grant sent on 
+        behalf of the more privileged user. </t>
+        <t>Responses to token requests is bound to the corresponding
+        requests by message order in HTTP, as both token and requests are
         protected by TLS that can detect and disallow malicious reordering of
         packets.</t>
       </section>
 
-      <section anchor="auth_req_disclosure"
-               title="Authentication Request Disclosure">
-        <t>If the authentication request is POSTed directly through a
-        protected channel, it is not possible to disclose the authentication
-        request.</t>
-
-        <t>If a Request File is encrypted with the OP's public key, the
-        authentication request will not be disclosed unless OP's private key
-        gets compromised or the encryption algorithm becomes vulnerable.</t>
-      </section>
-
       <section title="Timing Attack">
-        <t>Timing attacks can be used to reduce the effective key length of the
-        signature if the time required to return the response in case of a
-        signature error and a correct signature differs. Care should be taken
-        in the implementation to avoid this attack.</t>
+        <t>Timing attack is an attack which allows the attacker to 
+		obtain unecessary large amout of information through the elapse time 
+		difference in the code path taken by a successful decryption and 
+		unsuccessful verification of signed message. 
+		It can be used to reduce the effective key length of the
+        cypher used. </t>
+		<t>Implementations should not terminate the verification process 
+		at the instance of the finding error but should continue 
+		running until all the octets were processed to avoid this attack. </t>
+      </section>
+	  
+	  <section title="Other Crypto Related Attacks">
+	    <t>There are various crypto related attacks possible depending on the 
+		method used for encryption and signature / integrity checking. </t>
+		<t>Implementation should consult the security consideration 
+		around the JWS and JWT to avoid the vulnerability around 
+		these specifications. 
+		</t>
       </section>
 
-      <section anchor="authn_proc_threats"
-               title="Authentication Process Threats">
-        <t>In the category of Authentication Process Threats, following
-        threats exists.</t>
-
-        <t><list style="symbols">
-            <t>Online guessing</t>
-
-            <t>Phishing</t>
-
-            <t>Pharming</t>
-
-            <t>Eavesdropping</t>
-
-            <t>Replay</t>
-
-            <t>Session hijack</t>
-
-            <t>Man-in-the-middle</t>
-          </list>Authentication process per se as described in NIST
-        SP800-63-rev1 is out of scope for this protocol, but care SHOULD be
-        taken to achieve appropriate protection.</t>
-      </section>
     </section>
 
     <section anchor="iana" title="IANA Considerations">
@@ -2606,6 +2639,11 @@ Content-Type: application/json
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+	  
+	  <t>-08<list style="symbols">
+	      <t>Rewritten the security consideration. </t>
+		  </list>
+      </t>
 
       <t>-07<list style="symbols">
           <t>Added reference to RFC 5246. per ticket #235.</t>
