@@ -68,19 +68,15 @@
     <date day="17" month="November" year="2011" />
 
     <abstract>
-      <t>OpenID Connect is an identity framework that provides authentication,
-      authorization, and attribute transmission capability. It allows third
-      party attested Claims from distributed sources.
-      The specification suite builds on OAuth 2.0 and consists of
-      Building Blocks (Messages, Discovery, Dynamic Client
-      Registration, Session Management, JSON Web Token, JSON Web
-      Signature, JSON WEB Encryption, JSON Web Keys, Simple Web
-      Discovery), Protocol Bindings (e.g., Standard and Basic Client)
-      and Extensions.
-      This specification covers the core "Messages" of the suite
-      that defines the messages used and abstract flow which will be further
-      constrained or extended in the companion specifications in the
-      suite.</t>
+      <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
+      protocol. It allows Clients to verify the identity of the End-User based
+      on the authentication performed by an Authorization Server, as well as to
+      obtain basic profile information about the End-User in an interoperable and 
+      RESTful manner.</t>
+
+      <t>This specification defines the messages used and abstract
+      flows that are further constrained or extended in the OpenID
+      Connect specifications that rely upon this specification.</t>
     </abstract>
   </front>
 
@@ -245,7 +241,7 @@
           Claims. It MUST NOT be used as an Access Token to access OAuth 2.0
           Protected Resources.</t>
 
-          <t>The ID Token MUST attests minimally to the following Claims:</t>
+          <t>The ID Token MUST minimally attest to the following Claims:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
@@ -778,9 +774,8 @@
       </section>
 
       <section anchor="token_ep" title="Token Endpoint">
-        <t>Access Token Request / Response interacts with a Token Endpoint.
-        Upon a successful request, it returns an Access Token and ID
-        Token.</t>
+        <t>Access Token Request / Responses interact with a Token Endpoint.
+	Upon a successful request, it returns an Access Token and an ID Token.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
@@ -805,11 +800,13 @@
           The JWT must contain the Claims:</t>
          
           <t><list style="hanging">
-          <t hangText="client_id">REQUIRED. The client identifier of the
-            Client.</t>
+          <t hangText="client_id">REQUIRED. The identifier of the Client.</t>
+
            <t hangText="aud">REQUIRED. The Issuer Identifier of the token_endpoint.</t>
+
            <t hangText="nonce">REQUIRED.  A random, unique string value used
               to mitigate replay attacks. </t>
+
             <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
             </list></t>
              
@@ -820,22 +817,21 @@
 	  Client uses the <spanx style='verb'>Bearer</spanx>
 	  authentication scheme to transmit the Access Token.
         </t>
-
-            
-          
           
           <t hangText="private_key_jwt">
            Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
           The JWT must contain the Claims:</t>
           <t><list style="hanging">
-          <t hangText="client_id">REQUIRED. The client identifier of the
-            Client.</t>
+          <t hangText="client_id">REQUIRED. The identifier of the Client.</t>
+
            <t hangText="aud">REQUIRED. The Issuer Identifier of the token_endpoint.</t>
+
            <t hangText="nonce">REQUIRED.  A random, unique string value used
               to mitigate replay attacks. </t>
+
             <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
             </list></t>
-                         <t>
+	  <t>
     The authentication token MUST be sent in the <spanx
     style='verb'>Authorization</spanx> request header field
     defined by <xref target='I-D.ietf-httpbis-p7-auth' />, the
