@@ -801,14 +801,16 @@
           The JWT must contain the Claims:</t>
          
           <t><list style="hanging">
-          <t hangText="client_id">REQUIRED. The identifier of the Client.</t>
+          <t hangText="iss">REQUIRED. The (issuer) claim, this must contain the client_id of the OAuth client.</t>
 
-           <t hangText="aud">REQUIRED. The Issuer Identifier of the token_endpoint.</t>
+          <t hangText="prn">REQUIRED. The (principal) claim, this must contain the client_id of the OAuth client.</t>
 
-           <t hangText="nonce">REQUIRED.  A random, unique string value used
+           <t hangText="aud">REQUIRED. The (audience) claim, this must contain the Issuer Identifier of the token_endpoint.</t>
+
+           <t hangText="nonce">REQUIRED. The (nonce) claim, this must contain a per JWT unique string value used
               to mitigate replay attacks. </t>
-
-            <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
+           <t hangText="exp">REQUIRED.  The iat (expiration) claim that limits the time window during which the JWT can be used.</t>
+            <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
              
              <t>
@@ -823,14 +825,16 @@
            Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
           The JWT must contain the Claims:</t>
           <t><list style="hanging">
-          <t hangText="client_id">REQUIRED. The identifier of the Client.</t>
+                    <t hangText="iss">REQUIRED. The (issuer) claim, this must contain the client_id of the OAuth client.</t>
 
-           <t hangText="aud">REQUIRED. The Issuer Identifier of the token_endpoint.</t>
+          <t hangText="prn">REQUIRED. The (principal) claim, this must contain the client_id of the OAuth client.</t>
 
-           <t hangText="nonce">REQUIRED.  A random, unique string value used
+           <t hangText="aud">REQUIRED. The (audience) claim, this must contain the Issuer Identifier of the token_endpoint.</t>
+
+           <t hangText="nonce">REQUIRED. The (nonce) claim, this must contain a per JWT unique string value used
               to mitigate replay attacks. </t>
-
-            <t hangText="iat">REQUIRED.  The iat (issued at) Claim identifies the time at which the JWT was issued. </t>
+           <t hangText="exp">REQUIRED.  The iat (expiration) claim that limits the time window during which the JWT can be used.</t>
+            <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
 	  <t>
     The authentication token MUST be sent in the <spanx
@@ -2657,6 +2661,7 @@ Content-Type: application/json
           <t>Fix #179 Messages - 1 Request Object definition is ambiguous</t>
           <t>Fix #178 Messages - 1 "user" not defined</t>
           <t>Fix #177 Messages - 1 "identity information" not defined</t>
+          <t>re  #334 Messages - 2.2.1 make claims consistent with oauth-jwt-bearer</t>
 		  </list>
       </t>
 
