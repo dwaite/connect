@@ -66,9 +66,9 @@
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the
-      OAuth 2.0 protocol. It allows a web site or application to verify the
+      OAuth 2.0 protocol. It allows Clients to verify the
       identity of the End-User based on the authentication performed by
-      the Authorization Server, as well as to obtain basic profile information
+      an Authorization Server, as well as to obtain basic profile information
       about the End-User in an interoperable and RESTful manner.</t>
 
       <t>OpenID Connect Standard 1.0 is an HTTP protocol binding for
@@ -136,6 +136,7 @@
       <spanx style="verb">response_type</spanx>
       parameter in the Authorization Request.
       </t>
+
       <section anchor="openid_scopes" title="OpenID Connect Scopes">
         <t>Clients MUST specify the desired scopes in an authorization request to
         obtain an Access Token with the proper permissions.</t>
@@ -425,8 +426,10 @@
               more information.</t>
 
               <t hangText="prompt">A space delimited list that can contain
+	      the values
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
-              <spanx style="verb">select_account</spanx> and <spanx style="verb">none</spanx>. Refer to <xref
+              <spanx style="verb">select_account</spanx>, and
+	      <spanx style="verb">none</spanx>. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
             </list></t>
@@ -829,7 +832,7 @@ Host: client.example.com]]></artwork>
           in the following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"display"</spanx> parameter with the value "none".
+                style="verb">"prompt"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the End-User is 
                 unauthenticated.</t>
           </list></t>
@@ -857,7 +860,7 @@ Host: client.example.com]]></artwork>
           following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"display"</spanx> parameter with the value "none".
+                style="verb">"prompt"</spanx> parameter with the value "none".
                 The Authorization Server MUST return an error if the End-User has
                 not pre-authorized the Client.</t>
           </list></t>
@@ -1381,8 +1384,8 @@ Content-Type: application/json
         </figure>
 
         <section title="UserInfo Error Response">
-          <t>When some error condition arises, the UserInfo Endpoint returns
-          the JSON serialized Error Response defined in section 3.3.3 of <xref
+          <t>When an error condition occurs, the UserInfo Endpoint returns
+          a JSON serialized Error Response defined in section 3.3.3 of <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
           entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
           media type with HTTP response code 400.</t>

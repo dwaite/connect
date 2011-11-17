@@ -76,16 +76,17 @@
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
-      protocol. It allows a web site to verify the identity of the End-User based
-      on the authentication performed by the Authorization Server, as well as to
+      protocol. It allows Clients to verify the identity of the End-User based
+      on the authentication performed by an Authorization Server, as well as to
       obtain basic profile information about the End-User in an interoperable and 
       RESTful manner.</t>
 
       <t>OpenID Connect Basic Client is a profile of the 
       <xref target="OpenID.Standard">OpenID Connect Standard 
       1.0 Specification</xref> that is designed to be easy to read and 
-      implement for Relying Parties. OpenID Providers should consult the 
-      main specification. This profile omits implementation and security
+      implement for web-based Relying Parties.
+      OpenID Providers should consult the Standard specification.
+      This profile omits implementation and security
       considerations for OpenID Providers.</t>
     </abstract>
   </front>
@@ -135,7 +136,7 @@
 	    <xref target="JWT">JSON Web Token (JWT)</xref>,
 	    but can be treated as
 	    opaque by Clients that use the Check ID Endpoint.  Relying 
-	    Parties wanting to process the token contents directly should refer to the 
+	    Parties wanting to process the ID Token contents directly should refer to the 
 	    <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
 	    specification.</t>
 
@@ -177,11 +178,12 @@
         <xref target="OAuth2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
-        used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes 
-        request what information is to be made available from the UserInfo Endpoint,
+        used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
+	can be used to request that specific sets of information
+	be made available from the UserInfo Endpoint,
         and to request an ID Token.
         OAuth 2.0 allows additional scopes to be specified, as extensions.
-        This specification only describes scopes that are part of OpenID Connect.</t>
+        This specification describes only the scopes used by OpenID Connect.</t>
 
         <t>OpenID Connect defines the following scopes:</t>
 
@@ -203,7 +205,9 @@
         <t>Multiple scopes MAY be requested by creating a space delimited, case
         sensitive list of scope values.</t>
         
-        <t>The End-User may decline a scope request by the Client.</t>
+        <t>In some cases, the End-User will be given the option to
+        have the OpenID Provider decline to provide some or all
+        information requested by Clients.</t>
 
         <t>To increase new account activation, a Client may elect to
         only request a subset of the information available from the
@@ -284,7 +288,7 @@
               will be sent. This MUST be pre-registered with the provider.</t>
             
               <t hangText="nonce">A random, unique string value used to
-              mitigate the replay attack. This value is returned from the Check
+              mitigate replay attacks. This value will be returned from the Check
               ID Endpoint.</t>
             </list></t>
 
@@ -346,7 +350,9 @@
                   prompt the End-User to select a user account if the account has
                   multiple accounts associated with it.</t>
                 </list>
-                This can be used by the Client to make sure that the End-User is
+
+		The <spanx style="verb">prompt</spanx> parameter
+                can be used by the Client to make sure that the End-User is
                 still present for the current session or to bring attention to the
                 request. If this parameter contains "none" with any other value, an
                 error is returned.
@@ -477,11 +483,13 @@ access_token=SlAV32hkKG
       <section title="Check ID Endpoint">
         <t>The Check ID Endpoint validates the ID Token and returns a
         text <xref target="RFC4627">JSON</xref> object that contains
-        Claims about the authentication event associated with the supplied
-        ID Token.</t>
+        Claims contained in the ID Token.</t>
 
-        <t>Clients MUST verify the validity of the ID Token using the Check ID
-        Endpoint.</t>
+        <t>Clients MAY verify the validity of the ID Token using the
+        Check ID Endpoint.  Clients wanting to process the
+        ID Token contents directly should refer to the <xref
+        target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
+        specification.</t>
 
         <t>The ID Token is used to manage the signon event and user
         identifier.  It differs from an Access Token,
@@ -538,9 +546,9 @@ Host: server.example.com
         </section>
 
         <section title="Check ID Response">
-          <t>The response is a text <xref target="RFC4627">JSON</xref> object
-          using the <spanx style="verb">application/json</spanx> media type
-          with the following parameters.</t>
+	  <t>The Check ID response returns the JSON serialized Claims
+	  contained in the ID Token.  The following ID Token Claims
+	  are defined by this specification:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
@@ -882,8 +890,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
         </figure>
 
         <section title="Error Response">
-          <t>When some error condition arises, the UserInfo Endpoint returns
-          the Error Response. In addition to the standard <xref
+          <t>When an error condition occurs, the UserInfo Endpoint returns
+          an Error Response. In addition to the standard <xref
           target="OAuth2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
           may return the following errors:</t>
 
