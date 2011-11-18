@@ -803,15 +803,20 @@
           The JWT must contain the Claims:</t>
          
           <t><list style="hanging">
-          <t hangText="iss">REQUIRED. The (issuer) claim, this must contain the client_id of the OAuth client.</t>
+          <t hangText="iss">REQUIRED. The iss (issuer) claim, this must contain the client_id of the OAuth client.</t>
 
-          <t hangText="prn">REQUIRED. The (principal) claim, this must contain the client_id of the OAuth client.</t>
+          <t hangText="prn">REQUIRED. The prn (principal) claim, this must contain the client_id of the OAuth client.</t>
 
-           <t hangText="aud">REQUIRED. The (audience) claim, this must contain the Issuer Identifier of the token_endpoint.</t>
+           <t hangText="aud">REQUIRED. The aud (audience) claim, an Audience that identifies the
+      Authorization Server as the intended audience.  The Authorization
+      Server MUST verify that it is an intended audience for the
+      assertion.  The Audience SHOULD be the URL of the Authorization
+      Server's Token Endpoint.</t>
 
-           <t hangText="nonce">REQUIRED. The (nonce) claim, this must contain a per JWT unique string value used
-              to mitigate replay attacks. </t>
-           <t hangText="exp">REQUIRED.  The iat (expiration) claim that limits the time window during which the JWT can be used.</t>
+           <t hangText="tid">REQUIRED. The tid (token id) claim, A nonce or unique identifier for the assertion.  The
+      Assertion ID may be used by implementations requiring message de-
+      duplication for one-time use assertions. </t>
+           <t hangText="exp">REQUIRED.  The exp (expiration) claim that limits the time window during which the JWT can be used.</t>
             <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
              
@@ -824,15 +829,20 @@
           target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
           The JWT must contain the Claims:</t>
           <t><list style="hanging">
-                    <t hangText="iss">REQUIRED. The (issuer) claim, this must contain the client_id of the OAuth client.</t>
+                    <t hangText="iss">REQUIRED. The iss (issuer) claim, this must contain the client_id of the OAuth client.</t>
 
-          <t hangText="prn">REQUIRED. The (principal) claim, this must contain the client_id of the OAuth client.</t>
+          <t hangText="prn">REQUIRED. The prn (principal) claim, this must contain the client_id of the OAuth client.</t>
 
-           <t hangText="aud">REQUIRED. The (audience) claim, this must contain the Issuer Identifier of the token_endpoint.</t>
+          <t hangText="aud">REQUIRED. The aud (audience) claim, an Audience that identifies the
+      Authorization Server as the intended audience.  The Authorization
+      Server MUST verify that it is an intended audience for the
+      assertion.  The Audience SHOULD be the URL of the Authorization
+      Server's Token Endpoint.</t>
 
-           <t hangText="nonce">REQUIRED. The (nonce) claim, this must contain a per JWT unique string value used
-              to mitigate replay attacks. </t>
-           <t hangText="exp">REQUIRED.  The iat (expiration) claim that limits the time window during which the JWT can be used.</t>
+           <t hangText="tid">REQUIRED. The tid (token id) claim, A nonce or unique identifier for the assertion.  The
+      Assertion ID may be used by implementations requiring message de-
+      duplication for one-time use assertions. </t>
+           <t hangText="exp">REQUIRED.  The exp (expiration) claim that limits the time window during which the JWT can be used.</t>
             <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
 	  <t>The authentication token MUST be sent as the value of the <spanx
@@ -851,7 +861,7 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=authorization_code&
 code=i1WsRn1uB1&
 client_id=s6BhdRkqt3&
-client_assertion_type=urn%3Aoasis%3Anames%sAtc%3ASAML%3A2.0%3Aassertion&
+client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&
 client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 ]]>
           </artwork>
@@ -2707,6 +2717,7 @@ Content-Type: application/json
           <t>Fix #177 Messages - 1 "identity information" not defined</t>
           <t>re  #334 Messages - 2.2.1 make claims consistent with oauth-jwt-bearer</t>
           <t>Fix #334 Messages - Add example and reference.</t>
+          <t>Fix #334 Messages - fix example, change nonce to token id.</t>
 		  </list>
       </t>
 
