@@ -119,6 +119,12 @@
 	    distinct existence and that can be identified in context.
 	    An End-User is one example of an Entity.</t>
 
+	    <t hangText="Personally Identifiable Information (PII)">
+            Any information that (a) can be used to identify the natural person 
+            to whom such information relates, or 
+            (b) is or might be directly or indirectly linked to a 
+            natural person to whom such information relates. </t>
+
 	    <t hangText="ID Token">A token that contains Claims about the
 	    authentication event.</t>
 
@@ -2043,6 +2049,26 @@ Content-Type: application/json
 		</t>
       </section>
 
+    </section>
+
+    <section anchor="privacy_considerations" title="Privacy Considerations">
+      <t>The UserInfo response typically contains Personally Identifiable
+      Information. As such, End-User consent for the release of the information
+      for the specified purpose SHOULD be obtained at or prior to the
+      authorization time in accordance with relevant regulations. The purpose
+      of use is typically registered in association with the <spanx
+      style="verb">redirect_uri</spanx>.</t>
+
+      <t>Only necessary UserInfo data should be stored at the Client and the
+      Client SHOULD associate the received data with the purpose of use
+      statement.</t>
+
+      <t>The Resource Server SHOULD make the UserInfo access log available to 
+      the End-User so that the End-User can monitor who accessed his data.</t>
+
+      <t>To protect the End-User from a possible correlation among Clients, the
+      use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
+      style="verb">user_id</spanx> SHOULD be considered.</t>
     </section>
 
     <section anchor="iana" title="IANA Considerations">
