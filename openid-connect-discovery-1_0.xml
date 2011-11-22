@@ -299,45 +299,6 @@ Content-Type: application/json
             </figure></t>
         </section>
 
-        <section title="Account URI">
-          <t>To find the <spanx style="verb">issuer</spanx> for the given URI,
-          <spanx style="verb">acct://joe@example.com</spanx>, the SWD
-          parameters are as follows:</t>
-
-          <texttable>
-            <ttcol>SWD Parameter</ttcol>
-
-            <ttcol>Value</ttcol>
-
-            <c>principal</c>
-
-            <c>acct://joe@example.com/</c>
-
-            <c>host</c>
-
-            <c>example.com</c>
-
-            <c>service</c>
-
-            <c>http://openid.net/specs/connect/1.0/issuer</c>
-          </texttable>
-
-          <t>Following the SWD specification, the Client would make the
-          following request to get the discovery information:</t>
-
-          <t><figure>
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=acct%3A%2F%2Fjoe%40example%2Ecom%2F&service=http%3A%2F%2Fopenid%2Enet%2Fspecs%2Fconnect%2F1%2E0%2Fissuer HTTP/1.1
-Host: example.com
-
-HTTP/1.1 200 O.K.
-Content-Type: application/json
-
-{
- "locations":["https://server.example.com"]
-}]]></artwork>
-            </figure></t>
-        </section>
-
         <section title="Hostname &amp; Port">
           <t>To find the <spanx style="verb">issuer</spanx> for the given
           hostname, <spanx style="verb">example.com:8080</spanx>, the SWD
