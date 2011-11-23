@@ -671,10 +671,15 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
             Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter which is a globally reachable URL. The contents of the URL
-            is a JWT which is a <eref
+            parameter. The target of the URL is a JWT which is a <eref
             target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref>.</t>
+            OpenID Request Object</eref>. The scheme used in the 
+            <spanx style="verb">request_uri</spanx> value MUST be HTTPS, 
+            unless the target JWT is signed in a way that is verifiable by the 
+            Authorization server.
+            The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
+            Authorization Server, and SHOULD be reachable by the Client.
+            </t>
 
             <t>All Authorization Request parameters 
             that are part of the Authorization Request excluding the 
@@ -2342,6 +2347,8 @@ scope=openid&response_type=code
         <t>fixes #273 Remove duplicate quotes in Sec 4.2.1 "code" "token id_token"</t>
         <t>fixes #274 Examples in 4.3.4.1 change token to access_token, add request to response</t>
         <t>fixes #149 added sec 4.3.2 to validate request object encryption and signature</t>
+        <t>fixes #350 Sec 2.3.1.3 Clarify request_uri needs to be https unless the JWT is signed.</t>
+        <t>re #379 Sec 2.3.1.3 Clarify request_uri dosen't need to be globally reachable</t>
         </list></t>
         
       <t>-06<list style="symbols">
