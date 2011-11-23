@@ -1152,17 +1152,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             <c>The End-User's preferred address. The value of the <spanx
             style="verb">address</spanx> member is a <xref
             target="RFC4627">JSON</xref> structure containing some or all of
-            these string-valued fields: <spanx style="verb">formatted</spanx>,
-            <spanx style="verb">street_address</spanx>, <spanx style="verb">locality</spanx>,
-            <spanx style="verb">region</spanx>, <spanx style="verb">postal_code</spanx>,
-            and <spanx style="verb">country</spanx>. The <spanx style="verb">street_address</spanx>
-            field MAY contain multiple lines if the address representation
-            requires it. Implementations MAY return only a subset of the
-            fields of an <spanx style="verb">address</spanx>, depending upon
-            the information available and the End-User's privacy preferences. For
-            example, the <spanx style="verb">country</spanx> and <spanx
-            style="verb">region</spanx> might be returned without returning
-            more fine-grained address information.</c>
+            the members definined in 2.3.2.1. </c>
 
             <c>updated_time</c>
 
@@ -1214,6 +1204,48 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
           </figure></t>
+          <section title="Address Claim">
+          
+          <t>
+          The components of a physical mailing address. 
+          Implementations MAY return only a subset of the
+          fields of an <spanx style="verb">address</spanx>, depending upon
+          the information available and the End-User's privacy 
+          preferences. For
+          example, the <spanx style="verb">country</spanx> and <spanx 
+          style="verb">region</spanx> might be returned without returning
+          more fine-grained address information.
+          </t>
+          <t>
+          Implementations MAY return just the full address 
+          as a single string in the formatted sub-field, 
+          or they MAY return just the individual component 
+          fields using the other sub-fields, 
+          or they MAY return both. 
+          If both variants are returned, 
+          they SHOULD be describing the same address, 
+          with the formatted address indicating how the 
+          component fields should be combined.
+          </t>
+          <t><list style="hanging">
+            <t hangingText="formatted">The full mailing address, 
+            formatted for display or use with a mailing label. 
+            This field MAY contain newlines. This is the 
+            Primary Sub-Field for this field, 
+            for the purposes of sorting and filtering.</t>
+            <t hangingText="streetAddress">
+            The full street address component, 
+            which may include house number, street name, 
+            PO BOX, and multi-line extended street 
+            address information. This field MAY contain newlines.</t>
+            <t hangingText="locality">The city or locality component.</t>
+            <t hangingText="region">The state, province, 
+            prefecture or region component.</t>
+            <t hangingText="postalCode">The zipcode or 
+            postal code component.</t>
+            <t hangingText="country">The country name component.</t>
+          </t>
+          </section>
         </section>
 
         <section title="Errors">
