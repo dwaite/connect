@@ -526,8 +526,10 @@ response_type=code%20id_token
               non-repudiation and/or confidentiality.</t>
 
             <t>All Authorization Request parameters that are part of the
-            Authorization Request excluding the <spanx style="verb">request</spanx>
-            and <spanx style="verb">request_uri</spanx>
+            Authorization Request excluding the <spanx style="verb">request</spanx>,
+            <spanx style="verb">request_uri</spanx>,
+            , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            , <spanx style="verb">client_id</spanx> and <spanx style="verb">nonce</spanx>
             parameters MUST also be <eref target=
             "http://openid.net/specs/openid-connect-messages-1_0.html#js">JSON
             Serialized</eref> into the <eref
@@ -535,6 +537,13 @@ response_type=code%20id_token
             OpenID Request Object</eref> with the same values.  This allows
             the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0.</t>
+            
+            <t>The <spanx style="verb">client_id</spanx>
+            , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            , and <spanx style="verb">nonce</spanx>
+            parameters MAY also be included in the <eref
+            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
+            OpenID Request Object</eref>.</t>
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
@@ -729,8 +738,9 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
               appropriate entropy for it's lifetime, 
               and must be removed after successful authentication or a reasonable timeout.
               </t>
-              The Client then records the Request File either locally or
-              remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.</t>
+              <t>The Client then records the Request File either locally or
+              remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.
+              </t>
             </section>
 
             <section anchor="art_req"
@@ -2361,6 +2371,8 @@ scope=openid&response_type=code
         <t>fixes #149 added sec 4.3.2 to validate request object encryption and signature</t>
         <t>fixes #350 Sec 2.3.1.3 Clarify request_uri needs to be https unless the JWT is signed.</t>
         <t>re #379 Sec 2.3.1.3 Clarify request_uri dosen't need to be globally reachable</t>
+        <t>Fixes #379 Sec 2.3.1.3.1 add hash and entropy considerations</t>
+        <t>Fixes #378 Sec 2.3.1.2 allow nonce and state not to be in request object</t>
         </list></t>
         
       <t>-06<list style="symbols">
