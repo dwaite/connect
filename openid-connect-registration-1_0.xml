@@ -153,15 +153,13 @@
             <t hangText="logo_url">OPTIONAL. URL that a logo for the
             application can be retrieved from.</t>
 
-            <t hangText="redirect_uri">REQUIRED for  
-            public clients and confidential clients which utilize implicit flow 
+            <t hangText="redirect_uri">RECOMMENDED for clients using the code flow with
+            a query paramater encoded response.
+            REQUIRED for clients requesting implicit flow 
+            fragment encoded responses as 
             defined in <xref target="OAuth2.0">OAuth 2.0</xref>. 
-            Space-delimited list of
-            redirect URIs.</t>
+            Space-delimited list of redirect URIs.</t>
 
-            <t hangText="js_origin_uri">OPTIONAL. Space-separated list of
-            JavaScript Origin URIs (used for Post Message flow).</t>
-            
             <t hangText="token_endpoint_auth_type">OPTIONAL. The requested authentication
             type for the token_endpoint. The options are client_secret_post, 
             client_secret_basic, client_secret_jwt, and private_key_jwt.
@@ -674,6 +672,7 @@ Content-Type: application/json
           <t>change RP to Client</t>
           <t>fix typo in require_signed_request_object</t>
           <t>fix 2 references to JWS</t>
+          <t>fixes #300 removed js_origin_uri Made redirect_uri required only for fragment encoded responses</t>
           
         </list></t>
 
