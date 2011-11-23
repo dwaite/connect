@@ -74,9 +74,11 @@
       obtain basic profile information about the End-User in an interoperable and 
       RESTful manner.</t>
 
-      <t>This specification defines the messages used and abstract
-      flows that are further constrained or extended in the OpenID
-      Connect specifications that rely upon this specification.</t>
+      <t>This specification only defines the endpoints and 
+      the associated message formats. 
+      The actual use MUST be based on one of 
+      the companion protocol bindings specifications 
+      such as OpenID Connect Standard.</t>
     </abstract>
   </front>
 
@@ -238,8 +240,10 @@
 
       <section title="Authorization Endpoint">
         <t>The Client sends an Authorization Request to the Authorization
-        Endpoint to obtain an Authorization Response and an <xref
-        target="id_token">ID Token</xref>.</t>
+        Endpoint to obtain either an Authorization Response or an <xref
+        target="id_token">ID Token</xref> or both depending on 
+        <spanx style="verb">response_type</spanx> and 
+        <spanx style="verb">scope</spanx>.</t>
 
         <section anchor="id_token" title="ID Token">
           <t>The ID Token is a token that contains Claims about the
@@ -785,9 +789,11 @@
         </section>
       </section>
 
-      <section anchor="token_ep" title="Token Endpoint">
-        <t>Access Token Request / Responses interact with a Token Endpoint.
-	Upon a successful request, it returns an Access Token and an ID Token.</t>
+      <section anchor="token_ep" title="Token Endpoint">	
+        <t>The Client sends an Access Token Request to the Token 
+        Endpoint to obtain Access Token Response,  
+        which may include Access Token, Refresh Token, <xref
+        target="id_token">ID Token</xref>, and other variables.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
