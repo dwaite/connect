@@ -308,16 +308,18 @@
 
             </list></t>
 
-          <t>JWT ID Tokens MAY be signed or signed and encrypted via <xref
-          target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
-          respectively, thereby providing authentication, integrity,
-          non-repudiation and/or confidentiality.</t>
+          <t>ID Tokens MUST be signed using <xref
+          target="JWS">JWS</xref> and OPTIONALLY both signed and
+          encrypted using <xref target="JWS">JWS</xref> and <xref
+          target="JWE">JWE</xref> respectively, thereby providing
+          authentication, integrity, non-repudiation and/or
+          confidentiality.</t>
 
-          <t>Clients SHOULD verify and decipher signed or encrypted ID Tokens
-          independently. Clients that do not understand the ID Token format or
-          do not wish to process ID Tokens MAY treat ID Tokens as opaque
+          <t>Clients SHOULD verify and decrypt signed or encrypted ID Tokens.
+	  Clients that do not understand the ID Token format or that
+          do not wish to directly process ID Tokens MAY treat them as opaque
           values and submit them to the <xref target="check_id_ep">Check
-          ID Endpoint</xref> for verification and decoding.</t>
+          ID Endpoint</xref> for verification and decryption.</t>
           
           <section anchor="idtype" title="User Identifier Types">
            <t>Providers Discovery documents SHOULD list there supported identifier types in the 
