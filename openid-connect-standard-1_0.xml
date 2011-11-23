@@ -716,8 +716,20 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
               </figure></t>
 
             <section anchor="rurl_create"
-                     title="Client Obtains the URL of the Request File">
-              <t>The Client then records the Request File either locally or
+                     title="Client Generates the URL of the Request File">
+              <t>The Client then stores the Request File either locally or remotely
+               this is the Request URI, <spanx style="verb">"request_uri"</spanx>. 
+               The URI MAY be appended with the SHA256 [FIPS180-2] hash of the file 
+               after "#" so that the Authorization Server can detect whether the file 
+               has changed. "#" MUST be escaped.</t>
+
+              <t>It should be noted that if the Request File includes user's attribute 
+              values, it MUST NOT be revealed to anybody but the Authorization Server. 
+              As such, the <spanx style="verb">"request_uri"</spanx> MUST have an 
+              appropriate entropy for it's lifetime, 
+              and must be removed after successful authentication or a reasonable timeout.
+              </t>
+              The Client then records the Request File either locally or
               remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.</t>
             </section>
 
