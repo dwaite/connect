@@ -532,11 +532,17 @@
 
             <t>The OpenID Request Object MAY contain a set of members defined
             by this specification and MAY contain other members that are not
-            defined by this specification. OpenID Request Object members
-            SHOULD be understood by both parties.</t>
+            defined by this specification.
+	    With only one exception, OpenID Request Object members
+	    MUST be understood by both parties; that exception is that
+	    OpenID Providers MAY ignore requests for Claims they can
+	    not provide or do not understand; however, Relying Parties
+	    MAY also consider it an error condition if all requested
+	    required Claims are not provided.</t>
 
-            <t>The JWT MAY be signed or unsigned. When it is unsigned, it will
-            be indicated by the JWT <spanx style="verb">"signed":"none"</spanx>
+            <t>The OpenID Request Object JWT MAY be signed or unsigned.
+	    When it is unsigned, this will be indicated by use of the
+	    JWT <spanx style="verb">"alg":"none"</spanx>
             convention in the JWT header. If signed, the OpenID Request Object
             SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>" (issuer)
             and "<spanx style="verb">aud</spanx>" (audience) Claims.</t>
