@@ -322,31 +322,38 @@
           ID Endpoint</xref> for verification and decryption.</t>
           
           <section anchor="idtype" title="User Identifier Types">
-           <t>Providers Discovery documents SHOULD list there supported identifier types in the 
+           <t>Provider's Discovery documents SHOULD list their supported identifier types in the 
            identifiers_supported element.</t>
            <t>If there is more than one type listed in the array, the Client may elect to
-           provide its preferred identifier type using the user_id_type paramater during registration.</t>
+           provide its preferred identifier type using the user_id_type parameter during registration.</t>
            <t>The types supported by this specification are:</t>
            
            <t><list style="hanging">
               <t hangText="public"> This provides the same user_id value to all Clients. It is the default if
-              the provider has no identifiers_supported element in there discovery document.</t>
+              the provider has no identifiers_supported element in its discovery document.</t>
               <t hangText="pairwise"> This provides a different user_id value to each Client, to prevent
               correlation of the users activities by Clients without the users permission.</t>
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifyer Algorithem">
            <t>The Provider MUST calculate a unique user_id value for each sector_identifer.</t>
-           <t>If the Client has not provided a value for sector_identifier_url in registration,
-           the sector_identifier used for pairwise identifier calculation is the host component 
-           of the registered redirect_uri.</t>
-           <t>If there are multiple hostnames in the registered redirect_uri, the Client MUST register a 
-           sector_identifer_url.</t>
-           <t>If a sector_identifer_url is provided, the host component of that URL is used as
+           <t>If the Client has not provided a value for
+	   <spanx style="verb">sector_identifier_url</spanx> in registration,
+           the <spanx style="verb">sector_identifier_url</spanx>
+	   used for pairwise identifier calculation is the host component 
+           of the registered <spanx style="verb">redirect_uri</spanx>.</t>
+           <t>If there are multiple hostnames in the registered
+	   <spanx style="verb">redirect_uris</spanx>, the Client MUST register a 
+           <spanx style="verb">sector_identifier_url</spanx>.</t>
+           <t>If a <spanx style="verb">sector_identifier_url</spanx>
+	   is provided, the host component of that URL is used as
            the sector sector_identifer for the pairwise identifier calculation.</t>
-           <t>The value of the sector_identifer_url must be a HTTPS URL that identifies
-           a JSON file containing a array containing redirect_uri.</t>
-           <t>The values of the registered redirect_uri must be included in the elements of the array,
+           <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
+	   must be a HTTPS URL that identifies
+           a JSON file containing a array containing <spanx style="verb">redirect_uri</spanx> values.</t>
+
+           <t>The values of the registered <spanx style="verb">redirect_uris</spanx> must be included in the elements of the array,
            or the registration will fail.</t>
+
            <t>A number of algorithms may be used by Providers to calculate the pairwise identifier.
            This specification includes a simple example.</t>
            <t>The sector_identifer is concatenated with a local account ID and a salt 
@@ -592,10 +599,11 @@
                   the default UserInfo Claims held by the OP are
                   returned.</t>
 
-                  <t hangText="preferred_locale">OPTIONAL. (Locale): The list of acceptable 
-                  languages and scripts of the entire claim request, 
-                  represented as a space-separated list of <xref
-                  target="RFC5646">BCP47</xref> language tags.</t>
+                  <t hangText="preferred_locales">OPTIONAL.  A list of preferred 
+                  languages and scripts for the entire Claims request, 
+                  represented as a JSON array of <xref
+                  target="RFC5646">BCP47</xref> language tag values,
+		  ordered by preference.</t>
                 </list>
                 </t>
                  <t>All members of the "userinfo" object are OPTIONAL.
@@ -632,7 +640,7 @@
               defined by this specification are:</t>
 
               <t><list style="hanging">
-                  <t hangText="optional">This is an optional Claim paramater, 
+                  <t hangText="optional">This is an optional Claim parameter, 
                   if present, its value MUST be <spanx style="verb">true</spanx>,
                   which indicates that it is a optional Claim. If it is not
                   present, it is a required Claim.</t>
@@ -651,7 +659,7 @@
               <t>The structure and function of the "id_token" (ID Token
               request) member of the OpenID Request Object is similar to that
               of the "userinfo" member. It MAY include the OPTIONAL "claims" and
-              "locale" members. The structure of these members is the same as
+              "preferred_locales" members. The structure of these members is the same as
               that for the "userinfo" member. If the "claims" member is
               present in the "id_token" object, the Claims requested within it
               modify the default Claim set that would otherwise be returned in
@@ -734,7 +742,7 @@
                 <t hangText="invalid_request_redirect_uri">The 
                 <spanx style="verb">redirect_uri</spanx> in
                 the Authorization Request does not match any of the Client's 
-                pre-registered redirect_uris.</t>
+                pre-registered <spanx style="verb">redirect_uris</spanx>.</t>
 
                 <t hangText="login_required">The Authorization Server requires
                 End-User authentication. This error MAY be returned when the 
@@ -780,7 +788,7 @@
                 the Authorization Request returns an error or invalid data.</t>
                 
                 <t hangText="invalid_openid_request_object">The 
-                <spanx style="verb">request</spanx> paramater contains an invalid 
+                <spanx style="verb">request</spanx> parameter contains an invalid 
                 openid_request_object.</t>
                 
                 
@@ -841,7 +849,7 @@
             </list></t>
              
           <t>The authentication token MUST be sent as the value of the <spanx
-	      style='verb'>client_assertion</spanx> paramater.</t>
+	      style='verb'>client_assertion</spanx> parameter.</t>
           <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
           <t hangText="private_key_jwt">
            Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
@@ -866,7 +874,7 @@
             <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
             </list></t>
 	  <t>The authentication token MUST be sent as the value of the <spanx
-	      style='verb'>client_assertion</spanx> paramater.</t>
+	      style='verb'>client_assertion</spanx> parameter.</t>
           <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
 
         <figure>
@@ -1564,7 +1572,7 @@ Content-Type: application/json
     
     <t>When the message is both signed and 
       encrypted, it MUST be signed first then encrypted. 
-      The value of the typ paramater in the enclosing JWT header MUST be "JWS"</t>
+      The value of the typ parameter in the enclosing JWT header MUST be "JWS"</t>
 <section anchor="sigenc.alg" title="Supported Algorithms">
 <t>The server advertises its supported signing and encryption algorithms
       in its discovery document. The related elements are:</t>
@@ -1597,22 +1605,22 @@ Content-Type: application/json
              algorithm that MUST be required by the Authorization Server. All OpenID Request Objects from
              this client_id MUST be rejected if not signed by this algorithm.</t>
               
-             <t hangText="userinfo_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> encryption 
+             <t hangText="userinfo_signed_response_algs">OPTIONAL the <xref target="JWS">JWS</xref> encryption 
              algorithm required for userinfo responses. 
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="userinfo_require_encrypted_response">OPTIONAL a space separated
+             <t hangText="userinfo_encrypted_response_algs">OPTIONAL a space separated
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
              algorithms required for userinfo responses. If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="id_token_require_signed_response">OPTIONAL the <xref target="JWS">JWS</xref> signing 
+             <t hangText="id_token_signed_response_algs">OPTIONAL the <xref target="JWS">JWS</xref> signing 
              algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
              
-             <t hangText="id_token_require_encrypted_response">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
+             <t hangText="id_token_encrypted_response_algs">OPTIONAL a space separated list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
              algorithms required for id_token issued to this client_id. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
@@ -1770,7 +1778,7 @@ Content-Type: application/json
         MUST do the following:</t>
 
         <t><list style="numbers">
-            <t>If the Client has provided a userinfo_require_encrypted_response
+            <t>If the Client has provided a <spanx style="verb">userinfo_encrypted_response_algs</spanx>
             parameter durring Registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified durring Registration.</t>
             
@@ -1784,12 +1792,12 @@ Content-Type: application/json
              
             <t>The Client SHOULD verify the ID Token signature according to Section 5
             of <xref target="JWS">JWS</xref> using the algorithm specified in the "alg"
-            paramater of the JWT header.</t>
+            parameter of the JWT header.</t>
             
             <t>This SHOULD be the algorithm sent by the Client 
-            in the id_token_require_signed_response paramater during Registration.</t>
+            in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter during Registration.</t>
             
-            <t>If the "alg" paramater of the header is HS256 the client_secret for the 
+            <t>If the "alg" parameter of the header is HS256 the client_secret for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim is used to validate the signature.</t> 
             
@@ -1961,7 +1969,7 @@ Content-Type: application/json
 		the perseable token to extend the validity period; a Client may modify the 
 		perseable token to have access to information that they should not be able to view.
         </t>
-        <t>To mitigate this attack, there are two ways.</t>
+        <t>There are two ways to mitigate this attack:</t>
 
         <t><list style="numbers">
             <t>The token may be digitally signed by the OP. The Relying
@@ -2100,7 +2108,7 @@ Content-Type: application/json
       for the specified purpose SHOULD be obtained at or prior to the
       authorization time in accordance with relevant regulations. The purpose
       of use is typically registered in association with the <spanx
-      style="verb">redirect_uri</spanx>.</t>
+      style="verb">redirect_uris</spanx>.</t>
 
       <t>Only necessary UserInfo data should be stored at the Client and the
       Client SHOULD associate the received data with the purpose of use
@@ -2828,7 +2836,7 @@ Content-Type: application/json
 	<t>-06<list style="symbols">
           <t>Changed section 3.1.4.1 to say the errors are returned as
           defined by the response type not always as query
-          paramaters. per ticket #174.</t>
+          parameters. per ticket #174.</t>
           <t>Bumped version + date.</t>
           <t>Fixed section 3.3.3 to refer to errors in Bearer Token.</t>
           <t>Fixed 3.1.3 to ref the other response types ticket #173.</t>
