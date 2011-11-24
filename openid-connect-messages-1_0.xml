@@ -223,7 +223,7 @@
           style="verb">token</spanx>.</t>
 
           <t>Token Endpoint: The Client sends the Access Token Request to the
-          Token Endpoint to obtain a Access Token Response which includes an
+          Token Endpoint to obtain an Access Token Response which includes an
           <spanx style="verb">access_token</spanx>.</t>
 
           <t>UserInfo Endpoint: The <spanx style="verb">access_token</spanx>
@@ -299,7 +299,7 @@
                   <xref target="req.obj.id_token">id_token</xref> member of the 
                   <xref target="OpenIDReq">OpenID Request Object</xref> 
                   contains the Claim request 
-                  auth_time then this Claim is REQUIRED the Claim Value
+                  auth_time, then this Claim is REQUIRED. The Claim Value
                   is the number of seconds from 1970-01-01T0:0:0Z as
                   measured in UTC until the date/time that the End-User
                   authentication occurred. (The "auth_time" Claim semantically
@@ -334,7 +334,7 @@
               <t hangText="pairwise"> This provides a different user_id value to each Client, to prevent
               correlation of the users activities by Clients without the users permission.</t>
            </list></t>
-           <section anchor="idtype.pairwise.alg" title="Pairwise Identifyer Algorithem">
+           <section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
            <t>The Provider MUST calculate a unique user_id value for each sector_identifer.</t>
            <t>If the Client has not provided a value for
 	   <spanx style="verb">sector_identifier_url</spanx> in registration,
@@ -357,7 +357,7 @@
            <t>A number of algorithms may be used by Providers to calculate the pairwise identifier.
            This specification includes a simple example.</t>
            <t>The sector_identifer is concatenated with a local account ID and a salt 
-           value that is kept secret by the provider. the concatenated string is then 
+           value that is kept secret by the provider. The concatenated string is then 
            hashed by an appropriate algorithm.</t>
            <t>Calculate SHA256 ( sector_identifer | local_account_id | salt ) = user_id.</t>
         </section>
@@ -646,8 +646,8 @@
               defined by this specification are:</t>
 
               <t><list style="hanging">
-                  <t hangText="optional">This is an optional Claim parameter, 
-                  if present, its value MUST be <spanx style="verb">true</spanx>,
+                  <t hangText="optional">This is an optional Claim parameter. 
+                  If present, its value MUST be <spanx style="verb">true</spanx>,
                   which indicates that it is a optional Claim. If it is not
                   present, it is a required Claim.</t>
                 </list>
@@ -706,7 +706,7 @@
               These parameters MAY be defined by extension specifications.</t>
 
               <t>All members of the "id_token" object are OPTIONAL. Other
-              members MAY be present and if so, SHOULD understood by both
+              members MAY be present and if so, SHOULD be understood by both
               parties.</t>
             </section>
           </section>
@@ -813,7 +813,7 @@
         
         <section anchor="client_authentication" title="Client Authentication">
 
-          <t>Durring Client Registration, the Client may register an authentication method.
+          <t>During Client Registration, the Client may register an authentication method.
           If no method is registered, the default method of client_secret_basic MUST be used.</t>
           <t>The Supported options are:</t>
           
@@ -858,7 +858,7 @@
 	      style='verb'>client_assertion</spanx> parameter.</t>
           <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
           <t hangText="private_key_jwt">
-           Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registerd or the ES256 algorithm if a EC key was registered.
+           Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registered or the ES256 algorithm if a EC key was registered.
           The client Authenticates in accordance with section 2.2 of <xref
           target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
           The JWT must contain the Claims:</t>
@@ -1129,7 +1129,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 
             <c>string</c>
 
-            <c>String from zoneinfo <xref target="zoneinfo"></xref> timezone
+            <c>String from zoneinfo <xref target="zoneinfo"></xref> time zone
             database. For example, <spanx style="verb">Europe/Paris</spanx> or
             <spanx style="verb">America/Los_Angeles</spanx>.</c>
 
@@ -1166,7 +1166,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             <c>The End-User's preferred address. The value of the <spanx
             style="verb">address</spanx> member is a <xref
             target="RFC4627">JSON</xref> structure containing some or all of
-            the members definined in 2.3.2.1. </c>
+            the members defined in 2.3.2.1. </c>
 
             <c>updated_time</c>
 
@@ -1255,9 +1255,10 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             <t hangingText="locality">The city or locality component.</t>
             <t hangingText="region">The state, province, 
             prefecture or region component.</t>
-            <t hangingText="postalCode">The zipcode or 
+            <t hangingText="postalCode">The zip code or 
             postal code component.</t>
             <t hangingText="country">The country name component.</t>
+            </list>
           </t>
           </section>
         </section>
@@ -1637,7 +1638,7 @@ Content-Type: application/json
       <t>The server advertises its supported signing and encryption algorithms
       in its discovery document. The related elements are:</t>
       
-      <t>The Provider provides its public Keys durring Discovery in the following elements.</t>
+      <t>The Provider provides its public Keys during Discovery in the following elements.</t>
       <t><list style="hanging">
         <t hangText="jwk_url">
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
@@ -1652,7 +1653,7 @@ Content-Type: application/json
 
         <t hangText="x509_url">
           URL of the OP's X.509 certificates in PEM format. 
-          Used byt the server for Signing JWT, may be used by the Client to Encrypt the JWT
+          Used by the server for Signing JWT, may be used by the Client to Encrypt the JWT
           to the Server if x509_url_Encryption is not specified.</t>
           
         <t hangText="x509_url_Encryption"> 
@@ -1688,8 +1689,8 @@ Content-Type: application/json
       
       
       </list></t>      
-         <t>If keys are specified in both x509 and jwk they MUST be the same keys.</t>
-         <t>Key algorithms like EC signing and key agrement require separate keys for 
+         <t>If keys are specified in both x509 and jwk, they MUST be the same keys.</t>
+         <t>Key algorithms like EC signing and key agreement require separate keys for 
          signing and encryption for security. For RSA a single key may be used for both,
          but it is good practice to separate them.</t>
        </section>  
@@ -1700,14 +1701,14 @@ Content-Type: application/json
         target="sigenc.alg"></xref>, select an signature algorithm.</t>
         
         <t><list style="hanging">
-          <t hangText="Symetric Signatures">
+          <t hangText="Symmetric Signatures">
             When using HMAC Signatures, the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
              as defined in <xref target="JWS">JSON Web Signatures</xref>. 
             The <spanx style="verb">client_secret</spanx> MUST 
             be used as the signature key. 
           </t>
-          <t hangText="Asymetric Signatures">
+          <t hangText="Asymmetric Signatures">
             When using RSA or ECDSA Signatures, 
             the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
@@ -1734,18 +1735,18 @@ Content-Type: application/json
         algorithms support this.</t>
         
         <t><list style="hanging">
-          <t hangText="Symentric Encryption">
+          <t hangText="Symmetric Encryption">
             Use the client_secret to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.  
           </t>
           <t hangText="Asymmetric Encryption RSA">
-            Use thelink registered/discovered in <xref target="sigenc.alg"></xref>.
+            Use the link registered/discovered in <xref target="sigenc.alg"></xref>.
             to retrieve the relevant key.
             The encryption_url link MUST be used if provided.
-            If there were multiple keys in <spanx style="verb">jwk</spanx>, 
+            If there are multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
-            If there were multiple certificates in <spanx style="verb">
+            If there are multiple certificates in <spanx style="verb">
             x5u</spanx>, then <spanx style="verb">x5t</spanx> MUST be 
             specified in JWS header.  
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
@@ -1785,8 +1786,8 @@ Content-Type: application/json
 
         <t><list style="numbers">
             <t>If the Client has provided a <spanx style="verb">userinfo_encrypted_response_algs</spanx>
-            parameter durring Registration, decrypt the <xref target="JWE">id_token</xref>,
-            using the key pair specified durring Registration.</t>
+            parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
+            using the key pair specified during Registration.</t>
             
             <t>The Client SHOULD validate that the client_id in the 
             <spanx style="verb">aud</spanx> (audience) Claim is one
@@ -1822,7 +1823,7 @@ Content-Type: application/json
             Replay attack mitigation is out of scope for this specification.</t>
             
             <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
-            Client SHOULD check that the 
+            Client SHOULD check that
             the asserted Claim Value is appropriate.  The meaning and processing of 
             "iso29115" Claim Values is out of scope for this specification.</t>
             
@@ -1877,7 +1878,7 @@ Content-Type: application/json
             Replay attack mitigation is out of scope for this specification.</t>
             
             <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
-            Client SHOULD check that the 
+            Client SHOULD check that
             the asserted Claim Value is appropriate.  The meaning and processing of 
             "iso29115" Claim Values is out of scope for this specification.</t>
             
@@ -1948,32 +1949,32 @@ Content-Type: application/json
 	  <section anchor="request_disclosure" title="Request Disclosure">
 	  <t>If appropriate measures are not taken, a request may be disclosed to 
 	  an attacker posing security and privacy threat.</t>
-	  <t>In addition to what is staed in section 5.1.1 of the <xref target="OAuth2.0SC" />, 
+	  <t>In addition to what is stated in section 5.1.1 of the <xref target="OAuth2.0SC" />, 
 	  this standard provides a way to provide the confidentiality of the request 
       end to end through the 
 	  use of 'request' or 'request_uri' parameters, where the content of the 'request' 
-	  is an encrypted JWT with the appropriate key and cypher.  
+	  is an encrypted JWT with the appropriate key and cipher.  
       This works even against a compromised user-agent in the case of indirect request. </t>
 	  </section>
 	   
-	  <section anchor="server_masquarading" title="Server Masquarading">
-	  <t>A malicious Server may masquarade the identity of a legitimate server 
+	  <section anchor="server_masquerading" title="Server Masquerading">
+	  <t>A malicious Server may masquerade the identity of a legitimate server 
 	  using various means. To detect such an attack, the Client needs to authenticate 
 	  the server. </t>
-	  <t>In adition to what is stated in section 5.1.2 of the <xref target="OAuth2.0SC" />, 
+	  <t>In addition to what is stated in section 5.1.2 of the <xref target="OAuth2.0SC" />, 
 	  this standard provides a way to authenticate the Server through either the 
 	  use of Signed or Encrypted JWT (JWS and JWE) 
-	  with an appropriate key and cypher.</t> 
+	  with an appropriate key and cipher.</t> 
 	  </section>
 	  
       <section anchor="token_manufacture"
                title="Token Manufacture/Modification">
         <t>An Attacker may generate a bogus token or modify the token content 
 		(such as the authentication or 
-		attribute statements) of an existing parseable token, causing the RP to grant 
+		attribute statements) of an existing parsable token, causing the RP to grant 
 		inappropriate access to the Client. For example, an Attacker may modify 
-		the perseable token to extend the validity period; a Client may modify the 
-		perseable token to have access to information that they should not be able to view.
+		the parsable token to extend the validity period; a Client may modify the 
+		parsable token to have access to information that they should not be able to view.
         </t>
         <t>There are two ways to mitigate this attack:</t>
 
@@ -1989,7 +1990,7 @@ Content-Type: application/json
 			<xref target="RFC6125">RFC 6125</xref>. In this
             specification, the token is always sent over TLS/SSL protected
             channel. Note however, that this measure is only applicable 
-			to the third pary attacker and is not applicable to the case 
+			to the third party attacker and is not applicable to the case 
 			where the client is the attacker. </t>
           </list></t>
       </section>
@@ -2009,7 +2010,7 @@ Content-Type: application/json
 
             <t>Signed response is encrypted by the Client's public key or 
 			shared secret using encrypted JWT (JWE) 
-	        with an appropirate key and cypher.</t>
+	        with an appropriate key and cipher.</t>
           </list></t>
       </section>
 
@@ -2063,7 +2064,7 @@ Content-Type: application/json
 
       <section anchor="auth_code_capture"
                title=" Eavesdropping or leaking authorization codes (Secondary Authenticator Capture)">
-        <t>In addition to the attack paterns described in 4.4.1.1 of OAuth SC, 
+        <t>In addition to the attack patterns described in 4.4.1.1 of OAuth SC, 
 		it can be captured in the User-Agent where the TLS
         session is terminated if the User-Agent is infested
         by malware. </t>
@@ -2087,11 +2088,11 @@ Content-Type: application/json
 
       <section title="Timing Attack">
         <t>Timing attack is an attack which allows the attacker to 
-		obtain unecessary large amout of information through the elapse time 
+		obtain unnecessary large amount of information through the elapse time 
 		difference in the code path taken by a successful decryption and 
 		unsuccessful verification of signed message. 
 		It can be used to reduce the effective key length of the
-        cypher used. </t>
+        cipher used. </t>
 		<t>Implementations should not terminate the verification process 
 		at the instance of the finding error but should continue 
 		running until all the octets were processed to avoid this attack. </t>

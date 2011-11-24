@@ -346,8 +346,8 @@ Content-Type: application/json
 	(Support for service redirection is a required feature of
 	<xref target="SWD">Simple Web Discovery</xref>.)</t>
 
-        <t>To enable service level redirection a SWD server MAY return a 200
-        O.k. to an HTTPS request with a content type of application/json (or
+        <t>To enable service level redirection, a SWD server MAY return a 200
+        O.K. to an HTTPS request with a content type of application/json (or
         whatever other content type has been negotiated) that contains a JSON
         object that contains a member pair whose name is the string
         "SWD_service_redirect" whose value is a JSON object with a member pair
@@ -396,7 +396,7 @@ Content-Type: application/json
       configuration information may be obtained out-of-band.</t>
 
       <t>Using the <spanx style="verb">issuer</spanx> discovered in <xref
-      target="ProviderDisc"></xref> or through direct configuration the OpenID
+      target="ProviderDisc"></xref> or through direct configuration, the OpenID
       Provider's configuration can be retrieved.</t>
 
       <t>OpenID Providers MUST make available a JSON document at the path
@@ -410,14 +410,14 @@ Content-Type: application/json
       transport layer security mechanisms of equivalent security.</t>
 
       <section title="Provider Configuration Request">
-        <t>An OpenID Provider Configuration Document MUST be queried using a HTTPS
-        GET request with the previously specified path.
+        <t>An OpenID Provider Configuration Document MUST be queried using an HTTPS
+        GET request at the previously specified path.
 	The Client MUST perform a TLS/SSL server certificate check, per
 	<xref target="RFC6125">RFC 6125</xref>.
 	</t>
 
         <t>The Client would make the following request to the <spanx
-        style="verb">issuer</spanx>to get the Configuration information.</t>
+        style="verb">issuer</spanx> to get the Configuration information.</t>
 
         <t><figure>
             <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
@@ -428,7 +428,7 @@ Host: example.com
 
       <section title="Provider Configuration Response">
         <t>The response is a set of Claims about the OpenID Provider's
-        configuration, including all necessary endpoint, supported scope, and
+        configuration, including all necessary endpoints, supported scopes, and
         public key location information.</t>
 
         <t>The response MUST return a plain text JSON object that contains a
@@ -456,7 +456,7 @@ Host: example.com
 
           <c>string</c>
 
-          <c>The https: URL with no path component the OP asserts as its
+          <c>The https: URL with no path component that the OP asserts as its
           Issuer Identifier</c>
 
           <c>authorization_endpoint</c>
@@ -521,7 +521,7 @@ Host: example.com
           <c>string</c>
 
           <c>URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Servers Encryption Key, if not present its value 
+          document. Servers Encryption Key, if not present, its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx></c>
 
           <c>x509_url</c>
@@ -574,7 +574,7 @@ Host: example.com
           <c>array</c>
 
           <c>A JSON array containing a list of the user Identifier types that
-          this server supports, the valid types include "pairwise" and "public"</c>
+          this server supports. The valid types include "pairwise" and "public"</c>
           
           <c>userinfo_supported_algs</c>
 

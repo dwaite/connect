@@ -105,7 +105,7 @@
 	This specification also defines the following terms:
 	  <list style="hanging">
 	    <t hangText="Request File">A document whose contents
-	    is a JWT representating a set of Authorization Request
+	    is a JWT representing a set of Authorization Request
 	    parameters.</t>
 
 	    <t hangText="Request File URI">A URL that references a Request File.
@@ -726,8 +726,8 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
             <section anchor="rurl_create"
                      title="Client Generates the URL of the Request File">
-              <t>The Client then stores the Request File either locally or remotely
-               this is the Request URI, <spanx style="verb">"request_uri"</spanx>. 
+              <t>The Client then stores the Request File either locally or remotely.
+               This is the Request URI, <spanx style="verb">"request_uri"</spanx>. 
                The URI MAY be appended with the SHA256 [FIPS180-2] hash of the file 
                after "#" so that the Authorization Server can detect whether the file 
                has changed. "#" MUST be escaped.</t>
@@ -735,7 +735,7 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
               <t>It should be noted that if the Request File includes user's attribute 
               values, it MUST NOT be revealed to anybody but the Authorization Server. 
               As such, the <spanx style="verb">"request_uri"</spanx> MUST have an 
-              appropriate entropy for it's lifetime, 
+              appropriate entropy for its lifetime, 
               and must be removed after successful authentication or a reasonable timeout.
               </t>
               <t>The Client then records the Request File either locally or
@@ -788,23 +788,23 @@ Host: client.example.com]]></artwork>
 
 	<section title="Authorization Server Validates Request Object">
           <t>If a Request Object was sent in the <spanx 
-          style="verb">request</spanx> paramater or by reference in the
-          <spanx style="verb">request_uri</spanx> paramater, the 
+          style="verb">request</spanx> parameter or by reference in the
+          <spanx style="verb">request_uri</spanx> parameter, the 
           Request Object must be JWT decoded.</t>
 
-          <t>If the JWT header contains no "typ" element or its value is "JWT" skip to 
+          <t>If the JWT header contains no "typ" element or its value is "JWT", skip to 
           <xref target="signed.req.obj.var">Signed Request Object</xref></t>
           
          <section title="Encrypted Request Object">
-          <t>If the JWT is encrypted "typ" element of the header will contain the value "JWS"
+          <t>If the JWT is encrypted, the "typ" element of the header will contain the value "JWS"
           indicating that its payload is a JWS, requiring additional processing.</t>
           
           <t>The Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">id_token_supported_algs</spanx> element of its 
-          Discovery Document, these are used by the Client to encrypt the JWT.</t>
+          Discovery Document. These are used by the Client to encrypt the JWT.</t>
           
           <t>Based on the <spanx style="verb">alg</spanx>, <spanx style="verb">enc</spanx>,
-          and other paramaters in the JWE header, decrypt the JWT, in accordance with
+          and other parameters in the JWE header, decrypt the JWT, in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification.</t>
           
           <t>The Authorization Server MUST return the error authorization 
@@ -813,12 +813,12 @@ Host: client.example.com]]></artwork>
             </section>
             
             <section anchor="signed.req.obj.var" title="Signed Request Object">
-            <t>The decrypted body of the JWT will contain a Signed JWT, perform
-            signature verification with this as the JWT input.</t> 
+            <t>The decrypted body of the JWT will contain a Signed JWT. Perform
+            signature verification with it as the JWT input.</t> 
 
-          <t>To perform Signature Verification 
-          the <spanx style="verb">alg</spanx> paramater in the JWT header MUST match the value
-          of the <spanx style="verb">require_signed_request_object</spanx> set durring
+          <t>To perform Signature Verification, 
+          the <spanx style="verb">alg</spanx> parameter in the JWT header MUST match the value
+          of the <spanx style="verb">require_signed_request_object</spanx> set during
           <xref target="OpenID.Registration">Client Registration</xref>.</t>
           
           <t>The signature must be validated against the key registered for that client_id
@@ -961,7 +961,7 @@ Host: client.example.com]]></artwork>
             </t>
 
             <figure>
-              <preamble>The following are non-normative examples of requests with differing return_type values and there responses. Line wraps
+              <preamble>The following are non-normative examples of requests with differing return_type values and their responses. Line wraps
               are for display purpose only:</preamble>
              
               <artwork><![CDATA[
@@ -1364,7 +1364,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
         <t>The Access Token obtained
             from an OpenID Connect Authorization Request MUST be sent as a <xref
             target="OAuth2.0Bearer">Bearer Token</xref></t>
-            <t>Section 2 of the<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Token</xref>
+            <t>Section 2 of the <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Token</xref>
             specification documents the permissible methods of sending the Access Token.</t> 
             <t>It is RECOMMENDED that the Client use the authorization header method for all 
             requests using GET.</t>
@@ -2370,7 +2370,7 @@ scope=openid&response_type=code
         <t>fixes #274 Examples in 4.3.4.1 change token to access_token, add request to response</t>
         <t>fixes #149 added sec 4.3.2 to validate request object encryption and signature</t>
         <t>fixes #350 Sec 2.3.1.3 Clarify request_uri needs to be https unless the JWT is signed.</t>
-        <t>re #379 Sec 2.3.1.3 Clarify request_uri dosen't need to be globally reachable</t>
+        <t>re #379 Sec 2.3.1.3 Clarify request_uri doesn't need to be globally reachable</t>
         <t>Fixes #379 Sec 2.3.1.3.1 add hash and entropy considerations</t>
         <t>Fixes #378 Sec 2.3.1.2 allow nonce and state not to be in request object</t>
         <t>re #294 Standard Sec 5 change Authorization Request to Check ID Endpoint Request</t>
