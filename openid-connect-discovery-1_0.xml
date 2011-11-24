@@ -132,8 +132,8 @@
           location is requested</t>
         </list></t>
 
-      <t>OpenID Connect uses the following discoverable service in Simple Web
-      Discovery (SWD):</t>
+      <t>OpenID Connect uses the following discoverable service in
+      <xref target="SWD">Simple Web Discovery</xref>:</t>
 
       <texttable align="center" style="all">
         <ttcol width="">Service Type</ttcol>
@@ -146,9 +146,10 @@
       </texttable>
 
       <t>To start discovery of OpenID endpoints, the End-User supplies an
-      Identifier to the Client or Relying Party. The Client performs
+      Identifier to the Client or Relying Party. The Client applies the
       normalization rules to the Identifier to extract the principal and host.
-      Then it makes a HTTPS request to the host's Simple Web Discovery
+      Then it makes a HTTPS request to the host's
+      <xref target="SWD">Simple Web Discovery</xref>
       endpoint with the <spanx style="verb">principal</spanx> and <spanx
       style="verb">service</spanx> parameters to obtain the location of the
       requested service.
@@ -339,9 +340,11 @@ Content-Type: application/json
       </section>
 
       <section anchor="redirection" title="Redirection">
-        <t>In cases where the SWD request is handled at a host or location
+        <t>In cases where the SWD request is to be handled at a host or location
         other than the one derived from the End-User's Identifier, the host
-        will return a JSON object containing the new location.</t>
+        will return a JSON object containing the new location.
+	(Support for service redirection is a required feature of
+	<xref target="SWD">Simple Web Discovery</xref>.)</t>
 
         <t>To enable service level redirection a SWD server MAY return a 200
         O.k. to an HTTPS request with a content type of application/json (or
@@ -407,7 +410,7 @@ Content-Type: application/json
       transport layer security mechanisms of equivalent security.</t>
 
       <section title="Provider Configuration Request">
-        <t>An OpenID Provider Configuration Document is queried using a HTTPS
+        <t>An OpenID Provider Configuration Document MUST be queried using a HTTPS
         GET request with the previously specified path.
 	The Client MUST perform a TLS/SSL server certificate check, per
 	<xref target="RFC6125">RFC 6125</xref>.
