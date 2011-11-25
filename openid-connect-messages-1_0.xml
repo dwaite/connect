@@ -830,8 +830,11 @@
           target="OAuth2.0">OAuth 2.0</xref> by including the client credentials in the request body. </t>
           
           <t hangText="client_secret_jwt"> 
-          Clients in possession of a client password sign a JWT using the
-	  <spanx style='verb'>HS256</spanx> algorithm.
+          Clients in possession of a client password create a JWT using the
+	      <spanx style='verb'>HS256</spanx> algorithm. 
+	      The HMAC (Hash-based Message Authentication Code) is calculated using the
+	      <spanx style='verb'>client_secret</spanx> as the shared key.
+	   
           The client Authenticates in accordance with section 2.2 of <xref
           target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
           The JWT must contain the Claims:</t>
@@ -2822,6 +2825,7 @@ Content-Type: application/json
           <t>Fix #334 Messages - Add example and reference.</t>
           <t>Fix #334 Messages - fix example, change nonce to token id.</t>
           <t>Fix #294 Messages - 2.4.2  Format of check_id response is JSON</t>
+          <t>re  #342 Messages - Signing/Key cleanup.</t>
 		  </list>
       </t>
 
