@@ -130,7 +130,7 @@
         <t hangText="Pairwise Pseudonymous Identifier (PPID)">
         An identifier that identifies the Entity to a Relying Party. 
         An Entity's PPID at one Relying Party cannot be correlated 
-        with the Entity's PPID at another Relying Party. </t>d
+        with the Entity's PPID at another Relying Party. </t>
 
 	    <t hangText="ID Token">A token that contains Claims about the
 	    authentication event.</t>
@@ -312,8 +312,8 @@
           target="JWS">JWS</xref> and OPTIONALLY both signed and
           encrypted using <xref target="JWS">JWS</xref> and <xref
           target="JWE">JWE</xref> respectively, thereby providing
-          authentication, integrity, non-repudiation and/or
-          confidentiality.</t>
+          <xref target="signing_order">authentication, integrity, non-repudiation and/or
+          confidentiality.</xref></t>
 
           <t>Clients SHOULD verify and decrypt signed or encrypted ID Tokens.
 	  Clients that do not understand the ID Token format or that
@@ -1583,11 +1583,13 @@ Content-Type: application/json
       content.</t>
     
     <t>When the message is both signed and 
-      encrypted, it MUST be signed first then encrypted. 
+      encrypted, it MUST be <xref target="signing_order">signed first then encrypted.
+      </xref> 
       The value of the typ parameter in the enclosing JWT header MUST be "JWS"</t>
-<section anchor="sigenc.alg" title="Supported Algorithms">
-<t>The server advertises its supported signing and encryption algorithms
-      in its discovery document. The related elements are:</t>
+
+       <section anchor="sigenc.alg" title="Supported Algorithms">
+       <t>The server advertises its supported signing and encryption algorithms
+       in its discovery document. The related elements are:</t>
       
       <t><list style="hanging">
 	  <t hangText="userinfo_supported_algs">
@@ -1634,7 +1636,8 @@ Content-Type: application/json
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
              algorithms required for userinfo responses. If this is requested in 
              combination with signing the response 
-             MUST be signed then encrypted. If this is specified the response will be 
+             MUST <xref target="signing_order">signed first then encrypted.</xref> 
+             If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="id_token_signed_response_algs">OPTIONAL the 
@@ -2131,7 +2134,21 @@ Content-Type: application/json
 	    <t>There are various crypto related attacks possible depending on the 
 		method used for encryption and signature / integrity checking. </t>
 		<t>Implementation should consult the security consideration 
-		around the JWS and JWT to avoid the vulnerability around 
+		around the <xref target="JWS">JWS</xref>, <xref target="JWE">JWE</xref> 
+		and <xref target="JWT">JWT</xref> to avoid the vulnerability around 
+		these specifications. 
+		</t>
+	  </section>
+		
+	  <section anchor="signing_order" title="Signing and Encryption order">
+	    <t>Signatures over encrypted text are not considered valid im many jurisdictions.
+	    For the integrity of non-repudiation this specification requires signing 
+	    of the plain text JSON.</t>
+	    <t>It is however strongly RECOMMENDED that the selected 
+	    Encryption algorithm include integrity to protect against padding oracle 
+	    and other decryption attacks.</t>
+		<t>Implementation should consult the security consideration 
+		around the <xref target="JWE">JWE</xref> to avoid the vulnerability around 
 		these specifications. 
 		</t>
       </section>
@@ -2853,6 +2870,7 @@ Content-Type: application/json
           <t>re  #342 Messages - Signing/Key cleanup.</t>
           <t>Fix #342 Messages - Signing/Key cleanup.</t>
           <t>re  #380 Messages - 5.3 Add text about how to validate symmetric sig.</t>
+          <t>Fix #344 Messages - Rational for signing then encrypting added to security</t>
 		  </list>
       </t>
 
