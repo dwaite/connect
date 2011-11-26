@@ -808,8 +808,8 @@
       <section anchor="token_ep" title="Token Endpoint">	
         <t>The Client sends an Access Token Request to the Token 
         Endpoint to obtain Access Token Response,  
-        which may include Access Token, Refresh Token, <xref
-        target="id_token">ID Token</xref>, and other variables.</t>
+        which may include Access Token, <xref target="token_lifetime">Refresh Token</xref>
+        , <xref target="id_token">ID Token</xref>, and other variables.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
@@ -2152,6 +2152,8 @@ Content-Type: application/json
 		these specifications. 
 		</t>
       </section>
+      
+      
 
     </section>
 
@@ -2173,6 +2175,22 @@ Content-Type: application/json
       <t>To protect the End-User from a possible correlation among Clients, the
       use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
       style="verb">user_id</spanx> SHOULD be considered.</t>
+      
+      <section anchor="token_lifetime" title="Refresh Token, and Access Token Lifetime">
+	    <t>Access Token grants are not revokable by the Authorization Server. 
+	    Access Token grant lifetimes SHOULD be kept to single use or 
+	    very short lifetimes.</t>
+	    <t>If access to the User Info Endpoint or other protected resources is required,
+	    a Refresh Token should be used. The Client may then exchange the Refresh Token at
+	    the token_endpoint for a fresh short lived access_token, that can be used to 
+	    access the resource.</t>
+	    <t>The Authorization Server SHOULD clearly identify long term grants to the User
+	    durring Authorization.</t>
+	    <t>The Authorization Server MUST provide a mechinisim for the user to revoke
+	    Refresh Tokens granted to a client.</t>
+	    
+	    
+      </section>
     </section>
 
     <section anchor="iana" title="IANA Considerations">
@@ -2871,6 +2889,7 @@ Content-Type: application/json
           <t>Fix #342 Messages - Signing/Key cleanup.</t>
           <t>re  #380 Messages - 5.3 Add text about how to validate symmetric sig.</t>
           <t>Fix #344 Messages - Rational for signing then encrypting added to security</t>
+          <t>Fix #343 Messages - Added Privacy consideration on Refresh token use and ref</t>
 		  </list>
       </t>
 
