@@ -1591,20 +1591,25 @@ Content-Type: application/json
       
       <t><list style="hanging">
 	  <t hangText="userinfo_supported_algs">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
+	    <xref target="JWE">JWE</xref> signing and encryption algorithms
             supported by the UserInfo Endpoint.</t>
            
           <t hangText="id_token_supported_algs">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
+	    <xref target="JWE">JWE</xref> signing and encryption algorithms
 	    supported by the Authorization Server for the ID Token.</t>
            
           <t hangText="request_object_supported_algs">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref> signing and encryption algorithms
-	    supported by the Authorization Server for the OpenID Request Object described in  <xref
-      target="OpenIDReq">Sec 4.1.2.1</xref>. Servers SHOULD support <spanx style="verb">HS256</spanx>.</t>
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
+	    <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    supported by the Authorization Server for the OpenID Request Object described in 
+	    <xref target="OpenIDReq">Sec 4.1.2.1</xref>. Servers SHOULD support 
+	    <spanx style="verb">HS256</spanx>.</t>
       
 	  <t hangText="token_endpoint_supported_auth_algs">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> signing algorithms
+	    A JSON array containing a list of the <xref target="JWS">JWS</xref> 
+	    signing algorithms
 	    supported by the Token Endpoint for the private_key_jwt method.
             Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
 
@@ -1613,11 +1618,13 @@ Content-Type: application/json
       <t>The Client registers its required algorithms for Signing and Encryption 
       using the following Registration parameters:</t>
       <t><list style="hanging">
-             <t hangText="require_signed_request_object">OPTIONAL the <xref target="JWS">JWS</xref> signature 
-             algorithm that MUST be required by the Authorization Server. All OpenID Request Objects from
+             <t hangText="require_signed_request_object">OPTIONAL the 
+             <xref target="JWS">JWS</xref> signature algorithm that MUST be required 
+             by the Authorization Server. All OpenID Request Objects from
              this client_id MUST be rejected if not signed by this algorithm.</t>
               
-             <t hangText="userinfo_signed_response_algs">OPTIONAL the <xref target="JWS">JWS</xref> encryption 
+             <t hangText="userinfo_signed_response_algs">OPTIONAL the 
+             <xref target="JWS">JWS</xref> signature 
              algorithm required for userinfo responses. 
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
@@ -1672,7 +1679,8 @@ Content-Type: application/json
           is the same as the URL provided by <spanx style="verb">x509_url</spanx></t>
 
       </list></t>
-      <t>The Client provides its public Keys during Registration, in the following elements:</t>
+      <t>The Client provides its public Keys during Registration, in the following 
+      elements:</t>
       <t><list style="hanging">      
             <t hangText="jwk_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
@@ -1693,8 +1701,9 @@ Content-Type: application/json
             provided it is used for <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client.</t>
             
-			<t hangText="x509_encryption_url">OPTIONAL URL for the Client's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
+			<t hangText="x509_encryption_url">OPTIONAL URL for the Client's PEM encoded 
+			X.509 Certificate or Certificate chain, used for 
+			<xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client. </t>
       
       
@@ -1813,11 +1822,13 @@ Content-Type: application/json
             parameter of the JWT header.</t>
             
             <t>This SHOULD be the algorithm sent by the Client 
-            in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter during Registration.</t>
+            in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter 
+            during Registration.</t>
             
             <t>If the "alg" parameter of the header is HS256 the client_secret for the 
             <spanx style="verb">client_id</spanx> contained in the 
-            <spanx style="verb">aud</spanx> (audience) Claim is used to validate the signature.</t> 
+            <spanx style="verb">aud</spanx> (audience) Claim is used to validate the 
+            signature.</t> 
             
             <t>For other Signing algorithms the Client must use the signing key provided
              in Discovery
@@ -1849,11 +1860,13 @@ Content-Type: application/json
       </section>
 
       <section title="Check ID Request Verification">
-        <t>The Authorization Server MUST check that the  <spanx style="verb">id_token</spanx> parameter is
+        <t>The Authorization Server MUST check that the 
+        <spanx style="verb">id_token</spanx> parameter is
         present and that if it is signed, it MUST be verify
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
-        <t>The Authorization Server MUST check that the  <spanx style="verb">id_token</spanx> parameter contains
+        <t>The Authorization Server MUST check that the 
+        <spanx style="verb">id_token</spanx> parameter contains
         all REQUIRED Claims.</t>
       </section>
 
@@ -2561,7 +2574,8 @@ Content-Type: application/json
 	    <date day="14" month="November" year="2011"/>
 
 	    <abstract>
-	      <t>This specification defines the use of a JSON Web Token (JWT) Bearer Token as means for requesting an OAuth 2.0 access
+	      <t>This specification defines the use of a JSON Web Token (JWT) Bearer Token 
+	      as means for requesting an OAuth 2.0 access
 	        token as well as for use as a means of client authentication.
 	      </t>
 	    </abstract>
@@ -2832,6 +2846,7 @@ Content-Type: application/json
           <t>Fix #334 Messages - fix example, change nonce to token id.</t>
           <t>Fix #294 Messages - 2.4.2  Format of check_id response is JSON</t>
           <t>re  #342 Messages - Signing/Key cleanup.</t>
+          <t>Fix #342 Messages - Signing/Key cleanup.</t>
 		  </list>
       </t>
 
