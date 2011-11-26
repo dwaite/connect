@@ -1865,6 +1865,11 @@ Content-Type: application/json
         present and that if it is signed, it MUST be verify
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
+        <t>If the JWS algorithm is symmetric, such as the default HS256 for 
+        <spanx style="verb">id_token</spanx>, the client_secret for the 
+            <spanx style="verb">client_id</spanx> contained in the 
+            <spanx style="verb">aud</spanx> (audience) Claim MUST be used to validate the 
+            signature.</t> 
         <t>The Authorization Server MUST check that the 
         <spanx style="verb">id_token</spanx> parameter contains
         all REQUIRED Claims.</t>
@@ -2847,6 +2852,7 @@ Content-Type: application/json
           <t>Fix #294 Messages - 2.4.2  Format of check_id response is JSON</t>
           <t>re  #342 Messages - Signing/Key cleanup.</t>
           <t>Fix #342 Messages - Signing/Key cleanup.</t>
+          <t>re  #380 Messages - 5.3 Add text about how to validate symmetric sig.</t>
 		  </list>
       </t>
 
