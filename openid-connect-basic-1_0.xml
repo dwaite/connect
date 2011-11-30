@@ -713,10 +713,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
       </section>
 
       <section anchor="id_res" title="Client Receives UserInfo Response">
-        <t>If the requested schema is <spanx style="verb">openid</spanx>, the
-        response MUST return a plain text <xref target="RFC4627">JSON</xref>
-        structure that contains a set of members that are a subset of those
-        defined below. Additional members (not specified below) MAY also be
+        <t>If the requested schema is "openid", the response MUST return a
+        JSON object that contains the full set or subset of Claims that are
+        defined below. Additional Claims (not specified below) MAY also be
         returned.</t>
 
         <t>The members may be represented in multiple languages and scripts.
@@ -739,7 +738,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
 
           <c>string</c>
 
-          <c>Identifier for the End-User at the Issuer.</c>
+          <c>REQUIRED Identifier for the End-User at the Issuer.</c>
 
           <c>name</c>
 
@@ -899,6 +898,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
         </figure>
+
+          <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
+          different format was specified during <xref target="OpenID.Registration">
+          OpenID Connect Dynamic Client Registration 1.0</xref>.
+	      The UserInfo Endpoint MUST return a content-type header to indicate
+          which format is being returned. The following are accepted content
+          types:</t>
+
+          <texttable style="all">
+            <ttcol>Content-Type</ttcol>
+
+            <ttcol>Format Returned</ttcol>
+
+            <c>application/json</c>
+
+            <c>plain text JSON object</c>
+
+            <c>application/jwt</c>
+
+            <c>A JWT</c>
+          </texttable>
 
         <section title="Error Response">
           <t>When an error condition occurs, the UserInfo Endpoint returns
@@ -1491,6 +1511,8 @@ Host: server.example.com]]></artwork>
           <t>Added reference for RFC5246 per ticket #235</t>
           <t>fixes #98 added xref to standard for code flow</t>
           <t>re #310 remove language about subject</t>
+          <t>re #310 user info example to include user_id</t>
+          <t>fix language about user info response format, add media type.</t>
         </list></t>
 
        <t>-14<list style="symbols">
