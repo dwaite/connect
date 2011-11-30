@@ -809,8 +809,8 @@
       <section anchor="token_ep" title="Token Endpoint">	
         <t>The Client sends an Access Token Request to the Token 
         Endpoint to obtain Access Token Response,  
-        which may include Access Token, <xref target="token_lifetime">Refresh Token</xref>
-        , <xref target="id_token">ID Token</xref>, and other variables.</t>
+        which may include Access Token, <xref target="token_lifetime">Refresh Token</xref>,
+	<xref target="id_token">ID Token</xref>, and other variables.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
@@ -838,53 +838,69 @@
 	   
           The client Authenticates in accordance with section 2.2 of <xref
           target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
-          The JWT must contain the Claims:</t>
+          The JWT MUST contain the Claims:</t>
          
           <t><list style="hanging">
-          <t hangText="iss">REQUIRED. The iss (issuer) claim, this must contain the client_id of the OAuth client.</t>
+          <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) claim.
+	  This MUST contain the client_id of the OAuth client.</t>
 
-          <t hangText="prn">REQUIRED. The prn (principal) claim, this must contain the client_id of the OAuth client.</t>
+          <t hangText="prn">REQUIRED. The <spanx style="verb">prn</spanx> (principal) claim.
+	  This MUST contain the client_id of the OAuth client.</t>
 
-           <t hangText="aud">REQUIRED. The aud (audience) claim, an Audience that identifies the
+           <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) claim.
+	   A value that identifies the
       Authorization Server as the intended audience.  The Authorization
       Server MUST verify that it is an intended audience for the
-      assertion.  The Audience SHOULD be the URL of the Authorization
+      token.  The Audience SHOULD be the URL of the Authorization
       Server's Token Endpoint.</t>
 
-           <t hangText="tid">REQUIRED. The tid (token id) claim, A nonce or unique identifier for the assertion.  The
-      Assertion ID may be used by implementations requiring message de-
-      duplication for one-time use assertions. </t>
-           <t hangText="exp">REQUIRED.  The exp (expiration) claim that limits the time window during which the JWT can be used.</t>
-            <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
+           <t hangText="jti">REQUIRED. The  <spanx style="verb">jti</spanx> (JWT ID) claim.
+	   A unique identifier for the token.  The
+      JWT ID may be used by implementations requiring message
+      de-duplication for one-time use assertions. </t>
+           <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
+	   claim that limits the time window during which the JWT can be used.</t>
+            <t hangText="iat">OPTIONAL.  The <spanx style="verb">iat</spanx> (issued at)
+	    claim that identifies the time at which the JWT was issued. </t>
             </list></t>
              
           <t>The authentication token MUST be sent as the value of the <spanx
 	      style='verb'>client_assertion</spanx> parameter.</t>
+
           <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
+
           <t hangText="private_key_jwt">
-           Clients who have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registered or the ES256 algorithm if a EC key was registered.
+           Clients that have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registered or the ES256 algorithm if a EC key was registered.
           The client Authenticates in accordance with section 2.2 of <xref
           target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
-          The JWT must contain the Claims:</t>
+          The JWT MUST contain the Claims:</t>
           <t><list style="hanging">
-                    <t hangText="iss">REQUIRED. The iss (issuer) claim, this must contain the client_id of the OAuth client.</t>
+                    <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) claim.
+		    This MUST contain the client_id of the OAuth client.</t>
 
-          <t hangText="prn">REQUIRED. The prn (principal) claim, this must contain the client_id of the OAuth client.</t>
+          <t hangText="prn">REQUIRED. The <spanx style="verb">prn</spanx> (principal) claim.
+	  This MUST contain the client_id of the OAuth client.</t>
 
-          <t hangText="aud">REQUIRED. The aud (audience) claim, an Audience that identifies the
+          <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) claim.
+	  A value that identifies the
       Authorization Server as the intended audience.  The Authorization
       Server MUST verify that it is an intended audience for the
       assertion.  The Audience SHOULD be the URL of the Authorization
       Server's Token Endpoint.</t>
 
-           <t hangText="tid">REQUIRED. The tid (token id) claim, A nonce or unique identifier for the assertion.  The
-      Assertion ID may be used by implementations requiring message de-
-      duplication for one-time use assertions. </t>
-           <t hangText="exp">REQUIRED.  The exp (expiration) claim that limits the time window during which the JWT can be used.</t>
-            <t hangText="iat">OPTIONAL.  The iat (issued at) claim that identifies the time at which the JWT was issued. </t>
+           <t hangText="jti">REQUIRED. The <spanx style="verb">jti</spanx> (JWT ID) claim.
+	   A unique identifier for the token.  The
+      token ID may be used by implementations requiring message
+      de-duplication for one-time use assertions. </t>
+           <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
+	   claim that limits the time window during which the JWT can be used.</t>
+            <t hangText="iat">OPTIONAL.  The <spanx style="verb">iat</spanx> (issued at)
+	    claim that identifies the time at which the JWT was issued. </t>
             </list></t>
+
 	  <t>The authentication token MUST be sent as the value of the <spanx
 	      style='verb'>client_assertion</spanx> parameter.</t>
+
           <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
 
         <figure>
@@ -1005,7 +1021,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
-            authorization header must be <xref
+            authorization header MUST be <xref
             target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
 
             <t hangText="schema">REQUIRED. The schema in which the
