@@ -649,10 +649,10 @@ Content-Type: application/json
           </section>
         </section>
 
-        <section title="Error Codes">
+        <section title="Check ID Errors">
           <t>In addition to the error codes defined in Section 5.2 of <xref
           target="OAuth2.0">OAuth 2.0</xref>, this specification defines the
-          following error codes.</t>
+          following error codes:</t>
 
           <t><list style="hanging">
               <t hangText="invalid_id_token">The ID Token is not valid for the
@@ -661,242 +661,241 @@ Content-Type: application/json
             </list></t>
         </section>
       </section>
-    </section>
 
-    <section anchor="userinfo" title="UserInfo Endpoint">
-      <t>To obtain the additional attributes and tokens, the Client makes a
-      GET or POST request to the UserInfo Endpoint.</t>
-      
-      <t>UserInfo Endpoint Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2 as
-      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
-      other transport-layer mechanisms with equivalent security.</t>
+      <section anchor="userinfo" title="UserInfo Endpoint">
+	<t>To obtain the additional attributes and tokens, the Client makes a
+	GET or POST request to the UserInfo Endpoint.</t>
+
+	<t>UserInfo Endpoint Servers MUST require the use of a transport-layer
+	security mechanism. The Authorization Server MUST support TLS 1.2 as
+	described in <xref target="RFC5246">RFC 5246</xref> and MAY support
+	other transport-layer mechanisms with equivalent security.</t>
 
 
-      <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
-      Subject of the session. Therefore, it MUST NOT be assumed to be about the
-      Subject of the session unless the user_id matches the user_id in
-      the ID Token.</t>
+	<t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
+	Subject of the session. Therefore, it MUST NOT be assumed to be about the
+	Subject of the session unless the user_id matches the user_id in
+	the ID Token.</t>
 
-      <section title="UserInfo Request">
-        <t>Clients MAY send requests with the following parameters to the
-        UserInfo Endpoint to obtain further information about the End-User. The
-        UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
-        Protected Resource that complies with the <xref
-        target="OAuth2.0Bearer">Bearer Token</xref> specification. As such,
-        the Access Token SHOULD be specified via the HTTP Authorization
-        header.</t>
+	<section title="UserInfo Request">
+	  <t>Clients MAY send requests with the following parameters to the
+	  UserInfo Endpoint to obtain further information about the End-User. The
+	  UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
+	  Protected Resource that complies with the <xref
+	  target="OAuth2.0Bearer">Bearer Token</xref> specification. As such,
+	  the Access Token SHOULD be specified via the HTTP Authorization
+	  header.</t>
 
-        <t><list style="hanging">
-            <t hangText="access_token">REQUIRED. The Access Token obtained
-            from an OpenID Connect Authorization Request. This parameter MUST
-            only be sent using one method through either the HTTP Authorization
-            header or a form-encoded HTTP POST body parameter.</t>
+	  <t><list style="hanging">
+	      <t hangText="access_token">REQUIRED. The Access Token obtained
+	      from an OpenID Connect Authorization Request. This parameter MUST
+	      only be sent using one method through either the HTTP Authorization
+	      header or a form-encoded HTTP POST body parameter.</t>
 
-            <t hangText="schema">REQUIRED. The schema in which the
-            data is to be returned. The only defined value is <spanx
-            style="verb">openid</spanx>.</t>
+	      <t hangText="schema">REQUIRED. The schema in which the
+	      data is to be returned. The only defined value is <spanx
+	      style="verb">openid</spanx>.</t>
 
-            <t hangText="id">This identifier is reserved. It MUST be
-            ignored by the endpoint when the <spanx
-            style="verb">openid</spanx> schema is used.</t>
-          </list></t>
+	      <t hangText="id">This identifier is reserved. It MUST be
+	      ignored by the endpoint when the <spanx
+	      style="verb">openid</spanx> schema is used.</t>
+	    </list></t>
 
-        <figure>
-          <preamble>The following is a non-normative example. Line wraps are
-          for display purpose only:</preamble>
+	  <figure>
+	    <preamble>The following is a non-normative example. Line wraps are
+	    for display purpose only:</preamble>
 
-          <artwork><![CDATA[GET /userinfo HTTP/1.1
+	    <artwork><![CDATA[GET /userinfo HTTP/1.1
 Host: server.example.com
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
 ]]></artwork>
-        </figure>
-      </section>
+	  </figure>
+	</section>
 
-      <section anchor="id_res" title="UserInfo Response">
-        <t>If the requested schema is <spanx
-        style="verb">openid</spanx>, the response MUST return a plain
-        text <xref target="RFC4627">JSON</xref> object that contains
-        the full set or a subset of the Claims that are defined
-        below. Additional Claims (not specified below) MAY also be
-        returned.</t>
+	<section anchor="id_res" title="UserInfo Response">
+	  <t>If the requested schema is <spanx
+	  style="verb">openid</spanx>, the response MUST return a plain
+	  text <xref target="RFC4627">JSON</xref> object that contains
+	  the full set or a subset of the Claims that are defined
+	  below. Additional Claims (not specified below) MAY also be
+	  returned.</t>
 
-	<t>
-	  If a Claim is not returned, that Claim Name SHOULD be
-	  omitted from the JSON object representing the Claims; it
-	  SHOULD NOT be present with a null or empty string value.
-	</t>
+	  <t>
+	    If a Claim is not returned, that Claim Name SHOULD be
+	    omitted from the JSON object representing the Claims; it
+	    SHOULD NOT be present with a null or empty string value.
+	  </t>
 
-        <t>The members may be represented in multiple languages and scripts.
-        To specify the languages and scripts, <xref
-        target="RFC5646">BCP47</xref> language tags MUST be added to each
-        member names delimited by a <spanx style="verb">#</spanx>, e.g.,
-        <spanx style="verb">familyName#ja-Kana-JP</spanx> for expressing
-        Family Name in Katakana in Japanese, which is commonly used to index
-        and represent the phonetics of the Kanji representation of the same
-        represented as <spanx style="verb">familyName#ja-Hani-JP</spanx>.</t>
+	  <t>The members may be represented in multiple languages and scripts.
+	  To specify the languages and scripts, <xref
+	  target="RFC5646">BCP47</xref> language tags MUST be added to each
+	  member names delimited by a <spanx style="verb">#</spanx>, e.g.,
+	  <spanx style="verb">familyName#ja-Kana-JP</spanx> for expressing
+	  Family Name in Katakana in Japanese, which is commonly used to index
+	  and represent the phonetics of the Kanji representation of the same
+	  represented as <spanx style="verb">familyName#ja-Hani-JP</spanx>.</t>
 
-        <texttable anchor="ClaimTable" title="Reserved Member Definitions">
-          <ttcol align="left">Member</ttcol>
+	  <texttable anchor="ClaimTable" title="Reserved Member Definitions">
+	    <ttcol align="left">Member</ttcol>
 
-          <ttcol align="left">Type</ttcol>
+	    <ttcol align="left">Type</ttcol>
 
-          <ttcol align="left">Description</ttcol>
+	    <ttcol align="left">Description</ttcol>
 
-          <c>user_id</c>
+	    <c>user_id</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>Identifier for the End-User at the Issuer.</c>
+	    <c>Identifier for the End-User at the Issuer.</c>
 
-          <c>name</c>
+	    <c>name</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>End-User's full name in displayable form including all name parts,
-          ordered according to End-User's locale and preferences.</c>
+	    <c>End-User's full name in displayable form including all name parts,
+	    ordered according to End-User's locale and preferences.</c>
 
-          <c>given_name</c>
+	    <c>given_name</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>Given name or first name of the End-User.</c>
+	    <c>Given name or first name of the End-User.</c>
 
-          <c>family_name</c>
+	    <c>family_name</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>Surname or last name of the End-User.</c>
+	    <c>Surname or last name of the End-User.</c>
 
-          <c>middle_name</c>
+	    <c>middle_name</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>Middle name of the End-User.</c>
+	    <c>Middle name of the End-User.</c>
 
-          <c>nickname</c>
+	    <c>nickname</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>Casual name of the End-User that may or may not be the same as the
-          <spanx style="verb">given_name</spanx>. For instance, a <spanx
-          style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
-          might be returned alongside a <spanx style="verb">given_name</spanx>
-          value of <spanx style="verb">Michael</spanx>.</c>
+	    <c>Casual name of the End-User that may or may not be the same as the
+	    <spanx style="verb">given_name</spanx>. For instance, a <spanx
+	    style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
+	    might be returned alongside a <spanx style="verb">given_name</spanx>
+	    value of <spanx style="verb">Michael</spanx>.</c>
 
-          <c>profile</c>
+	    <c>profile</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>URL of End-User's profile page.</c>
+	    <c>URL of End-User's profile page.</c>
 
-          <c>picture</c>
+	    <c>picture</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>URL of the End-User's profile picture.</c>
+	    <c>URL of the End-User's profile picture.</c>
 
-          <c>website</c>
+	    <c>website</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>URL of End-User's web page or blog.</c>
+	    <c>URL of End-User's web page or blog.</c>
 
-          <c>email</c>
+	    <c>email</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>The End-User's preferred e-mail address.</c>
+	    <c>The End-User's preferred e-mail address.</c>
 
-          <c>verified</c>
+	    <c>verified</c>
 
-          <c>boolean</c>
+	    <c>boolean</c>
 
-          <c>True if the End-User's e-mail address has been verified; otherwise
-          false.</c>
+	    <c>True if the End-User's e-mail address has been verified; otherwise
+	    false.</c>
 
-          <c>gender</c>
+	    <c>gender</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>The End-User's gender: Values defined by this
-          specification are <spanx style="verb">female</spanx> and
-          <spanx style="verb">male</spanx>.  Other values MAY be used
-          when neither of the defined values are applicable.</c>
+	    <c>The End-User's gender: Values defined by this
+	    specification are <spanx style="verb">female</spanx> and
+	    <spanx style="verb">male</spanx>.  Other values MAY be used
+	    when neither of the defined values are applicable.</c>
 
-          <c>birthday</c>
+	    <c>birthday</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>The End-User's birthday, represented as a date string in MM/DD/YYYY
-          format. The year MAY be <spanx style="verb">0000</spanx>, indicating
-          that it is omitted.</c>
+	    <c>The End-User's birthday, represented as a date string in MM/DD/YYYY
+	    format. The year MAY be <spanx style="verb">0000</spanx>, indicating
+	    that it is omitted.</c>
 
-          <c>zoneinfo</c>
+	    <c>zoneinfo</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>String from zoneinfo <xref target="zoneinfo"></xref> time zone
-          database. For example, <spanx style="verb">Europe/Paris</spanx> or
-          <spanx style="verb">America/Los_Angeles</spanx>.</c>
+	    <c>String from zoneinfo <xref target="zoneinfo"></xref> time zone
+	    database. For example, <spanx style="verb">Europe/Paris</spanx> or
+	    <spanx style="verb">America/Los_Angeles</spanx>.</c>
 
-          <c>locale</c>
+	    <c>locale</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>The End-User's locale, represented as a
-	  <xref target="RFC5646">BCP47</xref> language tag.
-	  This is typically an <xref
-          target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
-          lowercase and an <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref>
-          country code in uppercase, separated by a dash. For example, <spanx
-          style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>. As
-          a compatibility note, some implementations have used an underscore
-          as the separator rather than a dash, for example, <spanx
-          style="verb">en_US</spanx>; Implementations MAY choose to accept
-          this locale syntax as well.</c>
+	    <c>The End-User's locale, represented as a
+	    <xref target="RFC5646">BCP47</xref> language tag.
+	    This is typically an <xref
+	    target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
+	    lowercase and an <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref>
+	    country code in uppercase, separated by a dash. For example, <spanx
+	    style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>. As
+	    a compatibility note, some implementations have used an underscore
+	    as the separator rather than a dash, for example, <spanx
+	    style="verb">en_US</spanx>; Implementations MAY choose to accept
+	    this locale syntax as well.</c>
 
-          <c>phone_number</c>
+	    <c>phone_number</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>The End-User's preferred telephone number. <xref target="E.164">
-          E.164</xref> is RECOMMENDED as the format of this claim. 
-          For example, <spanx
-          style="verb">+1 (425)
-          555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
+	    <c>The End-User's preferred telephone number. <xref target="E.164">
+	    E.164</xref> is RECOMMENDED as the format of this claim. 
+	    For example, <spanx
+	    style="verb">+1 (425)
+	    555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
 
-          <c>address</c>
+	    <c>address</c>
 
-          <c>JSON object</c>
+	    <c>JSON object</c>
 
-          <c>The End-User's preferred address. The value of the <spanx
-          style="verb">address</spanx> member is a <xref
-          target="RFC4627">JSON</xref> structure containing some or all of
-          these string-valued fields: <spanx style="verb">formatted</spanx>,
-          <spanx style="verb">street_address</spanx>, <spanx style="verb">locality</spanx>,
-          <spanx style="verb">region</spanx>, <spanx style="verb">postal_code</spanx>,
-          and <spanx style="verb">country</spanx>. The <spanx style="verb">street_address</spanx>
-          field MAY contain multiple lines if the address representation
-          requires it. Implementations MAY return only a subset of the fields
-          of an <spanx style="verb">address</spanx>, depending upon the
-          information available and the End-User's privacy preferences. For
-          example, the <spanx style="verb">country</spanx> and <spanx
-          style="verb">region</spanx> might be returned without returning more
-          fine-grained address information.</c>
+	    <c>The End-User's preferred address. The value of the <spanx
+	    style="verb">address</spanx> member is a <xref
+	    target="RFC4627">JSON</xref> structure containing some or all of
+	    these string-valued fields: <spanx style="verb">formatted</spanx>,
+	    <spanx style="verb">street_address</spanx>, <spanx style="verb">locality</spanx>,
+	    <spanx style="verb">region</spanx>, <spanx style="verb">postal_code</spanx>,
+	    and <spanx style="verb">country</spanx>. The <spanx style="verb">street_address</spanx>
+	    field MAY contain multiple lines if the address representation
+	    requires it. Implementations MAY return only a subset of the fields
+	    of an <spanx style="verb">address</spanx>, depending upon the
+	    information available and the End-User's privacy preferences. For
+	    example, the <spanx style="verb">country</spanx> and <spanx
+	    style="verb">region</spanx> might be returned without returning more
+	    fine-grained address information.</c>
 
-          <c>updated_time</c>
+	    <c>updated_time</c>
 
-          <c>string</c>
+	    <c>string</c>
 
-          <c>Time the End-User's information was last updated, represented as a
-          <xref target="RFC3339">RFC 3339</xref> datetime. For example, <spanx
-          style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
-        </texttable>
+	    <c>Time the End-User's information was last updated, represented as a
+	    <xref target="RFC3339">RFC 3339</xref> datetime. For example, <spanx
+	    style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
+	  </texttable>
 
-        <figure>
-          <preamble>Following is a non-normative example of such
-          response:</preamble>
+	  <figure>
+	    <preamble>The following is a non-normative example of such a
+	    response:</preamble>
 
           <artwork><![CDATA[{
  "name": "Jane Doe"
@@ -905,19 +904,63 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
  "email": "janedoe@example.com",
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
-        </figure>
+	  </figure>
 
-        <section title="Error Response">
-          <t>When an error condition occurs, the UserInfo Endpoint returns
-          an Error Response. In addition to the standard <xref
-          target="OAuth2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
-          may return the following errors:</t>
+	  <section title="Address Claim">
+	    <t>
+	      The components of a physical mailing address. 
+	      Implementations MAY return only a subset of the
+	      fields of an <spanx style="verb">address</spanx>, depending upon
+	      the information available and the End-User's privacy 
+	      preferences. For
+	      example, the <spanx style="verb">country</spanx> and <spanx 
+	      style="verb">region</spanx> might be returned without returning
+	      more fine-grained address information.
+	    </t>
+	    <t>
+	      Implementations MAY return just the full address 
+	      as a single string in the formatted sub-field, 
+	      or they MAY return just the individual component 
+	      fields using the other sub-fields, 
+	      or they MAY return both. 
+	      If both variants are returned, 
+	      they SHOULD be describing the same address, 
+	      with the formatted address indicating how the 
+	      component fields should be combined.
+	    </t>
+	    <t><list style="hanging">
+		<t hangText="formatted">The full mailing address, 
+		formatted for display or use with a mailing label. 
+		This field MAY contain newlines. This is the 
+		Primary Sub-Field for this field, 
+		for the purposes of sorting and filtering.</t>
+		<t hangText="streetAddress">
+		The full street address component, 
+		which may include house number, street name, 
+		PO BOX, and multi-line extended street 
+		address information. This field MAY contain newlines.</t>
+		<t hangText="locality">The city or locality component.</t>
+		<t hangText="region">The state, province, 
+		prefecture or region component.</t>
+		<t hangText="postalCode">The zip code or 
+		postal code component.</t>
+		<t hangText="country">The country name component.</t>
+	      </list>
+	    </t>
+	  </section>
+	</section>
 
-          <t><list style="hanging">
-              <t hangText="invalid_schema">The requested schema is invalid or
-              unsupported.</t>
-            </list></t>
-        </section>
+	<section title="Error Response">
+	  <t>When an error condition occurs, the UserInfo Endpoint returns
+	  an Error Response. In addition to the error codes defined in section 3.1 of
+	  <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
+	  defines the following additional error codes:</t>
+
+	  <t><list style="hanging">
+	      <t hangText="invalid_schema">The requested schema is invalid or
+	      unsupported.</t>
+	    </list></t>
+	</section>
       </section>
     </section>
 
@@ -1187,7 +1230,7 @@ Host: server.example.com]]></artwork>
             <organization abbrev="Independent">Independent</organization>
           </author>
 
-          <date day="22" month="September" year="2011" />
+          <date day="3" month="November" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"

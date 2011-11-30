@@ -1232,11 +1232,9 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             <c>A JWT</c>
           </texttable>
 
-          <t></t>
-
-          <t>The following is a non-normative normal Claims responses:</t>
-
-          <t><figure>
+          <figure>
+          <preamble>The following is a non-normative example of such a
+          response:</preamble>
             <artwork><![CDATA[{
  "name": "Jane Doe"
  "given_name": "Jane",
@@ -1244,54 +1242,55 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
  "email": "janedoe@example.com",
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
-          </figure></t>
+          </figure>
+
           <section title="Address Claim">
-          
-          <t>
-          The components of a physical mailing address. 
-          Implementations MAY return only a subset of the
-          fields of an <spanx style="verb">address</spanx>, depending upon
-          the information available and the End-User's privacy 
-          preferences. For
-          example, the <spanx style="verb">country</spanx> and <spanx 
-          style="verb">region</spanx> might be returned without returning
-          more fine-grained address information.
-          </t>
-          <t>
-          Implementations MAY return just the full address 
-          as a single string in the formatted sub-field, 
-          or they MAY return just the individual component 
-          fields using the other sub-fields, 
-          or they MAY return both. 
-          If both variants are returned, 
-          they SHOULD be describing the same address, 
-          with the formatted address indicating how the 
-          component fields should be combined.
-          </t>
-          <t><list style="hanging">
-            <t hangText="formatted">The full mailing address, 
-            formatted for display or use with a mailing label. 
-            This field MAY contain newlines. This is the 
-            Primary Sub-Field for this field, 
-            for the purposes of sorting and filtering.</t>
-            <t hangText="streetAddress">
-            The full street address component, 
-            which may include house number, street name, 
-            PO BOX, and multi-line extended street 
-            address information. This field MAY contain newlines.</t>
-            <t hangText="locality">The city or locality component.</t>
-            <t hangText="region">The state, province, 
-            prefecture or region component.</t>
-            <t hangText="postalCode">The zip code or 
-            postal code component.</t>
-            <t hangText="country">The country name component.</t>
-            </list>
-          </t>
+	    <t>
+	      The components of a physical mailing address. 
+	      Implementations MAY return only a subset of the
+	      fields of an <spanx style="verb">address</spanx>, depending upon
+	      the information available and the End-User's privacy 
+	      preferences. For
+	      example, the <spanx style="verb">country</spanx> and <spanx 
+	      style="verb">region</spanx> might be returned without returning
+	      more fine-grained address information.
+	    </t>
+	    <t>
+	      Implementations MAY return just the full address 
+	      as a single string in the formatted sub-field, 
+	      or they MAY return just the individual component 
+	      fields using the other sub-fields, 
+	      or they MAY return both. 
+	      If both variants are returned, 
+	      they SHOULD be describing the same address, 
+	      with the formatted address indicating how the 
+	      component fields should be combined.
+	    </t>
+	    <t><list style="hanging">
+		<t hangText="formatted">The full mailing address, 
+		formatted for display or use with a mailing label. 
+		This field MAY contain newlines. This is the 
+		Primary Sub-Field for this field, 
+		for the purposes of sorting and filtering.</t>
+		<t hangText="streetAddress">
+		The full street address component, 
+		which may include house number, street name, 
+		PO BOX, and multi-line extended street 
+		address information. This field MAY contain newlines.</t>
+		<t hangText="locality">The city or locality component.</t>
+		<t hangText="region">The state, province, 
+		prefecture or region component.</t>
+		<t hangText="postalCode">The zip code or 
+		postal code component.</t>
+		<t hangText="country">The country name component.</t>
+	      </list>
+	    </t>
           </section>
         </section>
 
-        <section title="Errors">
-          <t>In addition to the error codes defined in section 2.4.1 of
+        <section title="Error Response">
+          <t>When an error condition occurs, the UserInfo Endpoint returns
+          an Error Response. In addition to the error codes defined in section 3.1 of
           <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
           defines the following additional error codes:</t>
 
@@ -1300,113 +1299,113 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             unsupported.</t>
           </list></t>
         </section>
+      </section>
 
-        <section title="Claim Types">
-          <t>The UserInfo Endpoint MAY return the
-          following three types of Claims:</t>
+      <section title="Claim Types">
+	<t>The UserInfo Endpoint MAY return the
+	following three types of Claims:</t>
 
-          <t><list style="hanging">
-            <t hangText="Normal Claims">Claims that are directly asserted by
-            the OpenID Provider.</t>
+	<t><list style="hanging">
+	  <t hangText="Normal Claims">Claims that are directly asserted by
+	  the OpenID Provider.</t>
 
-            <t hangText="Aggregated Claims">Claims that are asserted by a
-            Claims Provider other than the OpenID Provider but are returned
-            by OpenID Provider.</t>
+	  <t hangText="Aggregated Claims">Claims that are asserted by a
+	  Claims Provider other than the OpenID Provider but are returned
+	  by OpenID Provider.</t>
 
-            <t hangText="Distributed Claims">Claims that are asserted by a
-            Claims Provider other than the OpenID Provider but are returned
-            as references by the OpenID Provider.</t>
-          </list>The UserInfo endpoint MUST support normal Claims.</t>
+	  <t hangText="Distributed Claims">Claims that are asserted by a
+	  Claims Provider other than the OpenID Provider but are returned
+	  as references by the OpenID Provider.</t>
+	</list>The UserInfo endpoint MUST support normal Claims.</t>
 
-          <t>Aggregated and Distributed Claims support is OPTIONAL.</t>
+	<t>Aggregated and Distributed Claims support is OPTIONAL.</t>
 
-          <section title="Normal Claims">
-            <t>Normal Claims are represented as members in a JSON object. The
-            Claim Name is the member name and the Claim Value is the member
-            value.</t>
+	<section title="Normal Claims">
+	  <t>Normal Claims are represented as members in a JSON object. The
+	  Claim Name is the member name and the Claim Value is the member
+	  value.</t>
 
-            <t>The following is a non-normative normal claims responses:</t>
+	  <t>The following is a non-normative normal claims responses:</t>
 
-            <figure>
-              <artwork><![CDATA[{
+	  <figure>
+	    <artwork><![CDATA[{
  "name": "Jane Doe"
  "given_name": "Jane",
  "family_name": "Doe",
  "email": "janedoe@example.com",
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
-            </figure>
+	  </figure>
 
-            <t></t>
-          </section>
+	</section>
 
-          <section title="Aggregated and Distributed Claims">
-            <t>Aggregated and distributed Claims are represented by
-            using special "_claim_names" and "_claim_sources" members
-            of the JSON object containing the Claims.</t>
+	<section title="Aggregated and Distributed Claims">
+	  <t>Aggregated and distributed Claims are represented by
+	  using special "_claim_names" and "_claim_sources" members
+	  of the JSON object containing the Claims.</t>
 
-            <t>
+	  <t>
+	    <list style="hanging">
+	      <t hangText="_claim_names">This value is a JSON object whose member
+	      names are the Claims names for the Aggregated and Distributed
+	      Claims. The member values are references to the member names
+	      in the "_claim_sources" member from which
+	      the actual value can be retrieved.</t>
+
+	      <t hangText="_claim_sources">This value is a JSON object whose
+	      member names are referenced by the member values of the
+	      "_claim_names" member. The member values
+	      contain sets of Aggregated Claims or reference locations for
+	      Distributed Claims. The member values can have one of the
+	      following formats depending on whether it is providing
+	      Aggregated or Distributed Claims:
+
 	      <list style="hanging">
-		<t hangText="_claim_names">This value is a JSON object whose member
-		names are the Claims names for the Aggregated and Distributed
-		Claims. The member values are references to the member names
-		in the "_claim_sources" member from which
-		the actual value can be retrieved.</t>
 
-		<t hangText="_claim_sources">This value is a JSON object whose
-		member names are referenced by the member values of the
-		"_claim_names" member. The member values
-		contain sets of Aggregated Claims or reference locations for
-		Distributed Claims. The member values can have one of the
-		following formats depending on whether it is providing
-		Aggregated or Distributed Claims:
+		<t hangText="Aggregated Claims">A JSON object that MUST
+		contain the "JWT" member whose value is a <xref
+		target="JWT">JWT</xref> that MUST contain all the Claims
+		in the "_claim_names" object that references the
+		corresponding "_claim_sources" member. Other members MAY
+		be present if they are understood by both parties.
 
 		<list style="hanging">
-
-		  <t hangText="Aggregated Claims">A JSON object that MUST
-		  contain the "JWT" member whose value is a <xref
-		  target="JWT">JWT</xref> that MUST contain all the Claims
-		  in the "_claim_names" object that references the
-		  corresponding "_claim_sources" member. Other members MAY
-		  be present if they are understood by both parties.
-
-		  <list style="hanging">
-		    <t hangText="JWT">REQUIRED. JWT Value.</t>
-		  </list>
-		  </t>
-
-		  <t hangText="Distributed Claims">A JSON object that
-		  contains the following members and values:
-
-		  <list style="hanging">
-		    <t hangText="endpoint">REQUIRED. The value is the
-		    OAuth 2.0 resource endpoint from which the associated
-		    Claim can be retrieved. The endpoint URL MUST return
-		    the Claim as a JWT.</t>
-
-		    <t hangText="access_token">OPTIONAL. Access Token
-		    enabling retrieval of the Claims from the endpoint URL
-		    by using the <xref target="OAuth2.0Bearer">OAuth 2.0
-		    Bearer</xref> scheme. Claims SHOULD be requested using
-		    the Authorization Request header field and Claims
-		    Sources MUST support this method. If the Access Token
-		    is not available, Clients MAY need to retrieve the
-		    Access Token out of band or use an a priori Access
-		    Token that was negotiated between the Claim Source and
-		    Client, or the Claim Source MAY reauthenticate the
-		    End-User and/or reauthorize the Client.</t>
-
-		  </list></t>
+		  <t hangText="JWT">REQUIRED. JWT Value.</t>
 		</list>
+		</t>
+
+		<t hangText="Distributed Claims">A JSON object that
+		contains the following members and values:
+
+		<list style="hanging">
+		  <t hangText="endpoint">REQUIRED. The value is the
+		  OAuth 2.0 resource endpoint from which the associated
+		  Claim can be retrieved. The endpoint URL MUST return
+		  the Claim as a JWT.</t>
+
+		  <t hangText="access_token">OPTIONAL. Access Token
+		  enabling retrieval of the Claims from the endpoint URL
+		  by using the <xref target="OAuth2.0Bearer">OAuth 2.0
+		  Bearer</xref> scheme. Claims SHOULD be requested using
+		  the Authorization Request header field and Claims
+		  Sources MUST support this method. If the Access Token
+		  is not available, Clients MAY need to retrieve the
+		  Access Token out of band or use an a priori Access
+		  Token that was negotiated between the Claim Source and
+		  Client, or the Claim Source MAY reauthenticate the
+		  End-User and/or reauthorize the Client.</t>
+
+		</list></t>
+	      </list>
 	      Other members MAY be present, if understood by both
 	      parties.</t>
-            </list></t>
+	  </list></t>
 
-            <t>The following is a non-normative response with Aggregated
-            Claims:</t>
+	  <t>The following is a non-normative response with Aggregated
+	  Claims:</t>
 
-            <t><figure>
-              <artwork><![CDATA[
+	  <t><figure>
+	    <artwork><![CDATA[
 Claims Provider A contains the following Claims for Jane Doe:
 {
  "address": {
@@ -1418,10 +1417,8 @@ Claims Provider A contains the following Claims for Jane Doe:
  "phone_number": "+1 (310) 123-4567"
 }
 
-
 Claims Provider A signs the JSON Claims, resulting in a signed JWT:
 jwt_header.jwt_part2.jwt_part3
-
 
 Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A : 
 {
@@ -1438,16 +1435,14 @@ Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A
  "_claim_sources": {
   "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"}
  }
-}
+}]]></artwork>
+	  </figure></t>
 
-]]></artwork>
-            </figure></t>
+	  <t>The following is a non-normative response with Distributed
+	  Claims:</t>
 
-            <t>The following is a non-normative response with Distributed
-            Claims:</t>
-
-            <t><figure>
-              <artwork><![CDATA[
+	  <t><figure>
+	    <artwork><![CDATA[
 Claims Provider A (Jane Doe's Bank) contains the following Claims for Jane Doe:
 {
  "shipping_address": {
@@ -1460,12 +1455,10 @@ Claims Provider A (Jane Doe's Bank) contains the following Claims for Jane Doe:
  "phone_number": "+1 (310) 123-4567"
 }
 
-
 A Claims Provider B (Credit Agency) contains the following Claims for Jane Doe:
 {
  "credit_score": "650"
 }
-
 
 Authorization Server returns Jane Doe's Claims along with the Distributed Claims from
 Claims Provider A and B by sending the Access Tokens and URL locations where the Claims
@@ -1486,12 +1479,9 @@ may be retrieved:
   "src1": {"endpoint": "https://bank.example.com/claimsource"},
   "src2": {"endpoint": "https://creditagency.example.com/claimshere", "access_token": "ksj3n283dke"}
  }
-}
-
-]]></artwork>
-            </figure></t>
-          </section>
-        </section>
+}]]></artwork>
+	  </figure></t>
+	</section>
       </section>
 
       <section anchor="check_id_ep" title="Check ID Endpoint">
@@ -1550,10 +1540,10 @@ Content-Type: application/json
           </figure>
         </section>
 
-        <section title="Error Codes">
+        <section title="Check ID Errors">
           <t>In addition to the error codes defined in Section 5.2 of <xref
           target="OAuth2.0">OAuth 2.0</xref>, this specification defines the
-          following error codes.</t>
+          following error codes:</t>
 
           <t><list style="hanging">
             <t hangText="invalid_id_token">The ID Token is not valid for the
@@ -2475,7 +2465,7 @@ Content-Type: application/json
             <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="22" month="September" year="2011" />
+          <date day="3" month="November" year="2011" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
