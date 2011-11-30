@@ -678,7 +678,7 @@ Content-Type: application/json
       Subject of the session unless the user_id matches the user_id in
       the ID Token.</t>
 
-      <section title="Requesting UserInfo">
+      <section title="UserInfo Request">
         <t>Clients MAY send requests with the following parameters to the
         UserInfo Endpoint to obtain further information about the End-User. The
         UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
@@ -713,12 +713,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
         </figure>
       </section>
 
-      <section anchor="id_res" title="Client Receives UserInfo Response">
-        <t>If the requested schema is <spanx style="verb">openid</spanx>, the
-        response MUST return a plain text <xref target="RFC4627">JSON</xref>
-        structure that contains a set of members that are a subset of those
-        defined below. Additional members (not specified below) MAY also be
+      <section anchor="id_res" title="UserInfo Response">
+        <t>If the requested schema is <spanx
+        style="verb">openid</spanx>, the response MUST return a plain
+        text <xref target="RFC4627">JSON</xref> object that contains
+        the full set or a subset of the Claims that are defined
+        below. Additional Claims (not specified below) MAY also be
         returned.</t>
+
+	<t>
+	  If a Claim is not returned, that Claim Name SHOULD be
+	  omitted from the JSON object representing the Claims; it
+	  SHOULD NOT be present with a null or empty string value.
+	</t>
 
         <t>The members may be represented in multiple languages and scripts.
         To specify the languages and scripts, <xref

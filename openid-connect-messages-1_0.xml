@@ -1019,10 +1019,17 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
         </section>
 
         <section title="UserInfo Response">
-          <t>If the requested schema is "openid", the response MUST return a
-          JSON object that contains the full set or subset of Claims that are
-          defined below. Additional Claims (not specified below) MAY also be
-          returned.</t>
+          <t>If the requested schema is <spanx
+          style="verb">openid</spanx>, the response MUST return a
+          plain text JSON object that contains the full set or a
+          subset of the Claims that are defined below. Additional
+          Claims (not specified below) MAY also be returned.</t>
+
+	  <t>
+	    If a Claim is not returned, that Claim Name SHOULD be
+	    omitted from the JSON object representing the Claims; it
+	    SHOULD NOT be present with a null or empty string value.
+	  </t>
 
           <t>The members may be represented in multiple languages and scripts.
           To specify the languages and scripts, <xref
