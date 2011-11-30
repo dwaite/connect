@@ -125,13 +125,19 @@
 
         <t><list style="hanging">
             
-            <t hangText="type">REQUIRED.  Values <spanx style="verb">client_associate</spanx>,
-            <spanx style="verb">client_update</spanx></t>
+            <t hangText="type">REQUIRED.  Values <spanx style="verb">client_associate</spanx>
+             (New Registrations),
+            <spanx style="verb">client_update</spanx> (Updating paramaters for a existing
+            <spanx style="verb">client_id</spanx>).</t>
 
-            <t hangText="client_id">OPTIONAL.  Used with <spanx style="verb">client_update</spanx></t>
+            <t hangText="client_id">OPTIONAL.  
+            The registered paramaters for this <spanx style="verb">client_id</spanx>) 
+            are updated. Used with <spanx style="verb">client_update</spanx>.</t>
 
-            <t hangText="client_secret">OPTIONAL.  Used with <spanx
-            style="verb">client_update</spanx></t>
+            <t hangText="client_secret">OPTIONAL.  The <spanx style="verb">client_secret</spanx>
+            used to authenticate requests that have 
+            <spanx style="verb">client_update</spanx> as the value of the 
+            <spanx style="verb">type</spanx> paramater.</t>
             
             <t hangText="access_token">OPTIONAL.  An Access Token obtained
             out of band to identify the registrant. This parameter
@@ -142,16 +148,16 @@
             target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
 
             <t hangText="contacts">OPTIONAL.  Space-separated list of email
-            addresses for people allowed to administer the application.</t>
+            addresses for people allowed to administer the client.</t>
 
             <t hangText="application_type">OPTIONAL.  <spanx style="verb">native</spanx>
             or <spanx style="verb">web</spanx>.</t>
 
-            <t hangText="application_name">OPTIONAL.  Name of the application
+            <t hangText="application_name">OPTIONAL.  Name of the client
             to be presented to the user.</t>
 
             <t hangText="logo_url">OPTIONAL.  The URL of a logo image for the
-            application where it can be retrieved.</t>
+            client where it can be retrieved.</t>
 
             <t hangText="redirect_uris">RECOMMENDED for clients using the code flow with
             a query parameter encoded response.
@@ -676,6 +682,8 @@ Content-Type: application/json
           <t>fix typo in require_signed_request_object</t>
           <t>fix 2 references to JWS</t>
           <t>fixes #300 removed js_origin_uri Made redirect_uri required only for fragment encoded responses</t>
+          <t>re #359 Sec 3.1 change application to client</t>
+          <t>Fix #359 Sec 3.1 clarify use of client_update.</t>
           
         </list></t>
 
