@@ -673,9 +673,9 @@ Content-Type: application/json
 
 
       <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
-      Subject of the session. Therefore, it MUST NOT be assumed to be about the
-      Subject of the session unless the user_id matches the user_id in
-      the ID Token.</t>
+      Interactive user identified by the user_id element of the ID Token. 
+      The user_id claim in the UserInfo Endpoint response MUST exactly match the 
+      user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
 
       <section title="Requesting UserInfo">
         <t>Clients MAY send requests with the following parameters to the
@@ -891,7 +891,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
           response:</preamble>
 
           <artwork><![CDATA[{
- "name": "Jane Doe"
+ "user_id": "248289761001",
+ "name": "Jane Doe",
  "given_name": "Jane",
  "family_name": "Doe",
  "email": "janedoe@example.com",
@@ -1489,6 +1490,7 @@ Host: server.example.com]]></artwork>
           <t>Added TLS requirement to Sec 4 to match standard</t>
           <t>Added reference for RFC5246 per ticket #235</t>
           <t>fixes #98 added xref to standard for code flow</t>
+          <t>re #310 remove language about subject</t>
         </list></t>
 
        <t>-14<list style="symbols">
