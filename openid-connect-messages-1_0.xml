@@ -837,7 +837,8 @@
 	      <spanx style='verb'>client_secret</spanx> as the shared key.
 	   
           The client Authenticates in accordance with section 2.2 of <xref
-          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
+          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref> and 
+          <xref target="I-D.ietf.oauth-assertions">OAuth 2.0 Assertion Profile</xref>. 
           The JWT MUST contain the Claims:</t>
          
           <t><list style="hanging">
@@ -872,7 +873,8 @@
           <t hangText="private_key_jwt">
            Clients that have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registered or the ES256 algorithm if a EC key was registered.
           The client Authenticates in accordance with section 2.2 of <xref
-          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref>
+          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref> and 
+          <xref target="I-D.ietf.oauth-assertions">OAuth 2.0 Assertion Profile</xref>.
           The JWT MUST contain the Claims:</t>
           <t><list style="hanging">
                     <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) claim.
@@ -2631,6 +2633,20 @@ Content-Type: application/json
 		    type="HTML" />
       </reference>
 
+      <reference anchor="I-D.ietf.oauth-assertions">
+        <front>
+          <title abbrev='oauth-assertions'>OAuth 2.0 Assertion Profile</title>
+          <author initials='C.' surname='Mortimore' fullname='Chuck Mortimore' role='editor'/>
+          <author initials='B.' surname='Campbell' fullname='Brian Campbell' />
+          <author initials='M.B.' surname='Jones' fullname='Michael B. Jones'/>
+          <author initials="Y.Y." surname="Goland" fullname="Yaron Y. Goland"/>
+          <date day="31" month="October" year="2011"/>
+        </front>
+        <seriesInfo name="ID" value="draft-ietf-oauth-assertions-01 (work in progress)"/>
+        <format type='TXT' target='http://tools.ietf.org/html/draft-ietf-oauth-assertions-01.txt'/>
+        <format type='HTML' target='http://tools.ietf.org/html/draft-ietf-oauth-assertions-01.html'/>
+      </reference>
+      
       <reference anchor="ISO29115">
         <front>
           <title>ITU-T Recommendation X.1251 | ISO/IEC 2nd CD 29115 --
@@ -2900,6 +2916,7 @@ Content-Type: application/json
           <t>re #310 add requirement to compare user_id from user info endpoint to id_token</t>
           <t>re #310 user info example to include user_id</t>
           <t>fix language about user info response format, add media type.</t>
+          <t>re #383 add reference to I-D.ietf.oauth-assertions.</t>
 		  </list>
       </t>
 
