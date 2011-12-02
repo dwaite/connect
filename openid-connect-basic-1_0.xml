@@ -492,10 +492,22 @@ access_token=SlAV32hkKG
       </section>
 
       <section title="Check ID Endpoint">
-        <t>The Check ID Endpoint validates the ID Token and returns a
-        text <xref target="RFC4627">JSON</xref> object that contains
-        Claims contained in the ID Token.</t>
-
+	<t>
+	  The Check ID Endpoint validates the ID Token and returns a
+	  text <xref target="RFC4627">JSON</xref> object containing the
+	  Claims in the ID Token.  This endpoint is used by Clients that
+	  are not able to or do not wish to directly process ID Tokens.
+	  In this case, clients MAY treat ID Tokens as opaque values.
+	</t>
+	<t>
+	  Check ID Endpoints MUST require the use of a transport-layer
+	  security mechanism.  The endpoint MUST support TLS 1.2 as
+	  described in <xref target="RFC5246">RFC 5246</xref>; when TLS
+	  is used, the Client MUST perform a TLS/SSL server certificate
+	  check, per <xref target="RFC6125">RFC 6125</xref>.  Check ID
+	  Endpoints MAY support other transport-layer mechanisms with
+	  equivalent security.
+	</t>
         <t>Clients MAY verify the validity of the ID Token using the
         Check ID Endpoint.  Clients wanting to process the
         ID Token contents directly should refer to the <xref
@@ -510,53 +522,57 @@ access_token=SlAV32hkKG
         <spanx style="verb">aud</spanx> (audience) and 
         <spanx style="verb">nonce</spanx> Claims.</t>
 
-        <t>A full explanation of how to use the ID Token to perform session
-        management can be found in the <xref target="OpenID.Session">OpenID
-        Connect Session Management 1.0</xref></t>
+	<section title="Check ID Request">
 
-        <section title="Check ID Request">
-          <t>To request the information about the authentication performed on
-          the End-User and verify the ID Token, the following parameters MAY be sent
-          to the Check ID Endpoint as query parameters in a GET or as form
-          encoded in a POST request:</t>
+	  <t>The request parameters are as follows:
 
-          <t><list style="hanging">
-              <t hangText="id_token">REQUIRED. the ID Token obtained from
-              an OpenID Connect authorization request. </t>
-            </list><figure>
-              <preamble>The following is a non-normative example of a request
-              to the Check ID Endpoint:</preamble>
+	    <list style="hanging">
+	      <t hangText="id_token">REQUIRED. The ID Token obtained from an
+	      OpenID Connect Authorization Request.</t>
+	    </list>
+	  </t>
 
-              <artwork><![CDATA[Request:
+	  <t>
+	    Requests to the Check ID Endpoint SHOULD be made with the
+	    HTTP "POST" method.  In this case, the request parameters
+	    are serialized using <xref target="form_serialization">form
+	    serialization</xref>.
+	  </t>
+	  <figure>
+	    <preamble>The Following is a non-normative example of a Check
+	    ID request:</preamble>
 
-GET /op/check_id?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
-ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
-ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
-WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
-JwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
-
+	    <artwork><![CDATA[POST /check_id HTTP/1.1
 Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
 
-
+id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZX
+J2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cD
+pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
+3liaTNOrfaeWYjuRCEPNXVtaazNQ
 ]]></artwork>
-            </figure></t>
+	  </figure>
 
-          <section title="Request Verification">
-            <t>Clients MUST verify the request with the following:</t>
+	  <t>
+	    The Client MUST ensure that the Check ID Endpoint being
+	    used is the trusted Check ID Endpoint for the Entity via
+	    pre-configuration meta-data or discovery.
+	  </t>
+	  <t>
+	    A request to the Check ID Endpoint MAY alternatively be made
+	    with the HTTP "GET" method, with the request parameters
+	    being serialized using URI <xref target="qss">query string
+	    serialization</xref>.
+	    Because of the security weaknesses associated with the URL
+	    method,
+	    including the high likelihood that the URL containing the ID
+	    Token will be logged, it SHOULD NOT be used unless it is
+	    impossible to transport the ID Token in an HTTP "POST" body
+	    or to directly process the contents of the ID Token JWT.
+	  </t>
+	</section>
 
-            <t><list style="numbers">
-                <t>When connecting to the Endpoint, verify that TLS/SSL server
-                certificate matches that of the Endpoint, per
-		<xref target="RFC6125">RFC 6125</xref>.</t>
-
-                <t>Make sure that the Endpoint that the Client connected to is 
-                a trusted Check ID Endpoint for the Entity via pre-configuration
-                meta-data or discovery.</t>
-              </list></t>
-          </section>
-        </section>
-
-        <section title="Check ID Response">
+	<section title="Check ID Response">
 	  <t>The Check ID response returns the JSON serialized Claims
 	  contained in the ID Token.  The following ID Token Claims
 	  are defined by this specification:</t>
@@ -598,22 +614,10 @@ Host: server.example.com
             </list></t>
 
           <figure>
-            <preamble>The following is a non-normative example of a request to
-            the Check ID Endpoint:</preamble>
+            <preamble>The following is a non-normative example of a
+            response from a Check ID Endpoint:</preamble>
 
-            <artwork><![CDATA[Request:
-
-GET /op/check_id?id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6
-ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
-ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
-WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
-JwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
-
-Host: server.example.com
-
-Response:
-
-HTTP/1.1 200 OK
+            <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
@@ -997,6 +1001,28 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
 Host: server.example.com]]></artwork>
+      </figure>
+    </section>
+
+    <section anchor="form_serialization" title="Form Serialization">
+      <t>Parameters and their values are form serialized by adding the 
+      parameter names and values to the entity body of the HTTP request using
+      the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
+      as defined by <xref target="W3C.REC-html401-19991224"></xref>. Form
+      serialization is typically used in HTTP POST requests.</t>
+
+      <figure>
+	<preamble>Following is a non-normative example of such
+	serialization:</preamble>
+
+	<artwork><![CDATA[POST /authorize HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+scope=openid&response_type=code
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb
+]]></artwork>
       </figure>
     </section>
 
@@ -1396,26 +1422,6 @@ Host: server.example.com]]></artwork>
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OpenID.Session">
-        <front>
-          <title>OpenID Connect Session Management 1.0</title>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-
-            <address>
-              <email>breno@google.com</email>
-            </address>
-          </author>
-
-          <date day="2" month="September" year="2011" />
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-session-1_0.html"
                 type="HTML" />
       </reference>
 

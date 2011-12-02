@@ -1431,47 +1431,44 @@ Content-Type: application/json
     </section>
 
     <section anchor="check_id_ep" title="Check ID Endpoint">
-      <t>The Check ID Endpoint validates ID Tokens and returns the Claims
-      of an issued ID Token in JSON text format. This endpoint is used by
-      Clients that are not able to or do not wish to directly process ID Tokens.
-      Clients MAY treat ID Tokens as opaque values and use the Check ID
-      Endpoint to validate and retrieve the Claims associated with the ID
-      Token in plain text JSON format.</t>
+      <t>
+	The Check ID Endpoint validates the ID Token and returns a
+	text <xref target="RFC4627">JSON</xref> object containing the
+	Claims in the ID Token.  This endpoint is used by Clients that
+	are not able to or do not wish to directly process ID Tokens.
+	In this case, clients MAY treat ID Tokens as opaque values.
+      </t>
+      <t>
+	Check ID Endpoints MUST require the use of a transport-layer
+	security mechanism.  The endpoint MUST support TLS 1.2 as
+	described in <xref target="RFC5246">RFC 5246</xref>; when TLS
+	is used, the Client MUST perform a TLS/SSL server certificate
+	check, per <xref target="RFC6125">RFC 6125</xref>.  Check ID
+	Endpoints MAY support other transport-layer mechanisms with
+	equivalent security.
+      </t>
 
-      <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2 as
-      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
-      other transport-layer mechanisms with equivalent security.</t>
+      <section title="Check ID Request">
 
-      <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
-      "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
-      Check ID Endpoint. </t>
+	<t>The request parameters are as follows:
 
-        <t>Clients MAY use the HTTP "GET" or "POST" method to send the
-        Check ID Endpoint Request to the Authorization Server. If using the HTTP
-        "GET" method, the request parameters are serialized using URI <xref
-        target="qss">query string serialization</xref>. If using the HTTP "POST"
-        method, the request parameters are serialized using 
-        <xref target="form_serialization">form serialization</xref>.</t>
+	  <list style="hanging">
+	    <t hangText="id_token">REQUIRED. The ID Token obtained from an
+	    OpenID Connect Authorization Request.</t>
+	  </list>
+	</t>
 
-      <section title="Check ID Requests">
-          <t>The Client prepares a Check ID Endpoint Request to the Check ID
-          Endpoint with the request parameters using the HTTP "GET" or "POST"
-          method. The scheme used in the Authorization URL MUST be HTTPS.
-	  The Client MUST perform a TLS/SSL server certificate check, per
-	  <xref target="RFC6125">RFC 6125</xref>.
-	  </t>
+	<t>
+	  Requests to the Check ID Endpoint SHOULD be made with the
+	  HTTP "POST" method.  In this case, the request parameters
+	  are serialized using <xref target="form_serialization">form
+	  serialization</xref>.
+	</t>
+	<figure>
+	  <preamble>The Following is a non-normative example of a Check
+	  ID request:</preamble>
 
-          <t>The request parameters are as follows:</t>
-          <t><list style="hanging">
-            <t hangText="id_token">REQUIRED. The ID Token obtained from an
-            OpenID Connect Authorization Request.</t>
-          </list>
-            <figure>
-            <preamble>The Following is a non-normative example of a Check
-            ID request:</preamble>
-
-            <artwork><![CDATA[POST /check_id HTTP/1.1
+	  <artwork><![CDATA[POST /check_id HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
@@ -1480,7 +1477,25 @@ J2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cD
 pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 3liaTNOrfaeWYjuRCEPNXVtaazNQ
 ]]></artwork>
-          </figure></t>
+	</figure>
+
+	<t>
+	  The Client MUST ensure that the Check ID Endpoint being
+	  used is the trusted Check ID Endpoint for the Entity via
+	  pre-configuration meta-data or discovery.
+	</t>
+	<t>
+	  A request to the Check ID Endpoint MAY alternatively be made
+	  with the HTTP "GET" method, with the request parameters
+	  being serialized using URI <xref target="qss">query string
+	  serialization</xref>.
+	  Because of the security weaknesses associated with the URL
+	  method (see <xref target="security_considerations" />),
+	  including the high likelihood that the URL containing the ID
+	  Token will be logged, it SHOULD NOT be used unless it is
+	  impossible to transport the ID Token in an HTTP "POST" body
+	  or to directly process the contents of the ID Token JWT.
+	</t>
       </section>
 
       <section anchor="intro_res" title="Check ID Response">
@@ -1491,8 +1506,8 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
         set to <spanx style="verb">application/json</spanx>.</t>
 
         <figure>
-          <preamble>The following is a non-normative example of a response
-          from the Check ID Endpoint:</preamble>
+          <preamble>The following is a non-normative example of a
+          response from a Check ID Endpoint:</preamble>
 
           <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
@@ -1506,6 +1521,28 @@ Content-Type: application/json
 }
 ]]></artwork>
         </figure>
+
+	<section title="Response Verification">
+	  <t>To verify the validity of the Response, the Client MUST do the
+	  following:</t>
+
+	  <t><list style="numbers">
+	      <t>The Check ID Endpoint has not returned an error for
+	      the ID Token being expired or invalid.</t>
+
+	      <t>Check that the <spanx style="verb">iss</spanx> (issuer) is equal to 
+	      that of the pre-configured or discovered Issuer Identifier for 
+	      the user session. </t>
+
+	      <t>Check that the returned <spanx style="verb">nonce</spanx> is
+	      equal to the <spanx style="verb">nonce</spanx> in the
+	      Authorization Request.</t>
+
+	      <t>Verify that the <spanx style="verb">aud</spanx> (audience) 
+	      contained within the response is the Client's
+	      <spanx style="verb">client_id</spanx>.</t>
+	  </list></t>
+	</section>
       </section>
 
       <section title="Check ID Error Response">
@@ -1937,6 +1974,7 @@ scope=openid&response_type=code
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
 
