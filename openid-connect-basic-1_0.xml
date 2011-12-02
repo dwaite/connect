@@ -5,7 +5,7 @@
 <rfc category="exp" docName="openid-connect-basic-1_0" ipr="trust200902">
   <?rfc toc="yes" ?>
 
-  <?rfc tocdepth="3" ?>
+  <?rfc tocdepth="4" ?>
 
   <?rfc symrefs="yes" ?>
 
@@ -648,7 +648,7 @@ Content-Type: application/json
           </section>
         </section>
 
-        <section title="Error Codes">
+        <section title="CheckID Error Response">
           <t>In addition to the error codes defined in Section 5.2 of <xref
           target="OAuth2.0">OAuth 2.0</xref>, this specification defines the
           following error codes.</t>
@@ -677,7 +677,7 @@ Content-Type: application/json
       The user_id claim in the UserInfo Endpoint response MUST exactly match the 
       user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
 
-      <section title="Requesting UserInfo">
+      <section title="UserInfo Request">
         <t>Clients MAY send requests with the following parameters to the
         UserInfo Endpoint to obtain further information about the End-User. The
         UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
@@ -712,7 +712,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
         </figure>
       </section>
 
-      <section anchor="id_res" title="Client Receives UserInfo Response">
+      <section anchor="id_res" title="UserInfo Response">
         <t>If the requested schema is "openid", the response MUST return a
         JSON object that contains the full set or subset of Claims that are
         defined below. Additional Claims (not specified below) MAY also be
@@ -861,20 +861,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
 
           <c>JSON object</c>
 
-          <c>The End-User's preferred address. The value of the <spanx
-          style="verb">address</spanx> member is a <xref
-          target="RFC4627">JSON</xref> structure containing some or all of
-          these string-valued fields: <spanx style="verb">formatted</spanx>,
-          <spanx style="verb">street_address</spanx>, <spanx style="verb">locality</spanx>,
-          <spanx style="verb">region</spanx>, <spanx style="verb">postal_code</spanx>,
-          and <spanx style="verb">country</spanx>. The <spanx style="verb">street_address</spanx>
-          field MAY contain multiple lines if the address representation
-          requires it. Implementations MAY return only a subset of the fields
-          of an <spanx style="verb">address</spanx>, depending upon the
-          information available and the End-User's privacy preferences. For
-          example, the <spanx style="verb">country</spanx> and <spanx
-          style="verb">region</spanx> might be returned without returning more
-          fine-grained address information.</c>
+	  <c>The End-User's preferred address. The value of the <spanx
+	  style="verb">address</spanx> member is a <xref
+	  target="RFC4627">JSON</xref> structure containing some or all of
+	  the members defined in <xref target="address_claim" />. </c>
 
           <c>updated_time</c>
 
@@ -899,38 +889,81 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ(elided).8Gj_-sj(elided)
 }]]></artwork>
         </figure>
 
-          <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-          different format was specified during <xref target="OpenID.Registration">
-          OpenID Connect Dynamic Client Registration 1.0</xref>.
-	      The UserInfo Endpoint MUST return a content-type header to indicate
-          which format is being returned. The following are accepted content
-          types:</t>
+	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
+	different format was specified during <xref target="OpenID.Registration">
+	OpenID Connect Dynamic Client Registration 1.0</xref>.
+	    The UserInfo Endpoint MUST return a content-type header to indicate
+	which format is being returned. The following are accepted content
+	types:</t>
 
-          <texttable style="all">
-            <ttcol>Content-Type</ttcol>
+	<texttable style="all">
+	  <ttcol>Content-Type</ttcol>
 
-            <ttcol>Format Returned</ttcol>
+	  <ttcol>Format Returned</ttcol>
 
-            <c>application/json</c>
+	  <c>application/json</c>
 
-            <c>plain text JSON object</c>
+	  <c>plain text JSON object</c>
 
-            <c>application/jwt</c>
+	  <c>application/jwt</c>
 
-            <c>A JWT</c>
-          </texttable>
+	  <c>A JWT</c>
+	</texttable>
 
-        <section title="Error Response">
-          <t>When an error condition occurs, the UserInfo Endpoint returns
-          an Error Response. In addition to the standard <xref
-          target="OAuth2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
-          may return the following errors:</t>
+	<section title="Address Claim" anchor="address_claim">
+	  <t>
+	    The components of a physical mailing address. 
+	    Implementations MAY return only a subset of the
+	    fields of an <spanx style="verb">address</spanx>, depending upon
+	    the information available and the End-User's privacy 
+	    preferences. For
+	    example, the <spanx style="verb">country</spanx> and <spanx 
+	    style="verb">region</spanx> might be returned without returning
+	    more fine-grained address information.
+	  </t>
+	  <t>
+	    Implementations MAY return just the full address 
+	    as a single string in the formatted sub-field, 
+	    or they MAY return just the individual component 
+	    fields using the other sub-fields, 
+	    or they MAY return both. 
+	    If both variants are returned, 
+	    they SHOULD be describing the same address, 
+	    with the formatted address indicating how the 
+	    component fields should be combined.
+	  </t>
+	  <t><list style="hanging">
+	      <t hangText="formatted">The full mailing address, 
+	      formatted for display or use with a mailing label. 
+	      This field MAY contain newlines. This is the 
+	      Primary Sub-Field for this field, 
+	      for the purposes of sorting and filtering.</t>
+	      <t hangText="street_address">
+	      The full street address component, 
+	      which may include house number, street name, 
+	      PO BOX, and multi-line extended street 
+	      address information. This field MAY contain newlines.</t>
+	      <t hangText="locality">The city or locality component.</t>
+	      <t hangText="region">The state, province, 
+	      prefecture or region component.</t>
+	      <t hangText="postal_code">The zip code or 
+	      postal code component.</t>
+	      <t hangText="country">The country name component.</t>
+	    </list>
+	  </t>
+	</section>
+      </section>
 
-          <t><list style="hanging">
-              <t hangText="invalid_schema">The requested schema is invalid or
-              unsupported.</t>
-            </list></t>
-        </section>
+      <section title="UserInfo Error Response">
+	<t>When an error condition occurs, the UserInfo Endpoint returns
+	an Error Response. In addition to the standard <xref
+	target="OAuth2.0">OAuth 2.0</xref> errors, the UserInfo Endpoint
+	may return the following errors:</t>
+
+	<t><list style="hanging">
+	    <t hangText="invalid_schema">The requested schema is invalid or
+	    unsupported.</t>
+	  </list></t>
       </section>
     </section>
 

@@ -6,7 +6,7 @@
      ipr="trust200902">
   <?rfc toc="yes" ?>
 
-  <?rfc tocdepth="3" ?>
+  <?rfc tocdepth="4" ?>
 
   <?rfc symrefs="yes" ?>
 
@@ -72,7 +72,7 @@
       can register with the provider, and how a Client already in possession
       of a client_id can retrieve updated registration information.</t>
 
-      <t>The Client Registration endpoint may be co-resident with the token
+      <t>The Client Registration Endpoint may be co-resident with the token
       endpoint as an optimization in some deployments.</t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -118,7 +118,7 @@
       <xref target="OAuth2.0Bearer">Bearer Tokens</xref>
       specification.</t>
 
-      <section title="Request">
+      <section title="Client Registration Request">
         <t>Clients MUST send requests encoded as a POST with the following
         parameters added to the HTTP request entity-body using
         "application/x-www-form-urlencoded" format:</t>
@@ -259,39 +259,40 @@ type=client_associate
 &userinfo_encrypted_response_algs=RSA1_5%20A128CBC
 ]]></artwork>
           </figure></t>
-      </section>
 
-      <section title="sector_identifier_url Verification">
-        <t>Providers who use pairwise user_id values SHOULD support this element.</t>
-        <t>It provides a way for a group of websites under a single administrative control
-         to have consistent pairwise user_id values independent of the individual domain names.
-         It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
-         reregister all of their users.</t>
+	<section title="sector_identifier_url Verification">
+	  <t>Providers who use pairwise user_id values SHOULD support this element.</t>
+	  <t>It provides a way for a group of websites under a single administrative control
+	  to have consistent pairwise user_id values independent of the individual domain names.
+	  It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
+	  reregister all of their users.</t>
 
-         <t>This is further described in Section 2.1.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+	  <t>This is further described in Section 2.1.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
-        <t>The value of the sector_identifer_url must be a HTTPS scheme URL that identifies
-	a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
-	The Client MUST perform a TLS/SSL server certificate check, per
-	<xref target="RFC6125">RFC 6125</xref>.
-	</t>
+	  <t>The value of the sector_identifer_url must be a HTTPS scheme URL that identifies
+	  a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
+	  The Client MUST perform a TLS/SSL server certificate check, per
+	  <xref target="RFC6125">RFC 6125</xref>.
+	  </t>
 
-           <t>The values of the registered <spanx style="verb">redirect_uris</spanx>
-	   must be included in the elements of the array,
-           or registration MUST fail.</t>
+	  <t>The values of the registered <spanx style="verb">redirect_uris</spanx>
+	  must be included in the elements of the array,
+	  or registration MUST fail.</t>
 
-           <t><figure>
-            <artwork><![CDATA[GET /connect/sector_identifier.js HTTP/1.1
+	  <t><figure>
+	    <artwork><![CDATA[GET /connect/sector_identifier.js HTTP/1.1
 Accept: application/json
 Host: client.example.com
 
 [ "https://client.example.com/callback",
   "https://client.example.com/callback2",
   "https://client.other_company.com/callback" ]
-  ]]></artwork>
-</figure></t>
-	  </section>
-      <section title="Response">
+]]></artwork>
+	  </figure></t>
+	</section>
+      </section>
+
+      <section title="Client Registration Response">
         <t>The response is returned as a JSON object with all the parameters
         as top level elements.</t>
 
@@ -322,27 +323,27 @@ Cache-Control: no-store
  "expires_in":3600
 }]]></artwork>
           </figure></t>
+      </section>
 
-              <section title="Client Registration Error Response">
-          <t>When some error condition arises, the Client Registration Endpoint returns
-          the JSON serialized Error Response defined in section 3.3.3 of <xref
-          target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
-          entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
-          media type with HTTP response code 400.</t>
+      <section title="Client Registration Error Response">
+	<t>When some error condition arises, the Client Registration Endpoint returns
+	the JSON serialized Error Response defined in section 3.3.3 of <xref
+	target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
+	entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
+	media type with HTTP response code 400.</t>
 
-          <t><figure>
-              <preamble>Following is a non-normative example of an error
-              response:</preamble>
+	<t><figure>
+	    <preamble>Following is a non-normative example of an error
+	    response:</preamble>
 
-              <artwork><![CDATA[HTTP/1.1 400 Bad Request
+	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
 Content-Type: application/json
 
 {
-  "error": "invalid_request"
+ "error": "invalid_request"
 }
 ]]></artwork>
-            </figure></t>
-        </section>
+	</figure></t>
       </section>
     </section>
 

@@ -5,7 +5,7 @@
 <rfc category="exp" docName="openid-connect-standard-1_0" ipr="trust200902">
   <?rfc toc="yes" ?>
 
-  <?rfc tocdepth="3" ?>
+  <?rfc tocdepth="4" ?>
 
   <?rfc symrefs="yes" ?>
 
@@ -1214,56 +1214,54 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
           return either a successful response or an error response that corresponds to
           the received Authorization Code.</t>
 
-          <section title="Successful Response">
-            <t>A successful response returns the "<spanx style="verb">application/json</spanx>"
-            media type and the response body is the Access Token Response documented in Sec 2.2.3 of
-            <xref target="OpenID.Messages">OpenID Connect Messages
-            1.0</xref>.</t>
+	  <t>A successful response returns the "<spanx style="verb">application/json</spanx>"
+	  media type and the response body is the Access Token Response documented in Sec 2.2.3 of
+	  <xref target="OpenID.Messages">OpenID Connect Messages
+	  1.0</xref>.</t>
 
-            
-            <figure>
-              <preamble>Following is a non-normative example of a
-              successful response:</preamble>
 
-              <artwork><![CDATA[HTTP/1.1 200 OK
+	  <figure>
+	    <preamble>Following is a non-normative example of a
+	    successful response:</preamble>
+
+	    <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
 Cache-Control: no-store
 Pragma: no-cache
 
 {
-    "access_token": "SlAV32hkKG",
-    "token_type": "Bearer",
-    "refresh_token": "8xLOxBtZp8",
-    "expires_in": 3600,
-    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOl
+ "access_token": "SlAV32hkKG",
+ "token_type": "Bearer",
+ "refresh_token": "8xLOxBtZp8",
+ "expires_in": 3600,
+ "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOl
 wvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIj
 oiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0
 vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 }]]></artwork>
-            </figure>
-          </section>
+	  </figure>
+	</section>
 
-          <section title="Error Response">
-            <t>If the Token Request is invalid or unauthorized, the
-            Authorization Server constructs the response by returning the
-            Token Error Response defined in <xref
-            target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
-            entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
-            media type with HTTP response code 400.</t>
+	<section title="Access Token Error Response">
+	  <t>If the Token Request is invalid or unauthorized, the
+	  Authorization Server constructs the response by returning the
+	  Token Error Response defined in <xref
+	  target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
+	  entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
+	  media type with HTTP response code 400.</t>
 
-            <figure>
-              <preamble>Following is a non-normative example:</preamble>
+	  <figure>
+	    <preamble>Following is a non-normative example:</preamble>
 
-              <artwork><![CDATA[HTTP/1.1 400 Bad Request
+	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
 Content-Type: application/json
 Cache-Control: no-store
 Pragma: no-cache
 
 {
-  "error": "invalid_request"
+ "error": "invalid_request"
 }]]></artwork>
-            </figure>
-          </section>
+	  </figure>
         </section>
       </section>
 
@@ -1275,20 +1273,16 @@ Pragma: no-cache
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 6 of 
           <xref target="OAuth2.0">OAuth 2.0</xref>:</t>
-
         
         <t>The Authorization Server MUST verify the validity of the Refresh
           Token.
         </t>
-
-        
 
         <section title="Refresh Token Response">
           <t>Upon receipt of the Refresh Token Request, the Authorization Server MUST
           return either a successful response or an error response that corresponds to
           the received Refresh Token.</t>
 
-        <section title="Successful Response">
           <t>Upon successful verification of the Refresh Token, a successful
           response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
@@ -1316,11 +1310,11 @@ Cache-Control: no-store
 Pragma: no-cache
 
 {
-    "access_token": "TlBN45jURg",
-    "token_type": "Bearer",
-    "refresh_token": "9yNOxJtZa5",
-    "expires_in": 3600,
-    "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOl
+ "access_token": "TlBN45jURg",
+ "token_type": "Bearer",
+ "refresh_token": "9yNOxJtZa5",
+ "expires_in": 3600,
+ "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOl
 wvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIj
 oiaHR0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0
 vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
@@ -1328,13 +1322,12 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
           </figure>
         </section>
 
-          <section title="Error Response">
-            <t>If the Refresh Token Request is invalid or unauthorized, the
-            Authorization Server returns the 
-            Token Error Response as defined in Section 5.2 of <xref
-            target="OAuth2.0">OAuth 2.0</xref>.</t>
-          </section>
-        </section>
+	<section title="Refresh Token Error Response">
+	  <t>If the Refresh Token Request is invalid or unauthorized, the
+	  Authorization Server returns the 
+	  Token Error Response as defined in Section 5.2 of <xref
+	  target="OAuth2.0">OAuth 2.0</xref>.</t>
+	</section>
       </section>
     </section>
 
@@ -1413,27 +1406,27 @@ Content-Type: application/json
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
         </figure>
+      </section>
 
-        <section title="UserInfo Error Response">
-          <t>When an error condition occurs, the UserInfo Endpoint returns
-          a JSON serialized Error Response defined in section 2.3.3 of <xref
-          target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
-          entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
-          media type with HTTP response code 400.</t>
+      <section title="UserInfo Error Response">
+	<t>When an error condition occurs, the UserInfo Endpoint returns
+	a JSON serialized Error Response defined in section 2.3.3 of <xref
+	target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
+	entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
+	media type with HTTP response code 400.</t>
 
-          <t><figure>
-              <preamble>Following is a non-normative example of an error
-              response:</preamble>
+	<figure>
+	    <preamble>Following is a non-normative example of an error
+	    response:</preamble>
 
-              <artwork><![CDATA[HTTP/1.1 400 Bad Request
+	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
 Content-Type: application/json
 
 {
-  "error": "invalid_request"
+ "error": "invalid_request"
 }
 ]]></artwork>
-            </figure></t>
-        </section>
+        </figure>
       </section>
     </section>
 
@@ -1513,27 +1506,27 @@ Content-Type: application/json
 }
 ]]></artwork>
         </figure>
+      </section>
 
-        <section title="Check ID Error Response">
-          <t>When some error condition arises, the UserInfo Endpoint returns
-          the JSON serialized Error Response defined in section 2.5.3 of <xref
-          target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
-          entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
-          media type with HTTP response code 400.</t>
+      <section title="Check ID Error Response">
+	<t>When some error condition arises, the UserInfo Endpoint returns
+	the JSON serialized Error Response defined in section 2.5.3 of <xref
+	target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
+	entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
+	media type with HTTP response code 400.</t>
 
-          <t><figure>
-              <preamble>Following is a non-normative example of an error
-              response:</preamble>
+	<t><figure>
+	    <preamble>Following is a non-normative example of an error
+	    response:</preamble>
 
-              <artwork><![CDATA[HTTP/1.1 400 Bad Request
+	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
 Content-Type: application/json
 
 {
-  "error":"invalid_id_token"
+ "error":"invalid_id_token"
 }
 ]]></artwork>
-            </figure></t>
-        </section>
+	  </figure></t>
       </section>
     </section>
 

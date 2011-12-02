@@ -4,7 +4,7 @@
 "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-mesages-1_0" ipr="trust200902">
   <?rfc toc="yes" ?>
-  <?rfc tocdepth="3" ?>
+  <?rfc tocdepth="4" ?>
   <?rfc symrefs="yes" ?>
   <?rfc sortrefs="yes"?>
   <?rfc strict="no" ?>
@@ -740,69 +740,68 @@
           parameters defined in sections 4.1.2.1 and 4.2.2.1 of <xref
           target="OAuth2.0">OAuth 2.0</xref>.</t>
 
-          <section title="Error Codes">
-            <t>In addition to the error codes defined in section 4.1.2.1 and 4.2.2.1 of
-            <xref target="OAuth2.0">OAuth 2.0</xref>, this specification
-            defines the following additional error codes:</t>
+	  <t>In addition to the error codes defined in section 4.1.2.1 and 4.2.2.1 of
+	  <xref target="OAuth2.0">OAuth 2.0</xref>, this specification
+	  defines the following additional error codes:</t>
 
-            <t><list style="hanging">
-                <t hangText="invalid_request_redirect_uri">The 
-                <spanx style="verb">redirect_uri</spanx> in
-                the Authorization Request does not match any of the Client's 
-                pre-registered <spanx style="verb">redirect_uris</spanx>.</t>
+	  <t><list style="hanging">
+	      <t hangText="invalid_request_redirect_uri">The 
+	      <spanx style="verb">redirect_uri</spanx> in
+	      the Authorization Request does not match any of the Client's 
+	      pre-registered <spanx style="verb">redirect_uris</spanx>.</t>
 
-                <t hangText="login_required">The Authorization Server requires
-                End-User authentication. This error MAY be returned when the 
-                <spanx style="verb">prompt</spanx> parameter in the
-                Authorization Request is set to "none" to request that the
-                Authorization Server should not display any user interfaces to
-                the End-User, but the Authorization Request cannot be completed
-                without displaying a user interface for user authentication.
-              </t>
+	      <t hangText="login_required">The Authorization Server requires
+	      End-User authentication. This error MAY be returned when the 
+	      <spanx style="verb">prompt</spanx> parameter in the
+	      Authorization Request is set to "none" to request that the
+	      Authorization Server should not display any user interfaces to
+	      the End-User, but the Authorization Request cannot be completed
+	      without displaying a user interface for user authentication.
+	    </t>
 
-                <t hangText="session_selection_required">The End-User is required
-                to select a session at the Authorization Server. The End-User may
-                be authenticated at the Authorization Server with different
-                associated accounts, but the End-User did not select a session.
-                This error MAY be returned 
-                when the <spanx style="verb">prompt</spanx> parameter in the
-                Authorization Request is set to "none" to request that the
-                Authorization Server should not display any user interfaces to
-                the End-User, but the Authorization Request cannot be completed
-                without displaying a user interface to prompt for a session to
-                use.</t>
+	      <t hangText="session_selection_required">The End-User is required
+	      to select a session at the Authorization Server. The End-User may
+	      be authenticated at the Authorization Server with different
+	      associated accounts, but the End-User did not select a session.
+	      This error MAY be returned 
+	      when the <spanx style="verb">prompt</spanx> parameter in the
+	      Authorization Request is set to "none" to request that the
+	      Authorization Server should not display any user interfaces to
+	      the End-User, but the Authorization Request cannot be completed
+	      without displaying a user interface to prompt for a session to
+	      use.</t>
 
-                <t hangText="consent_required">The Authorization Server
-                requires End-User consent. This error MAY be returned when the 
-                <spanx style="verb">prompt</spanx> parameter in the
-                Authorization Request is set to "none" to request that the
-                Authorization Server should not display any user interfaces to
-                the End-User, but the Authorization Request cannot be completed
-                without displaying a user interface for End-User consent.</t>
+	      <t hangText="consent_required">The Authorization Server
+	      requires End-User consent. This error MAY be returned when the 
+	      <spanx style="verb">prompt</spanx> parameter in the
+	      Authorization Request is set to "none" to request that the
+	      Authorization Server should not display any user interfaces to
+	      the End-User, but the Authorization Request cannot be completed
+	      without displaying a user interface for End-User consent.</t>
 
-                <t hangText="user_mismatched">The current logged in End-User at
-                the Authorization Server does not match the requested
-                user. This error MAY be returned when the 
-                <spanx style="verb">prompt</spanx> parameter in the
-                Authorization Request is set to "none" to request that the
-                Authorization Server should not display any user interfaces to
-                the End-User, but the Authorization Request cannot be completed
-                without displaying a user interface to prompt for the correct
-                End-User authentication.</t>
-                
-                <t hangText="invalid_request_uri">The 
-                <spanx style="verb">request_uri</spanx> in
-                the Authorization Request returns an error or invalid data.</t>
-                
-                <t hangText="invalid_openid_request_object">The 
-                <spanx style="verb">request</spanx> parameter contains an invalid 
-                openid_request_object.</t>
-                
-                
-              </list></t>
-            <t>Errors are returned as defined by the registered OAuth
-            2.0 <spanx style="verb">response_type</spanx>.</t>
-          </section>
+	      <t hangText="user_mismatched">The current logged in End-User at
+	      the Authorization Server does not match the requested
+	      user. This error MAY be returned when the 
+	      <spanx style="verb">prompt</spanx> parameter in the
+	      Authorization Request is set to "none" to request that the
+	      Authorization Server should not display any user interfaces to
+	      the End-User, but the Authorization Request cannot be completed
+	      without displaying a user interface to prompt for the correct
+	      End-User authentication.</t>
+
+	      <t hangText="invalid_request_uri">The 
+	      <spanx style="verb">request_uri</spanx> in
+	      the Authorization Request returns an error or invalid data.</t>
+
+	      <t hangText="invalid_openid_request_object">The 
+	      <spanx style="verb">request</spanx> parameter contains an invalid 
+	      openid_request_object.</t>
+
+
+	    </list></t>
+	  <t>Errors are returned as defined by the registered OAuth
+	  2.0 <spanx style="verb">response_type</spanx>.</t>
+
         </section>
       </section>
 
@@ -994,16 +993,14 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
           of the Token Error Response are defined as in Section 5.2 of <xref
           target="OAuth2.0">OAuth 2.0</xref>.</t>
 
-          <section title="Error Codes">
-            <t>In addition to the error codes defined in Section 5.2 of <xref
-            target="OAuth2.0">OAuth 2.0</xref>, this specification defines
-            the following error codes.</t>
+	  <t>In addition to the error codes defined in Section 5.2 of <xref
+	  target="OAuth2.0">OAuth 2.0</xref>, this specification defines
+	  the following error codes.</t>
 
-            <t><list style="hanging">
-              <t hangText="invalid_authorization_code">The Authorization
-              Code is missing, malformed, or invalid.</t>
-            </list></t>
-          </section>
+	  <t><list style="hanging">
+	    <t hangText="invalid_authorization_code">The Authorization
+	    Code is missing, malformed, or invalid.</t>
+	  </list></t>
         </section>
       </section>
 
@@ -1195,7 +1192,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             <c>The End-User's preferred address. The value of the <spanx
             style="verb">address</spanx> member is a <xref
             target="RFC4627">JSON</xref> structure containing some or all of
-            the members defined in 2.3.2.1. </c>
+            the members defined in <xref target="address_claim" />. </c>
 
             <c>updated_time</c>
 
@@ -1250,7 +1247,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 }]]></artwork>
           </figure>
 
-          <section title="Address Claim">
+          <section title="Address Claim" anchor="address_claim">
 	    <t>
 	      The components of a physical mailing address. 
 	      Implementations MAY return only a subset of the
@@ -1278,7 +1275,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 		This field MAY contain newlines. This is the 
 		Primary Sub-Field for this field, 
 		for the purposes of sorting and filtering.</t>
-		<t hangText="streetAddress">
+		<t hangText="street_address">
 		The full street address component, 
 		which may include house number, street name, 
 		PO BOX, and multi-line extended street 
@@ -1286,7 +1283,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 		<t hangText="locality">The city or locality component.</t>
 		<t hangText="region">The state, province, 
 		prefecture or region component.</t>
-		<t hangText="postalCode">The zip code or 
+		<t hangText="postal_code">The zip code or 
 		postal code component.</t>
 		<t hangText="country">The country name component.</t>
 	      </list>
@@ -1294,7 +1291,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
           </section>
         </section>
 
-        <section title="Error Response">
+        <section title="UserInfo Error Response">
           <t>When an error condition occurs, the UserInfo Endpoint returns
           an Error Response. In addition to the error codes defined in section 3.1 of
           <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
@@ -1546,7 +1543,7 @@ Content-Type: application/json
           </figure>
         </section>
 
-        <section title="Check ID Errors">
+        <section title="Check ID Error Response">
           <t>In addition to the error codes defined in Section 5.2 of <xref
           target="OAuth2.0">OAuth 2.0</xref>, this specification defines the
           following error codes:</t>
