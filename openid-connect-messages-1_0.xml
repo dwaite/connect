@@ -1004,6 +1004,75 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
         </section>
       </section>
 
+      <section anchor="check_id_ep" title="Check ID Endpoint">
+        <t>The Check ID Endpoint validates ID Tokens and returns a <xref
+        target="RFC4627">JSON</xref> object that contains Claims about
+        the authentication event associated with the supplied ID Token.</t>
+
+        <t>This endpoint can be used by Clients that are not able to or do not
+        wish to directly handle ID Tokens. In such cases, Clients MAY treat the ID
+        Token as an opaque value, and use the Check ID Endpoint to
+        retrieve and examine the Claims associated with the ID Token.</t>
+
+        <section title="Check ID Request">
+          <t>To request the information about the authentication performed on
+          the End-User, the following parameters are sent to the Check ID
+          Endpoint:</t>
+
+          <t><list style="hanging">
+            <t hangText="id_token">REQUIRED. The ID Token obtained from an
+            OpenID Connect Authorization Request.</t>
+          </list></t>
+        </section>
+
+        <section title="Check ID Response">
+          <t>The response is a <xref target="RFC4627">JSON</xref> object
+          containing the <xref target="id_token">ID Token</xref> Claims.</t>
+
+          <t>Other Claims MAY be requested by specifying the desired ID Token 
+          Claims to be returned in an <xref
+          target="OpenIDReq">OpenID Request Object</xref> when making an
+          Authorization Request.</t>
+          <t>The content-type of the HTTP response MUST be
+        set to <spanx style="verb">application/json</spanx>.</t>
+          <figure>
+            <preamble>The following is a non-normative example of a request to
+            the Check ID Endpoint:</preamble>
+
+            <artwork><![CDATA[
+POST /id_token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-encoded
+
+id_token=eyJ0eXAiOiJKV1QiL
+
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+ "iss": "http://server.example.com",
+ "user_id": "248289761001",
+ "aud": "http://client.example.com",
+ "exp": 1311281970
+}
+]]></artwork>
+          </figure>
+        </section>
+
+        <section title="Check ID Error Response">
+          <t>In addition to the error codes defined in Section 3.1 of <xref
+          target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
+          following error codes:</t>
+
+          <t><list style="hanging">
+            <t hangText="invalid_id_token">The ID Token is not valid for the
+            requested resource, is malformed, is in an incorrect format, or
+            is expired.</t>
+          </list></t>
+        </section>
+      </section>
+
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
         <t>The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
         returns Claims about the authenticated End-User. Claims are
@@ -1487,74 +1556,6 @@ may be retrieved:
 	</section>
       </section>
 
-      <section anchor="check_id_ep" title="Check ID Endpoint">
-        <t>The Check ID Endpoint validates ID Tokens and returns a <xref
-        target="RFC4627">JSON</xref> object that contains Claims about
-        the authentication event associated with the supplied ID Token.</t>
-
-        <t>This endpoint can be used by Clients that are not able to or do not
-        wish to directly handle ID Tokens. In such cases, Clients MAY treat the ID
-        Token as an opaque value, and use the Check ID Endpoint to
-        retrieve and examine the Claims associated with the ID Token.</t>
-
-        <section title="Check ID Request">
-          <t>To request the information about the authentication performed on
-          the End-User, the following parameters are sent to the Check ID
-          Endpoint:</t>
-
-          <t><list style="hanging">
-            <t hangText="id_token">REQUIRED. The ID Token obtained from an
-            OpenID Connect Authorization Request.</t>
-          </list></t>
-        </section>
-
-        <section title="Check ID Response">
-          <t>The response is a <xref target="RFC4627">JSON</xref> object
-          containing the <xref target="id_token">ID Token</xref> Claims.</t>
-
-          <t>Other Claims MAY be requested by specifying the desired ID Token 
-          Claims to be returned in an <xref
-          target="OpenIDReq">OpenID Request Object</xref> when making an
-          Authorization Request.</t>
-          <t>The content-type of the HTTP response MUST be
-        set to <spanx style="verb">application/json</spanx>.</t>
-          <figure>
-            <preamble>The following is a non-normative example of a request to
-            the Check ID Endpoint:</preamble>
-
-            <artwork><![CDATA[
-POST /id_token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-encoded
-
-id_token=eyJ0eXAiOiJKV1QiL
-
-
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
- "iss": "http://server.example.com",
- "user_id": "248289761001",
- "aud": "http://client.example.com",
- "exp": 1311281970
-}
-]]></artwork>
-          </figure>
-        </section>
-
-        <section title="Check ID Error Response">
-          <t>In addition to the error codes defined in Section 3.1 of <xref
-          target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
-          following error codes:</t>
-
-          <t><list style="hanging">
-            <t hangText="invalid_id_token">The ID Token is not valid for the
-            requested resource, is malformed, is in an incorrect format, or
-            is expired.</t>
-          </list></t>
-        </section>
-      </section>
     </section>
 
     <section anchor="Serializations" title="Serializations">

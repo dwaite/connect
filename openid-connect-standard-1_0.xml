@@ -1331,103 +1331,6 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
       </section>
     </section>
 
-    <section anchor="userinfo_ep" title="UserInfo Endpoint">
-      <t>To obtain the requested Claims about the End-User, the Client
-      makes a GET or POST request to the UserInfo Endpoint as in <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
-
-      <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2 as
-      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
-      other transport-layer mechanisms with equivalent security.</t>
-
-      <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
-      "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
-      UserInfo Endpoint. </t>
-
-      <t>Authorization Servers MUST be able to accept Access Tokens via
-      <xref target="OAuth2.0Bearer">Bearer Tokens</xref>
-      specification.</t>
-
-      <section title="UserInfo Request">
-        <t>Client SHOULD send the UserInfo Request defined in section 3.3 of
-        the <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
-        either in HTTP GET or POST request.</t>
-        
-        <t>The Access Token obtained
-            from an OpenID Connect Authorization Request MUST be sent as a <xref
-            target="OAuth2.0Bearer">Bearer Token</xref></t>
-            <t>Section 2 of the <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Token</xref>
-            specification documents the permissible methods of sending the Access Token.</t> 
-            <t>It is RECOMMENDED that the Client use the authorization header method for all 
-            requests using GET.</t>
-            
-            
-        <figure>
-          <preamble>The following is a non-normative example. Line wraps are
-          for display purpose only:</preamble>
-
-          <artwork><![CDATA[POST /userinfo HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
-
-access_token=SlAV32hkKG
-&schema=openid]]></artwork>
-        </figure>
-      </section>
-
-      <section anchor="id_res" title="UserInfo Response">
-        <t>The user_id claim in the UserInfo Endpoint response MUST exactly match the 
-        user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
-        
-        <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
-        return the JSON Serialization of the UserInfo response as in <xref
-        target="OpenID.Messages">OpenID Messages</xref> in the HTTP response
-        body. The content-type of the HTTP response MUST be set to <spanx
-        style="verb">application/json</spanx> if the response body is a text
-        JSON structure. If the JSON response is <xref target="JWS">JWS</xref>
-        signed or <xref target="JWE">JWE</xref> encrypted, then the
-        content-type MUST be set to <spanx style="verb">application/jwt</spanx>.</t>
-
-
-        <figure>
-          <preamble>Following is a non-normative example of such
-          response:</preamble>
-
-          <artwork><![CDATA[HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
- "user_id": "248289761001",
- "name": "Jane Doe"
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
-        </figure>
-      </section>
-
-      <section title="UserInfo Error Response">
-	<t>When an error condition occurs, the UserInfo Endpoint returns
-	an Error Response as defined in Section 3 of
-	<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>
-	utilizing an error code as specified in Section 2.3.3 of <xref
-	target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
-
-	<figure>
-	    <preamble>Following is a non-normative example of an error
-	    response:</preamble>
-
-	    <artwork><![CDATA[HTTP/1.1 401 Unauthorized
-WWW-Authenticate: Bearer realm="example.com",
-                     error="invalid_token",
-                     error_description="The access token expired"
-]]></artwork>
-        </figure>
-      </section>
-    </section>
-
     <section anchor="check_id_ep" title="Check ID Endpoint">
       <t>
 	The Check ID Endpoint validates the ID Token and returns a
@@ -1547,7 +1450,7 @@ Content-Type: application/json
 	<t>When an error condition occurs, the Check ID Endpoint returns
 	an Error Response as defined in Section 3 of
 	<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>
-	utilizing an error code as specified in Section 2.5.3 of <xref
+	utilizing an error code as specified in Section 2.3.3 of <xref
 	target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
 	<t><figure>
@@ -1560,6 +1463,103 @@ WWW-Authenticate: Bearer realm="example.com",
                      error_description="The ID token expired"
 ]]></artwork>
 	  </figure></t>
+      </section>
+    </section>
+
+    <section anchor="userinfo_ep" title="UserInfo Endpoint">
+      <t>To obtain the requested Claims about the End-User, the Client
+      makes a GET or POST request to the UserInfo Endpoint as in <xref
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+
+      <t>Authorization Servers MUST require the use of a transport-layer
+      security mechanism. The Authorization Server MUST support TLS 1.2 as
+      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
+      other transport-layer mechanisms with equivalent security.</t>
+
+      <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
+      "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
+      UserInfo Endpoint. </t>
+
+      <t>Authorization Servers MUST be able to accept Access Tokens via
+      <xref target="OAuth2.0Bearer">Bearer Tokens</xref>
+      specification.</t>
+
+      <section title="UserInfo Request">
+        <t>Client SHOULD send the UserInfo Request defined in section 3.3 of
+        the <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+        either in HTTP GET or POST request.</t>
+        
+        <t>The Access Token obtained
+            from an OpenID Connect Authorization Request MUST be sent as a <xref
+            target="OAuth2.0Bearer">Bearer Token</xref></t>
+            <t>Section 2 of the <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Token</xref>
+            specification documents the permissible methods of sending the Access Token.</t> 
+            <t>It is RECOMMENDED that the Client use the authorization header method for all 
+            requests using GET.</t>
+            
+            
+        <figure>
+          <preamble>The following is a non-normative example. Line wraps are
+          for display purpose only:</preamble>
+
+          <artwork><![CDATA[POST /userinfo HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+access_token=SlAV32hkKG
+&schema=openid]]></artwork>
+        </figure>
+      </section>
+
+      <section anchor="id_res" title="UserInfo Response">
+        <t>The user_id claim in the UserInfo Endpoint response MUST exactly match the 
+        user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
+        
+        <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
+        return the JSON Serialization of the UserInfo response as in <xref
+        target="OpenID.Messages">OpenID Messages</xref> in the HTTP response
+        body. The content-type of the HTTP response MUST be set to <spanx
+        style="verb">application/json</spanx> if the response body is a text
+        JSON structure. If the JSON response is <xref target="JWS">JWS</xref>
+        signed or <xref target="JWE">JWE</xref> encrypted, then the
+        content-type MUST be set to <spanx style="verb">application/jwt</spanx>.</t>
+
+
+        <figure>
+          <preamble>Following is a non-normative example of such
+          response:</preamble>
+
+          <artwork><![CDATA[HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+ "user_id": "248289761001",
+ "name": "Jane Doe"
+ "given_name": "Jane",
+ "family_name": "Doe",
+ "email": "janedoe@example.com",
+ "picture": "http://example.com/janedoe/me.jpg"
+}]]></artwork>
+        </figure>
+      </section>
+
+      <section title="UserInfo Error Response">
+	<t>When an error condition occurs, the UserInfo Endpoint returns
+	an Error Response as defined in Section 3 of
+	<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>
+	utilizing an error code as specified in Section 2.4.3 of <xref
+	target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+
+	<figure>
+	    <preamble>Following is a non-normative example of an error
+	    response:</preamble>
+
+	    <artwork><![CDATA[HTTP/1.1 401 Unauthorized
+WWW-Authenticate: Bearer realm="example.com",
+                     error="invalid_token",
+                     error_description="The access token expired"
+]]></artwork>
+        </figure>
       </section>
     </section>
 
