@@ -322,11 +322,22 @@ Cache-Control: no-store
       </section>
 
       <section title="Client Registration Error Response">
-	<t>When some error condition arises, the Client Registration Endpoint returns
-	the JSON serialized Error Response defined in section 3.3.3 of <xref
-	target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
-	entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
-	media type with HTTP response code 400.</t>
+      <t>In addition to the error codes defined in Section 3.1 of <xref
+          target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
+          following error codes:</t>
+
+          <t><list style="hanging">
+          
+          <t hangText="invalid_type">The value of <spanx style="verb">type</spanx> is invalid or not supported.</t>
+          
+          <t hangText="invalid_client_id">The value of <spanx style="verb">client_id</spanx> is invalid.</t>
+          
+          <t hangText="invalid_client_secret">The <spanx style="verb">client_secret</spanx> provided for a 
+            <spanx style="verb">client_update</spanx> is not valid for the provided <spanx style="verb">client_id</spanx>.</t>
+            
+           <t hangText="invalid_configuration_paramater">The value of one of the configuration paramaters is invalid.</t>
+	       </list></t>
+	        
 
 	<t><figure>
 	    <preamble>Following is a non-normative example of an error
@@ -336,7 +347,7 @@ Cache-Control: no-store
 Content-Type: application/json
 
 {
- "error": "invalid_request"
+ "error": "invalid_client_secret"
 }
 ]]></artwork>
 	</figure></t>
@@ -719,6 +730,7 @@ Content-Type: application/json
           <t>Fix #359 Sec 3.1 clarify use of client_update.</t>
           <t>Fix #299 Remove Discovery section.</t>
           <t>re #333 clarify redirect_uris matching</t>
+          <t>Fixes #382 reference bearer tiken errors</t>
           
         </list></t>
 
