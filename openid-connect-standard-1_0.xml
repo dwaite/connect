@@ -802,50 +802,11 @@ Host: client.example.com]]></artwork>
         </section>
 
 	<section title="Authorization Server Validates Request Object">
-          <t>If a Request Object was sent in the <spanx 
-          style="verb">request</spanx> parameter or by reference in the
-          <spanx style="verb">request_uri</spanx> parameter, the 
-          Request Object must be JWT decoded.</t>
-
-          <t>If the JWT header contains no "typ" element or its value is "JWT", skip to 
-          <xref target="signed.req.obj.var">Signed Request Object</xref></t>
+          <t>The Authorization Server validates the request according to 
+		  the Section 5.1 of <xref target="OpenID.Connect"></xref>
+		  </t>
           
-         <section title="Encrypted Request Object">
-          <t>If the JWT is encrypted, the "typ" element of the header will contain the value "JWS"
-          indicating that its payload is a JWS, requiring additional processing.</t>
-          
-          <t>The Authorization Server has advertised JWE encryption algorithms
-          in the <spanx style="verb">id_token_supported_algs</spanx> element of its 
-          Discovery Document. These are used by the Client to encrypt the JWT.</t>
-          
-          <t>Based on the <spanx style="verb">alg</spanx>, <spanx style="verb">enc</spanx>,
-          and other parameters in the JWE header, decrypt the JWT, in accordance with
-          <xref target="JWE">JSON Web Encryption</xref> specification.</t>
-          
-          <t>The Authorization Server MUST return the error authorization 
-            response as defined in <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref> if there is a decryption error.</t>
-            </section>
-            
-            <section anchor="signed.req.obj.var" title="Signed Request Object">
-            <t>The decrypted body of the JWT will contain a Signed JWT. Perform
-            signature verification with it as the JWT input.</t> 
-
-          <t>To perform Signature Verification, 
-          the <spanx style="verb">alg</spanx> parameter in the JWT header MUST match the value
-          of the <spanx style="verb">require_signed_request_object</spanx> set during
-          <xref target="OpenID.Registration">Client Registration</xref>.</t>
-          
-          <t>The signature must be validated against the key registered for that client_id
-          and algorithm, in accordance with the 
-          <xref target="JWS">JSON Web Signature</xref> specification.</t>
-          
-          <t>The Authorization Server MUST return the error authorization 
-            response as defined in <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref> if there is a decryption error.</t>
-          </section>
-          
-        </section>
+	</section>
 
 
         <section title="Authorization Server Authenticates the End-User">
