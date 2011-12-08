@@ -405,7 +405,11 @@
               target="openid_scopes">OpenID Connect Scopes</xref>.</t>
 
               <t hangText="redirect_uri">A redirection URI where the response
-              will be sent.</t>
+              will be sent. The Scheme, Host, and Path segments of this URI MUST 
+              match one of the <spanx style="verb">redirect_uris</spanx> registered 
+              for the <spanx style="verb">client_id</spanx> in the <xref
+               target="OpenID.Registration">OpenID Connect Dynamic Client 
+               Registration 1.0</xref> specification.</t>
 
               <t hangText="nonce">A string value used to associate a browser session 
               with a id_token, and to mitigate replay attacks. 
@@ -2341,7 +2345,8 @@ scope=openid&response_type=code
         <t>re #310 user info example to include user_id</t>
         <t>re #323 add id_token response type to sec 2.2.1</t>
         <t>Fixes #323 add id_token response type to sec 2.3.1</t>
-        <t>re #302 change nonce definition Sec 2.3.1.</t> 
+        <t>re #302 change nonce definition Sec 2.3.1.</t>
+        <t>Fixes #333 clarify redirect_uris matching</t> 
         </list></t>
         
       <t>-06<list style="symbols">
