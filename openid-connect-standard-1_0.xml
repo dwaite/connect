@@ -407,8 +407,13 @@
               <t hangText="redirect_uri">A redirection URI where the response
               will be sent.</t>
 
-              <t hangText="nonce">A random, unique string value used
-              to mitigate replay attacks. The value is passed through unmodified to the ID Token.</t>
+              <t hangText="nonce">A string value used to associate a browser session 
+              with a id_token, and to mitigate replay attacks. 
+              The value is passed through unmodified to the ID Token.
+              One method is to store a random value as a signed session cookie, and
+              pass the value in the nonce paramater.  The nonce in the returned id_token
+              is compared to the signed session cookie to detect id_token replay by third 
+              parties.</t>
             </list></t>
 
           <t>The request can contain the following OPTIONAL parameters:</t>
@@ -2336,6 +2341,7 @@ scope=openid&response_type=code
         <t>re #310 user info example to include user_id</t>
         <t>re #323 add id_token response type to sec 2.2.1</t>
         <t>Fixes #323 add id_token response type to sec 2.3.1</t>
+        <t>re #302 change nonce definition Sec 2.3.1.</t> 
         </list></t>
         
       <t>-06<list style="symbols">
