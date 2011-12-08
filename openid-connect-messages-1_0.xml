@@ -1823,7 +1823,7 @@ may be retrieved:
           
          <section title="Encrypted Request Object">
           
-          <t>The Authorization Server has advertised JWE encryption algorithms
+          <t>If the Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">id_token_supported_algs</spanx> element of its 
           Discovery Document. These are used by the Client to encrypt the JWT.</t>
           
@@ -1841,7 +1841,8 @@ may be retrieved:
           <t>To perform Signature Verification, 
           the <spanx style="verb">alg</spanx> parameter in the JWT header MUST match the value
           of the <spanx style="verb">require_signed_request_object</spanx> set during
-          <xref target="OpenID.Registration">Client Registration</xref>.</t>
+          <xref target="OpenID.Registration">Client Registration</xref> or otherwise 
+		  pre-registered value.</t>
           
           <t>The signature must be validated against the key registered for that client_id
           and algorithm, in accordance with the 
@@ -1851,10 +1852,24 @@ may be retrieved:
             response if there is a signature validation error.</t>
 	     </section>
 		 <section anchor="req.obj.veri" title="Parameters Verification">
-		  <t>Server MUST construct the Request Message from the OpenID Request Object 
+		  <t>The Authorization Server MUST construct the Authorization Request Message 
+		  from the OpenID Request Object 
 		  and other parameters. Note that the if the same parameter exists both in 
 		  the OpenID Request Object and other parameters, the former takes precidence. 
+		  Using this Authorization Request Message, the Authorization Server performes 
+		  the following steps of the request verification: 
 		  </t>
+		  <list style="hanging">
+		  <t>The Authorization Server MUST understand all the parameters 
+		  except for the unsupported claims. If there is any parameters that 
+		  it does not understand except for the unsupported claims, it MUST return 
+		  an error response. </t>
+		  <t>The Authorization Server MUST verify that all the 
+		  OAuth 2.0 variables according to OAuth 2.0. </t>
+		  <t>The Authorization Server MUST verify that all the required parameters 
+		  are present. </t>
+		  </list>
+		  
 		 </section>
       </section>
 
