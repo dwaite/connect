@@ -214,7 +214,7 @@
           </list></t>
 
         <t>Multiple scopes MAY be requested by creating a space delimited, case
-        sensitive list of scope values.</t>
+        sensitive list of ASCII scope values.</t>
         
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
@@ -279,7 +279,7 @@
               <t hangText="response_type">It MUST include 
               <spanx style="verb">token</spanx> and
               <spanx style="verb">id_token</spanx>,
-              as a space separated list. This requests that both an Access Token
+              as a space delimited list. This requests that both an Access Token
               and an ID Token be returned in the URL fragment of the
               response.</t>
             </list></t>
@@ -291,7 +291,7 @@
               <t hangText="client_id">The OAuth 2.0 Client Identifier.</t>
 
               <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
-              as one of the space separated strings. Optional scope strings of
+              as one of the space delimited ASCII strings. OPTIONAL scope strings of
               <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
               and <spanx style="verb">address</spanx> are also supported.</t>
 
@@ -303,17 +303,18 @@
               ID Endpoint.</t>
             </list></t>
 
-          <t>The request MAY contain the following optional parameters:</t>
+          <t>The request MAY contain the following OPTIONAL parameters:</t>
 
           <t><list style="hanging">
               <t hangText="state">RECOMENDED.  An opaque value used
               to maintain state between the request and the callback;
               serves as a protection against XSRF attacks.</t>
 
-              <t hangText="display">A string value that specifies
+              <t hangText="display">An ASCII string value that specifies
               how the Authorization Server displays the authentication and
               consent user interface pages to the End-User. The following values
-              are supported:<list style="hanging">
+              are supported:
+	      <list style="hanging">
               <t hangText="page">The Authorization Server SHOULD display
               authentication and consent UI consistent with a full browser page
               view. If the display parameter is not specified this is the
@@ -339,9 +340,10 @@
                 </list></t>
 
               <t hangText="prompt">A space delimited, case sensitive list of
-              string values that specifies whether the Authorization Server prompts
+              ASCII string values that specifies whether the Authorization Server prompts
               the End-User for reauthentication and consent. The possible values
-              are:<list style="hanging">
+              are:
+	      <list style="hanging">
                   <t hangText="none">This value informs the Authorization Server
                   that it MUST NOT display any authentication or consent
                   user interface pages. An error is returned if the End-User 
@@ -1033,6 +1035,46 @@ scope=openid&response_type=code
       </figure>
     </section>
 
+    <section anchor="stringops" title="String Operations">
+
+      <t>
+	Processing some OpenID Connect messages requires comparing
+	values in the messages to known values. For example, the Claim
+	Names returned by the UserInfo Endpoint might be compared to
+	specific Claim Names such as <spanx
+	style="verb">user_id</spanx>.  Comparing Unicode strings,
+	however, has significant security implications.
+      </t>
+      <t>
+	Therefore, comparisons between JSON strings and other Unicode
+	strings MUST be performed as specified below:
+
+	<list style="numbers">
+
+          <t>
+	    Remove any JSON applied escaping to produce an array of
+	    Unicode code points.
+	  </t>
+          <t>
+	    <xref target="USA15">Unicode Normalization</xref> MUST NOT
+	    be applied at any point to either the JSON string or to
+	    the string it is to be compared against.
+	  </t>
+          <t>
+	    Comparisons between the two strings MUST be performed as a
+	    Unicode code point to code point equality comparison.
+	  </t>
+
+        </list>
+      </t>
+      <t>
+	In several places, this specification uses space delimited
+	lists of strings.  In all such cases, only the ASCII space
+	character (0x20) MAY be used for this purpose.
+      </t>
+
+    </section>
+
     <section anchor="security_considerations" title="Security Considerations">
       <t>In addition to the Security Considerations in <xref
       target="OAuth2.0">OAuth 2.0</xref>, the following are the list of 
@@ -1184,6 +1226,31 @@ scope=openid&response_type=code
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
 
       <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
+
+      <reference anchor="USA15">
+        <front>
+          <title>Unicode Normalization Forms</title>
+
+          <author fullname="Mark Davis" initials="M." surname="Davis">
+            <address>
+              <email>markdavis@google.com</email>
+            </address>
+          </author>
+
+          <author fullname="Ken Whistler" initials="K." surname="Whistler">
+            <address>
+              <email>ken@unicode.org</email>
+            </address>
+          </author>
+
+          <author fullname="Martin D&uuml;rst" initials="M."
+                  surname="D&uuml;rst"></author>
+
+          <date day="03" month="09" year="2009" />
+        </front>
+
+        <seriesInfo name="Unicode Standard Annex" value="15" />
+      </reference>
 
       <reference anchor="ISO29115">
         <front>

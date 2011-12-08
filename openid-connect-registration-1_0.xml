@@ -147,7 +147,7 @@
             authorization header must be <xref
             target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
 
-            <t hangText="contacts">OPTIONAL.  Space-separated list of email
+            <t hangText="contacts">OPTIONAL.  Space delimited list of email
             addresses for people allowed to administer the client.</t>
 
             <t hangText="application_type">OPTIONAL.  <spanx style="verb">native</spanx>
@@ -226,7 +226,7 @@
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="userinfo_encrypted_response_algs">OPTIONAL.  A space separated
+             <t hangText="userinfo_encrypted_response_algs">OPTIONAL.  A space delimited
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
              algorithms required for UserInfo responses. If this is requested in combination with signing the response 
@@ -236,7 +236,7 @@
              <t hangText="id_token_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> signing 
              algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
              
-             <t hangText="id_token_encrypted_response_algs">OPTIONAL.  A space separated list of the <xref target="JWE">JWE</xref> 
+             <t hangText="id_token_encrypted_response_algs">OPTIONAL.  A space delimited list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
              algorithms required for id_token issued to this client_id. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
@@ -347,6 +347,46 @@ Content-Type: application/json
       </section>
     </section>
 
+    <section anchor="stringops" title="String Operations">
+
+      <t>
+	Processing some OpenID Connect messages requires comparing
+	values in the messages to known values. For example, the
+	member names in the client registration response might be
+	compared to specific member names such as <spanx
+	style="verb">client_id</spanx>.  Comparing Unicode strings,
+	however, has significant security implications.
+       </t>
+      <t>
+	Therefore, comparisons between JSON strings and other Unicode
+	strings MUST be performed as specified below:
+
+	<list style="numbers">
+
+          <t>
+	    Remove any JSON applied escaping to produce an array of
+	    Unicode code points.
+	  </t>
+          <t>
+	    <xref target="USA15">Unicode Normalization</xref> MUST NOT
+	    be applied at any point to either the JSON string or to
+	    the string it is to be compared against.
+	  </t>
+          <t>
+	    Comparisons between the two strings MUST be performed as a
+	    Unicode code point to code point equality comparison.
+	  </t>
+
+        </list>
+      </t>
+      <t>
+	In several places, this specification uses space delimited
+	lists of strings.  In all such cases, only the ASCII space
+	character (0x20) MAY be used for this purpose.
+      </t>
+
+    </section>
+
     <section anchor="IANA" title="IANA Considerations">
       <t>This document makes no request of IANA.</t>
     </section>
@@ -371,6 +411,31 @@ Content-Type: application/json
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
+
+      <reference anchor="USA15">
+        <front>
+          <title>Unicode Normalization Forms</title>
+
+          <author fullname="Mark Davis" initials="M." surname="Davis">
+            <address>
+              <email>markdavis@google.com</email>
+            </address>
+          </author>
+
+          <author fullname="Ken Whistler" initials="K." surname="Whistler">
+            <address>
+              <email>ken@unicode.org</email>
+            </address>
+          </author>
+
+          <author fullname="Martin D&uuml;rst" initials="M."
+                  surname="D&uuml;rst"></author>
+
+          <date day="03" month="09" year="2009" />
+        </front>
+
+        <seriesInfo name="Unicode Standard Annex" value="15" />
+      </reference>
 
       <reference anchor="OpenID.Messages">
         <front>

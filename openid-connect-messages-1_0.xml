@@ -372,7 +372,7 @@
 
           <t><list style="hanging">
               <t hangText="response_type">A space delimited, case sensitive
-              list of string values. Acceptable values include <spanx
+              list of ASCII string values. Acceptable values include <spanx
               style="verb">code</spanx>, <spanx style="verb">token</spanx>, and
               <spanx style="verb">id_token</spanx>.
               The value MUST include <spanx style="verb">code</spanx> for
@@ -381,7 +381,7 @@
               style="verb">id_token</spanx> for requesting an ID Token.</t>
 
               <t hangText="scope">A space delimited, case sensitive list of
-              string values. The values specify an additive list of Claims
+              ASCII string values. The values specify an additive list of Claims
               that are returned by the UserInfo Endpoint. The following values
               are defined:<list style="hanging">
                   <t hangText="openid">REQUIRED. Informs the Authorization
@@ -438,7 +438,7 @@
               <t hangText="nonce">REQUIRED. A random, unique string value used
               to mitigate replay attacks.</t>
 
-            <t hangText="display">OPTIONAL. A string value that specifies
+            <t hangText="display">OPTIONAL. An ASCII string value that specifies
               how the Authorization Server displays the authentication and
               consent user interface pages to the End-User.
               <list style="hanging">
@@ -467,9 +467,10 @@
               </list></t>
 
               <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
-              list of string values that specifies whether the Authorization
+              list of ASCII string values that specifies whether the Authorization
               Server prompts the End-User for reauthentication and consent. The
-              possible values are:<list style="hanging">
+              possible values are:
+	      <list style="hanging">
                 <t hangText="none">The Authorization Server
                 MUST NOT display any authentication or consent
                 user interface pages. An error is returned if the End-User 
@@ -526,7 +527,7 @@
             </t>
 
             <t>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
-            Authorization Request parameters and MAY contain optional and
+            Authorization Request parameters and MAY contain OPTIONAL and
             extension OAuth 2.0 parameters.
 	    The OAuth 2.0 parameter values included MUST match the
 	    actual OAuth 2.0 request parameters used.</t>
@@ -647,9 +648,9 @@
               defined by this specification are:</t>
 
               <t><list style="hanging">
-                  <t hangText="optional">This is an optional Claim parameter. 
+                  <t hangText="optional">This is an OPTIONAL Claim parameter. 
                   If present, its value MUST be <spanx style="verb">true</spanx>,
-                  which indicates that it is a optional Claim. If it is not
+                  which indicates that it is a OPTIONAL Claim. If it is not
                   present, it is a required Claim.</t>
                 </list>
                 Other members MAY be defined to provide additional
@@ -1629,18 +1630,18 @@ may be retrieved:
       <t>The Client registers its required algorithms for Signing and Encryption 
       using the following Registration parameters:</t>
       <t><list style="hanging">
-             <t hangText="require_signed_request_object">OPTIONAL the 
+             <t hangText="require_signed_request_object">OPTIONAL.  The 
              <xref target="JWS">JWS</xref> signature algorithm that MUST be required 
              by the Authorization Server. All OpenID Request Objects from
              this client_id MUST be rejected if not signed by this algorithm.</t>
               
-             <t hangText="userinfo_signed_response_algs">OPTIONAL the 
+             <t hangText="userinfo_signed_response_algs">OPTIONAL.  The 
              <xref target="JWS">JWS</xref> signature 
              algorithm required for userinfo responses. 
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="userinfo_encrypted_response_algs">OPTIONAL a space separated
+             <t hangText="userinfo_encrypted_response_algs">OPTIONAL.  A space separated
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
              algorithms required for userinfo responses. If this is requested in 
@@ -1649,12 +1650,12 @@ may be retrieved:
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="id_token_signed_response_algs">OPTIONAL the 
+             <t hangText="id_token_signed_response_algs">OPTIONAL.  The 
              <xref target="JWS">JWS</xref> signing algorithm required 
              for id_token issued to this client_id. The default if not specified 
              is HMAC-SHA256 using the provided client_secret as the shared key.</t>
              
-             <t hangText="id_token_encrypted_response_algs">OPTIONAL a space separated 
+             <t hangText="id_token_encrypted_response_algs">OPTIONAL.  A space separated 
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
              algorithms required for id_token issued to this client_id. 
@@ -1706,14 +1707,14 @@ may be retrieved:
             target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
             signing of token_endpoint and request objects.</t>
 
-            <t hangText="x509_url">OPTIONAL URL for the Client's PEM encoded X.509
+            <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
             Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
              signing of token_endpoint and request objects.
             If x509_encryption_url is not 
             provided it is used for <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client.</t>
             
-			<t hangText="x509_encryption_url">OPTIONAL URL for the Client's PEM encoded 
+			<t hangText="x509_encryption_url">OPTIONAL. URL for the Client's PEM encoded 
 			X.509 Certificate or Certificate chain, used for 
 			<xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client. </t>
@@ -1933,12 +1934,10 @@ may be retrieved:
 	    <xref target="RFC6125">RFC 6125</xref>.</t>
           </list></t>
 
-
       </section>
 
-
-
       <section title="UserInfo Response Verification">
+
         <t>To verify the validity of the UserInfo response, the Client MUST do
         the following:</t>
 
@@ -1953,7 +1952,45 @@ may be retrieved:
           </list></t>
       </section>
 
+    </section>
 
+    <section anchor="stringops" title="String Operations">
+
+      <t>
+	Processing some OpenID Connect messages requires comparing
+	values in the messages to known values. For example, the Claim
+	Names returned by the UserInfo Endpoint might be compared to
+	specific Claim Names such as <spanx
+	style="verb">user_id</spanx>.  Comparing Unicode strings,
+	however, has significant security implications.
+      </t>
+      <t>
+	Therefore, comparisons between JSON strings and other Unicode
+	strings MUST be performed as specified below:
+
+	<list style="numbers">
+
+          <t>
+	    Remove any JSON applied escaping to produce an array of
+	    Unicode code points.
+	  </t>
+          <t>
+	    <xref target="USA15">Unicode Normalization</xref> MUST NOT
+	    be applied at any point to either the JSON string or to
+	    the string it is to be compared against.
+	  </t>
+          <t>
+	    Comparisons between the two strings MUST be performed as a
+	    Unicode code point to code point equality comparison.
+	  </t>
+
+        </list>
+      </t>
+      <t>
+	In several places, this specification uses space delimited
+	lists of strings.  In all such cases, only the ASCII space
+	character (0x20) MAY be used for this purpose.
+      </t>
 
     </section>
 
@@ -2218,6 +2255,31 @@ may be retrieved:
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
+
+      <reference anchor="USA15">
+        <front>
+          <title>Unicode Normalization Forms</title>
+
+          <author fullname="Mark Davis" initials="M." surname="Davis">
+            <address>
+              <email>markdavis@google.com</email>
+            </address>
+          </author>
+
+          <author fullname="Ken Whistler" initials="K." surname="Whistler">
+            <address>
+              <email>ken@unicode.org</email>
+            </address>
+          </author>
+
+          <author fullname="Martin D&uuml;rst" initials="M."
+                  surname="D&uuml;rst"></author>
+
+          <date day="03" month="09" year="2009" />
+        </front>
+
+        <seriesInfo name="Unicode Standard Annex" value="15" />
+      </reference>
 
       <reference anchor="OpenID.Basic">
         <front>
