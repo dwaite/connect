@@ -303,7 +303,7 @@
                   is the number of seconds from 1970-01-01T0:0:0Z as
                   measured in UTC until the date/time that the End-User
                   authentication occurred. (The "auth_time" Claim semantically
-                  corresponds to the openid.pape.auth_time response
+                  corresponds to the OpenID 2.0 openid.pape.auth_time response
                   parameter.)</t>
 
             </list></t>
@@ -542,14 +542,15 @@
 	    MAY also consider it an error condition if all requested
 	    required Claims are not provided.</t>
 
-            <t>The OpenID Request Object JWT MAY be signed or unsigned.
-	    When it is unsigned, this will be indicated by use of the
+            <t>The OpenID Request Object JWT MAY be signed or unsigned (plaintext).
+	    When it is a plaintext JWT, this is indicated by use of the
 	    JWT <spanx style="verb">"alg":"none"</spanx>
             convention in the JWT header. If signed, the OpenID Request Object
             SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>" (issuer)
             and "<spanx style="verb">aud</spanx>" (audience) Claims.</t>
 
-            <t>The members defined by this specification are:</t>
+            <t>The OpenID Request Object members defined by this
+            specification are:</t>
 
             <t><list style="hanging">
                 <t hangText="userinfo">OPTIONAL. (UserInfo request): Requests
@@ -601,11 +602,12 @@
               a JSON object that MAY contain the following members:</t>
 
               <t><list style="hanging">
-                  <t hangText="claims">OPTIONAL. (Requested Claims): A JSON object 
-                  containing a Set of
-                  requested Claims from the UserInfo Endpoint. If not present,
-                  the default UserInfo Claims held by the OP are
-                  returned.</t>
+                  <t hangText="claims">OPTIONAL. (Requested Claims): A
+                  JSON object containing a set of Claims being
+                  requested from the UserInfo Endpoint.  If not
+                  present, the UserInfo Claims held by the OP that are
+                  specified by the <spanx style="verb">scope</spanx>
+                  values used are returned.</t>
 
                   <t hangText="preferred_locales">OPTIONAL.  A list of preferred 
                   languages and scripts for the entire Claims request, 
@@ -644,8 +646,8 @@
               <t>All members of the "claims" object are OPTIONAL.</t>
 
               <section title="Requested Claims Member">
-              <t>The members of the JSON object value following a Claim Name
-              defined by this specification are:</t>
+              <t>The members defined by this specification for the
+              JSON object value following a Claim Name member are:</t>
 
               <t><list style="hanging">
                   <t hangText="optional">This is an OPTIONAL Claim parameter. 
@@ -656,7 +658,7 @@
                 Other members MAY be defined to provide additional
               information about the requested Claim. If the "claims" member is
               present in the "userinfo" object, the Claims requested within it
-              override the default Claim set that would otherwise be returned
+              override the Claim set that would otherwise be returned
               from the UserInfo Endpoint.</t>
 
                 </section>
@@ -670,7 +672,7 @@
               "preferred_locales" members. The structure of these members is the same as
               that for the "userinfo" member. If the "claims" member is
               present in the "id_token" object, the Claims requested within it
-              modify the default Claim set that would otherwise be returned in
+              modify the Claim set that would otherwise be returned in
               the ID Token. Unlike for the "userinfo" member, typically these
               Claims will augment, rather than override the default set.</t>
 
