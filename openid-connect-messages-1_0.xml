@@ -349,7 +349,8 @@
            the sector sector_identifer for the pairwise identifier calculation.</t>
            <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
 	   must be a HTTPS URL that identifies
-           a JSON file containing a array containing <spanx style="verb">redirect_uri</spanx> values.</t>
+           a JSON file containing an array containing
+	   <spanx style="verb">redirect_uri</spanx> values.</t>
 
            <t>The values of the registered <spanx style="verb">redirect_uris</spanx> must be included in the elements of the array,
            or the registration will fail.</t>
@@ -1289,11 +1290,9 @@ Content-Type: application/json
           different format was specified during <xref target="OpenID.Registration">
           OpenID Connect Dynamic Client Registration 1.0</xref>.
 	      The UserInfo Endpoint MAY return Claims in
-          JWT format which can be signed and/or encrypted via <xref
-          target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
-          respectively.
+          JWT format, which can be signed and/or encrypted.
 	      The UserInfo Endpoint MUST return a content-type header to indicate
-          which format is being returned. The following are accepted content
+          the format that is being returned. The following are accepted content
           types:</t>
 
           <texttable style="all">
@@ -1426,10 +1425,10 @@ Content-Type: application/json
 	  <t>
 	    <list style="hanging">
 	      <t hangText="_claim_names">This value is a JSON object whose member
-	      names are the Claims names for the Aggregated and Distributed
+	      names are the Claim names for the Aggregated and Distributed
 	      Claims. The member values are references to the member names
 	      in the "_claim_sources" member from which
-	      the actual value can be retrieved.</t>
+	      the actual claim values can be retrieved.</t>
 
 	      <t hangText="_claim_sources">This value is a JSON object whose
 	      member names are referenced by the member values of the
