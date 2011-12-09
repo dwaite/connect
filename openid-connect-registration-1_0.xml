@@ -344,11 +344,10 @@ Cache-Control: no-store
 	    response:</preamble>
 
 	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
-Content-Type: application/json
+WWW-Authenticate: 400 Bad Request
+                  error="invalid_client_secret"
+                  error_description="The client_secret is wrong for this client_id"
 
-{
- "error": "invalid_client_secret"
-}
 ]]></artwork>
 	</figure></t>
       </section>
@@ -402,13 +401,16 @@ Content-Type: application/json
       <t>Since requests to the Client Registration Endpoint result in the
       transmission of clear-text credentials (in the HTTP request and
       response), the server MUST require the use of a transport-layer security
-      mechanism when sending requests to the Token Endpoint. The server MUST
+      mechanism when sending requests to the Registration Endpoint. The server MUST
       support TLS 1.2 as defined in <xref target="RFC5246">RFC 5246</xref>, 
       and MAY support additional transport-layer mechanisms meeting its security
       requirements.
       When using TLS, the Client MUST perform a TLS/SSL server certificate check, per
       <xref target="RFC6125">RFC 6125</xref>.
       </t>
+      <t>Requests to the Registration Endpoint for client_update MUST have some rate 
+      limiting on failures to prevent the client secret from being disclosed though
+      repeated access attempts.</t>
     </section>
   </middle>
 
@@ -731,6 +733,7 @@ Content-Type: application/json
           <t>Fix #299 Remove Discovery section.</t>
           <t>re #333 clarify redirect_uris matching</t>
           <t>Fixes #382 reference bearer token errors</t>
+          <t>Fixes #382 example error response</t>
           
         </list></t>
 
