@@ -2007,6 +2007,11 @@ may be retrieved:
         the following:</t>
 
         <t><list style="numbers">
+            <t>If the Client has provided a 
+            <spanx style="verb">userinfo_encrypted_response_algs</spanx>
+            parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
+            using the key pair specified during Registration.</t>
+            
             <t>If the response was signed, the Client SHOULD validate the
             signature according to Section 5 of <xref
             target="JWS">JWS</xref>.</t>
@@ -3068,6 +3073,7 @@ may be retrieved:
           <t>fix language about user info response format, add media type.</t>
           <t>re #383 add reference to I-D.ietf.oauth-assertions.</t>
           <t>Fixes #335 make openid scope provide user_id from userinfo endpoint</t>
+          <t>Fixes #397 add decryption to user info endpoint</t>
           <t>re #307 Added explanation of select_account</t>
           <t>Fixes #322 add security concern re SWD being per host as one reason issuers are per host</t>
           <t>Fixes #396 sec 5.2 fix id_token_encrypted_response_algs</t>
