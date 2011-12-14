@@ -1616,13 +1616,113 @@ scope=openid&response_type=code
       <t>In addition, the following list of attack vectors and remedies are
       also considered.</t>
 
-      <section title="Implicit Grant Flow Threats">
-        <t>In the implicit grant flow, the Access Token is returned in the
-        fragment part of the Client's redirect_uri through HTTPS, thus it is
-        protected between the OP and the User-Agent, and User-Agent and the
-        RP. The only the place it can be captured is the User-Agent where the
-        TLS session is terminated, and is possible if the User-Agent is
-        infested by malware.</t>
+      <section anchor="assertion_manufacture"
+               title="Assertion Manufacture/Modification">
+        <t>An assertion is the result of the authentication performed by the
+        Authorization Server that was provided to the Client. The assertion is 
+        used to pass information about the End-User or the authentication process 
+        from the Authorization Server to the Client.</t>
+
+
+            <t>To mitigate this attack, the assertion may be sent over a
+            protected channel such as TLS/SSL. In order to protect the
+            integrity of assertions from malicious attack, the Authorization 
+            Server MUST be authenticated, per
+	    <xref target="RFC6125">RFC 6125</xref>.
+	    In this specification, the assertion 
+            is always sent over TLS/SSL protected channel.</t>
+
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section anchor="assertion_disclosure" title="Assertion Disclosure">
+        <t>This profile is subject to assertion disclosure in the End-User's
+        browser, if it is compromised. Other OpenID Connect profiles should be
+        used if this threat needs to be mitigated.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section anchor="assertion_redirect" title="Assertion Redirect">
+        <t>To mitigate this threat, the assertion includes the identity of the
+        Client for whom it was generated as <spanx style="verb">client_id</spanx>.
+        The Client verifies that incoming assertions include its identity as
+        the recipient of the assertion.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section anchor="assertion_reuse" title="Assertion Reuse">
+        <t>The assertion includes a timestamp and a short lifetime of
+        validity. The Client checks the timestamp and lifetime values to
+        ensure that the assertion is currently valid.</t>
+
+        <t>The use of a nonce in the request is REQUIRED. The response from
+        the Check ID Endpoint contains the nonce sent in the Authorization
+        Request. This SHOULD be checked against a list of already received ID
+        assertions to check for replays.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section anchor="assertion_substitution" title="Assertion Substitution">
+        <t>Responses to assertion requests is bound to the corresponding
+        requests by message order in HTTP, as both assertions and requests are
+        protected by TLS that can detect and disallow malicious reordering of
+        packets.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section anchor="auth_req_disclosure"
+               title="Authentication Request Disclosure">
+        <t>Since the authentication request is sent over a protected channel,
+        the disclosure may only happen at the User-Agent where the information
+        is decrypted.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section anchor="authn_proc_threats"
+               title="Authentication Process Threats">
+        <t>In the category of Authentication Process Threats, the following
+        threats exist:</t>
+
+        <t><list style="symbols">
+            <t>Online Guessing</t>
+
+            <t>Phishing</t>
+
+            <t>Pharming</t>
+
+            <t>Eavesdropping</t>
+
+            <t>Replay</t>
+
+            <t>Session Hijacking</t>
+
+            <t>Man-in-the-Middle</t>
+          </list> The authentication process, per se, as described in <xref
+        target="SP800-63"></xref> is out of scope for this protocol, but care
+        SHOULD be taken to achieve appropriate protection.</t>
+
+        <t>For details of the threat, see <xref target="SP800-63"></xref>.</t>
+      </section>
+
+      <section title="Implicit Flow Threats">
+        <t>In the Implicit Flow, the Access Token is returned in the
+        fragment part of the Client's redirect_uri through HTTPS. Thus it is
+        protected between the Authorization Server and the User-Agent, and 
+        User-Agent and the Client. The only the place it can be captured is the 
+        User-Agent where the TLS session is terminated; this is possible if the 
+        User-Agent is infested by malware.</t>
+      </section>
+
+      <section title="Availability">
+        <t>When the Authorization Server is down, End-Users will likely be unable 
+        to access it. To mitigate this risk, the Client SHOULD allow End-Users to
+        associate multiple Authorization Servers.</t>
       </section>
     </section>
 
@@ -2161,6 +2261,26 @@ scope=openid&response_type=code
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
                 type="HTML" />
+      </reference>
+
+      <reference anchor="SP800-63">
+        <front>
+          <title>NIST SP800-63-1: Electronic Authentication
+          Guideline</title>
+
+          <author>
+            <organization>National Institute of Standards and
+            Technology</organization>
+          </author>
+          <date month="December" year="2011" />
+        </front>
+
+        <seriesInfo name="NIST" value="SP800-63-1" />
+
+        <format target="http://www.nist.gov/customcf/get_pdf.cfm?pub_id=910006"
+                type="PDF" />
+
+        <!-- <annotation>Defines LoA</annotation> -->
       </reference>
 
       <reference anchor="OAuth2.0">
