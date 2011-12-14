@@ -1950,8 +1950,8 @@ may be retrieved:
 
       <section title="Check ID Request Verification">
         <t>The Authorization Server MUST check that the 
-        <spanx style="verb">id_token</spanx> parameter is
-        present and that if it is signed, it MUST be verify
+        <spanx style="verb">access_token</spanx> is 
+        present in the post body or HTTP header, and that if it is signed, it MUST verify
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
         <t>If the JWS algorithm is symmetric, such as the default HS256 for 
@@ -3090,6 +3090,7 @@ may be retrieved:
           <t>Fixes #396 sec 5.2 fix id_token_encrypted_response_algs</t>
           <t>re #390 change check id to Bearer token</t>
           <t>re #390 remove prohibition against using id_token as access token in Sec 2.1.1</t>
+		  <t>re #390 Sec 5.3 fix verification rule to match bearer</t>
 		  </list>
       </t>
 
