@@ -253,8 +253,8 @@
           <t>The ID Token is used to manage the authentication event and user
           identifier and is scoped to a particular Client via the <spanx
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          Claims. It MUST NOT be used as an Access Token to access OAuth 2.0
-          Protected Resources.</t>
+          Claims. It is used as an Access Token for the Check ID Endpoint, or consumed 
+          directly by the client.</t>
 
           <t>The ID Token MUST minimally attest to the following Claims:</t>
 
@@ -1024,13 +1024,24 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 
         <section title="Check ID Request">
           <t>To request the information about the authentication performed on
-          the End-User, the following parameters are sent to the Check ID
-          Endpoint:</t>
+          the End-User, a request is made to the Check ID Endpoint sending 
+          the <xref target="id_token">ID Token</xref> as the access_token 
+          by using the <xref target="OAuth2.0Bearer">OAuth 2.0
+		  Bearer</xref> scheme.</t>
 
-          <t><list style="hanging">
-            <t hangText="id_token">REQUIRED. The ID Token obtained from an
-            OpenID Connect Authorization Request.</t>
-          </list></t>
+          <t>Clients MAY send requests with the following parameter to the
+             Check ID Endpoint:</t>
+             
+            <t><list style="hanging">
+            <t hangText="access_token">REQUIRED. The ID Token obtained
+            from an OpenID Connect Authorization Request. This parameter
+            MUST NOT be sent if the Access Token is sent in the HTTP
+            Authorization header as described in Section 7.1 of <xref
+            target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
+            authorization header MUST be <xref
+            target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
+            </list></t>
+             
         </section>
 
         <section title="Check ID Response">
@@ -1052,7 +1063,7 @@ POST /id_token HTTP/1.1
 Host: server.example.com
 Content-Type: application/x-www-form-encoded
 
-id_token=eyJ0eXAiOiJKV1QiL
+access_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
 
 
 HTTP/1.1 200 OK
@@ -2007,6 +2018,11 @@ may be retrieved:
         the following:</t>
 
         <t><list style="numbers">
+            <t>If the Client has provided a 
+            <spanx style="verb">userinfo_encrypted_response_algs</spanx>
+            parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
+            using the key pair specified during Registration.</t>
+            
             <t>If the response was signed, the Client SHOULD validate the
             signature according to Section 5 of <xref
             target="JWS">JWS</xref>.</t>
@@ -3068,9 +3084,12 @@ may be retrieved:
           <t>fix language about user info response format, add media type.</t>
           <t>re #383 add reference to I-D.ietf.oauth-assertions.</t>
           <t>Fixes #335 make openid scope provide user_id from userinfo endpoint</t>
+          <t>Fixes #397 add decryption to user info endpoint</t>
           <t>re #307 Added explanation of select_account</t>
           <t>Fixes #322 add security concern re SWD being per host as one reason issuers are per host</t>
           <t>Fixes #396 sec 5.2 fix id_token_encrypted_response_algs</t>
+          <t>re #390 change check id to Bearer token</t>
+          <t>re #390 remove prohibition against using id_token as access token in Sec 2.1.1</t>
 		  </list>
       </t>
 

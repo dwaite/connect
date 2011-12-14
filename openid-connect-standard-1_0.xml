@@ -1332,20 +1332,26 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 
       <section title="Check ID Request">
 
-	<t>The request parameters are as follows:
+          <t>To request the information about the authentication performed on
+          the End-User, a request is made to the Check ID Endpoint sending 
+          the <xref target="id_token">ID Token</xref> as the access_token 
+          by using the <xref target="OAuth2.0Bearer">OAuth 2.0
+		  Bearer</xref> scheme.</t>
 
-	  <list style="hanging">
-	    <t hangText="id_token">REQUIRED. The ID Token obtained from an
-	    OpenID Connect Authorization Request.</t>
-	  </list>
-	</t>
+          <t>Clients MAY send requests with the following parameter to the
+             Check ID Endpoint:</t>
+             
+            <t><list style="hanging">
+            <t hangText="access_token">REQUIRED. The ID Token obtained
+            from an OpenID Connect Authorization Request. This parameter
+            MUST NOT be sent if the Access Token is sent in the HTTP
+            Authorization header as described in Section 7.1 of <xref
+            target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
+            authorization header MUST be <xref
+            target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
+            </list></t>
+	
 
-	<t>
-	  Requests to the Check ID Endpoint SHOULD be made with the
-	  HTTP "POST" method.  In this case, the request parameters
-	  are serialized using <xref target="form_serialization">form
-	  serialization</xref>.
-	</t>
 	<figure>
 	  <preamble>The Following is a non-normative example of a Check
 	  ID request:</preamble>
@@ -1354,7 +1360,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 Host: server.example.com
 Content-Type: application/x-www-form-urlencoded
 
-id_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZX
+access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZX
 J2ZXIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiaHR0cD
 pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 3liaTNOrfaeWYjuRCEPNXVtaazNQ
@@ -1368,15 +1374,8 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 	</t>
 	<t>
 	  A request to the Check ID Endpoint MAY alternatively be made
-	  with the HTTP "GET" method, with the request parameters
-	  being serialized using URI <xref target="qss">query string
-	  serialization</xref>.
-	  Because of the security weaknesses associated with the URL
-	  method (see <xref target="security_considerations" />),
-	  including the high likelihood that the URL containing the ID
-	  Token will be logged, it SHOULD NOT be used unless it is
-	  impossible to transport the ID Token in an HTTP "POST" body
-	  or to directly process the contents of the ID Token JWT.
+	  with the HTTP "GET" method, when using GET the access_token 
+	  MUST be passed in the header.
 	</t>
       </section>
 
@@ -2346,7 +2345,8 @@ scope=openid&response_type=code
         <t>re #323 add id_token response type to sec 2.2.1</t>
         <t>Fixes #323 add id_token response type to sec 2.3.1</t>
         <t>re #302 change nonce definition Sec 2.3.1.</t>
-        <t>Fixes #333 clarify redirect_uris matching</t> 
+        <t>Fixes #333 clarify redirect_uris matching</t>
+        <t>re #390 change check_id ti Bearer</t> 
         </list></t>
         
       <t>-06<list style="symbols">
