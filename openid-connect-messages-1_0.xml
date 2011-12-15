@@ -1689,31 +1689,37 @@ may be retrieved:
         <t hangText="jwk_url">
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
           document which includes the  Server's signing Key.
-          Used by the Server for Signing JWT. 
-          It MAY be used by the Client to Encrypt the JWT
-          to the Server if x509_url_encryption or 
-          jwk_url_encryption is not specified, 
+          Used by the Server for JWS Signing the JWT. 
+          It MAY be used by the Client to JWE Encrypt the JWT
+          to the Server if <spanx style="verb">x509_url_encryption</spanx> or 
+          <spanx style="verb">jwk_url_encryption</spanx> is not specified, 
           but this is discouraged. A separate encryption key 
           SHOULD be used.</t>
           
         <t hangText="jwk_url_encryption">          
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Servers Encryption Key, if not present its value 
-          is the same as the URL provided by <spanx style="verb">jwk_url</spanx></t>
+          document. The Servers Encryption Key. 
+          Used by the Client to JWE Encrypt the JWT to the Server. 
+          If it is not present, it's value 
+          is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.</t>
 
         <t hangText="x509_url">
           URL of the OP's X.509 certificates in PEM format. 
-          Used by the server for Signing JWT. 
-          It MAY be used by the Client to Encrypt the JWT
-          to the Server if x509_url_encryption is not specified 
-          and the key usage includes keyEncipherment.</t>
+          Used by the Server for Signing JWT. 
+          It MAY be used by the Client to JWE Encrypt the JWT
+          to the Server if <spanx style="verb">x509_url_encryption</spanx>
+          is not specified 
+          and the key usage includes <spanx style="verb">keyEncipherment</spanx>.</t>
           
         <t hangText="x509_url_encryption"> 
           URL of the OP's OP's X.509 certificates in PEM format.
-          Servers Encryption Key, if not present its value 
+          Servers Encryption Key.
+          It is used by the Client to JWE Encrypt the JWT 
+          to the Server. If it is not present, its value 
           is the same as the URL provided by 
           <spanx style="verb">x509_url</spanx>. The certificate 
-          MUST include keyEncipherment in the key usage.</t>
+          MUST include <spanx style="verb">keyEncipherment</spanx>
+          in the key usage.</t>
 
       </list></t>
       <t>The Client provides its public Keys during Registration, in the following 
@@ -1741,7 +1747,7 @@ may be retrieved:
             If <spanx style="verb">x509_encryption_url</spanx> is not 
             provided, it is used for <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client 
-            if the key usages includes keyEncipherment.</t>
+            if the key usages includes <spanx style="verb">keyEncipherment</spanx>.</t>
             
             <t hangText="x509_encryption_url">
             OPTIONAL. URL for the Client's PEM encoded 
