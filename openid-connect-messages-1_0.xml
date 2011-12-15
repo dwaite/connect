@@ -1765,8 +1765,9 @@ may be retrieved:
       
 
       <section anchor="sigs" title="Signing">
-        <t>Based on the supported algorithms of the recipient in <xref
-        target="sigenc.alg"></xref>, select an signature algorithm.</t>
+        <t>The signing party MUST select a signature algorithm 
+        based on the supported algorithms of the recipient in <xref
+        target="sigenc.alg"></xref>.</t>
         
         <t><list style="hanging">
           <t hangText="Symmetric Signatures">
@@ -1781,21 +1782,25 @@ may be retrieved:
             the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
              as defined in <xref target="JWS">JSON Web Signatures</xref>.
-            The private key associated with the Public Signing Key provided in
+            The private key MUST be the one associated with the 
+            Public Signing Key provided in
             <xref target="sigenc.key"></xref>. 
             If there were multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there were multiple certificates in <spanx style="verb">
             x5u</spanx>, then <spanx style="verb">x5t</spanx> MUST be 
             specified in JWS header. 
-            The key usage of the respective keys MUST include signature. 
+            The key usage of the respective keys MUST include 
+            <spanx style="verb">digitalSignature</spanx>. 
           </t>
         </list></t>
       </section>
 
       <section anchor="enc" title="Encryption">
-      <t>Based on the supported algorithms of the recipient in <xref
-        target="sigenc.alg"></xref>, select an encryption algorithm.</t>
+        <t>The encrypting party MUST select an encryption algorithm
+        based on the supported algorithms of the recipient in <xref
+        target="sigenc.alg"></xref>.</t>
+
         <t>All JWT MUST be signed before encryption to provide integrity and
         to verify the Issuer.</t>
         <t>Symmetric Encryption algorithms that provide a integrated integrity check MUST 
@@ -1811,7 +1816,7 @@ may be retrieved:
           <t hangText="Asymmetric Encryption RSA">
             Use the link registered/discovered in <xref target="sigenc.key"></xref>.
             to retrieve the relevant key.
-            The encryption_url link MUST be used if provided.
+            The <spanx style="verb">encryption_url</spanx> link MUST be used if provided.
             If there are multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there are multiple certificates in <spanx style="verb">
