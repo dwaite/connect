@@ -655,13 +655,22 @@ Content-Type: application/json
                 that of the pre-configured or discovered Issuer Identifier for 
                 the user session. </t>
 
-                <t>Check that the returned <spanx style="verb">nonce</spanx> is
-                equal to the <spanx style="verb">nonce</spanx> in the
-                Authorization Request.</t>
+                t>The value of the <spanx style="verb">nonce</spanx>
+             Claim MUST be checked to verify that
+            it is the same value as the one that was sent in the Authorization
+            Request. The Client SHOULD check the nonce value for replay attacks.
+            The precise method for detecting replay attacks is client specific.</t>
 
-                <t>Verify that the <spanx style="verb">aud</spanx> (audience) 
-                contained within the response is the Client's
-                <spanx style="verb">client_id</spanx>.</t>
+                <t>The Client MUST validate that the client_id in the 
+            <spanx style="verb">aud</spanx> (audience) Claim is one
+             it has registered for the Issuer identified by the value in the 
+             <spanx style="verb">iss</spanx> (issuer) Claim.
+              the ID Token MUST be rejected if the value of 
+              <spanx style="verb">aud</spanx> (audience) is not valid for the 
+              Issuer.</t>
+              
+              <t>The current time MUST be less than the value of the 
+            <spanx style="verb">exp</spanx> Claim.</t>
             </list></t>
           </section>
         </section>
