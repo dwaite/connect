@@ -1859,7 +1859,7 @@ may be retrieved:
 	      <t>Authorization Request Verification consists of two main 
 		  steps. (1) Encryption and Signature validation of 
 		  the value of <spanx style="verb">request</spanx> or 
-		  the content of <spanx style="verb">request_uri</spanx> 
+		  the content of <spanx style="verb">request_uri</spanx>,  
 		  (2) Parameter verification. </t>
 		  
           <t>If an OpenID Request Object was sent in the <spanx 
@@ -1873,11 +1873,11 @@ may be retrieved:
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">request_object_supported_algs</spanx> element of its 
-          Discovery Document, these are used by the Client to encrypt the JWT.</t>
+          Discovery Document, these are used by the Client to JWE encrypt the JWT.</t>
           
           <t>The Authorization Server MUST decode the JWT in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification. 
-		  The result MAY be either OpenID Request Object or a Singed JWT. 
+		  The result MAY be either OpenID Request Object or a JWS Singed JWT. 
 		  In the later case, the signature verification MUST be performed 
 		  as defined in <xref target="signed.req.obj.var">Signed Request Object</xref>. </t>
           
