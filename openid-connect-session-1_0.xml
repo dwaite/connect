@@ -174,33 +174,47 @@
           following Claims:</t>
 
           <t><list style="hanging">
-              <t hangText="issuer">REQUIRED. The unique identifier of the
-              Issuer of the Claims</t>
+              <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
+              of the response.</t>
 
-              <t hangText="client_id">REQUIRED. The unique identifier of the
-              Client.</t>
 
+             <t hangText="aud">REQUIRED. This member identifies the audience
+              that this ID Token is intended for. It MUST be the OAuth 2.0 <spanx style="verb">client_id</spanx>
+              of the Client.</t>
+              
               <t hangText="user_id">REQUIRED. A locally unique and never
-              reassigned Identifier for the user, which is intended to be
-              consumed by the Client. e.g. "24400320" or
-              "AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4". It MUST NOT exceed
-              255 ASCII characters in length.</t>
+              reassigned identifier within the Issuer for the End-User, 
+              which is intended to be
+              consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
+              or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+              It MUST NOT exceed 255 ASCII characters in length.</t>
 
-              <t hangText="audience">REQUIRED. The <xref
-              target="JWT">JWT</xref> <spanx style="verb">aud</spanx>
-              (audience) Claim.</t>
+              <t hangText="aud">REQUIRED. This member identifies the audience
+              that this ID Token is intended for. It MUST be the OAuth 2.0 <spanx style="verb">client_id</spanx>
+              of the Client.</t>
+              
+              <t hangText="exp">REQUIRED. Type Integer. Identifies the
+              expiration time on or after which the ID Token MUST NOT be
+              accepted for processing. The processing of this parameter
+              requires that the current date/time MUST be before the
+              expiration date/time listed in the value. Implementers MAY
+              provide for some small leeway, usually no more than a few
+              minutes, to account for clock skew. The value is number of
+              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+              for details regarding date/times in general and UTC in
+              particular.</t>
 
-              <t hangText="exp">REQUIRED. The <xref
-              target="JWT">JWT</xref> <spanx style="verb">exp</spanx>
-              (expiration time) Claim.</t>
-
-              <t hangText="pape">OPTIONAL. (TBD) If we want this token to be
-              short, we probably want to define a shorter equivalent of
-              PAPE.</t>
-
-              <t hangText="nonce">OPTIONAL. If the authorization request
-              includes a nonce request value, then this value is REQUIRED and
-              its value is set to the same value as the request value.</t>
+              <t hangText="iso29115">OPTIONAL. (Entity Authentication
+              Assurance): Specifies the X.1254 / <xref
+              target="ISO29115">ISO/IEC29115</xref> entity authentication
+              assurance level of the authentication performed.</t>
+              
+              <t hangText="nonce">REQUIRED. Clients MUST verify that
+              the <spanx style="verb">nonce</spanx> value is equal to
+              the value of the <spanx style="verb">nonce</spanx>
+              parameter in the Authorization Request.</t>
+              
             </list></t>
 
           <t>The ID Token MAY contain other Claims. The ID Token can be used
@@ -1044,6 +1058,10 @@ Location: http://client.example.com/endtoken_cb?state=bar
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-06 <list style="symbols">
+          <t>re #405 Clean up ID token claims</t>
+        </list></t>
 
       <t>-05 <list style="symbols">
           <t>Tracked changes made to other Connect specs - especially
