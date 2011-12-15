@@ -1790,7 +1790,9 @@ may be retrieved:
             If there were multiple certificates in <spanx style="verb">
             x5u</spanx>, then <spanx style="verb">x5t</spanx> MUST be 
             specified in JWS header. 
-            The key usage of the respective keys MUST include 
+            The key usage of the respective keys MUST include signature. 
+            In particular, if the key found through x5u is used, the 
+            key usage MUST include 
             <spanx style="verb">digitalSignature</spanx>. 
           </t>
         </list></t>
@@ -1825,6 +1827,9 @@ may be retrieved:
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.
+            The key usage of the respective keys MUST include the encryption. 
+            In particular, if the key found through <spanx style="verb">x5u</spanx> is used, 
+            the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
           </t>
           <t hangText="Asymmetric Encryption EC">
             Create a ephemeral EC public key for the <spanx style="verb">epk</spanx>
@@ -1840,6 +1845,10 @@ may be retrieved:
             Use the ECDH-ES algorithm to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.
+            The key usage of the respective keys MUST include the encryption.
+            In particular, if the key found through <spanx style="verb">x5u</spanx> is used,
+            the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
+
           </t>
         </list></t>
       </section>
