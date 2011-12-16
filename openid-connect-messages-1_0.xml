@@ -50,7 +50,7 @@
     </author>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-      <organization abbrev="Microsoft">Microsoft Corporation</organization>
+      <organization abbrev="Microsoft">Microsoft</organization>
 
       <address>
         <email>mbj@microsoft.com</email>
@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date day="14" month="December" year="2011" />
+    <date day="16" month="December" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -726,7 +726,7 @@
           is <spanx style="verb">token</spanx>, the Authorization
           Response MUST return the parameters defined in section 4.2.2 of
           <xref target="OAuth2.0">OAuth 2.0</xref>. This specification only
-          supports <xref target="OAuth2.0Bearer">Bearer Tokens</xref>. The
+          supports <xref target="OAuth.Bearer">Bearer Tokens</xref>. The
           OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
           MUST be set to "<spanx style="verb">Bearer</spanx>".</t>
 
@@ -738,7 +738,7 @@
           <t>When the <spanx style="verb">response_type</spanx>
           includes other values, they must be returned as defined by
           their registration.  The <spanx style="verb">id_token</spanx> return type is defined in
-          <xref target="RESPONSE.TYPES">OAuth 2.0 Multiple Response Type
+          <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type
           Encoding Practices</xref>.</t>
         </section>
 
@@ -844,8 +844,8 @@
 	      <spanx style='verb'>client_secret</spanx> as the shared key.
 	   
           The client Authenticates in accordance with section 2.2 of <xref
-          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref> and 
-          <xref target="I-D.ietf.oauth-assertions">OAuth 2.0 Assertion Profile</xref>. 
+          target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
+          <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>. 
           The JWT MUST contain the Claims:</t>
          
           <t><list style="hanging">
@@ -880,8 +880,8 @@
           <t hangText="private_key_jwt">
            Clients that have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registered or the ES256 algorithm if a EC key was registered.
           The client Authenticates in accordance with section 2.2 of <xref
-          target="JWT.Bearer">(JWT) Bearer Token Profiles</xref> and 
-          <xref target="I-D.ietf.oauth-assertions">OAuth 2.0 Assertion Profile</xref>.
+          target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
+          <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
           The JWT MUST contain the Claims:</t>
           <t><list style="hanging">
                     <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) claim.
@@ -962,7 +962,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
           of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
 
           <t>This specification further constrains that only <xref
-          target="OAuth2.0Bearer">Bearer Tokens</xref> are issued at the
+          target="OAuth.Bearer">Bearer Tokens</xref> are issued at the
           Token Endpoint. The OAuth 2.0 response parameter "<spanx
           style="verb">token_type</spanx>" MUST be set to "<spanx
           style="verb">Bearer</spanx>".</t>
@@ -1026,7 +1026,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
           <t>To request the information about the authentication performed on
           the End-User, a request is made to the Check ID Endpoint sending 
           the <xref target="id_token">ID Token</xref> as the access_token 
-          by using the <xref target="OAuth2.0Bearer">OAuth 2.0
+          by using the <xref target="OAuth.Bearer">OAuth 2.0
 		  Bearer</xref> scheme.</t>
 
           <t>Clients MAY send requests with the following parameter to the
@@ -1039,7 +1039,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header MUST be <xref
-            target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
+            target="OAuth.Bearer">Bearer tokens</xref>.</t>
             </list></t>
              
         </section>
@@ -1081,7 +1081,7 @@ Content-Type: application/json
 
         <section title="Check ID Error Response">
           <t>In addition to the error codes defined in Section 3.1 of <xref
-          target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
+          target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
           following error codes:</t>
 
           <t><list style="hanging">
@@ -1109,7 +1109,7 @@ Content-Type: application/json
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header MUST be <xref
-            target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
+            target="OAuth.Bearer">Bearer tokens</xref>.</t>
 
             <t hangText="schema">REQUIRED. The schema in which the
             data is to be returned. The only defined value is <spanx
@@ -1380,7 +1380,7 @@ Content-Type: application/json
         <section title="UserInfo Error Response">
           <t>When an error condition occurs, the UserInfo Endpoint returns
           an Error Response. In addition to the error codes defined in section 3.1 of
-          <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
+          <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
           defines the following error codes:</t>
 
           <t><list style="hanging">
@@ -1474,7 +1474,7 @@ Content-Type: application/json
 
 		  <t hangText="access_token">OPTIONAL. Access Token
 		  enabling retrieval of the Claims from the endpoint URL
-		  by using the <xref target="OAuth2.0Bearer">OAuth 2.0
+		  by using the <xref target="OAuth.Bearer">OAuth 2.0
 		  Bearer</xref> scheme. Claims SHOULD be requested using
 		  the Authorization Request header field and Claims
 		  Sources MUST support this method. If the Access Token
@@ -1602,7 +1602,7 @@ may be retrieved:
       <t>Depending on the transport through which the messages are sent, the
       integrity of the message may not be guaranteed and the originator of the
       message may not be authenticated. To mitigate these risks, OpenID
-      Connect messages MAY utilize <xref target="JWS">JSON Web Signatures
+      Connect messages MAY utilize <xref target="JWS">JSON Web Signature
       (JWS)</xref> to sign the content.</t>
 
       <t>To achieve message confidentiality, OpenID Connect messages MAY use
@@ -1773,7 +1773,7 @@ may be retrieved:
           <t hangText="Symmetric Signatures">
             When using HMAC Signatures, the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
-             as defined in <xref target="JWS">JSON Web Signatures</xref>. 
+             as defined in <xref target="JWS">JSON Web Signature</xref>. 
             The <spanx style="verb">client_secret</spanx> MUST 
             be used as the signature key. 
           </t>
@@ -1781,7 +1781,7 @@ may be retrieved:
             When using RSA or ECDSA Signatures, 
             the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
-             as defined in <xref target="JWS">JSON Web Signatures</xref>.
+             as defined in <xref target="JWS">JSON Web Signature</xref>.
             The private key MUST be the one associated with the 
             Public Signing Key provided in
             <xref target="sigenc.key"></xref>. 
@@ -2136,7 +2136,7 @@ may be retrieved:
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
-      <t><xref target="OAuth2.0SC">OAuth 2.0 Threat Model and 
+      <t><xref target="OAuth.Threat">OAuth 2.0 Threat Model and 
       Security Considerations</xref> provides an extensive list of threats and controls 
 	  that applies to this standard as well. In addition, this standard provides 
 	  additional control measures listed below. </t>
@@ -2144,7 +2144,7 @@ may be retrieved:
 	  <section anchor="request_disclosure" title="Request Disclosure">
 	  <t>If appropriate measures are not taken, a request may be disclosed to 
 	  an attacker posing security and privacy threat.</t>
-	  <t>In addition to what is stated in section 5.1.1 of the <xref target="OAuth2.0SC" />, 
+	  <t>In addition to what is stated in section 5.1.1 of the <xref target="OAuth.Threat" />, 
 	  this standard provides a way to provide the confidentiality of the request 
       end to end through the 
 	  use of 'request' or 'request_uri' parameters, where the content of the 'request' 
@@ -2156,7 +2156,7 @@ may be retrieved:
 	  <t>A malicious Server may masquerade as the legitimate server 
 	  using various means. To detect such an attack, the Client needs to authenticate 
 	  the server. </t>
-	  <t>In addition to what is stated in section 5.1.2 of the <xref target="OAuth2.0SC" />, 
+	  <t>In addition to what is stated in section 5.1.2 of the <xref target="OAuth.Threat" />, 
 	  this standard provides a way to authenticate the Server through either the 
 	  use of Signed or Encrypted JWT (JWS and JWE) 
 	  with an appropriate key and cipher.</t> 
@@ -2432,13 +2432,13 @@ may be retrieved:
           </author>
 
           <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
+            <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="14" month="October" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-basic-1_0-15.html"
                 type="HTML" />
       </reference>
 
@@ -2472,13 +2472,13 @@ may be retrieved:
           </author>
 
           <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
+            <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="14" month="October" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-standard-1_0-07.html"
                 type="HTML" />
       </reference>
 
@@ -2501,13 +2501,13 @@ may be retrieved:
           </author>
 
           <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
+            <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-discovery-1_0-07.html"
                 type="HTML" />
       </reference>
 
@@ -2521,7 +2521,7 @@ may be retrieved:
             Ltd.</organization>
           </author>
 
-          <author fullname="John Bradley" initials="J." role="editor"
+          <author fullname="John Bradley" initials="J."
                   surname="Bradley">
             <organization abbrev="Protiviti">Protiviti Government
             Services</organization>
@@ -2532,10 +2532,10 @@ may be retrieved:
             Corporation</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-registration-1_0-08.html"
                 type="HTML" />
       </reference>
 
@@ -2569,13 +2569,13 @@ may be retrieved:
           </author>
 
           <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
+            <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="2" month="September" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-session-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-session-1_0-05.html"
                 type="HTML" />
       </reference>
 
@@ -2599,11 +2599,11 @@ may be retrieved:
           <date day="22" month="September" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-22"
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth2.0SC">
+      <reference anchor="OAuth.Threat">
         <front>
           <title>OAuth 2.0 Threat Model and Security Considerations</title>
 
@@ -2620,14 +2620,14 @@ may be retrieved:
             <organization abbrev="Oracle">Oracle Corporation</organization>
           </author>
 
-          <date day="1" month="July" year="2011" />
+          <date day="26" month="October" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01"
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth2.0Bearer">
+      <reference anchor="OAuth.Bearer">
         <front>
           <title>OAuth 2.0 Protocol: Bearer Tokens</title>
 
@@ -2641,13 +2641,13 @@ may be retrieved:
           </author>
 
           <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="Facebook">Facebook</organization>
+            <organization>Facebook</organization>
           </author>
 
           <date day="3" month="November" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14"
                 type="HTML" />
       </reference>
 
@@ -2661,41 +2661,41 @@ may be retrieved:
           </author>
 
           <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="pgs">rotivity Government
-            Service</organization>
+            <organization abbrev="Protoviti">Protoviti Government
+            Services</organization>
           </author>
 
           <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="msft">Microsoft</organization>
+            <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
           <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="nri">Nomura Research Institute,
+            <organization abbrev="NRI">Nomura Research Institute,
             Ltd.</organization>
           </author>
 
           <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="fb">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="30" month="October" year="2011" />
+          <date day="13" month="December" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+        <format target="http://openid.net/specs/draft-jones-json-web-token-07.html"
                 type="HTML" />
       </reference>
 
       <reference anchor="JWS">
         <front>
-          <title>JSON Web Signatures</title>
+          <title>JSON Web Signature</title>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft
@@ -2703,119 +2703,95 @@ may be retrieved:
           </author>
 
           <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="pgs">rotivity Government
-            Service</organization>
+            <organization abbrev="Protoviti">Protoviti Government
+            Services</organization>
           </author>
 
           <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="msft">Microsoft</organization>
+            <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
           <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="nri">Nomura Research Institute,
+            <organization abbrev="NRI">Nomura Research Institute,
             Ltd.</organization>
           </author>
 
           <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="fb">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="30" month="October" year="2011" />
+          <date day="13" month="December" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-signature"
+        <format target="http://openid.net/specs/draft-jones-json-web-signature-04.html"
                 type="HTML" />
       </reference>
 
       <reference anchor="JWE">
         <front>
-          <title>JSON Web Encryption</title>
+          <title>JSON Web Encryption (JWE)</title>
 
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization>Microsoft</organization>
+	  </author>
 
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="pgs">rotivity Government
-            Service</organization>
-          </author>
+	  <author fullname="Eric Rescorla" initials="E." surname="Rescorla">
+	    <organization>RTFM, Inc.</organization>
+	  </author>
 
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="nri">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
+	  <author fullname="Joe Hildebrand" initials="J." surname="Hildebrand">
+	    <organization>Cisco Systems, Inc.</organization>
+	  </author>
 
-          <date day="30" month="October" year="2011" />
+	  <date day="13" month="December" year="2011" />
         </front>
-
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
-                type="HTML" />
+        <format target="http://openid.net/specs/draft-jones-json-web-encryption-02.html" type="HTML" />
       </reference>
-      
+
       <reference anchor="JWK">
         <front>
-          <title>JSON Web Key (JWK)</title>
+	  <title>JSON Web Key (JWK)</title>
 
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization>Microsoft</organization>
+	  </author>
 
-          <date day="30" month="October" year="2011" />
+	  <date day="13" month="December" year="2011" />
         </front>
-
-        <format target="http://self-issued.info/docs/draft-jones-json-web-key.html"
-                type="HTML" />
-        </reference>
+        <format target="http://openid.net/specs/draft-jones-json-web-key-03.html" type="HTML" />
+      </reference>
         
-      <reference anchor="JWT.Bearer">
+      <reference anchor="OAuth.JWT">
         <front>
 	    <title abbrev="OAuth JWT Bearer Token Profiles">JSON Web Token (JWT) Bearer Token Profiles for OAuth 2.0</title>
 
 	    <author fullname="Michael B. Jones" surname="Jones" initials="M.B."> <!-- role="editor" -->
 	      <organization>Microsoft</organization>
-	      <address>
-	        <email>mbj@microsoft.com</email>
-	        <uri>http://self-issued.info/</uri>
-	      </address>
 	    </author>
 
 	    <author fullname="Brian Campbell" initials="B." surname="Campbell">
 	      <organization>Ping Identity Corp.</organization>
-	      <address>
-	        <email>brian.d.campbell@gmail.com</email>
-	      </address>
 	    </author>
 
 	    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
 	      <organization>Salesforce.com</organization>
-	      <address>
-	        <email>cmortimore@salesforce.com</email>
-	      </address>
 	    </author>
 
-	    <date day="14" month="November" year="2011"/>
-
-	    <abstract>
-	      <t>This specification defines the use of a JSON Web Token (JWT) Bearer Token 
-	      as means for requesting an OAuth 2.0 access
-	        token as well as for use as a means of client authentication.
-	      </t>
-	    </abstract>
+	    <date day="13" month="December" year="2011"/>
 	  </front>
-	<format target="http://www.ietf.org/id/draft-jones-oauth-jwt-bearer"
+	<format target="http://openid.net/specs/draft-jones-oauth-jwt-bearer-03.html"
 		    type="HTML" />
       </reference>
 
-      <reference anchor="I-D.ietf.oauth-assertions">
+      <reference anchor="OAuth.Assertions">
         <front>
           <title abbrev='oauth-assertions'>OAuth 2.0 Assertion Profile</title>
           <author initials='C.' surname='Mortimore' fullname='Chuck Mortimore' role='editor'/>
@@ -2824,9 +2800,8 @@ may be retrieved:
           <author initials="Y.Y." surname="Goland" fullname="Yaron Y. Goland"/>
           <date day="31" month="October" year="2011"/>
         </front>
-        <seriesInfo name="ID" value="draft-ietf-oauth-assertions-01 (work in progress)"/>
-        <format type='TXT' target='http://tools.ietf.org/html/draft-ietf-oauth-assertions-01.txt'/>
-        <format type='HTML' target='http://tools.ietf.org/html/draft-ietf-oauth-assertions-01.html'/>
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-assertions-01"
+		 type="HTML" />
       </reference>
       
       <reference anchor="ISO29115">
@@ -2921,10 +2896,10 @@ may be retrieved:
 
           <author fullname="specs@openid.net" initials=""
                   surname="specs@openid.net">
-            <organization abbrev="oidf"></organization>
+            <organization abbrev="OIDF">OpenID Foundation</organization>
           </author>
 
-          <date year="2007" />
+          <date day="5" month="December" year="2007" />
         </front>
 
         <format target="http://www.openid.net/specs/openid-authentication-2_0.txt"
@@ -2934,7 +2909,7 @@ may be retrieved:
                 type="HTML" />
       </reference>
 
-      <reference anchor="RESPONSE.TYPES">
+      <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
            <author fullname="Breno" initials="B." surname="de Medeiros">
@@ -2942,18 +2917,13 @@ may be retrieved:
            </author>
            <author fullname="Marius" initials="M." surname="Scurtescu">
              <organization abbrev="Google">Google, Inc.</organization>
-             <address>
-               <email>mscurtescu@google.com</email>
-             </address>
            </author>
            <author fullname="Paul" initials="P." surname="Tarjan">
              <organization abbrev="Facebook"> Facebook</organization>
-             <address><email>pt@fb.com</email>
-             </address>
            </author>
-           <date day="14" month="October" year="2011"></date>
+           <date day="16" month="December" year="2011"></date>
         </front>
-      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
+      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0-03.html"
               type="HTML" />
       </reference>
     </references>

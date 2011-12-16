@@ -20,7 +20,7 @@
   <front>
     <title>OpenID Connect Standard 1.0 - draft 07</title>
 
-    <author fullname="Nat Sakimura" initials="N." role="editor"
+    <author fullname="Nat Sakimura" initials="N."
             surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
       Ltd.</organization>
@@ -47,7 +47,7 @@
     </author>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-      <organization abbrev="Microsoft">Microsoft Corporation</organization>
+      <organization abbrev="Microsoft">Microsoft</organization>
 
       <address>
         <email>mbj@microsoft.com</email>
@@ -62,7 +62,7 @@
       </address>
     </author>
 
-    <date day="14" month="December" year="2011" />
+    <date day="16" month="December" year="2011" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the
@@ -222,7 +222,7 @@
           </t>
 
           <t>OpenID Connect supports these <xref
-          target="RESPONSE.TYPES">additional flows</xref> that have
+          target="OAuth.Responses">additional flows</xref> that have
           been registered:</t>
           
           <t><list style="hanging">
@@ -427,13 +427,11 @@
               between the request and the callback.</t>
 
               <t hangText="request">A <xref target="JWT">JWT</xref> encoded
-              <eref
-              target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
-              Request Object</eref>.</t>
+              OpenID
+              Request Object.</t>
 
-              <t hangText="request_uri">A URL that points to an <eref
-              target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
-              Request Object</eref>.</t>
+              <t hangText="request_uri">A URL that points to an OpenID
+              Request Object.</t>
 
               <t hangText="display">An ASCII string value that specifies
               how the Authorization Server displays the authentication page to
@@ -533,9 +531,8 @@ response_type=code%20id_token
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
             <t>The <spanx style="verb">request</spanx> parameter is a
-              <xref target="JWT">JWT</xref> encoded <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">OpenID
-              Request Object</eref>
+              <xref target="JWT">JWT</xref> encoded OpenID
+              Request Object
               which contains the Authorization Request and also
               specifies the content of
               the responses returned from the UserInfo and Check ID
@@ -549,20 +546,17 @@ response_type=code%20id_token
             <spanx style="verb">request_uri</spanx>,
             , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
             , <spanx style="verb">client_id</spanx> and <spanx style="verb">nonce</spanx>
-            parameters MUST also be <eref target=
-            "http://openid.net/specs/openid-connect-messages-1_0.html#js">JSON
-            Serialized</eref> into the <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref> with the same values.  This allows
+            parameters MUST also be JSON
+            Serialized into the 
+            OpenID Request Object with the same values.  This allows
             the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0.</t>
             
             <t>The <spanx style="verb">client_id</spanx>
             , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
             , and <spanx style="verb">nonce</spanx>
-            parameters MAY also be included in the <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref>.</t>
+            parameters MAY also be included in the 
+            OpenID Request Object.</t>
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
@@ -683,9 +677,8 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
           <section title="Request File Method">
             <t>The Request File Method differs from the other methods in that
-            it uses a Request File that contains a <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref>. It then sends the Request File URL as
+            it uses a Request File that contains a 
+            OpenID Request Object. It then sends the Request File URL as
             part of the Authorization Request.</t>
 
             <t>The Client prepares an Authorization Request using the desired 
@@ -699,9 +692,8 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
             Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter. The target of the URL is a JWT which is a <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref>. The scheme used in the 
+            parameter. The target of the URL is a JWT which is a 
+            OpenID Request Object. The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be HTTPS, 
             unless the target JWT is signed in a way that is verifiable by the 
             Authorization server.
@@ -711,16 +703,13 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
             <t>All Authorization Request parameters 
             that are part of the Authorization Request excluding the 
-            <spanx style="verb">request</spanx> parameter MUST also be <eref target=
-            "http://openid.net/specs/openid-connect-messages-1_0.html#js">JSON
-            Serialized</eref> into the <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref> with the same values. This allows
+            <spanx style="verb">request</spanx> parameter MUST also be JSON
+            Serialized into the 
+            OpenID Request Object with the same values. This allows
             the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0. The 
-            <eref
-            target="http://openid.net/specs/openid-connect-messages-1_0.html#OpenIDReq">
-            OpenID Request Object</eref> MAY
+            
+            OpenID Request Object MAY
             be signed and encrypted via <xref target="JWS">JWS</xref>
             and <xref target="JWE">JWE</xref> respectively, thereby providing
             authentication, integrity, non-repudiation and/or 
@@ -904,7 +893,7 @@ Host: client.example.com]]></artwork>
                 <t hangText="access_token">REQUIRED. The Access Token.</t>
 
                 <t hangText="token_type">REQUIRED. This specification only
-                supports the <xref target="OAuth2.0Bearer">Bearer
+                supports the <xref target="OAuth.Bearer">Bearer
                 Token</xref> scheme. As such, this value MUST be set to
                 "<spanx style="verb">Bearer</spanx>".</t>
 
@@ -1335,7 +1324,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
           <t>To request the information about the authentication performed on
           the End-User, a request is made to the Check ID Endpoint sending 
           the ID Token as the access_token 
-          by using the <xref target="OAuth2.0Bearer">OAuth 2.0
+          by using the <xref target="OAuth.Bearer">OAuth 2.0
 		  Bearer</xref> scheme.</t>
 
           <t>Clients MAY send requests with the following parameter to the
@@ -1348,7 +1337,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header MUST be <xref
-            target="OAuth2.0Bearer">Bearer tokens</xref>.</t>
+            target="OAuth.Bearer">Bearer tokens</xref>.</t>
             </list></t>
 	
 
@@ -1429,7 +1418,7 @@ Content-Type: application/json
       <section title="Check ID Error Response">
 	<t>When an error condition occurs, the Check ID Endpoint returns
 	an Error Response as defined in Section 3 of
-	<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>
+	<xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
 	utilizing an error code as specified in Section 2.3.3 of <xref
 	target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
@@ -1461,7 +1450,7 @@ WWW-Authenticate: Bearer realm="example.com",
       UserInfo Endpoint. </t>
 
       <t>Authorization Servers MUST be able to accept Access Tokens via
-      <xref target="OAuth2.0Bearer">Bearer Tokens</xref>
+      <xref target="OAuth.Bearer">Bearer Tokens</xref>
       specification.</t>
 
       <section title="UserInfo Request">
@@ -1471,8 +1460,8 @@ WWW-Authenticate: Bearer realm="example.com",
         
         <t>The Access Token obtained
             from an OpenID Connect Authorization Request MUST be sent as a <xref
-            target="OAuth2.0Bearer">Bearer Token</xref></t>
-            <t>Section 2 of the <xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Token</xref>
+            target="OAuth.Bearer">Bearer Token</xref></t>
+            <t>Section 2 of the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Token</xref>
             specification documents the permissible methods of sending the Access Token.</t> 
             <t>It is RECOMMENDED that the Client use the authorization header method for all 
             requests using GET.</t>
@@ -1524,7 +1513,7 @@ Content-Type: application/json
       <section title="UserInfo Error Response">
 	<t>When an error condition occurs, the UserInfo Endpoint returns
 	an Error Response as defined in Section 3 of
-	<xref target="OAuth2.0Bearer">OAuth 2.0 Bearer Tokens</xref>
+	<xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
 	utilizing an error code as specified in Section 2.4.3 of <xref
 	target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
@@ -1964,41 +1953,41 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="pgs">rotivity Government
-            Service</organization>
+            <organization abbrev="Protoviti">Protoviti Government
+            Services</organization>
           </author>
 
           <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="msft">Microsoft</organization>
+            <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
           <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="nri">Nomura Research Institute,
+            <organization abbrev="NRI">Nomura Research Institute,
             Ltd.</organization>
           </author>
 
           <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="fb">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="30" month="October" year="2011" />
+          <date day="13" month="December" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+        <format target="http://openid.net/specs/draft-jones-json-web-token-07.html"
                 type="HTML" />
       </reference>
 
       <reference anchor="JWS">
         <front>
-          <title>JSON Web Signatures</title>
+          <title>JSON Web Signature</title>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft
@@ -2006,62 +1995,57 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="pgs">rotivity Government
-            Service</organization>
+            <organization abbrev="Protoviti">Protoviti Government
+            Services</organization>
           </author>
 
           <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="msft">Microsoft</organization>
+            <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
           <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization abbrev="goog">Google</organization>
+            <organization>Google</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="nri">Nomura Research Institute,
+            <organization abbrev="NRI">Nomura Research Institute,
             Ltd.</organization>
           </author>
 
           <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="fb">Facebook</organization>
+            <organization abbrev="Facebook">Facebook</organization>
           </author>
 
-          <date day="30" month="October" year="2011" />
+          <date day="13" month="December" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-signature"
+        <format target="http://openid.net/specs/draft-jones-json-web-signature-04.html"
                 type="HTML" />
       </reference>
 
       <reference anchor="JWE">
         <front>
-          <title>JSON Web Encryption</title>
+          <title>JSON Web Encryption (JWE)</title>
 
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft
-            Corporation</organization>
-          </author>
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization>Microsoft</organization>
+	  </author>
 
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="pgs">rotivity Government
-            Service</organization>
-          </author>
+	  <author fullname="Eric Rescorla" initials="E." surname="Rescorla">
+	    <organization>RTFM, Inc.</organization>
+	  </author>
 
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="nri">Nomura Research Institute,
-            Ltd.</organization>
-          </author>
+	  <author fullname="Joe Hildebrand" initials="J." surname="Hildebrand">
+	    <organization>Cisco Systems, Inc.</organization>
+	  </author>
 
-          <date day="30" month="October" year="2011" />
+	  <date day="13" month="December" year="2011" />
         </front>
-
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-encryption"
-                type="HTML" />
+        <format target="http://openid.net/specs/draft-jones-json-web-encryption-02.html" type="HTML" />
       </reference>
 
       <reference anchor="OpenID.Messages">
@@ -2093,13 +2077,13 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
+            <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="14" month="October" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-messages-1_0-07.html"
                 type="HTML" />
       </reference>
 
@@ -2113,7 +2097,7 @@ scope=openid&response_type=code
             Ltd.</organization>
           </author>
 
-          <author fullname="John Bradley" initials="J." role="editor"
+          <author fullname="John Bradley" initials="J."
                   surname="Bradley">
             <organization abbrev="Protiviti">Protiviti Government
             Services</organization>
@@ -2124,10 +2108,10 @@ scope=openid&response_type=code
             Corporation</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-registration-1_0-08.html"
                 type="HTML" />
       </reference>
 
@@ -2150,13 +2134,13 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="MGI1">MGI1</organization>
+            <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="30" month="September" year="2011" />
+          <date day="16" month="December" year="2011" />
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
+        <format target="http://openid.net/specs/openid-connect-discovery-1_0-07.html"
                 type="HTML" />
       </reference>
 
@@ -2180,11 +2164,11 @@ scope=openid&response_type=code
           <date day="22" month="September" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-22"
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth2.0Bearer">
+      <reference anchor="OAuth.Bearer">
         <front>
           <title>OAuth 2.0 Protocol: Bearer Tokens</title>
 
@@ -2198,17 +2182,17 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="Facebook">Facebook</organization>
+            <organization>Facebook</organization>
           </author>
 
-          <date day="22" month="September" year="2011" />
+          <date day="3" month="November" year="2011" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-14"
                 type="HTML" />
       </reference>
     
-      <reference anchor="RESPONSE.TYPES">
+      <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
            <author fullname="Breno" initials="B." surname="de Medeiros">
@@ -2216,18 +2200,13 @@ scope=openid&response_type=code
            </author>
            <author fullname="Marius" initials="M." surname="Scurtescu">
              <organization abbrev="Google">Google, Inc.</organization>
-             <address>
-               <email>mscurtescu@google.com</email>
-             </address>
            </author>
            <author fullname="Paul" initials="P." surname="Tarjan">
              <organization abbrev="Facebook"> Facebook</organization>
-             <address><email>pt@fb.com</email>
-             </address>
            </author>
-           <date day="14" month="October" year="2011"></date>
+           <date day="16" month="December" year="2011"></date>
         </front>
-      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
+      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0-03.html"
               type="HTML" />
       </reference>
     </references>
