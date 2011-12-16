@@ -638,6 +638,7 @@ Content-Type: application/json
  "iss": "http://server.example.com",
  "user_id": "AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4",
  "aud": "http://client.example.com",
+ "nonce": "n-0S6_WzA2Mj",
  "exp": 1311281970
 }
 ]]></artwork>
@@ -655,13 +656,22 @@ Content-Type: application/json
                 that of the pre-configured or discovered Issuer Identifier for 
                 the user session. </t>
 
-                <t>Check that the returned <spanx style="verb">nonce</spanx> is
-                equal to the <spanx style="verb">nonce</spanx> in the
-                Authorization Request.</t>
+                <t>The value of the <spanx style="verb">nonce</spanx>
+             Claim MUST be checked to verify that
+            it is the same value as the one that was sent in the Authorization
+            Request. The Client SHOULD check the nonce value for replay attacks.
+            The precise method for detecting replay attacks is client specific.</t>
 
-                <t>Verify that the <spanx style="verb">aud</spanx> (audience) 
-                contained within the response is the Client's
-                <spanx style="verb">client_id</spanx>.</t>
+                <t>The Client MUST validate that the client_id in the 
+            <spanx style="verb">aud</spanx> (audience) Claim is one
+             it has registered for the Issuer identified by the value in the 
+             <spanx style="verb">iss</spanx> (issuer) Claim.
+              the ID Token MUST be rejected if the value of 
+              <spanx style="verb">aud</spanx> (audience) is not valid for the 
+              Issuer.</t>
+              
+              <t>The current time MUST be less than the value of the 
+            <spanx style="verb">exp</spanx> Claim.</t>
             </list></t>
           </section>
         </section>
@@ -726,7 +736,7 @@ Content-Type: application/json
 	    <preamble>The following is a non-normative example. Line wraps are
 	    for display purpose only:</preamble>
 
-	    <artwork><![CDATA[GET /userinfo HTTP/1.1
+	    <artwork><![CDATA[GET /userinfo?schema=openid HTTP/1.1
 Host: server.example.com
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 ]]></artwork>
@@ -739,7 +749,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 	  defined below. Additional Claims (not specified below) MAY also be
 	  returned.</t>
 
-	  <t>The members may be represented in multiple languages and scripts.
+          <t>
+            If a Claim is not returned, that Claim Name SHOULD be
+            omitted from the JSON object representing the Claims; it
+            SHOULD NOT be present with a null or empty string value.
+          </t>
+
+	  <t>The members MAY be represented in multiple languages and scripts.
 	  To specify the languages and scripts, <xref
 	  target="RFC5646">BCP47</xref> language tags MUST be added to each
 	  member names delimited by a <spanx style="verb">#</spanx>, e.g.,
@@ -1513,6 +1529,9 @@ scope=openid&response_type=code
           <t>re #335 make openid scope provide user_id from userinfo endpoint</t> 
           <t>re #307 Added explanation of select_account</t>
           <t>Fixes #390 change check id to Bearer token</t>
+          <t>re #409 fix example in 2.4.1 to add schema</t>
+          <t>Fixes #406 update id_token verification to be consistent with messages</t>
+          <t>re #418 add nonce to reply in 2.2.1</t>
         </list></t>
 
        <t>-14<list style="symbols">

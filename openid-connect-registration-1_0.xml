@@ -191,16 +191,16 @@
             Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
              signing of token_endpoint and OpenID Request Objects.
             If x509_encryption_url is not 
-            provided, it is used for <xref target="JWE">JWE</xref> encryption 
+            provided, x509_url is used for <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client.
-            If both x509_url and jwk_url are specified,
-            the keys MUST be the same.</t>
+            If the client registers both x509_url and jwk_url the keys contained in both
+            formats SHOULD be the same.</t>
             
 	    <t hangText="x509_encryption_url">OPTIONAL.  URL for the Client's PEM encoded X.509
             Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the Client. If both x509_signing_url 
-            and jwk_signing_url are specified 
-            x509_signing_url the keys MUST be the same.</t>
+            of <xref target="JWT">JWT</xref> to the Client. 
+            If the client registers both jwk_encryption_url and x509_encryption_url
+            the keys contained in both formats SHOULD be the same.</t>
             
             <t hangText="sector_identifier_url">OPTIONAL. A HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
@@ -734,6 +734,7 @@ WWW-Authenticate: 400 Bad Request
           <t>re #333 clarify redirect_uris matching</t>
           <t>Fixes #382 reference bearer token errors</t>
           <t>Fixes #382 example error response</t>
+          <t>Fixes #414 2.1 clean up language where client registers keys in both JWK and X509 format</t>
           
         </list></t>
 

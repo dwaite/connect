@@ -324,7 +324,7 @@
           <section anchor="idtype" title="User Identifier Types">
            <t>Provider's Discovery documents SHOULD list their supported identifier types in the 
            identifiers_supported element.</t>
-           <t>If there is more than one type listed in the array, the Client may elect to
+           <t>If there is more than one type listed in the array, the Client MAY elect to
            provide its preferred identifier type using the user_id_type parameter during registration.</t>
            <t>The types supported by this specification are:</t>
            
@@ -355,7 +355,7 @@
            <t>The values of the registered <spanx style="verb">redirect_uris</spanx> must be included in the elements of the array,
            or the registration will fail.</t>
 
-           <t>A number of algorithms may be used by Providers to calculate the pairwise identifier.
+           <t>A number of algorithms MAY be used by Providers to calculate the pairwise identifier.
            This specification includes a simple example.</t>
            <t>The sector_identifer is concatenated with a local account ID and a salt 
            value that is kept secret by the provider. The concatenated string is then 
@@ -628,7 +628,7 @@
                 <section title="&quot;claims&quot; member">
                 <t>The "claims" member is a JSON object with a member for
               each requested Claim. The member names are the requested Claim
-              names. The member values may be either:</t>
+              names. The member values MAY be either:</t>
 
               <t><list style="hanging">
                   <t hangText="null">This indicates that this Claim is being
@@ -768,7 +768,7 @@
 	    </t>
 
 	      <t hangText="session_selection_required">The End-User is required
-	      to select a session at the Authorization Server. The End-User may
+	      to select a session at the Authorization Server. The End-User MAY
 	      be authenticated at the Authorization Server with different
 	      associated accounts, but the End-User did not select a session.
 	      This error MAY be returned 
@@ -816,12 +816,12 @@
       <section anchor="token_ep" title="Token Endpoint">	
         <t>The Client sends an Access Token Request to the Token 
         Endpoint to obtain Access Token Response,  
-        which may include Access Token, <xref target="token_lifetime">Refresh Token</xref>,
+        which MAY include Access Token, <xref target="token_lifetime">Refresh Token</xref>,
 	<xref target="id_token">ID Token</xref>, and other variables.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
-          <t>During Client Registration, the Client may register an authentication method.
+          <t>During Client Registration, the Client MAY register an authentication method.
           If no method is registered, the default method of client_secret_basic MUST be used.</t>
           <t>The Supported options are:</t>
           
@@ -864,7 +864,7 @@
 
            <t hangText="jti">REQUIRED. The  <spanx style="verb">jti</spanx> (JWT ID) claim.
 	   A unique identifier for the token.  The
-      JWT ID may be used by implementations requiring message
+      JWT ID MAY be used by implementations requiring message
       de-duplication for one-time use assertions. </t>
            <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
 	   claim that limits the time window during which the JWT can be used.</t>
@@ -899,7 +899,7 @@
 
            <t hangText="jti">REQUIRED. The <spanx style="verb">jti</spanx> (JWT ID) claim.
 	   A unique identifier for the token.  The
-      token ID may be used by implementations requiring message
+      token ID MAY be used by implementations requiring message
       de-duplication for one-time use assertions. </t>
            <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
 	   claim that limits the time window during which the JWT can be used.</t>
@@ -1124,7 +1124,7 @@ Content-Type: application/json
         <section title="UserInfo Response">
           <t>If the requested schema is <spanx
           style="verb">openid</spanx>, the response MUST return a
-          plain text JSON object or JWT that contains the full set or a
+          JSON object that contains the full set or a
           subset of the Claims that are defined below. Additional
           Claims (not specified below) MAY also be returned.</t>
 
@@ -1134,7 +1134,7 @@ Content-Type: application/json
 	    SHOULD NOT be present with a null or empty string value.
 	  </t>
 
-          <t>The members may be represented in multiple languages and scripts.
+          <t>The members MAY be represented in multiple languages and scripts.
           To specify the languages and scripts, <xref
           target="RFC5646">BCP47</xref> language tags MUST be added to each
           member names delimited by a <spanx style="verb">#</spanx>, e.g.,
@@ -1185,7 +1185,7 @@ Content-Type: application/json
 
             <c>string</c>
 
-            <c>Casual name of the End-User that may or may not be the same as the
+            <c>Casual name of the End-User that MAY or MAY not be the same as the
             <spanx style="verb">given_name</spanx>. For instance, a <spanx
             style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
             might be returned alongside a <spanx style="verb">given_name</spanx>
@@ -1291,7 +1291,7 @@ Content-Type: application/json
             <spanx style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
           </texttable>
 
-          <t>For privacy reasons, OpenID Providers may elect to not provide
+          <t>For privacy reasons, OpenID Providers MAY elect to not provide
           values for some schema elements as part of the "openid" scope.</t>
 
           <t>The user_id claim in the UserInfo Endpoint response MUST exactly match the 
@@ -1583,7 +1583,7 @@ may be retrieved:
         <t>The parameters are serialized into a JSON structure by adding each
         parameter at the highest structure level. Parameter names and string
         values are included as JSON strings. Numerical values are included as
-        JSON numbers. Each parameter may have JSON Structure as its value.</t>
+        JSON numbers. Each parameter MAY have JSON Structure as its value.</t>
 
         <figure>
           <preamble>Following is a non-normative example of such
@@ -1688,65 +1688,86 @@ may be retrieved:
       <t><list style="hanging">
         <t hangText="jwk_url">
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Servers signing Key.
-          Used by the server for Signing JWT, may be used by the Client to Encrypt the JWT
-          to the Server if x509_url_encryption is not specified.</t>
+          document which includes the  Server's signing Key.
+          Used by the Server for JWS Signing the JWT. 
+          It MAY be used by the Client to JWE Encrypt the JWT
+          to the Server if <spanx style="verb">x509_url_encryption</spanx> or 
+          <spanx style="verb">jwk_url_encryption</spanx> is not specified, 
+          but this is discouraged. A separate encryption key 
+          SHOULD be used.</t>
           
         <t hangText="jwk_url_encryption">          
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Servers Encryption Key, if not present its value 
-          is the same as the URL provided by <spanx style="verb">jwk_url</spanx></t>
+          document. The Servers Encryption Key. 
+          Used by the Client to JWE Encrypt the JWT to the Server. 
+          If it is not present, it's value 
+          is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.</t>
 
         <t hangText="x509_url">
           URL of the OP's X.509 certificates in PEM format. 
-          Used by the server for Signing JWT, may be used by the Client to Encrypt the JWT
-          to the Server if x509_url_encryption is not specified.</t>
+          Used by the Server for Signing JWT. 
+          It MAY be used by the Client to JWE Encrypt the JWT
+          to the Server if <spanx style="verb">x509_url_encryption</spanx>
+          is not specified 
+          and the key usage includes <spanx style="verb">keyEncipherment</spanx>.</t>
           
         <t hangText="x509_url_encryption"> 
           URL of the OP's OP's X.509 certificates in PEM format.
-          Servers Encryption Key, if not present its value 
-          is the same as the URL provided by <spanx style="verb">x509_url</spanx></t>
+          Servers Encryption Key.
+          It is used by the Client to JWE Encrypt the JWT 
+          to the Server. If it is not present, its value 
+          is the same as the URL provided by 
+          <spanx style="verb">x509_url</spanx>. The certificate 
+          MUST include <spanx style="verb">keyEncipherment</spanx>
+          in the key usage.</t>
 
       </list></t>
       <t>The Client provides its public Keys during Registration, in the following 
       elements:</t>
       <t><list style="hanging">      
             <t hangText="jwk_url">OPTIONAL. URL for the Client's <xref
-            target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
-             signing of token_endpoint and request objects.
-            If jwk_encryption_url is not 
-            provided it is used for <xref target="JWE">JWE</xref> encryption 
+            target="JWK">JSON Web Key</xref>, used for 
+            <xref target="JWS">JWS</xref>
+            signing of the request objects.
+            If <spanx style="verb">jwk_encryption_url</spanx> is not 
+            provided, it is used by the Server 
+            for <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client.
             </t>
 
             <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's <xref
-            target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
-            signing of token_endpoint and request objects.</t>
+            target="JWK">JSON Web Key</xref>. 
+            It is used by the Server for <xref target="JWE">JWE</xref> 
+            encryption of the response objects.</t>
 
             <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
-             signing of token_endpoint and request objects.
-            If x509_encryption_url is not 
-            provided it is used for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the Client.</t>
+            Certificate or Certificate chain. 
+            It is used by the Client for <xref target="JWS">JWS</xref> 
+            signing of the request objects.
+            If <spanx style="verb">x509_encryption_url</spanx> is not 
+            provided, it is used for <xref target="JWE">JWE</xref> encryption 
+            of <xref target="JWT">JWT</xref> to the Client 
+            if the key usages includes <spanx style="verb">keyEncipherment</spanx>.</t>
             
-			<t hangText="x509_encryption_url">OPTIONAL. URL for the Client's PEM encoded 
-			X.509 Certificate or Certificate chain, used for 
-			<xref target="JWE">JWE</xref> encryption 
+            <t hangText="x509_encryption_url">
+            OPTIONAL. URL for the Client's PEM encoded 
+            X.509 Certificate or Certificate chain, used for 
+            <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client. </t>
       
       
       </list></t>      
          <t>If keys are specified in both x509 and jwk, they MUST be the same keys.</t>
          <t>Key algorithms like EC signing and key agreement require separate keys for 
-         signing and encryption for security. For RSA a single key may be used for both,
+         signing and encryption for security. For RSA a single key MAY be used for both,
          but it is good practice to separate them.</t>
        </section>  
       
 
       <section anchor="sigs" title="Signing">
-        <t>Based on the supported algorithms of the recipient in <xref
-        target="sigenc.alg"></xref>, select an signature algorithm.</t>
+        <t>The signing party MUST select a signature algorithm 
+        based on the supported algorithms of the recipient in <xref
+        target="sigenc.alg"></xref>.</t>
         
         <t><list style="hanging">
           <t hangText="Symmetric Signatures">
@@ -1761,7 +1782,8 @@ may be retrieved:
             the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
              as defined in <xref target="JWS">JSON Web Signatures</xref>.
-            The private key associated with the Public Signing Key provided in
+            The private key MUST be the one associated with the 
+            Public Signing Key provided in
             <xref target="sigenc.key"></xref>. 
             If there were multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
@@ -1769,13 +1791,18 @@ may be retrieved:
             x5u</spanx>, then <spanx style="verb">x5t</spanx> MUST be 
             specified in JWS header. 
             The key usage of the respective keys MUST include signature. 
+            In particular, if the key found through x5u is used, the 
+            key usage MUST include 
+            <spanx style="verb">digitalSignature</spanx>. 
           </t>
         </list></t>
       </section>
 
       <section anchor="enc" title="Encryption">
-      <t>Based on the supported algorithms of the recipient in <xref
-        target="sigenc.alg"></xref>, select an encryption algorithm.</t>
+        <t>The encrypting party MUST select an encryption algorithm
+        based on the supported algorithms of the recipient in <xref
+        target="sigenc.alg"></xref>.</t>
+
         <t>All JWT MUST be signed before encryption to provide integrity and
         to verify the Issuer.</t>
         <t>Symmetric Encryption algorithms that provide a integrated integrity check MUST 
@@ -1791,7 +1818,7 @@ may be retrieved:
           <t hangText="Asymmetric Encryption RSA">
             Use the link registered/discovered in <xref target="sigenc.key"></xref>.
             to retrieve the relevant key.
-            The encryption_url link MUST be used if provided.
+            The <spanx style="verb">encryption_url</spanx> link MUST be used if provided.
             If there are multiple keys in <spanx style="verb">jwk</spanx>, 
             <spanx style="verb">kid</spanx> MUST be specified in JWS header. 
             If there are multiple certificates in <spanx style="verb">
@@ -1800,6 +1827,9 @@ may be retrieved:
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.
+            The key usage of the respective keys MUST include the encryption. 
+            In particular, if the key found through <spanx style="verb">x5u</spanx> is used, 
+            the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
           </t>
           <t hangText="Asymmetric Encryption EC">
             Create a ephemeral EC public key for the <spanx style="verb">epk</spanx>
@@ -1815,6 +1845,10 @@ may be retrieved:
             Use the ECDH-ES algorithm to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.
+            The key usage of the respective keys MUST include the encryption.
+            In particular, if the key found through <spanx style="verb">x5u</spanx> is used,
+            the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
+
           </t>
         </list></t>
       </section>
@@ -1825,7 +1859,7 @@ may be retrieved:
 	      <t>Authorization Request Verification consists of two main 
 		  steps. (1) Encryption and Signature validation of 
 		  the value of <spanx style="verb">request</spanx> or 
-		  the content of <spanx style="verb">request_uri</spanx> 
+		  the content of <spanx style="verb">request_uri</spanx>,  
 		  (2) Parameter verification. </t>
 		  
           <t>If an OpenID Request Object was sent in the <spanx 
@@ -1839,11 +1873,11 @@ may be retrieved:
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">request_object_supported_algs</spanx> element of its 
-          Discovery Document, these are used by the Client to encrypt the JWT.</t>
+          Discovery Document, these are used by the Client to JWE encrypt the JWT.</t>
           
           <t>The Authorization Server MUST decode the JWT in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification. 
-		  The result MAY be either OpenID Request Object or a Singed JWT. 
+		  The result MAY be either OpenID Request Object or a JWS Signed JWT. 
 		  In the later case, the signature verification MUST be performed 
 		  as defined in <xref target="signed.req.obj.var">Signed Request Object</xref>. </t>
           
@@ -2215,7 +2249,7 @@ may be retrieved:
       <section anchor="token_reuse" title="Token Reuse">
 	    <t>An Attacker attempts to use a one time token such as code that has 
         been used once with the intended Resource. </t>
-        <t>To mitigate this threat, the token may includes a timestamp 
+        <t>To mitigate this threat, the token SHOULD include a timestamp 
 		and a short lifetime of 
         validity. The Relying Party checks the timestamp and lifetime values
         to ensure that the token is currently valid.</t>

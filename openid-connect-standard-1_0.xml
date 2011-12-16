@@ -1482,12 +1482,10 @@ WWW-Authenticate: Bearer realm="example.com",
           <preamble>The following is a non-normative example. Line wraps are
           for display purpose only:</preamble>
 
-          <artwork><![CDATA[POST /userinfo HTTP/1.1
+          <artwork><![GET /userinfo?schema=openid HTTP/1.1
 Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
-
-access_token=SlAV32hkKG
-&schema=openid]]></artwork>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
+]]></artwork>
         </figure>
       </section>
 
@@ -2347,6 +2345,7 @@ scope=openid&response_type=code
         <t>re #302 change nonce definition Sec 2.3.1.</t>
         <t>Fixes #333 clarify redirect_uris matching</t>
         <t>re #390 change check_id ti Bearer</t> 
+        <t>Fix #409 make 5.1 example use header</t>
         </list></t>
         
       <t>-06<list style="symbols">
