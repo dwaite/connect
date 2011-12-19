@@ -314,8 +314,9 @@
           <xref target="signing_order">authentication, integrity, non-repudiation and/or
           confidentiality.</xref></t>
 
-          <t>Clients SHOULD verify and decrypt signed or encrypted ID Tokens.
-	  Clients that do not understand the ID Token format or that
+          <t>Clients SHOULD directly validate the ID Token per 
+          <xref target="id.token.verification">ID Token Verification</xref>.
+	      Clients that do not understand the ID Token format or that
           do not wish to directly process ID Tokens MAY treat them as opaque
           values and submit them to the <xref target="check_id_ep">Check
           ID Endpoint</xref> for verification and decryption.</t>
@@ -1921,7 +1922,7 @@ may be retrieved:
 		 </section>
       </section>
 
-      <section title="ID Token Verification">
+      <section anchor="id.token.verification" title="ID Token Verification">
         <t>To verify the validity of ID Token in the Authorization Response, the Client
         MUST do the following:</t>
 
