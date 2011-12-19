@@ -694,40 +694,26 @@ WWW-Authenticate: 400 Bad Request
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-      <t>-08</t>
 
-      <t><list style="symbols">
-          <t>Made the Client Registration endpoint OAuth 2.0 protected.</t>
-          <t>Added parameters for requiring encryption and asymmetric signature</t>
-          <t>Added JWT, JWE and JWS reference </t>
-          <t>Added token_endpoint_auth_type</t>
-          <t>Added JWK and x5u signing links</t>
-          <t>Added list of authentication types</t>
-          <t>fixes #216 added user_id_type</t>
-          <t>fixes #275 made encryption a space separated list</t>
-          <t>fixed example in 5.1 to be more realistic</t>
-          <t>fixed typos in userinfo_encrypted_response_algs</t>
-          <t>fixes #278 change require_signed_request_object to string to take alg</t>
-          <t>re #278 change sector_identifier to sector_identifier_url </t>
-          <t>fixes #278 add sec 5.2 on Sector Identifier URL verification</t>
-          <t>Make key names consistent with discovery jwk_url and jwk_encryption_url rather than jwk_signing_url</t>
-          <t>change RP to Client</t>
-          <t>fix typo in require_signed_request_object</t>
-          <t>fix 2 references to JWS</t>
-          <t>fixes #300 removed js_origin_uri Made redirect_uri required only for fragment encoded responses</t>
-          <t>re #359 Sec 3.1 change application to client</t>
-          <t>Fix #359 Sec 3.1 clarify use of client_update.</t>
-          <t>Fix #299 Remove Discovery section.</t>
-          <t>re #333 clarify redirect_uris matching</t>
-          <t>Fixes #382 reference bearer token errors</t>
-          <t>Fixes #382 example error response</t>
-          <t>Fixes #414 2.1 clean up language where client registers keys in both JWK and X509 format</t>
-          <t>Update John B. email and affiliation for implementers draft</t>
+      <t>-08<list style="symbols">
+	  <t>Added policy_url parameter</t>
+	  <t>Renamed expires_in but expires_at</t>
+	  <t>Registration Endpoint can be OAuth Protected</t>
+	  <t>Added paramaters for requiring encryption and/or signing of OpenID Request Object, UserInfo and ID Token</t>
+	  <t>Added token_endpoint_auth_type and list of valid authentication types</t>
+	  <t>Added JWK and X509 URLs for signature and encryption</t>
+	  <t>Added user_id_type </t>
+	  <t>Changed sector_identifier to sector_identifier_url and added URL verification</t>
+	  <t>Use RFC 6125 to verify TLS endpoints</t>
+	  <t>Changed 'contact' to 'contacts', 'redirect_uri' to 'redirect_uris'</t>
+	  <t>Changed redirect_uris to RECOMMENDED for code flow and REQUIRED for implicit flow clients</t>
+	  <t>Removed js_origin_uri</t>
+	  <t>Added section about string comparison rules needed</t>
+	  <t>Clarified redirect_uris matching</t>
+          <t>Update John Bradley email and affiliation for Implementer's Draft</t>
         </list></t>
 
-      <t>-07</t>
-
-      <t><list style="symbols">
+      <t>-07<list style="symbols">
           <t>Changed request from posting a JSON object to being HTTP
           Form encoded.</t>
 
