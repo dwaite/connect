@@ -345,8 +345,9 @@
 
         <t>Authorization Servers MUST require the use of a transport-layer
         security mechanism at the Authorization Endpoint. The Authorization 
-        Server MUST support TLS 1.2 as described in <xref 
-        target="RFC5246">RFC 5246</xref> and MAY support other transport-layer 
+        Server MUST support TLS 1.2 <xref target="RFC5246">RFC 5246</xref>
+	and/or TLS 1.0 <xref target='RFC2246' />
+	and MAY support other transport-layer 
         mechanisms with equivalent security.</t>
 
         <t>Authorization Servers MUST support the use of the HTTP "GET" and 
@@ -411,7 +412,7 @@
                target="OpenID.Registration">OpenID Connect Dynamic Client 
                Registration 1.0</xref> specification.</t>
 
-              <t hangText="nonce">A string value used to associate a browser session 
+              <t hangText="nonce">A string value used to associate a user agent session 
               with a id_token, and to mitigate replay attacks. 
               The value is passed through unmodified to the ID Token.
               One method is to store a random value as a signed session cookie, and
@@ -469,7 +470,7 @@
           <t>The Request File Method works similar to the Request Parameter
           Method but differs in that it sends an URL as a reference to the
           OpenID Request Object. It enables large requests to be sent
-          securely and compactly even on browsers with limited capabilities.
+          securely and compactly even on user agents with limited capabilities.
           Clients SHOULD use the Request File Method to minimize the request
           size.</t>
 
@@ -778,7 +779,7 @@ Location: https://server.example.com/authorize
               to recreate the Authorization Request parameters.</t>
 
               <t>Note that the RP SHOULD use a unique URI for each
-              distinct request, or otherwise
+              request utilizing distinct parameters, or otherwise
               prevent the Authorization Server from caching the <spanx style="verb">request_uri</spanx>.
               </t>
 
@@ -1103,8 +1104,9 @@ error=invalid_request
         Token Endpoint. </t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2 as
-      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
+      security mechanism. The Authorization Server MUST support TLS 1.2
+      <xref target="RFC5246">RFC 5246</xref> and/or TLS 1.0
+      <xref target='RFC2246' /> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
       <t>All Token Endpoint responses that contain tokens, secrets, or other
@@ -1311,8 +1313,9 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
       </t>
       <t>
 	Check ID Endpoints MUST require the use of a transport-layer
-	security mechanism.  The endpoint MUST support TLS 1.2 as
-	described in <xref target="RFC5246">RFC 5246</xref>; when TLS
+	security mechanism.  The endpoint MUST support TLS 1.2
+	<xref target="RFC5246">RFC 5246</xref>
+	and/or TLS 1.0 <xref target='RFC2246' />; when TLS
 	is used, the Client MUST perform a TLS/SSL server certificate
 	check, per <xref target="RFC6125">RFC 6125</xref>.  Check ID
 	Endpoints MAY support other transport-layer mechanisms with
@@ -1439,8 +1442,9 @@ WWW-Authenticate: Bearer realm="example.com",
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2 as
-      described in <xref target="RFC5246">RFC 5246</xref> and MAY support
+      security mechanism. The Authorization Server MUST support TLS 1.2
+      <xref target="RFC5246">RFC 5246</xref> and/or TLS 1.0
+      <xref target='RFC2246' /> and MAY support
       other transport-layer mechanisms with equivalent security.</t>
 
       <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
@@ -1900,6 +1904,7 @@ scope=openid&response_type=code
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>

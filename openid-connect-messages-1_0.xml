@@ -2119,12 +2119,13 @@ may be retrieved:
         <t>There are two ways to mitigate this attack:</t>
 
         <t><list style="numbers">
-            <t>The token may be digitally signed by the OP. The Relying
+            <t>The token can be digitally signed by the OP. The Relying
             Party SHOULD check the digital signature to verify that it was
             issued by a legitimate OP.</t>
 
-            <t>The token may be sent over a protected channel such as
-            TLS/SSL as defined in <xref target="RFC5246">RFC 5246</xref>. 
+            <t>The token can be sent over a protected channel such as
+            TLS 1.2 <xref target="RFC5246">RFC 5246</xref>
+	    and/or TLS 1.0 <xref target='RFC2246' />. 
             In order to protect the integrity of the token from
             malicious attack, the Server MUST be authenticated, per
 			<xref target="RFC6125">RFC 6125</xref>. In this
@@ -2267,7 +2268,29 @@ may be retrieved:
 	    Discovery treats the path component of any URI as part of the user identifier. 
 		</t>
 	  </section>		
-		
+
+	  <section anchor="TLS_requirements" title="TLS Requirements">
+	    <t>
+	      Implementations MUST support TLS.
+	      Which version(s) ought to be implemented will vary over
+	      time, and depend on the widespread deployment and known
+	      security vulnerabilities at the time of implementation.
+	      At the time of this writing,
+	      TLS version 1.2 <xref target='RFC5246' />
+	      is the most recent version, but has very limited actual
+	      deployment, and might not be readily available in
+	      implementation toolkits.
+	      TLS version 1.0 <xref target='RFC2246' />
+	      is the most widely deployed version, and will give the
+	      broadest interoperability.
+	    </t>
+	    <t>
+	      To protect against information disclosure and tampering,
+	      confidentiality protection MUST be applied using TLS
+	      with a ciphersuite that provides confidentiality and
+	      integrity protection.
+	    </t>
+	  </section>
     </section>
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
@@ -2317,6 +2340,7 @@ may be retrieved:
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
