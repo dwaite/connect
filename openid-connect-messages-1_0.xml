@@ -593,10 +593,11 @@
    {
      "claims":
        {
-        "auth_time": null
+        "auth_time": null,
+        "iso29115": { value:["2"] }
        },
      "max_age": 86400,
-     "iso29115": "2"
+     
    }
 }]]></artwork>
               </figure></t>
@@ -680,15 +681,43 @@
               the ID Token. Unlike for the "userinfo" member, typically these
               Claims will augment, rather than override the default set.</t>
 
-              <t>Following Claim MAY be requested in the ID Token by
+              <t>Following Claims MAY be requested in the ID Token by
               specifying it in the "claims" member:</t>
 
               <t><list style="hanging">
+                  <t hangText="user_id">OPTIONAL. (User Identifier):
+                  If the specified user is not currently authenticated to the Authorization 
+                  Server, they may be prompted for authenticated, unless the 
+                  <spanx style="verb">prompt</spanx> paramater in the Authorization
+                   Request is set to "none".
+
+                  The Claim Value in the request is object containing the single element
+                  <spanx style="verb">value</spanx>.  
+                  <figure>
+                
+                <artwork><![CDATA[ "user_id": {"value":"248289761001"}]]></artwork>
+              </figure>
+                  </t>
                   <t hangText="auth_time">OPTIONAL. (authenticated at):
                   Requests that the "auth_time" Claim be present in the 
                   <xref target="id_token">"id_token"</xref> response.
                   The Claim Value in the request is <spanx style="verb">null</spanx>.  
                   </t>
+                  
+                  <t hangText="iso29115">OPTIONAL. (entity authentication
+                  assurance): Specifies the X.1254 / <xref
+                  target="ISO29115">ISO/IEC29115</xref> entity authentication
+                  assurance level that is requested by the Client.
+                  The Claim Value in the request is a object containing the element
+                  <spanx style="verb">value</spanx>. The element 
+                  <spanx style="verb">value</spanx> contains an array of string values 
+                  in order of preference.
+                  <figure>
+                
+                <artwork><![CDATA[ "iso29115": {"value":["2","Silver"]}]]></artwork>
+              </figure>
+                  </t>
+                  
                 </list>In addition to the "claims" member, these additional
               members are defined within the "id_token" member of the OpenID
               Request Object:</t>
@@ -701,10 +730,7 @@
                   corresponds to the OpenID 2.0 openid.pape.max_auth_age
                   request parameter.)</t>
 
-                  <t hangText="iso29115">OPTIONAL. (entity authentication
-                  assurance): Specifies the X.1254 / <xref
-                  target="ISO29115">ISO/IEC29115</xref> entity authentication
-                  assurance level that is requested by the Client.</t>
+                  
                 </list>It is anticipated that additional "id_token" parameters
               MAY be defined to request that additional properties hold for
               the authentication - for instance, that certain authentication
@@ -3063,6 +3089,7 @@ may be retrieved:
           <t>Update John Bradley email and affiliation for Implementer's Draft</t>
 	  <t>Removed invalid_authorization_code, invalid_id_token error codes</t>
 	  <t>Sec 2.3 client MUST NOT send encrypted JWT to the Check ID Endpoint</t>
+	  <t>Sec 2.1.2.1.2 Added user_id claim and moved iso29115 to claims element of id_token member</t>
 	          </list></t>
 
 	<t>-06<list style="symbols">
