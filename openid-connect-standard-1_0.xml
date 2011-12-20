@@ -738,7 +738,7 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
                      title="Client Generates the URL of the Request File">
               <t>The Client then stores the Request File either locally or remotely.
                This is the Request URI, <spanx style="verb">"request_uri"</spanx>. 
-               The URI MAY be appended with the SHA256 [FIPS180-2] hash of the file 
+               The URI MAY be appended with the base64url encoded SHA256 [FIPS180-2] hash of the file 
                after "#" so that the Authorization Server can detect whether the file 
                has changed. </t>
 
@@ -751,6 +751,16 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
               <t>The Client then records the Request File either locally or
               remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.
               </t>
+              <figure>
+                <preamble>Following is a non-normative example. Note: Line
+                wraps are for display purpose only:</preamble>
+
+                <artwork><![CDATA[
+https://client.example.com/rf.jwt#959w6lFunlMyjSaxmW0FtqvkRsmCaAIWuwl6QKeY89g
+]]></artwork>
+              </figure>
+
+
             </section>
 
             <section anchor="art_req"
@@ -768,7 +778,8 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 Location: https://server.example.com/authorize
 ?response_type=code%20id_token
 &cliend_id=s6BhdRkqt3
-&request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejs
+&request_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Frf%2Ejwt
+%23959w6lFunlMyjSaxmW0FtqvkRsmCaAIWuwl6QKeY89g
 &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj&scope=openid]]></artwork>
               </figure>
             </section>
