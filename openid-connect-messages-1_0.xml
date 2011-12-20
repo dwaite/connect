@@ -1006,6 +1006,13 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
         <t>The Check ID Endpoint validates ID Tokens and returns a <xref
         target="RFC4627">JSON</xref> object that contains Claims about
         the authentication event associated with the supplied ID Token.</t>
+        
+        <t>Clients MUST not send encrypted ID Token to the Check ID Endpoint.
+        If the client registers  
+        <spanx style="verb">id_token_encrypted_response_algs</spanx> durring <xref 
+        target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+        , the client must decrypt the ID Token, and SHOULD directly verify the ID Token
+         per <xref target="id.token.verification">ID Token Verification</xref>.</t>
 
         <t>This endpoint can be used by Clients that are not able to or do not
         wish to directly handle ID Tokens. In such cases, Clients MAY treat the ID
@@ -3055,7 +3062,8 @@ may be retrieved:
           <t>Bumped version + date</t>
           <t>Update John Bradley email and affiliation for Implementer's Draft</t>
 	  <t>Removed invalid_authorization_code, invalid_id_token error codes</t>
-        </list></t>
+	  <t>Sec 2.3 client MUST NOT send encrypted JWT to the Check ID Endpoint</t>
+	          </list></t>
 
 	<t>-06<list style="symbols">
           <t>Changed section 3.1.4.1 to say the errors are returned as
