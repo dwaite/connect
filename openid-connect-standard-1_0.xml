@@ -1418,9 +1418,7 @@ Content-Type: application/json
       <section title="Check ID Error Response">
 	<t>When an error condition occurs, the Check ID Endpoint returns
 	an Error Response as defined in Section 3 of
-	<xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
-	utilizing an error code as specified in Section 2.3.3 of <xref
-	target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+	<xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
 
 	<t><figure>
 	    <preamble>Following is a non-normative example of an error
@@ -1428,7 +1426,7 @@ Content-Type: application/json
 
 	    <artwork><![CDATA[HTTP/1.1 401 Unauthorized
 WWW-Authenticate: Bearer realm="example.com",
-                     error="invalid_id_token",
+                     error="invalid_token",
                      error_description="The ID token expired"
 ]]></artwork>
 	  </figure></t>
@@ -1895,23 +1893,6 @@ scope=openid&response_type=code
               <t>Specification document(s): [[this document ]]</t>
             </list></t>
         </section>
-
-        <section title="Check ID Endpoint Error (invalid_id_token)">
-          <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
-
-          <t><list style="symbols">
-              <t>Error name: invalid_schema</t>
-
-              <t>Error usage location: UserInfo Endpoint</t>
-
-              <t>Related protocol extension:</t>
-
-              <t>Change controller: IETF</t>
-
-              <t>Specification document(s): [[this document ]]</t>
-            </list></t>
-        </section>
       </section>
     </section>
   </middle>
@@ -2301,6 +2282,7 @@ scope=openid&response_type=code
 	  <t>Changed Security Considerations to refer to corresponding section in Messages</t>
 	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
       <t>Update John Bradley email and affiliation for Implementer's Draft</t>
+	  <t>Removed invalid_authorization_code, invalid_id_token error codes</t>
         </list></t>
         
       <t>-06<list style="symbols">
