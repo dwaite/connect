@@ -1896,6 +1896,29 @@ may be retrieved:
 		  <t>The Authorization Server MUST verify that all the required parameters 
 		  are present. </t>
 		  </list></t>
+		  <section anchor="req.obj.veri.id_token" title="id_token member claims">
+		  <section anchor="req.obj.veri.id_token.user_id" title="User ID Claim">
+		  <t>If the User ID claim is requested with a specific value the Authorization
+		  Server may only send a positive response if that user has an active session with the 
+		  authorization server. The Authorization server MUST not reply with a id_token or 
+		  access_token for a different user, even if they have an active session with the
+		  Authorization Server.</t>
+		  </section>
+		  <section anchor="req.obj.veri.id_token.29115" title="iso29115 Claim">
+		  <t>This claim request contains a ordered array of strings. The Authorization 
+		  Server MUST match the first the first string it supports. The individual 
+		  authentication must then match that level.  The Authorization server may ask the
+		  user to re-authenticate with additional factors to meet the requirements.
+		  If this is a required claim and the requirement can't be met then the 
+		  Authorization Server must return an error.</t>
+		  <t>The client may make this claim optional by including "optional": true in the 
+		  iso29115 object.  If the claim is optional and the requested value for the user 
+		  cannot be provided the Authorization server MUST return 
+		  <spanx style="verb">null</spanx> as the value of the iso29115 claim.</t>
+		  </section>
+		  </section>
+		  
+
 		  <t>If the Authorization Server encounters any of the error, 
 		  it MUST return the error response.</t>
 		 </section>
