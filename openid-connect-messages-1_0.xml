@@ -862,7 +862,7 @@
           
           <t hangText="client_secret_jwt"> 
           Clients in possession of a client password create a JWT using the
-	      <spanx style='verb'>HS256</spanx> algorithm. 
+	      HMAC-SHA algorithm. 
 	      The HMAC (Hash-based Message Authentication Code) is calculated using the
 	      <spanx style='verb'>client_secret</spanx> as the shared key.
 	   
@@ -901,7 +901,9 @@
           <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
 
           <t hangText="private_key_jwt">
-           Clients that have registered a public key sign a JWT using the RS256 algorithm if a RSA key was registered or the ES256 algorithm if a EC key was registered.
+          Clients that have registered a public key sign a JWT using 
+          RS256/RS384/RS512 algorithm if a RSA key was registered 
+          or the ES256/ES384/ES512 algorithm if a EC key was registered.
           The client Authenticates in accordance with section 2.2 of <xref
           target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
@@ -1609,7 +1611,8 @@ may be retrieved:
           <t hangText="request_object_supported_algs">
 	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
 	    <xref target="JWE">JWE</xref> signing and encryption algorithms
-	    supported by the Authorization Server for the <xref target="OpenIDReq">OpenID Request Object</xref>. Servers SHOULD support 
+	    supported by the Authorization Server for 
+            the <xref target="OpenIDReq">OpenID Request Object</xref>. Servers SHOULD support 
 	    <spanx style="verb">HS256</spanx>.</t>
       
 	  <t hangText="token_endpoint_supported_auth_algs">
@@ -1955,7 +1958,8 @@ may be retrieved:
             in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter 
             during Registration.</t>
             
-            <t>If the "alg" parameter of the JWT header is HS256 the client_secret for the 
+            <t>If the "alg" parameter of the JWT header is one of 
+            HS256, HS384, HS512, the client_secret for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim is used to validate the 
             signature.</t> 
