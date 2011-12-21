@@ -418,6 +418,16 @@ WWW-Authenticate: 400 Bad Request
       <t>Requests to the Registration Endpoint for client_update MUST have some rate 
       limiting on failures to prevent the client secret from being disclosed though
       repeated access attempts.</t>
+      
+      <t>In a situation where the Authorization Server is supporting open client 
+      registration, 
+      it must be extremely careful with any URL provided by the client that will 
+      be displayed to the user (e.g. logo_url and policy_url). A rogue client could 
+      specify a registration request with a reference to a drive-by download in the 
+      policy_url. The Authorization Server should check to see if the logo_url 
+      and policy_url have the 
+      same host as the hosts defined in the array of redirect_uris.</t>
+      
     </section>
   </middle>
 
