@@ -1381,6 +1381,11 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 	  with the HTTP "GET" method, when using GET the access_token 
 	  MUST be passed in the header.
 	</t>
+        <t>
+         The Authorization Server MUST verify the request in accordance 
+         with the section 5.3 of the 
+         <xref target="OpenID.Messages>Messages</xref> specification. 
+        </t> 
       </section>
 
       <section anchor="intro_res" title="Check ID Response">
@@ -1407,25 +1412,17 @@ Content-Type: application/json
 ]]></artwork>
         </figure>
 
-	<section title="Response Verification">
+	<section title="Check ID Response Verification">
 	  <t>To verify the validity of the Response, the Client MUST do the
 	  following:</t>
 
 	  <t><list style="numbers">
-	      <t>The Check ID Endpoint has not returned an error for
-	      the ID Token being expired or invalid.</t>
+              <t>Check that the OP that responded was really the intended OP
+              through a TLS/SSL server certificate check, per
+              <xref target="RFC6125">RFC 6125</xref>.</t>
 
-	      <t>Check that the <spanx style="verb">iss</spanx> (issuer) is equal to 
-	      that of the pre-configured or discovered Issuer Identifier for 
-	      the user session. </t>
+              <t>Follow the rules in section 5.4 of the OpenID Connect Messages.</t>
 
-	      <t>Check that the returned <spanx style="verb">nonce</spanx> is
-	      equal to the <spanx style="verb">nonce</spanx> in the
-	      Authorization Request.</t>
-
-	      <t>Verify that the <spanx style="verb">aud</spanx> (audience) 
-	      contained within the response is the Client's
-	      <spanx style="verb">client_id</spanx>.</t>
 	  </list></t>
 	</section>
       </section>
