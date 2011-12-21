@@ -284,9 +284,9 @@
               particular.</t>
 
               <t hangText="iso29115">OPTIONAL. (Entity Authentication
-              Assurance): Specifies the X.1254 / <xref
-              target="ISO29115">ISO/IEC29115</xref> entity authentication
-              assurance level of the authentication performed.</t>
+              Assurance): Specifies the <xref
+              target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> entity authentication
+              assurance level of the authentication performed. </t>
 
               <t hangText="nonce">REQUIRED. Clients MUST verify that
               the <spanx style="verb">nonce</spanx> value is equal to
@@ -594,7 +594,7 @@
      "claims":
        {
         "auth_time": null,
-        "iso29115": { "value":["2"] }
+        "iso29115": { "values":["2"] }
        },
      "max_age": 86400,
      
@@ -705,16 +705,14 @@
                   </t>
                   
                   <t hangText="iso29115">OPTIONAL. (entity authentication
-                  assurance): Specifies the X.1254 / <xref
-                  target="ISO29115">ISO/IEC29115</xref> entity authentication
+                  assurance): Specifies the <xref target="ISO29115">ITU-T X.1254 | 
+                  ISO29115">ISO/IEC 29115</xref> entity authentication
                   assurance level that is requested by the Client.
-                  The Claim Value in the request is a object containing the element
-                  <spanx style="verb">value</spanx>. The element 
-                  <spanx style="verb">value</spanx> contains an array of string values 
-                  in order of preference.
+                  The element "values" is an ordered array of strings containing all or subset of 
+                  "0","1","2","3","4" appearing in order of preference.
                   <figure>
                 
-                <artwork><![CDATA[ "iso29115": {"value":["2","Silver"]}]]></artwork>
+                <artwork><![CDATA[ "iso29115": {"value":["3","2"]}]]></artwork>
               </figure>
                   </t>
                   
@@ -1871,7 +1869,7 @@ may be retrieved:
           <t>The Authorization Server MUST return the error if there is a decryption error.</t>
          </section>
             
-		 <section anchor="signed.req.obj.var" title="Signed Request Object">
+	 <section anchor="signed.req.obj.var" title="Signed Request Object">
 
           <t>To perform Signature Verification, 
           the <spanx style="verb">alg</spanx> parameter in the JWT header MUST match the value
@@ -1885,8 +1883,8 @@ may be retrieved:
           
           <t>The Authorization Server MUST return the error authorization 
             response if there is a signature validation error.</t>
-	     </section>
-		 <section anchor="req.obj.veri" title="Parameter Verification">
+	 </section>
+	 <section anchor="req.obj.veri" title="Parameter Verification">
 		  <t>The Authorization Server MUST construct the Authorization Request Message 
 		  from the OpenID Request Object 
 		  and other parameters. Note that the if the same parameter exists both in 
@@ -1903,33 +1901,31 @@ may be retrieved:
 		  OAuth 2.0 variables according to OAuth 2.0. </t>
 		  <t>The Authorization Server MUST verify that all the required parameters 
 		  are present. </t>
+                  <t>If the User ID claim as a member of id_token claim 
+                  is requested with a specific value, 
+                  the Authorization Server may only send a positive response if that user 
+                  has an active session with the authorization server. The Authorization 
+                  server MUST not reply with a id_token or access_token for a different user, 
+                  even if they have an active session with the Authorization Server. 
+                  </t>
+                  <t>
+                  If the iso29115 claim is requested as a member of id_token claim 
+                  with a specific value, 
+                  the Authorization Server MUST match the first the first string it supports. 
+                  The individual authentication must then match that level. The Authorization 
+                  server MAY ask the user to re-authenticate with additional factors 
+                  to meet the requirements. If this is a required claim and the 
+                  requirement cannot be met, then the Authorization Server MUST return an error.
+                  The client MAY make this claim optional by including "optional": true in the 
+                  iso29115 object. If the claim is optional and the requested value for 
+                  the user cannot be provided, the Authorization server MUST return null as 
+                  the value of the iso29115 claim. 
+                  </t>
 		  </list></t>
 		  <t>If the Authorization Server encounters any error, 
 		  it MUST return the error response.</t>
-		  <section anchor="req.obj.veri.id_token" title="id_token member claims">
-		  <section anchor="req.obj.veri.id_token.user_id" title="User ID Claim">
-		  <t>If the User ID claim is requested with a specific value the Authorization
-		  Server may only send a positive response if that user has an active session with the 
-		  authorization server. The Authorization server MUST not reply with a id_token or 
-		  access_token for a different user, even if they have an active session with the
-		  Authorization Server.</t>
-		  </section>
-		  <section anchor="req.obj.veri.id_token.29115" title="iso29115 Claim">
-		  <t>This claim request contains a ordered array of strings. The Authorization 
-		  Server MUST match the first the first string it supports. The individual 
-		  authentication must then match that level.  The Authorization server may ask the
-		  user to re-authenticate with additional factors to meet the requirements.
-		  If this is a required claim and the requirement can't be met then the 
-		  Authorization Server must return an error.</t>
-		  <t>The client may make this claim optional by including "optional": true in the 
-		  iso29115 object.  If the claim is optional and the requested value for the user 
-		  cannot be provided the Authorization server MUST return 
-		  <spanx style="verb">null</spanx> as the value of the iso29115 claim.</t>
-		  </section>
-		  </section>
-		  
 
-		 </section>
+	 </section>
       </section>
 
       <section anchor="id.token.verification" title="ID Token Verification">
