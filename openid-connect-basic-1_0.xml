@@ -301,11 +301,11 @@
               will be sent. This MUST be pre-registered with the provider.</t>
             
               <t hangText="nonce">A string value used to associate a user-agent session 
-              with a id_token, and to mitigate replay attacks. 
+              with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified to the ID Token.
               One method is to store a random value as a signed session cookie, and
-              pass the value in the nonce paramater.  The nonce in the returned id_token
-              is compared to the signed session cookie to detect id_token replay by third 
+              pass the value in the nonce parameter.  The nonce in the returned ID Token
+              is compared to the signed session cookie to detect ID Token replay by third 
               parties.</t>
             </list></t>
 
@@ -677,7 +677,7 @@ Content-Type: application/json
           </section>
         </section>
 
-        <section title="CheckID Error Response">
+        <section title="Check ID Error Response">
           <t>When an error condition occurs, the Check ID Endpoint returns
           an Error Response as defined in Section 3 of
           <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
@@ -1121,7 +1121,7 @@ scope=openid&response_type=code
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This document makes no request of IANA.</t>
+      <t>This document makes no requests of IANA.</t>
     </section>
   </middle>
 
@@ -1513,9 +1513,9 @@ scope=openid&response_type=code
 	  <t>ID Token MUST be JWT</t>
 	  <t>RECOMMENDED E.164 format for UserInfo 'phone_number' claim</t>
 	  <t>Changed UserInfo Error Response to augment and return OAuth 2.0 Bearer Token Error Response</t>
-	  <t>CheckID Endpoint SHOULD use POST</t>
+	  <t>Check ID Endpoint SHOULD use POST</t>
 	  <t>Added section about string comparison rules needed</t>
-	  <t>Added Response Encoding according to Multipe Response Types spec</t>
+	  <t>Added Response Encoding according to Multiple Response Types spec</t>
 	  <t>Make openid scope provide user_id from userinfo endpoint</t>
 	  <t>Changed Security Considerations to refer to corresponding section in Standard</t>
 	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
@@ -1588,13 +1588,13 @@ scope=openid&response_type=code
           to check expiration.</t>
 
           <t>Added explanation of why an id_token is used to verify identity
-          rather than the user_info Access Token.</t>
+          rather than the userinfo Access Token.</t>
         </list></t>
 
       <t>-07 <list style="symbols">
           <t>Changed introspection to post</t>
 
-          <t>Changed user_info from <spanx style="verb">id</spanx> to <spanx
+          <t>Changed userinfo from <spanx style="verb">id</spanx> to <spanx
           style="verb">user_id</spanx> to be consistent with introspection
           endpoint.</t>
 

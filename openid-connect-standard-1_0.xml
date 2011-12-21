@@ -155,7 +155,7 @@
 
         <t><figure>
             <preamble>The following is a non-normative example of a scope
-            paramater in a Authorization Request.</preamble>
+            parameter in an Authorization Request.</preamble>
 
             <artwork><![CDATA[scope=openid profile email phone]]></artwork>
           </figure></t>
@@ -414,11 +414,11 @@
                Registration 1.0</xref> specification.</t>
 
               <t hangText="nonce">A string value used to associate a user agent session 
-              with a id_token, and to mitigate replay attacks. 
+              with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified to the ID Token.
               One method is to store a random value as a signed session cookie, and
-              pass the value in the nonce paramater.  The nonce in the returned id_token
-              is compared to the signed session cookie to detect id_token replay by third 
+              pass the value in the nonce parameter.  The nonce in the returned ID Token
+              is compared to the signed session cookie to detect ID Token replay by third 
               parties.</t>
             </list></t>
 
@@ -679,7 +679,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
           <section title="Request File Method">
             <t>The Request File Method differs from the other methods in that
-            it uses a Request File that contains a 
+            it uses a Request File that contains an
             OpenID Request Object. It then sends the Request File URL as
             part of the Authorization Request.</t>
 
@@ -694,7 +694,7 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
             Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter. The target of the URL is a JWT which is a 
+            parameter. The target of the URL is a JWT which is an
             OpenID Request Object. The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be HTTPS, 
             unless the target JWT is signed in a way that is verifiable by the 
@@ -710,7 +710,6 @@ grbrHkA1FZ5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
             OpenID Request Object with the same values. This allows
             the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0. The 
-            
             OpenID Request Object MAY
             be signed and encrypted via <xref target="JWS">JWS</xref>
             and <xref target="JWE">JWE</xref> respectively, thereby providing
@@ -744,7 +743,7 @@ Z5p_7bc_RSdTbH-wo_Agk-ZRpD3wY
 
               <t>It should be noted that if the Request File includes user's attribute 
               values, it MUST NOT be revealed to anybody but the Authorization Server. 
-              As such, the <spanx style="verb">"request_uri"</spanx> MUST have an 
+              As such, the <spanx style="verb">"request_uri"</spanx> MUST have
               appropriate entropy for its lifetime, 
               and must be removed after successful authentication or a reasonable timeout.
               </t>
@@ -1460,9 +1459,8 @@ WWW-Authenticate: Bearer realm="example.com",
       "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
       UserInfo Endpoint. </t>
 
-      <t>Authorization Servers MUST be able to accept Access Tokens via
-      <xref target="OAuth.Bearer">Bearer Tokens</xref>
-      specification.</t>
+      <t>Authorization Servers MUST accept Access Tokens as
+      <xref target="OAuth.Bearer">Bearer Tokens</xref>.</t>
 
       <section title="UserInfo Request">
         <t>Client SHOULD send the UserInfo Request defined in section 3.3 of
@@ -2288,13 +2286,13 @@ scope=openid&response_type=code
 	  <t>Added Privacy considerations</t>
 	  <t>Changed 'request_uri' to require HTTPS unless the referenced content is signed
 	    and only needs to be reachable by AS</t>
-	  <t>Added hash and entropy considerastions to 'request_uri'</t>
+	  <t>Added hash and entropy considerations to 'request_uri'</t>
 	  <t>Added requirement to compare user_id from userinfo endpoint to id_token</t>
-	  <t>CheckID Endpoint SHOULD use POST</t>
+	  <t>Check ID Endpoint SHOULD use POST</t>
 	  <t>Changed UserInfo Error Response to augment and return OAuth 2.0 Bearer Token Error Response</t>
 	  <t>Added section about string comparison rules needed</t>
-	  <t>Added Response Encoding according to Multipe Response Types spec</t>
-	  <t>Allows only 'id_token' for 'response_type' parameter in Authorizaton Request</t>
+	  <t>Added Response Encoding according to Multiple Response Types spec</t>
+	  <t>Allows only 'id_token' for 'response_type' parameter in Authorization Request</t>
 	  <t>Clarified redirect_uris matching</t>
 	  <t>Added explanation of select_account</t>
 	  <t>Changed Security Considerations to refer to corresponding section in Messages</t>

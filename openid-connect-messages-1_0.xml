@@ -105,8 +105,8 @@
 	<xref target="JWT">JSON Web Token (JWT)</xref>.
 	This specification also defines the following terms:
 	  <list style="hanging">
-	    <t hangText="Authentication">An act of verifying End-User's posession 
-	    of the previously provisioned credential.</t>
+	    <t hangText="Authentication">An act of verifying End-User's possession 
+	    of previously provisioned credentials.</t>
 
 	    <t hangText="Claim">A piece of information about an Entity that a
 	    Claims Provider asserts about that Entity.</t>
@@ -331,7 +331,7 @@
               <t hangText="public"> This provides the same user_id value to all Clients. It is the default if
               the provider has no identifiers_supported element in its discovery document.</t>
               <t hangText="pairwise"> This provides a different user_id value to each Client, to prevent
-              correlation of the users activities by Clients without the users permission.</t>
+              correlation of the user's activities by Clients without the user's permission.</t>
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
            <t>The Provider MUST calculate a unique user_id value for each sector_identifer.</t>
@@ -527,7 +527,7 @@
             information returned in the ID Token
             are in the "<spanx style="verb">id_token</spanx>" member. If the
             same parameters are present both in the Authorization Request and
-            in the OpenID Request Object, the later takes the precedence.
+            in the OpenID Request Object, the latter takes precedence.
             </t>
 
             <t>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
@@ -657,7 +657,7 @@
               <t><list style="hanging">
                   <t hangText="optional">This is an OPTIONAL Claim parameter. 
                   If present, its value MUST be <spanx style="verb">true</spanx>,
-                  which indicates that it is a OPTIONAL Claim. If it is not
+                  which indicates that it is an optional Claim. If it is not
                   present, it is a required Claim.</t>
                 </list>
                 Other members MAY be defined to provide additional
@@ -688,7 +688,7 @@
                   <t hangText="user_id">OPTIONAL. (User Identifier):
                   If the specified user is not currently authenticated to the Authorization 
                   Server, they may be prompted for authenticated, unless the 
-                  <spanx style="verb">prompt</spanx> paramater in the Authorization
+                  <spanx style="verb">prompt</spanx> parameter in the Authorization
                    Request is set to "none".
 
                   The Claim Value in the request is object containing the single element
@@ -826,7 +826,7 @@
 
 	      <t hangText="invalid_openid_request_object">The 
 	      <spanx style="verb">request</spanx> parameter contains an invalid 
-	      openid_request_object.</t>
+	      OpenID Request Object.</t>
 
 
 	    </list></t>
@@ -903,7 +903,7 @@
           <t hangText="private_key_jwt">
           Clients that have registered a public key sign a JWT using 
           RS256/RS384/RS512 algorithm if a RSA key was registered 
-          or the ES256/ES384/ES512 algorithm if a EC key was registered.
+          or the ES256/ES384/ES512 algorithm if an Elliptic Curve key was registered.
           The client Authenticates in accordance with section 2.2 of <xref
           target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
@@ -1035,10 +1035,10 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
         
         <t>Clients MUST not send encrypted ID Token to the Check ID Endpoint.
         If the client registers  
-        <spanx style="verb">id_token_encrypted_response_algs</spanx> durring <xref 
-        target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-        , the client must decrypt the ID Token, and SHOULD directly verify the ID Token
-         per <xref target="id.token.verification">ID Token Verification</xref>.</t>
+        <spanx style="verb">id_token_encrypted_response_algs</spanx> during <xref 
+        target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
+	the client must decrypt the ID Token, and SHOULD directly verify the ID Token
+        per <xref target="id.token.verification">ID Token Verification</xref>.</t>
 
         <t>This endpoint can be used by Clients that are not able to or do not
         wish to directly handle ID Tokens. In such cases, Clients MAY treat the ID
@@ -1488,7 +1488,7 @@ Claims Provider A contains the following Claims for Jane Doe:
 Claims Provider A signs the JSON Claims, resulting in a signed JWT:
 jwt_header.jwt_part2.jwt_part3
 
-Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A : 
+Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A: 
 {
  "name": "Jane Doe",
  "given_name": "Jane",
@@ -1680,7 +1680,7 @@ may be retrieved:
           URL of the OP's <xref target="JWK">JSON Web Key </xref>
           document. The Servers Encryption Key. 
           Used by the Client to JWE Encrypt the JWT to the Server. 
-          If it is not present, it's value 
+          If it is not present, its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.</t>
 
         <t hangText="x509_url">
@@ -1692,7 +1692,7 @@ may be retrieved:
           and the key usage includes <spanx style="verb">keyEncipherment</spanx>.</t>
           
         <t hangText="x509_url_encryption"> 
-          URL of the OP's OP's X.509 certificates in PEM format.
+          URL of the OP's X.509 certificates in PEM format.
           Servers Encryption Key.
           It is used by the Client to JWE Encrypt the JWT 
           to the Server. If it is not present, its value 
@@ -1727,7 +1727,7 @@ may be retrieved:
             If <spanx style="verb">x509_encryption_url</spanx> is not 
             provided, it is used for <xref target="JWE">JWE</xref> encryption 
             of <xref target="JWT">JWT</xref> to the Client 
-            if the key usages includes <spanx style="verb">keyEncipherment</spanx>.</t>
+            if the key usage includes <spanx style="verb">keyEncipherment</spanx>.</t>
             
             <t hangText="x509_encryption_url">
             OPTIONAL. URL for the Client's PEM encoded 
@@ -1738,7 +1738,7 @@ may be retrieved:
       
       </list></t>      
          <t>If keys are specified in both x509 and jwk, they MUST be the same keys.</t>
-         <t>Key algorithms like EC signing and key agreement require separate keys for 
+         <t>Key algorithms like Elliptic Curve signing and key agreement require separate keys for 
          signing and encryption for security. For RSA a single key MAY be used for both,
          but it is good practice to separate them.</t>
        </section>  
@@ -1785,8 +1785,9 @@ may be retrieved:
 
         <t>All JWT MUST be signed before encryption to provide integrity and
         to verify the Issuer.</t>
-        <t>Symmetric Encryption algorithms that provide a integrated integrity check MUST 
-        be used if supported by both the sender and receiver. A128GCM and A256GCM 
+        <t>Symmetric Encryption algorithms that provide an integrated integrity check MUST 
+        be used if supported by both the sender and receiver. The
+	<spanx style="verb">A128GCM</spanx> and <spanx style="verb">A256GCM</spanx>
         algorithms support this.</t>
         
         <t><list style="hanging">
@@ -1796,7 +1797,7 @@ may be retrieved:
             the signed JWT.  
           </t>
           <t hangText="Asymmetric Encryption RSA">
-            Use the link registered/discovered in <xref target="sigenc.key"></xref>.
+            Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
             The 
             <spanx style="verb">jwk_encryption_url</spanx> 
@@ -1815,10 +1816,10 @@ may be retrieved:
             In particular, if the key found through <spanx style="verb">x5u</spanx> is used, 
             the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
           </t>
-          <t hangText="Asymmetric Encryption EC">
-            Create a ephemeral EC public key for the <spanx style="verb">epk</spanx>
+          <t hangText="Asymmetric Encryption Elliptic Curve">
+            Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
             element of the JWE header. 
-            Use the link registered/discovered in <xref target="sigenc.key"></xref>.
+            Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
             The 
             <spanx style="verb">jwk_encryption_url</spanx> 
@@ -1855,8 +1856,8 @@ may be retrieved:
           <spanx style="verb">request_uri</spanx> parameter, the 
           Request Object MUST verify as 
 		  <xref target="JWS">JWS</xref> or <xref target="JWE">JWE</xref> 
-		  that are encoded int <xref target="JWT">JWT</xref>.</t>
-          
+		  objects that are encoded in the <xref target="JWT">JWT</xref>.</t>
+
          <section title="Encrypted Request Object">
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
@@ -1866,7 +1867,7 @@ may be retrieved:
           <t>The Authorization Server MUST decode the JWT in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification. 
 		  The result MAY be either OpenID Request Object or a JWS Signed JWT. 
-		  In the later case, the signature verification MUST be performed 
+		  In the latter case, the signature verification MUST be performed 
 		  as defined in <xref target="signed.req.obj.var">Signed Request Object</xref>. </t>
           
           <t>The Authorization Server MUST return the error if there is a decryption error.</t>
@@ -1890,9 +1891,9 @@ may be retrieved:
 	 <section anchor="req.obj.veri" title="Parameter Verification">
 		  <t>The Authorization Server MUST construct the Authorization Request Message 
 		  from the OpenID Request Object 
-		  and other parameters. Note that the if the same parameter exists both in 
-		  the OpenID Request Object and other parameters, the former takes precidence. 
-		  Using this Authorization Request Message, the Authorization Server performes 
+		  and other parameters. Note that if the same parameter exists both in 
+		  the OpenID Request Object and other parameters, the former takes precedence. 
+		  Using this Authorization Request Message, the Authorization Server performs 
 		  the following steps of the request verification: 
 		  </t>
 		  <t><list style="numbers">
@@ -1908,7 +1909,7 @@ may be retrieved:
                   is requested with a specific value, 
                   the Authorization Server may only send a positive response if that user 
                   has an active session with the authorization server. The Authorization 
-                  server MUST not reply with a id_token or access_token for a different user, 
+                  server MUST not reply with an ID Token or Access Token for a different user, 
                   even if they have an active session with the Authorization Server. 
                   </t>
                   <t>
@@ -1936,7 +1937,7 @@ may be retrieved:
         MUST do the following:</t>
 
         <t><list style="numbers">
-            <t>If the Client has provided a 
+            <t>If the Client has provided an
             <spanx style="verb">id_token_encrypted_response_algs</spanx>
             parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified during Registration.</t>
@@ -1945,7 +1946,7 @@ may be retrieved:
             <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
              <spanx style="verb">iss</spanx> (issuer) Claim.
-              the ID Token MUST be rejected if the value of 
+              The ID Token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
               Issuer.</t>
              
@@ -1996,10 +1997,10 @@ may be retrieved:
       <section title="Check ID Request Verification">
         <t>The Authorization Server MUST check that the 
         <spanx style="verb">access_token</spanx> is 
-        present in the request, and that if it is signed, it MUST verify
+        present in the request and if it is signed, it MUST verify
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
-        <t>If the JWS algorithm is symmetric, such as the default HS256 for 
+        <t>If the JWS algorithm is symmetric, such as the default <spanx style="verb">HS256</spanx> for 
         <spanx style="verb">id_token</spanx>, the client_secret for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim MUST be used to validate the 
@@ -2022,7 +2023,7 @@ may be retrieved:
             in the <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
              <spanx style="verb">iss</spanx> (issuer) Claim.
-              the ID Token MUST be rejected if the value of 
+              The ID Token MUST be rejected if the value of 
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
               Issuer.</t>
               
@@ -2185,10 +2186,10 @@ may be retrieved:
                title="Token Manufacture/Modification">
         <t>An Attacker may generate a bogus token or modify the token content 
 		(such as the authentication or 
-		attribute statements) of an existing parsable token, causing the RP to grant 
+		attribute statements) of an existing parseable token, causing the RP to grant 
 		inappropriate access to the Client. For example, an Attacker may modify 
-		the parsable token to extend the validity period; a Client may modify the 
-		parsable token to have access to information that they should not be able to view.
+		the parseable token to extend the validity period; a Client may modify the 
+		parseable token to have access to information that they should not be able to view.
         </t>
         <t>There are two ways to mitigate this attack:</t>
 
@@ -2230,7 +2231,7 @@ may be retrieved:
       </section>
 
       <section anchor="server_response_repudiation" title="Server Response Repudiation">
-	    <t>An response may be repudiated by the server if the proper mechanisms are not in place. 
+	    <t>A response may be repudiated by the server if the proper mechanisms are not in place. 
 		For example, if a Server does not digitally sign a response, the Server can claim that it was not 
         generated through the services of the Server.</t>
 		
@@ -2259,7 +2260,7 @@ may be retrieved:
 		obtain access to a second resource.
 		</t>
         <t>To mitigate this threat, the access token should be audience 
-		and scope restricted. One way of implementing it is to includes 
+	and scope restricted. One way of implementing it is to include
         the identifier of the resource for whom it was generated as audience. 
         The resource verifies that
         incoming tokens include its identifier as the audience of the
@@ -2267,7 +2268,7 @@ may be retrieved:
       </section>
 
       <section anchor="token_reuse" title="Token Reuse">
-	    <t>An Attacker attempts to use a one time token such as code that has 
+	<t>An Attacker attempts to use a one-time use token such as a code that has 
         been used once with the intended Resource. </t>
         <t>To mitigate this threat, the token SHOULD include a timestamp 
 		and a short lifetime of 
@@ -2324,7 +2325,7 @@ may be retrieved:
 	  </section>
 		
 	  <section anchor="signing_order" title="Signing and Encryption order">
-	    <t>Signatures over encrypted text are not considered valid im many jurisdictions.
+	    <t>Signatures over encrypted text are not considered valid in many jurisdictions.
 	    For the integrity of non-repudiation this specification requires signing 
 	    of the plain text JSON.</t>
 	    <t>It is however strongly RECOMMENDED that the selected 
@@ -2387,24 +2388,23 @@ may be retrieved:
       style="verb">user_id</spanx> SHOULD be considered.</t>
       
       <section anchor="token_lifetime" title="Refresh Token, and Access Token Lifetime">
-	    <t>Access Token grants are not revokable by the Authorization Server. 
+	    <t>Access Token grants are not revocable by the Authorization Server. 
 	    Access Token grant lifetimes SHOULD be kept to single use or 
 	    very short lifetimes.</t>
 	    <t>If access to the User Info Endpoint or other protected resources is required,
 	    a Refresh Token should be used. The Client may then exchange the Refresh Token at
-	    the Token Eendpoint for a fresh short lived access_token, that can be used to 
+	    the Token Endpoint for a fresh short lived Access Token, that can be used to 
 	    access the resource.</t>
 	    <t>The Authorization Server SHOULD clearly identify long term grants to the User
-	    durring Authorization.</t>
-	    <t>The Authorization Server MUST provide a mechinisim for the user to revoke
+	    during Authorization.</t>
+	    <t>The Authorization Server MUST provide a mechanisim for the user to revoke
 	    Refresh Tokens granted to a client.</t>
-	    
 	    
       </section>
     </section>
 
     <section anchor="iana" title="IANA Considerations">
-      <t>This document makes no request of IANA.</t>
+      <t>This document makes no requests of IANA.</t>
 
     
     </section>
@@ -3087,7 +3087,7 @@ may be retrieved:
 	    authentication schemes and their validation.
 	    This includes symmetric and asymmetric authentication, JWT Bearer Token 
 	    Profiles, OAuth 2.0 Assertion Profile</t>
-	  <t>Updated CheckID Response verification</t>
+	  <t>Updated Check ID Response verification</t>
 	  <t>Added 'auth_time' to ID Token</t>
 	  <t>Added validation for request object encryption and signature</t>
 	  <t>Added explanation for user_id type and calculating pairwise identifiers</t>
