@@ -304,7 +304,7 @@
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified to the ID Token.
               One method is to store a random value as a signed session cookie, and
-              pass the value in the nonce parameter.  The nonce in the returned ID Token
+              pass the value in the <spanx style="verb">nonce</spanx> parameter.  The <spanx style="verb">nonce</spanx> in the returned ID Token
               is compared to the signed session cookie to detect ID Token replay by third 
               parties.</t>
             </list></t>
@@ -537,7 +537,7 @@ access_token=SlAV32hkKG
 
 	  <t>To request the information about the authentication performed on
           the End-User, a request is made to the Check ID Endpoint sending 
-          the ID Token as the access_token 
+          the ID Token as the <spanx style="verb">access_token</spanx> 
           by using the <xref target="OAuth.Bearer">OAuth 2.0
 		  Bearer</xref> scheme.</t>
 
@@ -582,7 +582,7 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 	  </t>
 	  <t>
 	    A request to the Check ID Endpoint MAY alternatively be made
-	  with the HTTP "GET" method, when using GET the access_token 
+	  with the HTTP "GET" method, when using GET the <spanx style="verb">access_token</spanx> 
 	  MUST be passed in the header.
 	  </t>
 	</section>
@@ -603,7 +603,7 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
               It MUST NOT exceed 255 ASCII characters in length.</t>
 
               <t hangText="aud">REQUIRED. This member identifies the audience
-              that this ID Token is intended for. It is client_id of the RP.</t>
+              that this ID Token is intended for. It is the <spanx style="verb">client_id</spanx> of the RP.</t>
 
               <t hangText="exp">REQUIRED. Type Integer. Identifies the
               expiration time on or after which the ID Token MUST NOT be
@@ -660,10 +660,10 @@ Content-Type: application/json
                 <t>The value of the <spanx style="verb">nonce</spanx>
              Claim MUST be checked to verify that
             it is the same value as the one that was sent in the Authorization
-            Request. The Client SHOULD check the nonce value for replay attacks.
+            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
             The precise method for detecting replay attacks is client specific.</t>
 
-                <t>The Client MUST validate that the client_id in the 
+                <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
             <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
              <spanx style="verb">iss</spanx> (issuer) Claim.
@@ -695,8 +695,8 @@ Content-Type: application/json
 	other transport-layer mechanisms with equivalent security.</t>
 
 	<t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
-	Interactive user identified by the user_id element of the ID Token. 
-	The user_id claim in the UserInfo Endpoint response MUST exactly match the 
+	Interactive user identified by the <spanx style="verb">user_id</spanx> element of the ID Token. 
+	The <spanx style="verb">user_id</spanx> claim in the UserInfo Endpoint response MUST exactly match the 
 	user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
 
 	<section title="UserInfo Request">
@@ -1516,7 +1516,7 @@ scope=openid&response_type=code
 	  <t>Check ID Endpoint SHOULD use POST</t>
 	  <t>Added section about string comparison rules needed</t>
 	  <t>Added Response Encoding according to Multiple Response Types spec</t>
-	  <t>Make openid scope provide user_id from userinfo endpoint</t>
+	  <t>Make openid scope provide <spanx style="verb">user_id</spanx> from userinfo endpoint</t>
 	  <t>Changed Security Considerations to refer to corresponding section in Standard</t>
 	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
       <t>Update John Bradley email and affiliation for Implementer's Draft</t>
@@ -1603,7 +1603,7 @@ scope=openid&response_type=code
 
           <t>Removed asking for id_token in response type.</t>
 
-          <t>Fixed Sec 3 to be clear it is client secret that is maintained
+          <t>Fixed Section 3 to be clear it is client secret that is maintained
           between the client and the OP.</t>
         </list></t>
 
