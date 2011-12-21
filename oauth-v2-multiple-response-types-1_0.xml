@@ -138,9 +138,9 @@
     </section>
 
     <section title="ID Token Response Type">
-      <t>This section registers a new response type, the id_token, in accordance
+      <t>This section registers a new response type, the <spanx style="verb">id_token</spanx>, in accordance
         with the stipulations in the OAuth 2.0 specification, Section 8.4. The intended purpose of
-        the id_token is that it MUST provide an assertion of
+        the <spanx style="verb">id_token</spanx> is that it MUST provide an assertion of
         the identity of the Resource Owner as understood by the server. The assertion MUST 
         specify a targeted audience, e.g. the requesting Client. However, the specific semantics of
         the assertion and how it can be validated are not specified in this document.</t>
@@ -148,10 +148,10 @@
       <t><list style="hanging">
         <t hangText="id_token">If supplied as the response_type parameter in an OAuth 2.0
           Authorization Request, a successful response should include the parameter
-          id_token encoded in the fragment of the response URI.</t>
+          <spanx style="verb">id_token</spanx> encoded in the fragment of the response URI.</t>
       </list></t>
 
-      <t>Returning the id_token in a fragment reduces the likelihood that the id_token leaks
+      <t>Returning the <spanx style="verb">id_token</spanx> in a fragment reduces the likelihood that the <spanx style="verb">id_token</spanx> leaks
         during transport and mitigates the associated risks to the privacy of the user (Resource Owner).</t>
     </section>
 
@@ -172,7 +172,7 @@
 
       <t><list style="hanging">
         <t hangText="none">When supplied as the response_type parameter in an OAuth 2.0 authorization
-          request, the Authorization Server SHOULD NOT return an OAuth 2.0 code nor a token in a successful
+          request, the Authorization Server SHOULD NOT return an OAuth 2.0 <spanx style="verb">code</spanx> nor a <spanx style="verb">token</spanx> in a successful
           response to the grant request. If a redirect_uri is supplied, the User-Agent SHOULD be redirected
           there after granting or denying access. The request MAY include a state parameter, and if so the
           server MUST echo its value by adding it to the redirect_uri when issuing a successful response.
@@ -182,7 +182,7 @@
       <t>The response type none SHOULD NOT be combined with other response types.</t>
     </section>
     <section title="Registration of Some Multiple-Valued Response Type Combinations">
-      <t>This section registers combinations of the values code, token, and id_token, which are each
+      <t>This section registers combinations of the values <spanx style="verb">code</spanx>, <spanx style="verb">token</spanx>, and <spanx style="verb">id_token</spanx>, which are each
         individually registered response types.</t>
 
       <t><list style="hanging">
@@ -190,13 +190,13 @@
           response MUST include both an Access Token and an Authorization Code as defined in the OAuth 2.0
           specification. Both successful and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an Authorization Code as well as an id_token.
+          a successful response MUST include both an Authorization Code as well as an <spanx style="verb">id_token</spanx>.
           Both success and error responses SHOULD be fragment-encoded.</t>
         <t hangText="id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include both an Access Token as well as an id_token.
+          a successful response MUST include both an Access Token as well as an <spanx style="verb">id_token</spanx>.
           Both success and error responses SHOULD be fragment-encoded.</t>
         <t hangText="code id_token token">When supplied as the value for the response_type parameter,
-          a successful response MUST include an Authorization Code, an id_token, and an Access Token.
+          a successful response MUST include an Authorization Code, an <spanx style="verb">id_token</spanx>, and an Access Token.
           Both success and error responses SHOULD be fragment-encoded.</t> 
       </list></t>
     <t>A non-normative request/response example as issued/received by the User-Agent:

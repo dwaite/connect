@@ -417,7 +417,7 @@
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified to the ID Token.
               One method is to store a random value as a signed session cookie, and
-              pass the value in the nonce parameter.  The nonce in the returned ID Token
+              pass the value in the <spanx style="verb">nonce</spanx> parameter.  The <spanx style="verb">nonce</spanx> in the returned ID Token
               is compared to the signed session cookie to detect ID Token replay by third 
               parties.</t>
             </list></t>
@@ -1145,7 +1145,7 @@ error=invalid_request
 
         <section title="Access Token Request">
           <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
-          authenticate to the Token Endpoint using the authentication method registered for its client_id,
+          authenticate to the Token Endpoint using the authentication method registered for its <spanx style="verb">client_id</spanx>,
           as documented in Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
           
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
@@ -1250,7 +1250,7 @@ Pragma: no-cache
 
       <section title="Refreshing an Access Token">
          <t>To refresh an Access Token, the Client MUST
-          authenticate to the Token Endpoint using the authentication method registered for its client_id,
+          authenticate to the Token Endpoint using the authentication method registered for its <spanx style="verb">client_id</spanx>,
           as documented in Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
@@ -1270,7 +1270,7 @@ Pragma: no-cache
           response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
           <xref target="OpenID.Messages">Section 2.2.3 of OpenID Connect Messages
-          1.0</xref> except that it SHOULD NOT return id_token.</t>
+          1.0</xref> except that it SHOULD NOT return <spanx style="verb">id_token</spanx>.</t>
         
           <figure>
             <preamble>Following is a non-normative example of the Refresh
@@ -1337,7 +1337,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 
           <t>To request the information about the authentication performed on
           the End-User, a request is made to the Check ID Endpoint sending 
-          the ID Token as the access_token 
+          the ID Token as the <spanx style="verb">access_token</spanx> 
           by using the <xref target="OAuth.Bearer">OAuth 2.0
 		  Bearer</xref> scheme.</t>
 
@@ -1377,7 +1377,7 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 	</t>
 	<t>
 	  A request to the Check ID Endpoint MAY alternatively be made
-	  with the HTTP "GET" method, when using GET the access_token 
+	  with the HTTP "GET" method, when using GET the <spanx style="verb">access_token</spanx> 
 	  MUST be passed in the header.
 	</t>
         <t>
@@ -1488,8 +1488,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
       </section>
 
       <section anchor="id_res" title="UserInfo Response">
-        <t>The user_id claim in the UserInfo Endpoint response MUST exactly match the 
-        user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
+        <t>The <spanx style="verb">user_id</spanx> claim in the UserInfo Endpoint response MUST exactly match the 
+        <spanx style="verb">user_id</spanx> claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
         
         <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
         return the JSON Serialization of the UserInfo response as in <xref

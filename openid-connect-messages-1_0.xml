@@ -324,17 +324,17 @@
            <t>Provider's Discovery documents SHOULD list their supported identifier types in the 
            identifiers_supported element.</t>
            <t>If there is more than one type listed in the array, the Client MAY elect to
-           provide its preferred identifier type using the user_id_type parameter during registration.</t>
+           provide its preferred identifier type using the <spanx style="verb">user_id_type</spanx> parameter during registration.</t>
            <t>The types supported by this specification are:</t>
            
            <t><list style="hanging">
-              <t hangText="public"> This provides the same user_id value to all Clients. It is the default if
+              <t hangText="public"> This provides the same <spanx style="verb">user_id</spanx> value to all Clients. It is the default if
               the provider has no identifiers_supported element in its discovery document.</t>
-              <t hangText="pairwise"> This provides a different user_id value to each Client, to prevent
+              <t hangText="pairwise"> This provides a different <spanx style="verb">user_id</spanx> value to each Client, to prevent
               correlation of the user's activities by Clients without the user's permission.</t>
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
-           <t>The Provider MUST calculate a unique user_id value for each sector_identifer.</t>
+           <t>The Provider MUST calculate a unique <spanx style="verb">user_id</spanx> value for each sector_identifer.</t>
            <t>If the Client has not provided a value for
 	   <spanx style="verb">sector_identifier_url</spanx> in registration,
            the <spanx style="verb">sector_identifier_url</spanx>
@@ -359,7 +359,7 @@
            <t>The sector_identifer is concatenated with a local account ID and a salt 
            value that is kept secret by the provider. The concatenated string is then 
            hashed by an appropriate algorithm.</t>
-           <t>Calculate SHA256 ( sector_identifer | local_account_id | salt ) = user_id.</t>
+           <t>Calculate <spanx style="verb">user_id</spanx> = SHA256 ( sector_identifer | local_account_id | salt ).</t>
         </section>
           </section>
         </section>
@@ -845,7 +845,7 @@
         <section anchor="client_authentication" title="Client Authentication">
 
           <t>During Client Registration, the Client MAY register an authentication method.
-          If no method is registered, the default method of client_secret_basic MUST be used.</t>
+          If no method is registered, the default method of <spanx style="verb">client_secret_basic</spanx> MUST be used.</t>
           <t>The Supported options are:</t>
           
           <t><list style="hanging">
@@ -873,10 +873,10 @@
          
           <t><list style="hanging">
           <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) claim.
-	  This MUST contain the client_id of the OAuth client.</t>
+	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth client.</t>
 
           <t hangText="prn">REQUIRED. The <spanx style="verb">prn</spanx> (principal) claim.
-	  This MUST contain the client_id of the OAuth client.</t>
+	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth client.</t>
 
            <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) claim.
 	   A value that identifies the
@@ -896,9 +896,10 @@
             </list></t>
              
           <t>The authentication token MUST be sent as the value of the <spanx
-	      style='verb'>client_assertion</spanx> parameter.</t>
+	      style='verb'>client_assertion_type</spanx> parameter.</t>
 
-          <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
+          <t>The value of the <spanx style='verb'>client_assertion_type</spanx> parameter
+	  MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
 
           <t hangText="private_key_jwt">
           Clients that have registered a public key sign a JWT using 
@@ -910,10 +911,10 @@
           The JWT MUST contain the Claims:</t>
           <t><list style="hanging">
                     <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) claim.
-		    This MUST contain the client_id of the OAuth client.</t>
+		    This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth client.</t>
 
           <t hangText="prn">REQUIRED. The <spanx style="verb">prn</spanx> (principal) claim.
-	  This MUST contain the client_id of the OAuth client.</t>
+	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth client.</t>
 
           <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) claim.
 	  A value that identifies the
@@ -933,9 +934,10 @@
             </list></t>
 
 	  <t>The authentication token MUST be sent as the value of the <spanx
-	      style='verb'>client_assertion</spanx> parameter.</t>
+	      style='verb'>client_assertion_type</spanx> parameter.</t>
 
-          <t>The value of "client_assertion_type" parameter MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+          <t>The value of the <spanx style='verb'>client_assertion_type</spanx> parameter
+	  MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
 
         <figure>
           <preamble>
@@ -1273,8 +1275,8 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
           <t>For privacy reasons, OpenID Providers MAY elect to not provide
           values for some schema elements as part of the "openid" scope.</t>
 
-          <t>The user_id claim in the UserInfo Endpoint response MUST exactly match the 
-          user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
+          <t>The <spanx style="verb">user_id</spanx> claim in the UserInfo Endpoint response MUST exactly match the 
+          <spanx style="verb">user_id</spanx> claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
           
           <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
           different format was specified during <xref target="OpenID.Registration">
@@ -1409,7 +1411,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 
 	<section title="Aggregated and Distributed Claims">
 	  <t>Aggregated and distributed Claims are represented by
-	  using special "_claim_names" and "_claim_sources" members
+	  using special <spanx style="verb">_claim_names</spanx> and <spanx style="verb">_claim_sources</spanx> members
 	  of the JSON object containing the Claims.</t>
 
 	  <t>
@@ -1417,12 +1419,12 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 	      <t hangText="_claim_names">This value is a JSON object whose member
 	      names are the Claim names for the Aggregated and Distributed
 	      Claims. The member values are references to the member names
-	      in the "_claim_sources" member from which
+	      in the <spanx style="verb">_claim_sources</spanx> member from which
 	      the actual claim values can be retrieved.</t>
 
 	      <t hangText="_claim_sources">This value is a JSON object whose
 	      member names are referenced by the member values of the
-	      "_claim_names" member. The member values
+	      <spanx style="verb">_claim_names</spanx> member. The member values
 	      contain sets of Aggregated Claims or reference locations for
 	      Distributed Claims. The member values can have one of the
 	      following formats depending on whether it is providing
@@ -1433,8 +1435,8 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
 		<t hangText="Aggregated Claims">A JSON object that MUST
 		contain the "JWT" member whose value is a <xref
 		target="JWT">JWT</xref> that MUST contain all the Claims
-		in the "_claim_names" object that references the
-		corresponding "_claim_sources" member. Other members MAY
+		in the <spanx style="verb">_claim_names</spanx> object that references the
+		corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
 		be present if they are understood by both parties.
 
 		<list style="hanging">
@@ -1629,7 +1631,7 @@ may be retrieved:
              <t hangText="require_signed_request_object">OPTIONAL.  The 
              <xref target="JWS">JWS</xref> signature algorithm that MUST be required 
              by the Authorization Server. All OpenID Request Objects from
-             this client_id MUST be rejected if not signed by this algorithm.</t>
+             this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
               
              <t hangText="userinfo_signed_response_algs">OPTIONAL.  The 
              <xref target="JWS">JWS</xref> signature 
@@ -1648,13 +1650,13 @@ may be retrieved:
              
              <t hangText="id_token_signed_response_algs">OPTIONAL.  The 
              <xref target="JWS">JWS</xref> signing algorithm required 
-             for id_token issued to this client_id. The default if not specified 
-             is HMAC-SHA256 using the provided client_secret as the shared key.</t>
+             for <spanx style="verb">id_token</spanx> issued to this <spanx style="verb">client_id</spanx>. The default if not specified 
+             is HMAC-SHA256 using the provided <spanx style="verb">client_secret</spanx> as the shared key.</t>
              
              <t hangText="id_token_encrypted_response_algs">OPTIONAL.  A space separated 
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
-             algorithms required for id_token issued to this client_id. 
+             algorithms required for <spanx style="verb">id_token</spanx> issued to this <spanx style="verb">client_id</spanx>. 
              If this is requested the response MUST be signed then encrypted. 
              The default if not specified is no encryption.</t>
       </list></t>
@@ -1792,7 +1794,7 @@ may be retrieved:
         
         <t><list style="hanging">
           <t hangText="Symmetric Encryption">
-            Use the client_secret to KeyWrap a random 
+            Use the <spanx style="verb">client_secret</spanx> to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.  
           </t>
@@ -1881,7 +1883,7 @@ may be retrieved:
           <xref target="OpenID.Registration">Client Registration</xref> or otherwise 
 		  pre-registered value.</t>
           
-          <t>The signature must be validated against the key registered for that client_id
+          <t>The signature must be validated against the key registered for that <spanx style="verb">client_id</spanx>
           and algorithm, in accordance with the 
           <xref target="JWS">JSON Web Signature</xref> specification.</t>
           
@@ -1905,15 +1907,15 @@ may be retrieved:
 		  OAuth 2.0 variables according to OAuth 2.0. </t>
 		  <t>The Authorization Server MUST verify that all the required parameters 
 		  are present. </t>
-                  <t>If the User ID claim as a member of id_token claim 
+                  <t>If the User ID claim as a member of <spanx style="verb">id_token</spanx> claim 
                   is requested with a specific value, 
-                  the Authorization Server may only send a positive response if that user 
+                  the Authorization Server MUST only send a positive response if that user 
                   has an active session with the authorization server. The Authorization 
                   server MUST not reply with an ID Token or Access Token for a different user, 
                   even if they have an active session with the Authorization Server. 
                   </t>
                   <t>
-                  If the iso29115 claim is requested as a member of id_token claim 
+                  If the <spanx style="verb">iso29115</spanx> claim is requested as a member of <spanx style="verb">id_token</spanx> claim 
                   with a specific value, 
                   the Authorization Server MUST match the first the first string it supports. 
                   The individual authentication must then match that level. The Authorization 
@@ -1921,9 +1923,9 @@ may be retrieved:
                   to meet the requirements. If this is a required claim and the 
                   requirement cannot be met, then the Authorization Server MUST return an error.
                   The client MAY make this claim optional by including "optional": true in the 
-                  iso29115 object. If the claim is optional and the requested value for 
+                  <spanx style="verb">iso29115</spanx> object. If the claim is optional and the requested value for 
                   the user cannot be provided, the Authorization server MUST return null as 
-                  the value of the iso29115 claim. 
+                  the value of the <spanx style="verb">iso29115</spanx> claim. 
                   </t>
 		  </list></t>
 		  <t>If the Authorization Server encounters any error, 
@@ -1942,7 +1944,7 @@ may be retrieved:
             parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified during Registration.</t>
             
-            <t>The Client MUST validate that the client_id in the 
+            <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
             <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
              <spanx style="verb">iss</spanx> (issuer) Claim.
@@ -1959,8 +1961,8 @@ may be retrieved:
             in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter 
             during Registration.</t>
             
-            <t>If the "alg" parameter of the JWT header is one of 
-            HS256, HS384, HS512, the client_secret for the 
+            <t>If the <spanx style="verb">alg</spanx> parameter of the JWT header is one of 
+            <spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>, <spanx style="verb">HS512</spanx>, the <spanx style="verb">client_secret</spanx> for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim is used to validate the 
             signature.</t> 
@@ -1976,7 +1978,7 @@ may be retrieved:
             <t>The value of the <spanx style="verb">nonce</spanx>
              Claim MUST be checked to verify that
             it is the same value as the one that was sent in the Authorization
-            Request. The Client SHOULD check the nonce value for replay attacks.
+            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
             The precise method for detecting replay attacks is client specific.</t>
             
             <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
@@ -2001,7 +2003,7 @@ may be retrieved:
         the signature according to Section 5 of <xref
         target="JWS">JWS</xref>.</t>
         <t>If the JWS algorithm is symmetric, such as the default <spanx style="verb">HS256</spanx> for 
-        <spanx style="verb">id_token</spanx>, the client_secret for the 
+        <spanx style="verb">id_token</spanx>, the <spanx style="verb">client_secret</spanx> for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim MUST be used to validate the 
             signature.</t> 
@@ -2037,7 +2039,7 @@ may be retrieved:
             <t>The value of the <spanx style="verb">nonce</spanx> Claim 
             MUST be checked to verify that
             it is the same value as the one that was sent in the Authorization
-            Request. The Client SHOULD check the nonce value for replay attacks.
+            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
             The precise method for detecting replay attacks is client specific.</t>
             
             <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
@@ -2268,7 +2270,8 @@ may be retrieved:
       </section>
 
       <section anchor="token_reuse" title="Token Reuse">
-	<t>An Attacker attempts to use a one-time use token such as a code that has 
+	<t>An Attacker attempts to use a one-time use token such as
+	an Authorization Code that has
         been used once with the intended Resource. </t>
         <t>To mitigate this threat, the token SHOULD include a timestamp 
 		and a short lifetime of 
@@ -3073,7 +3076,7 @@ may be retrieved:
 	  <t>Consistent use of End-User</t>
 	  <t>Removed 'format' from userinfo and id_token object of the OpenID Request Object</t>
 	  <t>email scope allows access to the 'verified' claim</t>
-	  <t>ID Token 'audience' claim MUST be client_id</t>
+	  <t>ID Token 'audience' claim MUST be <spanx style="verb">client_id</spanx></t>
 	  <t>Rename artifact to authorization code</t>
 	  <t>Removed language pertaining to custom userinfo schemas</t>
 	  <t>Check ID Endpoint returns only JSON</t>
@@ -3117,12 +3120,12 @@ may be retrieved:
 	  <t>Make openid scope provide user_id from userinfo endpoint</t>
 	  <t>Added explanation of select_account</t>
 	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
-	  <t>Clients MUST verify client_id in ID Token</t>
+	  <t>Clients MUST verify <spanx style="verb">client_id</spanx> in ID Token</t>
           <t>Bumped version + date</t>
           <t>Update John Bradley email and affiliation for Implementer's Draft</t>
 	  <t>Removed invalid_authorization_code, invalid_id_token error codes</t>
-	  <t>Sec 2.3 client MUST NOT send encrypted JWT to the Check ID Endpoint</t>
-	  <t>Sec 2.1.2.1.2 Added user_id claim and moved iso29115 to claims element of id_token member</t>
+	  <t>Section 2.3 client MUST NOT send encrypted JWT to the Check ID Endpoint</t>
+	  <t>Section 2.1.2.1.2 Added user_id claim and moved iso29115 to claims element of id_token member</t>
 	          </list></t>
 
 	<t>-06<list style="symbols">

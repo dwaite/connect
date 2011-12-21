@@ -68,7 +68,7 @@
       a user, the Client needs to register with the OpenID Provider to acquire
       a Client ID and shared secret. This document describes how a new Client
       can register with the provider, and how a Client already in possession
-      of a client_id can retrieve updated registration information.</t>
+      of a <spanx style="verb">client_id</spanx> can retrieve updated registration information.</t>
 
       <t>The Client Registration Endpoint may be co-resident with the token
       endpoint as an optimization in some deployments.</t>
@@ -157,7 +157,7 @@
             <t hangText="logo_url">OPTIONAL.  The URL of a logo image for the
             client where it can be retrieved.</t>
 
-            <t hangText="redirect_uris">RECOMMENDED for clients using the code flow with
+            <t hangText="redirect_uris">RECOMMENDED for clients using the <spanx style="verb">code</spanx> flow with
             a query parameter encoded response.
             REQUIRED for clients requesting implicit flow 
             fragment encoded responses as 
@@ -167,12 +167,12 @@
             <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
             <t hangText="token_endpoint_auth_type">OPTIONAL.  The requested authentication
-            type for the Token Endpoint. The options are client_secret_post, 
-            client_secret_basic, client_secret_jwt, and private_key_jwt, as described in
-            Sec 2.2.1 of <xref
+            type for the Token Endpoint. The options are <spanx style="verb">client_secret_post</spanx>, 
+            <spanx style="verb">client_secret_basic</spanx>, <spanx style="verb">client_secret_jwt</spanx>, and <spanx style="verb">private_key_jwt</spanx>, as described in
+            Section 2.2.1 of <xref
 	        target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
             Other Authentication methods may be defined by extension. If unspecified or
-             omitted, the default is client_secret_basic HTTP Basic Authentication 
+             omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
              Scheme as specified in
             section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
 
@@ -216,12 +216,12 @@
 	    </t>
             
             <t hangText="user_id_type">OPTIONAL. The type of user Identifier requested for 
-            responses to this client_id. The identifiers_supported element of discovery 
-            contains a list of the supported user_id_type for this server.</t>
+            responses to this <spanx style="verb">client_id</spanx>. The identifiers_supported element of discovery 
+            contains a list of the supported <spanx style="verb">user_id_type</spanx> for this server.</t>
             
             <t hangText="require_signed_request_object">OPTIONAL.  The <xref target="JWS">JWS</xref> signature
              algorithm that MUST be required by the Authorization Server. All OpenID Request Objects from
-             this client_id MUST be rejected if not signed by this algorithm.</t>
+             this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
               
              <t hangText="userinfo_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> encryption 
              algorithm required for UserInfo responses. 
@@ -236,11 +236,11 @@
              <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="id_token_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> signing 
-             algorithm required for id_token issued to this client_id. The default if not specified is HMAC-SHA256 using the provided client_secret.</t>
+             algorithm required for the ID Token issued to this <spanx style="verb">client_id</spanx>. The default if not specified is HMAC-SHA256 using the provided <spanx style="verb">client_secret</spanx>.</t>
              
              <t hangText="id_token_encrypted_response_algs">OPTIONAL.  A space delimited list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
-             algorithms required for id_token issued to this client_id. If this is requested the response will be signed then encrypted. 
+             algorithms required for the ID Token issued to this <spanx style="verb">client_id</spanx>. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
           </list></t>
           
@@ -263,9 +263,9 @@ type=client_associate
           </figure></t>
 
 	<section anchor="sector.identifier.url.verification" title="sector_identifier_url Verification">
-	  <t>Providers who use pairwise user_id values SHOULD support this element.</t>
+	  <t>Providers who use pairwise <spanx style="verb">user_id</spanx> values SHOULD support this element.</t>
 	  <t>It provides a way for a group of websites under a single administrative control
-	  to have consistent pairwise user_id values independent of the individual domain names.
+	  to have consistent pairwise <spanx style="verb">user_id</spanx> values independent of the individual domain names.
 	  It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
 	  reregister all of their users.</t>
 
@@ -306,8 +306,8 @@ Host: client.example.com
             should change with each response.</t>
 
             <t hangText="expires_at">REQUIRED. The number of
-            seconds from 1970-01-01T0:0:0Z as measured in UTC that the client_id
-            and client_secret will expire or <spanx style="verb">0</spanx> if
+            seconds from 1970-01-01T0:0:0Z as measured in UTC that the <spanx style="verb">client_id</spanx>
+            and <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
             they do not expire. See <xref target="RFC3339">RFC 3339</xref>
             for details regarding date/times in general and UTC in particular.</t>
           </list></t>
@@ -352,7 +352,7 @@ Cache-Control: no-store
 	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
 WWW-Authenticate: 400 Bad Request
                   error="invalid_client_secret"
-                  error_description="The client_secret is wrong for this client_id"
+                  error_description="The <spanx style="verb">client_secret</spanx> is wrong for this <spanx style="verb">client_id</spanx>"
 
 ]]></artwork>
 	</figure></t>
@@ -415,7 +415,7 @@ WWW-Authenticate: 400 Bad Request
       When using TLS, the Client MUST perform a TLS/SSL server certificate check, per
       <xref target="RFC6125">RFC 6125</xref>.
       </t>
-      <t>Requests to the Registration Endpoint for client_update MUST have some rate 
+      <t>Requests to the Registration Endpoint for <spanx style="verb">client_update</spanx> MUST have some rate 
       limiting on failures to prevent the client secret from being disclosed though
       repeated access attempts.</t>
     </section>
