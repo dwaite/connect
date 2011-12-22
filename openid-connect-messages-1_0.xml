@@ -108,6 +108,19 @@
 	    <t hangText="Authentication">An act of verifying End-User's possession 
 	    of previously provisioned credentials.</t>
 
+            <t hangText="Authentication Context">
+            Information that the relying party may require before it makes an 
+            entitlements decision with respect to an authentication response. 
+            Such context may include, but is not limited to, the actual 
+            authentication method used or level of assurance such as 
+            <xref target="iso29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
+            entity authentication assurance level.
+            </t>
+
+            <t hangText="Authentication Context Class Reference">
+            Identifier that identifies the Authentication Context. 
+            </t>
+
 	    <t hangText="Claim">A piece of information about an Entity that a
 	    Claims Provider asserts about that Entity.</t>
 
@@ -284,9 +297,14 @@
               particular.</t>
 
               <t hangText="iso29115">OPTIONAL. (Entity Authentication
-              Assurance): Specifies the <xref
+              Assurance): Specifies an Authentication Context Class Reference. 
+              Values '1', '2', '3', '4' maps to the  <xref
               target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> entity authentication
-              assurance level of the authentication performed. </t>
+              assurance level of the authentication performed. 
+              Value '0' corresponds to the OpenID 2.0 PAPE nist_auth_level 0. 
+              An absolute URI as well as a registered short name MAY be used 
+              as the identifier. 
+              </t>
 
               <t hangText="nonce">REQUIRED. Clients MUST verify that
               the <spanx style="verb">nonce</spanx> value is equal to
@@ -706,11 +724,11 @@
                   </t>
                   
                   <t hangText="iso29115">OPTIONAL. (entity authentication
-                  assurance): Specifies the <xref target="ISO29115">ITU-T X.1254 | 
-                  ISO29115">ISO/IEC 29115</xref> entity authentication
-                  assurance level that is requested by the Client.
-                  The element "values" is an ordered array of strings containing all or subset of 
-                  "0","1","2","3","4" appearing in order of preference.
+                  assurance): An array that requests desired 
+                  Authentication Context Class Reference. 
+                  The element "values" is an ordered array of strings 
+                  representing the Authentication Context Class Reference 
+                  appearing in order of preference.
                   <figure>
                 
                 <artwork><![CDATA[ "iso29115": {"values":["3","2"]}]]></artwork>
@@ -1985,7 +2003,7 @@ may be retrieved:
             <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
             Client SHOULD check that
             the asserted Claim Value is appropriate.  The meaning and processing of 
-            "iso29115" Claim Values is out of scope for this specification.</t>
+            <spanx style="verb">iso29115</spanx> Claim Values is out of scope for this specification.</t>
             
             <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
             Client SHOULD check the value 
@@ -2046,7 +2064,7 @@ may be retrieved:
             <t>If the <spanx style="verb">iso29115</spanx> Claim was requested, the 
             Client SHOULD check that
             the asserted Claim Value is appropriate.  The meaning and processing of 
-            "iso29115" Claim Values is out of scope for this specification.</t>
+            <spanx style="verb">iso29115</spanx> Claim Values is out of scope for this specification.</t>
             
             <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
             Client SHOULD check the value 
