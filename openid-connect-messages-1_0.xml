@@ -298,12 +298,16 @@
 
               <t hangText="acr">OPTIONAL. (Authentication Context Class Reference): 
               Specifies an Authentication Context Class Reference of the ID Token. 
-              Values '1', '2', '3', '4' maps to the 
+              The values "1", "2", "3", and "4" map to the
               <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
               entity authentication assurance level of the authentication performed. 
-              Value '0' corresponds to the OpenID 2.0 PAPE nist_auth_level 0. 
-              An absolute URI as well as a registered short name MAY be used 
-              as the identifier. 
+              The value "0" SHOULD be used to signify that the OP
+              recognizes the parameter and the End User authentication
+              did not meet the requirements of any of the values
+              "1", "2", "3", or "4".  (This corresponds to the OpenID 2.0
+              PAPE <spanx style="verb">nist_auth_level</spanx> 0.)
+              An absolute URI or a registered short name MAY be used
+              as the identifier.
               </t>
 
               <t hangText="nonce">REQUIRED. Clients MUST verify that
@@ -319,7 +323,8 @@
                   is the number of seconds from 1970-01-01T0:0:0Z as
                   measured in UTC until the date/time that the End-User
                   authentication occurred. (The "auth_time" Claim semantically
-                  corresponds to the OpenID 2.0 openid.pape.auth_time response
+                  corresponds to the OpenID 2.0
+                  PAPE <spanx style="verb">auth_time</spanx> response
                   parameter.)</t>
 
             </list></t>
@@ -750,7 +755,8 @@
                   Specifies that the End-User must be actively authenticated if
                   any present authentication is older than the specified
                   number of seconds. (The "max_age" request parameter
-                  corresponds to the OpenID 2.0 openid.pape.max_auth_age
+                  corresponds to the OpenID 2.0
+                  PAPE <spanx style="verb">max_auth_age</spanx>
                   request parameter.)</t>
 
                   
@@ -758,7 +764,8 @@
               MAY be defined to request that additional properties hold for
               the authentication - for instance, that certain authentication
               policies be applied (in the same spirit of the OpenID 2.0
-              openid.pape.auth_policies values), or that the authentication
+              PAPE <spanx style="verb">auth_policies</spanx> values),
+              or that the authentication
               conform to the policies defined by a specified trust framework.
               These parameters MAY be defined by extension specifications.</t>
 
