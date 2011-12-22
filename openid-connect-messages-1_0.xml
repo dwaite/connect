@@ -742,7 +742,7 @@
                   appearing in order of preference.
                   <figure>
                 
-                <artwork><![CDATA[ "acr": {"values":["3","2"]}]]></artwork>
+                <artwork><![CDATA[ "acr": {"values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
               </figure>
                   </t>
                   
@@ -2013,8 +2013,11 @@ may be retrieved:
             The precise method for detecting replay attacks is client specific.</t>
             
             <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
-            Client SHOULD check that
-            the asserted Claim Value is appropriate.  The meaning and processing of 
+            Client SHOULD check that the asserted Claim Value is appropriate.
+            If the returned value is <spanx style="verb">null</spanx> the Authorization
+            Server could not provide a <spanx style="verb">acr</spanx> value for a
+            request where the <spanx style="verb">acr</spanx> Claim is is requested as 
+            optional. The meaning and processing of other 
             <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
             
             <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
