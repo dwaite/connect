@@ -2263,11 +2263,12 @@ may be retrieved:
         ways.</t>
 
         <t><list style="numbers">
-            <t>The response is sent over TLS/SSL protected channel, where RP is
-            authenticated by "client_id" and "client_secret".</t>
+            <t>Using the code response type. The response is sent over TLS/SSL protected 
+            channel, where the client is authenticated by "client_id" and 
+            "client_secret".</t>
 
-            <t>Signed response is encrypted by the Client's public key or 
-			shared secret using encrypted JWT (JWE) 
+            <t>For other response_type, the Signed response is encrypted by the Client's 
+            public key or shared secret using encrypted JWT (JWE) 
 	        with an appropriate key and cipher.</t>
           </list></t>
       </section>
@@ -2302,11 +2303,11 @@ may be retrieved:
 		obtain access to a second resource.
 		</t>
         <t>To mitigate this threat, the access token should be audience 
-	and scope restricted. One way of implementing it is to include
+	    and scope restricted. One way of implementing it is to include
         the identifier of the resource for whom it was generated as audience. 
         The resource verifies that
         incoming tokens include its identifier as the audience of the
-        token.</t>
+        token. </t>
       </section>
 
       <section anchor="token_reuse" title="Token Reuse">
