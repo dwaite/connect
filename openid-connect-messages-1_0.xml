@@ -345,14 +345,14 @@
           
           <section anchor="idtype" title="User Identifier Types">
            <t>Provider's Discovery documents SHOULD list their supported identifier types in the 
-           identifiers_supported element.</t>
+           <spanx style="verb">identifiers_supported</spanx> element.</t>
            <t>If there is more than one type listed in the array, the Client MAY elect to
            provide its preferred identifier type using the <spanx style="verb">user_id_type</spanx> parameter during registration.</t>
            <t>The types supported by this specification are:</t>
            
            <t><list style="hanging">
               <t hangText="public"> This provides the same <spanx style="verb">user_id</spanx> value to all Clients. It is the default if
-              the provider has no identifiers_supported element in its discovery document.</t>
+              the provider has no <spanx style="verb">identifiers_supported</spanx> element in its discovery document.</t>
               <t hangText="pairwise"> This provides a different <spanx style="verb">user_id</spanx> value to each Client, to prevent
               correlation of the user's activities by Clients without the user's permission.</t>
            </list></t>
@@ -1633,24 +1633,24 @@ may be retrieved:
        in its discovery document. The related elements are:</t>
       
       <t><list style="hanging">
-	  <t hangText="userinfo_supported_algs">
+	  <t hangText="userinfo_algs_supported">
 	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
 	    <xref target="JWE">JWE</xref> signing and encryption algorithms
             supported by the UserInfo Endpoint.</t>
            
-          <t hangText="id_token_supported_algs">
+          <t hangText="id_token_algs_supported">
 	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
 	    <xref target="JWE">JWE</xref> signing and encryption algorithms
 	    supported by the Authorization Server for the ID Token.</t>
            
-          <t hangText="request_object_supported_algs">
+          <t hangText="request_object_algs_supported">
 	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
 	    <xref target="JWE">JWE</xref> signing and encryption algorithms
 	    supported by the Authorization Server for 
             the <xref target="OpenIDReq">OpenID Request Object</xref>. Servers SHOULD support 
 	    <spanx style="verb">HS256</spanx>.</t>
       
-	  <t hangText="token_endpoint_supported_auth_algs">
+	  <t hangText="token_endpoint_auth_algs_supported">
 	    A JSON array containing a list of the <xref target="JWS">JWS</xref> 
 	    signing algorithms
 	    supported by the Token Endpoint for the private_key_jwt method.
@@ -1892,7 +1892,7 @@ may be retrieved:
          <section title="Encrypted Request Object">
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
-          in the <spanx style="verb">request_object_supported_algs</spanx> element of its 
+          in the <spanx style="verb">request_object_algs_supported</spanx> element of its 
           Discovery Document, these are used by the Client to JWE encrypt the JWT.</t>
           
           <t>The Authorization Server MUST decode the JWT in accordance with

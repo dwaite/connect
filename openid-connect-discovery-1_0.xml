@@ -589,7 +589,7 @@ Host: example.com
 	  <spanx style="verb">pairwise</spanx> and
 	  <spanx style="verb">public</spanx>.</c>
           
-          <c>userinfo_supported_algs</c>
+          <c>userinfo_algs_supported</c>
 
           <c>array</c>
 
@@ -597,7 +597,7 @@ Host: example.com
            supported by the UserInfo Endpoint
 	   to encode the JWT <xref target="JWT" />.</c>
            
-           <c>id_token_supported_algs</c>
+           <c>id_token_algs_supported</c>
 
           <c>array</c>
 
@@ -605,7 +605,7 @@ Host: example.com
            supported by the Authorization Server for the ID Token
 	   to encode the JWT <xref target="JWT" />.</c>
            
-           <c>request_object_supported_algs</c>
+           <c>request_object_algs_supported</c>
 
           <c>array</c>
 
@@ -615,7 +615,7 @@ Host: example.com
 	   to encode the JWT <xref target="JWT" />.
 	   Servers SHOULD support <spanx style="verb">HS256</spanx>.</c>
 
-           <c>token_endpoint_supported_auth_types</c>
+           <c>token_endpoint_auth_types_supported</c>
 
           <c>array</c>
 
@@ -628,8 +628,8 @@ Host: example.com
              omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
              Scheme as specified in
             section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.</c>
-           
-           <c>token_endpoint_supported_auth_algs</c>
+
+           <c>token_endpoint_auth_algs_supported</c>
 
           <c>array</c>
 
@@ -647,7 +647,7 @@ Host: example.com
  "authorization_endpoint": "https://server.example.com/connect/authorize",
  "issuer" : "https://server.example.com",
  "token_endpoint": "https://server.example.com/connect/token",
- "token_endpoint_supported_auth_types": ["client_secret_basic", "private_key_jwt"],
+ "token_endpoint_auth_types_supported": ["client_secret_basic", "private_key_jwt"],
  "userinfo_endpoint": "https://server.example.com/connect/user",
  "check_id_endpoint": "https://server.example.com/connect/check_id",
  "refresh_session_endpoint": "https://server.example.com/connect/refresh_session",
@@ -658,9 +658,9 @@ Host: example.com
  "response_types_supported": ["code", "code id_token", "token id_token"],
  "acrs_supported": ["1","2","http://id.incommon.org/assurance/bronze"],
  "identifiers_supported": ["public", "pairwise"],
- "userinfo_supported_algs": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "id_token_supported_algs": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "request_object_supported_algs": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"]
+ "userinfo_algs_supported": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
+ "id_token_algs_supported": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
+ "request_object_algs_supported": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"]
  }]]></artwork>
           </figure></t>
       </section>
@@ -1106,8 +1106,8 @@ Host: example.com
           <t>Rename iso29115_supported to acrs_supported</t>
 	  <t>Rename jwk_document to jwk_url</t>
 	  <t>specify full email address to be used for the principal parameter</t>
-	  <t>Added token_endpoint_supported_auth_types for list of Token Endpoint authentication types</t>
-	  <t>Added token_endpoint_auth_supported_alg for Token Endpoint supported authentication algorithms</t>
+	  <t>Added token_endpoint_auth_types_supported for list of Token Endpoint authentication types</t>
+	  <t>Added token_endpoint_auth_algs_supported for Token Endpoint supported authentication algorithms</t>
 	  <t>Added 'pairwise' and 'public' to supported identifier types</t>
 	  <t>Added valid signature and encryption algorithms for OpenID Request Object </t>
 	  <t>Added URLs for JWK and X509 encryption keys</t>
