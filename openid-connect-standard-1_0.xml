@@ -140,12 +140,12 @@
         
         <t>Scopes names defined for OpenID Connect are in Section 2.1.2 of <xref
           target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
-           OAuth 2.0 allows additional scopes to be specified as extensions.</t>
+           OAuth 2.0 allows additional scope values to be specified as extensions.</t>
          
-        <t>OpenID Connect's scope use is consistent with Section 3.3 of 
+        <t>OpenID Connect's <spanx style="verb">scope</spanx> use is consistent with Section 3.3 of 
         <xref target="OAuth2.0">OAuth 2.0</xref>. </t>
         
-        <t>The Authorization Server MAY fully or partially ignore the scope
+        <t>The Authorization Server MAY fully or partially ignore the scope values
          requested by the Client based on the Authorization Server policy or
          the End-User's instructions.</t>
 
@@ -154,7 +154,7 @@
         UserInfo Endpoint.</t>
 
         <t><figure>
-            <preamble>The following is a non-normative example of a scope
+            <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             parameter in an Authorization Request.</preamble>
 
             <artwork><![CDATA[scope=openid profile email phone]]></artwork>
@@ -546,8 +546,8 @@ response_type=code%20id_token
             <t>All Authorization Request parameters that are part of the
             Authorization Request excluding the <spanx style="verb">request</spanx>,
             <spanx style="verb">request_uri</spanx>,
-            , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
-            , <spanx style="verb">client_id</spanx> and <spanx style="verb">nonce</spanx>
+            <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            <spanx style="verb">client_id</spanx>, and <spanx style="verb">nonce</spanx>
             parameters MUST also be JSON
             Serialized into the 
             OpenID Request Object with the same values.  This allows
@@ -912,7 +912,7 @@ Host: client.example.com]]></artwork>
                 <t hangText="expires_in">OPTIONAL. The lifetime in seconds of 
                 the Access Token.</t>
 
-                <t hangText="scope">OPTIONAL. The scopes of the issued Access
+                <t hangText="scope">OPTIONAL. The scope values of the issued Access
                 Token.</t>
               </list></t>
 
@@ -1617,7 +1617,7 @@ scope=openid&response_type=code
 
       <section title="Implicit Grant Flow Threats">
         <t>In the implicit grant flow, the Access Token is returned in the
-        fragment part of the Client's redirect_uri through HTTPS, thus it is
+        fragment part of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
         protected between the OP and the User-Agent, and User-Agent and the
         RP. The only the place it can be captured is the User-Agent where the
         TLS session is terminated, and is possible if the User-Agent is
@@ -1649,7 +1649,7 @@ scope=openid&response_type=code
     <section anchor="oauth_params" title="OAuth Parameters Registry">
         <section title="Scope Parameters">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Parameter name: openid, profile, email, address</t>

@@ -185,7 +185,7 @@
       1.0 Specification</xref>.</t>
 
       <section title="OpenID Connect Scopes">
-        <t>OpenID Connect Clients use scopes as defined in 3.3 of 
+        <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of 
         <xref target="OAuth2.0">OAuth 2.0</xref> to specify what
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
@@ -193,24 +193,24 @@
 	can be used to request that specific sets of information
 	be made available from the UserInfo Endpoint,
         and to request an ID Token.
-        OAuth 2.0 allows additional scopes to be specified, as extensions.
-        This specification describes only the scopes used by OpenID Connect.</t>
+        OAuth 2.0 allows additional scope values to be specified, as extensions.
+        This specification describes only the scope values used by OpenID Connect.</t>
 
-        <t>OpenID Connect defines the following scopes:</t>
+        <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
 
         <t><list style="hanging">
             <t hangText="openid">REQUIRED. Informs the Authorization
                   Server that the Client is making an OpenID Connect request. If the
-                  <spanx style="verb">openid</spanx> scope is not present,
+                  <spanx style="verb">openid</spanx> scope value is not present,
                   the request MUST NOT be treated as an OpenID Connect request.
-                  This scope requests access to the <spanx style="verb">user_id</spanx>
+                  This scope value requests access to the <spanx style="verb">user_id</spanx>
                    Claim at the UserInfo Endpoint.</t>
 
             <t hangText="profile">OPTIONAL. Requests default profile
             information.</t>
 
             <t hangText="email">OPTIONAL. Requests an email address and its
-            verified status.</t>
+            <spanx style="verb">verified</spanx> status.</t>
 
             <t hangText="address">OPTIONAL. Requests address information.</t>
           </list></t>
@@ -227,7 +227,7 @@
         UserInfo Endpoint.</t>
 
         <t><figure>
-            <preamble>The following is a non-normative example of a Scope
+            <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             Request.</preamble>
 
             <artwork><![CDATA[scope=openid profile email phone]]></artwork>
@@ -293,7 +293,7 @@
               <t hangText="client_id">The OAuth 2.0 Client Identifier.</t>
 
               <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
-              as one of the space delimited ASCII strings. OPTIONAL scope strings of
+              as one of the space delimited ASCII strings. OPTIONAL <spanx style="verb">scope</spanx> strings of
               <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
               and <spanx style="verb">address</spanx> are also supported.</t>
 
@@ -582,7 +582,8 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
 	  </t>
 	  <t>
 	    A request to the Check ID Endpoint MAY alternatively be made
-	  with the HTTP "GET" method, when using GET the <spanx style="verb">access_token</spanx> 
+	  with the HTTP "GET" method;
+	  when using GET, the <spanx style="verb">access_token</spanx> 
 	  MUST be passed in the header.
 	  </t>
 	</section>
@@ -735,7 +736,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 	</section>
 
 	<section anchor="id_res" title="UserInfo Response">
-	  <t>If the requested schema is "openid", the response MUST return a
+	  <t>If the requested schema is <spanx style="verb">openid</spanx>,
+	  the response MUST return a
 	  JSON object that contains the full set or subset of Claims that are
 	  defined below. Additional Claims (not specified below) MAY also be
 	  returned.</t>
