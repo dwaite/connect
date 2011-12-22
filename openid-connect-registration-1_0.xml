@@ -182,33 +182,42 @@
             URL to the End-User if it is given.</t>
 
             <t hangText="jwk_url">OPTIONAL.  URL for the Client's <xref
-            target="JWK">JSON Web Key</xref>, used for <xref target="JWS">JWS</xref>
-             signing of Token Endpoint Requests and OpenID Request Objects.
+            target="JWK">JSON Web Key</xref> document
+	    that is used for <xref target="JWS">JWS</xref>
+            signing of Token Endpoint Requests and OpenID Request Objects.
             If <spanx style="verb">jwk_encryption_url</spanx> is not 
-            provided it is used for <xref target="JWE">JWE</xref> encryption 
+            provided it is also used for <xref target="JWE">JWE</xref> encryption 
             of ID Token and User Info Endpoint Responses to the Client.
-            If the client registers both x509_url and jwk_url the keys contained in both
-            formats SHOULD be the same.</t>
+            If the client registers both <spanx style="verb">x509_url</spanx>
+	    and <spanx style="verb">jwk_url</spanx>,
+	    the keys contained in both formats SHOULD be the same.</t>
 
             <t hangText="jwk_encryption_url">OPTIONAL.  URL for the Client's <xref
-            target="JWK">JSON Web Key</xref>, used for <xref target="JWE">JWE</xref> 
-            encryption of ID Token and User Info Endpoint Responses to the Client.
-            If the client registers both jwk_encryption_url and x509_encryption_url
+            target="JWK">JSON Web Key</xref>
+	    that is used for <xref target="JWE">JWE</xref> encryption
+	    of ID Token and User Info Endpoint Responses to the Client.
+            If the client registers both <spanx style="verb">jwk_encryption_url</spanx>
+	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
 
             <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWS</xref> 
-             signing of Token Endpoint Requests and OpenID Request Objects.
-            If x509_encryption_url is not 
-            provided, x509_url is used for <xref target="JWE">JWE</xref> encryption 
+            Certificate or Certificate chain
+	    that is used for <xref target="JWE">JWS</xref> 
+            signing of Token Endpoint Requests and OpenID Request Objects.
+            If <spanx style="verb">x509_encryption_url</spanx> is not 
+            provided, <spanx style="verb">x509_url</spanx>
+	    it is also used for <xref target="JWE">JWE</xref> encryption 
             of ID Token and User Info Endpoint Responses to the Client.
-            If the client registers both x509_url and jwk_url the keys contained in both
-            formats SHOULD be the same.</t>
+            If the client registers both <spanx style="verb">x509_url</spanx>
+	    and <spanx style="verb">jwk_url</spanx>,
+	    the keys contained in both formats SHOULD be the same.</t>
             
 	    <t hangText="x509_encryption_url">OPTIONAL.  URL for the Client's PEM encoded X.509
-            Certificate or Certificate chain, used for <xref target="JWE">JWE</xref> encryption 
+            Certificate or Certificate chain
+	    that is used for <xref target="JWE">JWE</xref> encryption 
             of ID Token and User Info Endpoint Responses to the Client. 
-            If the client registers both jwk_encryption_url and x509_encryption_url
+            If the client registers both <spanx style="verb">jwk_encryption_url</spanx>
+	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
             
             <t hangText="sector_identifier_url">OPTIONAL. A HTTPS scheme URL to be used in
@@ -239,7 +248,10 @@
              <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="id_token_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> signing 
-             algorithm required for the ID Token issued to this <spanx style="verb">client_id</spanx>. The default if not specified is HMAC-SHA256 using the provided <spanx style="verb">client_secret</spanx>.</t>
+             algorithm required for the ID Token issued to this
+	     <spanx style="verb">client_id</spanx>.
+	     The default if not specified is <spanx style="verb">HS256</spanx>
+	     using the provided <spanx style="verb">client_secret</spanx>.</t>
              
              <t hangText="id_token_encrypted_response_algs">OPTIONAL.  A space delimited list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
@@ -425,11 +437,12 @@ WWW-Authenticate: 400 Bad Request
       <t>In a situation where the Authorization Server is supporting open client 
       registration, 
       it must be extremely careful with any URL provided by the client that will 
-      be displayed to the user (e.g. logo_url and policy_url). A rogue client could 
+      be displayed to the user (e.g. <spanx style="verb">logo_url</spanx> and
+      <spanx style="verb">policy_url</spanx>). A rogue client could 
       specify a registration request with a reference to a drive-by download in the 
-      policy_url. The Authorization Server should check to see if the logo_url 
-      and policy_url have the 
-      same host as the hosts defined in the array of redirect_uris.</t>
+      policy_url. The Authorization Server should check to see if the
+      <spanx style="verb">logo_url</spanx> and <spanx style="verb">policy_url</spanx> have the 
+      same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.</t>
       
     </section>
   </middle>
