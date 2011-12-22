@@ -227,10 +227,12 @@
               character "#".</t>
 
               <t>The resulting URL is used as the SWD principal.  The
-              "host" portion is extracted from the "authority" portion
-              of the URL according to the syntax defined by <xref
-              target="RFC3986">RFC 3986</xref>.  The "host" portion of
-              the URL is used as the SWD host value.</t>
+              SWD host value is extracted from the "authority" portion
+              (as defined by <xref
+              target="RFC3986">RFC 3986</xref>) of the URL by concatenating the 
+              RFC 3986 host and port values of the URL. See 
+              <xref target="host.port.example">Section 2.2.3</xref> for 
+              a non-normative example.</t>
             </list></t>
         </section>
       </section>
@@ -314,7 +316,7 @@ Content-Type: application/json
             </figure></t>
         </section>
 
-        <section title="Hostname &amp; Port">
+        <section anchor="host.port.example" title="Hostname &amp; Port">
           <t>To find the <spanx style="verb">issuer</spanx> for the given
           hostname, <spanx style="verb">example.com:8080</spanx>, the SWD
           parameters are as follows:</t>
