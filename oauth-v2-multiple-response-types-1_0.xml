@@ -92,14 +92,14 @@
 
 	    <t hangText="Response Type">The Client informs the
 	      Authorization Server of the desired authorization processing flow using the
-	      parameter response_type.</t>
+	      parameter <spanx style="verb">response_type</spanx>.</t>
 
 	    <t hangText="Authorization Endpoint Response Type Registry">
 	      Process established by the OAuth 2.0 specification for the registration of new
-	      response_type parameters.</t>
+	      <spanx style="verb">response_type</spanx> parameters.</t>
 
 	    <t hangText="Multiple-Valued Response Types">The OAuth 2.0 specification allows
-	      for registration of space-separated response_type values. 
+	      for registration of space-separated <spanx style="verb">response_type</spanx> values. 
 	      If a response type contains one of more space characters (%20), it is
 	      compared as a space-delimited list of values in which the order of
 	      values does not matter.</t>
@@ -108,31 +108,31 @@
     </section>
 
     <section title="Encoding Multiple-Valued Response Types">
-      <t>This specification does not provide guidance if, in a request, response_type includes
+      <t>This specification does not provide guidance if, in a request, <spanx style="verb">response_type</spanx> includes
         a value that requires the server to return data partially encoded in the query string
         and partially encoded in the fragment.</t>
 
       <t>Otherwise, if a multiple-valued response type is defined, then it is RECOMMENDED
         that the following encoding rules be applied for the issued response.</t>
 
-      <t>If, in a request, response_type includes only values that require the server
+      <t>If, in a request, <spanx style="verb">response_type</spanx> includes only values that require the server
          to return data fully encoded within the query string then
-         the returned data in the response for this multiple-valued response_type
+         the returned data in the response for this multiple-valued <spanx style="verb">response_type</spanx>
          MUST be fully encoded within the query string. This recommendation
          applies to both success and error responses.</t>
 
-      <t>If, in a request, response_type includes any value that requires the server to
+      <t>If, in a request, <spanx style="verb">response_type</spanx> includes any value that requires the server to
         return data fully encoded within the fragment then the returned data in the
-        response for this multiple-valued response_type MUST be fully encoded
+        response for this multiple-valued <spanx style="verb">response_type</spanx> MUST be fully encoded
         within the fragment. This recommendation applies to both success and error responses.</t>
 
-      <t>Rationale: Whenever response_type values include fragment-encoded parts,
+      <t>Rationale: Whenever <spanx style="verb">response_type</spanx> values include fragment-encoded parts,
         a User-Agent Client component must be involved to complete processing of the response.
         If a new query parameter is added to the Client URI, it will cause the User-Agent
         to re-fetch the Client URI,
         causing discontinuity of operation of the User-Agent based Client components. If
         only fragment encoding is used, the User-Agent will simply reactivate the Client
-        component which may then process the fragment and
+        component, which can then process the fragment and
         also convey any parameters to a Client host as necessary, e.g., via XmlHttpRequest.
         Therefore, full fragment encoding always results in lower latency for response processing.</t>
     </section>
@@ -146,7 +146,7 @@
         the assertion and how it can be validated are not specified in this document.</t>
 
       <t><list style="hanging">
-        <t hangText="id_token">If supplied as the response_type parameter in an OAuth 2.0
+        <t hangText="id_token">If supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
           Authorization Request, a successful response should include the parameter
           <spanx style="verb">id_token</spanx> encoded in the fragment of the response URI.</t>
       </list></t>
@@ -171,7 +171,7 @@
         to return access credentials simultaneously in the authorization step.</t>
 
       <t><list style="hanging">
-        <t hangText="none">When supplied as the response_type parameter in an OAuth 2.0 authorization
+        <t hangText="none">When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0 authorization
           request, the Authorization Server SHOULD NOT return an OAuth 2.0 <spanx style="verb">code</spanx> nor a <spanx style="verb">token</spanx> in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
 	  is supplied, the User-Agent SHOULD be redirected
@@ -189,16 +189,16 @@
         individually registered response types.</t>
 
       <t><list style="hanging">
-        <t hangText="code token">When supplied as the value for the response_type parameter, a successful
+        <t hangText="code token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter, a successful
           response MUST include both an Access Token and an Authorization Code as defined in the OAuth 2.0
           specification. Both successful and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="code id_token">When supplied as the value for the response_type parameter,
+        <t hangText="code id_token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
           a successful response MUST include both an Authorization Code as well as an <spanx style="verb">id_token</spanx>.
           Both success and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="id_token token">When supplied as the value for the response_type parameter,
+        <t hangText="id_token token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
           a successful response MUST include both an Access Token as well as an <spanx style="verb">id_token</spanx>.
           Both success and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="code id_token token">When supplied as the value for the response_type parameter,
+        <t hangText="code id_token token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
           a successful response MUST include an Authorization Code, an <spanx style="verb">id_token</spanx>, and an Access Token.
           Both success and error responses SHOULD be fragment-encoded.</t> 
       </list></t>
@@ -288,7 +288,7 @@ access_token=SlAV32hkKG
           no position regarding the validity or scope of any intellectual 
           property or other rights that might be claimed to  pertain to 
           the implementation or use of the technology described in 
-          this specification or  the extent to which  any license under 
+          this specification or the extent to which any license under 
           such rights might or might not be available; neither does it 
           represent that it has made any independent effort to identify 
           any such rights.  The OpenID Foundation and the contributors 

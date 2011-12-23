@@ -119,11 +119,11 @@
       <t>The Authorization Endpoint performs authentication services for the
       End-User and requests authorization from the End-User to release
       information to OpenID Connect Relying Party Clients. When an End-User 
-      accesses a Relying Party Client application which requires
+      accesses a Relying Party Client application that requires
       the End-User's identifier and other information, it sends the End-User to
       the Authorization Server's Authorization Endpoint for authentication and
-      authorization. The Authorization Server then issues an ID Token which
-      asserts the End-User's identifier and an Access Token which allows the
+      authorization. The Authorization Server then issues an ID Token that
+      asserts the End-User's identifier and an Access Token that allows the
       Client to access the End-User's information at Protected Resource
       endpoints. Protected Resource endpoints MAY perform different actions or
       return different information based on the scopes associated with the 
@@ -175,7 +175,7 @@
         <t>The Implicit Flow is mainly used by Clients implemented in a browser
         using a scripting language. The Access Token and ID Token are returned
         directly to the Client, which MAY expose them to the Resource Owner and
-        other applications which have access to the Resource Owner's User-Agent.
+        other applications that have access to the Resource Owner's User-Agent.
         The Authorization Server does not perform Client authentication before
         issuing the Access Token.</t>
 
@@ -285,7 +285,7 @@
               <t>Client requests a response using the Authorization Code at the
               <xref target="token_ep">Token Endpoint</xref>.</t>
 
-              <t>Client receives a response which contains an Access Token and ID
+              <t>Client receives a response that contains an Access Token and ID
               Token in the response body.</t>
 
               <t>(OPTIONAL) Client validates the ID Token at the <xref 
@@ -396,7 +396,7 @@
                   <t><spanx style="verb">code token id_token</spanx></t>
                 </list></t>
 
-              <t hangText="client_id">The client identifier.</t>
+              <t hangText="client_id">The Client identifier.</t>
 
               <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings. Other values that MAY be included are
@@ -535,7 +535,7 @@ response_type=code%20id_token
             <t>The <spanx style="verb">request</spanx> parameter is a
               <xref target="JWT">JWT</xref> encoded OpenID
               Request Object
-              which contains the Authorization Request and also
+              that contains the Authorization Request and also
               specifies the content of
               the responses returned from the UserInfo and Check ID
               Endpoints. The JWT object MAY be signed or signed and encrypted via
@@ -696,7 +696,7 @@ p7InZhbHVlcyI6WyIyIl19fX19.ou2Yc1B9a5iZLqbzBxE95aNS0pSfRClCqM77n85ehGo
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
             Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter. The target of the URL is a JWT which is an
+            parameter. The target of the URL is a JWT that is an
             OpenID Request Object. The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be HTTPS, 
             unless the target JWT is signed in a way that is verifiable by the 
@@ -834,7 +834,8 @@ Host: client.example.com]]></artwork>
                 Server.</t>
 
                 <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with the value "login". The
+                style="verb">prompt</spanx> parameter with the value
+		<spanx style="verb">login</spanx>. The
                 Authorization Server MUST reauthenticate the End-User
                 even if the End-User is already authenticated.</t>
           </list></t>
@@ -842,7 +843,8 @@ Host: client.example.com]]></artwork>
           in the following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"prompt"</spanx> parameter with the value "none".
+                style="verb">"prompt"</spanx> parameter with the value
+		<spanx style="verb">none</spanx>.
                 The Authorization Server MUST return an error if the End-User is 
                 unauthenticated.</t>
           </list></t>
@@ -862,7 +864,8 @@ Host: client.example.com]]></artwork>
                 authorization request.</t>
 
                 <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with the value "consent". The
+                style="verb">prompt</spanx> parameter with the value
+		<spanx style="verb">consent</spanx>. The
                 Authorization Server MUST request End-User authorization even if the
                 End-User has previously authorized the Client.</t>
           </list></t>
@@ -870,7 +873,8 @@ Host: client.example.com]]></artwork>
           following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"prompt"</spanx> parameter with the value "none".
+                style="verb">"prompt"</spanx> parameter with the value
+		<spanx style="verb">none</spanx>.
                 The Authorization Server MUST return an error if the End-User has
                 not pre-authorized the Client.</t>
           </list></t>
@@ -889,7 +893,8 @@ Host: client.example.com]]></artwork>
             Request using the "application/x-www-form-urlencoded" format.</t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value "code", the
+            Authorization Request includes the string value
+	    <spanx style="verb">code</spanx>, the
             following response parameters are included:
               <list style="hanging">
                 <t hangText="code">REQUIRED. The Authorization Code.</t>
@@ -901,7 +906,8 @@ Host: client.example.com]]></artwork>
             target="token_ep">Token Endpoint</xref> section.</t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value "token", the
+            Authorization Request includes the string value
+	    <spanx style="verb">token</spanx>, the
             following response parameters are included:
               <list style="hanging">
                 <t hangText="access_token">REQUIRED. The Access Token.</t>
@@ -919,7 +925,8 @@ Host: client.example.com]]></artwork>
               </list></t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value "id_token", the
+            Authorization Request includes the string value
+	    <spanx style="verb">id_token</spanx>, the
             following response parameters are returned:
               <list style="hanging">
                 <t hangText="id_token">REQUIRED. The ID Token of the for the
@@ -938,14 +945,16 @@ Host: client.example.com]]></artwork>
             <t>No other parameter SHOULD be returned.</t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value "token" or
-            "id_token", all response parameters SHOULD be added to the fragment
+            Authorization Request includes the string value
+	    <spanx style="verb">token</spanx> or <spanx style="verb">id_token</spanx>,
+	    all response parameters SHOULD be added to the fragment
             component of the redirection URI. Otherwise, the response parameters
             are added to the query component of the redirection URI.
             </t>
 
             <figure>
-              <preamble>The following are non-normative examples of requests with differing return_type values and their responses. Line wraps
+              <preamble>The following are non-normative examples of requests with
+	      differing <spanx style="verb">return_type</spanx> values and their responses. Line wraps
               are for display purpose only:</preamble>
              
               <artwork><![CDATA[
@@ -1078,8 +1087,9 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
               </list></t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value "token" or
-            "id_token", all error response parameters SHOULD be added to the 
+            Authorization Request includes the string value
+	    <spanx style="verb">token</spanx> or <spanx style="verb">id_token</spanx>,
+	    all error response parameters SHOULD be added to the 
             fragment component of the redirection URI. Otherwise, the response
             parameters are added to the query component of the redirection URI.
             </t>
@@ -1322,7 +1332,7 @@ vzDH3T1G3liaTNOrfaeWYjuRCEPNXVtaazNQ"
 	text <xref target="RFC4627">JSON</xref> object containing the
 	Claims in the ID Token.  This endpoint is used by Clients that
 	are not able to or do not wish to directly process ID Tokens.
-	In this case, clients MAY treat ID Tokens as opaque values.
+	In this case, Clients MAY treat ID Tokens as opaque values.
       </t>
       <t>
 	Check ID Endpoints MUST require the use of a transport-layer
@@ -1471,7 +1481,7 @@ WWW-Authenticate: Bearer realm="example.com",
         
         <t>The Access Token obtained
             from an OpenID Connect Authorization Request MUST be sent as a Bearer Token.
-            <t>Section 2 of the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
+            Section 2 of the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
             specification documents the permissible methods of sending the Access Token.</t> 
             <t>It is RECOMMENDED that the Client use the authorization header method for all 
             requests using GET.</t>
@@ -1489,8 +1499,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
       </section>
 
       <section anchor="id_res" title="UserInfo Response">
-        <t>The <spanx style="verb">user_id</spanx> claim in the UserInfo Endpoint response MUST exactly match the 
-        <spanx style="verb">user_id</spanx> claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
+        <t>The <spanx style="verb">user_id</spanx> Claim in the UserInfo Endpoint response MUST exactly match the 
+        <spanx style="verb">user_id</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
         
         <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
         return the JSON Serialization of the UserInfo response as in <xref
@@ -1776,7 +1786,7 @@ scope=openid&response_type=code
 
         <section title="Authorization Endpoint Error (invalid_request_redirect_uri)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_request_redirect_uri </t>
@@ -1793,7 +1803,7 @@ scope=openid&response_type=code
 
         <section title="Authorization Endpoint Error (login_required)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: login_required </t>
@@ -1810,7 +1820,7 @@ scope=openid&response_type=code
 
         <section title="Authorization Endpoint Error (session_selection_required)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: session_selection_required </t>
@@ -1827,7 +1837,7 @@ scope=openid&response_type=code
 
         <section title="Authorization Endpoint Error (consent_required)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: consent_required </t>
@@ -1844,7 +1854,7 @@ scope=openid&response_type=code
 
         <section title="Authorization Endpoint Error (user_mismatched)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: user_mismatched </t>
@@ -1861,7 +1871,7 @@ scope=openid&response_type=code
         
         <section title="Authorization Endpoint Error (invalid_request_request_uri)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_request_request_uri </t>
@@ -1878,7 +1888,7 @@ scope=openid&response_type=code
         
         <section title="Authorization Endpoint Error (invalid_openid_request_object)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_openid_request_object </t>
@@ -1895,7 +1905,7 @@ scope=openid&response_type=code
 
         <section title="UserInfo Endpoint Error (invalid_schema)">
           <t>The following is the parameter value registration request for the
-          "scope" parameter as defined in this specification:</t>
+          <spanx style="verb">scope</spanx> parameter as defined in this specification:</t>
 
           <t><list style="symbols">
               <t>Error name: invalid_schema </t>
@@ -2245,7 +2255,7 @@ scope=openid&response_type=code
           no position regarding the validity or scope of any intellectual 
           property or other rights that might be claimed to  pertain to 
           the implementation or use of the technology described in 
-          this specification or  the extent to which  any license under 
+          this specification or the extent to which any license under 
           such rights might or might not be available; neither does it 
           represent that it has made any independent effort to identify 
           any such rights.  The OpenID Foundation and the contributors 

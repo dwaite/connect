@@ -121,8 +121,9 @@
 	    <t hangText="Client Identifier">A unique identifier that the Client
 	    uses to identify itself to the OP.</t>
 
-	    <t hangText="Identifier">An Identifier is either an "http" or
-	    "https" URI, (commonly referred to as a "URL" within this document),
+	    <t hangText="Identifier">An Identifier is either an
+	    <spanx style="verb">http</spanx> or <spanx style="verb">https</spanx>
+	    URI (commonly referred to as a "URL" within this document),
 	    or an account URI. This document defines various kinds of
 	    Identifiers, designed for use in different contexts.</t>
 
@@ -181,8 +182,8 @@
               of the Client.</t>
               
               <t hangText="user_id">REQUIRED. A locally unique and never
-              reassigned identifier within the Issuer for the End-User, 
-              which is intended to be
+              reassigned identifier within the Issuer for the End-User
+              that is intended to be
               consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
               or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
               It MUST NOT exceed 255 ASCII characters in length.</t>
@@ -733,7 +734,8 @@ Location: https://foo.com/oauth2callback?state=bar&session=$new_id_token
             </list></t>
 
           <t>In a typical HTTP binding, an HTTP 302 is returned to redirect
-          the User-Agent to the specified redirect_uri in the request with a
+          the User-Agent to the specified <spanx style="verb">redirect_uri</spanx>
+	  in the request with a
           new ID Token in the query fragment.</t>
 
           <t>The following is a non-normative session refresh request:</t>
@@ -766,7 +768,7 @@ expires_in=3600
           <t>To end the session, the Client sends an ID Token to the End
           Session Endpoint. Upon receiving the request, the authorization
           server performs the logout flow for the user and then redirects the
-          User-Agent to the specified redirect_uri.</t>
+          User-Agent to the specified <spanx style="verb">redirect_uri</spanx>.</t>
 
           <t>Request Parameters:<list style="hanging">
               <t hangText="id_token">REQUIRED. A previously issued ID
@@ -986,6 +988,43 @@ Location: http://client.example.com/endtoken_cb?state=bar
         <format target="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=45138"
                 type="HTML" />
       </reference>
+      
+      <reference anchor="LoA.Registry">
+        <front>
+         <title abbrev="SAML 2.0 LoA Registry">An IANA registry for SAML 2.0 Level
+         of Assurance Context Classes</title>
+
+         <author fullname="Leif Johansson" initials="L." surname="Johansson">
+          <organization>NORDUNet</organization>
+
+          <address>
+           <postal>
+            <street>Tulegatan 11</street>
+
+            <city>Stockholm</city>
+
+            <country>Sweden</country>
+           </postal>
+
+           <email>leifj@nordu.net</email>
+          </address>
+         </author>
+
+      <date day="25" month="June" year="2011" />
+
+      <keyword>Identity</keyword>
+
+      <keyword>Assurance</keyword>
+
+       <abstract>
+        <t>This document establishes an IANA registry for Level of Assurance
+        Context Classes for SAML 2.0. The registry is intended to be used as an
+        aid to discovering such LoA definitions.</t>
+       </abstract>
+      </front>
+        <format target="http://tools.ietf.org/html/draft-johansson-loa-registry-02"
+		 type="HTML" />
+      </reference>
     </references>
 
     <!-- <references title="Informative References"> -->
@@ -1017,7 +1056,7 @@ Location: http://client.example.com/endtoken_cb?state=bar
           no position regarding the validity or scope of any intellectual 
           property or other rights that might be claimed to  pertain to 
           the implementation or use of the technology described in 
-          this specification or  the extent to which  any license under 
+          this specification or the extent to which any license under 
           such rights might or might not be available; neither does it 
           represent that it has made any independent effort to identify 
           any such rights.  The OpenID Foundation and the contributors 

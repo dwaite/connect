@@ -379,7 +379,8 @@
 		The <spanx style="verb">prompt</spanx> parameter
                 can be used by the Client to make sure that the End-User is
                 still present for the current session or to bring attention to the
-                request. If this parameter contains "none" with any other value, an
+                request. If this parameter contains <spanx style="verb">none</spanx>
+		with any other value, an
                 error is returned.
             </t>
             </list></t>
@@ -513,7 +514,7 @@ access_token=SlAV32hkKG
 	  text <xref target="RFC4627">JSON</xref> object containing the
 	  Claims in the ID Token.  This endpoint is used by Clients that
 	  are not able to or do not wish to directly process ID Tokens.
-	  In this case, clients MAY treat ID Tokens as opaque values.
+	  In this case, Clients MAY treat ID Tokens as opaque values.
 	</t>
 	<t>
 	  Check ID Endpoints MUST require the use of a transport-layer
@@ -680,7 +681,7 @@ Content-Type: application/json
              Claim MUST be checked to verify that
             it is the same value as the one that was sent in the Authorization
             Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
-            The precise method for detecting replay attacks is client specific.</t>
+            The precise method for detecting replay attacks is Client specific.</t>
 
                 <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
             <spanx style="verb">aud</spanx> (audience) Claim is one
@@ -715,8 +716,8 @@ Content-Type: application/json
 
 	<t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
 	Interactive user identified by the <spanx style="verb">user_id</spanx> element of the ID Token. 
-	The <spanx style="verb">user_id</spanx> claim in the UserInfo Endpoint response MUST exactly match the 
-	user_id claim in the ID Token, before using additional UserInfo Endpoint claims.</t>
+	The <spanx style="verb">user_id</spanx> Claim in the UserInfo Endpoint response MUST exactly match the 
+	<spanx style="verb">user_id</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
 
 	<section title="UserInfo Request">
 	  <t>Clients MAY send requests with the following parameters to the
@@ -900,7 +901,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 	    <c>string</c>
 
 	    <c>The End-User's preferred telephone number. <xref target="E.164">
-	    E.164</xref> is RECOMMENDED as the format of this claim. 
+	    E.164</xref> is RECOMMENDED as the format of this Claim. 
 	    For example, <spanx
 	    style="verb">+1 (425)
 	    555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
@@ -1495,7 +1496,8 @@ scope=openid&response_type=code
        </abstract>
       </front>
         <format target="http://tools.ietf.org/html/draft-johansson-loa-registry-02"
-		 type="HTML" />     </reference>
+		 type="HTML" />
+      </reference>
 
     </references>
 
@@ -1551,7 +1553,7 @@ scope=openid&response_type=code
           no position regarding the validity or scope of any intellectual 
           property or other rights that might be claimed to  pertain to 
           the implementation or use of the technology described in 
-          this specification or  the extent to which  any license under 
+          this specification or the extent to which any license under 
           such rights might or might not be available; neither does it 
           represent that it has made any independent effort to identify 
           any such rights.  The OpenID Foundation and the contributors 
@@ -1659,7 +1661,7 @@ scope=openid&response_type=code
           with session management.</t>
 
           <t>Changed validation rules, the Check session endpoint will return
-          an error for expired or invalid tokens, so the client doesn't need
+          an error for expired or invalid tokens, so the Client doesn't need
           to check expiration.</t>
 
           <t>Added explanation of why an id_token is used to verify identity

@@ -63,7 +63,7 @@
       obtain basic profile information about the End-User in an interoperable and 
       RESTful manner.</t>
       <t>This specification provides a mechanism for the OpenID Connect 
-      client to discover the user's OpenID Provider as well as the necessary 
+      Client to discover the user's OpenID Provider as well as the necessary 
       endpoints used by the OpenID Connect protocol suite.</t>
     </abstract>
   </front>
@@ -367,16 +367,23 @@ Content-Type: application/json
         OK to an HTTPS request with a content type of application/json (or
         whatever other content type has been negotiated) that contains a JSON
         object that contains a member pair whose name is the string
-        "SWD_service_redirect" whose value is a JSON object with a member pair
-        whose name is "location" and whose value is a string that encodes a
-        URI. Optionally the JSON object value of "SWD_service_redirect" MAY
-        also contain a member whose name is "expires" and whose value is a
+        <spanx style="verb">SWD_service_redirect</spanx>
+	whose value is a JSON object with a member pair
+        whose name is <spanx style="verb">location</spanx>
+	and whose value is a string that encodes a
+        URI. Optionally the JSON object value of
+	<spanx style="verb">SWD_service_redirect</spanx> MAY
+        also contain a member whose name is <spanx style="verb">expires</spanx>
+	and whose value is a
         JSON number that encodes an integer.</t>
 
-        <t>The "location" member identifies the URI that the caller MUST
-        redirect all SWD requests for that domain to until the "expires" time
+        <t>The <spanx style="verb">location</spanx> member
+	identifies the URI that the caller MUST
+        redirect all SWD requests for that domain to until the
+	<spanx style="verb">expires</spanx> time
         is met. SWD requests for the redirected domain MUST be constructed by
-        taking the URI returned in the "location" and using it as the base URI
+        taking the URI returned in the
+	<spanx style="verb">location</spanx> and using it as the base URI
         to which the SWD form arguments are then added as query parameters.
         The location URI MUST NOT include a query component.</t>
 
@@ -1080,7 +1087,7 @@ Host: example.com
           no position regarding the validity or scope of any intellectual 
           property or other rights that might be claimed to  pertain to 
           the implementation or use of the technology described in 
-          this specification or  the extent to which  any license under 
+          this specification or the extent to which any license under 
           such rights might or might not be available; neither does it 
           represent that it has made any independent effort to identify 
           any such rights.  The OpenID Foundation and the contributors 
