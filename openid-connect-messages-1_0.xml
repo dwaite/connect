@@ -109,7 +109,7 @@
 	    of previously provisioned credentials.</t>
 
             <t hangText="Authentication Context">
-            Information that the relying party may require before it makes an 
+            Information that the Relying Party may require before it makes an 
             entitlements decision with respect to an authentication response. 
             Such context may include, but is not limited to, the actual 
             authentication method used or level of assurance such as 
@@ -301,7 +301,7 @@
               The values "1", "2", "3", and "4" map to the
               <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
               entity authentication assurance level of the authentication performed. 
-              The value "0" maps to a level indicating the End User authentication
+              The value "0" indicates the End User authentication
               did not meet the requirements of ISO/IEC 29115 level 1.
               Authentication using a long-lived browser cookie, for instance, is one 
               example where the use of "level 0" is appropriate. Authentications with 
@@ -310,7 +310,7 @@
               (This corresponds to the OpenID 2.0
               PAPE <spanx style="verb">nist_auth_level</spanx> 0.)
               An absolute URI or a <xref target="LoA.Registry">registered short 
-              name</xref> MAY be used as a acr value.
+              name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
               </t>
 
               <t hangText="nonce">REQUIRED. Clients MUST verify that
@@ -431,16 +431,16 @@
                   style="verb">email</spanx> Claims at the UserInfo Endpoint
                   be granted by the issued Access Token.</t>
 
-                  <t hangText="address">OPTIONAL. This requests that access to
-                  <spanx style="verb">address</spanx> Claim at the
-                  UserInfo Endpoint be granted by the issued Access Token.</t>
-
                   <t hangText="email">OPTIONAL. This requests that access to
                   the <spanx style="verb">email</spanx> and 
                   <spanx style="verb">verified</spanx> Claims at the UserInfo
                   Endpoint be granted by the issued Access Token.</t>
 
-                  <t hangText="phone">OPTIONAL. This request that access to 
+                  <t hangText="address">OPTIONAL. This requests that access to
+                  <spanx style="verb">address</spanx> Claim at the
+                  UserInfo Endpoint be granted by the issued Access Token.</t>
+
+                  <t hangText="phone">OPTIONAL. This requests that access to 
                   the <spanx style="verb">phone_number</spanx> Claim at the 
                   UserInfo Endpoint be granted by the issued Access Token.</t>
 
@@ -740,9 +740,9 @@
                   (Authentication Context Class Reference): 
                   Requests the desired 
                   Authentication Context Class References. 
-                  The element "values" is an ordered array of strings 
-                  representing the Authentication Context Class Reference 
-                  appearing in order of preference.
+                  The element <spanx style="verb">values</spanx> is an ordered array of strings 
+                  representing acceptable Authentication Context Class Reference 
+                  values appearing in order of preference.
                   <figure>
                 
                 <artwork><![CDATA[ "acr": {"values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
@@ -1947,22 +1947,23 @@ may be retrieved:
                   even if they have an active session with the Authorization Server. 
                   </t>
                   <t>
-                  If the <spanx style="verb">acr</spanx> required claim is requested as a 
-                  member of <spanx style="verb">id_token</spanx> member 
-                  with values as a paramater, 
-                  the Authorization Server MUST return a <spanx style="verb">acr</spanx> 
-                  claim value that matches one of the requested values. 
+                  If the <spanx style="verb">acr</spanx> Claim is requested
+		  as a required Claim
+                  in the <spanx style="verb">id_token</spanx> member 
+                  with <spanx style="verb">values</spanx> as a parameter, 
+                  the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
+                  Claim value that matches one of the requested values. 
                   The Authorization 
                   server MAY ask the user to re-authenticate with additional factors 
                   to meet the requirements. If this is a required claim and the 
                   requirement cannot be met, then the Authorization Server MUST return an error.
                   The client MAY make this claim optional by including "optional": true in the 
-                  <spanx style="verb">acr</spanx> object. If the claim is optional and the requested value for 
+                  <spanx style="verb">acr</spanx> Claim request. If the Claim is optional and the requested value for 
                   the user cannot be provided, the Authorization server SHOULD return 
-                  the sessions current <spanx style="verb">acr</spanx> as
-                  the value of the <spanx style="verb">acr</spanx> claim. 
-                  If the claim is optional the Authorization server is not requited to
-                  provide this claim in it's response.
+                  the session's current <spanx style="verb">acr</spanx> as
+                  the value of the <spanx style="verb">acr</spanx> Claim. 
+                  If the Claim is optional, the Authorization server is not required to
+                  provide this Claim in its response.
                   </t>
 		  </list></t>
 		  <t>If the Authorization Server encounters any error, 
@@ -2082,8 +2083,8 @@ may be retrieved:
             The precise method for detecting replay attacks is client specific.</t>
             
             <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
-            Client SHOULD check that
-            the asserted Claim Value is appropriate.  The meaning and processing of 
+            Client SHOULD check that the asserted Claim Value is appropriate.
+	    The meaning and processing of 
             <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
             
             <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
@@ -2260,15 +2261,16 @@ may be retrieved:
 		attacks.</t>
 		
         <t>The server response disclosure can be mitigated in the following two
-        ways.</t>
+        ways:
+          <list style="numbers">
+            <t>Using the <spanx style="verb">code</spanx> response type. The response is sent over a TLS/SSL protected 
+            channel, where the client is authenticated by the
+	    <spanx style="verb">client_id</spanx> and 
+            <spanx style="verb">client_secret</spanx>.</t>
 
-        <t><list style="numbers">
-            <t>Using the code response type. The response is sent over TLS/SSL protected 
-            channel, where the client is authenticated by "client_id" and 
-            "client_secret".</t>
-
-            <t>For other response_type, the Signed response is encrypted by the Client's 
-            public key or shared secret using encrypted JWT (JWE) 
+            <t>For other response types,
+	    the signed response can be encrypted with the Client's 
+            public key or a shared secret as an encrypted JWT (JWE) 
 	        with an appropriate key and cipher.</t>
           </list></t>
       </section>
@@ -2307,7 +2309,7 @@ may be retrieved:
         the identifier of the resource for whom it was generated as audience. 
         The resource verifies that
         incoming tokens include its identifier as the audience of the
-        token. </t>
+        token.</t>
       </section>
 
       <section anchor="token_reuse" title="Token Reuse">

@@ -100,16 +100,18 @@
     <section title="Client Registration Endpoint">
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that returns registration information for
       the Client to configure itself for the OpenID Provider.</t>
-      
-      <t>The OpenID Provider may require an access_token that is provisioned out-of-band 
-      (out of scope of this document) in order to restrict registration requests to only
-       authorized clients.</t>
-       
-      <t>In order to support open registration the Client Registration Endpoint SHOULD 
-      accept requests with no OAuth 2.0 access tokens.</t>
-      
+
+      <t>The OpenID Provider may require an Access Token that is
+      provisioned out-of-band (in a manner that is out of scope for
+      this specification) in order to restrict registration requests
+      to only authorized Clients.</t>
+
+      <t>In order to support open registration, the Client
+      Registration Endpoint SHOULD accept requests without OAuth 2.0
+      Access Tokens.</t>
+
       <t>If an Access Token is required for Client registration, the Client Registration Endpoint
-      MUST be able to accept Access Tokens via
+      MUST be able to accept Access Tokens in the manner described in the
       <xref target="OAuth.Bearer">Bearer Tokens</xref>
       specification.</t>
 
@@ -135,31 +137,31 @@
             <spanx style="verb">type</spanx> parameter.</t>
             
             <t hangText="access_token">OPTIONAL. An Access Token obtained
-            out of band to authorize the registrant. This parameter is only used if the 
-            client is provided the access_token out of band.  This parameter
+            out of band to authorize the registrant. This parameter is only used if the
+            Client is provided the Access Token out of band.  This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header must be <xref
-            target="OAuth.Bearer">Bearer tokens</xref>.</t>
+            target="OAuth.Bearer">Bearer Tokens</xref>.</t>
 
             <t hangText="contacts">OPTIONAL.  Space delimited list of email
-            addresses for people allowed to administer the information for this client.
+            addresses for people allowed to administer the information for this Client.
             This is used by some providers to enable a web UI to modify the 
-            client information.</t>
+            Client information.</t>
 
             <t hangText="application_type">OPTIONAL.  <spanx style="verb">native</spanx>
             or <spanx style="verb">web</spanx>.</t>
 
-            <t hangText="application_name">OPTIONAL.  Name of the client
+            <t hangText="application_name">OPTIONAL.  Name of the Client
             to be presented to the user.</t>
 
             <t hangText="logo_url">OPTIONAL.  The URL of a logo image for the
-            client where it can be retrieved.</t>
+            Client where it can be retrieved.</t>
 
-            <t hangText="redirect_uris">RECOMMENDED for clients using the <spanx style="verb">code</spanx> flow with
+            <t hangText="redirect_uris">RECOMMENDED for Clients using the <spanx style="verb">code</spanx> flow with
             a query parameter encoded response.
-            REQUIRED for clients requesting implicit flow 
+            REQUIRED for Clients requesting implicit flow 
             fragment encoded responses as 
             defined in <xref target="OAuth2.0">OAuth 2.0</xref>. 
             A space-delimited list of redirect URIs.
@@ -188,7 +190,7 @@
             If <spanx style="verb">jwk_encryption_url</spanx> is not 
             provided it is also used for <xref target="JWE">JWE</xref> encryption 
             of ID Token and User Info Endpoint Responses to the Client.
-            If the client registers both <spanx style="verb">x509_url</spanx>
+            If the Client registers both <spanx style="verb">x509_url</spanx>
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
 
@@ -196,7 +198,7 @@
             target="JWK">JSON Web Key</xref>
 	    that is used for <xref target="JWE">JWE</xref> encryption
 	    of ID Token and User Info Endpoint Responses to the Client.
-            If the client registers both <spanx style="verb">jwk_encryption_url</spanx>
+            If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
 	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
 
@@ -208,7 +210,7 @@
             provided, <spanx style="verb">x509_url</spanx>
 	    it is also used for <xref target="JWE">JWE</xref> encryption 
             of ID Token and User Info Endpoint Responses to the Client.
-            If the client registers both <spanx style="verb">x509_url</spanx>
+            If the Client registers both <spanx style="verb">x509_url</spanx>
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
             
@@ -216,15 +218,14 @@
             Certificate or Certificate chain
 	    that is used for <xref target="JWE">JWE</xref> encryption 
             of ID Token and User Info Endpoint Responses to the Client. 
-            If the client registers both <spanx style="verb">jwk_encryption_url</spanx>
+            If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
 	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
             
             <t hangText="sector_identifier_url">OPTIONAL. A HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with a single JSON array of <spanx style="verb">redirect_uri</spanx> values.
-            Please see <xref target="sector.identifier.url.verification">Section 2.1.1 </xref>
-	    
+            Please see <xref target="sector.identifier.url.verification">Section 2.1.1</xref>.
 	    </t>
             
             <t hangText="user_id_type">OPTIONAL. The <spanx style="verb">user_id_type</spanx> requested for 
@@ -319,10 +320,10 @@ Host: client.example.com
         as top level elements.</t>
 
         <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The unique client
+            <t hangText="client_id">REQUIRED. The unique Client
             identifier.</t>
 
-            <t hangText="client_secret">REQUIRED. The client secret. This
+            <t hangText="client_secret">REQUIRED. The Client secret. This
             should change with each response.</t>
 
             <t hangText="expires_at">REQUIRED. The number of
@@ -384,7 +385,7 @@ WWW-Authenticate: 400 Bad Request
       <t>
 	Processing some OpenID Connect messages requires comparing
 	values in the messages to known values. For example, the
-	member names in the client registration response might be
+	member names in the Client registration response might be
 	compared to specific member names such as <spanx
 	style="verb">client_id</spanx>.  Comparing Unicode strings,
 	however, has significant security implications.
@@ -436,14 +437,14 @@ WWW-Authenticate: 400 Bad Request
       <xref target="RFC6125">RFC 6125</xref>.
       </t>
       <t>Requests to the Registration Endpoint for <spanx style="verb">client_update</spanx> MUST have some rate 
-      limiting on failures to prevent the client secret from being disclosed though
+      limiting on failures to prevent the Client secret from being disclosed though
       repeated access attempts.</t>
       
-      <t>In a situation where the Authorization Server is supporting open client 
+      <t>In a situation where the Authorization Server is supporting open Client 
       registration, 
-      it must be extremely careful with any URL provided by the client that will 
+      it must be extremely careful with any URL provided by the Client that will 
       be displayed to the user (e.g. <spanx style="verb">logo_url</spanx> and
-      <spanx style="verb">policy_url</spanx>). A rogue client could 
+      <spanx style="verb">policy_url</spanx>). A rogue Client could 
       specify a registration request with a reference to a drive-by download in the 
       policy_url. The Authorization Server should check to see if the
       <spanx style="verb">logo_url</spanx> and <spanx style="verb">policy_url</spanx> have the 
@@ -747,7 +748,7 @@ WWW-Authenticate: 400 Bad Request
 	  <t>Changed sector_identifier to sector_identifier_url and added URL verification</t>
 	  <t>Use RFC 6125 to verify TLS endpoints</t>
 	  <t>Changed 'contact' to 'contacts', 'redirect_uri' to 'redirect_uris'</t>
-	  <t>Changed redirect_uris to RECOMMENDED for code flow and REQUIRED for implicit flow clients</t>
+	  <t>Changed redirect_uris to RECOMMENDED for code flow and REQUIRED for implicit flow Clients</t>
 	  <t>Removed js_origin_uri</t>
 	  <t>Added section about string comparison rules needed</t>
 	  <t>Clarified redirect_uris matching</t>
