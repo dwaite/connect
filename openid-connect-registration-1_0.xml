@@ -293,7 +293,7 @@ type=client_associate
 	  <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
 	  must be a HTTPS scheme URL that identifies
 	  a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
-	  The Client MUST perform a TLS/SSL server certificate check, per
+	  The Registration Server MUST perform a TLS/SSL server certificate check, per
 	  <xref target="RFC6125">RFC 6125</xref>.
 	  </t>
 
@@ -305,6 +305,11 @@ type=client_associate
 	    <artwork><![CDATA[GET /connect/sector_identifier.js HTTP/1.1
 Accept: application/json
 Host: client.example.com
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+Pragma: no-cache
 
 [ "https://client.example.com/callback",
   "https://client.example.com/callback2",
@@ -735,6 +740,9 @@ WWW-Authenticate: 400 Bad Request
       <t>-09<list style="symbols">
           <t>Removed erroneous spanx declarations from example</t>
           <t>Fixed example in Sec 2.2 to show expires_at</t>
+          <t>Fixed Sec 2.1.1 to clarify it is the registration server doing the certificate check</t>
+          <t>Fixed Sec 2.1.1 example to include http portion of response.</t>
+              
         </list></t>
 
       <t>-08<list style="symbols">
