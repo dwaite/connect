@@ -240,17 +240,17 @@
              algorithm that MUST be required by the Authorization Server. All OpenID Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
               
-             <t hangText="userinfo_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> encryption 
+             <t hangText="userinfo_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> signature 
              algorithm required for UserInfo responses. 
              If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized.</t>
+             <xref target="JWT">JWT</xref> serialized, and signed using <xref target="JWS">JWS</xref>.</t>
              
              <t hangText="userinfo_encrypted_response_algs">OPTIONAL.  A space delimited
              list of the <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx>
              algorithms required for UserInfo responses. If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized.</t>
+             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
              <t hangText="id_token_signed_response_algs">OPTIONAL.  The <xref target="JWS">JWS</xref> signing 
              algorithm required for the ID Token issued to this
@@ -742,6 +742,8 @@ WWW-Authenticate: 400 Bad Request
           <t>Fixed example in Sec 2.2 to show expires_at</t>
           <t>Fixed Sec 2.1.1 to clarify it is the registration server doing the certificate check</t>
           <t>Fixed Sec 2.1.1 example to include http portion of response.</t>
+          <t>Fixed Sec 2.1 userinfo_signed_response_algs fixed to say signature. Clarify response is signed.</t>
+          <t>Fixed Sec 2.1 userinfo_encrypted_response_algs Clarify response is JWE containing JWT.</t>
               
         </list></t>
 
