@@ -907,20 +907,23 @@
           <t><list style="hanging">
         
           <t hangText="client_secret_basic"> 
-          Clients in possession of a client password authenticate with the Authorization Server
+          Clients who have received a <spanx style='verb'>client_secret</spanx> value
+          from the Authorization Server, authenticate with the Authorization Server
           in accordance with section 3.2.1 of <xref
           target="OAuth2.0">OAuth 2.0</xref> using HTTP Basic authentication scheme. </t>
           
           <t hangText="client_secret_post">
-          Clients in possession of a client password authenticate with the Authorization Server
+          Clients who have received a <spanx style='verb'>client_secret</spanx> value 
+          from the Authorization Server, authenticate with the Authorization Server
           in accordance with section 3.2.1 of <xref
           target="OAuth2.0">OAuth 2.0</xref> by including the client credentials in the request body. </t>
           
           <t hangText="client_secret_jwt"> 
-          Clients in possession of a client password create a JWT using the
+          Clients who have received a <spanx style='verb'>client_secret</spanx> value 
+          from the Authorization Server, create a JWT using the
 	      HMAC-SHA algorithm. 
 	      The HMAC (Hash-based Message Authentication Code) is calculated using the
-	      <spanx style='verb'>client_secret</spanx> as the shared key.
+	      value of <spanx style='verb'>client_secret</spanx> as the shared key.
 	   
           The client Authenticates in accordance with section 2.2 of <xref
           target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
@@ -3172,6 +3175,8 @@ may be retrieved:
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-08<list style="symbols">
+      <t>Fixed Sec 2.2.1 to refer to client_secret value rather than Client Password.</t>
       <t>-07<list style="symbols">
 	  <t>Removed definition and usage for assertion and claim object</t>
 	  <t>Consistent use of End-User</t>
