@@ -1747,17 +1747,17 @@ may be retrieved:
           that are used by the Server for Signing the JWT. 
           It MAY also be used by the Client to JWE Encrypt the JWT
           to the Server if <spanx style="verb">x509_encryption_url</spanx>
-          is not specified 
-          and the key usage includes <spanx style="verb">keyEncipherment</spanx>.</t>
+          is not specified. The certificate referenced SHOULD be valid for its 
+          intended use as specified by <xref target="RFC2459">RFC 2459</xref></t>
           
         <t hangText="x509_encryption_url"> 
           URL of the OP's X.509 certificates in PEM format
           that contains the Server's encryption key
           that is used by the Client to JWE encrypt the JWT 
           to the Server. If it is not present, the URL provided by the
-          <spanx style="verb">x509_url</spanx> is used instead. The certificate 
-          MUST include <spanx style="verb">keyEncipherment</spanx>
-          in the key usage.</t>
+          <spanx style="verb">x509_url</spanx> is used instead. 
+          The certificate referenced SHOULD be valid for its 
+          intended use as specified by <xref target="RFC2459">RFC 2459</xref></t>
 
       </list></t>
       <t>The Client provides its public Keys during Registration, in the following 
@@ -1784,14 +1784,17 @@ may be retrieved:
             signing of the request objects.
             If <spanx style="verb">x509_encryption_url</spanx> is not 
             present, it is also used for <xref target="JWE">JWE</xref> encryption 
-            of the <xref target="JWT">JWT</xref> to the Client 
-            if the key usage includes <spanx style="verb">keyEncipherment</spanx>.</t>
+            of the <xref target="JWT">JWT</xref> to the Client. 
+            The certificate referenced SHOULD be valid for its 
+            intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
             
             <t hangText="x509_encryption_url">
             OPTIONAL. URL for the Client's PEM encoded 
             X.509 Certificate or Certificate chain, used for 
             <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the Client. </t>
+            of <xref target="JWT">JWT</xref> to the Client.
+            The certificate referenced SHOULD be valid for its 
+            intended use as specified by <xref target="RFC2459">RFC 2459</xref> </t>
       
       
       </list></t>      
@@ -1827,10 +1830,8 @@ may be retrieved:
             <spanx style="verb">kid</spanx> MUST be specified in the JWS header. 
             If there are multiple certificates at the referenced certificate location,
 	    then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.
-            The key usage of the respective keys MUST include signature. 
-            In particular, if the key found through <spanx style="verb">x5u</spanx> is used, the 
-            key usage MUST include 
-            <spanx style="verb">digitalSignature</spanx>. 
+            The key usage of the respective keys MUST support signature. 
+            
           </t>
         </list></t>
       </section>
@@ -1869,8 +1870,6 @@ may be retrieved:
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.
             The key usage of the respective keys MUST include encryption. 
-            In particular, if the key found through <spanx style="verb">x5u</spanx> is used, 
-            the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
           </t>
           <t hangText="Asymmetric Encryption Elliptic Curve">
             Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
@@ -1889,10 +1888,8 @@ may be retrieved:
             Use the ECDH-ES algorithm to KeyWrap a random 
             <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
             the signed JWT.
-            The key usage of the respective keys MUST include encryption.
-            In particular, if the key found through <spanx style="verb">x5u</spanx> is used,
-            the key usage MUST include <spanx style="verb">keyEncipherment</spanx>.
-
+            The key usage of the respective keys MUST support encryption.
+            
           </t>
         </list></t>
       </section>
@@ -2483,6 +2480,7 @@ may be retrieved:
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2459"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
@@ -3174,9 +3172,13 @@ may be retrieved:
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-
+      
       <t>-08<list style="symbols">
       <t>Fixed Sec 2.2.1 to refer to client_secret value rather than Client Password.</t>
+      <t>Fixed Sec 4.2, 4.3, 4.4 to replace requirement for using x.509 keyuse extension</t>
+      <t>Added reference to RFC2459</t>
+      </list></t>
+ 
       <t>-07<list style="symbols">
 	  <t>Removed definition and usage for assertion and claim object</t>
 	  <t>Consistent use of End-User</t>
