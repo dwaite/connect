@@ -363,8 +363,19 @@
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
            <t>The Provider MUST calculate a unique <spanx style="verb">user_id</spanx> value for each Sector Identifier.</t>
+           <t>Providers who use pairwise <spanx style="verb">user_id</spanx> values SHOULD 
+           support the <spanx style="verb">sector_identifier_url</spanx> in 
+           <xref target="OpenID.Registration">Dynamic Client Registration</xref></t> 
+	       <t>It provides a way for a group of websites under a single administrative 
+	       control to have consistent pairwise <spanx style="verb">user_id</spanx> 
+	       values independent of the individual domain names.</t>
+	       <t>It also provides a way for Clients to change 
+	       <spanx style="verb">redirect_uri</spanx> domains without having to 
+	       reregister all of their users.</t>
+	  
            <t>If the Client has not provided a value for
-	   <spanx style="verb">sector_identifier_url</spanx> in registration,
+	   <spanx style="verb">sector_identifier_url</spanx> in 
+	   <xref target="OpenID.Registration">Dynamic Client Registration</xref>,
            the Sector Identifier
 	   used for pairwise identifier calculation is the host component 
            of the registered <spanx style="verb">redirect_uri</spanx>.</t>
@@ -383,11 +394,21 @@
            or the registration MUST fail.</t>
 
            <t>A number of algorithms MAY be used by Providers to calculate the pairwise identifier.
-           This specification includes a simple example.</t>
-           <t>For instance, the Sector Identifier can be concatenated with a local account ID and a salt 
+           This specification includes three examples.</t>
+           <t>The Sector Identifier can be concatenated with a local account ID and a salt 
            value that is kept secret by the Provider. The concatenated string is then 
            hashed by an appropriate algorithm.</t>
            <t>Calculate <spanx style="verb">user_id</spanx> = SHA256 ( sector_identifier | local_account_id | salt ).</t>
+           <t>The Sector Identifier can be concatenated with a local account ID and a salt 
+           value that is kept secret by the Provider. The concatenated string is then 
+           encrypted by an appropriate algorithm.</t>
+           <t>Calculate <spanx style="verb">user_id</spanx> = AES128 ( sector_identifier | local_account_id | salt ).</t>
+           
+           <t>The Issuer creates a Globally Unique Identifier (GUID) for the tupple of
+           Sector Identifier and local account ID.  This is stored in a table and 
+           the value looked up each time.</t>
+           
+           
         </section>
           </section>
         </section>
@@ -3177,6 +3198,9 @@ may be retrieved:
       <t>Fixed Sec 2.2.1 to refer to client_secret value rather than Client Password.</t>
       <t>Fixed Sec 4.2, 4.3, 4.4 to replace requirement for using x.509 keyuse extension</t>
       <t>Added reference to RFC2459</t>
+      <t>Fixed Sec 2.1.1.1.1 added rational for sector_identifier_url from registration</t>
+      <t>Fixed Sec 2.1.1.1.1 added examples of other ways to generate PPID</t>
+      
       </list></t>
  
       <t>-07<list style="symbols">
