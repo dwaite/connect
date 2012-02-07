@@ -262,6 +262,17 @@
              <spanx style="verb">alg</spanx> and <spanx style="verb">enc</spanx> 
              algorithms required for the ID Token issued to this <spanx style="verb">client_id</spanx>. If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
+             
+             <t hangText="default_max_age">OPTIONAL. (default max authentication age):  
+                  Type: Integer 
+                  - Specifies that the End-User must be actively authenticated if
+                  any present authentication is older than the specified
+                  number of seconds. (The <spanx style="verb">max_age</spanx> request parameter
+                  corresponds to the OpenID 2.0
+                  PAPE <spanx style="verb">max_auth_age</spanx>
+                  request parameter.) The <spanx style="verb">max_age</spanx> claim in the 
+                  request object overrides this default value.</t>
+
           </list></t>
           
           <t>Following is a non-normative example request:</t>
@@ -749,6 +760,7 @@ WWW-Authenticate: Bearer realm="example.com",
           <t>Fixed Sec 2.1 userinfo_signed_response_algs fixed to say signature. Clarify response is signed.</t>
           <t>Fixed Sec 2.1 userinfo_encrypted_response_algs Clarify response is JWE containing JWT.</t>
           <t>Fixes #529 Sec 2.3 Clarify error response is Bearer and fix example.</t>
+          <t>Add default_max_age registration paramater</t>
               
         </list></t>
 
