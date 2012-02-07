@@ -352,6 +352,10 @@ Cache-Control: no-store
       </section>
 
       <section title="Client Registration Error Response">
+      <t>When an error condition occurs, the Client Registration Endpoint returns
+	      an Error Response as defined in Section 3 of
+	      the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification.</t>
+      
       <t>In addition to the error codes defined in Section 3.1 of <xref
           target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
           following error codes:</t>
@@ -374,8 +378,8 @@ Cache-Control: no-store
 	    response:</preamble>
 
 	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
-WWW-Authenticate: 400 Bad Request
-  error="invalid_client_secret"
+WWW-Authenticate: Bearer realm="example.com",
+  error="invalid_client_secret",
   error_description="The client_secret is wrong for this client_id"]]></artwork>
 	</figure></t>
       </section>
@@ -744,6 +748,7 @@ WWW-Authenticate: 400 Bad Request
           <t>Fixed Sec 2.1.1 example to include http portion of response.</t>
           <t>Fixed Sec 2.1 userinfo_signed_response_algs fixed to say signature. Clarify response is signed.</t>
           <t>Fixed Sec 2.1 userinfo_encrypted_response_algs Clarify response is JWE containing JWT.</t>
+          <t>Fixes #529 Sec 2.3 Clarify error response is Bearer and fix example.</t>
               
         </list></t>
 
