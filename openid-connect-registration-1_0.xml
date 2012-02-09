@@ -272,6 +272,16 @@
                   PAPE <spanx style="verb">max_auth_age</spanx>
                   request parameter.) The <spanx style="verb">max_age</spanx> claim in the 
                   request object overrides this default value.</t>
+            
+            <t hangText="require_auth_time">OPTIONAL. (default max authentication age):  
+                  Type: Logical 
+                  -  If the value is true, then the <spanx style="verb">auth_time</spanx> 
+                  claim in the <spanx style="verb">id_token</spanx> is REQUIRED. 
+                  The returned Claim Value is the number of seconds from 
+                  1970-01-01T0:0:0Z as measured in UTC until the date/time that the 
+                  End-User authentication occurred. (The auth_time Claim semantically 
+                  corresponds to the OpenID 2.0 PAPE auth_time response parameter.) 
+                  The auth_time claim request in the request object overrides this setting.</t>
                   
             <t hangText="default_acr">OPTIONAL. (default authentication context class reference):  
                   Type: String 
@@ -772,6 +782,7 @@ WWW-Authenticate: Bearer realm="example.com",
           <t>Fixes #529 Sec 2.3 Clarify error response is Bearer and fix example.</t>
           <t>Add default_max_age registration paramater</t>
           <t>Add default_acr registration paramater</t>
+          <t>Add require_auth_time registration paramater</t>
               
         </list></t>
 
