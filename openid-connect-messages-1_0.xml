@@ -412,7 +412,7 @@
            encrypted by an appropriate algorithm.</t>
            <t>Calculate <spanx style="verb">user_id</spanx> = AES128 ( sector_identifier | local_account_id | salt ).</t>
            
-           <t>The Issuer creates a Globally Unique Identifier (GUID) for the tupple of
+           <t>The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
            Sector Identifier and local account ID.  This is stored in a table and 
            the value looked up each time.</t>
            
@@ -456,22 +456,35 @@
                   This scope value requests access to the <spanx style="verb">user_id</spanx>
                    Claim at the UserInfo Endpoint.</t>
 
-                  <t hangText="profile">OPTIONAL. This requests that access to
-                  the End-User's <xref target="ClaimTable">profile Claims</xref>
-                  excluding the <spanx style="verb">address</spanx> and <spanx
-                  style="verb">email</spanx> Claims at the UserInfo Endpoint
-                  be granted by the issued Access Token.</t>
+                  <t hangText="profile">OPTIONAL. This scope value
+                  requests that access to the End-User's default <xref
+                  target="ClaimTable">profile Claims</xref> at the
+                  UserInfo Endpoint be granted by the issued Access
+                  Token.  These claims are:
+		  <spanx style="verb">name</spanx>,
+		  <spanx style="verb">family_name</spanx>,
+		  <spanx style="verb">given_name</spanx>,
+		  <spanx style="verb">middle_name</spanx>,
+		  <spanx style="verb">nickname</spanx>,
+		  <spanx style="verb">profile</spanx>,
+		  <spanx style="verb">picture</spanx>,
+		  <spanx style="verb">website</spanx>,
+		  <spanx style="verb">gender</spanx>,
+		  <spanx style="verb">birthday</spanx>,
+		  <spanx style="verb">zoneinfo</spanx>,
+		  <spanx style="verb">locale</spanx>, and
+		  <spanx style="verb">updated_time</spanx>.</t>
 
-                  <t hangText="email">OPTIONAL. This requests that access to
+                  <t hangText="email">OPTIONAL. This scope value requests that access to
                   the <spanx style="verb">email</spanx> and 
                   <spanx style="verb">verified</spanx> Claims at the UserInfo
                   Endpoint be granted by the issued Access Token.</t>
 
-                  <t hangText="address">OPTIONAL. This requests that access to
+                  <t hangText="address">OPTIONAL. This scope value requests that access to
                   <spanx style="verb">address</spanx> Claim at the
                   UserInfo Endpoint be granted by the issued Access Token.</t>
 
-                  <t hangText="phone">OPTIONAL. This requests that access to 
+                  <t hangText="phone">OPTIONAL. This scope value requests that access to 
                   the <spanx style="verb">phone_number</spanx> Claim at the 
                   UserInfo Endpoint be granted by the issued Access Token.</t>
 
@@ -3220,6 +3233,7 @@ may be retrieved:
       <t>Fixed Sec 2.1.1.1.1 added rational for sector_identifier_url from registration</t>
       <t>Fixed Sec 2.1.1.1.1 added examples of other ways to generate PPID</t>
       <t>Added iat as a required claim in id_tokens.</t>
+      <t>Enumerated claims requested by the "profile" scope value.</t>
       
       </list></t>
  
