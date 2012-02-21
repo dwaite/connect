@@ -370,14 +370,19 @@
               correlation of the user's activities by Clients without the user's permission.</t>
            </list></t>
            <section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
-           <t>The Provider MUST calculate a unique <spanx style="verb">user_id</spanx> value for each Sector Identifier.</t>
+
+           <t>The OpenID Provider MUST calculate a unique
+	   <spanx style="verb">user_id</spanx> value for each
+	   Sector Identifier.  The user_id MUST NOT be reversible
+	   by any party other than the OpenID Provider.</t>
+
            <t>Providers who use pairwise <spanx style="verb">user_id</spanx> values SHOULD 
            support the <spanx style="verb">sector_identifier_url</spanx> in 
-           <xref target="OpenID.Registration">Dynamic Client Registration</xref></t> 
-	       <t>It provides a way for a group of websites under a single administrative 
+           <xref target="OpenID.Registration">Dynamic Client Registration</xref>.
+	       It provides a way for a group of websites under common administrative 
 	       control to have consistent pairwise <spanx style="verb">user_id</spanx> 
-	       values independent of the individual domain names.</t>
-	       <t>It also provides a way for Clients to change 
+	       values independent of the individual domain names.
+	       It also provides a way for Clients to change 
 	       <spanx style="verb">redirect_uri</spanx> domains without having to 
 	       reregister all of their users.</t>
 	  
@@ -386,14 +391,15 @@
 	   <xref target="OpenID.Registration">Dynamic Client Registration</xref>,
            the Sector Identifier
 	   used for pairwise identifier calculation is the host component 
-           of the registered <spanx style="verb">redirect_uri</spanx>.</t>
-           <t>If there are multiple hostnames in the registered
+           of the registered <spanx style="verb">redirect_uri</spanx>.
+           If there are multiple hostnames in the registered
 	   <spanx style="verb">redirect_uris</spanx>, the Client MUST register a 
-           <spanx style="verb">sector_identifier_url</spanx>.
-           When a <spanx style="verb">sector_identifier_url</spanx>
+           <spanx style="verb">sector_identifier_url</spanx>.</t>
+
+           <t>When a <spanx style="verb">sector_identifier_url</spanx>
 	   is provided, the host component of that URL is used as
-           the Sector Identifier for the pairwise identifier calculation.</t>
-           <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
+           the Sector Identifier for the pairwise identifier calculation.
+           The value of the <spanx style="verb">sector_identifier_url</spanx>
 	   must be a HTTPS URL that points to
            a JSON file containing an array of
 	   <spanx style="verb">redirect_uri</spanx> values.
@@ -403,19 +409,20 @@
 
            <t>A number of algorithms MAY be used by Providers to calculate the pairwise identifier.
            This specification includes three examples.</t>
-           <t>The Sector Identifier can be concatenated with a local account ID and a salt 
+
+           <t>1.  The Sector Identifier can be concatenated with a local account ID and a salt 
            value that is kept secret by the Provider. The concatenated string is then 
            hashed by an appropriate algorithm.</t>
            <t>Calculate <spanx style="verb">user_id</spanx> = SHA256 ( sector_identifier | local_account_id | salt ).</t>
-           <t>The Sector Identifier can be concatenated with a local account ID and a salt 
+
+           <t>2.  The Sector Identifier can be concatenated with a local account ID and a salt 
            value that is kept secret by the Provider. The concatenated string is then 
            encrypted by an appropriate algorithm.</t>
            <t>Calculate <spanx style="verb">user_id</spanx> = AES128 ( sector_identifier | local_account_id | salt ).</t>
            
-           <t>The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
+           <t>3.  The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
            Sector Identifier and local account ID.  This is stored in a table and 
            the value looked up each time.</t>
-           
            
         </section>
           </section>
