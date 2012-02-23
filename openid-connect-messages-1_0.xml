@@ -364,14 +364,12 @@
           follows.</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">A space delimited, case sensitive
-              list of ASCII string values. Acceptable values include <spanx
-              style="verb">code</spanx>, <spanx style="verb">token</spanx>, and
-              <spanx style="verb">id_token</spanx>.
-              The value MUST include <spanx style="verb">code</spanx> for
-              requesting an Authorization Code, <spanx style="verb">token</spanx>
-              for requesting an Access Token, and <spanx 
-              style="verb">id_token</spanx> for requesting an ID Token.</t>
+              <t hangText="response_type">A ASCII string value as defined in 
+              Section 2.2.1 of 
+              <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>.
+              This paramater controls the paramaters returned in the response from the
+              Authorization Endpoint.
+              </t>
 
               <t hangText="scope">A space delimited, case sensitive list of
               ASCII string values. The values specify an additive list of Claims
@@ -381,14 +379,6 @@
                   Server that the Client is making an OpenID Connect request. If the
                   <spanx style="verb">openid</spanx> scope value is not present,
                   the request MUST NOT be treated as an OpenID Connect request.
-                  The <spanx style="verb">openid</spanx> value also requests
-                  that the ID Token associated with the authentication session be
-                  returned. If the <spanx style="verb">response_type</spanx>
-                  includes <spanx style="verb">token</spanx>, the ID Token is
-                  returned in the Authorization Response along with the Access
-                  Token. If the <spanx style="verb">response_type</spanx>
-                  includes <spanx style="verb">code</spanx>, the ID Token is
-                  returned as part of the Token Endpoint response.
                   This scope value requests access to the <spanx style="verb">user_id</spanx>
                    Claim at the UserInfo Endpoint.</t>
 
@@ -3267,6 +3257,8 @@ may be retrieved:
       <t>Fixed Sec 2.1.1.1.1 added examples of other ways to generate PPID</t>
       <t>Added iat as a required claim in id_tokens.</t>
       <t>Enumerated claims requested by the "profile" scope value.</t>
+      <t>Fixed Sec 2.1.2 response_type references standard rather than repeating values that are binding specific</t>
+      <t>Fixed Sec 2.1.2 remove outdated language about openid scope requiring id_token to be returned with token response_type</t>
       
       </list></t>
  
