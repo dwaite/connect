@@ -1042,16 +1042,20 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           style="verb">Bearer</spanx>".</t>
 
           <t>In addition to the OAuth 2.0 response parameters, the following
-          parameters MUST be included in the response if the Authorization
-          Request <spanx style="verb">scope</spanx> parameter contains
-          <spanx style="verb">openid</spanx>:</t>
+          parameters MUST be included in the response if the 
+          <spanx style="verb">grant_type</spanx> is 
+          <spanx style="verb">authorization_code</spanx>
+          and the Authorization Request <spanx style="verb">scope</spanx> parameter 
+          contained <spanx style="verb">openid</spanx>:</t>
 
           <t><list style="hanging">
             <t hangText="id_token">The ID Token value associated with the
             authentication session.</t>
           </list></t>
 
-          <t></t>
+          <t>Note that <spanx style="verb">id_token</spanx> MUST NOT be 
+          returned if the <spanx style="verb">grant_type</spanx> is not 
+          <spanx style="verb">authorization_code</spanx>. </t>
 
           <figure>
             <preamble>Following is a non-normative example:</preamble>
