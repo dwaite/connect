@@ -1370,6 +1370,10 @@ R0cDpcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH
          with the section 5.3 of the 
          <xref target="OpenID.Messages">Messages</xref> specification. 
         </t> 
+        
+        <t>Authorization Servers SHOULD support the use of 
+      <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> and
+      or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
       </section>
 
       <section anchor="intro_res" title="Check ID Response">
@@ -1445,6 +1449,10 @@ WWW-Authenticate: Bearer realm="example.com",
 
       <t>Authorization Servers MUST accept Access Tokens as
       <xref target="OAuth.Bearer">Bearer Tokens</xref>.</t>
+      
+      <t>Authorization Servers SHOULD support the use of 
+      <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> and
+      or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
 
       <section title="UserInfo Request">
         <t>Client SHOULD send the UserInfo Request defined in section 2.4.1 of
@@ -2163,9 +2171,20 @@ scope=openid&response_type=code
       </reference>
     </references>
 
-    <!-- <references title="Informative References"> -->
+    <references title="Informative References"> 
 
-    <!-- </references> -->
+       <reference anchor="CORS">
+        <front>
+           <title>Cross-Origin Resource Sharing</title>
+           <author fullname="Anne" initials="" surname="van Kestern">
+             <organization abbrev="Opera">Opera Software ASA</organization>
+           </author>
+           <date day="27" month="July" year="2010"></date>
+        </front>
+      <format target="http://www.w3.org/TR/access-control/"
+              type="HTML" />
+      </reference>
+    </references>
 
     <section title="Footnotes">
       <t></t>
@@ -2251,6 +2270,7 @@ scope=openid&response_type=code
       <t>Updated version number and date.</t>
       <t>Fix Section 2.3.1.3 Request file requiring all request param to be included is false. #543</t>
       <t>Fix Section 5.1 to reference Messages 2.4.1 rather than 3.3</t>
+      <t>Added reference to CORS for JS clients to user_info and check_id endpoints</t>
         </list></t>
            
       <t>-07<list style="symbols">
