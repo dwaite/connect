@@ -542,14 +542,25 @@
             in the OpenID Request Object, the latter takes precedence.
             </t>
 
-            <t>The OpenID Request Object MUST contain all REQUIRED OAuth 2.0
-            Authorization Request parameters and MAY contain OPTIONAL and
-            extension OAuth 2.0 parameters.
-	    The OAuth 2.0 parameter values included MUST match the
-	    actual OAuth 2.0 request parameters used.</t>
+            <t>All Authorization Request parameters that are part of the
+            Authorization Request excluding the <spanx style="verb">request</spanx>,
+            <spanx style="verb">request_uri</spanx>,
+            <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            <spanx style="verb">client_id</spanx>, and <spanx style="verb">nonce</spanx>
+            parameters MUST also be JSON
+            Serialized into the 
+            OpenID Request Object with the same values.  This allows
+            the Client to send signed and/or encrypted requests to the
+            Authorization Server and maintain conformance to OAuth 2.0.</t>
+            
+            <t>The <spanx style="verb">client_id</spanx>
+            , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            and <spanx style="verb">nonce</spanx>
+            parameters MAY also be included in the 
+            OpenID Request Object.</t>
 
-            <t>The OpenID Request Object MAY contain a set of members defined
-            by this specification and MAY contain other members that are not
+            <t>The OpenID Request Object 
+            MAY contain other members that are not
             defined by this specification.
 	    With only one exception, OpenID Request Object members
 	    MUST be understood by both parties; that exception is that
