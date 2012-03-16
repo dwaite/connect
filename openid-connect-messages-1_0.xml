@@ -372,7 +372,7 @@
               </t>
 
               <t hangText="scope">A space delimited, case sensitive list of
-              ASCII string values. The values specify an additive list of Claims
+              ASCII string values. The values specify an additive list of optional Claims
               that are returned by the UserInfo Endpoint. The following values
               are defined:<list style="hanging">
                   <t hangText="openid">REQUIRED. Informs the Authorization
@@ -622,11 +622,14 @@
 
               <t><list style="hanging">
                   <t hangText="claims">OPTIONAL. (Requested Claims): A
-                  JSON object containing a set of Claims being
-                  requested from the UserInfo Endpoint.  If not
-                  present, the UserInfo Claims held by the OP that are
-                  specified by the <spanx style="verb">scope</spanx>
-                  values used are returned.</t>
+                  JSON object containing a set of individual Claims
+                  being requested from the UserInfo Endpoint in
+                  addition to those requested by the <spanx
+                  style="verb">scope</spanx> values used.  If not
+                  present, only the UserInfo Claims held by the OP
+                  that are requested by the <spanx
+                  style="verb">scope</spanx> values used are
+                  returned.</t>
 
                   <t hangText="preferred_locales">OPTIONAL.  A list of preferred 
                   languages and scripts for the entire Claims request, 
@@ -678,12 +681,7 @@
                   present, it is a required Claim.</t>
                 </list>
                 Other members MAY be defined to provide additional
-              information about the requested Claim. If the
-	      <spanx style="verb">claims</spanx> member is
-              present in the <spanx style="verb">userinfo</spanx>
-	      object, the Claims requested within it
-              override the Claim set that would otherwise be returned
-              from the UserInfo Endpoint.</t>
+              information about the requested Claim.</t>
 
                 </section>
               </section>
@@ -700,11 +698,8 @@
               that for the <spanx style="verb">userinfo</spanx> member.
 	      If the <spanx style="verb">claims</spanx> member is
               present in the <spanx style="verb">id_token</spanx> object,
-	      the Claims requested within it
-              modify the Claim set that would otherwise be returned in
-              the ID Token. Unlike for the <spanx style="verb">userinfo</spanx>
-	      member, typically these
-              Claims will augment, rather than override the default set.</t>
+	      the Claims requested within it augment the Claim set that
+	      would otherwise be returned in the ID Token.</t>
 
               <t>Following Claims MAY be requested in the ID Token by
               specifying it in the <spanx style="verb">claims</spanx> member:</t>
