@@ -260,13 +260,24 @@
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
+             <t hangText="userinfo_encrypted_response_int">OPTIONAL.  The <xref target="JWE">JWE</xref> 
+			<spanx style="verb">int</spanx>
+             algorithm required for integrity of UserInfo responses. 
+             If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
+             and the <spanx style="verb">"userinfo_encrypted_response_enc"</spanx> 
+             is not a AEAD algorithm,
+             the default for this value is <spanx style="verb">HS256</spanx>.
+             If this is requested in combination with signing the response 
+             will be signed then encrypted. If this is specified the response will be 
+             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
+             
              <t hangText="id_token_signed_response_alg">OPTIONAL.  The <xref target="JWS">JWS</xref> signing 
              algorithm required for the ID Token issued to this
 	     <spanx style="verb">client_id</spanx>.
 	     The default if not specified is <spanx style="verb">HS256</spanx>
 	     using the provided <spanx style="verb">client_secret</spanx>.</t>
              
-             <t hangText="id_token_encrypted_response_algs">OPTIONAL.  The <xref target="JWE">JWE</xref> 
+             <t hangText="id_token_encrypted_response_alg">OPTIONAL.  The <xref target="JWE">JWE</xref> 
              <spanx style="verb">alg</spanx> 
              algorithm required for the ID Token issued to this <spanx style="verb">client_id</spanx>. 
              If this is requested the response will be signed then encrypted. 
@@ -281,6 +292,16 @@
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
+             <t hangText="id_token_encrypted_response_int">OPTIONAL.  The <xref target="JWE">JWE</xref> 
+			<spanx style="verb">int</spanx>
+             algorithm required for integrity of ID Token issued to this <spanx style="verb">client_id</spanx>. 
+             If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
+             and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
+             is not a AEAD algorithm,
+             the default for this value is <spanx style="verb">HS256</spanx>.
+             If this is requested in combination with signing the response 
+             will be signed then encrypted. If this is specified the response will be 
+             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
              <t hangText="default_max_age">OPTIONAL. (default max authentication age):  
                   Type: Integer 
@@ -780,6 +801,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>-10<list style="symbols">
 	  <t>Updated references.</t>
 	  <t>Split encrypted response into two parameters and remove extra s from signed response</t>
+	  <t>Add config paramater for encryption integrity algorithm</t>
 	</list></t>
 
       <t>-09<list style="symbols">
