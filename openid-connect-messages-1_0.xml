@@ -506,6 +506,11 @@
               <t hangText="request_uri">OPTIONAL. An URL that points to an
               OpenID Request Object. This is used to pass an OpenID Request
               Object by reference.</t>
+              
+              <t hangText="id_token">OPTIONAL. A JWT <spanx style="verb">id_token</spanx>
+              passed to the Authorization server as a hint about the user's current or past
+              authenticated session with the client. This SHOULD be present if 
+              <spanx style="verb">prompt=none</spanx> is sent.</t>
             </list></t>
 
           <section anchor="OpenID_Request_Object" title="OpenID Request Object">
@@ -532,7 +537,8 @@
             Authorization Request excluding the <spanx style="verb">request</spanx>,
             <spanx style="verb">request_uri</spanx>,
             <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
-            <spanx style="verb">client_id</spanx>, and <spanx style="verb">nonce</spanx>
+            <spanx style="verb">client_id</spanx>,
+            <spanx style="verb">id_token</spanx>, and <spanx style="verb">nonce</spanx>
             parameters MUST also be JSON
             Serialized into the 
             OpenID Request Object with the same values.  This allows
@@ -3247,6 +3253,7 @@ may be retrieved:
 	  <t>Removed "embedded" display type, since its semantics were
 	  not well defined, per issue #514.</t>
 	  <t>Updated references.</t>
+	  <t>Added id_token to authorization request paramaters</t>
 	</list></t>
 
       <t>-08<list style="symbols">
