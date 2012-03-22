@@ -423,8 +423,10 @@ Content-Type: application/json
       target="ProviderDisc"></xref> or through direct configuration, the OpenID
       Provider's configuration can be retrieved.</t>
 
-      <t>OpenID Providers MUST make a JSON document available at the path
-      <spanx style="verb">/.well-known/openid-configuration</spanx>.
+      <t>OpenID Providers MUST make a JSON document available at the path formed by 
+      concatenating the string 
+      <spanx style="verb">/.well-known/openid-configuration</spanx> to the 
+      <spanx style="verb">issuer</spanx>.
       The syntax and semantics of <spanx
       style="verb">.well-known</spanx> are defined in <xref
       target="RFC5785">RFC 5785</xref>. <spanx style="verb">openid-configuration</spanx>
@@ -443,10 +445,26 @@ Content-Type: application/json
 	</t>
 
         <t>The Client would make the following request to the <spanx
-        style="verb">issuer</spanx> to get the Configuration information.</t>
+        style="verb">issuer</spanx> to get the Configuration information,
+        if the issuer contains no path component.</t>
 
         <t><figure>
             <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
+Host: example.com]]></artwork>
+          </figure></t>
+
+            
+      <t>If the <spanx
+        style="verb">issuer</spanx> value contains a path component any terminating 
+        <spanx style="verb">/</spanx> MUST be removed before appending 
+        <spanx style="verb">/.well-known/openid-configuration</spanx>.
+        The Client would make the following request to the <spanx
+        style="verb">issuer</spanx> to get the Configuration information,
+        if the <spanx style="verb">issuer</spanx> string were <spanx
+        style="verb">https://example.com/issuer1</spanx></t>
+        
+        <t><figure>
+            <artwork><![CDATA[GET /issuer1/.well-known/openid-configuration HTTP/1.1
 Host: example.com]]></artwork>
           </figure></t>
       </section>
@@ -481,7 +499,7 @@ Host: example.com]]></artwork>
 
           <c>string</c>
 
-          <c>The https: URL with no path component that the OP asserts as its
+          <c>The https: URL with no query or fragment component that the OP asserts as its
           Issuer Identifier</c>
 
           <c>authorization_endpoint</c>
@@ -1097,6 +1115,7 @@ Host: example.com]]></artwork>
 
       <t>-08<list style="symbols">
 	  <t>Updated references.</t>
+	  <t>remove the no path component restriction from issuer</t>
 	</list></t>
 
       <t>-07<list style="symbols">
