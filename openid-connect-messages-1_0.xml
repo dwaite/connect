@@ -341,13 +341,24 @@
                   parameter.)</t>
 
               <t hangText="at_hash">OPTIONAL. 
-              If the id_token is issued with a access_token this is REQUIRED.
-              The value is a left truncated hash of the access_token.
-              The hash algorithm is the one specified in the </t>
+              If the id_token is issued with a access_token in a implicit flow this is REQUIRED.
+              The value is produced by base64url encoding the left-most half of the hash 
+              created by hashing the <spanx style="verb">access_token</spanx> 
+              with the SHA hash algorithm
+              of the same length as the hash used in the <spanx style="verb">alg</spanx>
+              paramater of the JWS header. If the <spanx style="verb">alg</spanx> is
+              HS256 then hash <spanx style="verb">access_token</spanx> with SHA256, then 
+              take the left-most 128bits and base64url encode them.</t>
 
               <t hangText="c_hash">OPTIONAL. 
-              If the id_token is issued with a code this is REQUIRED.
-              The value is a left truncated hash of the code.</t>
+              If the id_token is issued with a code in a implicit flow this is REQUIRED.
+              The value is produced by base64url encoding the left-most half of the hash 
+              created by hashing the <spanx style="verb">code</spanx> 
+              with the SHA hash algorithm
+              of the same length as the hash used in the <spanx style="verb">alg</spanx>
+              paramater of the JWS header. If the <spanx style="verb">alg</spanx> is
+              HS256 then hash <spanx style="verb">code</spanx> with SHA256, then 
+              take the left-most 128bits and base64url encode them.</t>
 
             </list></t>
 
@@ -2260,6 +2271,40 @@ may be retrieved:
           </list></t>
       </section>
 
+      <section anchor="access.token.verification" title="Access Token Verification">
+        <t>To verify the validity of an Access Token issued with an ID Token in 
+        the implicit flow, the client SHOULD do the following:</t>
+
+        <t><list style="numbers">
+            <t>Hash the <spanx style="verb">access_token</spanx> 
+              with the SHA hash algorithm
+              of the same length as the hash used in the <spanx style="verb">alg</spanx>
+              paramater of the JWS header of the ID Token.</t>
+              
+            <t>Take the left-most half of the hash and base64url encode it.</t>
+            <t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
+            match the value produced in step 3 above if <spanx style="verb">at_hash</spanx>
+            is present in the ID Token.</t>
+        </list></t>
+        </section>
+        
+      <section anchor="code.verification" title="Code Verification">
+        <t>To verify the validity of a <spanx style="verb">code</spanx> issued with an ID Token in 
+        the implicit flow, the client SHOULD do the following:</t>
+
+        <t><list style="numbers">
+            <t>Hash the <spanx style="verb">code</spanx> 
+              with the SHA hash algorithm
+              of the same length as the hash used in the <spanx style="verb">alg</spanx>
+              paramater of the JWS header of the ID Token.</t>
+              
+            <t>Take the left-most half of the hash and base64url encode it.</t>
+            <t>The value of <spanx style="verb">c_hash</spanx> in the ID Token MUST
+            match the value produced in step 3 above if <spanx style="verb">c_hash</spanx>
+            is present in the ID Token.</t>
+        </list></t>
+        </section>
+        
     </section>
 
     <section anchor="stringops" title="String Operations">
@@ -3302,6 +3347,7 @@ may be retrieved:
 	  <t>make changes to allow path in the issuer_identifier</t>
 	  <t>make changes to userinfo_encrypted_response_* and id_token_encrypted_response_* to match registration.</t>
 	  <t>Fix typo Clients MUST not send encrypted to Clients MUST not send an encrypted</t>
+	  <t>Add hash and hash check of access token and code to id_token</t>
 	</list></t>
 
       <t>-08<list style="symbols">
