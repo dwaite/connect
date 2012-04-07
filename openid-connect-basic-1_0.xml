@@ -671,6 +671,11 @@ pcL1wvY2xpZW50LmV4YW1wbGUuY29tIiwiZXhwIjoxMzExMjgxOTcwfQ.eDesUD0vzDH3T1G
               the <spanx style="verb">nonce</spanx> value is equal to
               the value of the <spanx style="verb">nonce</spanx>
               parameter in the Authorization Request.</t>
+              
+              <t hangText="at_hash">REQUIRED. 
+              The value is produced by base64url encoding the left-most 128bits of the hash 
+              created by hashing the <spanx style="verb">access_token</spanx> 
+              with the SHA256 hash algorithm.</t>
             </list></t>
 
           <figure>
@@ -686,7 +691,8 @@ Content-Type: application/json
  "aud": "s6BhdRkqt3",
  "nonce": "n-0S6_WzA2Mj",
  "exp": 1311281970,
- "iat": 1311280970
+ "iat": 1311280970,
+ "at_hash": "ndrWKF5oXv8QulucTs1Bvg"
 }]]></artwork>
           </figure>
 
@@ -724,8 +730,21 @@ Content-Type: application/json
             were issued too far away from the current time, limiting the amount of
             time that nonces must be stored to prevent attacks. 
             The acceptable range is Client specific.</t>
-            
+             <t>To verify the validity of an Access Token issued with an ID Token in 
+        the implicit flow, the client SHOULD do the following:
+
+        <list style="numbers">
+            <t>Hash the <spanx style="verb">access_token</spanx> 
+              with the SHA256 hash algorithm.</t>
+              
+            <t>Take the left-most 128bits of the hash and base64url encode it.</t>
+            <t>This string MUST value of <spanx style="verb">at_hash</spanx> in the 
+            Check ID Endpoint response.</t>
+        </list></t>
             </list></t>
+            <section anchor="access.token.verification" title="Access Token Verification">
+       
+        </section>
           </section>
         </section>
 
@@ -1611,6 +1630,7 @@ scope=openid&response_type=code
 	  <t>Removed "embedded" display type, since its semantics were
 	  not well defined, per issue #514.</t>
 	  <t>Updated references.</t>
+	  <t>Add hash and hash check of access token and code to id_token</t>
 	</list></t>
 
       <t>-16<list style="symbols">
