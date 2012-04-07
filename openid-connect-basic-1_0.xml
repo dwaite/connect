@@ -523,6 +523,57 @@ access_token=SlAV32hkKG
             <xref target="OAuth2.0">OAuth 2.0</xref>. No other parameters 
             SHOULD be returned.</t>
           </section>
+          
+          <section anchor="implicit_callback" 
+                   title="Example Redirect URI response">
+          <t>The client must provide a way for the user agent to parse the fragment encoded
+          response and POST it to the web server client for validation.</t>
+          <t>The following is a example of a Java Script file that a client might host at it's
+          <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
+          the authorization server.  The fragment is parsed and then sent by POST to a URI 
+          that will perform the validation of the information received.</t>
+          <figure>
+          <preamble>Following is a non-normative example of a
+	    Redirect URI response:</preamble>
+          <artwork><![CDATA[GET /cb HTTP/1.1
+Host: client.example.com
+          
+          
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+
+<script type="text/javascript">
+
+// First, parse the query string
+var params = {}, queryString = location.hash.substring(1),
+    regex = /([^&=]+)=([^&]*)/g, m;
+while (m = regex.exec(queryString)) {
+  params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+}
+
+// And send the token over to the server
+var req = new XMLHttpRequest();
+// using POST so query isn't logged
+req.open('POST', 'https://' + window.location.host + '/catch_response', true);
+req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+req.onreadystatechange = function (e) {
+  if (req.readyState == 4) {
+     if(req.status == 200){
+       window.location = params['state']
+   }
+  else if(req.status == 400) {
+        alert('There was an error processing the token.')
+    }
+    else {
+      alert('something else other than 200 was returned')
+    }
+  }
+};
+req.send(queryString);]]></artwork>
+         </figure>
+         
+        </section>
         </section>
       </section>
 
@@ -1631,6 +1682,7 @@ scope=openid&response_type=code
 	  not well defined, per issue #514.</t>
 	  <t>Updated references.</t>
 	  <t>Add hash and hash check of access token and code to id_token</t>
+	  <t>Add example JS code for client.</t>
 	</list></t>
 
       <t>-16<list style="symbols">
