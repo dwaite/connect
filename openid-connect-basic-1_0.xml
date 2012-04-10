@@ -545,9 +545,9 @@ Content-Type: text/html; charset=utf-8
 <script type="text/javascript">
 
 // First, parse the query string
-var params = {}, queryString = location.hash.substring(1),
+var params = {}, postBody = location.hash.substring(1),
     regex = /([^&=]+)=([^&]*)/g, m;
-while (m = regex.exec(queryString)) {
+while (m = regex.exec(postBody)) {
   params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
 }
 
@@ -570,7 +570,7 @@ req.onreadystatechange = function (e) {
     }
   }
 };
-req.send(queryString);]]></artwork>
+req.send(postBody);]]></artwork>
          </figure>
          
         </section>
@@ -1713,6 +1713,7 @@ scope=openid&response_type=code
 	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
       <t>Update John Bradley email and affiliation for Implementer's Draft</t>
 	  <t>Removed invalid_id_token error codes</t>
+	  <t>Replace queryString with postBody variable in example JS</t>
         </list></t>
 
        <t>-14<list style="symbols">
