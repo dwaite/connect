@@ -342,12 +342,13 @@
 
               <t hangText="at_hash">OPTIONAL. 
               If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-	      in a implicit flow, this is REQUIRED.
+	      in an implicit flow, this is REQUIRED.
               The value is produced by base64url encoding the left-most half of the hash 
               created by hashing the <spanx style="verb">access_token</spanx> 
               with the SHA-2 family hash algorithm
               of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              parameter of the JWS header. For instance, if the <spanx style="verb">alg</spanx> is
+              parameter of the <xref target="JWS">JWS</xref> header.
+	      For instance, if the <spanx style="verb">alg</spanx> is
               <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
 	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
@@ -571,8 +572,8 @@
             <spanx style="verb">request_uri</spanx> MUST NOT be included 
             in the OpenID Request Object. </t>
             
-            <t>The <spanx style="verb">client_id</spanx>
-            , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            <t>The <spanx style="verb">client_id</spanx>,
+	    <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
             and <spanx style="verb">nonce</spanx>
             parameters MAY also be included in the 
             OpenID Request Object.</t>
@@ -589,8 +590,8 @@
 
             <t>The OpenID Request Object JWT MAY be signed or unsigned (plaintext).
 	    When it is a plaintext JWT, this is indicated by use of the
-	    JWT <spanx style="verb">"alg":"none"</spanx>
-            convention in the JWT header. If signed, the OpenID Request Object
+	    <spanx style="verb">none</spanx> algorithm <xref target="JWA" />
+	    in the header.  If signed, the OpenID Request Object
             SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>" (issuer)
             and "<spanx style="verb">aud</spanx>" (audience) Claims.</t>
 
@@ -965,7 +966,7 @@
           Clients that have registered a public key sign a JWT using 
           the RSA algorithm if a RSA key was registered 
           or the ECDSA algorithm if an Elliptic Curve key was registered
-	  (see <xref target="JWA" /> for the algorithm identifiers).
+	  (see <xref target="JWA">JWA</xref> for the algorithm identifiers).
           The Client Authenticates in accordance with section 2.2 of <xref
           target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
@@ -1734,23 +1735,23 @@ may be retrieved:
        <section anchor="sigenc.alg" title="Supported Algorithms">
        <t>The server advertises its supported signing and encryption algorithms
        in its discovery document.
-       The algorithm identifiers are specified in <xref target="JWA" />.
+       The algorithm identifiers are specified in <xref target="JWA">JWA</xref>.
        The related elements are:</t>
       
       <t><list style="hanging">
 	  <t hangText="userinfo_algs_supported">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
-	    <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    A JSON array containing a list of the JWS and JWE
+	    signing and encryption algorithms <xref target="JWA" />
             supported by the UserInfo Endpoint.</t>
            
           <t hangText="id_token_algs_supported">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
-	    <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    A JSON array containing a list of the JWS and JWE
+	    signing and encryption algorithms <xref target="JWA" />
 	    supported by the Authorization Server for the ID Token.</t>
            
           <t hangText="request_object_algs_supported">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> and 
-	    <xref target="JWE">JWE</xref> signing and encryption algorithms
+	    A JSON array containing a list of the JWS and JWE
+	    signing and encryption algorithms <xref target="JWA" />
 	    supported by the Authorization Server for 
             the <xref target="OpenID_Request_Object">OpenID Request Object</xref>. Servers SHOULD support 
 	    <spanx style="verb">HS256</spanx>.</t>
@@ -1768,19 +1769,17 @@ may be retrieved:
       using the following Registration parameters:</t>
       <t><list style="hanging">
              <t hangText="require_signed_request_object">OPTIONAL.  The 
-             <xref target="JWS">JWS</xref> signature algorithm that MUST be required 
+             JWS signature algorithm <xref target="JWA" /> required for for OpenID Request Objects
              by the Authorization Server. All OpenID Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
               
              <t hangText="userinfo_signed_response_alg">OPTIONAL.  The 
-             <xref target="JWS">JWS</xref> signature 
-             algorithm <xref target="JWA" /> required for userinfo responses. 
+             JWS signature algorithm <xref target="JWA" /> required for userinfo responses. 
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="userinfo_encrypted_response_alg">OPTIONAL.  
-             The <xref target="JWE">JWE</xref> 
-             <spanx style="verb">alg</spanx> 
+             The JWE <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for userinfo responses.
 	         If this is requested in 
              combination with signing, the response 
@@ -1789,50 +1788,48 @@ may be retrieved:
              <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="userinfo_encrypted_response_enc">OPTIONAL.  The 
-             <xref target="JWE">JWE</xref> <spanx style="verb">enc</spanx>
+             JWE <spanx style="verb">enc</spanx>
              algorithm <xref target="JWA" /> required for userinfo responses.
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC</spanx>.
 	         </t>
              
              <t hangText="userinfo_encrypted_response_int">OPTIONAL.  The 
-             <xref target="JWE">JWE</xref> <spanx style="verb">int</spanx>
+             JWE <spanx style="verb">int</spanx>
              algorithm <xref target="JWA" /> required for userinfo responses.
 	         If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
              and the <spanx style="verb">"userinfo_encrypted_response_enc"</spanx> 
-             is not a AEAD algorithm,
+             is not an AEAD algorithm,
              the default for this value is <spanx style="verb">HS256</spanx>.
              </t>
              
              <t hangText="id_token_signed_response_alg">OPTIONAL.  The 
-             <xref target="JWS">JWS</xref> signing algorithm
-	         <xref target="JWA" /> required 
-             for <spanx style="verb">id_token</spanx> issued to this <spanx style="verb">client_id</spanx>. The default if not specified 
-             is <spanx style="verb">HS256</spanx> using the provided <spanx style="verb">client_secret</spanx> as the shared key.</t>
+             JWS signature algorithm <xref target="JWA" /> required 
+             for ID Tokens issued to this <spanx style="verb">client_id</spanx>. The default if not specified 
+             is <spanx style="verb">HS256</spanx>, using the provided
+	     <spanx style="verb">client_secret</spanx> as the shared key.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
-             The <xref target="JWE">JWE</xref> 
-             <spanx style="verb">alg</spanx> 
-             algorithm <xref target="JWA" />
-	         required for <spanx style="verb">id_token</spanx> issued to this <spanx style="verb">client_id</spanx>. 
-             If this is requested the response MUST be signed then encrypted. 
+             The JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
+	     required for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
+             If this is requested, the response MUST be signed then encrypted. 
              The default if not specified is no encryption.</t>
              
              <t hangText="id_token_encrypted_response_enc">OPTIONAL.  
-             The <xref target="JWE">JWE</xref> <spanx style="verb">enc</spanx> 
+             The JWE <spanx style="verb">enc</spanx> 
              algorithm <xref target="JWA" /> required for 
-             <spanx style="verb">id_token</spanx> issued to this <spanx style="verb">client_id</spanx>.
+             ID Tokens issued to this <spanx style="verb">client_id</spanx>.
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC</spanx>.
              </t>
              
              <t hangText="id_token_encrypted_response_int">OPTIONAL.  
-             The <xref target="JWE">JWE</xref> <spanx style="verb">int</spanx> 
+             The JWE <spanx style="verb">int</spanx> 
              algorithm <xref target="JWA" /> required for 
-             <spanx style="verb">id_token</spanx> issued to this <spanx style="verb">client_id</spanx>.
+             ID Tokens issued to this <spanx style="verb">client_id</spanx>.
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
-             is not a AEAD algorithm,
+             is not an AEAD algorithm,
              the default for this value is <spanx style="verb">HS256</spanx>.
              </t>
       </list></t>
@@ -1847,8 +1844,8 @@ may be retrieved:
         <t hangText="jwk_url">
           URL of the OP's <xref target="JWK">JSON Web Key</xref> document
 	  that contains the Server's signing key
-          that is used for JWS signing the JWT. 
-          It MAY also be used by the Client to JWE encrypt the JWT
+          that is used for signing the JWT. 
+          It MAY also be used by the Client to encrypt the JWT
           to the Server if <spanx style="verb">x509_encryption_url</spanx> or 
           <spanx style="verb">jwk_encryption_url</spanx> is not specified, 
           but this is discouraged. A separate encryption key 
@@ -1857,7 +1854,7 @@ may be retrieved:
         <t hangText="jwk_encryption_url">          
           URL of the OP's <xref target="JWK">JSON Web Key</xref> document
 	  that contains the Server's encryption key
-          that is used by the Client to JWE encrypt the JWT to the Server. 
+          that is used by the Client to encrypt the JWT to the Server. 
           If it is not present, its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.</t>
 
@@ -1872,7 +1869,7 @@ may be retrieved:
         <t hangText="x509_encryption_url"> 
           URL of the OP's X.509 certificates in PEM format
           that contains the Server's encryption key
-          that is used by the Client to JWE encrypt the JWT 
+          that is used by the Client to encrypt the JWT 
           to the Server. If it is not present, the URL provided by the
           <spanx style="verb">x509_url</spanx> is used instead. 
           The certificate referenced SHOULD be valid for its 
@@ -1884,42 +1881,38 @@ may be retrieved:
       <t><list style="hanging">      
             <t hangText="jwk_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref> document that is used for 
-            <xref target="JWS">JWS</xref>
-            signing of the Request Objects.
+            signing the Request Objects.
             If <spanx style="verb">jwk_encryption_url</spanx> is not 
             provided, it is also used by the Server 
-            for <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the Client.
-            </t>
+            to encrypt the <xref target="JWT">JWT</xref> to the Client.</t>
 
             <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's <xref
             target="JWK">JSON Web Key</xref>. 
-            It is used by the Server for <xref target="JWE">JWE</xref> 
-            encryption of the response objects.</t>
+            It is used by the Server to encrypt the response objects.</t>
 
             <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
             Certificate or Certificate chain. 
-            It is used by the Client for <xref target="JWS">JWS</xref> 
-            signing of the request objects.
+            It is used by the Client for
+            signing the Request Objects.
             If <spanx style="verb">x509_encryption_url</spanx> is not 
-            present, it is also used for <xref target="JWE">JWE</xref> encryption 
-            of the <xref target="JWT">JWT</xref> to the Client. 
+            present, it is also used to encrypt
+	    the <xref target="JWT">JWT</xref> to the Client. 
             The certificate referenced SHOULD be valid for its 
             intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
             
             <t hangText="x509_encryption_url">
             OPTIONAL. URL for the Client's PEM encoded 
-            X.509 Certificate or Certificate chain, used for 
-            <xref target="JWE">JWE</xref> encryption 
-            of <xref target="JWT">JWT</xref> to the Client.
+            X.509 Certificate or Certificate chain, used to encrypt
+	    the <xref target="JWT">JWT</xref> to the Client.
             The certificate referenced SHOULD be valid for its 
             intended use as specified by <xref target="RFC2459">RFC 2459</xref> </t>
       
-      
       </list></t>      
-         <t>If keys are specified in both x509 and jwk, they MUST be the same keys.</t>
-         <t>Key algorithms like Elliptic Curve signing and key agreement require separate keys for 
-         signing and encryption for security. For RSA a single key MAY be used for both,
+
+         <t>If keys are specified in both X.509 and JWK formats, they MUST be the same keys.</t>
+
+         <t>Algorithms like Elliptic Curve signing and key agreement require separate keys for 
+         signing and encryption for security.  For RSA, a single key MAY be used for both,
          but it is good practice to separate them.</t>
        </section>  
       
@@ -1958,19 +1951,14 @@ may be retrieved:
       <section anchor="enc" title="Encryption">
         <t>The encrypting party MUST select an encryption algorithm
         based on the supported algorithms of the recipient in <xref
-        target="sigenc.alg"></xref>.</t>
-
-        <t>All JWT MUST be signed before encryption to provide integrity and
-        to verify the Issuer.</t>
-        <t>Symmetric Encryption algorithms that provide an integrated integrity check MUST 
-        be used if supported by both the sender and receiver. The
-	<spanx style="verb">A128GCM</spanx> and <spanx style="verb">A256GCM</spanx>
-        algorithms <xref target="JWA" /> support this.</t>
+        target="sigenc.alg"></xref>.
+        All JWTs MUST be signed before encryption
+        to enable verification of the Issuer.</t>
         
         <t><list style="hanging">
           <t hangText="Symmetric Encryption">
             Use the <spanx style="verb">client_secret</spanx> to KeyWrap a random 
-            <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
+            <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.  
           </t>
           <t hangText="Asymmetric Encryption RSA">
@@ -1982,11 +1970,11 @@ may be retrieved:
             <spanx style="verb">x509_encryption_url</spanx> 
             link MUST be used if provided.
             If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWS header. 
+            <spanx style="verb">kid</spanx> MUST be specified in the JWE header. 
             If there are multiple certificates at the referenced certificate location,
 	    then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
-            <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
+            <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
             The key usage of the respective keys MUST include encryption. 
           </t>
@@ -2005,7 +1993,7 @@ may be retrieved:
             If there are multiple certificates at the referenced certificate location,
             then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.  
             Use the ECDH-ES algorithm to KeyWrap a random 
-            <spanx style="verb">Content Encryption Key</spanx> to be used for encrypting 
+            <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
             The key usage of the respective keys MUST support encryption.
             
@@ -2016,13 +2004,12 @@ may be retrieved:
 
     <section title="Verification">
       <section title="Authorization Request Verification">
-	      <t>Authorization Request Verification consists of two main 
-		  steps. (1) Encryption and Signature validation of 
-		  the value of <spanx style="verb">request</spanx> or 
-		  the content of <spanx style="verb">request_uri</spanx>,  
-		  (2) Parameter verification. </t>
-		  
-          <t>If an OpenID Request Object was sent in the <spanx 
+	<t>Authorization Request Verification consists of two main 
+	  steps: (1) encryption and signature validation of 
+	  the value of <spanx style="verb">request</spanx> or 
+	  the content of <spanx style="verb">request_uri</spanx>,  
+	  and (2) parameter verification.
+          If an OpenID Request Object was sent in the <spanx 
           style="verb">request</spanx> parameter or by reference in the
           <spanx style="verb">request_uri</spanx> parameter, the 
           Request Object MUST verify as 
@@ -2033,7 +2020,7 @@ may be retrieved:
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">request_object_algs_supported</spanx> element of its 
-          Discovery Document, these are used by the Client to JWE encrypt the JWT.</t>
+          Discovery Document, these are used by the Client to encrypt the JWT.</t>
           
           <t>The Authorization Server MUST decode the JWT in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification. 
@@ -2128,8 +2115,8 @@ may be retrieved:
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
               Issuer.</t>
              
-            <t>The Client MUST verify the ID Token signature according to Section 5
-            of <xref target="JWS">JWS</xref> using the algorithm specified in the 
+            <t>The Client MUST verify the ID Token signature according to
+            <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
             
             <t>The value of <spanx style="verb">alg</spanx> SHOULD be the algorithm sent 
@@ -2183,7 +2170,7 @@ may be retrieved:
         <t>The Authorization Server MUST check that the 
         <spanx style="verb">access_token</spanx> is 
         present in the request and if it is signed, it MUST verify
-        the signature according to Section 5 of <xref
+        the signature according to <xref
         target="JWS">JWS</xref>.</t>
         <t>If the JWS algorithm is symmetric, such as the default <spanx style="verb">HS256</spanx> for 
         <spanx style="verb">id_token</spanx>, the <spanx style="verb">client_secret</spanx> for the 
@@ -2264,7 +2251,7 @@ may be retrieved:
             using the key pair specified during Registration.</t>
             
             <t>If the response was signed, the Client SHOULD validate the
-            signature according to Section 5 of <xref
+            signature according to <xref
             target="JWS">JWS</xref>.</t>
 
             <t>Check that the OP that responded was really the intended OP
@@ -2547,25 +2534,20 @@ may be retrieved:
 	  
 	  <section title="Other Crypto Related Attacks">
 	    <t>There are various crypto related attacks possible depending on the 
-		method used for encryption and signature / integrity checking. </t>
-		<t>Implementation should consult the security consideration 
-		around the <xref target="JWS">JWS</xref>, <xref target="JWE">JWE</xref> 
-		and <xref target="JWT">JWT</xref> to avoid the vulnerability around 
-		these specifications. 
+		method used for encryption and signature / integrity checking.
+		Implementers should consult the Security Considerations
+		for the <xref target="JWS">JWS</xref>, <xref target="JWE">JWE</xref>,
+		and <xref target="JWT">JWT</xref> to avoid the vulnerabilitues 
+		identified in these specifications. 
 		</t>
 	  </section>
 		
 	  <section anchor="signing_order" title="Signing and Encryption order">
-	    <t>Signatures over encrypted text are not considered valid in many jurisdictions.
-	    For the integrity of non-repudiation this specification requires signing 
-	    of the plain text JSON.</t>
-	    <t>It is however strongly RECOMMENDED that the selected 
-	    Encryption algorithm include integrity to protect against padding oracle 
-	    and other decryption attacks.</t>
-		<t>Implementation should consult the security consideration 
-		around the <xref target="JWE">JWE</xref> to avoid the vulnerability around 
-		these specifications. 
-		</t>
+	    <t>Signatures over encrypted text are not considered valid
+	    in many jurisdictions.
+	    Therefore, for integrity and non-repudiation,
+	    this specification requires signing 
+	    the plain text JSON claims.</t>
 	  </section>
 
 	  <section anchor="issuer_identifier" title="Issuer Identifier">
@@ -3275,7 +3257,7 @@ may be retrieved:
 
           <t>Ryo Itou (ritou@yahoo-corp.jp), Yahoo! Japan</t>
 
-          <t>Torsten Lodderstedt (t.lodderstedt@telekom.de ), Deutsche Telekom</t>
+          <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
 
         </list></t>
     </section>

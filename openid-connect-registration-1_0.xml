@@ -122,9 +122,9 @@
 
         <t><list style="hanging">
             
-            <t hangText="type">REQUIRED.  Values <spanx style="verb">client_associate</spanx>
-             (New Registrations),
-            <spanx style="verb">client_update</spanx> (Updating parameters for an existing
+            <t hangText="type">REQUIRED.  Values are <spanx style="verb">client_associate</spanx>
+            (for new registrations) and
+            <spanx style="verb">client_update</spanx> (for updating parameters of an existing
             <spanx style="verb">client_id</spanx>).</t>
 
             <t hangText="client_id">OPTIONAL.  
@@ -185,39 +185,39 @@
 
             <t hangText="jwk_url">OPTIONAL.  URL for the Client's <xref
             target="JWK">JSON Web Key</xref> document
-	    that is used for <xref target="JWS">JWS</xref>
-            signing of Token Endpoint Requests and OpenID Request Objects.
+	    that is used for
+            signing Token Endpoint Requests and OpenID Request Objects.
             If <spanx style="verb">jwk_encryption_url</spanx> is not 
-            provided it is also used for <xref target="JWE">JWE</xref> encryption 
-            of ID Token and User Info Endpoint Responses to the Client.
+            provided it is also used to encrypt
+            the ID Token and User Info Endpoint Responses to the Client.
             If the Client registers both <spanx style="verb">x509_url</spanx>
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
 
             <t hangText="jwk_encryption_url">OPTIONAL.  URL for the Client's <xref
             target="JWK">JSON Web Key</xref>
-	    that is used for <xref target="JWE">JWE</xref> encryption
-	    of ID Token and User Info Endpoint Responses to the Client.
+	    that is used to encrypt
+	    the ID Token and User Info Endpoint Responses to the Client.
             If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
 	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
 
             <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
             Certificate or Certificate chain
-	    that is used for <xref target="JWE">JWS</xref> 
-            signing of Token Endpoint Requests and OpenID Request Objects.
+	    that is used for
+            signing Token Endpoint Requests and OpenID Request Objects.
             If <spanx style="verb">x509_encryption_url</spanx> is not 
             provided, <spanx style="verb">x509_url</spanx>
-	    it is also used for <xref target="JWE">JWE</xref> encryption 
-            of ID Token and User Info Endpoint Responses to the Client.
+	    it is also used to encrypt
+            the ID Token and User Info Endpoint Responses to the Client.
             If the Client registers both <spanx style="verb">x509_url</spanx>
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
             
 	    <t hangText="x509_encryption_url">OPTIONAL.  URL for the Client's PEM encoded X.509
             Certificate or Certificate chain
-	    that is used for <xref target="JWE">JWE</xref> encryption 
-            of ID Token and User Info Endpoint Responses to the Client. 
+	    that is used to encrypt
+            the ID Token and User Info Endpoint Responses to the Client. 
             If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
 	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
@@ -235,89 +235,89 @@
 	    values for this server. Valid types include
 	    <spanx style="verb">pairwise</spanx> and
 	    <spanx style="verb">public</spanx>.</t>
-            
+
             <t hangText="require_signed_request_object">OPTIONAL.
 	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
-             algorithm that MUST be required by the Authorization Server.
+             algorithm <xref target="JWA" /> that MUST be required by the Authorization Server.
              The valid values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              All OpenID Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
               
              <t hangText="userinfo_signed_response_alg">OPTIONAL.
-	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
-             algorithm required for UserInfo responses. 
+	     The JWS <spanx style="verb">alg</spanx>
+             algorithm <xref target="JWA" /> required for UserInfo responses. 
              The valid values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and signed using <xref target="JWS">JWS</xref>.</t>
+             <xref target="JWT">JWT</xref> serialized, and signed using JWS.</t>
              
              <t hangText="userinfo_encrypted_response_alg">OPTIONAL.
 	     The <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
-             algorithm required for encrypting UserInfo responses. 
+             algorithm <xref target="JWA" /> required for encrypting UserInfo responses. 
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 2.</xref> 
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
+             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
              
              <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
-	     The <xref target="JWE">JWE</xref> <spanx style="verb">enc</spanx>
-             algorithm required for symmetric encryption of UserInfo responses.
+	     The JWE <spanx style="verb">enc</spanx>
+             algorithm <xref target="JWA" /> required for symmetric encryption of UserInfo responses.
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 3.</xref> 
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
+             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
              
              <t hangText="userinfo_encrypted_response_int">OPTIONAL.
-	     The <xref target="JWE">JWE</xref> <spanx style="verb">int</spanx>
-             algorithm required for integrity of UserInfo responses.
+	     The JWE <spanx style="verb">int</spanx>
+             algorithm <xref target="JWA" /> required for integrity of UserInfo responses.
              The valid HMAC values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
              and the <spanx style="verb">"userinfo_encrypted_response_enc"</spanx> 
-             is not a AEAD algorithm,
+             is not an AEAD algorithm,
              the default for this value is <spanx style="verb">HS256</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
+             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
              
              <t hangText="id_token_signed_response_alg">OPTIONAL.
-	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
-             algorithm required for the ID Token issued to this
+	     The JWS <spanx style="verb">alg</spanx>
+             algorithm <xref target="JWA" /> required for the ID Token issued to this
 	     <spanx style="verb">client_id</spanx>.
 	     The valid values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
 	     The default if not specified is <spanx style="verb">HS256</spanx>
 	     using the provided <spanx style="verb">client_secret</spanx>.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.
-	     The <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx>
-             algorithm required for encrypting the ID Token issued to this <spanx style="verb">client_id</spanx>.
+	     The JWE <spanx style="verb">alg</spanx>
+             algorithm <xref target="JWA" /> required for encrypting the ID Token issued to this <spanx style="verb">client_id</spanx>.
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 2.</xref> 
              If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
              
              <t hangText="id_token_encrypted_response_enc">OPTIONAL.
-	     The <xref target="JWE">JWE</xref> <spanx style="verb">enc</spanx>
-             algorithm required for symmetric encryption of the ID Token
+	     The JWE <spanx style="verb">enc</spanx>
+             algorithm <xref target="JWA" /> required for symmetric encryption of the ID Token
 	     issued to this <spanx style="verb">client_id</spanx>. 
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 3.</xref>
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
+             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
              
              <t hangText="id_token_encrypted_response_int">OPTIONAL.
-	     The <xref target="JWE">JWE</xref> <spanx style="verb">int</spanx>
-             algorithm required for integrity of the ID Token
+	     The JWE <spanx style="verb">int</spanx>
+             algorithm <xref target="JWA" /> required for integrity of the ID Token
 	     issued to this <spanx style="verb">client_id</spanx>.
              The valid HMAC values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
-             is not a AEAD algorithm,
+             is not an AEAD algorithm,
              the default for this value is <spanx style="verb">HS256</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
+             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
              
              <t hangText="default_max_age">OPTIONAL. (default max authentication age):  
                   Type: Integer 
@@ -631,7 +631,7 @@ WWW-Authenticate: Bearer realm="example.com",
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms"
                 type="HTML" />
       </reference>
-      
+
       <reference anchor="JWT">
         <front>
           <title>JSON Web Token</title>

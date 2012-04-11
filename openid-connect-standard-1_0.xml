@@ -135,27 +135,21 @@
       </t>
 
       <section anchor="openid_scopes" title="OpenID Connect Scopes">
-        <t>Clients MUST specify the desired scopes in an authorization request to
-        obtain an Access Token with the proper permissions.</t>
-        
-        <t>Scopes names defined for OpenID Connect are in Section 2.1.2 of <xref
-          target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
-           OAuth 2.0 allows additional scope values to be specified as extensions.</t>
-         
-        <t>OpenID Connect's <spanx style="verb">scope</spanx> use is consistent with Section 3.3 of 
-        <xref target="OAuth2.0">OAuth 2.0</xref>. </t>
+        <t>Clients MUST specify the desired scopes in an Authorization Request to
+        obtain an Access Token with the proper permissions.
+        The scope names used by OpenID Connect are defined in Section 2.1.2 of <xref
+        target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         
         <t>The Authorization Server MAY fully or partially ignore the scope values
          requested by the Client based on the Authorization Server policy or
-         the End-User's instructions.</t>
-
-        <t>To increase new account activation, a Client may elect to
+         the End-User's instructions.
+        A Client may elect to
         only request a subset of the information available from the
         UserInfo Endpoint.</t>
 
         <t><figure>
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
-            parameter in an Authorization Request.</preamble>
+            parameter in an Authorization Request:</preamble>
 
             <artwork><![CDATA[scope=openid profile email phone]]></artwork>
           </figure></t>
@@ -489,8 +483,8 @@
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
-                Authorization Request URL. Note that the line wraps within the
-                values are for display purpose only:</preamble>
+                Authorization Request URL.
+		Line wraps are for display purposes only.</preamble>
 
                 <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=code%20id_token
@@ -509,7 +503,7 @@ response_type=code%20id_token
               of directing the User-Agent to the Authorization Endpoint URL.</t>
 
               <t>Following is a non-normative example using HTTP redirect.
-              Note: Line wraps are for display purpose only.</t>
+              Line wraps are for display purposes only.</t>
 
               <figure>
                 <artwork><![CDATA[HTTP/1.1 302 Found
@@ -558,19 +552,18 @@ response_type=code%20id_token
             the Client to send signed and/or encrypted requests to the
             Authorization Server and maintain conformance to OAuth 2.0.</t>
             
-            <t>The <spanx style="verb">client_id</spanx>
-            , <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
+            <t>The <spanx style="verb">client_id</spanx>,
+	    <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
             and <spanx style="verb">nonce</spanx>
             parameters MAY also be included in the 
             OpenID Request Object.</t>
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
-                OpenID Request Object before JWT encoding. Note that the line 
-                wraps within the values are for display purpose only:</preamble>
+                OpenID Request Object before JWT encoding:</preamble>
 
                 <artwork><![CDATA[{
- "response_type": "code%20id_token",
+ "response_type": "code id_token",
  "client_id": "s6BhdRkqt3",
  "redirect_uri": "https://client.example.com/cb",
  "scope": "openid profile",
@@ -595,9 +588,8 @@ response_type=code%20id_token
 }]]></artwork>
               </figure> <figure>
                 <preamble>The following is a non-normative example of a <xref
-                target="JWT">JWT</xref> encoded OpenID Request Object. Note
-                that the line wraps within the values are for display purpose
-                only:</preamble>
+                target="JWT">JWT</xref> encoded OpenID Request Object.
+		Line wraps within the values are for display purposes only.</preamble>
 
                 <artwork><![CDATA[JWT algorithm = HS256
 HMAC HASH Key = 'aaa'
@@ -627,8 +619,8 @@ JWT = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZ
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
-                Authorization Request with the OpenID Request Method. Note that
-                the line wraps within the values are for display purpose only:
+                Authorization Request with the OpenID Request Method.
+                Line wraps within the values are for display purposes only.
                 </preamble>
 
                 <artwork><![CDATA[https://server.example.com/authorize?
@@ -656,7 +648,7 @@ p7InZhbHVlcyI6WyIyIl19fX19.ou2Yc1B9a5iZLqbzBxE95aNS0pSfRClCqM77n85ehGo]]></artwo
               of directing the User-Agent to the Authorization Endpoint.</t>
 
               <t>Following is a non-normative example using HTTP redirect.
-              Note: Line wraps are for display purpose only.</t>
+              Line wraps are for display purposes only.</t>
 
               <figure>
                 <artwork><![CDATA[HTTP/1.1 302 Found
@@ -706,9 +698,8 @@ p7InZhbHVlcyI6WyIyIl19fX19.ou2Yc1B9a5iZLqbzBxE95aNS0pSfRClCqM77n85ehGo]]></artwo
             </t>
 
             <t><figure>
-                <preamble>Following is a non-normative example of a Request
-                File. Note that the line wraps within the values are for
-                display purpose only:</preamble>
+                <preamble>Following is a non-normative example of a Request File.
+		Line wraps are for display purposes only.</preamble>
 
                 <artwork><![CDATA[eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF9
 0b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczp
@@ -738,8 +729,8 @@ lcyI6WyIyIl19fX19.ou2Yc1B9a5iZLqbzBxE95aNS0pSfRClCqM77n85ehGo]]></artwork>
               remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.
               </t>
               <figure>
-                <preamble>Following is a non-normative example. Note: Line
-                wraps are for display purpose only:</preamble>
+                <preamble>Following is a non-normative example. Line
+                wraps are for display purposes only.</preamble>
 
                 <artwork><![CDATA[https://client.example.com/rf.jwt
 #959w6lFunlMyjSaxmW0FtqvkRsmCaAIWuwl6QKeY89g]]></artwork>
@@ -756,8 +747,8 @@ lcyI6WyIyIl19fX19.ou2Yc1B9a5iZLqbzBxE95aNS0pSfRClCqM77n85ehGo]]></artwork>
               <t>The entire URL MUST NOT exceed 512 bytes.</t>
 
               <figure>
-                <preamble>Following is a non-normative example. Note: Line
-                wraps are for display purpose only:</preamble>
+                <preamble>Following is a non-normative example.  Line
+                wraps are for display purposes only.</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize
@@ -782,8 +773,7 @@ Location: https://server.example.com/authorize
 
               <figure>
                 <preamble>Following is a non-normative example of this fetch
-                process. Note: Line wraps are for display purpose
-                only:</preamble>
+                process:</preamble>
 
                 <artwork><![CDATA[GET /rf.jwt HTTP/1.1
 Host: client.example.com]]></artwork>
@@ -938,8 +928,8 @@ Host: client.example.com]]></artwork>
 
             <figure>
               <preamble>The following are non-normative examples of requests with
-	      differing <spanx style="verb">return_type</spanx> values and their responses. Line wraps
-              are for display purpose only:</preamble>
+	      differing <spanx style="verb">response_type</spanx> values and their responses.
+	      Line wraps are for display purposes only.</preamble>
              
               <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=code
@@ -1073,9 +1063,8 @@ G3liaTNOrfaeWYjuRCEPNXVtaazNQ
             </t>
 
             <t><figure>
-                <preamble>The following is a non-normative example. Line wraps
-                after the second line is for the display purpose
-                only:</preamble>
+                <preamble>The following is a non-normative example.
+		Line wraps after the second line are for the display purposes only.</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://client.example.com/cb?
@@ -1145,8 +1134,7 @@ error=invalid_request
 
 
           <figure>
-            <preamble>The following is a non-normative example. Line wraps
-            after line 4 are for display purpose only:</preamble>
+            <preamble>The following is a non-normative example:</preamble>
 
             <artwork><![CDATA[POST /token HTTP/1.1
 Host: server.example.com
@@ -1468,8 +1456,7 @@ WWW-Authenticate: Bearer realm="example.com",
             
             
         <figure>
-          <preamble>The following is a non-normative example. Line wraps are
-          for display purpose only:</preamble>
+          <preamble>The following is a non-normative example:</preamble>
 
           <artwork><![CDATA[GET /userinfo?schema=openid HTTP/1.1
 Host: server.example.com
@@ -1486,8 +1473,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
         target="OpenID.Messages">OpenID Messages</xref> in the HTTP response
         body. The content-type of the HTTP response MUST be set to <spanx
         style="verb">application/json</spanx> if the response body is a text
-        JSON structure. If the JSON response is <xref target="JWS">JWS</xref>
-        signed or <xref target="JWE">JWE</xref> encrypted, then the
+        JSON structure. If the JSON response is
+        signed or encrypted, then the
         content-type MUST be set to <spanx style="verb">application/jwt</spanx>.</t>
 
         <t>Upon receipt of the UserInfo Response, the Client MUST verify 
