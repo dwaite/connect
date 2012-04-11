@@ -156,8 +156,8 @@
             <t hangText="application_name">OPTIONAL.  Name of the Client
             to be presented to the user.</t>
 
-            <t hangText="logo_url">OPTIONAL. The URL that references the logo for the 
-            client application</t>
+            <t hangText="logo_url">OPTIONAL.  A URL that references a logo for the 
+            Client application.</t>
 
             <t hangText="redirect_uris">RECOMMENDED for Clients using the <spanx style="verb">code</spanx> flow with
             a query parameter encoded response.
@@ -236,28 +236,30 @@
 	    <spanx style="verb">pairwise</spanx> and
 	    <spanx style="verb">public</spanx>.</t>
             
-            <t hangText="require_signed_request_object">OPTIONAL.  The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
+            <t hangText="require_signed_request_object">OPTIONAL.
+	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
              algorithm that MUST be required by the Authorization Server.
              The valid values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              All OpenID Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
               
-             <t hangText="userinfo_signed_response_alg">OPTIONAL.  The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
+             <t hangText="userinfo_signed_response_alg">OPTIONAL.
+	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
              algorithm required for UserInfo responses. 
              The valid values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and signed using <xref target="JWS">JWS</xref>.</t>
              
-             <t hangText="userinfo_encrypted_response_alg">OPTIONAL. The <xref target="JWE">JWE</xref> 
-             <spanx style="verb">alg</spanx> 
-             algorithm required for UserInfo responses. 
+             <t hangText="userinfo_encrypted_response_alg">OPTIONAL.
+	     The <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
+             algorithm required for encrypting UserInfo responses. 
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 2.</xref> 
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
-             <t hangText="userinfo_encrypted_response_enc">OPTIONAL.  The <xref target="JWE">JWE</xref> 
-			<spanx style="verb">enc</spanx>
+             <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
+	     The <xref target="JWE">JWE</xref> <spanx style="verb">enc</spanx>
              algorithm required for symmetric encryption of UserInfo responses.
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 3.</xref> 
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
@@ -266,8 +268,8 @@
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
-             <t hangText="userinfo_encrypted_response_int">OPTIONAL.  The <xref target="JWE">JWE</xref> 
-			<spanx style="verb">int</spanx>
+             <t hangText="userinfo_encrypted_response_int">OPTIONAL.
+	     The <xref target="JWE">JWE</xref> <spanx style="verb">int</spanx>
              algorithm required for integrity of UserInfo responses.
              The valid HMAC values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
@@ -278,23 +280,25 @@
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
-             <t hangText="id_token_signed_response_alg">OPTIONAL.  The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
+             <t hangText="id_token_signed_response_alg">OPTIONAL.
+	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
              algorithm required for the ID Token issued to this
 	     <spanx style="verb">client_id</spanx>.
 	     The valid values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
 	     The default if not specified is <spanx style="verb">HS256</spanx>
 	     using the provided <spanx style="verb">client_secret</spanx>.</t>
              
-             <t hangText="id_token_encrypted_response_alg">OPTIONAL.  The <xref target="JWE">JWE</xref> 
-             <spanx style="verb">alg</spanx> 
-             algorithm required for the ID Token issued to this <spanx style="verb">client_id</spanx>.
+             <t hangText="id_token_encrypted_response_alg">OPTIONAL.
+	     The <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx>
+             algorithm required for encrypting the ID Token issued to this <spanx style="verb">client_id</spanx>.
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 2.</xref> 
              If this is requested the response will be signed then encrypted. 
              The default if not specified is no encryption.</t>
              
-             <t hangText="id_token_encrypted_response_enc">OPTIONAL.  The <xref target="JWE">JWE</xref> 
-			<spanx style="verb">enc</spanx>
-             algorithm required for symmetric encryption of ID Token issued to this <spanx style="verb">client_id</spanx>. 
+             <t hangText="id_token_encrypted_response_enc">OPTIONAL.
+	     The <xref target="JWE">JWE</xref> <spanx style="verb">enc</spanx>
+             algorithm required for symmetric encryption of the ID Token
+	     issued to this <spanx style="verb">client_id</spanx>. 
              The valid values are listed in <xref target="JWA">JWA Section 4, Table 3.</xref>
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC</spanx>.
@@ -302,9 +306,10 @@
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using <xref target="JWE">JWE</xref>.</t>
              
-             <t hangText="id_token_encrypted_response_int">OPTIONAL.  The <xref target="JWE">JWE</xref> 
-			<spanx style="verb">int</spanx>
-             algorithm required for integrity of ID Token issued to this <spanx style="verb">client_id</spanx>.
+             <t hangText="id_token_encrypted_response_int">OPTIONAL.
+	     The <xref target="JWE">JWE</xref> <spanx style="verb">int</spanx>
+             algorithm required for integrity of the ID Token
+	     issued to this <spanx style="verb">client_id</spanx>.
              The valid HMAC values are listed in <xref target="JWA">JWA Section 3, Table 1.</xref> 
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
@@ -360,7 +365,9 @@ type=client_associate
 &sector_identifier_url=https://othercompany.com/file_of_redirect_uris_for_our_sites.js
 &token_endpoint_auth_type=client_secret_basic
 &jwk_url=https://client.example.com/my_rsa_public_key.jwk
-&userinfo_encrypted_response_algs=RSA1_5%20A128CBC]]></artwork>
+&userinfo_encrypted_response_alg=RSA1_5
+&userinfo_encrypted_response_enc=A128CBC
+&userinfo_encrypted_response_int=HS256]]></artwork>
           </figure></t>
 
 	<section anchor="sector.identifier.url.verification" title="sector_identifier_url Verification">
@@ -825,12 +832,11 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-10<list style="symbols">
-	  <t>Updated references.</t>
-	  <t>Split encrypted response into two parameters and remove extra s from signed response</t>
-	  <t>Add config paramater for encryption integrity algorithm</t>
-	  <t>fixed Grammer in logo URL</t>
+	  <t>Split encrypted response configurations into separate parameters for alg, enc, int</t>
+	  <t>Removed extra "s" from signed response parameter names</t>
 	  <t>Add reference to JWA</t>
 	  <t>Updated Notices</t>
+	  <t>Updated References</t>
 	</list></t>
 
       <t>-09<list style="symbols">

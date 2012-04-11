@@ -152,7 +152,7 @@
 	    <t hangText="Issuer Identifier">A verifiable identifier for
 	    an Issuer.  An Issuer Identifier is an HTTPS URL that
 	    contains scheme, host, and OPTIONALLY, port number and path
-	    components.  (No fragment component may be present.)</t>
+	    components.  (No query or fragment components may be present.)</t>
 
 	    <t hangText="Message">A request or a response between an OpenID 
 	    Relying Party and an OpenID Provider.</t>
@@ -341,24 +341,26 @@
                   parameter.)</t>
 
               <t hangText="at_hash">OPTIONAL. 
-              If the id_token is issued with a access_token in a implicit flow this is REQUIRED.
+              If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+	      in a implicit flow, this is REQUIRED.
               The value is produced by base64url encoding the left-most half of the hash 
               created by hashing the <spanx style="verb">access_token</spanx> 
-              with the SHA hash algorithm
+              with the SHA-2 family hash algorithm
               of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              paramater of the JWS header. If the <spanx style="verb">alg</spanx> is
-              HS256 then hash <spanx style="verb">access_token</spanx> with SHA256, then 
-              take the left-most 128bits and base64url encode them.</t>
+              parameter of the JWS header. For instance, if the <spanx style="verb">alg</spanx> is
+              <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
+	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
               <t hangText="c_hash">OPTIONAL. 
-              If the id_token is issued with a code in a implicit flow this is REQUIRED.
+              If the ID Token is issued with a <spanx style="verb">code</spanx>
+	      in an implicit flow, this is REQUIRED.
               The value is produced by base64url encoding the left-most half of the hash 
               created by hashing the <spanx style="verb">code</spanx> 
-              with the SHA hash algorithm
+              with the SHA-2 family hash algorithm
               of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              paramater of the JWS header. If the <spanx style="verb">alg</spanx> is
-              HS256 then hash <spanx style="verb">code</spanx> with SHA256, then 
-              take the left-most 128bits and base64url encode them.</t>
+              parameter of the JWS header. For instance, if the <spanx style="verb">alg</spanx> is
+              <spanx style="verb">HS256</spanx>, hash <spanx style="verb">code</spanx>
+	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
             </list></t>
 
@@ -919,8 +921,8 @@
           
           <t hangText="client_secret_jwt"> 
           Clients that have received a <spanx style='verb'>client_secret</spanx> value 
-          from the Authorization Server, create a JWT using the
-	      HMAC-SHA algorithm <xref target="JWA" />. 
+          from the Authorization Server, create a JWT using an
+	      HMAC SHA algorithm <xref target="JWA" />, such as HMAC SHA-256. 
 	      The HMAC (Hash-based Message Authentication Code) is calculated using the
 	      value of <spanx style='verb'>client_secret</spanx> as the shared key.
 	   
@@ -1099,7 +1101,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         
         <t>Clients MUST not send an encrypted ID Token to the Check ID Endpoint.
         If the Client registers  
-        <spanx style="verb">id_token_encrypted_response_algs</spanx> during <xref 
+        <spanx style="verb">id_token_encrypted_response_alg</spanx> during <xref 
         target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
 	the Client must decrypt the ID Token, and SHOULD directly verify the ID Token
         per <xref target="id.token.verification">ID Token Verification</xref>.</t>
@@ -1494,12 +1496,12 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	  <t>1.  The Sector Identifier can be concatenated with a local account ID and a salt 
 	  value that is kept secret by the Provider. The concatenated string is then 
 	  hashed by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">user_id</spanx> = SHA256 ( sector_identifier | local_account_id | salt ).</t>
+	  <t>Calculate <spanx style="verb">user_id</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).</t>
 
 	  <t>2.  The Sector Identifier can be concatenated with a local account ID and a salt 
 	  value that is kept secret by the Provider. The concatenated string is then 
 	  encrypted by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">user_id</spanx> = AES128 ( sector_identifier | local_account_id | salt ).</t>
+	  <t>Calculate <spanx style="verb">user_id</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).</t>
 	  
 	  <t>3.  The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
 	  Sector Identifier and local account ID.  This is stored in a table and 
@@ -2114,7 +2116,7 @@ may be retrieved:
 
         <t><list style="numbers">
             <t>If the Client has provided an
-            <spanx style="verb">id_token_encrypted_response_algs</spanx>
+            <spanx style="verb">id_token_encrypted_response_alg</spanx>
             parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified during Registration.</t>
             
@@ -2277,13 +2279,14 @@ may be retrieved:
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">access_token</spanx> 
-              with the SHA hash algorithm
+              with the SHA-2 family hash algorithm
               of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              paramater of the JWS header of the ID Token.</t>
+              parameter of the JWS header of the ID Token.</t>
               
             <t>Take the left-most half of the hash and base64url encode it.</t>
+
             <t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
-            match the value produced in step 3 above if <spanx style="verb">at_hash</spanx>
+            match the value produced in the previous step if <spanx style="verb">at_hash</spanx>
             is present in the ID Token.</t>
         </list></t>
         </section>
@@ -2294,13 +2297,14 @@ may be retrieved:
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">code</spanx> 
-              with the SHA hash algorithm
+              with the SHA-2 family hash algorithm
               of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              paramater of the JWS header of the ID Token.</t>
+              parameter of the JWS header of the ID Token.</t>
               
             <t>Take the left-most half of the hash and base64url encode it.</t>
+
             <t>The value of <spanx style="verb">c_hash</spanx> in the ID Token MUST
-            match the value produced in step 3 above if <spanx style="verb">c_hash</spanx>
+            match the value produced in the previous step if <spanx style="verb">c_hash</spanx>
             is present in the ID Token.</t>
         </list></t>
         </section>
@@ -2567,7 +2571,7 @@ may be retrieved:
 	  <section anchor="issuer_identifier" title="Issuer Identifier">
 	    <t>OpenID Connect supports multiple issuers per Host and Port combination.</t>
 	    <t>The issuer returned by discovery MUST exactly match the value of 
-	    <spanx style="verb">iss</spanx> in the id_token.</t>
+	    <spanx style="verb">iss</spanx> in the ID Token.</t>
 	    <t>It is RECOMMENDED that only a single issuer per host be used. Simple Web 
 	    Discovery treats the path component of any URI as part of the user identifier. 
 		</t>
@@ -3145,6 +3149,7 @@ may be retrieved:
 
         <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML" />
       </reference>
+
       <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
@@ -3159,45 +3164,30 @@ may be retrieved:
            </author>
            <date day="10" month="April" year="2012"></date>
         </front>
-      <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
+        <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
               type="HTML" />
       </reference>
-      
+
       <reference anchor="LoA.Registry">
         <front>
-         <title abbrev="SAML 2.0 LoA Registry">An IANA registry for SAML 2.0 Level
-         of Assurance Context Classes</title>
+          <title abbrev="SAML 2.0 LoA Registry">An IANA registry for SAML 2.0 Level
+           of Assurance Context Classes</title>
 
-         <author fullname="Leif Johansson" initials="L." surname="Johansson">
-          <organization>NORDUNet</organization>
+	  <author fullname="Leif Johansson" initials="L." surname="Johansson">
+	    <organization>NORDUNet</organization>
+	    <address>
+	      <postal>
+		<street>Tulegatan 11</street>
+		<city>Stockholm</city>
+		<country>Sweden</country>
+	      </postal>
+	      <email>leifj@nordu.net</email>
+	    </address>
+	  </author>
 
-          <address>
-           <postal>
-            <street>Tulegatan 11</street>
-
-            <city>Stockholm</city>
-
-            <country>Sweden</country>
-           </postal>
-
-           <email>leifj@nordu.net</email>
-          </address>
-         </author>
-
-      <date day="18" month="February" year="2012" />
-
-      <keyword>Identity</keyword>
-
-      <keyword>Assurance</keyword>
-
-       <abstract>
-        <t>This document establishes an IANA registry for Level of Assurance
-        Context Classes for SAML 2.0. The registry is intended to be used as an
-        aid to discovering such LoA definitions.</t>
-       </abstract>
-      </front>
-        <format target="http://tools.ietf.org/html/draft-johansson-loa-registry"
-		 type="HTML" />
+	  <date day="18" month="February" year="2012" />
+	</front>
+        <format target="http://tools.ietf.org/html/draft-johansson-loa-registry" type="HTML" />
       </reference>
 
     </references>
@@ -3337,18 +3327,18 @@ may be retrieved:
 
       <t>-09<list style="symbols">
 	  <t>Added error interaction_required and removed
-	  user_mismatched, per issue #523.</t>
+	  user_mismatched, per issue #523</t>
 	  <t>Changed invalid_request_redirect_uri to invalid_redirect_uri,
-	  per issue #553.</t>
+	  per issue #553</t>
 	  <t>Removed "embedded" display type, since its semantics were
-	  not well defined, per issue #514.</t>
-	  <t>Updated references.</t>
-	  <t>Added id_token to authorization request paramaters</t>
-	  <t>make changes to allow path in the issuer_identifier</t>
-	  <t>make changes to userinfo_encrypted_response_* and id_token_encrypted_response_* to match registration.</t>
-	  <t>Fix typo Clients MUST not send encrypted to Clients MUST not send an encrypted</t>
-	  <t>Add hash and hash check of access token and code to id_token</t>
+	  not well defined, per issue #514</t>
+	  <t>Added optional id_token to authorization request parameters, per issue #535</t>
+	  <t>Now requested claims add to those requested with scope values, rather than replacing them, per issue #547</t>
+	  <t>Make changes to allow path in the issuer_identifier, per issue #513</t>
+	  <t>Make changes to userinfo_encrypted_response_* and id_token_encrypted_response_* to match registration</t>
+	  <t>Add hash and hash check of access_token and code to id_token, per issue #510</t>
 	  <t>Updated Notices</t>
+	  <t>Updated References</t>
 	</list></t>
 
       <t>-08<list style="symbols">
