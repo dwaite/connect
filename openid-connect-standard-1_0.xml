@@ -186,76 +186,15 @@
 
         <section anchor="retrieving_code_token" 
                  title="How to Get an Authorization Code, Access Token, and ID Token">
-
-          <t>The OAuth 2.0 specification documents two response types:
-
-            <list style="hanging">
-              <t hangText="code"> When supplied as the value for the
-              <spanx style="verb">response_type</spanx> parameter, a
-              successful response MUST include an Authorization Code as
-              defined in the OAuth 2.0 specification. Both successful
-              and error responses MUST be added as parameters to the
-              query component of the response.  All tokens are returned
-              from the Token Endpoint. Authorization Servers MUST support
-              this <spanx style="verb">response_type</spanx>.</t>
-
-              <t hangText="token"> When supplied as the value for the
-              <spanx style="verb">response_type</spanx> parameter, a
-              successful response MUST include an Access Token as
-              defined in the OAuth 2.0 specification.  Both successful
-              and error responses MUST be fragment-encoded.  No ID Token
-              is provided to the Client.</t>
-            </list>
+          <t>In OpenID Connect Standard, the Client sends authorization request 
+          to the Authorization Endpoint through the User Agent to obtain the 
+          Access Token and ID Token. It MAY obtain them from the Authorization 
+          Endpoint or from Token Endpoint utilizing the <spanx style="verb">
+          code</spanx> that it obtained from the Authorization Endpoint. 
+          The later is called <xref target="code_flow">Code Flow</xref> 
+          and the former is called <xref target="implicit_flow">Implicit Flow
+          </xref>. 
           </t>
-
-          <t>OpenID Connect supports these <xref
-          target="OAuth.Responses">additional response types</xref> that have
-          been registered:</t>
-          
-          <t><list style="hanging">
-            <t hangText="id_token">When supplied as the value
-            for the <spanx style="verb">response_type</spanx>
-            parameter, a successful response MUST include an ID Token.
-            Both successful and
-            error responses SHOULD be fragment-encoded. Authorization
-            Servers SHOULD support this <spanx
-            style="verb">response_type</spanx>.</t>
-              
-            <t hangText="id_token token">When supplied as the value
-            for the <spanx style="verb">response_type</spanx>
-            parameter, a successful response MUST include both an
-            Access Token as well as an ID Token.  Both successful and
-            error responses SHOULD be fragment-encoded. Authorization
-            Servers MUST support this <spanx
-            style="verb">response_type</spanx>.</t>
-
-            <t hangText="code token">When supplied as the value for
-            the <spanx style="verb">response_type</spanx> parameter, a
-            successful response MUST include both an Access Token and
-            an Authorization Code as defined in the OAuth 2.0
-            specification. Both successful and error responses SHOULD
-            be fragment-encoded.</t>
-
-            <t hangText="code id_token">When supplied as the value for
-            the <spanx style="verb">response_type</spanx> parameter, a
-            successful response MUST include both an Authorization
-            Code as well as an ID Token.  Both successful and error
-            responses SHOULD be fragment-encoded.</t>
-
-            <t hangText="code id_token token">When supplied as the
-            value for the <spanx style="verb">response_type</spanx>
-            parameter, a successful response MUST include an
-            Authorization Code, an ID Token, and an Access Token.
-            Both successful and error responses SHOULD be
-            fragment-encoded.</t>
-          </list></t>
-          <t>The Authorization Server MUST support both the <spanx
-          style="verb">code</spanx> and the <spanx
-          style="verb">'id_token token'</spanx> <spanx
-          style="verb">response_type</spanx>.</t>
-		  
-          <t>The Client may request any OAuth 2.0 registered response
-          type supported by the Authorization Server.</t>
           
         </section>
 
