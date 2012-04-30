@@ -123,9 +123,13 @@
         <t><list style="hanging">
             
             <t hangText="type">REQUIRED.  Values are <spanx style="verb">client_associate</spanx>
-            (for new registrations) and
+            (for new registrations) , <spanx style="verb">rotate_secret</spanx> 
+            to request rotation of the <spanx style="verb">client_secret</spanx>, and
             <spanx style="verb">client_update</spanx> (for updating parameters of an existing
-            <spanx style="verb">client_id</spanx>).</t>
+            <spanx style="verb">client_id</spanx>). If <spanx style="verb">rotate_secret</spanx> is used
+            no additional paramaters other than <spanx style="verb">client_id</spanx> 
+            and <spanx style="verb">client_secret</spanx> should be included in the request.
+            </t>
 
             <t hangText="client_id">OPTIONAL.  
             The registered parameters for this <spanx style="verb">client_id</spanx> 
@@ -412,16 +416,20 @@ Pragma: no-cache
 	</section>
       </section>
 
-      <section title="Client Registration Response">
+      <section title="Client Registration Response ">
         <t>The response is returned as a JSON object with all the parameters
         as top level elements.</t>
-
+        
+        <section title="Client Associate or Rotate Secret Response">
+        <t>If the value of type in the request was 
+        <spanx style="verb">client_associate</spanx> or
+        <spanx style="verb">rotate_secret</spanx> then return the following. </t>
         <t><list style="hanging">
             <t hangText="client_id">REQUIRED. The unique Client
             identifier.</t>
 
             <t hangText="client_secret">REQUIRED. The Client secret. This
-            should change with each response.</t>
+            MUST be unique for each <spanx style="verb">client_id</spanx>.</t>
 
             <t hangText="expires_at">REQUIRED. The number of
             seconds from 1970-01-01T0:0:0Z as measured in UTC that the <spanx style="verb">client_id</spanx>
@@ -443,6 +451,30 @@ Cache-Control: no-store
  "expires_at":2893276800
 }]]></artwork>
           </figure></t>
+      </section>
+      <section title="Client Update">
+        <t>If the value of type in the request was 
+        <spanx style="verb">client_update</spanx>. </t>
+        <t><list style="hanging">
+            <t hangText="client_id">REQUIRED. The unique Client
+            identifier.</t>
+
+            
+          </list></t>
+
+        <t>Following is a non-normative example response:</t>
+
+        <t><figure>
+            <artwork><![CDATA[HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+
+{
+ "client_id":"s6BhdRkqt3"
+}]]></artwork>
+          </figure></t>
+      </section>
+      
       </section>
 
       <section title="Client Registration Error Response">
@@ -836,6 +868,10 @@ WWW-Authenticate: Bearer realm="example.com",
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-11<list style="symbols">
+      <t>Make rotate secret a separate type and stop client secret changing with every response.</t>
+      	</list></t>
+      
       <t>-10<list style="symbols">
 	  <t>Split encrypted response configurations into separate parameters for alg, enc, int</t>
 	  <t>Removed extra "s" from signed response parameter names</t>
