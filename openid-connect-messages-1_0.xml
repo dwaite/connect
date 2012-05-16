@@ -505,6 +505,19 @@
                   the <spanx style="verb">phone_number</spanx> Claim at the 
                   UserInfo Endpoint be granted by the issued Access Token.</t>
 
+                  <t hangText="claims_in_id_token">OPTIONAL. 
+                    This scope value acts as a switch where the claims goes. 
+                    If this scope value is present, all the claims that are 
+                    indicated by <spanx style="verb">profile</spanx> 
+                    <spanx style="verb">email</spanx>
+                    <spanx style="verb">address</spanx>
+                    <spanx style="verb">phone</spanx>
+                    MUST go into the <spanx style="verb">id_token</spanx> 
+                    in the response. If any further finer control is desired, 
+                    a <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
+                    MUST be used. </t>
+
+
                 </list></t>
             </list></t>
 
@@ -3379,8 +3392,9 @@ may be retrieved:
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       <t>10
-        <list tyle="symbols">
-          <t>Changed verified to email_verified.</t>
+        <list style="symbols">
+          <t>Changed verified to email_verified. (#564)</t>
+          <t>Added scope value claims_in_id_token as a switch to indicate claims shoudl go into id_token. (#561)</t>
         </list>
       </t>
 
