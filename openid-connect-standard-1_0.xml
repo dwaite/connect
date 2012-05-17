@@ -310,8 +310,9 @@
               <t hangText="response_type">An OAuth 2.0 registered
               response type that determines how the Authorization
               Response is returned to the Client.  As described in
-              <xref target="retrieving_code_token" >How to Get an
-              Authorization Code, Access Token, and ID Token</xref> ,
+              <xref target="OAuth.Responses" >
+                OAuth 2.0 Multiple Response Type Encoding Practices
+              </xref> ,
               the following registered values are supported:
                 <list style="symbols">
                   <t><spanx style="verb">code</spanx></t>
@@ -512,11 +513,11 @@ response_type=code%20id_token
    {
      "claims":
        {
-         "name": null,
-         "nickname": {"optional": true},
-         "email": null,
-         "email_verified": null,
-         "picture": {"optional": true}
+         "name": {"essential": true},
+         "nickname": null,
+         "email": {"essential": true},
+         "email_verified": {"essential": true},
+         "picture": null
        }
    },
  "id_token":
