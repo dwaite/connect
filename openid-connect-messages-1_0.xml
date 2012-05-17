@@ -628,7 +628,9 @@
             <t>The OpenID Request Object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
             parameter in the Authorization Request. The OpenID Request Object
-            can also be sent by reference. Parameters that affect the
+            can also be sent by reference using 
+            <spanx style="verb">request_url</spanx> parameter. 
+            Parameters that affect the
             information returned from the UserInfo Endpoint are in the "<spanx
             style="verb">userinfo</spanx>" member. Parameters that affect the
             information returned in the ID Token
@@ -669,7 +671,7 @@
 	    MAY also consider it an error condition if all requested
 	    required Claims are not provided.</t>
 
-            <t>The OpenID Request Object JWT MAY be signed or unsigned (plaintext).
+      <t>The OpenID Request Object JWT MAY be signed or unsigned (plaintext).
 	    When it is a plaintext JWT, this is indicated by use of the
 	    <spanx style="verb">none</spanx> algorithm <xref target="JWA" />
 	    in the header.  If signed, the OpenID Request Object
@@ -723,23 +725,27 @@
      
    }
 }]]></artwork>
-              </figure></t>
+</figure></t>
 
             <section anchor="req.obj.userinfo" title="&quot;userinfo&quot; member">
               <t>The structure of the <spanx style="verb">userinfo</spanx>
 	      (UserInfo Request) member is
               a JSON object that MAY contain the following members:</t>
 
-              <t><list style="hanging">
-                  <t hangText="claims">OPTIONAL. (Requested Claims): A
-                  JSON object containing a set of individual Claims
-                  being requested from the UserInfo Endpoint in
-                  addition to those requested by the <spanx
-                  style="verb">scope</spanx> values used.  If not
-                  present, only the UserInfo Claims held by the OP
-                  that are requested by the <spanx
-                  style="verb">scope</spanx> values used are
-                  returned.</t>
+              <t>
+                <list style="hanging">
+                  <t hangText="claims">
+                    OPTIONAL. (Requested Claims): 
+                    A JSON object containing a set of individual Claims 
+                    being requested from the UserInfo Endpoint in 
+                    addition to those requested by the 
+                    <spanx style="verb">scope</spanx> values used.  
+                    If not present, only the UserInfo Claims held by the OP 
+                    that are requested by the 
+                    <spanx style="verb">scope</spanx> values used are returned. 
+                    For details about this claim, refer to 
+                    <xref target="claims_member">&quot;claims&quot; member in &quot;userinfo&quot; and &quot;id_token&quot; section.</xref>
+                  </t>
 
                   <t hangText="preferred_locales">OPTIONAL.  A list of preferred 
                   languages and scripts for the entire Claims request, 
@@ -752,49 +758,7 @@
 		 object are OPTIONAL.
               Other members MAY be present and if so, SHOULD understood by
               both parties.</t>
-                
-                <section title="&quot;claims&quot; member">
-                <t>The <spanx style="verb">claims</spanx>
-		member is a JSON object with a member for
-              each requested Claim. The member names are the requested Claim
-              names. The member values MAY be either:</t>
 
-              <t><list style="hanging">
-                  <t hangText="null">This indicates that this Claim is being
-                  requested in the default manner. In particular, this is a
-                  required Claim.</t>
-
-                  <t hangText="A JSON Object">This is used to provide
-                  additional information about the Claim being requested.</t>
-                </list>The Claims MAY be represented in multiple languages and
-              scripts. To specify languages and scripts for the Claim request,
-              <xref target="RFC5646">BCP47</xref> language tags delimited by a
-              "#" MUST be added to each requested Claim Name for which a
-              particular language and script is requested. For example, the
-              Claim <spanx style="verb">family_name#ja-Kana-JP</spanx> is used
-              for expressing Family Name in Katakana in Japanese, which is
-              commonly used to index and represent the phonetics of the Kanji
-              representation of the same value represented as <spanx
-              style="verb">family_name#ja-Hani-JP</spanx>.</t>
-
-              <t>All members of the <spanx style="verb">claims</spanx>
-	      object are OPTIONAL.</t>
-
-              <section title="Requested Claims Member">
-              <t>The members defined by this specification for the
-              JSON object value following a Claim Name member are:</t>
-
-              <t><list style="hanging">
-                  <t hangText="optional">This is an OPTIONAL Claim parameter. 
-                  If present, its value MUST be <spanx style="verb">true</spanx>,
-                  which indicates that it is an optional Claim. If it is not
-                  present, it is a required Claim.</t>
-                </list>
-                Other members MAY be defined to provide additional
-              information about the requested Claim.</t>
-
-                </section>
-              </section>
             </section>
 
             <section anchor="req.obj.id_token" title="&quot;id_token&quot; member">
@@ -811,27 +775,31 @@
 	      the Claims requested within it augment the Claim set that
 	      would otherwise be returned in the ID Token.</t>
 
-              <t>Following Claims MAY be requested in the ID Token by
-              specifying it in the <spanx style="verb">claims</spanx> member:</t>
+              <t>Following Claims, in addition to the claims described in 
+                <xref target="claims_member">&quot;claims&quot; member in &quot;userinfo&quot; and &quot;id_token&quot; section.</xref>, 
+                MAY be requested in the ID Token by specifying it in 
+                the <spanx style="verb">claims</spanx> member:
+              </t>
 
-              <t><list style="hanging">
-                  <t hangText="user_id">OPTIONAL. (User Identifier):
-		  The User Identifier for which an ID Token is being requested.
-                  If the specified user is not currently authenticated to the Authorization 
-                  Server, they may be prompted for authenticated, unless the 
-                  <spanx style="verb">prompt</spanx> parameter in the Authorization
-		  Request is set to <spanx style="verb">none</spanx>.
-
-                  The Claim Value in the request is an object containing the single element
-                  <spanx style="verb">value</spanx>.  
-                  <figure>
-                <artwork><![CDATA[ "user_id": {"value":"248289761001"}]]></artwork>
-              </figure>
+              <t>
+                <list style="hanging">
+                  <t hangText="user_id">OPTIONAL. (User Identifier): 
+                    The User Identifier for which an ID Token is being requested.
+                    If the specified user is not currently authenticated to the Authorization 
+                    Server, they may be prompted for authenticated, unless the 
+                    <spanx style="verb">prompt</spanx> parameter in the Authorization Request 
+                    is set to <spanx style="verb">none</spanx>. 
+                    The Claim Value in the request is an object containing the single element
+                    <spanx style="verb">value</spanx>.  
+                    <figure>
+                      <artwork><![CDATA[ "user_id": {"value":"248289761001"}]]></artwork>
+                    </figure>
                   </t>
                   <t hangText="auth_time">OPTIONAL. (authenticated at):
-                  Requests that the <spanx style="verb">auth_time</spanx> Claim be present in the 
-                  <xref target="id_token">ID Token</xref> response.
-                  The Claim Value in the request is <spanx style="verb">null</spanx>.  
+                    Requests that the <spanx style="verb">auth_time</spanx> 
+                    Claim be present in the 
+                    <xref target="id_token">ID Token</xref> response.
+                    The Claim Value in the request is <spanx style="verb">null</spanx>.  
                   </t>
                   
                   <t hangText="acr">OPTIONAL. 
@@ -842,9 +810,8 @@
                   representing acceptable Authentication Context Class Reference 
                   values appearing in order of preference.
                   <figure>
-                
-                <artwork><![CDATA[ "acr": {"values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
-              </figure>
+                    <artwork><![CDATA[ "acr": {"values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
+                  </figure>
                   </t>
                   
                 </list>In addition to the <spanx style="verb">claims</spanx>
@@ -862,8 +829,8 @@
                   request parameter.)</t>
 
                   
-                </list>It is anticipated that additional
-		<spanx style="verb">id_token</spanx> parameters
+                </list>It is anticipated that additional 
+                <spanx style="verb">id_token</spanx> parameters
               MAY be defined to request that additional properties hold for
               the authentication - for instance, that certain authentication
               policies be applied (in the same spirit of the OpenID 2.0
@@ -877,6 +844,71 @@
               members MAY be present and if so, SHOULD be understood by both
               parties.</t>
             </section>
+            <section title="&quot;claims&quot; member with &quot;userinfo&quot; and &quot;id_token&quot; members" anchor="claims_member">
+                <t>
+                  The <spanx style="verb">claims</spanx> 
+                  member is a JSON object with a member for
+                  each requested Claim. The member names are the requested 
+                  Claim names. Each Claim MAY either be an essential claim or voluntary claim. 
+                  The default is voluntary. 
+                </t>
+                <t>
+                  By requesting a claim as <spanx style="verb">essential</spanx> 
+                  the client indicates to the user 
+                  that populating these claims will ensure a smooth authorization 
+                  for the specific task requested by the user. 
+                  Note that even if the claim were not available because 
+                  the user did not authorized the release or otherwise, 
+                  the Authorization Server MUST NOT generate an error. 
+                </t>
+                <t>
+                  As "voluntary" claims the client may request additional attributes 
+                  that it requires for fulfilling other tasks offered to 
+                  the applicable user class. 
+                </t>
+                <t>
+                The member values MAY be either:</t>
+
+                <t>
+                  <list style="hanging">
+                    <t hangText="null">
+                      This indicates that this Claim is being
+                      requested in the default manner. In particular, this is a 
+                      voluntary Claim. 
+                    </t>
+                    <t hangText="A JSON Object">
+                      This is used to provide additional information about the Claim being 
+                      requested. This specification defines the following member: 
+                    </t>
+                    <t>
+                      <list style="hanging">
+                        <t hangText="essential">OPTIONAL. If the value is set to true, 
+                          this indicates that the claim being requested is an essential claim. 
+                          If the value is set to false, it indicates that 
+                          it is a voluntary claim. The default is false. 
+                        </t>
+                      </list>
+                    </t>
+                    <t>
+                      Other members MAY be defined to provide additional 
+                      information about the requested Claim.
+                    </t>
+                  </list>
+                </t>
+                <t>
+                  The Claims MAY be represented in multiple languages and scripts. 
+                  To specify languages and scripts for the Claim request, 
+                  <xref target="RFC5646">BCP47</xref> language tags delimited by a "#" 
+                  MUST be added to each requested Claim Name for which a particular 
+                  language and script is requested. For example, the Claim 
+                  <spanx style="verb">family_name#ja-Kana-JP</spanx> is used for 
+                  expressing Family Name in Katakana in Japanese, which is commonly used to 
+                  index and represent the phonetics of the Kanji representation of the same 
+                  value represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+                </t>
+                <t>All members of the <spanx style="verb">claims</spanx> object are OPTIONAL.</t>
+              </section>
+
           </section>
         </section>
 
@@ -3395,6 +3427,7 @@ may be retrieved:
         <list style="symbols">
           <t>Changed verified to email_verified. (#564)</t>
           <t>Added scope value claims_in_id_token as a switch to indicate claims shoudl go into id_token. (#561)</t>
+          <t>Changed "optional" claim to "essential". (#577)</t>
         </list>
       </t>
 
