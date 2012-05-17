@@ -157,8 +157,13 @@
 	    <t hangText="Message">A request or a response between an OpenID 
 	    Relying Party and an OpenID Provider.</t>
 
-	    <t hangText="OpenID Provider (OP)">A service capable of providing
-	    Claims to a Relying Party.</t>
+	    <t hangText="OpenID Provider (OP)">
+        A service capable of providing Claims to a Relying Party. 
+        It is an OAuth 2.0 Authorization Server that is capable of 
+        returning claims around the authentication event and 
+        other Claims in <spanx style="verb">id_token</spanx> 
+        and Userinfo endpoint response. 
+      </t>
 
 	    <t hangText="OP Endpoints">Authorization Endpoint, Token
 	    Endpoint, and UserInfo Endpoint.</t>
@@ -166,8 +171,10 @@
 	    <t hangText="OpenID Request Object">A JSON object that holds the
 	    OpenID request parameters.</t>
 
-	    <t hangText="Relying Party (RP)">An application requiring
-	    Claims from an OpenID Provider.</t>
+	    <t hangText="Relying Party (RP)">
+        An application requiring Claims from an OpenID Provider. 
+        It is an extended OAuth 2.0 client. 
+      </t>
 
 	    <t hangText="Check ID Endpoint">A resource that, when
 	    presented with an ID Token by the Client, returns Claims
@@ -184,23 +191,23 @@
 	steps.</t>
 
 	<t><list style="numbers">
-	    <t>The Client sends a request to the Authorization Server's End-User
-	    Authorization Endpoint.</t>
+	    <t>The RP (Client) sends a request to the OP's (Authorization Server's) 
+        End-User Authorization Endpoint.</t>
 
-	    <t>The Authorization Server authenticates the End-User and obtains 
+	    <t>The OP authenticates the End-User and obtains 
 	    appropriate authorization.</t>
 
-	    <t>The Authorization Server responds with an Access Token, an Id Token, 
+	    <t>The OP responds with an Access Token, an Id Token, 
 	    and a few other variables.</t>
 		
-	    <t>Optionally, the Client sends a request with the ID Token to the
-	    Authorization Server's <xref target="check_id_ep">Check ID
+	    <t>Optionally, the RP sends a request with the ID Token to the
+	    OP's <xref target="check_id_ep">Check ID
 	    Endpoint</xref>.</t>
 
 	    <t>Optionally, the Check ID Endpoint responds with authentication
 	    information pertaining to the supplied ID Token.</t>
 		
-	    <t>The Client sends a request with the Access Token to the <xref
+	    <t>The RP sends a request with the Access Token to the <xref
 	    target="userinfo_ep">UserInfo Endpoint</xref>.</t>
 
 	    <t>UserInfo Endpoint returns the additional End-User information
@@ -219,13 +226,13 @@
 
     <section title="Messages">
       <t>In OpenID Connect protocols, in abstract, the process proceeds by the
-      Client interacting with endpoints. There are a number of endpoints
+      RP interacting with endpoints. There are a number of endpoints
       involved.</t>
 
       <t><list style="numbers">
-          <t>Authorization Endpoint: The Client sends a request to the 
-          Authorization Server at the Authorization Endpoint. The Authorization
-          Server then authenticates the End-User to find out if he is eligible
+          <t>Authorization Endpoint: The RP sends a request to the 
+          OP at the Authorization Endpoint. The OP 
+          then authenticates the End-User to find out if he is eligible
           to make the authorization. Then, upon the authorization action of the
           End-User, the Authorization Server returns an Authorization Response
           that includes Authorization Code, <spanx style="verb">code</spanx>.
@@ -233,7 +240,10 @@
           style="verb">access_token</spanx> without using <spanx 
           style="verb">code</spanx>. In this case, <spanx
           style="verb">response_type</spanx> MUST include <spanx
-          style="verb">token</spanx>.</t>
+          style="verb">token</spanx>. When <spanx style="verb">id_token</spanx>
+          was specified in the <spanx style="verb">response_type</spanx>, 
+          then the <spanx style="verb">id_token</spanx> is returned 
+          from this endpoint as well. </t>
 
           <t>Token Endpoint: The Client sends the Access Token Request to the
           Token Endpoint to obtain an Access Token Response which includes an
@@ -250,16 +260,16 @@
         </list></t>
 
       <section title="Authorization Endpoint">
-        <t>The Client sends an Authorization Request to the Authorization
-        Endpoint to obtain either an Authorization Response or an <xref
-        target="id_token">ID Token</xref> or both depending on 
+        <t>The RP sends an Authorization Request to the Authorization
+        Endpoint of the OP to obtain either an Authorization Response or an 
+        <xref target="id_token">ID Token</xref> or both depending on 
         <spanx style="verb">response_type</spanx> and 
         <spanx style="verb">scope</spanx>.</t>
 
         <section anchor="id_token" title="ID Token">
           <t>The ID Token is a token that contains Claims about the
-          authentication event.  The Token is a
-	  <xref target="JWT">JSON Web Token (JWT)</xref>. </t>
+          authentication event and other requested Claims.  
+          The Token is a <xref target="JWT">JSON Web Token (JWT)</xref>. </t>
 
           <t>The ID Token is used to manage the authentication event and user
           identifier and is scoped to a particular Client via the <spanx
@@ -267,7 +277,7 @@
           Claims. It is used as an Access Token for the Check ID Endpoint, or consumed 
           directly by the Client.</t>
 
-          <t>The ID Token MUST minimally attest to the following Claims:</t>
+          <t>The ID Token MUST attest to the following Claims:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
@@ -381,10 +391,15 @@
         </section>
 
         <section anchor="auth_req" title="Authorization Request">
-          <t>Section 4.1.1 and 4.2.1 of <xref target="OAuth2.0">OAuth
-          2.0</xref> defines the OAuth Authorization Request parameters. In
-          this specification, the values to the parameters are defined as
-          follows.</t>
+          <t>
+            An Authorization Request is a message sent from an RP 
+            to the OP's Authorization Endpoint. 
+            It is an extended <xref target="OAuth2.0">OAuth 2.0</xref> 
+            Authorization Request. 
+            Section 4.1.1 and 4.2.1 of <xref target="OAuth2.0">OAuth 2.0</xref> 
+            defines the OAuth Authorization Request parameters. 
+            In this specification, the values to the parameters are defined as follows. 
+          </t>
 
           <t><list style="hanging">
               <t hangText="response_type">
@@ -913,6 +928,9 @@
         </section>
 
         <section title="Authorization Response">
+          <t>An Authorization Response is a message returned from the 
+            OP's Authorization Endpoint in response to the Authorization Request 
+            by the RP. </t>
           <t>When the <spanx style="verb">response_type</spanx> in the request
           is <spanx style="verb">token</spanx>, the Authorization
           Response MUST return the parameters defined in section 4.2.2 of
@@ -935,7 +953,7 @@
 
         <section title="Authorization Error Response">
           <t>If the End-User denies the access request or if the request
-          fails, the Authorization Server informs the Client by returning
+          fails, the OP (Authorization Server) informs the RP (Client) by returning
           parameters defined in sections 4.1.2.1 and 4.2.2.1 of <xref
           target="OAuth2.0">OAuth 2.0</xref>.</t>
 
@@ -1008,14 +1026,14 @@
       </section>
 
       <section anchor="token_ep" title="Token Endpoint">	
-        <t>The Client sends an Access Token Request to the Token 
+        <t>The RP (Client) sends an Access Token Request to the Token 
         Endpoint to obtain Access Token Response,  
         which MAY include Access Token, <xref target="token_lifetime">Refresh Token</xref>,
 	<xref target="id_token">ID Token</xref>, and other variables.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
-          <t>During Client Registration, the Client MAY register an authentication method.
+          <t>During Client Registration, the RP (Client) MAY register an authentication method.
           If no method is registered, the default method of <spanx style="verb">client_secret_basic</spanx> MUST be used.</t>
           <t>The Supported options are:</t>
           
@@ -1213,15 +1231,15 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         target="RFC4627">JSON</xref> object that contains Claims about
         the authentication event associated with the supplied ID Token.</t>
         
-        <t>Clients MUST not send an encrypted ID Token to the Check ID Endpoint.
+        <t>RPs (Clients) MUST not send an encrypted ID Token to the Check ID Endpoint.
         If the Client registers  
         <spanx style="verb">id_token_encrypted_response_alg</spanx> during <xref 
         target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
 	the Client must decrypt the ID Token, and SHOULD directly verify the ID Token
         per <xref target="id.token.verification">ID Token Verification</xref>.</t>
 
-        <t>This endpoint can be used by Clients that are not able to or do not
-        wish to directly handle ID Tokens. In such cases, Clients MAY treat the ID
+        <t>This endpoint can be used by RPs that are not able to or do not
+        wish to directly handle ID Tokens. In such cases, RPs MAY treat the ID
         Token as an opaque value, and use the Check ID Endpoint to
         retrieve and examine the Claims associated with the ID Token.</t>
 
