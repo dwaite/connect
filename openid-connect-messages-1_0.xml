@@ -1246,35 +1246,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         Token as an opaque value, and use the Check ID Endpoint to
         retrieve and examine the Claims associated with the ID Token.</t>
 
-        <section title="Check ID Request">
-          <t>To request the information about the authentication performed on
-          the End-User, Clients MAY send requests with the following parameter to the
-             Check ID Endpoint:</t>
-             
-            <t><list style="hanging">
-            <t hangText="access_token">REQUIRED. The ID Token obtained
-            from an OpenID Connect Authorization Request. </t>
-            </list></t>
-             
-        </section>
 
-        <section title="Check ID Response">
-          <t>The response is a <xref target="RFC4627">JSON</xref> object
-          containing the <xref target="id_token">ID Token</xref> Claims.</t>
-
-          <t>Other Claims MAY be requested by specifying the desired ID Token 
-          Claims to be returned in an <xref
-          target="OpenID_Request_Object">OpenID Request Object</xref> when making an
-          Authorization Request.</t>
-          <t>The content-type of the response where applicable MUST be
-        set to <spanx style="verb">application/json</spanx>.</t>
-        </section>
-
-        <section title="Check ID Error Response">
-          <t>When an error occurs, an error response is returned with an error
-          code defined in Section 3.1 of <xref
-          target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
-        </section>
       </section>
 
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
@@ -2302,79 +2274,6 @@ may be retrieved:
           </list></t>
 
         
-      </section>
-
-      <section title="Check ID Request Verification">
-        <t>The Authorization Server MUST check that the 
-        <spanx style="verb">access_token</spanx> is 
-        present in the request and if it is signed, it MUST verify
-        the signature according to <xref
-        target="JWS">JWS</xref>.</t>
-        <t>If the JWS algorithm is symmetric, such as the default <spanx style="verb">HS256</spanx> for 
-        <spanx style="verb">id_token</spanx>, the <spanx style="verb">client_secret</spanx> for the 
-            <spanx style="verb">client_id</spanx> contained in the 
-            <spanx style="verb">aud</spanx> (audience) Claim MUST be used to validate the 
-            signature.</t> 
-        <t>The Authorization Server MUST check that the <spanx style="verb">id_token</spanx>
-        provided as the 
-        <spanx style="verb">access_token</spanx> contains
-        all REQUIRED Claims.</t>
-      </section>
-
-      <section title="Check ID Response Verification">
-      <t>If the Client does not directly verify the ID Token signature, it
-        MUST make a request to the Check ID Endpoint to validate the ID Token.</t>
-        <t>To verify the validity of the Token response, the Client MUST do
-        the following:</t>
-
-        <t><list style="numbers">
-            <t>Check that the OP that responded was really the intended OP.</t>
-            <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> 
-            in the <spanx style="verb">aud</spanx> (audience) Claim is one
-             it has registered for the Issuer identified by the value in the 
-             <spanx style="verb">iss</spanx> (issuer) Claim.
-              The ID Token MUST be rejected if the value of 
-              <spanx style="verb">aud</spanx> (audience) is not valid for the 
-              Issuer.</t>
-              
-              <t>The value of the <spanx style="verb">iss</spanx> (issuer)
-               Claim must match the Issuer for the Check ID 
-               Endpoint"</t>
-
-            <t>The current time MUST be less than the value of the 
-            <spanx style="verb">exp</spanx> Claim.</t>
-            
-            <t>The value of the <spanx style="verb">nonce</spanx> Claim 
-            MUST be checked to verify that
-            it is the same value as the one that was sent in the Authorization
-            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
-            The precise method for detecting replay attacks is Client specific.</t>
-            
-            <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
-            Client SHOULD check that the asserted Claim Value is appropriate.
-	    The meaning and processing of 
-            <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
-            
-            <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
-            Client SHOULD check the value 
-            and request re-authentication if it determines too much time has elapsed 
-            since the last user authentication.</t>
-
-            <t>The Check ID Endpoint has not returned an error for
-            the ID Token being expired or invalid.</t>
-
-            <t>Check that the <spanx style="verb">iss</spanx> (issuer) is equal to
-            that of the pre-configured or discovered Issuer Identifier for
-            the user session. </t>
-            
-            <t>The <spanx style="verb">iat</spanx> Claim may be used by the client to reject 
-            tokens that 
-            were issued too far away from the current time, limiting the amount of
-            time that nonces must be stored to prevent attacks. 
-            The acceptable range is Client specific.</t>
-            
-          </list></t>
-
       </section>
 
       <section title="UserInfo Response Verification">
@@ -3528,6 +3427,7 @@ may be retrieved:
           <t>Changed verified to email_verified. (#564)</t>
           <t>Added scope value claims_in_id_token as a switch to indicate claims shoudl go into id_token. (#561)</t>
           <t>Changed "optional" claim to "essential". (#577)</t>
+          <t>Remove check id endpoint</t>
           <t>Added PAPE Reference to the Informative Reference. (#574)</t>
         </list>
       </t>
