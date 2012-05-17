@@ -815,75 +815,31 @@ Host: client.example.com]]></artwork>
 
           <section anchor="art_res_ok" title="End-User Grants Authorization">
             <t>If the Resource Owner grants the access request, the
-            Authorization Server issues an Authorization Response and delivers it
+            Authorization Server issues an Authorization Response 
+            as described in section 2.1.3 of 
+            <xref target="OpenID.Messages">OpenID Connect Messages</xref> 
             to the Client by adding the response parameters to <spanx
             style="verb">redirect_uri</spanx> specified in the Authorization
             Request using the "application/x-www-form-urlencoded" format.</t>
 
-            <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value
-	    <spanx style="verb">code</spanx>, the
-            following response parameters are included:
-              <list style="hanging">
-                <t hangText="code">REQUIRED. The Authorization Code.</t>
-              </list>
-            Upon receipt of the <spanx style="verb">"code"</spanx>, the
-            Client requests a response that includes the <spanx
-            style="verb">"access_token"</spanx> and other variables. The
-            requests and responses are described in the <xref 
-            target="token_ep">Token Endpoint</xref> section.</t>
-
-            <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value
-	    <spanx style="verb">token</spanx>, the
-            following response parameters are included:
-              <list style="hanging">
-                <t hangText="access_token">REQUIRED. The Access Token.</t>
-
-                <t hangText="token_type">REQUIRED. This specification only
-                supports the <xref target="OAuth.Bearer">Bearer
-                Token</xref> scheme. As such, this value MUST be set to
-                "<spanx style="verb">Bearer</spanx>".</t>
-
-                <t hangText="expires_in">OPTIONAL. The lifetime in seconds of 
-                the Access Token.</t>
-
-                <t hangText="scope">OPTIONAL. The scope values of the issued Access
-                Token.</t>
-              </list></t>
-
-            <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value
-	    <spanx style="verb">id_token</spanx>, the
-            following response parameters are returned:
-              <list style="hanging">
-                <t hangText="id_token">REQUIRED. The ID Token of the for the
-                authentication session.</t>
-              </list></t>
-
-            <t>The response parameters MAY also be include:
-              <list style="hanging">
-                <t hangText="state">REQUIRED if the <spanx style="verb">state</spanx>
-                parameter is present in the Authorization Request.
-                Set it to the exact value of the <spanx
-                style="verb">state</spanx> parameter received from the
-                Client.</t>
-              </list></t>
-
-            <t>No other parameter SHOULD be returned.</t>
-
-            <t>If the <spanx style="verb">response_type</spanx> parameter in the
-            Authorization Request includes the string value
-	    <spanx style="verb">token</spanx> or <spanx style="verb">id_token</spanx>,
-	    all response parameters SHOULD be added to the fragment
-            component of the redirection URI. Otherwise, the response parameters
-            are added to the query component of the redirection URI.
+            <t>
+              Note that if the <spanx style="verb">response_type</spanx> parameter in the 
+              Authorization Request includes the string value 
+              <spanx style="verb">token</spanx> or <spanx style="verb">id_token</spanx>, 
+              all response parameters SHOULD be added to the fragment 
+              component of the redirection URI. Otherwise, the response parameters 
+              are added to the query component of the redirection URI.
             </t>
 
+            <t>
+              The following are non-normative examples of requests with 
+              differing <spanx style="verb">response_type</spanx> values and their responses. 
+              Line wraps are for display purposes only.
+            </t>
+
+
             <figure>
-              <preamble>The following are non-normative examples of requests with
-	      differing <spanx style="verb">response_type</spanx> values and their responses.
-	      Line wraps are for display purposes only.</preamble>
+              <preamble>Case 1: response_type=code</preamble>
              
               <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=code
@@ -901,6 +857,7 @@ code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
             </figure>
 
             <figure>
+              <preamble>Case 2: response_type=token id_token</preamble>
               <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=token%20id_token
 &client_id=s6BhdRkqt3
@@ -922,6 +879,7 @@ jEzMTEyODA5NzB9.S82AkvRVcTaw9ZU3mZ1gzLsGOZpYzqXV2nBTidfE4Nw
             </figure>
 
             <figure>
+              <preamble>Case 3: response_type=code id_token</preamble>
               <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=code%20id_token
 &client_id=s6BhdRkqt3
@@ -942,6 +900,7 @@ jEzMTEyODA5NzB9.S82AkvRVcTaw9ZU3mZ1gzLsGOZpYzqXV2nBTidfE4Nw
             </figure>
 
             <figure>
+              <preamble>Case 4: response_type=token code</preamble>
               <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=token%20code
 &client_id=s6BhdRkqt3
@@ -960,6 +919,7 @@ code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
             </figure>
 
             <figure>
+              <preamble>Case 5: response_type=token code id_token</preamble>
               <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=token%20code%20id_token
 &client_id=s6BhdRkqt3
