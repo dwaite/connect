@@ -2,19 +2,13 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
-<rfc category="exp" docName="openid-connect-basic-1_0" ipr="trust200902">
+<rfc category="exp" docName="openid-connect-implicit-1_0" ipr="trust200902">
   <?rfc toc="yes" ?>
-
   <?rfc tocdepth="4" ?>
-
   <?rfc symrefs="yes" ?>
-
   <?rfc sortrefs="yes"?>
-
   <?rfc strict="no" ?>
-
   <?rfc iprnotified="no" ?>
-
   <?rfc private="Draft" ?>
 
   <front>
@@ -23,8 +17,7 @@
 
     <author fullname="Nat Sakimura" initials="N."
             surname="Sakimura">
-      <organization abbrev="NRI">Nomura Research Institute,
-      Ltd.</organization>
+      <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
 
       <address>
         <email>n-sakimura@nri.co.jp</email>
@@ -104,63 +97,55 @@
 	quotes MUST NOT be used as part of the value.</t>
       </section>
 
-      <section anchor="terminology" title="Terminology">
-	<t>This specification uses the terms "Access Token", "Refresh Token",
-	"Authorization Code", "Authorization Grant", "Authorization Server",
-	"Authorization Endpoint", "Client", "Client Identifier", "Client
-	Secret", "Protected Resource", "Resource Owner", "Resource Server", and
-	"Token Endpoint" defined by
-	<xref target="OAuth2.0">OAuth 2.0</xref>.
-	This specification also defines the following terms:
-	  <list style="hanging">
-	    <t hangText="Relying Party (RP)">An application requiring
-	    Claims from an OpenID Provider.</t>
-
-	    <t hangText="OpenID Provider (OP)">A service capable of providing
-	    Claims to a Relying Party.</t>
-
-	    <t hangText="Claim">A piece of information about an Entity that a
-	    Claims Provider asserts about that Entity.</t>
-
-	    <t hangText="Claims Provider">A Server that can
-	    return Claims about an Entity.</t>
-
-	    <t hangText="End-User">A human Resource Owner.</t>
-
-	    <t hangText="Entity">Something that has a separate and
-	    distinct existence and that can be identified in a context.
-	    An End-User is one example of an Entity.</t>
-
-	    <t hangText="Personally Identifiable Information (PII)">
-            Any information that (a) can be used to identify the natural person 
-            to whom such information relates, or 
-            (b) is or might be directly or indirectly linked to a 
-            natural person to whom such information relates. </t>
-
-        <t hangText="Pairwise Pseudonymous Identifier (PPID)">
-        An identifier that identifies the Entity to a Relying Party. 
-        An Entity's PPID at one Relying Party cannot be correlated 
-        with the Entity's PPID at another Relying Party. </t>
-
-	    <t hangText="ID Token">A token that contains Claims about the
-	    authentication event. It is a
-	    <xref target="JWT">JSON Web Token (JWT)</xref>.
-	      Relying 
-	    Parties wanting to process the ID Token contents directly should refer to the 
-	    <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
-	    specification.</t>
-
-	    <t hangText="Issuer">An Entity that issues a set of Claims.</t>
-
-	    <t hangText="Issuer Identifier">A verifiable identifier for
-	    an Issuer.  An Issuer Identifier is an HTTPS URL that only
-	    contains scheme, host, and OPTIONALLY, port number
-	    components.  (No path component may be present.)</t>
-
-	    <t hangText="UserInfo Endpoint">A Protected Resource that, when
-	    presented with an Access Token by the Client, returns authorized
-	    information about the End-User represented by that Access Token.</t>
-	  </list></t>
+      <section anchor="terminology" title="Terminology"> 
+        <t>
+          This specification uses the terms "Access Token", "Refresh Token", "Authorization Code", "Authorization Grant", "Authorization Server", "Authorization Endpoint", "Client", "Client Identifier", "Client Secret", "Protected Resource", "Resource Owner", "Resource Server", and "Token Endpoint" defined by <xref target="OAuth2.0">OAuth 2.0</xref>. This specification also defines the following terms:
+          <list style="hanging">
+            <t hangText="Relying Party (RP)">
+              application requiring Claims from an OpenID Provider
+            </t>
+            <t hangText="OpenID Provider (OP)">
+              service capable of providing Claims to a Relying Party
+            </t>
+            <t hangText="Claim">
+              piece of information about an Entity that a Claims Provider asserts about that Entity 
+            </t>
+            <t hangText="Claims Provider">
+              server that can return Claims about an Entity 
+            </t>
+            <t hangText="End-User">
+              human Resource Owner
+            </t>
+            <t hangText="Entity">
+              something that has a separate and distinct existence and that can be identified in a context. An End-User is one example of an Entity 
+            </t>
+            <t hangText="Personally Identifiable Information (PII)">
+              information that (a) can be used to identify the natural person 
+              to whom such information relates, or 
+              (b) is or might be directly or indirectly linked to a 
+              natural person to whom such information relates. 
+            </t>
+            <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
+              identifier that identifies the Entity to a Relying Party that cannot be correlated 
+              with the Entity's PPID at another Relying Party 
+            </t>
+            <t hangText="ID Token">
+              <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event
+              <vspace /><vspace /><vspace />
+              Note: Relying Parties wanting to process the ID Token contents directly should refer to the <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specification.
+            </t>
+            <t hangText="Issuer">
+              Entity that issues a set of Claims. 
+            </t>
+            <t hangText="Issuer Identifier">
+              HTTPS URL that acts as a verifiable identifier for an Issuer 
+            </t>
+            <t hangText="UserInfo Endpoint">
+              protected resource that, when presented with an Access Token by the Client, returns authorized information about the End-User represented by the corresponding 
+              Authorization Grant  
+            </t>
+          </list>
+        </t>
       </section>
     </section>
 
