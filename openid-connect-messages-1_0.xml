@@ -1995,8 +1995,7 @@ may be retrieved:
             When using HMAC Signatures, the <spanx style="verb">alg</spanx>
              Claim of the JWS header MUST be set to the appropriate algorithm
              as defined in <xref target="JWA">JSON Web Algorithms</xref>. 
-            The <spanx style="verb">client_secret</spanx> MUST 
-            be used as the signature key. 
+             The client and server MUST establish a shared secret out of band.
           </t>
           <t hangText="Asymmetric Signatures">
             When using RSA or ECDSA Signatures, 
@@ -2024,12 +2023,7 @@ may be retrieved:
         to enable verification of the Issuer.</t>
         
         <t><list style="hanging">
-          <t hangText="Symmetric Encryption">
-            Use the <spanx style="verb">client_secret</spanx> to KeyWrap a random 
-            <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
-            the signed JWT.  
-          </t>
-          <t hangText="Asymmetric Encryption RSA">
+        <t hangText="Asymmetric Encryption RSA">
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
             The 
@@ -2040,7 +2034,7 @@ may be retrieved:
             If there are multiple keys in the referenced JWK document, the
             <spanx style="verb">kid</spanx> MUST be specified in the JWE header. 
             If there are multiple certificates at the referenced certificate location,
-	    then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.
+	        then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
             <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
