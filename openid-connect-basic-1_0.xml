@@ -579,7 +579,8 @@ req.send(postBody);]]></artwork>
         <t><list style="numbers">
             <t>If the Client has provided an
             <spanx style="verb">id_token_encrypted_response_alg</spanx>
-            parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
+            parameter during Registration, decrypt the <xref target="JWE">JWE</xref> 
+            encrypted <spanx style="verb">id_token</spanx> 
             using the key pair specified during Registration.</t>
             
             <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
@@ -1380,6 +1381,48 @@ scope=openid&response_type=code
                 type="HTML" />
       </reference>
 
+      <reference anchor="JWS">
+        <front>
+          <title>JSON Web Signature</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Protoviti">Protoviti Government Services</organization>
+          </author>
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+          <date day="12" month="March" year="2012" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature" type="HTML" />
+      </reference>
+
+      <reference anchor="JWE">
+        <front>
+          <title>JSON Web Encryption (JWE)</title>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization>Microsoft</organization>
+          </author>
+
+          <author fullname="Eric Rescorla" initials="E." surname="Rescorla">
+            <organization>RTFM, Inc.</organization>
+          </author>
+
+          <author fullname="Joe Hildebrand" initials="J." surname="Hildebrand">
+            <organization>Cisco Systems, Inc.</organization>
+          </author>
+
+          <date day="12" month="March" year="2012" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
+      </reference>
+
       <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
@@ -1403,20 +1446,20 @@ scope=openid&response_type=code
           <title abbrev="SAML 2.0 LoA Registry">An IANA registry for SAML 2.0 Level
            of Assurance Context Classes</title>
 
-	  <author fullname="Leif Johansson" initials="L." surname="Johansson">
-	    <organization>NORDUNet</organization>
-	    <address>
-	      <postal>
-		<street>Tulegatan 11</street>
-		<city>Stockholm</city>
-		<country>Sweden</country>
-	      </postal>
-	      <email>leifj@nordu.net</email>
-	    </address>
-	  </author>
+           <author fullname="Leif Johansson" initials="L." surname="Johansson">
+             <organization>NORDUNet</organization>
+             <address>
+               <postal>
+                <street>Tulegatan 11</street>
+                <city>Stockholm</city>
+                <country>Sweden</country>
+              </postal>
+              <email>leifj@nordu.net</email>
+            </address>
+          </author>
 
-	  <date day="18" month="February" year="2012" />
-	</front>
+          <date day="18" month="February" year="2012" />
+        </front>
         <format target="http://tools.ietf.org/html/draft-johansson-loa-registry" type="HTML" />
       </reference>
 
