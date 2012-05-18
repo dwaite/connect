@@ -426,8 +426,14 @@ Pragma: no-cache
         </section>
       </section>
       <section anchor="id.token.verification" title="ID Token Verification">
-        <t>To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client
-        MUST do the following:</t>
+      <t>
+          To verify the validity of ID Token in the Token Endpoint Response, 
+          the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
+          period "."characters, take the second segment, and base64url decode it to 
+          obtain a JSON object that includes ID Token claims that MUST be verified 
+          as follows:
+        </t>
+
         <t>
           <list style="numbers">
 
@@ -917,7 +923,7 @@ scope=openid&response_type=code
             Ltd.</organization>
           </author>
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Independent</organization>
+            <organization abbrev="Ping">Ping Identiity</organization>
           </author>
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
@@ -1050,7 +1056,10 @@ this specification.
     </section>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-       <t>-00 <list style="symbols"><t>Initial draft</t></list></t>
+       <t>-00 <list style="symbols">
+       <t>Initial draft</t>
+       <t>added text to decode id_tokens</t>
+       </list></t>
     </section>
   </back>
 </rfc>
