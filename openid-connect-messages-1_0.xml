@@ -176,10 +176,6 @@
         It is an extended OAuth 2.0 client. 
       </t>
 
-	    <t hangText="Check ID Endpoint">A resource that, when
-	    presented with an ID Token by the Client, returns Claims
-	    about the user session represented by that ID Token.</t>
-
 	    <t hangText="UserInfo Endpoint">A Protected Resource that, when
 	    presented with an Access Token by the Client, returns Claims
 	    about the End-User represented by that Access Token.</t>
@@ -199,13 +195,6 @@
 
 	    <t>The OP responds with an Access Token, an Id Token, 
 	    and a few other variables.</t>
-		
-	    <t>Optionally, the RP sends a request with the ID Token to the
-	    OP's <xref target="check_id_ep">Check ID
-	    Endpoint</xref>.</t>
-
-	    <t>Optionally, the Check ID Endpoint responds with authentication
-	    information pertaining to the supplied ID Token.</t>
 		
 	    <t>The RP sends a request with the Access Token to the <xref
 	    target="userinfo_ep">UserInfo Endpoint</xref>.</t>
@@ -253,10 +242,6 @@
           MAY be sent to the UserInfo Endpoint to obtain Claims about the
           End-User.</t>
 
-          <t>Check ID Endpoint: An ID Token MAY be sent to the Check ID
-          Endpoint to obtain information about the authentication
-          event.</t>
-
         </list></t>
 
       <section title="Authorization Endpoint">
@@ -274,8 +259,7 @@
           <t>The ID Token is used to manage the authentication event and user
           identifier and is scoped to a particular Client via the <spanx
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          Claims. It is used as an Access Token for the Check ID Endpoint, or consumed 
-          directly by the Client.</t>
+          Claims. </t>
 
           <t>The ID Token MUST attest to the following Claims:</t>
 
@@ -1229,25 +1213,6 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         </section>
       </section>
 
-      <section anchor="check_id_ep" title="Check ID Endpoint">
-        <t>The Check ID Endpoint validates ID Tokens and returns a <xref
-        target="RFC4627">JSON</xref> object that contains Claims about
-        the authentication event associated with the supplied ID Token.</t>
-        
-        <t>RPs (Clients) MUST not send an encrypted ID Token to the Check ID Endpoint.
-        If the Client registers  
-        <spanx style="verb">id_token_encrypted_response_alg</spanx> during <xref 
-        target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
-	the Client must decrypt the ID Token, and SHOULD directly verify the ID Token
-        per <xref target="id.token.verification">ID Token Verification</xref>.</t>
-
-        <t>This endpoint can be used by RPs that are not able to or do not
-        wish to directly handle ID Tokens. In such cases, RPs MAY treat the ID
-        Token as an opaque value, and use the Check ID Endpoint to
-        retrieve and examine the Claims associated with the ID Token.</t>
-
-
-      </section>
 
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
         <t>The UserInfo Endpoint is a Protected Resource that
