@@ -1870,9 +1870,12 @@ may be retrieved:
              
              <t hangText="id_token_signed_response_alg">OPTIONAL.  The 
              JWS signature algorithm <xref target="JWA" /> required 
-             for ID Tokens issued to this <spanx style="verb">client_id</spanx>. The default if not specified 
-             is <spanx style="verb">HS256</spanx>, using the provided
-	     <spanx style="verb">client_secret</spanx> as the shared key.</t>
+             for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
+             The default if not specified is <spanx style="verb">RS256</spanx>.
+	         The public key for verifying the signature is provided by retrieving the 
+	         document from the
+	         <spanx style="verb">jwk_url</spanx> element or the 
+	         <spanx style="verb">x509_url</spanx> element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
              The JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
@@ -3391,8 +3394,9 @@ may be retrieved:
           <t>Removed Check ID Endpoint</t>
           <t>Added PAPE Reference to the Informative Reference. (#574)</t>
           <t>Added id_token response type as MTI for server.</t>
-	  <t>Parameters present in both the OpenID Request Object and the
-	  OAuth 2.0 Authorization Request MUST exactly match</t>
+	      <t>Parameters present in both the OpenID Request Object and the
+	         OAuth 2.0 Authorization Request MUST exactly match</t>
+	      <t>Change default signing to R256</t>
         </list>
       </t>
 
