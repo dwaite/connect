@@ -400,11 +400,11 @@
           UserInfo and ID Token Claims. The request parameter method also
           allows requests to be signed or encrypted. </t>
 
-          <t>The Request File Method works similar to the Request Parameter
+          <t>The Request File Method works similarly to the Request Parameter
           Method but differs in that it sends an URL as a reference to the
           OpenID Request Object. It enables large requests to be sent
           securely and compactly even on user agents with limited capabilities.
-          Clients SHOULD use the Request File Method to minimize the request
+          Clients MAY use the Request File Method to minimize the request
           size.</t>
 
           <section title="Simple Request Method">
@@ -454,43 +454,26 @@ response_type=code%20id_token
 
           <section title="Request Parameter Method" anchor="req_param_method">
             <t>The Client prepares an Authorization Request to the
-            Authorization Endpoint using the appropriate HTTP parameters
+            Authorization Endpoint using the appropriate HTTP parameter
             serialization. The Client SHOULD construct the request using the
             HTTP "POST" method, but MAY use the HTTP "GET" method.</t>
 
             <t>The Authorization Request MUST include the 
-            <spanx style="verb">request</spanx> parameter defined in the <xref
-            target="rf_prep">Client Prepares an Authorization Request</xref>
-            section. The Authorization Request MUST NOT include the 
+            <spanx style="verb">request</spanx> parameter defined in <xref
+            target="rf_prep" />.
+	    The Authorization Request MUST NOT include the 
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
             <t>The <spanx style="verb">request</spanx> parameter is a
               <xref target="JWT">JWT</xref> encoded OpenID
               Request Object
               that contains the Authorization Request and also
-              specifies the content of
-              the responses returned from the UserInfo 
+              specifies the contents of
+              the responses to be returned from the UserInfo 
               Endpoint. The JWT object MAY be signed or signed and encrypted via
               <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
               respectively, thereby providing authentication, integrity,
               non-repudiation and/or confidentiality.</t>
-
-            <t>All Authorization Request parameters that are part of the
-            Authorization Request excluding the <spanx style="verb">request</spanx>,
-            <spanx style="verb">request_uri</spanx>,
-            <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
-            <spanx style="verb">client_id</spanx>, and <spanx style="verb">nonce</spanx>
-            parameters MUST also be JSON
-            Serialized into the 
-            OpenID Request Object with the same values.  This allows
-            the Client to send signed and/or encrypted requests to the
-            Authorization Server and maintain conformance to OAuth 2.0.</t>
-            
-            <t>The <spanx style="verb">client_id</spanx>,
-	    <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
-            and <spanx style="verb">nonce</spanx>
-            parameters MAY also be included in the 
-            OpenID Request Object.</t>
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
@@ -1649,7 +1632,6 @@ scope=openid&response_type=code
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
 
@@ -1996,8 +1978,10 @@ scope=openid&response_type=code
       <t>[[ To be removed from the final specification ]]</t>
       <t>10
         <list style="symbols">
-          <t>Changed verified to email_verified. #564. </t>
-          <t>removed check_id endpoint</t>
+          <t>Changed verified to email_verified. #564.</t>
+          <t>Removed Check ID Endpoint</t>
+	  <t>Parameters present in both the OpenID Request Object and the
+	  OAuth 2.0 Authorization Request MUST exactly match</t>
         </list>
       </t>
 

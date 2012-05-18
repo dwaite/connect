@@ -373,7 +373,7 @@
             It is an extended <xref target="OAuth2.0">OAuth 2.0</xref> 
             Authorization Request. 
             Section 4.1.1 and 4.2.1 of <xref target="OAuth2.0">OAuth 2.0</xref> 
-            defines the OAuth Authorization Request parameters. 
+            defines the OAuth 2.0 Authorization Request parameters. 
             In this specification, the values to the parameters are defined as follows. 
           </t>
 
@@ -620,39 +620,38 @@
             <t>The OpenID Request Object is a <xref target="JWT">JWT</xref>
             that is passed as the value of the "<spanx style="verb">request</spanx>"
             parameter in the Authorization Request. The OpenID Request Object
-            can also be sent by reference using 
+            MAY alternatively be sent by reference using 
             <spanx style="verb">request_url</spanx> parameter. 
             Parameters that affect the
             information returned from the UserInfo Endpoint are in the "<spanx
             style="verb">userinfo</spanx>" member. Parameters that affect the
             information returned in the ID Token
-            are in the "<spanx style="verb">id_token</spanx>" member. If the
-            same parameters are present both in the Authorization Request and
-            in the OpenID Request Object, the latter takes precedence.
+            are in the "<spanx style="verb">id_token</spanx>" member.
             </t>
 
-            <t>All Authorization Request parameters that are part of the
-            Authorization Request excluding the <spanx style="verb">request</spanx>,
-            <spanx style="verb">request_uri</spanx>,
-            <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
-            <spanx style="verb">client_id</spanx>,
-            <spanx style="verb">id_token</spanx>, and <spanx style="verb">nonce</spanx>
-            parameters MUST also be JSON
-            Serialized into the 
-            OpenID Request Object with the same values.  This allows
-            the Client to send signed and/or encrypted requests to the
-            Authorization Server and maintain conformance to OAuth 2.0.</t>
-
-            <t>Note that <spanx style="verb">request</spanx>,
-            <spanx style="verb">request_uri</spanx> MUST NOT be included 
-            in the OpenID Request Object. </t>
+	    <t>
+	      Authorization Request parameters that are included in
+	      the OAuth 2.0 Authorization Request MAY also be included
+	      in the OpenID Request Object (so that they can be part
+	      of the signed request).  All parameter values that are
+	      present both in the OAuth 2.0 Authorization Request
+	      and in the OpenID Request Object MUST exactly match.
+	    </t>
+	    <t>
+	      Authorization Request parameters that are OPTIONAL in
+	      the OAuth 2.0 specification MAY be included in the
+	      OpenID Request Object without also passing them as
+	      OAuth 2.0 Authorization Request parameters, with one
+	      exception:  The <spanx style="verb">scope</spanx>
+	      parameter MUST always be present in OAuth 2.0
+	      Authorization Request parameters (so that the
+	      OAuth 2.0 implementation has access to the
+	      <spanx style="verb">openid</spanx> scope value).
+	      However, the <spanx style="verb">request</spanx> and
+	      <spanx style="verb">request_uri</spanx> parameters
+	      MUST NOT be included in the OpenID Request Object.
+	    </t>
             
-            <t>The <spanx style="verb">client_id</spanx>,
-	    <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">state</spanx>,
-            and <spanx style="verb">nonce</spanx>
-            parameters MAY also be included in the 
-            OpenID Request Object.</t>
-
             <t>The OpenID Request Object 
             MAY contain other members that are not
             defined by this specification.
@@ -1795,8 +1794,8 @@ may be retrieved:
     
     <t>When the message is both signed and 
       encrypted, it MUST be
-      <xref target="signing_order">signed first then encrypted</xref>.
-      Note that all JWE encryption method comes with integrity checking. </t>
+      <xref target="signing_order">signed first and then encrypted</xref>.
+      Note that all JWE encryption methods perform integrity checking.</t>
 
        <section anchor="sigenc.alg" title="Supported Algorithms">
        <t>The server advertises its supported signing and encryption algorithms
@@ -2115,8 +2114,10 @@ may be retrieved:
 	 <section anchor="req.obj.veri" title="Parameter Verification">
 		  <t>The Authorization Server MUST construct the Authorization Request Message 
 		  from the OpenID Request Object 
-		  and other parameters. Note that if the same parameter exists both in 
-		  the OpenID Request Object and other parameters, the former takes precedence. 
+		  and the OAuth 2.0 Authorization Request parameters.
+		  If the same parameter exists both in 
+		  the OpenID Request Object and the OAuth Authorization Request parameters,
+		  the parameter values MUST exactly match.
 		  Using this Authorization Request Message, the Authorization Server performs 
 		  the following steps of the request verification: 
 		  </t>
@@ -3387,9 +3388,11 @@ may be retrieved:
           <t>Changed verified to email_verified. (#564)</t>
           <t>Added scope value claims_in_id_token as a switch to indicate claims shoudl go into id_token. (#561)</t>
           <t>Changed "optional" claim to "essential". (#577)</t>
-          <t>Remove check id endpoint</t>
+          <t>Removed Check ID Endpoint</t>
           <t>Added PAPE Reference to the Informative Reference. (#574)</t>
           <t>Added id_token response type as MTI for server.</t>
+	  <t>Parameters present in both the OpenID Request Object and the
+	  OAuth 2.0 Authorization Request MUST exactly match</t>
         </list>
       </t>
 
