@@ -573,16 +573,12 @@ req.send(postBody);]]></artwork>
       </section>
 
       <section anchor="id.token.verification" title="ID Token Verification">
-        <t>To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client
-        MUST do the following:</t>
+        <t>
+          To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client MUST first split the <spanx style="verb">id_token</spanx> at the period "."characters, take the second segment, and base64url decode it to obtain a JSON object that includes ID Token claims that MUST be verified as follows:
+        </t>
 
-        <t><list style="numbers">
-            <t>If the Client has provided an
-            <spanx style="verb">id_token_encrypted_response_alg</spanx>
-            parameter during Registration, decrypt the <xref target="JWE">JWE</xref> 
-            encrypted <spanx style="verb">id_token</spanx> 
-            using the key pair specified during Registration.</t>
-            
+        <t>
+          <list style="numbers">
             <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
             <spanx style="verb">aud</spanx> (audience) Claim is one
              it has registered for the Issuer identified by the value in the 
