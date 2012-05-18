@@ -361,7 +361,7 @@
           confidentiality</xref>.</t>
 
           <t>
-            Clients SHOULD directly validate the ID Token per 
+            Clients MUST directly validate the ID Token per 
             <xref target="id.token.verification">ID Token Verification</xref>. 
           </t>
         </section>
@@ -2180,7 +2180,11 @@ may be retrieved:
               <spanx style="verb">aud</spanx> (audience) is not valid for the 
               Issuer.</t>
              
-            <t>The Client MUST verify the ID Token signature according to
+            <t>If the <spanx style="verb">id_token</spanx> is received via direct
+            communication between the client and the Token Endpoint, the TLS server 
+            verification MAY be used to validate the issuer in place of 
+            checking the token signature.
+            The Client MUST verify the signature of all other ID Tokens according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
             
