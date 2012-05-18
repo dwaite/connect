@@ -105,7 +105,7 @@
 	This specification also defines the following terms:
 	  <list style="hanging">
 	    <t hangText="Request File">A document whose contents
-	    is a JWT representing a set of Authorization Request
+	    is an OpenID Request Object representing a set of Authorization Request
 	    parameters.</t>
 
 	    <t hangText="Request File URI">A URL that references a Request File.
@@ -356,9 +356,7 @@
               <t hangText="state">An opaque value used to maintain state
               between the request and the callback.</t>
 
-              <t hangText="request">A <xref target="JWT">JWT</xref> encoded
-              OpenID
-              Request Object.</t>
+              <t hangText="request">An OpenID Request Object value.</t>
 
               <t hangText="request_uri">A URL that points to an OpenID
               Request Object.</t>
@@ -376,7 +374,7 @@
 	      <spanx style="verb">none</spanx>. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
-              <t hangText="id_token">A JWT ID Token
+              <t hangText="id_token">An ID Token
               passed to the Authorization server as a hint. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
@@ -464,20 +462,19 @@ response_type=code%20id_token
 	    The Authorization Request MUST NOT include the 
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
-            <t>The <spanx style="verb">request</spanx> parameter is a
-              <xref target="JWT">JWT</xref> encoded OpenID
-              Request Object
+            <t>The <spanx style="verb">request</spanx> parameter is
+	      an OpenID Request Object
               that contains the Authorization Request and also
               specifies the contents of
               the responses to be returned from the UserInfo 
-              Endpoint. The JWT object MAY be signed or signed and encrypted via
+              Endpoint. The OpenID Request Object MAY be signed or signed and encrypted via
               <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
               respectively, thereby providing authentication, integrity,
               non-repudiation and/or confidentiality.</t>
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
-                OpenID Request Object before JWT encoding:</preamble>
+                OpenID Request Object before base64url encoding and signing:</preamble>
 
                 <artwork><![CDATA[{
  "response_type": "code id_token",
@@ -504,11 +501,11 @@ response_type=code%20id_token
    }
 }]]></artwork>
               </figure> <figure>
-                <preamble>The following is a non-normative example of a <xref
-                target="JWT">JWT</xref> encoded OpenID Request Object.
-		Line wraps within the values are for display purposes only.</preamble>
+                <preamble>The following is a non-normative example of
+		an OpenID Request Object before base64url encoding and signing
+		(with line wraps within the values for display purposes only):</preamble>
 
-                <artwork><![CDATA[JWT algorithm = HS256
+                <artwork><![CDATA[algorithm = HS256
 HMAC HASH Key = '0123456789ABCDEF0123456789ABCDEF'
 
 JSON Encoded Header =  {"alg":"HS256"}
@@ -534,7 +531,7 @@ JSON Encoded Payload = {
                                               }
                                    }
                        }
-JWT =  eyJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIs
+OpenID Request Object =  eyJhbGciOiJIUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIs
     ImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wv
     Y2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJz
     dGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWoiLCJ1c2VyaW5m
@@ -618,11 +615,11 @@ VlfSwicGljdHVyZSI6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
             Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter. The target of the URL is a JWT that is an
+            parameter. The contents of the target of the URL must be an
             OpenID Request Object. The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be HTTPS, 
-            unless the target JWT is signed in a way that is verifiable by the 
-            Authorization server.
+            unless the target OpenID Request Object is signed in a way that is verifiable by the 
+            Authorization Server.
             The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
             Authorization Server, and SHOULD be reachable by the Client.
             </t>
@@ -663,7 +660,7 @@ jciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.7fDxvYrqmObFn0d5BUqeyAFb6daDkiL-zXJTuHHJ
                 <preamble>Following is a non-normative example. Line
                 wraps are for display purposes only.</preamble>
 
-                <artwork><![CDATA[https://client.example.com/rf.jwt
+                <artwork><![CDATA[https://client.example.com/rf.txt
 #959w6lFunlMyjSaxmW0FtqvkRsmCaAIWuwl6QKeY89g]]></artwork>
               </figure>
 
@@ -685,7 +682,7 @@ jciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.7fDxvYrqmObFn0d5BUqeyAFb6daDkiL-zXJTuHHJ
 Location: https://server.example.com/authorize
 ?response_type=code%20id_token
 &client_id=s6BhdRkqt3
-&request_uri=https%3A%2F%2Fclient.example.com%2Frf.jwt
+&request_uri=https%3A%2F%2Fclient.example.com%2Frf.txt
 %23959w6lFunlMyjSaxmW0FtqvkRsmCaAIWuwl6QKeY89g
 &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj&scope=openid]]></artwork>
               </figure>
@@ -706,7 +703,7 @@ Location: https://server.example.com/authorize
                 <preamble>Following is a non-normative example of this fetch
                 process:</preamble>
 
-                <artwork><![CDATA[GET /rf.jwt HTTP/1.1
+                <artwork><![CDATA[GET /rf.txt HTTP/1.1
 Host: client.example.com]]></artwork>
               </figure>
             </section>
@@ -1981,7 +1978,9 @@ scope=openid&response_type=code
           <t>Changed verified to email_verified. #564.</t>
           <t>Removed Check ID Endpoint</t>
 	  <t>Parameters present in both the OpenID Request Object and the
-	  OAuth 2.0 Authorization Request MUST exactly match</t>
+	  OAuth 2.0 Authorization Request MUST exactly match, per issue #575</t>
+	  <t>Change OpenID Request Object from being specified as a JWT
+	  to being specified as a JWS signed base64url encoded JSON object, per issue #592</t>
         </list>
       </t>
 

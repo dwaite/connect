@@ -244,16 +244,16 @@
         <spanx style="verb">scope</spanx>.</t>
 
         <section anchor="id_token" title="ID Token">
-          <t>The ID Token is a token that contains Claims about the
+          <t>The ID Token is a security token that contains Claims about the
           authentication event and other requested Claims.  
-          The Token is a <xref target="JWT">JSON Web Token (JWT)</xref>. </t>
+          The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
 
           <t>The ID Token is used to manage the authentication event and user
           identifier and is scoped to a particular Client via the <spanx
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
           Claims. </t>
 
-          <t>The ID Token MUST attest to the following Claims:</t>
+          <t>The ID Token MUST contain the following Claims:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
@@ -595,15 +595,14 @@
 		with any other value, an
                 error is returned.</t>
 
-              <t hangText="request">OPTIONAL. A <xref target="JWT">JWT</xref>
-              encoded <xref target="OpenID_Request_Object">OpenID Request
-              Object</xref>.</t>
+              <t hangText="request">OPTIONAL. An
+	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value.</t>
 
               <t hangText="request_uri">OPTIONAL. An URL that points to an
               OpenID Request Object. This is used to pass an OpenID Request
               Object by reference.</t>
               
-              <t hangText="id_token">OPTIONAL. A JWT <spanx style="verb">id_token</spanx>
+              <t hangText="id_token">OPTIONAL. An <xref target="id_token">ID Token</xref>
               passed to the Authorization server as a hint about the user's current or past
               authenticated session with the client. This SHOULD be present if 
               <spanx style="verb">prompt=none</spanx> is sent.</t>
@@ -617,7 +616,8 @@
             sets of Claims other than the default <xref
             target="userinfo_ep">UserInfo</xref>, and ID Token Claim sets.</t>
 
-            <t>The OpenID Request Object is a <xref target="JWT">JWT</xref>
+            <t>The OpenID Request Object is a
+	    <xref target="JWS">JWS</xref> signed base64url encoded JSON object
             that is passed as the value of the "<spanx style="verb">request</spanx>"
             parameter in the Authorization Request. The OpenID Request Object
             MAY alternatively be sent by reference using 
@@ -662,12 +662,16 @@
 	    MAY also consider it an error condition if all requested
 	    required Claims are not provided.</t>
 
-      <t>The OpenID Request Object JWT MAY be signed or unsigned (plaintext).
-	    When it is a plaintext JWT, this is indicated by use of the
+	    <t>The OpenID Request Object MAY be signed or unsigned (plaintext).
+	    When it is plaintext, this is indicated by use of the
 	    <spanx style="verb">none</spanx> algorithm <xref target="JWA" />
-	    in the header.  If signed, the OpenID Request Object
-            SHOULD contain the standard JWT "<spanx style="verb">iss</spanx>" (issuer)
-            and "<spanx style="verb">aud</spanx>" (audience) Claims.</t>
+	    in the JWS header.  If signed, the OpenID Request Object
+            SHOULD contain the Claims
+	    <spanx style="verb">iss</spanx> (issuer)
+            and <spanx style="verb">aud</spanx> (audience) as members,
+	    with their semantics being the same as defined in the
+	    <xref target="JWT">JWT</xref> specification.
+	    </t>
 
             <t>The OpenID Request Object members defined by this
             specification are:</t>
@@ -685,8 +689,8 @@
                 to request additional Claims incremental to the <xref target="id_token">
                                 default Claims of the ID Token.</xref></t>
               </list><figure>
-                <preamble>An example OpenID Request Object body before JWT 
-                encoding is as follows:</preamble>
+                <preamble>An example OpenID Request Object body before
+		base64url encoding and JWS signing is as follows:</preamble>
 
                 <artwork><![CDATA[{
  "response_type": "code id_token",
@@ -2096,10 +2100,10 @@ may be retrieved:
 	 <section anchor="signed.req.obj.var" title="Signed Request Object">
 
           <t>To perform Signature Verification, 
-          the <spanx style="verb">alg</spanx> parameter in the JWT header MUST match the value
+          the <spanx style="verb">alg</spanx> parameter in the JWS header MUST match the value
           of the <spanx style="verb">require_signed_request_object</spanx> set during
-          <xref target="OpenID.Registration">Client Registration</xref> or otherwise 
-		  pre-registered value.</t>
+          <xref target="OpenID.Registration">Client Registration</xref> or a value that was
+	   pre-registered by other means.</t>
           
           <t>The signature must be validated against the key registered for that <spanx style="verb">client_id</spanx>
           and algorithm, in accordance with the 
@@ -2388,7 +2392,7 @@ may be retrieved:
 	  the server. </t>
 	  <t>In addition to what is stated in section 5.1.2 of the <xref target="OAuth.Threat" />, 
 	  this standard provides a way to authenticate the Server through either the 
-	  use of Signed or Encrypted JWT (JWS and JWE) 
+	  use of Signed or Encrypted JWTs 
 	  with an appropriate key and cipher.</t> 
 	  </section>
 	  
@@ -2437,7 +2441,7 @@ may be retrieved:
 
             <t>For other response types,
 	    the signed response can be encrypted with the Client's 
-            public key or a shared secret as an encrypted JWT (JWE) 
+            public key or a shared secret as an encrypted JWT
 	        with an appropriate key and cipher.</t>
           </list></t>
       </section>
@@ -2531,8 +2535,9 @@ may be retrieved:
 	    <t>There are various crypto related attacks possible depending on the 
 		method used for encryption and signature / integrity checking.
 		Implementers should consult the Security Considerations
-		for the <xref target="JWS">JWS</xref>, <xref target="JWE">JWE</xref>,
-		and <xref target="JWT">JWT</xref> to avoid the vulnerabilitues 
+		for the <xref target="JWT">JWT</xref> specification and
+		specifications that it references
+		to avoid the vulnerabilitues 
 		identified in these specifications. 
 		</t>
 	  </section>
@@ -3388,9 +3393,13 @@ may be retrieved:
           <t>Removed Check ID Endpoint</t>
           <t>Added PAPE Reference to the Informative Reference. (#574)</t>
           <t>Added id_token response type as MTI for server.</t>
-	      <t>Parameters present in both the OpenID Request Object and the
-	         OAuth 2.0 Authorization Request MUST exactly match</t>
-	      <t>Change default signing to R256</t>
+
+
+          <t>Parameters present in both the OpenID Request Object and the
+	  OAuth 2.0 Authorization Request MUST exactly match, per issue #575</t>
+          <t>Change OpenID Request Object from being specified as a JWT
+	  to being specified as a JWS signed base64url encoded JSON object, per issue #592</t>
+	  <t>Change default signing to R256</t>
         </list>
       </t>
 
