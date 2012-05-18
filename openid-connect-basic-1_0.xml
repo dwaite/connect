@@ -569,8 +569,78 @@ req.send(postBody);]]></artwork>
          
         </section>
         </section>
+        
       </section>
 
+      <section anchor="id.token.verification" title="ID Token Verification">
+        <t>To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client
+        MUST do the following:</t>
+
+        <t><list style="numbers">
+            <t>If the Client has provided an
+            <spanx style="verb">id_token_encrypted_response_alg</spanx>
+            parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
+            using the key pair specified during Registration.</t>
+            
+            <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
+            <spanx style="verb">aud</spanx> (audience) Claim is one
+             it has registered for the Issuer identified by the value in the 
+             <spanx style="verb">iss</spanx> (issuer) Claim.
+              The ID Token MUST be rejected if the value of 
+              <spanx style="verb">aud</spanx> (audience) is not valid for the 
+              Issuer.</t>
+             
+            <t>
+            The Client MUST verify the signature of the ID Token according to
+            <xref target="JWS">JWS</xref> using the algorithm specified in the 
+            <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
+            
+            <t>The value of <spanx style="verb">alg</spanx> SHOULD be the algorithm sent 
+            by the Client 
+            in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter 
+            during Registration.</t>
+            
+            <t>If the <spanx style="verb">alg</spanx> parameter of the JWT header is one of 
+            <spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
+	    or <spanx style="verb">HS512</spanx>,
+	    the <spanx style="verb">client_secret</spanx> for the 
+            <spanx style="verb">client_id</spanx> contained in the 
+            <spanx style="verb">aud</spanx> (audience) Claim is used to validate the 
+            signature.</t> 
+            
+            <t>For other Signing algorithms the Client must use the signing key provided
+             in Discovery
+            by the Issuer exactly matching the value of the 
+            <spanx style="verb">iss</spanx> (issuer) Claim.</t>
+
+            <t>The current time MUST be less than the value of the 
+            <spanx style="verb">exp</spanx> Claim.</t>
+            
+            <t>The <spanx style="verb">iat</spanx> Claim may be used to reject tokens that 
+            were issued too far away from the current time, limiting the amount of
+            time that nonces must be stored to prevent attacks. 
+            The acceptable range is Client specific.</t>
+            
+            <t>The value of the <spanx style="verb">nonce</spanx>
+             Claim MUST be checked to verify that
+            it is the same value as the one that was sent in the Authorization
+            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
+            The precise method for detecting replay attacks is Client specific.</t>
+            
+            <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
+            Client SHOULD check that the asserted Claim Value is appropriate.
+            The meaning and processing of  
+            <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
+            
+            <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
+            Client SHOULD check the value 
+            and request re-authentication if it determines too much time has elapsed 
+            since the last user authentication.</t>
+            
+          </list></t>
+
+        
+      </section>
 
 
       <section anchor="userinfo" title="UserInfo Endpoint">
@@ -1430,6 +1500,7 @@ scope=openid&response_type=code
         <list style="symbols">
           <t>Changed verified to email_verified #564.</t>
           <t>Removed check_id endpoint</t>
+          <t>added id_token signature verification</t>
         </list>
       </t>
       
