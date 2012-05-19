@@ -1840,7 +1840,8 @@ may be retrieved:
              <t hangText="require_signed_request_object">OPTIONAL.  The 
              JWS signature algorithm <xref target="JWA" /> required for for OpenID Request Objects
              by the Authorization Server. All OpenID Request Objects from
-             this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.</t>
+             this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
+             Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
               
              <t hangText="userinfo_signed_response_alg">OPTIONAL.  The 
              JWS signature algorithm <xref target="JWA" /> required for userinfo responses. 
@@ -2198,8 +2199,8 @@ may be retrieved:
             
             <t>If the <spanx style="verb">alg</spanx> parameter of the JWT header is one of 
             <spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
-	    or <spanx style="verb">HS512</spanx>,
-	    the <spanx style="verb">client_secret</spanx> for the 
+	        or <spanx style="verb">HS512</spanx>,
+	        the secret established out of band for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim is used to validate the 
             signature.</t> 
@@ -3400,6 +3401,7 @@ may be retrieved:
           <t>Change OpenID Request Object from being specified as a JWT
 	  to being specified as a JWS signed base64url encoded JSON object, per issue #592</t>
 	  <t>Change default signing to R256</t>
+	  <t>change default request_object signing to RS256</t>
         </list>
       </t>
 
