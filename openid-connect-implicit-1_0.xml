@@ -305,19 +305,21 @@
 
               <t hangText="redirect_uri">A redirection URI where the response
               will be sent. This MUST be pre-registered with the provider.</t>
-            
-              <t hangText="nonce">A string value used to associate a user-agent session 
-              with an ID Token, and to mitigate replay attacks. 
-              The value is passed through unmodified to the ID Token.
-              One method is to store a random value as a signed session cookie, and
-              pass the value in the <spanx style="verb">nonce</spanx> parameter.  The <spanx style="verb">nonce</spanx> in the returned ID Token
-              is compared to the signed session cookie to detect ID Token replay by third 
-              parties.</t>
-            </list></t>
+           </list></t>
 
-          <t>The request MAY contain the following OPTIONAL parameters:</t>
+          <t>The request MAY contain the following OPTIONAL and sometimes REQUIRED parameters:</t>
 
           <t><list style="hanging">
+            
+              <t hangText="nonce">A string value used to associate a Client session 
+              with an ID Token, and to mitigate replay attacks. 
+              The value is passed through unmodified to the ID Token.
+              One method to achieve this is to store a random value as a signed session cookie, and
+              pass the value in the <spanx style="verb">nonce</spanx> parameter.
+	      In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
+              is compared to the signed session cookie to detect ID Token replay by third 
+              parties.</t>
+ 
               <t hangText="state">RECOMENDED.  An opaque value used
               to maintain state between the request and the callback;
               serves as a protection against XSRF attacks.</t>
@@ -1456,7 +1458,7 @@ scope=openid&response_type=code
           <t>Renamed from Basic Client to Implicit Client, per issue #567</t>
           <t>Changed <spanx style="verb">verified</spanx> to
 	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
-          <t>Removed Check ID endpoint and added ID token signature verifcation text, per issue #570</t>
+          <t>Removed Check ID Endpoint and added ID token signature verifcation text, per issue #570</t>
         </list>
       </t>
 

@@ -253,7 +253,7 @@
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
           Claims. </t>
 
-          <t>The ID Token MUST contain the following Claims:</t>
+          <t>The following Claims are REQUIRED and OPTIONAL within the ID Token:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
@@ -308,10 +308,20 @@
               name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
               </t>
 
-              <t hangText="nonce">REQUIRED. Clients MUST verify that
-              the <spanx style="verb">nonce</spanx> value is equal to
+              <t hangText="nonce">A string value used to associate a Client session 
+              with an ID Token, and to mitigate replay attacks. 
+              The value is passed through unmodified from the Authorization Request to the ID Token.
+	      If present in the <xref target="id_token">ID Token</xref>,
+	      clients MUST verify that
+              the <spanx style="verb">nonce</spanx> Claim value is equal to
               the value of the <spanx style="verb">nonce</spanx>
-              parameter in the Authorization Request.</t>
+              parameter sent in the Authorization Request.
+	      If present in the Authorization Request, Authorization Servers
+	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
+	      <xref target="id_token">ID Token</xref> with the Claim value
+	      being the nonce value sent in the Authorization Request.
+	      Use of the nonce is REQUIRED when using the implicit flow
+	      and OPTIONAL when using the code flow.</t>
 
               <t hangText="auth_time">OPTIONAL. If the 
                   <xref target="req.obj.id_token">id_token</xref> member of the 
@@ -534,8 +544,10 @@
           <t>The following extension parameters are also defined:</t>
 
           <t><list style="hanging">
-              <t hangText="nonce">REQUIRED. A random, unique string value used
-              to mitigate replay attacks.</t>
+              <t hangText="nonce">A random, unique string value used
+              to mitigate replay attacks.
+	      Use of the nonce is REQUIRED when using the implicit flow
+	      and OPTIONAL when using the code flow.</t>
 
             <t hangText="display">OPTIONAL. An ASCII string value that specifies
               how the Authorization Server displays the authentication and
@@ -2218,12 +2230,13 @@ may be retrieved:
             time that nonces must be stored to prevent attacks. 
             The acceptable range is Client specific.</t>
             
-            <t>The value of the <spanx style="verb">nonce</spanx>
-             Claim MUST be checked to verify that
+            <t>If a nonce value was sent in the Authorization Request,
+	    a <spanx style="verb">nonce</spanx> Claim MUST be present
+	    and its value of the checked to verify that
             it is the same value as the one that was sent in the Authorization
             Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
             The precise method for detecting replay attacks is Client specific.</t>
-            
+
             <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
             Client SHOULD check that the asserted Claim Value is appropriate.
             The meaning and processing of  
@@ -3388,20 +3401,24 @@ may be retrieved:
       <t>[[ To be removed from the final specification ]]</t>
       <t>10
         <list style="symbols">
-          <t>Changed verified to email_verified. (#564)</t>
-          <t>Added scope value claims_in_id_token as a switch to indicate claims shoudl go into id_token. (#561)</t>
-          <t>Changed "optional" claim to "essential". (#577)</t>
-          <t>Removed Check ID Endpoint</t>
-          <t>Added PAPE Reference to the Informative Reference. (#574)</t>
-          <t>Added id_token response type as MTI for server.</t>
-
-
-          <t>Parameters present in both the OpenID Request Object and the
+          <t>Changed <spanx style="verb">verified</spanx> to
+	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
+          <t>Added scope value  <spanx style="verb">claims_in_id_token</spanx> as a switch
+	  to indicate that the UserInfo claims should be returned in the
+	  <spanx style="verb">id_token</spanx>, per issue #561</t>
+          <t>Changed  <spanx style="verb">optional</spanx> claim request parameter
+	  to <spanx style="verb">essential</spanx>, per issue #577</t>
+	  <t>Removed Check ID Endpoint, per issue #570</t>
+          <t>Added PAPE Reference to the Informative References, per issue #574</t>
+          <t>Added "id_token" response type as being MTI for OpenID Providers</t>
+          <t>Specified that parameters present in both the OpenID Request Object and the
 	  OAuth 2.0 Authorization Request MUST exactly match, per issue #575</t>
-          <t>Change OpenID Request Object from being specified as a JWT
+          <t>Changed OpenID Request Object from being specified as a JWT
 	  to being specified as a JWS signed base64url encoded JSON object, per issue #592</t>
-	  <t>Change default signing to R256</t>
-	  <t>change default request_object signing to RS256</t>
+	  <t>Changed default ID Token signing algorithm to RS256, per issue #571</t>
+	  <t>Changed default OpenID Request Object signing algorithm to RS256, per issue #571</t>
+	  <t>Made use of the nonce REQUIRED when using the implicit flow
+	  and OPTIONAL when using the code flow, per issue #569</t>
         </list>
       </t>
 

@@ -341,22 +341,27 @@
                target="OpenID.Registration">OpenID Connect Dynamic Client 
                Registration 1.0</xref> specification.</t>
 
-              <t hangText="nonce">A string value used to associate a user agent session 
-              with an ID Token, and to mitigate replay attacks. 
-              The value is passed through unmodified to the ID Token.
-              One method is to store a random value as a signed session cookie, and
-              pass the value in the <spanx style="verb">nonce</spanx> parameter.  The <spanx style="verb">nonce</spanx> in the returned ID Token
-              is compared to the signed session cookie to detect ID Token replay by third 
-              parties.</t>
             </list></t>
 
-          <t>The request can contain the following OPTIONAL parameters:</t>
+          <t>The request MAY contain the following OPTIONAL and sometimes REQUIRED parameters:</t>
 
           <t><list style="hanging">
+
+             <t hangText="nonce">A string value used to associate a Client session 
+              with an ID Token, and to mitigate replay attacks. 
+              The value is passed through unmodified from the Authorization Request to the ID Token.
+              One method to achieve this is to store a random value as a signed session cookie, and
+              pass the value in the <spanx style="verb">nonce</spanx> parameter.
+	      In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
+              is compared to the signed session cookie to detect ID Token replay by third 
+              parties.
+	      Use of the nonce is REQUIRED when using the implicit flow
+	      and OPTIONAL when using the code flow.</t>
+
               <t hangText="state">An opaque value used to maintain state
               between the request and the callback.</t>
 
-              <t hangText="request">An OpenID Request Object value.</t>
+               <t hangText="request">An OpenID Request Object value.</t>
 
               <t hangText="request_uri">A URL that points to an OpenID
               Request Object.</t>
@@ -545,9 +550,9 @@ OpenID Request Object =  eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF
     bV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtFvXqOLSZMqoKK4
     0b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ
 
-The following are the X509 public key information that can be used to verify the
-OpenID Request Object signature in the above example. The values are a byte array 
-of hexadecimal digits in big endian format.
+The following is the RSA public key information that can be used
+to verify the OpenID Request Object signature in the above example.
+The values are an array of hexadecimal digits in big endian format.
                 
 modulus: 
 [
@@ -974,9 +979,9 @@ tn5dLz-0zZwVftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR
 
             <figure>
               <preamble>Public Key Information used to verify the ID Token</preamble>
-              <artwork><![CDATA[The following are the X509 public key information used to verify the
-ID Token signatures in the above examples. The values are a byte array 
-of hexadecimal digits in big endian format.
+              <artwork><![CDATA[The following is the RSA public key information that can be used
+to verify the ID Token signatures in the above examples.
+The values are an array of hexadecimal digits in big endian format.
                 
 modulus: 
 [
@@ -2064,12 +2069,20 @@ scope=openid&response_type=code
       <t>[[ To be removed from the final specification ]]</t>
       <t>10
         <list style="symbols">
-          <t>Changed verified to email_verified. #564.</t>
-          <t>Removed Check ID Endpoint</t>
-	  <t>Parameters present in both the OpenID Request Object and the
+          <t>Changed <spanx style="verb">verified</spanx> to
+	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
+          <t>Added scope value  <spanx style="verb">claims_in_id_token</spanx> as a switch
+	  to indicate that the UserInfo claims should be returned in the
+	  <spanx style="verb">id_token</spanx>, per issue #561</t>
+          <t>Changed  <spanx style="verb">optional</spanx> claim request parameter
+	  to <spanx style="verb">essential</spanx>, per issue #577</t>
+	  <t>Removed Check ID Endpoint, per issue #570</t>
+          <t>Specified that parameters present in both the OpenID Request Object and the
 	  OAuth 2.0 Authorization Request MUST exactly match, per issue #575</t>
-	  <t>Change OpenID Request Object from being specified as a JWT
+          <t>Changed OpenID Request Object from being specified as a JWT
 	  to being specified as a JWS signed base64url encoded JSON object, per issue #592</t>
+	  <t>Made use of the nonce REQUIRED when using the implicit flow
+	  and OPTIONAL when using the code flow, per issue #569</t>
         </list>
       </t>
 

@@ -429,8 +429,8 @@ Pragma: no-cache
       <t>
           To verify the validity of ID Token in the Token Endpoint Response, 
           the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
-          period "."characters, take the second segment, and base64url decode it to 
-          obtain a JSON object that includes ID Token claims that MUST be verified 
+          period "." characters, take the second segment, and base64url decode it to 
+          obtain a JSON object that includes the ID Token claims, which MUST be verified 
           as follows:
         </t>
 
@@ -1062,7 +1062,9 @@ this specification.
 	  <t>Use "code" response_type instead of "token id_token" in Basic Profile, per issue #567</t>
           <t>Changed <spanx style="verb">verified</spanx> to
 	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
-          <t>Removed Check ID endpoint and added ID Token signature verifcation text, per issue #570</t>
+          <t>Removed Check ID Endpoint, per issue #570</t>
+	  <t>Removed requirement for ID Token signature validation from Basic Profile, per issue #568</t>
+	  <t>Removed use of <spanx style="verb">nonce</spanx> from Basic Profile, per issue #569</t>
       </list></t>
 
       <t>-17<list style="symbols">
