@@ -26,7 +26,7 @@
 
     <author fullname="John Bradley" initials="J."
             surname="Bradley">
-      <organization>Independent</organization>
+      <organization abbrev="Ping">Ping Identity</organization>
 
       <address>
         <email>ve7jtb@ve7jtb.com</email>
@@ -558,9 +558,9 @@ req.send(postBody);]]></artwork>
       </section>
 
       <section anchor="id.token.verification" title="ID Token Verification">
-        <t>
-          To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client MUST first split the <spanx style="verb">id_token</spanx> at the period "."characters, take the second segment, and base64url decode it to obtain a JSON object that includes ID Token claims that MUST be verified as follows:
-        </t>
+        
+        <t>To verify the validity of ID Token in the Authorization Response, the Client
+        MUST do the following:</t>
 
         <t>
           <list style="numbers">
@@ -577,20 +577,12 @@ req.send(postBody);]]></artwork>
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
             
-            <t>The value of <spanx style="verb">alg</spanx> SHOULD be the algorithm sent 
-            by the Client 
-            in the <spanx style="verb">id_token_signed_response_algs</spanx> parameter 
-            during Registration.</t>
+            <t>The value of <spanx style="verb">alg</spanx> MUST be RS256.
+            For validation of tokens using other signing algorithms the 
+            messages specification MUST be used.</t>
             
-            <t>If the <spanx style="verb">alg</spanx> parameter of the JWT header is one of 
-            <spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
-	    or <spanx style="verb">HS512</spanx>,
-	    the <spanx style="verb">client_secret</spanx> for the 
-            <spanx style="verb">client_id</spanx> contained in the 
-            <spanx style="verb">aud</spanx> (audience) Claim is used to validate the 
-            signature.</t> 
             
-            <t>For other Signing algorithms the Client must use the signing key provided
+            <t>The Client must use the signing key provided
              in Discovery
             by the Issuer exactly matching the value of the 
             <spanx style="verb">iss</spanx> (issuer) Claim.</t>
@@ -1222,7 +1214,7 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Independent</organization>
+            <organization abbrev="Ping">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
