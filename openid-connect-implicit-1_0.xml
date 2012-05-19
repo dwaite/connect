@@ -12,8 +12,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Implicit Client Profile 1.0">OpenID Connect Implicit 
-    Client Profile 1.0 - draft 17</title>
+    <title abbrev="OpenID Connect Implicit Client Profile">OpenID Connect Implicit 
+    Client Profile 1.0 - draft 00</title>
 
     <author fullname="Nat Sakimura" initials="N."
             surname="Sakimura">
@@ -1449,190 +1449,17 @@ scope=openid&response_type=code
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-      <t>18
+
+      <t>-00
         <list style="symbols">
-          <t>Renamed from Basic Client to Implicit Client.</t>
-          <t>Changed verified to email_verified #564.</t>
-          <t>Removed check_id endpoint</t>
-          <t>added id_token signature verification</t>
+	  <t>Initial version, based upon Basic Client specification version -17</t>
+          <t>Renamed from Basic Client to Implicit Client, per issue #567</t>
+          <t>Changed <spanx style="verb">verified</spanx> to
+	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
+          <t>Removed Check ID endpoint and added ID token signature verifcation text, per issue #570</t>
         </list>
       </t>
-      
 
-      <t>-17<list style="symbols">
-	  <t>Removed "embedded" display type, since its semantics were
-	  not well defined, per issue #514</t>
-	  <t>Add hash and hash check of access_token and code to id_token, per issue #510</t>
-	  <t>Add example JS code for client</t>
-	  <t>Updated Notices</t>
-	  <t>Updated References</t>
-	</list></t>
-
-      <t>-16<list style="symbols">
-      <t>Added iat as a required claim in ID Tokens</t>
-      <t>Enumerated claims requested by the "profile" scope value</t>
-      <t>Added text about implicit flow to Abstract</t>
-      </list></t>
-      
-      <t>-15<list style="symbols">
-	  <t>Removed definition and usage for assertion and claim object</t>
-	  <t>email scope allows access to the 'verified' claim</t>
-	  <t>Removed language pertaining to custom userinfo schemas</t>
-	  <t>Moved display=none to prompt=none</t>
-	  <t>Added additional 'display' parameter options</t>
-	  <t>Redefined 'nonce' in Authorization Request. Changed to REQUIRED parameter.</t>
-	  <t>Changed usage of "approval" to "consent"</t>
-	  <t>Use RFC 6125 to verify TLS endpoints</t>
-	  <t>Allow other gender strings in UserInfo schema</t>
-	  <t>ID Token MUST be JWT</t>
-	  <t>RECOMMENDED E.164 format for UserInfo 'phone_number' claim</t>
-	  <t>Changed UserInfo Error Response to augment and return OAuth 2.0 Bearer Token Error Response</t>
-	  <t>Check ID Endpoint SHOULD use POST</t>
-	  <t>Added section about string comparison rules needed</t>
-	  <t>Added Response Encoding according to Multiple Response Types spec</t>
-	  <t>Make openid scope provide <spanx style="verb">user_id</spanx> from userinfo endpoint</t>
-	  <t>Changed Security Considerations to refer to corresponding section in Standard</t>
-	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
-      <t>Update John Bradley email and affiliation for Implementer's Draft</t>
-	  <t>Removed invalid_id_token error codes</t>
-	  <t>Replace queryString with postBody variable in example JS</t>
-        </list></t>
-
-       <t>-14<list style="symbols">
-          <t>Changed section 3.2.1 to refer to access_token ticket #134.</t>
-           <t>Bumped version + date.</t>
-           <t>Changed 7.4 in security considerations to show none is REQUIRED.</t>
-           <t>Changed 3.2.4.1 User Info to UserInfo per Ticket #137.</t>
-           <t>Changed formatting of 7.1 per ticket #140.</t>
-        </list></t>
-
-      <t>-13<list style="symbols">
-          <t>Changed check_session to check_id.</t>
-
-	  <t>schema=openid now required when requesting UserInfo.</t>
-
-          <t>Removed issued_to, since not well defined.</t>
-
-          <t>Removed display values popup, touch, and mobile, since not well defined.</t>
-        </list></t>
-
-      <t>-12<list style="symbols">
-          <t>Ticket #48 Changed Check Session to take the id_token as a
-          parameter.</t>
-        </list></t>
-
-      <t>-11 <list style="symbols">
-          <t>Renamed from "Lite" to "Basic Client".</t>
-
-          <t>Numerous cleanups, including updating references.</t>
-        </list></t>
-
-      <t>-10 <list style="symbols">
-          <t>Add back id_token to the response type per issue 27.</t>
-
-          <t>Changed endpoint name in example from id_token to
-          check_session.</t>
-
-          <t>Added token_type to the response and explanations of the optional
-          parameters.</t>
-        </list></t>
-
-      <t>-09 <list style="symbols">
-          <t>Clean up typos.</t>
-
-          <t>Clean up scope explanation.</t>
-
-          <t>Fix 3.2.4.1 to include id_token in response.</t>
-        </list></t>
-
-      <t>-08 <list style="symbols">
-          <t>Added note about OP needing to read the full spec.</t>
-
-          <t>Reverted back to GET for introspection based on Google
-          feedback.</t>
-
-          <t>Changed scopes to <spanx style="verb">openid</spanx>, <spanx
-          style="verb">profile</spanx>, <spanx style="verb">address</spanx>,
-          and <spanx style="verb">email</spanx> to make them additive.</t>
-
-          <t>Changed introspection to Check Session Endpoint to be consistent
-          with session management.</t>
-
-          <t>Changed validation rules, the Check session endpoint will return
-          an error for expired or invalid tokens, so the Client doesn't need
-          to check expiration.</t>
-
-          <t>Added explanation of why an id_token is used to verify identity
-          rather than the userinfo Access Token.</t>
-        </list></t>
-
-      <t>-07 <list style="symbols">
-          <t>Changed introspection to post</t>
-
-          <t>Changed userinfo from <spanx style="verb">id</spanx> to <spanx
-          style="verb">user_id</spanx> to be consistent with introspection
-          endpoint.</t>
-
-          <t>Fixed introspection example to use id_token rather than access
-          token.</t>
-
-          <t>Removed asking for id_token in response type.</t>
-
-          <t>Fixed Section 3 to be clear it is client secret that is maintained
-          between the client and the OP.</t>
-        </list></t>
-
-      <t>-06 <list style="symbols">
-          <t>Only require the <spanx style="verb">token</spanx> flow in Lite.
-          Removed <spanx style="verb">code</spanx> flow.</t>
-
-          <t>Make <spanx style="verb">id_token</spanx> required. The <spanx
-          style="verb">id_token</spanx> is treated as opaque.</t>
-
-          <t>Rearranged sections for readability.</t>
-
-          <t>Dropped the <spanx style="verb">schema</spanx> parameter to the
-          Introspection endpoint, which was formerly a string with the value
-          <spanx style="verb">user_id</spanx>. This is unnecessary since the
-          <spanx style="verb">id_token</spanx> parameter already can be used
-          to disambiguate the intended uses(s) of the endpoint.</t>
-
-          <t>Dropped the requested audience from the Lite spec, which was
-          formerly the identifier of the target audience of the response. This
-          could be part of the Standard spec, but is an advanced scenario, and
-          so not appropriate for Lite.</t>
-
-          <t>Reference the Discovery and Registration specs, since they're
-          needed for interaction between non-pre-configured parties (so that
-          OpenID Connect installations can be Open).</t>
-        </list></t>
-
-      <t>-05 <list style="symbols">
-          <t>Corrected issues raised by Casper Biering.</t>
-
-          <t>Created the OpenID Connect Lite specification.</t>
-        </list></t>
-
-      <t>-04 <list style="symbols">
-          <t>Correct issues raised by Pam Dingle and discussed on the mailing
-          list after the 7-Jul-11 working group call.</t>
-
-          <t>Adopted long_names.</t>
-        </list></t>
-
-      <t>-03 <list style="symbols">
-          <t>Correct issues raised by Johnny Bufu and discussed on the
-          7-Jul-11 working group call.</t>
-        </list></t>
-
-      <t>-02 <list style="symbols">
-          <t>Consistency and cleanup pass, including removing unused
-          references.</t>
-        </list></t>
-
-      <t>-01 <list style="symbols">
-          <t>Initial draft</t>
-        </list></t>
     </section>
   </back>
 </rfc>
