@@ -19,7 +19,7 @@
 
   <front>
     <title abbrev="OAuth 2.0 Multiple Response Types">
-      OAuth 2.0 Multiple Response Type Encoding Practices - draft 04
+      OAuth 2.0 Multiple Response Type Encoding Practices - draft 05
     </title>
 
     <author fullname="Breno" initials="B." role="editor" surname="de Medeiros">
@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="10" month="April" year="2012" />
+    <date day="20" month="May" year="2012" />
 
     <abstract>
       <t>This specification aims to provide guidance on proper encoding of responses to
@@ -207,11 +207,11 @@
             <artwork><![CDATA[GET https://server.example.com/authorize?
 response_type=token%20id_token
 &client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 &state=af0ifjsldkj HTTP/1.1]]></artwork></figure>
           <figure>
 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb#
+Location: https://client.example.org/cb#
 access_token=SlAV32hkKG
 &token_type=bearer
 &id_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
@@ -246,7 +246,7 @@ access_token=SlAV32hkKG
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="8" month="March" year="2012" />
+          <date day="1" month="May" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -260,7 +260,10 @@ access_token=SlAV32hkKG
 
       <t><list style="empty">
           <t>Naveen Agarwal (naa@google.com), Google</t>
+          <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
           <t>Breno de Medeiros (breno@google.com), Google</t>
+          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd. </t>
           <t>David Recordon (dr@fb.com), Facebook</t>
           <t>Marius Scurtescu (mscurtescu@google.com), Google</t>
           <t>Paul Tarjan (pt@fb.com), Facebook</t>
@@ -311,6 +314,10 @@ access_token=SlAV32hkKG
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-05 <list style="symbols">
+          <t>Changed client.example.com to client.example.org, per issue #251</t>
+        </list></t>
 
       <t>-04 <list style="symbols">
           <t>Updated Notices</t>

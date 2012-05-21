@@ -25,7 +25,7 @@
     </author>
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Independent</organization>
+      <organization>Ping Identity</organization>
 
       <address>
         <email>ve7jtb@ve7jtb.com</email>
@@ -272,7 +272,7 @@
 
             <artwork><![CDATA[GET /authorize?scope=openid&response_type=token%20id_token
 &client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 Host: server.example.com]]></artwork>
           </figure>
         </section>
@@ -405,7 +405,7 @@ Host: server.example.com]]></artwork>
 
               <artwork><![CDATA[GET /authorize?scope=openid&response_type=token%20id_token
 &client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 Host: server.example.com]]></artwork>
             </figure>
           </section>
@@ -426,7 +426,7 @@ Host: server.example.com]]></artwork>
                 response:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb#access_token=i1WsRn1uB1&token_type=JWT&id_token=jwt_header.jwt_part2.jwt_part3]]></artwork>
+Location: https://client.example.org/cb#access_token=i1WsRn1uB1&token_type=JWT&id_token=jwt_header.jwt_part2.jwt_part3]]></artwork>
               </figure></t>
           </section>
         </section>
@@ -507,7 +507,7 @@ Location: https://client.example.com/cb#access_token=i1WsRn1uB1&token_type=JWT&i
 
               <artwork><![CDATA[GET /authorize?scope=openid&response_type=code%20id_token
 &client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
 Host: server.example.com]]></artwork>
             </figure>
           </section>
@@ -528,7 +528,7 @@ Host: server.example.com]]></artwork>
                 response:</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.com/cb?code=i1WsRn1uB1]]></artwork>
+Location: https://client.example.org/cb?code=i1WsRn1uB1]]></artwork>
               </figure></t>
           </section>
 
@@ -549,7 +549,7 @@ Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=authorization_code&client_id=s6BhdRkqt3&
-code=i1WsRn1uB1&redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb]]></artwork>
+code=i1WsRn1uB1&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb]]></artwork>
               </figure></t>
           </section>
 
@@ -748,13 +748,13 @@ ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBs
 ZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6ImNsa
 WVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4ODB9.a
 JwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
-&state=bar&redirect_uri=https%3A%2F%2Fclient.example.com%2Fidtoken_cb
+&state=bar&redirect_uri=https%3A%2F%2Fclient.example.org%2Fidtoken_cb
 Host: server.example.com
 
 Response:
 
 HTTP/1.1 302 OK
-Location: http://client.example.com/idtoken_cb#id_token=eyJ0eXAiOiJKV1QiLCJh
+Location: http://client.example.org/idtoken_cb#id_token=eyJ0eXAiOiJKV1QiLCJh
 bGciOiJIUzI1NiIsImtpZCI6ImNsaWVudC5leGFtcGxlLmNvbSJ9.eyJpc3N1ZXIiOiJodHRwO
 lwvXC9zZXJ2ZXIuZXhhbXBsZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20
 iLCJhdWRpZW5jZSI6ImNsaWVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJle
@@ -808,7 +808,7 @@ BsZS5jb20iLCJjbGllbnRfaWQiOiJjbGllbnQuZXhhbXBsZS5jb20iLCJhdWRpZW5jZSI6I
 mNsaWVudC5leGFtcGxlLmNvbSIsImlkIjoidXNlcl8yMzQyMzQiLCJleHAiOjEzMDM4NTI4
 ODB9.aJwagC6501Da-zK-X8Az9B-Y625aSEfxVuBpFEDjOxQ
 &state=bar
-&redirect_uri=https%3A%2F%2Fclient.example.com%2Fendtoken_cb
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fendtoken_cb
 Host: server.example.com
 
 ...
@@ -818,7 +818,7 @@ Host: server.example.com
 Response:
 
 HTTP/1.1 302 OK
-Location: http://client.example.com/endtoken_cb?state=bar]]></artwork>
+Location: http://client.example.org/endtoken_cb?state=bar]]></artwork>
             </figure></t>
         </section>
       </section>
@@ -877,7 +877,7 @@ Location: http://client.example.com/endtoken_cb?state=bar]]></artwork>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Independent</organization>
+            <organization>Ping Identity</organization>
           </author>
 
           <author fullname="Breno de Medeiros" initials="B."
@@ -913,11 +913,10 @@ Location: http://client.example.com/endtoken_cb?state=bar]]></artwork>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protoviti">Protoviti Government
-            Services</organization>
+            <organization>Ping Identity</organization>
           </author>
 
-          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+          <author fullname="Yaron Goland" initials="Y.Y." surname="Goland">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
@@ -1063,6 +1062,7 @@ Location: http://client.example.com/endtoken_cb?state=bar]]></artwork>
       <t>-07 <list style="symbols">
 	  <t>Added warning about the significant revisions planned to
 	  session management to the abstract and introduction.</t>
+          <t>Changed client.example.com to client.example.org, per issue #251</t>
 	</list></t>
 
       <t>-06 <list style="symbols">

@@ -31,9 +31,8 @@
       </address>
     </author>
 
-    <author fullname="John Bradley" initials="J."
-            surname="Bradley">
-      <organization>Independent</organization>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
 
       <address>
         <email>ve7jtb@ve7jtb.com</email>
@@ -372,12 +371,12 @@ Accept: application/x-www-form-urlencoded
 Host: server.example.com
 
 type=client_associate
-&redirect_uris=https://client.example.com/callback%20https://client.example.com/callback2
-&logo_url=https://client.example.com/logo.png
+&redirect_uris=https://client.example.org/callback%20https://client.example.org/callback2
+&logo_url=https://client.example.org/logo.png
 &user_id_type=pairwise
 &sector_identifier_url=https://othercompany.com/file_of_redirect_uris_for_our_sites.js
 &token_endpoint_auth_type=client_secret_basic
-&jwk_url=https://client.example.com/my_rsa_public_key.jwk
+&jwk_url=https://client.example.org/my_rsa_public_key.jwk
 &userinfo_encrypted_response_alg=RSA1_5
 &userinfo_encrypted_response_enc=A128CBC
 &userinfo_encrypted_response_int=HS256]]></artwork>
@@ -406,16 +405,16 @@ type=client_associate
 	  <t><figure>
 	    <artwork><![CDATA[GET /connect/sector_identifier.js HTTP/1.1
 Accept: application/json
-Host: client.example.com
+Host: client.example.org
 
 HTTP/1.1 200 OK
 Content-Type: application/json
 Cache-Control: no-store
 Pragma: no-cache
 
-[ "https://client.example.com/callback",
-  "https://client.example.com/callback2",
-  "https://client.other_company.com/callback" ]]]></artwork>
+[ "https://client.example.org/callback",
+  "https://client.example.org/callback2",
+  "https://client.other_company.example.net/callback" ]]]></artwork>
 	  </figure></t>
 	</section>
       </section>
@@ -631,7 +630,7 @@ WWW-Authenticate: Bearer realm="example.com",
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Ping">Ping Identity</organization>
+            <organization>Ping Identity</organization>
           </author>
 
           <author fullname="Breno de Medeiros" initials="B."
@@ -682,10 +681,10 @@ WWW-Authenticate: Bearer realm="example.com",
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Ping">Ping Identity</organization>
+            <organization>Ping Identity</organization>
           </author>
 
-          <author fullname="Yaron Goland" initials="Y." surname="Goland">
+          <author fullname="Yaron Goland" initials="Y.Y." surname="Goland">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
@@ -718,8 +717,7 @@ WWW-Authenticate: Bearer realm="example.com",
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Protoviti">Protoviti Government
-            Services</organization>
+            <organization>Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -871,6 +869,7 @@ WWW-Authenticate: Bearer realm="example.com",
 	  <t>Made <spanx style="verb">rotate_secret</spanx> a separate registration
 	  request type and stop client secret changing with every response, per issue #363</t>
 	  <t>Changed default ID Token signing algorithm to RS256, per issue #571</t>
+          <t>Changed client.example.com to client.example.org, per issue #251</t>
       	</list></t>
       
       <t>-10<list style="symbols">
