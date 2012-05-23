@@ -348,15 +348,10 @@
           <t><list style="hanging">
 
              <t hangText="nonce">A string value used to associate a Client session 
-              with an ID Token, and to mitigate replay attacks. 
+              with an ID Token, and to mitigate against replay attacks. 
               The value is passed through unmodified from the Authorization Request to the ID Token.
-              One method to achieve this is to store a random value as a signed session cookie, and
-              pass the value in the <spanx style="verb">nonce</spanx> parameter.
-	      In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
-              is compared to the signed session cookie to detect ID Token replay by third 
-              parties.
-	      Use of the nonce is REQUIRED when using the implicit flow
-	      and OPTIONAL when using the code flow.</t>
+               Use of the nonce is REQUIRED when using the implicit flow
+	           and OPTIONAL when using the code flow.</t>
 
               <t hangText="state">An opaque value used to maintain state
               between the request and the callback.</t>
@@ -2078,6 +2073,7 @@ scope=openid&response_type=code
 	  <t>Made use of the nonce REQUIRED when using the implicit flow
 	  and OPTIONAL when using the code flow, per issue #569</t>
           <t>Changed client.example.com to client.example.org, per issue #251</t>
+          <t>removed example text for generating a nonce per issue #562</t>
         </list>
       </t>
 
