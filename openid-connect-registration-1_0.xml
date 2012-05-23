@@ -354,14 +354,21 @@
             <t hangText="default_acr">OPTIONAL. (default authentication context class reference):  
                   Type: String 
                   - Specifies the default value that the Authorization server must use 
-                  for processing requests from this client.  The <spanx style="verb">
-                  acrs_supported</spanx> element of discovery 
+                  for processing requests from this client.  The 
+                  <spanx style="verb">acrs_supported</spanx> element of discovery 
                   contains a list of the supported <spanx style="verb">acr</spanx>
 	              values for this server.
                   The <spanx style="verb">acr</spanx> claim in the 
                   request object overrides this default value.</t>
 
           </list></t>
+      <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
+      may require an Access Token in order to restrict registration requests
+      to only authorized Clients.</t> 
+      
+      <t>If the Client Registration Endpoint requires a Access token 
+      it SHOULD accept Access Tokens as
+      <xref target="OAuth.Bearer">Bearer Tokens</xref>.</t>        
           
           <t>Following is a non-normative example request:</t>
           
@@ -369,6 +376,7 @@
             <artwork><![CDATA[POST /connect/register HTTP/1.1
 Accept: application/x-www-form-urlencoded
 Host: server.example.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 
 type=client_associate
 &redirect_uris=https://client.example.org/callback%20https://client.example.org/callback2
@@ -870,6 +878,7 @@ WWW-Authenticate: Bearer realm="example.com",
 	  request type and stop client secret changing with every response, per issue #363</t>
 	  <t>Changed default ID Token signing algorithm to RS256, per issue #571</t>
           <t>Changed client.example.com to client.example.org, per issue #251</t>
+          <t>Added text for authz to the registration endpoint. per issue #587</t>
       	</list></t>
       
       <t>-10<list style="symbols">
