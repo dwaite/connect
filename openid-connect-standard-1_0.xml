@@ -348,7 +348,7 @@
           <t><list style="hanging">
 
              <t hangText="nonce">A string value used to associate a Client session 
-              with an ID Token, and to mitigate against replay attacks. 
+              with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified from the Authorization Request to the ID Token.
                Use of the nonce is REQUIRED when using the implicit flow
 	           and OPTIONAL when using the code flow.</t>
@@ -1282,7 +1282,7 @@ Pragma: no-cache
       UserInfo Endpoint. </t>
 
       <t>Authorization Servers MUST accept Access Tokens as
-      <xref target="OAuth.Bearer">Bearer Tokens</xref>.</t>
+      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
       
       <t>Authorization Servers SHOULD support the use of 
       <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> and
@@ -1306,7 +1306,7 @@ Pragma: no-cache
 
           <artwork><![CDATA[GET /userinfo?schema=openid HTTP/1.1
 Host: server.example.com
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork>
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork>
         </figure>
       </section>
 
@@ -2073,7 +2073,8 @@ scope=openid&response_type=code
 	  <t>Made use of the nonce REQUIRED when using the implicit flow
 	  and OPTIONAL when using the code flow, per issue #569</t>
           <t>Changed client.example.com to client.example.org, per issue #251</t>
-          <t>removed example text for generating a nonce per issue #562</t>
+          <t>Removed example text for generating a nonce via a signed session cookie,
+	  per issue #562</t>
         </list>
       </t>
 

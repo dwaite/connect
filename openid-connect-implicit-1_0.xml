@@ -607,13 +607,14 @@ req.send(postBody);]]></artwork>
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
             
-            <t>The value of <spanx style="verb">alg</spanx> MUST be RS256.
-            For validation of tokens using other signing algorithms the 
-            messages specification MUST be used.</t>
+            <t>The <spanx style="verb">alg</spanx> value SHOULD be <spanx style="verb">RS256</spanx>.
+            Validation of tokens using other signing algorithms, is described in the
+            <xref target="OpenID.Messages"> OpenID Connect Messages</xref>Messages
+	    specification.</t>
             
-            <t>The Client must use the signing key provided
-             in Discovery
-            by the Issuer exactly matching the value of the 
+            <t>The Client MUST use the signing key provided
+	    in Discovery by the Issuer.
+	    The Issuer must exactly match the value of the 
             <spanx style="verb">iss</spanx> (issuer) Claim.</t>
 
             <t>The current time MUST be less than the value of the 
@@ -666,7 +667,7 @@ req.send(postBody);]]></artwork>
 	  UserInfo Endpoint to obtain further information about the End-User. The
 	  UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
 	  Protected Resource that complies with the <xref
-	  target="OAuth.Bearer">Bearer Tokens</xref> specification. As such,
+	  target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification. As such,
 	  the Access Token SHOULD be specified via the HTTP Authorization
 	  header.</t>
 
@@ -917,7 +918,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	  <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
 
 	  <t>In addition to the error codes defined in Section 3.1 of <xref
-	  target="OAuth.Bearer">Bearer Tokens</xref>, this specification defines the
+	  target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
 	  following error codes:</t>
 
 	  <t>
@@ -1201,6 +1202,39 @@ scope=openid&response_type=code
         </front>
 
         <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Messages">
+        <front>
+          <title>OpenID Connect Messages 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization>Ping Identity</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B."
+                  surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="20" month="May" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
+                type="HTML" />
       </reference>
 
       <reference anchor="OpenID.Standard">

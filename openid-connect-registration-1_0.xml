@@ -98,20 +98,18 @@
 
     <section title="Client Registration Endpoint">
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that returns registration information for
-      the Client to configure itself for the OpenID Provider.</t>
-
-      <t>The OpenID Provider may require an Access Token that is
+      the Client to configure itself for the OpenID Provider.
+      The OpenID Provider may require an Access Token that is
       provisioned out-of-band (in a manner that is out of scope for
       this specification) in order to restrict registration requests
       to only authorized Clients.</t>
 
       <t>In order to support open registration, the Client
       Registration Endpoint SHOULD accept requests without OAuth 2.0
-      Access Tokens.</t>
-
-      <t>If an Access Token is required for Client registration, the Client Registration Endpoint
+      Access Tokens.
+      If an Access Token is required for Client registration, the Client Registration Endpoint
       MUST be able to accept Access Tokens in the manner described in the
-      <xref target="OAuth.Bearer">Bearer Tokens</xref>
+      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
       specification.</t>
 
       <section title="Client Registration Request">
@@ -146,7 +144,7 @@
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header must be <xref
-            target="OAuth.Bearer">Bearer Tokens</xref>.</t>
+            target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
 
             <t hangText="contacts">OPTIONAL.  Space delimited list of email
             addresses for people allowed to administer the information for this Client.
@@ -364,11 +362,10 @@
           </list></t>
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
       may require an Access Token in order to restrict registration requests
-      to only authorized Clients.</t> 
-      
-      <t>If the Client Registration Endpoint requires a Access token 
+      to only authorized Clients.
+      If the Client Registration Endpoint requires a Access token 
       it SHOULD accept Access Tokens as
-      <xref target="OAuth.Bearer">Bearer Tokens</xref>.</t>        
+      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>        
           
           <t>Following is a non-normative example request:</t>
           
@@ -376,7 +373,7 @@
             <artwork><![CDATA[POST /connect/register HTTP/1.1
 Accept: application/x-www-form-urlencoded
 Host: server.example.com
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 
 type=client_associate
 &redirect_uris=https://client.example.org/callback%20https://client.example.org/callback2
@@ -878,7 +875,7 @@ WWW-Authenticate: Bearer realm="example.com",
 	  request type and stop client secret changing with every response, per issue #363</t>
 	  <t>Changed default ID Token signing algorithm to RS256, per issue #571</t>
           <t>Changed client.example.com to client.example.org, per issue #251</t>
-          <t>Added text for authz to the registration endpoint. per issue #587</t>
+          <t>Added text for authz to the registration endpoint, per issue #587</t>
       	</list></t>
       
       <t>-10<list style="symbols">
