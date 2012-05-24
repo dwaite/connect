@@ -211,6 +211,18 @@
 	    the <spanx style="verb">phone_number</spanx> Claim at the
 	    UserInfo Endpoint be granted by the issued Access Token.</t>
 
+	    <t hangText="claims_in_id_token">OPTIONAL. 
+	    Use of this scope value switches where the Claims requested
+	    via other scope values are returned.
+	    If this scope value is present, the voluntary claims that are 
+	    requested with the
+	    <spanx style="verb">profile</spanx>,
+	    <spanx style="verb">email</spanx>,
+	    <spanx style="verb">address</spanx>, and
+	    <spanx style="verb">phone</spanx> scope values are
+	    returned in the ID Token, rather than from the UserInfo Endpoint.
+	    </t>
+
           </list>
         </t>
 
@@ -300,7 +312,8 @@
               as one of the space delimited ASCII strings.
 	      OPTIONAL <spanx style="verb">scope</spanx> strings of
               <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
-              <spanx style="verb">address</spanx>, and <spanx style="verb">phone</spanx>
+              <spanx style="verb">address</spanx>, <spanx style="verb">phone</spanx>,
+	      and <spanx style="verb">claims_in_id_token</spanx>
 	      are also supported.</t>
 
               <t hangText="redirect_uri">A redirection URI where the response
@@ -1379,6 +1392,8 @@ scope=openid&response_type=code
 	  <t>Removed use of <spanx style="verb">nonce</spanx> from Basic Profile,
 	  per issue #569</t>
           <t>Changed client.example.com to client.example.org, per issue #251</t>
+	  <t>Added claims_in_id_token scope definition to Basic and Implicit,
+	  per issue #594</t>
       </list></t>
 
       <t>-17<list style="symbols">

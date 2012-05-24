@@ -388,140 +388,145 @@
           </t>
 
           <t><list style="hanging">
-              <t hangText="response_type">
-              This parameter controls the parameters returned in the response from the
-              Authorization Endpoint.
-              </t>
-          <t>The OAuth 2.0 specification documents two response types:
+	    <t hangText="response_type">
+	      This parameter controls the parameters returned in the response from the
+	      Authorization Endpoint.
+	    </t>
 
-            <list style="hanging">
-              <t hangText="code"> When supplied as the value for the
-              <spanx style="verb">response_type</spanx> parameter, a
-              successful response MUST include an Authorization Code as
-              defined in the OAuth 2.0 specification. Both successful
-              and error responses MUST be added as parameters to the
-              query component of the response.  All tokens are returned
-              from the Token Endpoint. Authorization Servers MUST support
-              this <spanx style="verb">response_type</spanx>.</t>
+	    <t>The OAuth 2.0 specification documents two response types:
 
-              <t hangText="token"> When supplied as the value for the
-              <spanx style="verb">response_type</spanx> parameter, a
-              successful response MUST include an Access Token as
-              defined in the OAuth 2.0 specification.  Both successful
-              and error responses MUST be fragment-encoded.  No ID Token
-              is provided to the Client.</t>
-            </list>
-          </t>
+	    <list style="hanging">
+	      <t hangText="code"> When supplied as the value for the
+	      <spanx style="verb">response_type</spanx> parameter, a
+	      successful response MUST include an Authorization Code as
+	      defined in the OAuth 2.0 specification. Both successful
+	      and error responses MUST be added as parameters to the
+	      query component of the response.  All tokens are returned
+	      from the Token Endpoint. Authorization Servers MUST support
+	      this <spanx style="verb">response_type</spanx>.</t>
 
-          <t>OpenID Connect supports these <xref
-          target="OAuth.Responses">additional response types</xref> that have
-          been registered:</t>
-          
-          <t><list style="hanging">
-            <t hangText="id_token">When supplied as the value
-            for the <spanx style="verb">response_type</spanx>
-            parameter, a successful response MUST include an ID Token.
-            Both successful and
-            error responses SHOULD be fragment-encoded. Authorization
-            Servers SHOULD support this <spanx
-            style="verb">response_type</spanx>.</t>
-              
-            <t hangText="id_token token">When supplied as the value
-            for the <spanx style="verb">response_type</spanx>
-            parameter, a successful response MUST include both an
-            Access Token as well as an ID Token.  Both successful and
-            error responses SHOULD be fragment-encoded. Authorization
-            Servers MUST support this <spanx
-            style="verb">response_type</spanx>.</t>
+	      <t hangText="token"> When supplied as the value for the
+	      <spanx style="verb">response_type</spanx> parameter, a
+	      successful response MUST include an Access Token as
+	      defined in the OAuth 2.0 specification.  Both successful
+	      and error responses MUST be fragment-encoded.  No ID Token
+	      is provided to the Client.</t>
+	    </list>
+	    </t>
 
-            <t hangText="code token">When supplied as the value for
-            the <spanx style="verb">response_type</spanx> parameter, a
-            successful response MUST include both an Access Token and
-            an Authorization Code as defined in the OAuth 2.0
-            specification. Both successful and error responses SHOULD
-            be fragment-encoded.</t>
+	    <t>OpenID Connect supports these <xref
+	    target="OAuth.Responses">additional response types</xref> that have
+	    been registered:</t>
+	    
+	    <t><list style="hanging">
+	      <t hangText="id_token">When supplied as the value
+	      for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include an ID Token.
+	      Both successful and
+	      error responses SHOULD be fragment-encoded. Authorization
+	      Servers SHOULD support this <spanx
+	      style="verb">response_type</spanx>.</t>
+	      
+	      <t hangText="id_token token">When supplied as the value
+	      for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include both an
+	      Access Token as well as an ID Token.  Both successful and
+	      error responses SHOULD be fragment-encoded. Authorization
+	      Servers MUST support this <spanx
+	      style="verb">response_type</spanx>.</t>
 
-            <t hangText="code id_token">When supplied as the value for
-            the <spanx style="verb">response_type</spanx> parameter, a
-            successful response MUST include both an Authorization
-            Code as well as an ID Token.  Both successful and error
-            responses SHOULD be fragment-encoded.</t>
+	      <t hangText="code token">When supplied as the value for
+	      the <spanx style="verb">response_type</spanx> parameter, a
+	      successful response MUST include both an Access Token and
+	      an Authorization Code as defined in the OAuth 2.0
+	      specification. Both successful and error responses SHOULD
+	      be fragment-encoded.</t>
 
-            <t hangText="code id_token token">When supplied as the
-            value for the <spanx style="verb">response_type</spanx>
-            parameter, a successful response MUST include an
-            Authorization Code, an ID Token, and an Access Token.
-            Both successful and error responses SHOULD be
-            fragment-encoded.</t>
-          </list></t>
-          <t>The Authorization Server MUST support all 3 of the <spanx
-          style="verb">code</spanx> , <spanx
-          style="verb">'id_token'</spanx> and the <spanx
-          style="verb">'id_token token'</spanx> <spanx
-          style="verb">response_type</spanx>.</t>
-		  
-          <t>The Client may request any OAuth 2.0 registered response
-          type supported by the Authorization Server.</t>
+	      <t hangText="code id_token">When supplied as the value for
+	      the <spanx style="verb">response_type</spanx> parameter, a
+	      successful response MUST include both an Authorization
+	      Code as well as an ID Token.  Both successful and error
+	      responses SHOULD be fragment-encoded.</t>
 
+	      <t hangText="code id_token token">When supplied as the
+	      value for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include an
+	      Authorization Code, an ID Token, and an Access Token.
+	      Both successful and error responses SHOULD be
+	      fragment-encoded.</t>
+	    </list></t>
 
-              <t hangText="scope">A space delimited, case sensitive list of
-              ASCII string values. The values specify an additive list of optional Claims
-              that are returned by the UserInfo Endpoint. The following values
-              are defined:<list style="hanging">
-                  <t hangText="openid">REQUIRED. Informs the Authorization
-                  Server that the Client is making an OpenID Connect request. If the
-                  <spanx style="verb">openid</spanx> scope value is not present,
-                  the request MUST NOT be treated as an OpenID Connect request.
-                  This scope value requests access to the <spanx style="verb">user_id</spanx>
-                   Claim at the UserInfo Endpoint.</t>
+	    <t>The Authorization Server MUST support all three of the <spanx
+	    style="verb">code</spanx> , <spanx
+	    style="verb">'id_token'</spanx> and the <spanx
+	    style="verb">'id_token token'</spanx> <spanx
+	    style="verb">response_type</spanx> values.</t>
+	    
+	    <t>The Client may request any OAuth 2.0 registered response
+	    type supported by the Authorization Server.</t>
 
-                  <t hangText="profile">OPTIONAL. This scope value
-                  requests that access to the End-User's default <xref
-                  target="ClaimTable">profile Claims</xref> at the
-                  UserInfo Endpoint be granted by the issued Access
-                  Token.  These claims are:
-		  <spanx style="verb">name</spanx>,
-		  <spanx style="verb">family_name</spanx>,
-		  <spanx style="verb">given_name</spanx>,
-		  <spanx style="verb">middle_name</spanx>,
-		  <spanx style="verb">nickname</spanx>,
-		  <spanx style="verb">profile</spanx>,
-		  <spanx style="verb">picture</spanx>,
-		  <spanx style="verb">website</spanx>,
-		  <spanx style="verb">gender</spanx>,
-		  <spanx style="verb">birthday</spanx>,
-		  <spanx style="verb">zoneinfo</spanx>,
-		  <spanx style="verb">locale</spanx>, and
-		  <spanx style="verb">updated_time</spanx>.</t>
+	    <t hangText="scope">A space delimited, case sensitive list of
+	    ASCII string values. The values specify an additive list of
+	    voluntary Claims that are returned from the UserInfo Endpoint unless the
+	    <spanx style="verb">claims_in_id_token</spanx> scope value is used,
+	    in which case the requested claims are instead returned in the ID Token.
+	    The following scope values are defined:
 
-                  <t hangText="email">OPTIONAL. This scope value requests that access to
-                  the <spanx style="verb">email</spanx> and 
-                  <spanx style="verb">email_verified</spanx> Claims at the UserInfo
-                  Endpoint be granted by the issued Access Token.</t>
+	    <list style="hanging">
+	      <t hangText="openid">REQUIRED. Informs the Authorization
+	      Server that the Client is making an OpenID Connect request. If the
+	      <spanx style="verb">openid</spanx> scope value is not present,
+	      the request MUST NOT be treated as an OpenID Connect request.
+	      This scope value requests access to the <spanx style="verb">user_id</spanx>
+	      Claim at the UserInfo Endpoint.</t>
 
-                  <t hangText="address">OPTIONAL. This scope value requests that access to
-                  <spanx style="verb">address</spanx> Claim at the
-                  UserInfo Endpoint be granted by the issued Access Token.</t>
+	      <t hangText="profile">OPTIONAL. This scope value
+	      requests that access to the End-User's default <xref
+	      target="ClaimTable">profile Claims</xref> at the
+	      UserInfo Endpoint be granted by the issued Access
+	      Token.  These claims are:
+	      <spanx style="verb">name</spanx>,
+	      <spanx style="verb">family_name</spanx>,
+	      <spanx style="verb">given_name</spanx>,
+	      <spanx style="verb">middle_name</spanx>,
+	      <spanx style="verb">nickname</spanx>,
+	      <spanx style="verb">profile</spanx>,
+	      <spanx style="verb">picture</spanx>,
+	      <spanx style="verb">website</spanx>,
+	      <spanx style="verb">gender</spanx>,
+	      <spanx style="verb">birthday</spanx>,
+	      <spanx style="verb">zoneinfo</spanx>,
+	      <spanx style="verb">locale</spanx>, and
+	      <spanx style="verb">updated_time</spanx>.</t>
 
-                  <t hangText="phone">OPTIONAL. This scope value requests that access to 
-                  the <spanx style="verb">phone_number</spanx> Claim at the 
-                  UserInfo Endpoint be granted by the issued Access Token.</t>
+	      <t hangText="email">OPTIONAL. This scope value requests that access to
+	      the <spanx style="verb">email</spanx> and 
+	      <spanx style="verb">email_verified</spanx> Claims at the UserInfo
+	      Endpoint be granted by the issued Access Token.</t>
 
-                  <t hangText="claims_in_id_token">OPTIONAL. 
-                    This scope value acts as a switch where the claims goes. 
-                    If this scope value is present, all the claims that are 
-                    indicated by <spanx style="verb">profile</spanx> 
-                    <spanx style="verb">email</spanx>
-                    <spanx style="verb">address</spanx>
-                    <spanx style="verb">phone</spanx>
-                    MUST go into the <spanx style="verb">id_token</spanx> 
-                    in the response. If any further finer control is desired, 
-                    a <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
-                    MUST be used. </t>
+	      <t hangText="address">OPTIONAL. This scope value requests that access to
+	      <spanx style="verb">address</spanx> Claim at the
+	      UserInfo Endpoint be granted by the issued Access Token.</t>
 
+	      <t hangText="phone">OPTIONAL. This scope value requests that access to 
+	      the <spanx style="verb">phone_number</spanx> Claim at the 
+	      UserInfo Endpoint be granted by the issued Access Token.</t>
 
-                </list></t>
-            </list></t>
+	      <t hangText="claims_in_id_token">OPTIONAL. 
+	      Use of this scope value switches where the Claims requested
+	      via other scope values are returned.
+	      If this scope value is present, the voluntary claims that are 
+	      requested with the
+	      <spanx style="verb">profile</spanx>,
+	      <spanx style="verb">email</spanx>,
+	      <spanx style="verb">address</spanx>, and
+	      <spanx style="verb">phone</spanx> scope values are
+	      returned in the ID Token, rather than from the UserInfo Endpoint.
+	      If finer grained control control is required, 
+	      an <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
+	      MUST be used.</t>
+	    </list></t>
+	  </list></t>
 
           <t>Other REQUIRED OAuth 2.0 parameters in the request include:</t>
 
@@ -861,18 +866,18 @@
                   The default is voluntary. 
                 </t>
                 <t>
-                  By requesting a claim as <spanx style="verb">essential</spanx> 
+                  By requesting Claims as <spanx style="verb">essential</spanx>,
                   the client indicates to the user 
-                  that populating these claims will ensure a smooth authorization 
-                  for the specific task requested by the user. 
-                  Note that even if the claim were not available because 
-                  the user did not authorized the release or otherwise, 
-                  the Authorization Server MUST NOT generate an error. 
+                  that releasing these claims will ensure a smooth authorization 
+                  for the specific task requested by the user.
+                  Note that even if the claims are not available because 
+                  the user did not authorize their release or they are not present,
+                  the Authorization Server MUST NOT generate an error when
+		  essential claims are not returned.
                 </t>
                 <t>
-                  As "voluntary" claims the client may request additional attributes 
-                  that it requires for fulfilling other tasks offered to 
-                  the applicable user class. 
+                  The Client may request additional Claims on voluntary basis
+                  that it requires to perform other tasks offered to the user.
                 </t>
                 <t>
                 The member values MAY be either:</t>
@@ -3397,15 +3402,18 @@ may be retrieved:
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
       <t>10
         <list style="symbols">
           <t>Changed <spanx style="verb">verified</spanx> to
 	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
-          <t>Added scope value  <spanx style="verb">claims_in_id_token</spanx> as a switch
-	  to indicate that the UserInfo claims should be returned in the
-	  <spanx style="verb">id_token</spanx>, per issue #561</t>
-          <t>Changed  <spanx style="verb">optional</spanx> claim request parameter
-	  to <spanx style="verb">essential</spanx>, per issue #577</t>
+          <t>Added scope value <spanx style="verb">claims_in_id_token</spanx>
+	  as a switch to indicate that the UserInfo claims should be
+	  returned in the ID Token, per issue #561</t>
+          <t>Removed <spanx style="verb">optional</spanx> claim request parameter
+	  and added <spanx style="verb">essential</spanx> claim request parameter,
+	  per issue #577.  We changed terminology from "optional" to "voluntary"
+	  and "required" to "essential" to better match privacy policy requirements.</t>
 	  <t>Removed Check ID Endpoint, per issue #570</t>
           <t>Added PAPE Reference to the Informative References, per issue #574</t>
           <t>Added "id_token" response type as being MTI for OpenID Providers</t>
