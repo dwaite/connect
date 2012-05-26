@@ -78,7 +78,7 @@
     <section title='Introduction'>
       <t>This specification describes the binding of the HTTP
       protocol with the endpoints described in <xref
-      target="OpenID.Messages"> OpenID Connect Messages</xref>.</t>
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -99,7 +99,7 @@
 	"Token Endpoint" defined by
 	<xref target="OAuth2.0">OAuth 2.0</xref>,
 	and the terms defined by
-	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	<xref target="OpenID.Messages">OpenID Connect Messages</xref>.
 	This specification also defines the following terms:
 	  <list style="hanging">
 	    <t hangText="Request File">A document whose contents
@@ -135,8 +135,8 @@
       <section anchor="openid_scopes" title="OpenID Connect Scopes">
         <t>Clients MUST specify the desired scopes in an Authorization Request to
         obtain an Access Token with the proper permissions.
-        The scope names used by OpenID Connect are defined in Section 2.1.2 of <xref
-        target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+        The scope names used by OpenID Connect are defined in
+	Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
         
         <t>The Authorization Server MAY fully or partially ignore the scope values
          requested by the Client based on the Authorization Server policy or
@@ -159,7 +159,7 @@
         and ID Tokens, the Implicit Flow and the Authorization Code Flow. The 
         flows determine how the Access Token and ID Token are returned to the 
         Client. Access Tokens are credentials used to access Protected 
-        Resources, as defined in section 1.4 of 
+        Resources, as defined in Section 1.4 of 
         <xref target="OAuth2.0">OAuth 2.0</xref>. Access Tokens represent 
         a Resource Owner's authorization and MUST NOT be exposed to 
         unauthorized parties.</t>
@@ -229,7 +229,7 @@
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
           MUST verify it according to the verification rule set in <xref
-          target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+          target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
         </section>
 
         <section anchor="implicit_flow" title="Implicit Flow">
@@ -259,7 +259,7 @@
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
           MUST verify it according to the verification rule set in <xref
-          target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+          target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
         </section>
 
       </section>
@@ -362,20 +362,20 @@
 
               <t hangText="display">An ASCII string value that specifies
               how the Authorization Server displays the authentication page to
-              the End-User. Refer to Sec 2.1.2 of <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
-              more information.</t>
+              the End-User. Refer to
+	      Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
+	      for more information.</t>
 
               <t hangText="prompt">A space delimited list of ASCII strings
 	      that can contain the values
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
               <spanx style="verb">select_account</spanx>, and
 	      <spanx style="verb">none</spanx>. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
+              target="OpenID.Messages">OpenID Connect Messages</xref> for
               more information.</t>
               <t hangText="id_token">An ID Token
               passed to the Authorization server as a hint. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
+              target="OpenID.Messages">OpenID Connect Messages</xref> for
               more information.</t>
             </list></t>
 
@@ -759,15 +759,13 @@ Host: client.example.org]]></artwork>
         </section>
 
 	<section title="Authorization Server Validates Request Object">
+
           <t>The Authorization Server validates the request according to 
-		  the Section 5.1 of <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref>. 
-		  </t>
-          
+	  Section 5.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 	</section>
 
-
         <section title="Authorization Server Authenticates the End-User">
+
           <t>The Authorization Server validates the request to ensure all
           required parameters are present and valid. If the request is valid,
           the Authorization Server MUST authenticate the End-User. The way in
@@ -801,6 +799,7 @@ Host: client.example.org]]></artwork>
         </section>
 
         <section title="Authorization Server Obtains the End-User Consent/Authorization">
+
           <t>Once the End-User is authenticated, the Authorization Server MUST
           obtain an authorization decision. This MAY be done by presenting the
           End-User with a dialogue that allows the End-User to recognize what he is
@@ -830,16 +829,17 @@ Host: client.example.org]]></artwork>
           </list></t>
         </section>
 
-        <section anchor="art_res"
-                 title="Authorization Server Sends the End-User Back to the Client">
+        <section title="Authorization Server Sends the End-User Back to the Client"
+		 anchor="art_res">
+
           <t>Once the authorization is determined, the Authorization Server
           returns a successful or error response.</t>
 
           <section anchor="art_res_ok" title="End-User Grants Authorization">
             <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Authorization Response 
-            as described in section 2.1.3 of 
-            <xref target="OpenID.Messages">OpenID Connect Messages</xref> 
+            as described in
+	    Section 2.1.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref> 
             to the Client by adding the response parameters to <spanx
             style="verb">redirect_uri</spanx> specified in the Authorization
             Request using the "application/x-www-form-urlencoded" format.</t>
@@ -1014,8 +1014,9 @@ exponent: [01,00,01]]]></artwork>
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the End-User denies the authorization or the user authentication
             fails, the Authorization Server MUST return the error authorization 
-            response as defined in <xref target="OpenID.Messages">OpenID Connect
-            Messages 1.0</xref>. The Authorization Server returns the Client to
+            response as defined in
+	    Section 2.1.4 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	    The Authorization Server returns the Client to
             the redirection URI specified in the Authorization Request
             with the appropriate error parameters. No
             other parameters SHOULD be returned.</t>
@@ -1067,12 +1068,12 @@ error=invalid_request
       <xref target="form_serialization">form serialization</xref>.</t>
 
       <t>Clients MAY provide authentication parameters in the request to the
-      Token Endpoint as described in section 2.2.1 of <xref
-      target="OpenID.Messages">OpenID Connect Messages</xref> </t>
+      Token Endpoint as described in
+      Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 
-        <t>Authorization Servers MUST support the use of the HTTP "POST"
-        method defined in <xref target="RFC2616">RFC 2616</xref> at the
-        Token Endpoint. </t>
+      <t>Authorization Servers MUST support the use of the HTTP "POST"
+      method defined in <xref target="RFC2616">RFC 2616</xref> at the
+      Token Endpoint.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
       security mechanism. The Authorization Server MUST support TLS 1.2
@@ -1105,17 +1106,16 @@ error=invalid_request
 
         <section title="Access Token Request">
           <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
-          authenticate to the Token Endpoint using the authentication method registered for its <spanx style="verb">client_id</spanx>,
-          as documented in Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
-          
+          authenticate to the Token Endpoint using the authentication method
+	  registered for its <spanx style="verb">client_id</spanx>, as documented in
+	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 4.1.3 of 
-          <xref target="OAuth2.0">OAuth 2.0</xref>:</t>
-
+          <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
 
           <figure>
-            <preamble>The following is a non-normative example:</preamble>
+            <preamble>The following is a non-normative example of an Access Token request:</preamble>
 
             <artwork><![CDATA[POST /token HTTP/1.1
 Host: server.example.com
@@ -1157,9 +1157,8 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
           the received Authorization Code.</t>
 
 	  <t>A successful response returns the "<spanx style="verb">application/json</spanx>"
-	  media type and the response body is the Access Token Response documented in Sec 2.2.3 of
-	  <xref target="OpenID.Messages">OpenID Connect Messages
-	  1.0</xref>.</t>
+	  media type and the response body is the Access Token Response documented in
+	  Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 
 
 	  <figure>
@@ -1193,7 +1192,7 @@ GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw"
 	  <t>If the Token Request is invalid or unauthorized, the
 	  Authorization Server constructs the response by returning the
 	  Token Error Response defined in <xref
-	  target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
+	  target="OpenID.Messages">OpenID Connect Messages</xref> in the
 	  entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
 	  media type with HTTP response code 400.</t>
 
@@ -1214,8 +1213,9 @@ Pragma: no-cache
 
       <section title="Refreshing an Access Token">
          <t>To refresh an Access Token, the Client MUST
-          authenticate to the Token Endpoint using the authentication method registered for its <spanx style="verb">client_id</spanx>,
-          as documented in Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+          authenticate to the Token Endpoint using the authentication method registered
+	  for its <spanx style="verb">client_id</spanx>, as documented in
+	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 6 of 
@@ -1233,11 +1233,11 @@ Pragma: no-cache
           <t>Upon successful verification of the Refresh Token, a successful
           response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
-          <xref target="OpenID.Messages">Section 2.2.3 of OpenID Connect Messages
-          1.0</xref> except that it MUST NOT return <spanx style="verb">id_token</spanx>.</t>
+          Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
+	  except that it MUST NOT return an <spanx style="verb">id_token</spanx>.</t>
         
           <figure>
-            <preamble>Following is a non-normative example of the Refresh
+            <preamble>Following is a non-normative example of a Refresh
             Token request and response:</preamble>
 
             <artwork><![CDATA[POST /token HTTP/1.1
@@ -1277,7 +1277,7 @@ Pragma: no-cache
     <section anchor="userinfo_ep" title="UserInfo Endpoint">
       <t>To obtain the requested Claims about the End-User, the Client
       makes a GET or POST request to the UserInfo Endpoint as in <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+      target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
       security mechanism. The Authorization Server MUST support TLS 1.2
@@ -1297,8 +1297,8 @@ Pragma: no-cache
       or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
 
       <section title="UserInfo Request">
-        <t>Client SHOULD send the UserInfo Request defined in section 2.4.1 of
-        the <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+        <t>Client SHOULD send the UserInfo Request defined in
+	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
         either in HTTP GET or POST request.</t>
         
         <t>The Access Token obtained
@@ -1332,8 +1332,8 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
         content-type MUST be set to <spanx style="verb">application/jwt</spanx>.</t>
 
         <t>Upon receipt of the UserInfo Response, the Client MUST verify 
-        the response in accordance with Section 5.5 (UserInfo Response Verification)
-        of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+        the response in accordance with
+	Section 5.3 (UserInfo Response Verification) of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
         </t>
 
         <figure>
@@ -1358,8 +1358,8 @@ Content-Type: application/json
   <t>When an error condition occurs, the UserInfo Endpoint returns
   an Error Response as defined in Section 3 of
   the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification
-  utilizing an error code as specified in Section 2.4.3 of <xref
-  target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+  utilizing an error code as specified in
+  Section 2.3.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 
   <figure>
       <preamble>Following is a non-normative example of an error
@@ -1439,7 +1439,7 @@ scope=openid&response_type=code
 
     <section anchor="security_considerations" title="Security Considerations">
       <t>This specification references the security considerations defined in
-      <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+      <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 
       <t>In addition, the following list of attack vectors and remedies are
       also considered.</t>
