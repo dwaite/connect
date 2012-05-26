@@ -115,39 +115,38 @@
 	  This specification also defines the following terms:
           <list style="hanging">
             <t hangText="Relying Party (RP)">
-              application requiring Claims from an OpenID Provider
+              Application requiring Claims from an OpenID Provider
             </t>
             <t hangText="OpenID Provider (OP)">
-              service capable of providing Claims to a Relying Party
+              Service capable of providing Claims to a Relying Party
             </t>
             <t hangText="Claim">
-              piece of information about an Entity that a Claims Provider
+              Piece of information about an Entity that a Claims Provider
 	      asserts about that Entity 
             </t>
             <t hangText="Claims Provider">
-              server that can return Claims about an Entity 
+              Server that can return Claims about an Entity 
             </t>
             <t hangText="End-User">
-              human Resource Owner
+              Human Resource Owner
             </t>
             <t hangText="Entity">
-              something that has a separate and distinct existence and that can be
+              Something that has a separate and distinct existence and that can be
 	      identified in a context. An End-User is one example of an Entity 
             </t>
             <t hangText="Personally Identifiable Information (PII)">
-              information that (a) can be used to identify the natural person 
+              Information that (a) can be used to identify the natural person 
               to whom such information relates, or 
               (b) is or might be directly or indirectly linked to a 
               natural person to whom such information relates. 
             </t>
             <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
-              identifier that identifies the Entity to a Relying Party that cannot be correlated 
+              Identifier that identifies the Entity to a Relying Party that cannot be correlated 
               with the Entity's PPID at another Relying Party 
             </t>
             <t hangText="ID Token">
               <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event
               <vspace /><vspace /><vspace />
-              Note: Relying Parties wanting to process the ID Token contents directly should refer to the <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specification.
             </t>
             <t hangText="Issuer">
               Entity that issues a set of Claims. 
@@ -156,7 +155,7 @@
               HTTPS URL that acts as a verifiable identifier for an Issuer 
             </t>
             <t hangText="UserInfo Endpoint">
-              protected resource that, when presented with an Access Token by the Client, returns authorized information about the End-User represented by the corresponding 
+              Protected resource that, when presented with an Access Token by the Client, returns authorized information about the End-User represented by the corresponding 
               Authorization Grant  
             </t>
           </list>
@@ -266,7 +265,7 @@
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             Request.</preamble>
 
-            <artwork><![CDATA[scope=openid profile email phone]]></artwork>
+            <artwork><![CDATA[scope=openid profile email phone claims_in_id_token]]></artwork>
           </figure>
 	</t>
       </section>
@@ -434,7 +433,7 @@
 response_type=token%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid%20profile
+&scope=openid%20profile%20claims_in_id_token
 &state=af0ifjsldkj
 &nonce=n-0S6_WzA2Mj]]></artwork>
           </figure>
@@ -456,7 +455,7 @@ Location: https://server.example.com/authorize?
 response_type=token%20id_token
 &client_id=s6BhdRkqt3
 &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid%20profile
+&scope=openid%20profile%20claims_in_id_token
 &state=af0ifjsldkj
 &nonce=n-0S6_WzA2Mj]]></artwork>
           </figure>
@@ -637,8 +636,8 @@ req.send(postBody);]]></artwork>
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
             
             <t>The <spanx style="verb">alg</spanx> value SHOULD be <spanx style="verb">RS256</spanx>.
-            Validation of tokens using other signing algorithms, is described in the
-            <xref target="OpenID.Messages"> OpenID Connect Messages</xref>Messages
+            Validation of tokens using other signing algorithms is described in the
+            <xref target="OpenID.Messages">OpenID Connect Messages</xref>
 	    specification.</t>
             
             <t>The Client MUST use the signing key provided
@@ -1544,7 +1543,7 @@ scope=openid&response_type=code
           <t>Renamed from Basic Client to Implicit Client, per issue #567</t>
           <t>Changed <spanx style="verb">verified</spanx> to
 	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
-          <t>Removed Check ID Endpoint and added ID token signature verifcation text,
+          <t>Removed Check ID Endpoint and added ID token signature verification text,
 	  per issue #570</t>
           <t>Changed client.example.com to client.example.org, per issue #251</t>
 	  <t>Added claims_in_id_token scope definition to Basic and Implicit,

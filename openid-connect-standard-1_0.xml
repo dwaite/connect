@@ -189,7 +189,7 @@
           Access Token and ID Token. It MAY obtain them from the Authorization 
           Endpoint or from Token Endpoint utilizing the <spanx style="verb">
           code</spanx> that it obtained from the Authorization Endpoint. 
-          The later is called <xref target="code_flow">Code Flow</xref> 
+          The latter is called <xref target="code_flow">Code Flow</xref> 
           and the former is called <xref target="implicit_flow">Implicit Flow
           </xref>. 
           </t>
@@ -265,7 +265,7 @@
       </section>
 
       <section anchor="auth_request" title="Authorization Request">
-        <t>When the End-User wishes to access a Protected Resource, and the
+        <t>When the End-User wishes to access a Protected Resource and the
         End-User Authorization has not yet been obtained, the Client
         prepares an Authorization Request to the Authorization Endpoint.</t>
 
@@ -302,9 +302,7 @@
               <t hangText="response_type">An OAuth 2.0 registered
               response type that determines how the Authorization
               Response is returned to the Client.  As described in
-              <xref target="OAuth.Responses" >
-                OAuth 2.0 Multiple Response Type Encoding Practices
-              </xref> ,
+              <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
               the following registered values are supported:
                 <list style="symbols">
                   <t><spanx style="verb">code</spanx></t>
@@ -326,11 +324,14 @@
 
               <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings. Other values that MAY be included are
-              <spanx style="verb">profile</spanx>, and <spanx style="verb">email</spanx>,
-              <spanx style="verb">address</spanx>.
+              <spanx style="verb">profile</spanx>,
+	      <spanx style="verb">email</spanx>,
+              <spanx style="verb">address</spanx>, and
+	      <spanx style="verb">phone</spanx>.
               The values specify an additive list of Claims that are returned
-              by the UserInfo Endpoint as described by <xref
-              target="openid_scopes">OpenID Connect Scopes</xref>.</t>
+              by the UserInfo Endpoint unless the
+	      <spanx style="verb">claims_in_id_token</spanx> scope value is used,
+	      in which case the requested claims are instead returned in the ID Token.</t>
 
               <t hangText="redirect_uri">A redirection URI where the response
               will be sent. The Scheme, Host, and Path segments of this URI MUST 
@@ -1247,7 +1248,7 @@ client_id=s6BhdRkqt3
 &client_secret=some_secret12345
 &grant_type=refresh_token
 &refresh_token=8xLOxBtZp8
-&scope=openid profile
+&scope=openid%20profile
 
 
 HTTP/1.1 200 OK
