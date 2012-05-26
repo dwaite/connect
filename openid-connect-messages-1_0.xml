@@ -32,14 +32,6 @@
       </address>
     </author>
 
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization abbrev="Google">Google Inc.</organization>
-
-      <address>
-        <email>breno@google.com</email>
-      </address>
-    </author>
-
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
 
@@ -48,15 +40,29 @@
       </address>
     </author>
 
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization abbrev="Google">Google Inc.</organization>
+
+      <address>
+        <email>breno@google.com</email>
+      </address>
+    </author>
+
+    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+      <organization abbrev="Salesforce">Salesforce</organization>
+      <address>
+        <email>cmortimore@salesforce.com</email>
+      </address>
+    </author>
+
     <author fullname="Edmund Jay" initials="E." surname="Jay">
       <organization abbrev="Illumila">Illumila</organization>
-
       <address>
         <email>ejay@mgi1.com</email>
       </address>
     </author>
 
-    <date day="20" month="May" year="2012" />
+    <date day="25" month="May" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -367,8 +373,8 @@
           target="JWS">JWS</xref> and OPTIONALLY both signed and
           encrypted using <xref target="JWS">JWS</xref> and <xref
           target="JWE">JWE</xref> respectively, thereby providing
-          <xref target="signing_order">authentication, integrity, non-repudiation and/or
-          confidentiality</xref>.</t>
+          <xref target="signing_order">authentication, integrity,
+	  non-repudiation and optionally, confidentiality</xref>.</t>
 
           <t>
             Clients MUST directly validate the ID Token per 
@@ -636,7 +642,12 @@
             <t>The OpenID Request Object is a
 	    <xref target="JWS">JWS</xref> signed base64url encoded JSON object
             that is passed as the value of the "<spanx style="verb">request</spanx>"
-            parameter in the Authorization Request. The OpenID Request Object
+            parameter in the Authorization Request.
+	    The OpenID Request Object MAY also be encrypted using
+	    <xref target="JWE">JWE</xref>
+	    after signing, with nesting performed in the same manner as
+	    specified for JWTs <xref target="JWT"/>.
+	    The OpenID Request Object
             MAY alternatively be sent by reference using 
             <spanx style="verb">request_url</spanx> parameter. 
             Parameters that affect the
@@ -1057,7 +1068,7 @@
 	      value of <spanx style='verb'>client_secret</spanx> as the shared key.
 	   
           The client Authenticates in accordance with section 2.2 of <xref
-          target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
+          target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>. 
           The JWT MUST contain the Claims:</t>
          
@@ -1097,7 +1108,7 @@
           or the ECDSA algorithm if an Elliptic Curve key was registered
 	  (see <xref target="JWA">JWA</xref> for the algorithm identifiers).
           The Client Authenticates in accordance with section 2.2 of <xref
-          target="OAuth.JWT">(JWT) Bearer Token Profiles</xref> and 
+          target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
           The JWT MUST contain the Claims:</t>
           <t><list style="hanging">
@@ -1132,7 +1143,8 @@
 
         <figure>
           <preamble>
-            For example:
+            For example
+	    (with line wraps for display purposes only):
           </preamble>
           <artwork>
 <![CDATA[POST /token HTTP/1.1
@@ -1142,7 +1154,8 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=authorization_code&
 code=i1WsRn1uB1&
 client_id=s6BhdRkqt3&
-client_assertion_type=urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&
+client_assertion_type=
+    urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&
 client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           </artwork>
         </figure>
@@ -1709,7 +1722,8 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 Claims Provider A signs the JSON Claims, resulting in a signed JWT:
 jwt_header.jwt_part2.jwt_part3
 
-Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A: 
+Authorization Server returns Jane Doe's Aggregated Claims from
+Claims Provider A: 
 {
  "name": "Jane Doe",
  "given_name": "Jane",
@@ -1731,7 +1745,8 @@ Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A
 	  Claims:</t>
 
 	  <t><figure>
-	    <artwork><![CDATA[Claims Provider A (Jane Doe's Bank) contains the following Claims for Jane Doe:
+	    <artwork><![CDATA[Claims Provider A (Jane Doe's Bank) contains the following Claims
+for Jane Doe:
 {
  "shipping_address": {
    "street_address": "1234 Hollywood Blvd.",
@@ -1743,14 +1758,15 @@ Authorization Server returns Jane Doe's aggregated Claims from Claims Provider A
  "phone_number": "+1 (310) 123-4567"
 }
 
-A Claims Provider B (Credit Agency) contains the following Claims for Jane Doe:
+A Claims Provider B (Credit Agency) contains the following Claims
+for Jane Doe:
 {
  "credit_score": "650"
 }
 
-Authorization Server returns Jane Doe's Claims along with the Distributed Claims from
-Claims Provider A and B by sending the Access Tokens and URL locations where the Claims
-may be retrieved:
+Authorization Server returns Jane Doe's Claims along with the
+Distributed Claims from Claims Provider A and B by sending the Access
+Tokens and URL locations where the Claims may be retrieved:
 {
  "name": "Jane Doe",
  "given_name": "Jane",
@@ -1765,7 +1781,8 @@ may be retrieved:
  },
  "_claim_sources": {
   "src1": {"endpoint": "https://bank.example.com/claimsource"},
-  "src2": {"endpoint": "https://creditagency.example.com/claimshere", "access_token": "ksj3n283dke"}
+  "src2": {"endpoint": "https://creditagency.example.com/claimshere",
+           "access_token": "ksj3n283dke"}
  }
 }]]></artwork>
 	  </figure></t>
@@ -2383,9 +2400,15 @@ may be retrieved:
           Registration 1.0</xref> - Dynamic registration of OpenID Connect
           Clients with OpenID Providers</t>
 
-          <t><xref target="OpenID.Basic">OpenID Connect Basic Client 1.0</xref> -
+          <t><xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> -
           Protocol binding for a subset of the OpenID Connect Messages
-          that is intended for use by basic Relying Parties.</t>
+          that is intended for use by basic
+	  web-based Relying Parties using the OAuth code grant type.</t>
+
+          <t><xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref> -
+          Protocol binding for a subset of the OpenID Connect Messages
+          that is intended for use by basic
+	  web-based Relying Parties using the OAuth implicit grant type.</t>
 
           <t><xref target="OpenID.Session">OpenID Connect Session Management
           1.0</xref> - Session management for OpenID Connect sessions</t>
@@ -2688,7 +2711,7 @@ may be retrieved:
 
       <reference anchor="OpenID.Basic">
         <front>
-          <title>OpenID Connect Basic Client 1.0</title>
+          <title>OpenID Connect Basic Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -2696,7 +2719,7 @@ may be retrieved:
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-           <organization>Ping Identity</organization>
+           <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -2712,17 +2735,16 @@ may be retrieved:
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
                 type="HTML" />
       </reference>
 
-      <reference anchor="OpenID.Standard">
+      <reference anchor="OpenID.Implicit">
         <front>
-          <title>OpenID Connect Standard
-          1.0</title>
+          <title>OpenID Connect Implicit Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -2730,7 +2752,7 @@ may be retrieved:
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+           <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -2750,7 +2772,42 @@ may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Standard">
+        <front>
+          <title>OpenID Connect Standard 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+            <organization abbrev="Salesforce">Salesforce</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -2767,7 +2824,7 @@ may be retrieved:
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -2778,7 +2835,7 @@ may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2796,14 +2853,14 @@ may be retrieved:
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -2821,7 +2878,7 @@ may be retrieved:
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -2841,7 +2898,7 @@ may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -2927,35 +2984,18 @@ may be retrieved:
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization>Google</organization>
-          </author>
-
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
-          </author>
-
-          <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization>Google</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="Facebook">Facebook</organization>
-          </author>
-
-          <date day="12" month="May" year="2012" />
+          <date day="22" month="May" year="2012" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
                 type="HTML" />
       </reference>
 
@@ -2968,7 +3008,7 @@ may be retrieved:
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -3042,16 +3082,16 @@ may be retrieved:
 	    </author>
 
 	    <author fullname="Brian Campbell" initials="B." surname="Campbell">
-	      <organization>Ping Identity Corp.</organization>
+	      <organization abbrev="Ping Identity">Ping Identity Corp.</organization>
 	    </author>
 
 	    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-	      <organization>Salesforce.com</organization>
+	      <organization>Salesforce</organization>
 	    </author>
 
-	    <date day="26" month="April" year="2012"/>
+	    <date day="22" month="May" year="2012"/>
 	  </front>
-	<format target="http://tools.ietf.org/html/draft-jones-oauth-jwt-bearer"
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-oauth-jwt-bearer"
 		    type="HTML" />
       </reference>
 
@@ -3152,16 +3192,21 @@ may be retrieved:
       <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
+
            <author fullname="Breno" initials="B." surname="de Medeiros">
              <organization abbrev="Google">Google, Inc.</organization>
            </author>
+
            <author fullname="Marius" initials="M." surname="Scurtescu">
              <organization abbrev="Google">Google, Inc.</organization>
            </author>
+
            <author fullname="Paul" initials="P." surname="Tarjan">
              <organization abbrev="Facebook"> Facebook</organization>
            </author>
-           <date day="20" month="May" year="2012"></date>
+
+           <date day="25" month="May" year="2012"></date>
+
         </front>
         <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
               type="HTML" />
@@ -3316,11 +3361,9 @@ may be retrieved:
 
           <t>Casper Biering (cb@peercraft.com), Peercraft</t>
 
-          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
-
           <t>Breno de Medeiros (breno@gmail.com), Google</t>
 
-          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce.com</t>
+          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
 
           <t>David Recordon (dr@fb.com), Facebook</t>
 
@@ -3430,6 +3473,9 @@ may be retrieved:
 	  International Organization for Standardization", per issue #589</t>
 	  <t>Added method of calculating signing and encryption keys for
 	  symmetric algorithms, per issue #578</t>
+	  <t>Use standards track versions of JSON Web Token (JWT) and
+	  OAuth JWT Bearer Token Profiles specs
+	  (draft-ietf-oauth-json-web-token and draft-ietf-oauth-oauth-jwt-bearer)</t>
         </list>
       </t>
 

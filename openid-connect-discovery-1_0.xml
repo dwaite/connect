@@ -53,7 +53,7 @@
       </address>
     </author>
 
-    <date day="20" month="May" year="2012" />
+    <date day="25" month="May" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -260,11 +260,14 @@
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the Client would make the
-          following request to get the discovery information:</t>
-
           <t><figure>
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=joe%40example.com&service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer HTTP/1.1
+	    <preamble>Following the SWD specification, the Client would make the
+	    following request to get the discovery information
+	    (with line wraps for display purposes only):</preamble>
+
+              <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=joe%40example.com
+    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
 Host: example.com
 
 HTTP/1.1 200 OK
@@ -299,11 +302,15 @@ Content-Type: application/json
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the Client would make the
-          following request to get the discovery information:</t>
-
           <t><figure>
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=https%3A%2F%2Fexample.com%2Fjoe&service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer HTTP/1.1
+	    <preamble>Following the SWD specification, the Client would make the
+	    following request to get the discovery information
+	    (with line wraps for display purposes only):</preamble>
+
+              <artwork><![CDATA[GET /.well-known/simple-web-discovery
+    ?principal=https%3A%2F%2Fexample.com%2Fjoe
+    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
 Host: example.com
 
 HTTP/1.1 200 OK
@@ -338,11 +345,15 @@ Content-Type: application/json
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
-          <t>Following the SWD specification, the Client would make the
-          following request to get the discovery information:</t>
-
           <t><figure>
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=https%3A%2F%2Fexample.com%3A8080%2F&service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer HTTP/1.1
+	    <preamble>Following the SWD specification, the Client would make the
+	    following request to get the discovery information
+	    (with line wraps for display purposes only):</preamble>
+
+              <artwork><![CDATA[GET /.well-known/simple-web-discovery
+    ?principal=https%3A%2F%2Fexample.com%3A8080%2F
+    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
 Host: example.com:8080
 
 HTTP/1.1 200 OK
@@ -387,7 +398,9 @@ Content-Type: application/json
         The location URI MUST NOT include a query component.</t>
 
         <t><figure>
-            <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=joe%40example.com&service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer HTTP/1.1
+            <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=joe%40example.com
+    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
 Host: example.com
 
 HTTP/1.1 200 OK
@@ -400,7 +413,9 @@ Content-Type: application/json
   }
 }
 
-GET /swd_server?principal=joe%40example.com&service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer HTTP/1.1
+GET /swd_server?principal=joe%40example.com
+    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
 Host: example.net
 
 HTTP/1.1 200 OK
@@ -483,109 +498,78 @@ Host: example.com]]></artwork>
 
         <texttable anchor="ClaimTable" title="Reserved Claim Definitions">
           <ttcol align="left">Claim</ttcol>
-
           <ttcol align="left">Type</ttcol>
-
           <ttcol align="left">Description</ttcol>
 
           <c>version</c>
-
           <c>string</c>
-
           <c>Version of the provider response. "3.0" is the default.</c>
 
           <c>issuer</c>
-
           <c>string</c>
-
           <c>The https: URL with no query or fragment component that the OP asserts as its
           Issuer Identifier</c>
 
           <c>authorization_endpoint</c>
-
           <c>string</c>
-
           <c>URL of the OP's Authentication and Authorization Endpoint <xref
           target="OpenID.Messages"></xref></c>
 
           <c>token_endpoint</c>
-
           <c>string</c>
-
           <c>URL of the OP's OAuth 2.0 Token Endpoint <xref
           target="OpenID.Messages"></xref></c>
           
-          
           <c>userinfo_endpoint</c>
-
           <c>string</c>
-
           <c>URL of the OP's UserInfo Endpoint <xref
           target="OpenID.Messages"></xref></c>
 
           <c>refresh_session_endpoint</c>
-
           <c>string</c>
-
           <c>URL of the OP's Refresh Session Endpoint <xref
           target="OpenID.Session"></xref></c>
 
           <c>end_session_endpoint</c>
-
           <c>string</c>
-
           <c>URL of the OP's End Session Endpoint <xref
           target="OpenID.Session"></xref></c>
 
           <c>jwk_url</c>
-
           <c>string</c>
-
           <c>URL of the OP's <xref target="JWK">JSON Web Key </xref>
           document. Server's signing Key</c>
           
           <c>jwk_encryption_url</c>
-
           <c>string</c>
-
           <c>URL of the OP's <xref target="JWK">JSON Web Key </xref>
           document. Server's Encryption Key, if not present, its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx></c>
 
           <c>x509_url</c>
-
           <c>string</c>
-
           <c>URL of the OP's X.509 certificates in PEM format.</c>
           
           <c>x509_encryption_url</c>
-
           <c>string</c>
-
           <c>URL of the OP's X.509 certificates in PEM format.
           Server's Encryption Key, if not present its value 
           is the same as the URL provided by <spanx style="verb">x509_url</spanx></c>
 
           <c>registration_endpoint</c>
-
           <c>string</c>
-
           <c>URL of the OP's Dynamic Client Registration Endpoint <xref
           target="OpenID.Registration"></xref></c>
 
           <c>scopes_supported</c>
-
           <c>array</c>
-
           <c>A JSON array containing a list of the <xref
           target="OAuth2.0">OAuth 2.0 </xref> scope values that this server
           supports. The server MUST support the <spanx style="verb">openid</spanx>
           scope value.</c>
 
           <c>response_types_supported</c>
-
           <c>array</c>
-
           <c>A JSON array containing a list of the OAuth 2.0 
           <spanx style="verb">response_type</spanx> that this
           server supports. The server MUST support the <spanx style="verb">code</spanx> ,
@@ -593,44 +577,34 @@ Host: example.com]]></artwork>
           <spanx style="verb">response_type</spanx>.</c>
 
           <c>acrs_supported</c>
-
           <c>array</c>
-
           <c>A JSON array containing a list of the Authentication Context Class References
           that this server supports.</c>
 
           <c>user_id_types_supported</c>
-
           <c>array</c>
-
           <c>A JSON array containing a list of the user identifier types that
           this server supports. Valid types include
 	  <spanx style="verb">pairwise</spanx> and
 	  <spanx style="verb">public</spanx>.</c>
           
           <c>userinfo_algs_supported</c>
-
           <c>array</c>
-
           <c>A JSON array containing a list of the
 	  <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
 	  signing and encryption algorithms <xref target="JWA" />
            supported by the UserInfo Endpoint
 	   to encode the JWT <xref target="JWT" />.</c>
            
-           <c>id_token_algs_supported</c>
-
+          <c>id_token_algs_supported</c>
           <c>array</c>
-
           <c>A JSON array containing a list of the JWS and JWE
 	  signing and encryption algorithms <xref target="JWA" />
            supported by the Authorization Server for the ID Token
 	   to encode the JWT <xref target="JWT" />.</c>
            
-           <c>request_object_algs_supported</c>
-
+          <c>request_object_algs_supported</c>
           <c>array</c>
-
           <c>A JSON array containing a list of the JWS and JWE
 	  signing and encryption algorithms <xref target="JWA" />
            supported by the Authorization Server for the OpenID Request Object described in Section 2.1.2.1 of <xref
@@ -638,10 +612,8 @@ Host: example.com]]></artwork>
 	   to encode the JWT <xref target="JWT" />.
 	   Servers SHOULD support <spanx style="verb">RS256</spanx>.</c>
 
-           <c>token_endpoint_auth_types_supported</c>
-
+          <c>token_endpoint_auth_types_supported</c>
           <c>array</c>
-
           <c>A JSON array containing a list of authentication
             types supported by this Token Endpoint. The options are <spanx style="verb">client_secret_post</spanx>, 
             <spanx style="verb">client_secret_basic</spanx>, <spanx style="verb">client_secret_jwt</spanx>, and <spanx style="verb">private_key_jwt</spanx>, as described in
@@ -652,10 +624,8 @@ Host: example.com]]></artwork>
              Scheme as specified in
             section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.</c>
 
-           <c>token_endpoint_auth_algs_supported</c>
-
+          <c>token_endpoint_auth_algs_supported</c>
           <c>array</c>
-
           <c>A JSON array containing a list of the JWS signing algorithms <xref target="JWA" />
            supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> method
 	   to encode the JWT <xref target="JWT" />.
@@ -667,22 +637,38 @@ Host: example.com]]></artwork>
 
         <t><figure>
             <artwork><![CDATA[{
- "authorization_endpoint": "https://server.example.com/connect/authorize",
- "issuer" : "https://server.example.com",
- "token_endpoint": "https://server.example.com/connect/token",
- "token_endpoint_auth_types_supported": ["client_secret_basic", "private_key_jwt"],
- "userinfo_endpoint": "https://server.example.com/connect/user",
- "refresh_session_endpoint": "https://server.example.com/connect/refresh_session",
- "end_session_endpoint": "https://server.example.com/connect/end_session",
- "jwk_url": "https://server.example.com/jwk.json",
- "registration_endpoint": "https://server.example.com/connect/register",
- "scopes_supported": ["openid", "profile", "email", "address", "phone"],
- "response_types_supported": ["code", "code id_token", "token id_token"],
- "acrs_supported": ["1","2","http://id.incommon.org/assurance/bronze"],
- "user_id_types_supported": ["public", "pairwise"],
- "userinfo_algs_supported": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "id_token_algs_supported": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "request_object_algs_supported": ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"]
+ "authorization_endpoint":
+   "https://server.example.com/connect/authorize",
+ "issuer":
+   "https://server.example.com",
+ "token_endpoint":
+   "https://server.example.com/connect/token",
+ "token_endpoint_auth_types_supported":
+   ["client_secret_basic", "private_key_jwt"],
+ "userinfo_endpoint":
+   "https://server.example.com/connect/user",
+ "refresh_session_endpoint":
+   "https://server.example.com/connect/refresh_session",
+ "end_session_endpoint":
+   "https://server.example.com/connect/end_session",
+ "jwk_url":
+   "https://server.example.com/jwk.json",
+ "registration_endpoint":
+   "https://server.example.com/connect/register",
+ "scopes_supported":
+   ["openid", "profile", "email", "address", "phone"],
+ "response_types_supported":
+   ["code", "code id_token", "token id_token"],
+ "acrs_supported":
+   ["1","2","http://id.incommon.org/assurance/bronze"],
+ "user_id_types_supported":
+   ["public", "pairwise"],
+ "userinfo_algs_supported":
+   ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
+ "id_token_algs_supported":
+   ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
+ "request_object_algs_supported":
+   ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"]
  }]]></artwork>
           </figure></t>
       </section>
@@ -795,28 +781,30 @@ Host: example.com]]></artwork>
           <title>OpenID Connect Messages 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-	    <organization>Ping Identity</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+	    <organization abbrev="Salesforce">Salesforce</organization>
+	  </author>
+
           <author fullname="Edmund Jay" initials="E." surname="Jay">
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -833,7 +821,7 @@ Host: example.com]]></artwork>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -853,7 +841,7 @@ Host: example.com]]></artwork>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -912,35 +900,18 @@ Host: example.com]]></artwork>
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization>Google</organization>
-          </author>
-
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
-          </author>
-
-          <author fullname="Yaron Goland" initials="Y.Y." surname="Goland">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization>Google</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="Facebook">Facebook</organization>
-          </author>
-
-          <date day="12" month="May" year="2012" />
+          <date day="22" month="May" year="2012" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
                 type="HTML" />
       </reference>
 
@@ -953,7 +924,7 @@ Host: example.com]]></artwork>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -1029,14 +1000,14 @@ Host: example.com]]></artwork>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1122,6 +1093,8 @@ Host: example.com]]></artwork>
           <t>Added PAPE Reference to the Informative References, per issue #574</t>
           <t>Added "id_token" response type as being MTI for OpenID Providers</t>
 	  <t>Changed default OpenID Request Object signing algorithm to RS256, per issue #571</t>
+	  <t>Use standards track version of JSON Web Token spec
+	  (draft-ietf-oauth-json-web-token)</t>
 	</list></t>
 
       <t>-08<list style="symbols">

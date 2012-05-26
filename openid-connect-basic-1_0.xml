@@ -3,17 +3,19 @@
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-basic-1_0" ipr="trust200902">
-<?rfc toc="yes" ?>
-<?rfc tocdepth="4" ?>
-<?rfc symrefs="yes" ?>
-<?rfc sortrefs="yes"?>
-<?rfc strict="no" ?>
-<?rfc iprnotified="no" ?>
-<?rfc private="Draft" ?>
+
+  <?rfc toc="yes" ?>
+  <?rfc tocdepth="4" ?>
+  <?rfc symrefs="yes" ?>
+  <?rfc sortrefs="yes"?>
+  <?rfc strict="no" ?>
+  <?rfc iprnotified="no" ?>
+  <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Basic Client Profile">OpenID Connect Basic
+    <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
     Client Profile 1.0 - draft 18</title>
+
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
       <address>
@@ -28,17 +30,17 @@
       </address>
     </author>
 
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization abbrev="Google">Google</organization>
-      <address>
-        <email>breno@google.com</email>
-      </address>
-    </author>
-
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
       <address>
         <email>mbj@microsoft.com</email>
+      </address>
+    </author>
+
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization abbrev="Google">Google</organization>
+      <address>
+        <email>breno@google.com</email>
       </address>
     </author>
 
@@ -49,7 +51,7 @@
       </address>
     </author>
 
-    <date day="20" month="May" year="2012"/>
+    <date day="25" month="May" year="2012"/>
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -59,9 +61,9 @@
       RESTful manner.</t>
 
       <t>OpenID Connect Basic Client Profile is a profile of the 
-      <xref target="OpenID.Standard">OpenID Connect Standard 
-      1.0 Specification</xref> that is designed to be easy to read and 
-      implement for web-based Relying Parties using the OAuth code grant type.
+      OpenID Connect Standard 1.0 Specification
+      that is designed to be easy to read and implement for basic
+      web-based Relying Parties using the OAuth code grant type.
       OpenID Providers should consult the Standard specification.
       This profile omits implementation and security
       considerations for OpenID Providers.</t>
@@ -71,6 +73,19 @@
   <middle>
 
     <section title="Introduction">
+
+      <t>OpenID Connect Basic Client Profile is a profile of the 
+      <xref target="OpenID.Standard">OpenID Connect Standard 1.0 Specification</xref>
+      that is designed to be easy to read and implement for basic
+      web-based Relying Parties using the OAuth code grant type.
+      See the
+      <xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile</xref>
+      specification for a related profile for basic
+      web-based Relying Parties using the OAuth implicit grant type.
+      OpenID Providers and non web-based applications
+      should consult the Standard specification.
+      This profile omits implementation and security
+      considerations for OpenID Providers.</t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -396,8 +411,8 @@
           </t>
           <figure>
             <preamble>The following is a non-normative example of an
-            Authorization Request URL.
-	    Line wraps are for display purposes only.</preamble>
+            Authorization Request URL
+	    (with line wraps for display purposes only):</preamble>
 
             <artwork><![CDATA[https://server.example.com/authorize?
 response_type=code
@@ -415,10 +430,10 @@ response_type=code
           hyperlinking, or any other secure means of directing the User-Agent 
           to the URL.</t>
 
-          <t>Following is a non-normative example using HTTP redirect.
-          Line wraps are for display purposes only.</t>
-
           <figure>
+	    <preamble>Following is a non-normative example using HTTP redirect
+	    (with line wraps for display purposes only):</preamble>
+
             <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize?
 response_type=code
@@ -484,8 +499,8 @@ response_type=code
             </t>
 
             <figure>
-              <preamble>The following is a non-normative example.
-	      Line wraps after the second line are for the display purposes only.</preamble>
+              <preamble>The following is a non-normative example
+	      (with line wraps after the second line for the display purposes only):</preamble>
 
               <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://client.example.org/cb?
@@ -516,11 +531,10 @@ code=SplxlOBeZQQYbYS6WxSbIA
             <t>The Client makes a request to the token endpoint as described in 
 	    section 4.1.3 of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
 
-            <t>The follwoing is a non-normative example of such a request.
-	    Line wraps after the second line are for the display purposes only.</t>
-
             <figure>
-              <preamble>Example of a token request:</preamble>
+	      <preamble>The follwoing is a non-normative example of such a token request
+	      (with line wraps after the second line for the display purposes only):</preamble>
+
               <artwork><![CDATA[POST /token HTTP/1.1
 Host: server.example.com
 Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
@@ -554,8 +568,8 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
             resources at Resource Servers.</t>
 
             <figure>
-              <preamble>The following is a non-normative example.
-	      Line wraps after the second line are for the display purposes only.</preamble>
+              <preamble>The following is a non-normative example
+	      (with line wraps after the second line for the display purposes only):</preamble>
               <artwork><![CDATA[
 HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
@@ -1179,12 +1193,11 @@ scope=openid&response_type=code
           <title>OpenID Connect Standard 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -1203,7 +1216,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012"/>
+          <date day="25" month="May" year="2012"/>
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -1231,7 +1244,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012"/>
+          <date day="25" month="May" year="2012"/>
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1248,14 +1261,14 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="20" month="May" year="2012"/>
+          <date day="25" month="May" year="2012"/>
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1270,36 +1283,59 @@ scope=openid&response_type=code
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization>Google</organization>
-          </author>
-
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
-          <author fullname="Yaron Goland" initials="Y.Y." surname="Goland">
-            <organization abbrev="Microsoft">Microsoft</organization>
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization>Google</organization>
-          </author>
+          <date day="22" month="May" year="2012"/>
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
+		type="HTML"/>
+      </reference>
+
+    </references>
+    <references title="Informative References">
+
+      <reference anchor="OpenID.Implicit">
+        <front>
+          <title>OpenID Connect Implicit Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
             Ltd.</organization>
           </author>
 
-          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="Facebook">Facebook</organization>
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+           <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
-          <date day="12" month="May" year="2012"/>
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B."
+                  surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+            <organization abbrev="Salesforce">Salesforce</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="25" month="May" year="2012" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
-		type="HTML"/>
+        <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
+                type="HTML" />
       </reference>
 
     </references>
@@ -1394,6 +1430,8 @@ scope=openid&response_type=code
           <t>Changed client.example.com to client.example.org, per issue #251</t>
 	  <t>Added claims_in_id_token scope definition to Basic and Implicit,
 	  per issue #594</t>
+	  <t>Use standards track version of JSON Web Token spec
+	  (draft-ietf-oauth-json-web-token)</t>
       </list></t>
 
       <t>-17<list style="symbols">

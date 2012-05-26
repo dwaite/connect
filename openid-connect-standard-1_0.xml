@@ -20,10 +20,8 @@
   <front>
     <title abbrev="OpenID Connect Standard 1.0">OpenID Connect Standard 1.0 - draft 10</title>
 
-    <author fullname="Nat Sakimura" initials="N."
-            surname="Sakimura">
-      <organization abbrev="NRI">Nomura Research Institute,
-      Ltd.</organization>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
 
       <address>
         <email>n-sakimura@nri.co.jp</email>
@@ -31,18 +29,10 @@
     </author>
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
+      <organization abbrev="Ping Identity">Ping Identity</organization>
 
       <address>
         <email>ve7jtb@ve7jtb.com</email>
-      </address>
-    </author>
-
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization abbrev="Google">Google</organization>
-
-      <address>
-        <email>breno@google.com</email>
       </address>
     </author>
 
@@ -54,6 +44,14 @@
       </address>
     </author>
 
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization abbrev="Google">Google</organization>
+
+      <address>
+        <email>breno@google.com</email>
+      </address>
+    </author>
+
     <author fullname="Edmund Jay" initials="E." surname="Jay">
       <organization abbrev="Illumila">Illumila</organization>
 
@@ -62,7 +60,7 @@
       </address>
     </author>
 
-    <date day="20" month="May" year="2012" />
+    <date day="25" month="May" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the
@@ -415,8 +413,8 @@
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
-                Authorization Request URL.
-		Line wraps are for display purposes only.</preamble>
+                Authorization Request URL
+		(with line wraps for display purposes only):</preamble>
 
                 <artwork><![CDATA[https://server.example.com/op/authorize?
 response_type=code%20id_token
@@ -434,10 +432,10 @@ response_type=code%20id_token
               MAY happen via HTTPS redirect, hyperlinking, or any other means
               of directing the User-Agent to the Authorization Endpoint URL.</t>
 
-              <t>Following is a non-normative example using HTTP redirect.
-              Line wraps are for display purposes only.</t>
-
               <figure>
+		<preamble>Following is a non-normative example using HTTP redirect
+		(with line wraps for display purposes only):</preamble>
+
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize?
 response_type=code%20id_token
@@ -508,29 +506,31 @@ response_type=code%20id_token
                 <artwork><![CDATA[algorithm = RS256
 
 JSON Encoded Header =  {"alg":"RS256"}
-JSON Encoded Payload = {
-                        "response_type":"code id_token",
-                        "client_id":"s6BhdRkqt3",
-                        "redirect_uri":"https:\/\/client.example.org\/cb",
-                        "scope":"openid profile",
-                        "state":"af0ifjsldkj",
-                        "nonce":"n-0S6_WzA2Mj",
-                        "userinfo":{
-                                    "claims":{
-                                              "name":{"essential":true},
-                                              "nickname":null,"email":{"essential":true},
-                                              "email_verified":{"essential":true},
-                                              "picture":null
-                                             }
-                                   },
-                        "id_token":{
-                                    "max_age":86400,
-                                    "claims":{
-                                              "acr":{"values":["2"]}
-                                              }
-                                   }
-                       }
-OpenID Request Object =  eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIs
+JSON Encoded Payload =
+    {
+     "response_type":"code id_token",
+     "client_id":"s6BhdRkqt3",
+     "redirect_uri":"https://client.example.org/cb",
+     "scope":"openid profile",
+     "state":"af0ifjsldkj",
+     "nonce":"n-0S6_WzA2Mj",
+     "userinfo":{
+       "claims":{
+         "name":{"essential":true},
+         "nickname":null,"email":{"essential":true},
+         "email_verified":{"essential":true},
+         "picture":null
+        }
+      },
+     "id_token":{
+       "max_age":86400,
+       "claims":{
+         "acr":{"values":["2"]}
+        }
+      }
+    }
+OpenID Request Object =
+    eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIs
     ImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL
     1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbG
     UiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWoiLCJ
@@ -576,8 +576,8 @@ exponent: [01,00,01]
 
             <t><figure>
                 <preamble>The following is a non-normative example of an
-                Authorization Request with the OpenID Request Method.
-                Line wraps within the values are for display purposes only.
+                Authorization Request with the OpenID Request Method
+                (with line wraps within the values for display purposes only):
                 </preamble>
 
                 <artwork><![CDATA[https://server.example.com/authorize?
@@ -587,19 +587,20 @@ response_type=code%02id_token
 &scope=openid
 &state=af0ifjsldkj
 &nonce=n-0S6_WzA2Mj
-&request=eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbi
-IsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2
-xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzdGF0ZS
-I6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbG
-FpbXMiOnsibmFtZSI6eyJlc3NlbnRpYWwiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haW
-wiOnsiZXNzZW50aWFsIjp0cnVlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cn
-VlfSwicGljdHVyZSI6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW
-1zIjp7ImFjciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1IC
-cidLEw8OCNyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4bEWTirUD
-GE3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MPvNxWbYXQ4wo9O6Y8
-QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZirsWdJ_wmSsfbQCWMRtA6JNbV0
-q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtFvXqOLSZMqoKK40b2akbj0kG
-dZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
+&request=eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF
+90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
+JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3Blbm
+lkIHByb2ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl
+9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYW
+wiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cn
+VlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZS
+I6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7Im
+FjciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1IC
+cidLEw8OCNyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4
+bEWTirUDGE3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MP
+vNxWbYXQ4wo9O6Y8QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZir
+sWdJ_wmSsfbQCWMRtA6JNbV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxV
+sRNWf6MtFvXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
               </figure></t>
 
             <section anchor="request_req"
@@ -609,10 +610,10 @@ dZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
               MAY happen via HTTPS redirect, hyperlinking, or any other means
               of directing the User-Agent to the Authorization Endpoint.</t>
 
-              <t>Following is a non-normative example using HTTP redirect.
-              Line wraps are for display purposes only.</t>
-
               <figure>
+		<preamble>Following is a non-normative example using HTTP redirect
+		(with line wraps for display purposes only):</preamble>
+
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize?
 response_type=code%20id_token
@@ -621,19 +622,20 @@ response_type=code%20id_token
 &scope=openid
 &state=af0ifjsldkj
 &nonce=n-0S6_WzA2Mj
-&request=eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbi
-IsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2
-xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzdGF0ZS
-I6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbG
-FpbXMiOnsibmFtZSI6eyJlc3NlbnRpYWwiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haW
-wiOnsiZXNzZW50aWFsIjp0cnVlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cn
-VlfSwicGljdHVyZSI6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW
-1zIjp7ImFjciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1IC
-cidLEw8OCNyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4bEWTirUD
-GE3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MPvNxWbYXQ4wo9O6Y8
-QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZirsWdJ_wmSsfbQCWMRtA6JNbV0
-q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtFvXqOLSZMqoKK40b2akbj0kG
-dZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
+&request=eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF
+90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
+JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3Blbm
+lkIHByb2ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl
+9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYW
+wiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cn
+VlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZS
+I6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7Im
+FjciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1IC
+cidLEw8OCNyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4
+bEWTirUDGE3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MP
+vNxWbYXQ4wo9O6Y8QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZir
+sWdJ_wmSsfbQCWMRtA6JNbV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxV
+sRNWf6MtFvXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
               </figure>
             </section>
           </section>
@@ -665,22 +667,23 @@ dZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
             </t>
 
             <t><figure>
-                <preamble>Following is a non-normative example of a Request File.
-		Line wraps are for display purposes only.</preamble>
+                <preamble>Following is a non-normative example of a Request File
+		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIsImNsaWV
-udF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL1wvY2xpZW50LmV
-4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUiLCJzdGF0ZSI6ImFmMGl
-manNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOns
-ibmFtZSI6eyJlc3NlbnRpYWwiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXN
-zZW50aWFsIjp0cnVlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGl
-jdHVyZSI6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7ImF
-jciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1ICcidLEw8OC
-NyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4bEWTirUDGE3TsJCHR
-QZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MPvNxWbYXQ4wo9O6Y8QnbyOrrLl
-5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZirsWdJ_wmSsfbQCWMRtA6JNbV0q0gImbOGn
-o75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtFvXqOLSZMqoKK40b2akbj0kGdZ8aPPSMo
-ywaGclKlIHh0PQ]]></artwork>
+                <artwork><![CDATA[eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiI
+sImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczp
+cL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2Z
+pbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWo
+iLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYWwiOnRydWV
+9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cnVlfSwiZW1
+haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZSI6bnVsbH1
+9LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7ImFjciI6eyJ
+2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1ICcidLEw8OC
+NyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4bEWTirUDG
+E3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MPvNxWbYXQ4
+wo9O6Y8QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZirsWdJ_wmSs
+fbQCWMRtA6JNbV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtF
+vXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
               </figure></t>
 
             <section anchor="rurl_create"
@@ -701,8 +704,8 @@ ywaGclKlIHh0PQ]]></artwork>
               remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.
               </t>
               <figure>
-                <preamble>Following is a non-normative example. Line
-                wraps are for display purposes only.</preamble>
+                <preamble>Following is a non-normative example
+		(with line wraps for display purposes only):</preamble>
 
                 <artwork><![CDATA[https://client.example.org/rf.txt
 #yhjJGgQ3UwE2Lm2i_wZNb5QxQ6XRnfzqYOretJMFTQI]]></artwork>
@@ -719,8 +722,8 @@ ywaGclKlIHh0PQ]]></artwork>
               <t>The entire URL MUST NOT exceed 512 bytes.</t>
 
               <figure>
-                <preamble>Following is a non-normative example.  Line
-                wraps are for display purposes only.</preamble>
+                <preamble>Following is a non-normative example
+		(with line wraps for display purposes only):</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://server.example.com/authorize
@@ -851,8 +854,8 @@ Host: client.example.org]]></artwork>
 
             <t>
               The following are non-normative examples of requests with 
-              differing <spanx style="verb">response_type</spanx> values and their responses. 
-              Line wraps are for display purposes only.
+              differing <spanx style="verb">response_type</spanx> values and their responses 
+              (with line wraps for display purposes only):
             </t>
 
 
@@ -889,14 +892,15 @@ HTTP/1.1 302 Found
 Location: https://client.example.org/cb#
 access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZ
-S5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCaGRSa3F0MyIsIm5vb
-mNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwLCJpYXQiOjEzMTEyODA5NzB9.
-RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3
-HOHm4whNx5FCyemyCGyTLHODCeAr_id029-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pN
-ZO7DHGwqnMWRe8hdG7jUES4w4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJ
-tn5dLz-0zZwVftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR
-4_X2GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
+&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZ
+XhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCa
+GRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwL
+CJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8
+XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr_id0
+29-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jUES4w
+4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwVftKV
+pFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2GAEH
+onKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
 &state=af0ifjsldkj]]></artwork>
             </figure>
 
@@ -914,14 +918,15 @@ response_type=code%20id_token
 HTTP/1.1 302 Found
 Location: https://client.example.org/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZ
-S5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCaGRSa3F0MyIsIm5vb
-mNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwLCJpYXQiOjEzMTEyODA5NzB9.
-RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3
-HOHm4whNx5FCyemyCGyTLHODCeAr_id029-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pN
-ZO7DHGwqnMWRe8hdG7jUES4w4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJ
-tn5dLz-0zZwVftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR
-4_X2GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
+&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZ
+XhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCa
+GRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwL
+CJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8
+XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr_id0
+29-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jUES4w
+4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwVftKV
+pFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2GAEH
+onKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
 &state=af0ifjsldkj]]></artwork>
             </figure>
 
@@ -960,14 +965,15 @@ Location: https://client.example.org/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 &access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZ
-S5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCaGRSa3F0MyIsIm5vb
-mNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwLCJpYXQiOjEzMTEyODA5NzB9.
-RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3
-HOHm4whNx5FCyemyCGyTLHODCeAr_id029-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pN
-ZO7DHGwqnMWRe8hdG7jUES4w4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJ
-tn5dLz-0zZwVftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR
-4_X2GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
+&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZ
+XhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCa
+GRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwL
+CJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8
+XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr_id0
+29-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jUES4w
+4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwVftKV
+pFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2GAEH
+onKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
 &state=af0ifjsldkj
 ]]></artwork>
             </figure>
@@ -1037,8 +1043,8 @@ exponent: [01,00,01]]]></artwork>
             </t>
 
             <t><figure>
-                <preamble>The following is a non-normative example.
-		Line wraps after the second line are for the display purposes only.</preamble>
+                <preamble>The following is a non-normative example
+		(with line wraps after the second line for the display purposes only):</preamble>
 
                 <artwork><![CDATA[HTTP/1.1 302 Found
 Location: https://client.example.org/cb?
@@ -1169,14 +1175,15 @@ Pragma: no-cache
  "token_type": "Bearer",
  "refresh_token": "8xLOxBtZp8",
  "expires_in": 3600,
- "id_token": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZXhhbXBsZ
-S5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCaGRSa3F0MyIsIm5vb
-mNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwLCJpYXQiOjEzMTEyODA5NzB9.
-RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3
-HOHm4whNx5FCyemyCGyTLHODCeAr_id029-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pN
-ZO7DHGwqnMWRe8hdG7jUES4w4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJ
-tn5dLz-0zZwVftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR
-4_X2GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw"
+ "id_token": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2Z
+XIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoic
+zZCaGRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxO
+TcwLCJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW
+5EC8XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr
+_id029-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jU
+ES4w4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwV
+ftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2
+GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw"
 }]]></artwork>
 	  </figure>
 	</section>
@@ -1732,35 +1739,18 @@ scope=openid&response_type=code
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Dirk Balfanz" initials="D." surname="Balfanz">
-            <organization>Google</organization>
-          </author>
-
           <author fullname="John Bradley" initials="J." surname="Bradley">
-           <organization>Ping Identity</organization>
-          </author>
-
-          <author fullname="Yaron Goland" initials="Y." surname="Goland">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="John Panzer" initials="J." surname="Panzer">
-            <organization>Google</organization>
+           <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
-            <organization abbrev="Facebook">Facebook</organization>
-          </author>
-
-          <date day="12" month="May" year="2012" />
+          <date day="22" month="May" year="2012" />
         </front>
 
-        <format target="http://tools.ietf.org/html/draft-jones-json-web-token"
+        <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
                 type="HTML" />
       </reference>
 
@@ -1773,7 +1763,7 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -1806,6 +1796,7 @@ scope=openid&response_type=code
 
 	  <date day="12" month="May" year="2012" />
         </front>
+
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
       </reference>
 
@@ -1814,28 +1805,30 @@ scope=openid&response_type=code
           <title>OpenID Connect Messages 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+	    <organization abbrev="Salesforce">Salesforce</organization>
+	  </author>
+
           <author fullname="Edmund Jay" initials="E." surname="Jay">
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1853,14 +1846,14 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1877,7 +1870,7 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -1888,7 +1881,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="May" year="2012" />
+          <date day="25" month="May" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1945,17 +1938,22 @@ scope=openid&response_type=code
       <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
+
            <author fullname="Breno" initials="B." surname="de Medeiros">
              <organization abbrev="Google">Google, Inc.</organization>
            </author>
+
            <author fullname="Marius" initials="M." surname="Scurtescu">
              <organization abbrev="Google">Google, Inc.</organization>
            </author>
+
            <author fullname="Paul" initials="P." surname="Tarjan">
              <organization abbrev="Facebook"> Facebook</organization>
            </author>
-           <date day="10" month="April" year="2012"></date>
+
+           <date day="25" month="May" year="2012"></date>
         </front>
+
       <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
               type="HTML" />
       </reference>
@@ -2075,6 +2073,8 @@ scope=openid&response_type=code
           <t>Changed client.example.com to client.example.org, per issue #251</t>
           <t>Removed example text for generating a nonce via a signed session cookie,
 	  per issue #562</t>
+	  <t>Use standards track version of JSON Web Token spec
+	  (draft-ietf-oauth-json-web-token)</t>
         </list>
       </t>
 
