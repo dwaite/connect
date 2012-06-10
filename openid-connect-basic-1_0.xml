@@ -477,9 +477,9 @@ response_type=code
           <section anchor="code_ok" title="End-User Grants Authorization">
 
             <t>If the Resource Owner grants the access request, the
-	    Authorization Server issues an Access Token and delivers it to the
-	    Client by adding the following parameters to the fragment
-	    component of the redirection URI using the
+	    Authorization Server issues a <spanx style="verb">code</spanx> and delivers 
+	    it to the Client by adding the following query parameters to the
+	    query component of the redirection URI using the
 	    <spanx style="verb">application/x-www-form-urlencoded</spanx>
 	    format as defined in Section 4.1.2 of
 	    <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
@@ -1415,6 +1415,11 @@ scope=openid&response_type=code
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-19
+        <list style="symbols">
+        <t>Fix sec 2.2.5.1 to return code in a query paramater rather than fragment</t>
+        </list></t>
+      
       <t>-18
         <list style="symbols">
 	  <t>Use "code" response_type instead of "token id_token" in Basic Profile,
