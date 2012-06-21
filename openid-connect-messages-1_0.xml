@@ -3,6 +3,7 @@
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-mesages-1_0" ipr="trust200902">
+
   <?rfc toc="yes" ?>
   <?rfc tocdepth="4" ?>
   <?rfc symrefs="yes" ?>
@@ -12,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 10</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 11</title>
 
     <author fullname="Nat Sakimura" initials="N." 
             surname="Sakimura">
@@ -62,7 +63,7 @@
       </address>
     </author>
 
-    <date day="25" month="May" year="2012" />
+    <date day="20" month="June" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -473,9 +474,7 @@
 
 	    <t hangText="scope">A space delimited, case sensitive list of
 	    ASCII string values. The values specify an additive list of
-	    voluntary Claims that are returned from the UserInfo Endpoint unless the
-	    <spanx style="verb">claims_in_id_token</spanx> scope value is used,
-	    in which case the requested claims are instead returned in the ID Token.
+	    voluntary Claims that are returned from the UserInfo Endpoint.
 	    The following scope values are defined:
 
 	    <list style="hanging">
@@ -518,19 +517,6 @@
 	      the <spanx style="verb">phone_number</spanx> Claim at the 
 	      UserInfo Endpoint be granted by the issued Access Token.</t>
 
-	      <t hangText="claims_in_id_token">OPTIONAL. 
-	      Use of this scope value switches where the Claims requested
-	      via other scope values are returned.
-	      If this scope value is present, the voluntary claims that are 
-	      requested with the
-	      <spanx style="verb">profile</spanx>,
-	      <spanx style="verb">email</spanx>,
-	      <spanx style="verb">address</spanx>, and
-	      <spanx style="verb">phone</spanx> scope values are
-	      returned in the ID Token, rather than from the UserInfo Endpoint.
-	      If finer grained control is required, an
-	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
-	      MUST be used.</t>
 	    </list></t>
 	  </list></t>
 
@@ -2736,7 +2722,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="20" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -2773,7 +2759,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="20" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -2808,7 +2794,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="20" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -2908,10 +2894,9 @@ Tokens and URL locations where the Claims may be retrieved:
 
       <reference anchor="OAuth2.0">
         <front>
-          <title>OAuth 2.0 Authorization Protocol</title>
+          <title>The OAuth 2.0 Authorization Framework</title>
 
-          <author fullname="Eran Hammer" initials="E." role="editor"
-                  surname="Hammer">
+          <author fullname="Eran Hammer" initials="E." role="editor" surname="Hammer">
             <organization></organization>
           </author>
 
@@ -2923,7 +2908,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="1" month="May" year="2012" />
+          <date day="19" month="June" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -2947,7 +2932,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Oracle">Oracle Corporation</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="27" month="May" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel"
@@ -2956,7 +2941,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
       <reference anchor="OAuth.Bearer">
         <front>
-          <title>OAuth 2.0 Protocol: Bearer Tokens</title>
+          <title>The OAuth 2.0 Authorization Framework: Bearer Token Usage</title>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
@@ -2970,7 +2955,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization>Facebook</organization>
           </author>
 
-          <date day="23" month="April" year="2012" />
+          <date day="19" month="June" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
@@ -3092,7 +3077,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
 	    <date day="22" month="May" year="2012"/>
 	  </front>
-	<format target="http://tools.ietf.org/html/draft-ietf-oauth-oauth-jwt-bearer"
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer"
 		    type="HTML" />
       </reference>
 
@@ -3447,7 +3432,13 @@ Tokens and URL locations where the Claims may be retrieved:
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-      <t>10
+      <t>-11
+        <list style="symbols">
+	  <t>Removed <spanx style="verb">claims_in_id_token</spanx> scope value,
+	  per decision on June 15, 2012 special working group call</t>
+      </list></t>
+
+      <t>-10
         <list style="symbols">
           <t>Changed <spanx style="verb">verified</spanx> to
 	  <spanx style="verb">email_verified</spanx>, per issue #564</t>
