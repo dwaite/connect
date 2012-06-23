@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 19</title>
+    Client Profile 1.0 - draft 20</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="20" month="June" year="2012"/>
+    <date day="23" month="June" year="2012"/>
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -111,7 +111,7 @@
 	      Application requiring Claims from an OpenID Provider
 	    </t>
 	    <t hangText="OpenID Provider (OP)">
-	      service capable of providing Claims to a Relying Party
+	      Service capable of providing Claims to a Relying Party
 	    </t>
 	    <t hangText="Claim">
 	      Piece of information about an Entity that a Claims Provider
@@ -787,7 +787,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
             special characters such as <spanx style="verb">@</spanx>, 
             <spanx style="verb">/</spanx>, or whitespace. This value MUST NOT
             be relied upon to be unique by the RP. 
-            (See <xref target="claim.stability"></xref>)</c>
+            (See <xref target="claim.stability"></xref>.)</c>
 
             <c>profile</c>
             <c>string</c>
@@ -805,7 +805,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
             <c>string</c>
             <c>The End-User's preferred e-mail address. 
             This value MUST NOT be relied upon to be unique by 
-            the RP. (See <xref target="claim.stability"></xref>)</c>
+            the RP. (See <xref target="claim.stability"></xref>.)</c>
 
             <c>email_verified</c>
             <c>boolean</c>
@@ -947,27 +947,25 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
               </list>
             </t>
           </section>
-          <section anchor="claim.stability" title="Claim Stability and Uniqueness">
+
+	  <section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
-          <t>
-          The <spanx style="verb">user_id</spanx> claim is the only claim which a client
-          can rely upon to be stable, since <spanx style="verb">user_id</spanx>
-           claim MUST be locally unique and never reassigned within the Issuer
-          for a particular End-User as described in <xref target="id_token"></xref> </t>
+	    <t>The <spanx style="verb">user_id</spanx> claim is the only claim that a client
+	    can rely upon to be stable, since the <spanx style="verb">user_id</spanx>
+	    claim MUST be locally unique and never reassigned within the Issuer
+	    for a particular End-User, as described in <xref target="id_token"></xref>.</t>
           
-          <t>
-          Therefore, the only guaranteed unique identifier for a given End-User is a 
-          combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
-          claim, and other fields such as <spanx style="verb">preferred_username</spanx>
-           and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
-           for a given End-User.</t>
+	    <t>Therefore, the only guaranteed unique identifier for a given End-User is a 
+	    combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
+	    claim; other fields such as <spanx style="verb">preferred_username</spanx>
+	    and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
+	    for a given End-User.</t>
            
-           <t>
-           All other claims carry no such guarantees across different issuers in terms of
-           stability over time or uniqueness across users, and issuers are permitted to
-           apply local restrictions and policies. For instance, an Issuer MAY re-use a 
-           given <spanx style="verb">preferred_username</spanx> or 
-           <spanx style="verb">email</spanx> address claim across different different
+	    <t>All other claims carry no such guarantees across different issuers in terms of
+	    stability over time or uniqueness across users, and Issuers are permitted to
+	    apply local restrictions and policies. For instance, an Issuer MAY re-use a 
+	    given <spanx style="verb">preferred_username</spanx> or 
+	    <spanx style="verb">email</spanx> address claim across different
             End-Users at different points in time, and the claimed 
             <spanx style="verb">preferred_username</spanx> or 
             <spanx style="verb">email</spanx> address for a given End-User MAY change 
@@ -1297,7 +1295,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="June" year="2012"/>
+          <date day="23" month="June" year="2012"/>
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -1412,7 +1410,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="June" year="2012" />
+          <date day="23" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -1499,18 +1497,17 @@ scope=openid&response_type=code
 
       <t>-20
         <list style="symbols">
-        <t>Added preferred_username claim</t>
+        <t>Added <spanx style="verb">preferred_username</spanx> claim
+	under <spanx style="verb">profile</spanx> scope</t>
+        <t>Added ID Token section to describe required claims</t>
         <t>Added section on claim stability</t>
-        <t>Added id_token section to describe required claims</t>
-        <t>Added preferd_username to profile scope</t>
         </list></t>
-        
+
       <t>-19
         <list style="symbols">
 	  <t>Fixed Section 2.2.5.1 to return code in a query paramater rather than a fragment</t>
 	  <t>Removed <spanx style="verb">claims_in_id_token</spanx> scope value,
 	  per decision on June 15, 2012 special working group call</t>
-	  <t>Added preferd_username to profile scope<t>
       </list></t>
 
       <t>-18

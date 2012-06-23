@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Profile 1.0">OpenID Connect Implicit 
-    Client Profile 1.0 - draft 01</title>
+    Client Profile 1.0 - draft 02</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="20" month="June" year="2012" />
+    <date day="23" month="June" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -650,7 +650,7 @@ req.send(postBody);]]></artwork>
               for details regarding date/times in general and UTC in
               particular.</t>
 
-             <t hangText="nonce">A string value used to associate a Client session 
+	      <t hangText="nonce">A string value used to associate a Client session 
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified from the Authorization Request to the ID Token.
 	      If present in the <xref target="id_token">ID Token</xref>,
@@ -665,7 +665,7 @@ req.send(postBody);]]></artwork>
 	      Use of the nonce is REQUIRED when using the implicit flow
 	      and OPTIONAL when using the code flow.</t>
 	      
-	        <t hangText="at_hash">
+	      <t hangText="at_hash">
               If the ID Token is issued with an <spanx style="verb">access_token</spanx>
 	      in an implicit flow, this is REQUIRED.
               The value is produced by base64url encoding the left-most half of the hash 
@@ -678,23 +678,20 @@ req.send(postBody);]]></artwork>
 	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
             </list></t>
-            
             <t>Additional optional claims may be present in the ID Token.</t>
-            
-         <t>ID Tokens MUST be signed using <xref
-          target="JWS">JWS</xref> and OPTIONALLY both signed and
-          encrypted using <xref target="JWS">JWS</xref> and <xref
-          target="JWE">JWE</xref> respectively, thereby providing
-          <xref target="signing_order">authentication, integrity,
-	      non-repudiation and optionally, confidentiality</xref>.</t>
 
-          <t>
-            Clients MUST directly validate the ID Token per 
-            <xref target="id.token.verification">ID Token Verification</xref>. 
-          </t>
+	    <t>ID Tokens MUST be signed using <xref
+	    target="JWS">JWS</xref> and OPTIONALLY both signed and
+	    encrypted using <xref target="JWS">JWS</xref> and <xref
+	    target="JWE">JWE</xref> respectively, thereby providing
+	    authentication, integrity,
+	    non-repudiation, and optionally, confidentiality.</t>
 
-            
-        
+	    <t>
+	      Clients MUST directly validate the ID Token per 
+	      <xref target="id.token.verification">ID Token Verification</xref>. 
+	    </t>
+
         </section>
         
       <section anchor="id.token.verification" title="ID Token Verification">
@@ -864,7 +861,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	    might be returned alongside a <spanx style="verb">given_name</spanx>
 	    value of <spanx style="verb">Michael</spanx>.</c>
 
-         <c>preferred_username</c>
+	    <c>preferred_username</c>
             <c>string</c>
             <c>Shorthand name that the End-User wishes to be referred to at the RP, such as
             <spanx style="verb">janedoe</spanx> or <spanx style="verb">j.doe</spanx>. 
@@ -872,7 +869,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
             special characters such as <spanx style="verb">@</spanx>, 
             <spanx style="verb">/</spanx>, or whitespace. This value MUST NOT
             be relied upon to be unique by the RP. 
-            (See <xref target="claim.stability"></xref>)</c>
+            (See <xref target="claim.stability"></xref>.)</c>
             
 	    <c>profile</c>
 	    <c>string</c>
@@ -888,7 +885,9 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 
 	    <c>email</c>
 	    <c>string</c>
-	    <c>The End-User's preferred e-mail address.</c>
+	    <c>The End-User's preferred e-mail address. 
+            This value MUST NOT be relied upon to be unique by 
+            the RP. (See <xref target="claim.stability"></xref>.)</c>
 
 	    <c>email_verified</c>
 	    <c>boolean</c>
@@ -1030,28 +1029,25 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	      </list>
 	    </t>
 	  </section>
-	  
+
 	  <section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
-          <t>
-          The <spanx style="verb">user_id</spanx> claim is the only claim which a client
-          can rely upon to be stable, since <spanx style="verb">user_id</spanx>
-           claim MUST be locally unique and never reassigned within the Issuer
-          for a particular End-User as described in <xref target="id_token"></xref> </t>
+	    <t>The <spanx style="verb">user_id</spanx> claim is the only claim that a client
+	    can rely upon to be stable, since the <spanx style="verb">user_id</spanx>
+	    claim MUST be locally unique and never reassigned within the Issuer
+	    for a particular End-User, as described in <xref target="id_token"></xref>.</t>
           
-          <t>
-          Therefore, the only guaranteed unique identifier for a given End-User is a 
-          combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
-          claim, and other fields such as <spanx style="verb">preferred_username</spanx>
-           and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
-           for a given End-User.</t>
+	    <t>Therefore, the only guaranteed unique identifier for a given End-User is a 
+	    combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
+	    claim; other fields such as <spanx style="verb">preferred_username</spanx>
+	    and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
+	    for a given End-User.</t>
            
-           <t>
-           All other claims carry no such guarantees across different issuers in terms of
-           stability over time or uniqueness across users, and issuers are permitted to
-           apply local restrictions and policies. For instance, an Issuer MAY re-use a 
-           given <spanx style="verb">preferred_username</spanx> or 
-           <spanx style="verb">email</spanx> address claim across different different
+	    <t>All other claims carry no such guarantees across different issuers in terms of
+	    stability over time or uniqueness across users, and Issuers are permitted to
+	    apply local restrictions and policies. For instance, an Issuer MAY re-use a 
+	    given <spanx style="verb">preferred_username</spanx> or 
+	    <spanx style="verb">email</spanx> address claim across different
             End-Users at different points in time, and the claimed 
             <spanx style="verb">preferred_username</spanx> or 
             <spanx style="verb">email</spanx> address for a given End-User MAY change 
@@ -1382,7 +1378,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="June" year="2012" />
+          <date day="23" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1417,7 +1413,7 @@ scope=openid&response_type=code
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="20" month="June" year="2012" />
+          <date day="23" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -1521,6 +1517,28 @@ scope=openid&response_type=code
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature" type="HTML" />
       </reference>
 
+      <reference anchor="JWE">
+        <front>
+          <title>JSON Web Encryption (JWE)</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization>Microsoft</organization>
+	  </author>
+
+	  <author fullname="Eric Rescorla" initials="E." surname="Rescorla">
+	    <organization>RTFM, Inc.</organization>
+	  </author>
+
+	  <author fullname="Joe Hildebrand" initials="J." surname="Hildebrand">
+	    <organization>Cisco Systems, Inc.</organization>
+	  </author>
+
+	  <date day="12" month="May" year="2012" />
+        </front>
+
+        <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
+      </reference>
+
       <reference anchor="OAuth.Responses">
         <front>
            <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
@@ -1573,7 +1591,7 @@ scope=openid&response_type=code
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="20" month="June" year="2012" />
+          <date day="23" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -1658,14 +1676,14 @@ scope=openid&response_type=code
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-    <t>-02
+      <t>-02
         <list style="symbols">
-        <t>Added preferred_username claim</t>
+        <t>Added <spanx style="verb">preferred_username</spanx> claim
+	under <spanx style="verb">profile</spanx> scope</t>
+        <t>Added ID Token section to describe required claims</t>
         <t>Added section on claim stability</t>
-        <t>Added id_token section to describe required claims</t>
-        <t>Added preferd_username to profile scope</t>
         </list></t>
-        
+
       <t>-01
         <list style="symbols">
 	  <t>Removed <spanx style="verb">claims_in_id_token</spanx> scope value,
