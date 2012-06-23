@@ -650,10 +650,50 @@ req.send(postBody);]]></artwork>
               for details regarding date/times in general and UTC in
               particular.</t>
 
-              
+             <t hangText="nonce">A string value used to associate a Client session 
+              with an ID Token, and to mitigate replay attacks. 
+              The value is passed through unmodified from the Authorization Request to the ID Token.
+	      If present in the <xref target="id_token">ID Token</xref>,
+	      clients MUST verify that
+              the <spanx style="verb">nonce</spanx> Claim value is equal to
+              the value of the <spanx style="verb">nonce</spanx>
+              parameter sent in the Authorization Request.
+	      If present in the Authorization Request, Authorization Servers
+	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
+	      <xref target="id_token">ID Token</xref> with the Claim value
+	      being the nonce value sent in the Authorization Request.
+	      Use of the nonce is REQUIRED when using the implicit flow
+	      and OPTIONAL when using the code flow.</t>
+	      
+	        <t hangText="at_hash">
+              If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+	      in an implicit flow, this is REQUIRED.
+              The value is produced by base64url encoding the left-most half of the hash 
+              created by hashing the <spanx style="verb">access_token</spanx> 
+              with the SHA-2 family hash algorithm
+              of the same length as the hash used in the <spanx style="verb">alg</spanx>
+              parameter of the <xref target="JWS">JWS</xref> header.
+	      For instance, if the <spanx style="verb">alg</spanx> is
+              <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
+	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
             </list></t>
+            
             <t>Additional optional claims may be present in the ID Token.</t>
+            
+         <t>ID Tokens MUST be signed using <xref
+          target="JWS">JWS</xref> and OPTIONALLY both signed and
+          encrypted using <xref target="JWS">JWS</xref> and <xref
+          target="JWE">JWE</xref> respectively, thereby providing
+          <xref target="signing_order">authentication, integrity,
+	      non-repudiation and optionally, confidentiality</xref>.</t>
+
+          <t>
+            Clients MUST directly validate the ID Token per 
+            <xref target="id.token.verification">ID Token Verification</xref>. 
+          </t>
+
+            
         
         </section>
         
@@ -1618,6 +1658,14 @@ scope=openid&response_type=code
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+    <t>-02
+        <list style="symbols">
+        <t>Added preferred_username claim</t>
+        <t>Added section on claim stability</t>
+        <t>Added id_token section to describe required claims</t>
+        <t>Added preferd_username to profile scope</t>
+        </list></t>
+        
       <t>-01
         <list style="symbols">
 	  <t>Removed <spanx style="verb">claims_in_id_token</spanx> scope value,
