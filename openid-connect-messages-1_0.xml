@@ -1315,6 +1315,16 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             might be returned alongside a <spanx style="verb">given_name</spanx>
             value of <spanx style="verb">Michael</spanx>.</c>
 
+	        <c>preferred_username</c>
+            <c>string</c>
+            <c>Shorthand name that the End-User wishes to be referred to at the RP, such as
+            <spanx style="verb">janedoe</spanx> or <spanx style="verb">j.doe</spanx>. 
+            This value MAY be any valid JSON string including 
+            special characters such as <spanx style="verb">@</spanx>, 
+            <spanx style="verb">/</spanx>, or whitespace. This value MUST NOT
+            be relied upon to be unique by the RP. 
+            (See <xref target="claim.stability"></xref>)</c>
+
             <c>profile</c>
 
             <c>string</c>
@@ -1337,7 +1347,9 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
             <c>string</c>
 
-            <c>The End-User's preferred e-mail address.</c>
+            <c>The End-User's preferred e-mail address. 
+            This value MUST NOT be relied upon to be unique by 
+            the RP. (See <xref target="claim.stability"></xref>)</c>
 
             <c>email_verified</c>
 
@@ -1453,6 +1465,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
  "name": "Jane Doe",
  "given_name": "Jane",
  "family_name": "Doe",
+ "preferred_username": "j.doe",
  "email": "janedoe@example.com",
  "picture": "http://example.com/janedoe/me.jpg"
 }]]></artwork>
@@ -1499,6 +1512,33 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 		<t hangText="country">The country name component.</t>
 	      </list>
 	    </t>
+          </section>
+          <section anchor="claim.stability" title="Claim Stability and Uniqueness">
+          
+          <t>
+          The <spanx style="verb">user_id</spanx> claim is the only claim which a client
+          can rely upon to be stable, since <spanx style="verb">user_id</spanx>
+           claim MUST be locally unique and never reassigned within the Issuer
+          for a particular End-User as described in <xref target="id_token"></xref> </t>
+          
+          <t>
+          Therefore, the only guaranteed unique identifier for a given End-User is a 
+          combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
+          claim, and other fields such as <spanx style="verb">preferred_username</spanx>
+           and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
+           for a given End-User.</t>
+           
+           <t>
+           All other claims carry no such guarantees across different issuers in terms of
+           stability over time or uniqueness across users, and issuers are permitted to
+           apply local restrictions and policies. For instance, an Issuer MAY re-use a 
+           given <spanx style="verb">preferred_username</spanx> or 
+           <spanx style="verb">email</spanx> address claim across different different
+            End-Users at different points in time, and the claimed 
+            <spanx style="verb">preferred_username</spanx> or 
+            <spanx style="verb">email</spanx> address for a given End-User MAY change 
+            over time.</t>
+            
           </section>
         </section>
 
@@ -3432,6 +3472,12 @@ Tokens and URL locations where the Claims may be retrieved:
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+     <t>-12
+        <list style="symbols">
+        <t>Added preferred_username claim</t>
+        <t>Added section on claim stability</t>
+        </list></t>
+        
       <t>-11
         <list style="symbols">
 	  <t>Removed <spanx style="verb">claims_in_id_token</spanx> scope value,
