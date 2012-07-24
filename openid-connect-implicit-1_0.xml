@@ -1115,14 +1115,14 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
           When dealing with the Self Issued IdP, the Client is deemed to have 
           registered with the IdP and obtained following Client Registration Response.  
         </t>
-        <list style="hanging">
+        <t><list style="hanging">
           <t hangText="client_id">
             The <spanx style="verb">redirect_uri</spanx> of the Client. 
           </t>
           <t hangText="expires_at">
             0.
           </t>
-        </list>
+        </list></t>
         <t>Note: OpenID Foundation may consider hositng an endpoint 
           <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
           that returns the static response as above so that the Client may not need to 
@@ -1133,7 +1133,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
       <section anchor="self_issued.request" title="Self Issued Identity Provider Request">
         <t>The Client sends the Authorization Request to the Authorization
            Endpoint with the following REQUIRED parameters. </t>
-        <list style="hanging">
+        <t><list style="hanging">
           <t hangText="response_type">
             REQUIRED. <spanx style="verb">id_token</spanx>.
           </t>
@@ -1156,7 +1156,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
             value at the registration time, so it has to be provided 
             as a part of the authorization request. 
           </t>
-        </list>
+        </list></t>
         <t>
           Other parameters MAY be sent. 
           Note that the user clames are returned in the <spanx style="verb">id_token</spanx>.  
@@ -1169,8 +1169,9 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
           <artwork><![CDATA[HTTP/1.1 302 Found
 Location: openid://
 ?response_type=id_token
-&client_id=https%3A%2F%2Fclient.example.org%2cb
+&client_id=https%3A%2F%2Fclient.example.org%2Fcb
 &scope=openid%20profile
+&policy_url=https%3A%2F%2Fclient.example.org%2Fusage%2F
 &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj]]></artwork>
         </figure> 
       </section>
