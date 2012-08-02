@@ -3,18 +3,13 @@
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-session-1_0" ipr="trust200902">
+
   <?rfc toc="yes" ?>
-
   <?rfc tocdepth="4" ?>
-
   <?rfc symrefs="yes" ?>
-
   <?rfc sortrefs="yes"?>
-
   <?rfc strict="no" ?>
-
   <?rfc iprnotified="no" ?>
-
   <?rfc private="Draft" ?>
 
   <front>
@@ -63,11 +58,11 @@
       </address>
     </author>
 
-    <date day="22" month="June" year="2012" />
+    <date day="2" month="August" year="2012" />
 
     <abstract>
-      <t>NOTE: This is a first cut of a significant rewrite based on May 5,
-      2012 WG meeting.</t>
+      <t>NOTE: This is a first cut of a significant rewrite based on the
+      decisions made at the May 5, 2012 working group meeting.</t>
 
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
       protocol. It allows Clients to verify the identity of the End-User based
@@ -111,7 +106,7 @@
     </section>
 
     <section title="Endpoint Discovery">
-      <t>To support the OpenID Conenct session managment, the RP MUST obtain
+      <t>To support the OpenID Connect session management, the RP MUST obtain
       the session management related endpoint URLs. This can either be
       obtained out of band or through the OP configuration file as described
       in OpenID Connect Discovery.</t>
@@ -124,7 +119,7 @@
           relevant RP iframe and postMessage back the login status of the user
           at the OP.</t>
 
-          <t hangText="OP Logout endpoint URL">The URL that initiate the user
+          <t hangText="OP Logout endpoint URL">The URL that initiates the user
           logout at the OP.</t>
         </list></t>
 
@@ -139,19 +134,21 @@
       request with previously obtained ID Token as the user hint with
       prompt=none. </t>
 
-      <t>This specification defines one additional claim in id_token. </t>
+      <t>This specification defines one additional claim in the ID Token. </t>
 
       <t><list style="hanging">
-          <t hangText="ops">REQUIRED if session management is supported. OP
-          Session Status. A JSON string that represent the user's login state
-          at the OP. It is an opaque string for the RP. </t>
+          <t hangText="ops">OP Session Status.
+	  A JSON string that represents the user's login state
+          at the OP.  This string is opaque to the RP.
+	  REQUIRED if session management is supported.
+	  </t>
         </list></t>
     </section>
 
     <section title="Session status change notification">
       <t>ID Token typically comes with the expiry date. The RP MAY rely on it
       to expire the RP session. However, it is entirely possible that the user
-      may have logged out of the IdP before the expiry date. Therefore, it is
+      may have logged out of the OP before the expiry date. Therefore, it is
       highly desirable to be able to find out the login status of the user at
       the OP.</t>
 
@@ -172,39 +169,39 @@
 
         <t><list style="hanging">
             <t hangText="user_hint">REQUIRED. ID Token that the RP received
-            when it logged in the user. The value of the aud field, which is a
-            client_id of the RP, is used to set the source origin for the
-            postMessage request. Note: If the id_token was asymmetrically
+            when it logged in the user. The value of the <spanx style='verb'>aud</spanx> field, which is a
+            <spanx style='verb'>client_id</spanx> of the RP, is used to set the source origin for the
+            postMessage request. Note: If the ID Token was asymmetrically
             encrypted for the RP, then the RP MUST decrypt it and use the
             decrypted version of the ID Token in this field.</t>
           </list></t>
 
-        <t>The RP MUST assign an "id" attribute to the iframe so that it can
+        <t>The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
         address it later.</t>
 
         <t>The OP iframe MUST accept the postMessage from the source origin
         that was registered with the client. It MUST reject the postMessage
         request from other source origin.</t>
 
-        <t>The postMessage from the RP iframe delevers session state, the
-        concatenation of the following, as the data.</t>
+        <t>The postMessage from the RP iframe delivers session state, the
+        concatenation of the following, as the data:</t>
 
         <t><list style="numbers">
-            <t>sha256 hash of the concatenation of the Client ID, the source
-            origin URL, the OP session state, and a salt which is 128 bits or
-            more.</t>
+            <t>SHA-256 hash of the concatenation of the Client ID, the source
+            origin URL, the OP session state, and a salt, which is 128 bits or
+            more,</t>
 
-            <t>An ascii period ".", i.e., 0x2E.</t>
+            <t>an ASCII period ('.') character, i.e., 0x2E,</t>
 
-            <t>the salt</t>
+            <t>the salt.</t>
           </list></t>
 
         <t>The OP iframe MUST recalculate it from the previously obtained
         Client ID, the source origin URL, the current OP session state, and
         the salt obtained from the data. If the received value and the
-        calculated value does not match, then the OP iframe MUST postMessage
-        the string "changed" back to the source. If it matched, then it MUST
-        postMessage the string "unchanged".</t>
+        calculated value do not match, then the OP iframe MUST postMessage
+        the string <spanx style='verb'>changed</spanx> back to the source. If it matched, then it MUST
+        postMessage the string <spanx style='verb'>unchanged</spanx>.</t>
 
         <t>Following is a non-normative example pseudo code for the OP
         iframe.</t>
@@ -237,12 +234,12 @@ function receiveMessage(e){
         suitable for the RP application. With each postMessage, it sends the
         session state defined in Section 4.1. It also has to be able to
         receive the postMessage back from the OP iframe. The received data
-        would either be "changed" or "unchanged". Upon receit of
-        "changed", the RP MUST perform the re-authentication with 
-        <spanx type="verb">prompt=none</spanx> to find the current 
+        would either be <spanx style='verb'>changed</spanx> or <spanx style='verb'>unchanged</spanx>. Upon receipt of
+        <spanx style='verb'>changed</spanx>, the RP MUST perform the re-authentication with 
+        <spanx style='verb'>prompt=none</spanx> to find the current 
         session state at the OP. </t>
 
-        <t>Following is a non-noramtive example pseudo code for the RP
+        <t>Following is a non-normative example pseudo code for the RP
         iframe. </t>
 
         <t><figure>
@@ -280,11 +277,11 @@ function receiveMessage(e)
       <t>Sometimes, the RP may want to notify the OP that the user has logged
       out of the site, and he may want to logout of the OP as well. In this
       case, the RP, after having logged out the user, sends the user to the
-      OP's logout endpoint URL that is either advertised through IdP
-      configuration file or out of band knowledge.</t>
+      OP's logout endpoint URL that is either advertised through OP's
+      provider configuration information or via out of band knowledge.</t>
 
       <t>Upon receipt of such message, the OP SHOULD prompt the user whether
-      he wants to logout of the OP as well. If he says yes, then the OP MUST
+      he wants to logout of the OP as well. If the user says "yes", then the OP MUST
       log him out.</t>
     </section>
 
@@ -300,12 +297,6 @@ function receiveMessage(e)
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3548"?>
 
       <reference anchor="OpenID.Messages">
         <front>
@@ -337,7 +328,7 @@ function receiveMessage(e)
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="23" month="June" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -348,20 +339,11 @@ function receiveMessage(e)
         <front>
           <title>OAuth 2.0 Authorization Protocol</title>
 
-          <author fullname="Eran Hammer" initials="E." role="editor"
-                  surname="Hammer">
-            <organization></organization>
-          </author>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="Facebook">Facebook</organization>
-          </author>
-
           <author fullname="Dick Hardt" initials="D." surname="Hardt">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="1" month="May" year="2012" />
+          <date day="31" month="July" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
@@ -374,8 +356,13 @@ function receiveMessage(e)
     <!-- </references> -->
 
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>Breno, Naveen, George, Torsten, Axel, Amanda, Justin, Tony, Edmund,
-      Mike, John, Nat.</t>
+      <t>
+	Breno de Medeiros, Naveen Agarwal, George Fletcher,
+	Torsten Lodderstedt, Axel Nennker, Amanda Anganes,
+	Justin Richer, Tony Nadalin, Edmund Jay,
+	Michael B. Jones, John Bradley, and Nat Sakimura
+	contributed to the design of this specification.
+      </t>
     </section>
 
     <section title="Notices">
@@ -421,8 +408,8 @@ function receiveMessage(e)
       <t>-08</t>
 
       <t><list style="symbols">
-          <t>Complete rewrite based on the May 5, 2012 WG F2F meeting at
-          Microsoft.</t>
+          <t>Complete rewrite based on the decisions made at the
+	  May 5, 2012 face to face working group meeting.</t>
         </list></t>
 
       <t>-07 <list style="symbols">
