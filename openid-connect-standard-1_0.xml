@@ -1435,7 +1435,7 @@ WWW-Authenticate: Bearer realm="example.com",
           </t>
           <t hangText="scope">
             REQUIRED. The <spanx style="verb">scope</spanx> parameter,
-            as defined in <xref target="scopes"/>.
+            as defined in <xref target="openid_scopes"/>.
           </t>
           <t hangText="policy_url">
             REQUIRED. A URL of a page that the Client provides to the 
@@ -1480,8 +1480,9 @@ Location: openid://
           <t>
             The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.  
             If <spanx style="verb">iss</spanx> contains a different value, 
-            the ID Token is not self-issued, and instead
-      it MUST be validated according to <xref target="id.token.verification"/>.
+            the ID Token is not self-issued, and instead 
+            it MUST be validated according to section 5.2 of 
+            <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
           </t>
           <t>
             The Client MUST validate that the value of the 
@@ -1562,7 +1563,7 @@ Location: openid://
 
       </section>
     </section>
-    
+
     <section anchor="disco_reg" title="Discovery and Registration">
       <t>Some OpenID Connect installations can use a pre-configured set of
       OpenID Providers and/or Relying Parties. In those cases, it may not be
