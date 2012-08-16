@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="13" month="August" year="2012" />
+    <date day="16" month="August" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the
@@ -127,7 +127,7 @@
       parameter in the Authorization Request.
       </t>
 
-      <section anchor="openid_scopes" title="OpenID Connect Scopes">
+      <section anchor="scopes" title="OpenID Connect Scopes">
         <t>Clients MUST specify the desired scopes in an Authorization Request to
         obtain an Access Token with the proper permissions.
         The scope names used by OpenID Connect are defined in
@@ -1435,7 +1435,7 @@ WWW-Authenticate: Bearer realm="example.com",
           </t>
           <t hangText="scope">
             REQUIRED. The <spanx style="verb">scope</spanx> parameter,
-            as defined in <xref target="openid_scopes"/>.
+            as defined in <xref target="scopes"/>.
           </t>
           <t hangText="policy_url">
             REQUIRED. A URL of a page that the Client provides to the 
@@ -1481,8 +1481,8 @@ Location: openid://
             The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.  
             If <spanx style="verb">iss</spanx> contains a different value, 
             the ID Token is not self-issued, and instead 
-            it MUST be validated according to section 5.2 of 
-            <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+            it MUST be validated according to
+	    Section 5.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
           </t>
           <t>
             The Client MUST validate that the value of the 
@@ -2245,6 +2245,11 @@ scope=openid&response_type=code
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-13
+        <list style="symbols">
+	  <t>Defined means of using a self-issued OP</t>
+      </list></t>
 
       <t>-12
         <list style="symbols">
