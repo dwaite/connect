@@ -250,139 +250,6 @@
         <spanx style="verb">response_type</spanx> and 
         <spanx style="verb">scope</spanx>.</t>
 
-        <section anchor="id_token" title="ID Token">
-          <t>The ID Token is a security token that contains Claims about the
-          authentication event and other requested Claims.  
-          The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
-
-          <t>The ID Token is used to manage the authentication event and user
-          identifier and is scoped to a particular Client via the <spanx
-          style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          Claims. </t>
-
-          <t>The following Claims are REQUIRED and OPTIONAL within the ID Token:</t>
-
-          <t><list style="hanging">
-              <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
-              of the response.</t>
-
-              <t hangText="user_id">REQUIRED. A locally unique and never
-              reassigned identifier within the Issuer for the End-User, 
-              which is intended to be
-              consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
-              or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-              It MUST NOT exceed 255 ASCII characters in length.</t>
-
-              <t hangText="aud">REQUIRED. This member identifies the audience
-              that this ID Token is intended for. It MUST be the OAuth 2.0 <spanx style="verb">client_id</spanx>
-              of the Client.</t>
-
-              <t hangText="exp">REQUIRED. Type Integer. Identifies the
-              expiration time on or after which the ID Token MUST NOT be
-              accepted for processing. The processing of this parameter
-              requires that the current date/time MUST be before the
-              expiration date/time listed in the value. Implementers MAY
-              provide for some small leeway, usually no more than a few
-              minutes, to account for clock skew. The value is number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
-              
-              <t hangText="iat">REQUIRED. Type Integer. The <spanx style="verb">iat</spanx> 
-              (issued at) Claim identifies the time at which the JWT was issued. 
-              The value is number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
-
-              <t hangText="acr">OPTIONAL. (Authentication Context Class Reference): 
-              Type String. 
-              Specifies an Authentication Context Class Reference of the ID Token. 
-              The values "1", "2", "3", and "4" map to the
-              <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
-              entity authentication assurance level of the authentication performed. 
-              The value "0" indicates the End User authentication
-              did not meet the requirements of ISO/IEC 29115 level 1.
-              Authentication using a long-lived browser cookie, for instance, is one 
-              example where the use of "level 0" is appropriate. Authentications with 
-              level 0 should never be used to authorize access to any resource of any 
-              monetary value.  
-              (This corresponds to the OpenID 2.0
-              <xref target="OpenID.PAPE">PAPE</xref> 
-              <spanx style="verb">nist_auth_level</spanx> 0.)
-              An absolute URI or a <xref target="LoA.Registry">registered short 
-              name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
-              </t>
-
-              <t hangText="nonce">A string value used to associate a Client session 
-              with an ID Token, and to mitigate replay attacks. 
-              The value is passed through unmodified from the Authorization Request to the ID Token.
-	      If present in the <xref target="id_token">ID Token</xref>,
-	      clients MUST verify that
-              the <spanx style="verb">nonce</spanx> Claim value is equal to
-              the value of the <spanx style="verb">nonce</spanx>
-              parameter sent in the Authorization Request.
-	      If present in the Authorization Request, Authorization Servers
-	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
-	      <xref target="id_token">ID Token</xref> with the Claim value
-	      being the nonce value sent in the Authorization Request.
-	      Use of the nonce is REQUIRED when using the implicit flow
-	      and OPTIONAL when using the code flow.</t>
-
-              <t hangText="auth_time">OPTIONAL. If the 
-                  <xref target="req.obj.id_token">id_token</xref> member of the 
-                  <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
-                  contains the Claim request 
-                  <spanx style="verb">auth_time</spanx>,
-		  then this Claim is REQUIRED. The Claim Value
-                  is the number of seconds from 1970-01-01T0:0:0Z as
-                  measured in UTC until the date/time that the End-User
-                  authentication occurred. (The <spanx style="verb">auth_time</spanx>
-		  Claim semantically
-                  corresponds to the OpenID 2.0
-                  <xref target="OpenID.PAPE">PAPE</xref> 
-                  <spanx style="verb">auth_time</spanx> response
-                  parameter.)</t>
-
-              <t hangText="at_hash">OPTIONAL. 
-              If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-	      in an implicit flow, this is REQUIRED.
-              The value is produced by base64url encoding the left-most half of the hash 
-              created by hashing the <spanx style="verb">access_token</spanx> 
-              with the SHA-2 family hash algorithm
-              of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              parameter of the <xref target="JWS">JWS</xref> header.
-	      For instance, if the <spanx style="verb">alg</spanx> is
-              <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
-	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
-
-              <t hangText="c_hash">OPTIONAL. 
-              If the ID Token is issued with a <spanx style="verb">code</spanx>
-	      in an implicit flow, this is REQUIRED.
-              The value is produced by base64url encoding the left-most half of the hash 
-              created by hashing the <spanx style="verb">code</spanx> 
-              with the SHA-2 family hash algorithm
-              of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              parameter of the JWS header. For instance, if the <spanx style="verb">alg</spanx> is
-              <spanx style="verb">HS256</spanx>, hash <spanx style="verb">code</spanx>
-	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
-
-            </list></t>
-
-          <t>ID Tokens MUST be signed using <xref
-          target="JWS">JWS</xref> and OPTIONALLY both signed and
-          encrypted using <xref target="JWS">JWS</xref> and <xref
-          target="JWE">JWE</xref> respectively, thereby providing
-          <xref target="signing_order">authentication, integrity,
-	  non-repudiation, and optionally, confidentiality</xref>.</t>
-
-          <t>
-            Clients MUST directly validate the ID Token per 
-            <xref target="id.token.verification">ID Token Verification</xref>. 
-          </t>
-        </section>
 
         <section anchor="auth_req" title="Authorization Request">
           <t>
@@ -945,6 +812,141 @@
           their registration.  The <spanx style="verb">id_token</spanx> return type is defined in
           <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type
           Encoding Practices</xref>.</t>
+
+          <section anchor="id_token" title="ID Token">
+            <t>The ID Token is a security token that contains Claims about the
+            authentication event and other requested Claims.  
+            The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
+
+            <t>The ID Token is used to manage the authentication event and user
+            identifier and is scoped to a particular Client via the <spanx
+            style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
+            Claims. </t>
+
+            <t>The following Claims are REQUIRED and OPTIONAL within the ID Token:</t>
+
+            <t><list style="hanging">
+                <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
+                of the response.</t>
+
+                <t hangText="user_id">REQUIRED. A locally unique and never
+                reassigned identifier within the Issuer for the End-User, 
+                which is intended to be
+                consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
+                or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+                It MUST NOT exceed 255 ASCII characters in length.</t>
+
+                <t hangText="aud">REQUIRED. This member identifies the audience
+                that this ID Token is intended for. It MUST be the OAuth 2.0 <spanx style="verb">client_id</spanx>
+                of the Client.</t>
+
+                <t hangText="exp">REQUIRED. Type Integer. Identifies the
+                expiration time on or after which the ID Token MUST NOT be
+                accepted for processing. The processing of this parameter
+                requires that the current date/time MUST be before the
+                expiration date/time listed in the value. Implementers MAY
+                provide for some small leeway, usually no more than a few
+                minutes, to account for clock skew. The value is number of
+                seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+                desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+                for details regarding date/times in general and UTC in
+                particular.</t>
+                
+                <t hangText="iat">REQUIRED. Type Integer. The <spanx style="verb">iat</spanx> 
+                (issued at) Claim identifies the time at which the JWT was issued. 
+                The value is number of
+                seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+                desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+                for details regarding date/times in general and UTC in
+                particular.</t>
+
+                <t hangText="acr">OPTIONAL. (Authentication Context Class Reference): 
+                Type String. 
+                Specifies an Authentication Context Class Reference of the ID Token. 
+                The values "1", "2", "3", and "4" map to the
+                <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
+                entity authentication assurance level of the authentication performed. 
+                The value "0" indicates the End User authentication
+                did not meet the requirements of ISO/IEC 29115 level 1.
+                Authentication using a long-lived browser cookie, for instance, is one 
+                example where the use of "level 0" is appropriate. Authentications with 
+                level 0 should never be used to authorize access to any resource of any 
+                monetary value.  
+                (This corresponds to the OpenID 2.0
+                <xref target="OpenID.PAPE">PAPE</xref> 
+                <spanx style="verb">nist_auth_level</spanx> 0.)
+                An absolute URI or a <xref target="LoA.Registry">registered short 
+                name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
+                </t>
+
+                <t hangText="nonce">A string value used to associate a Client session 
+                with an ID Token, and to mitigate replay attacks. 
+                The value is passed through unmodified from the Authorization Request to the ID Token.
+          If present in the <xref target="id_token">ID Token</xref>,
+          clients MUST verify that
+                the <spanx style="verb">nonce</spanx> Claim value is equal to
+                the value of the <spanx style="verb">nonce</spanx>
+                parameter sent in the Authorization Request.
+          If present in the Authorization Request, Authorization Servers
+          MUST include a <spanx style="verb">nonce</spanx> Claim in the
+          <xref target="id_token">ID Token</xref> with the Claim value
+          being the nonce value sent in the Authorization Request.
+          Use of the nonce is REQUIRED when using the implicit flow
+          and OPTIONAL when using the code flow.</t>
+
+                <t hangText="auth_time">OPTIONAL. If the 
+                    <xref target="req.obj.id_token">id_token</xref> member of the 
+                    <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
+                    contains the Claim request 
+                    <spanx style="verb">auth_time</spanx>,
+        then this Claim is REQUIRED. The Claim Value
+                    is the number of seconds from 1970-01-01T0:0:0Z as
+                    measured in UTC until the date/time that the End-User
+                    authentication occurred. (The <spanx style="verb">auth_time</spanx>
+        Claim semantically
+                    corresponds to the OpenID 2.0
+                    <xref target="OpenID.PAPE">PAPE</xref> 
+                    <spanx style="verb">auth_time</spanx> response
+                    parameter.)</t>
+
+                <t hangText="at_hash">OPTIONAL. 
+                If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+          in an implicit flow, this is REQUIRED.
+                The value is produced by base64url encoding the left-most half of the hash 
+                created by hashing the <spanx style="verb">access_token</spanx> 
+                with the SHA-2 family hash algorithm
+                of the same length as the hash used in the <spanx style="verb">alg</spanx>
+                parameter of the <xref target="JWS">JWS</xref> header.
+          For instance, if the <spanx style="verb">alg</spanx> is
+                <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
+          with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+
+                <t hangText="c_hash">OPTIONAL. 
+                If the ID Token is issued with a <spanx style="verb">code</spanx>
+          in an implicit flow, this is REQUIRED.
+                The value is produced by base64url encoding the left-most half of the hash 
+                created by hashing the <spanx style="verb">code</spanx> 
+                with the SHA-2 family hash algorithm
+                of the same length as the hash used in the <spanx style="verb">alg</spanx>
+                parameter of the JWS header. For instance, if the <spanx style="verb">alg</spanx> is
+                <spanx style="verb">HS256</spanx>, hash <spanx style="verb">code</spanx>
+          with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+
+              </list></t>
+
+            <t>ID Tokens MUST be signed using <xref
+            target="JWS">JWS</xref> and OPTIONALLY both signed and
+            encrypted using <xref target="JWS">JWS</xref> and <xref
+            target="JWE">JWE</xref> respectively, thereby providing
+            <xref target="signing_order">authentication, integrity,
+      non-repudiation, and optionally, confidentiality</xref>.</t>
+
+            <t>
+              Clients MUST directly validate the ID Token per 
+              <xref target="id.token.verification">ID Token Verification</xref>. 
+            </t>
+          </section>
+
         </section>
 
         <section title="Authorization Error Response">
@@ -3474,6 +3476,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>Fixed #597 - Messages: Changed claim name birthday to birthdate and made the format ISO 8601:2004</t>
           <t>Fixed #606 - Messages - 2.1.1. ID Token - acr missing the type. Type String.</t>
           <t>Fixed #617 - Messages - 1.2 Terminology: id_token. Added sentence that it can contain other claims. </t>
+          <t>Fixed #608 - Messages - Request ID Token and Response ID Token. Moved response ID Token from section 2.1 to the response section.</t>
         </list>
       </t>
 
