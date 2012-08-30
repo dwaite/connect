@@ -2654,6 +2654,19 @@ Tokens and URL locations where the Claims may be retrieved:
 	      integrity protection.
 	    </t>
 	  </section>
+      <section anchor="token_lifetime" title="Refresh Token, and Access Token Lifetime">
+      <t>Access Token grants are not revocable by the Authorization Server. 
+      Access Token grant lifetimes SHOULD be kept to single use or 
+      very short lifetimes.</t>
+      <t>If access to the User Info Endpoint or other protected resources is required,
+      a Refresh Token should be used. The Client may then exchange the Refresh Token at
+      the Token Endpoint for a fresh short lived Access Token that can be used to 
+      access the resource.</t>
+      <t>The Authorization Server SHOULD clearly identify long term grants to the User
+      during Authorization.</t>
+      <t>The Authorization Server MUST provide a mechanism for the user to revoke
+      Refresh Tokens granted to a Client.</t>
+      </section>
     </section>
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
@@ -2675,20 +2688,6 @@ Tokens and URL locations where the Claims may be retrieved:
       use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
       style="verb">user_id</spanx> SHOULD be considered.</t>
       
-      <section anchor="token_lifetime" title="Refresh Token, and Access Token Lifetime">
-	    <t>Access Token grants are not revocable by the Authorization Server. 
-	    Access Token grant lifetimes SHOULD be kept to single use or 
-	    very short lifetimes.</t>
-	    <t>If access to the User Info Endpoint or other protected resources is required,
-	    a Refresh Token should be used. The Client may then exchange the Refresh Token at
-	    the Token Endpoint for a fresh short lived Access Token that can be used to 
-	    access the resource.</t>
-	    <t>The Authorization Server SHOULD clearly identify long term grants to the User
-	    during Authorization.</t>
-	    <t>The Authorization Server MUST provide a mechanism for the user to revoke
-	    Refresh Tokens granted to a Client.</t>
-	    
-      </section>
     </section>
 
     <section anchor="iana" title="IANA Considerations">
