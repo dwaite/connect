@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 12</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 13</title>
 
     <author fullname="Nat Sakimura" initials="N." 
             surname="Sakimura">
@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="23" month="June" year="2012" />
+    <date day="30" month="August" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -500,7 +500,7 @@
 	      <spanx style="verb">picture</spanx>,
 	      <spanx style="verb">website</spanx>,
 	      <spanx style="verb">gender</spanx>,
-	      <spanx style="verb">birthday</spanx>,
+	      <spanx style="verb">birthdate</spanx>,
 	      <spanx style="verb">zoneinfo</spanx>,
 	      <spanx style="verb">locale</spanx>, and
 	      <spanx style="verb">updated_time</spanx>.</t>
@@ -1368,13 +1368,11 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	    <spanx style="verb">male</spanx>.  Other values MAY be used
 	    when neither of the defined values are applicable.</c>
 
-            <c>birthday</c>
+            <c>birthdate</c>
 
             <c>string</c>
 
-            <c>The End-User's birthday, represented as a date string in MM/DD/YYYY
-            format. The year MAY be <spanx style="verb">0000</spanx>,
-            indicating that it is omitted.</c>
+            <c>The End-User's birthday, represented as an ISO 8601:2004 <spanx style="verb">YYYY-MM-DD</spanx> format. The year MAY be <spanx style="verb">9999</spanx>, indicating that it is omitted. To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that depending on the underlying platform's date related function, providing just year may result in varying month and day, so the implementors should take this factor into account to correctly process the dates. </c>
 
             <c>zoneinfo</c>
 
@@ -1752,7 +1750,7 @@ Claims Provider A:
  "name": "Jane Doe",
  "given_name": "Jane",
  "family_name": "Doe",
- "birthday": "01/01/2001",
+ "birthdate": "2001-03-23",
  "eye_color": "blue",
  "email": "janedoe@example.com",
  "_claim_names": {
@@ -1796,7 +1794,7 @@ Tokens and URL locations where the Claims may be retrieved:
  "given_name": "Jane",
  "family_name": "Doe",
  "email": "janedoe@example.com",
- "birthday": "01/01/2001",
+ "birthdate": "2001-03-23",
  "eye_color": "blue",
  "_claim_names": {
   "payment_info": "src1",
@@ -3469,6 +3467,12 @@ Tokens and URL locations where the Claims may be retrieved:
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+      <t>13
+        <list style="symbols">
+          <t>Fixed #588 - Token lifetime not privacy consideration</t>
+          <t>Fixed #597 - Changed claim name birthday to birthdate and made the format ISO 8601:2004</t>
+        </list>
+      </t>
 
      <t>-12
         <list style="symbols">
