@@ -589,6 +589,10 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>Requests to the Registration Endpoint for <spanx style="verb">client_update</spanx> MUST have some rate 
       limiting on failures to prevent the Client secret from being disclosed though
       repeated access attempts.</t>
+
+      <t>
+        A rogue RP, might use the logo for the regitimate RP, which it iss trying to impersonate. An IdP needs to take steps to mitigate this phishing risk, since the logo could confuse users into thinking they're logging in to the regitimate RP. An IdP could also warn if the domain/site of the logo doesn't match the domain/site of redirect URIs. An IdP can also make warnings against untrusted RPs in all cases, especially if they're dynamically registered, have not been trusted by any users at the IdP before, and want to use the logo feature.
+      </t>
       
       <t>In a situation where the Authorization Server is supporting open Client 
       registration, 
