@@ -126,8 +126,8 @@
             to request rotation of the <spanx style="verb">client_secret</spanx>, and
             <spanx style="verb">client_update</spanx> (for updating parameters of an existing
             <spanx style="verb">client_id</spanx>). If <spanx style="verb">rotate_secret</spanx> is used
-            no additional parameters other than <spanx style="verb">client_id</spanx> 
-            and <spanx style="verb">client_secret</spanx> should be included in the request.
+            no optional parameters other than <spanx style="verb">access_token</spanx> 
+            may be included in the request.
             </t>
             
             <t hangText="redirect_uris">REQUIRED 
@@ -884,6 +884,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>added registration_access_token to example response</t>
       <t>removed client_id from request as the client_id is implicit in the access token for updates</t>
       <t>Changed redirect_uris from RECOMMENDED for code and REQUIRED for implicit to REQUIRED</t>
+      <t>Changed 2.1 to only allow access_token as a parameter if type is rotate_secret</t>
       </list></t>
       
       <t>-11<list style="symbols">
