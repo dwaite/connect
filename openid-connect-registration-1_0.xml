@@ -112,7 +112,9 @@
       <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
       specification.</t>
 
-      <section title="Client Registration Request">
+      <section title="Client Registration and Client Update Request">
+        <t>Client Update Requests replace all previous paramaters set for a 
+        <spanx style="verb">client_id</spanx>.</t>
         <t>Clients MUST send requests encoded as a POST with the following
         parameters added to the HTTP request entity-body using
         "application/x-www-form-urlencoded" format:</t>
@@ -130,12 +132,13 @@
 
             <t hangText="client_id">OPTIONAL.  
             The registered parameters for this <spanx style="verb">client_id</spanx> 
-            are updated. Used with <spanx style="verb">client_update</spanx>.</t>
+            are updated. This is REQUIRED for <spanx style="verb">client_update</spanx>.</t>
 
             <t hangText="client_secret">OPTIONAL.  The <spanx style="verb">client_secret</spanx>
             used to authenticate requests that have 
             <spanx style="verb">client_update</spanx> as the value of the 
-            <spanx style="verb">type</spanx> parameter.</t>
+            <spanx style="verb">type</spanx> parameter. This is REQUIRED for
+            <spanx style="verb">client_update</spanx>.</t>
             
             <t hangText="access_token">OPTIONAL. An Access Token obtained
             out of band to authorize the registrant. This parameter is only used if the
@@ -871,6 +874,10 @@ WWW-Authenticate: Bearer realm="example.com",
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-12<list style="symbols">
+      <t>Sec 2.1 clarification that updates replace all paramaters previously set.</t>
+      </list></t>
+      
       <t>-11<list style="symbols">
 	  <t>Made <spanx style="verb">rotate_secret</spanx> a separate registration
 	  request type and stop client secret changing with every response, per issue #363</t>
