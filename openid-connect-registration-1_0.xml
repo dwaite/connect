@@ -130,6 +130,11 @@
             and <spanx style="verb">client_secret</spanx> should be included in the request.
             </t>
             
+            <t hangText="redirect_uris">REQUIRED 
+            A space-delimited list of redirect URIs.
+            One of the URL MUST match the Scheme, Host, and Path segments of the 
+            <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
+
             <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_associate</spanx>
              request this is an Access Token obtained
             out of band to authorize the registrant. 
@@ -162,15 +167,6 @@
 
             <t hangText="logo_url">OPTIONAL.  A URL that references a logo for the 
             Client application.</t>
-
-            <t hangText="redirect_uris">RECOMMENDED for Clients using the <spanx style="verb">code</spanx> flow with
-            a query parameter encoded response.
-            REQUIRED for Clients requesting implicit flow 
-            fragment encoded responses as 
-            defined in <xref target="OAuth2.0">OAuth 2.0</xref>. 
-            A space-delimited list of redirect URIs.
-            One of the URL MUST match the Scheme, Host, and Path segments of the 
-            <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
             <t hangText="token_endpoint_auth_type">OPTIONAL.  The requested authentication
             type for the Token Endpoint. The options are <spanx style="verb">client_secret_post</spanx>, 
@@ -887,6 +883,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>Added registration_access_token for updating and made client secret optional</t>
       <t>added registration_access_token to example response</t>
       <t>removed client_id from request as the client_id is implicit in the access token for updates</t>
+      <t>Changed redirect_uris from RECOMMENDED for code and REQUIRED for implicit to REQUIRED</t>
       </list></t>
       
       <t>-11<list style="symbols">
