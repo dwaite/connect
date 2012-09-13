@@ -133,16 +133,15 @@
             <t hangText="client_id">OPTIONAL.  
             The registered parameters for this <spanx style="verb">client_id</spanx> 
             are updated. This is REQUIRED for <spanx style="verb">client_update</spanx>.</t>
-
-            <t hangText="client_secret">OPTIONAL.  The <spanx style="verb">client_secret</spanx>
-            used to authenticate requests that have 
-            <spanx style="verb">client_update</spanx> as the value of the 
-            <spanx style="verb">type</spanx> parameter. This is REQUIRED for
-            <spanx style="verb">client_update</spanx>.</t>
             
-            <t hangText="access_token">OPTIONAL. An Access Token obtained
-            out of band to authorize the registrant. This parameter is only used if the
-            Client is provided the Access Token out of band.  This parameter
+            <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_associate</spanx>
+             request this is an Access Token obtained
+            out of band to authorize the registrant. 
+            If this is a <spanx style="verb">client_update</spanx>
+            request this is the <spanx style="verb">registration_access_token</spanx> 
+            returned in the <spanx style="verb">client_associate</spanx> or 
+            <spanx style="verb">rotate_secret</spanx> response.
+            This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
             target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
@@ -372,10 +371,13 @@
 
           </list></t>
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
-      may require an Access Token in order to restrict registration requests
-      to only authorized Clients.
-      If the Client Registration Endpoint requires an Access Token, 
-      it SHOULD accept Access Tokens as
+      may require an Access Token for <spanx style="verb">client_associate</spanx> 
+      requests in order to restrict registration requests
+      to only authorized Clients. </t>
+      <t>For <spanx style="verb">client_update</spanx>
+      requests the <spanx style="verb">registration_access_token</spanx> is used as the
+      Access Token to restrict update access to only the registered client.</t>
+      <t>The Client Registration Endpoint MUST accept Access Tokens as
       <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
           
           <t><figure>
@@ -451,12 +453,18 @@ Pragma: no-cache
             <t hangText="client_id">REQUIRED. The unique Client
             identifier.</t>
 
-            <t hangText="client_secret">REQUIRED. The Client secret. This
-            MUST be unique for each <spanx style="verb">client_id</spanx>.</t>
+            <t hangText="client_secret">OPTIONAL. The Client secret. This
+            MUST be unique for each <spanx style="verb">client_id</spanx>. 
+            This value us used by confidential clients. It is not required for
+            clients selecting a token_endpoint_auth_type of 
+            <spanx style="verb">private_key_jwt</spanx></t>
+            
+            <t hangText="registration_access_token">REQUIRED The Access token used by the 
+            client to perform <spanx style="verb">client_update</spanx> requests.</t>
 
-            <t hangText="expires_at">REQUIRED. The number of
-            seconds from 1970-01-01T0:0:0Z as measured in UTC that the <spanx style="verb">client_id</spanx>
-            and <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
+            <t hangText="expires_at">OPTIONAL. The number of
+            seconds from 1970-01-01T0:0:0Z as measured in UTC that the 
+            <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
             they do not expire. See <xref target="RFC3339">RFC 3339</xref>
             for details regarding date/times in general and UTC in particular.</t>
           </list></t>
@@ -879,6 +887,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>-12<list style="symbols">
       <t>Sec 2.1 clarification that updates replace all paramaters previously set.</t>
       <t>Sec 2.3 add rotate_secret to invalid client_id error</t> 
+      <t>Added registration_access_token for updating and made client secret optional</t>
       </list></t>
       
       <t>-11<list style="symbols">
