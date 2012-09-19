@@ -114,12 +114,15 @@
       <t>The OP endpoints defined in this specification are as follows:</t>
 
       <t><list style="hanging">
-          <t hangText="OP iframe URL">The URL from which OP iframe is being
-          loaded. This URL provides a page that accepts postMessage from the
-          relevant RP iframe and postMessage back the login status of the user
-          at the OP.</t>
+          <t hangText="check_session_endpoint">URL of an OP endpoint that provides 
+          a page to support cross-origin communications for session state 
+          information with the RP client, using the HTML5 postMessage API. The 
+          page is loaded from an invisible iframe embeddded in an RP page so 
+          that it can run in the OP's security context. It accepts postMessage
+          requests from the relevant RP iframe and postMessage back the login 
+          status of the user at the OP.</t>
 
-          <t hangText="OP Logout endpoint URL">The URL that initiates the user
+          <t hangText="end_session_endpoint">The URL that initiates the user
           logout at the OP.</t>
         </list></t>
 
@@ -164,8 +167,8 @@
       <t></t>
 
       <section title="OP iframe">
-        <t>The RP loads typically invisible OP iframe in the page from the OP
-        iframe URL with the following parameters.</t>
+        <t>The RP typically loads an invisible OP iframe in the page from the OP's
+        <spanx style='verb'>check_session_endpoint</spanx> with the following parameters.</t>
 
         <t><list style="hanging">
             <t hangText="user_hint">REQUIRED. ID Token that the RP received

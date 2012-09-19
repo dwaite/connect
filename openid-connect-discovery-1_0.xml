@@ -560,9 +560,17 @@ Host: example.com]]></artwork>
           <c>URL of the OP's Refresh Session Endpoint <xref
           target="OpenID.Session"></xref></c>
 
+          <c>check_session_endpoint</c>
+          <c>string</c>
+          <c>URL of an OP endpoint that provides a page to support cross-origin
+          communications for session state information with the RP client, using
+          the HTML5 postMessage API. The page is loaded from an invisible iframe
+          embeddded in an RP page so that it can run in the OP's security context.<xref
+          target="OpenID.Session"></xref></c>
+
           <c>end_session_endpoint</c>
           <c>string</c>
-          <c>URL of the OP's End Session Endpoint <xref
+          <c>URL of the OP's endpoint that initiates the user logout <xref
           target="OpenID.Session"></xref></c>
 
           <c>jwk_url</c>
@@ -678,6 +686,8 @@ Host: example.com]]></artwork>
    "https://server.example.com/connect/user",
  "refresh_session_endpoint":
    "https://server.example.com/connect/refresh_session",
+ "check_session_endpoint":
+   "https://server.example.com/connect/check_session",
  "end_session_endpoint":
    "https://server.example.com/connect/end_session",
  "jwk_url":
@@ -1121,6 +1131,7 @@ Host: example.com]]></artwork>
           <t>Changed Identifier defintion #621</t>
           <t>Fixed #625 Scheme extraction</t>
           <t>Fixed #652 Identifier normalization</t>
+          <t>Fixed #640 Added check_session_endpoint and end_session_endpoint</t>
         </list>
       </t>
 
