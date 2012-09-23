@@ -334,7 +334,7 @@
           <t>
 	    <list style="hanging">
             
-              <t hangText="nonce">A string value used to associate a Client session 
+              <t hangText="nonce">REQUIRED A string value used to associate a Client session 
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified to the ID Token.
               One method to achieve this is to store a random value as a signed session cookie, and
@@ -650,11 +650,10 @@ req.send(postBody);]]></artwork>
               for details regarding date/times in general and UTC in
               particular.</t>
 
-	      <t hangText="nonce">A string value used to associate a Client session 
+	      <t hangText="nonce">REQUIRED A string value used to associate a Client session 
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified from the Authorization Request to the ID Token.
-	      If present in the <xref target="id_token">ID Token</xref>,
-	      clients MUST verify that
+	      The client MUST verify that
               the <spanx style="verb">nonce</spanx> Claim value is equal to
               the value of the <spanx style="verb">nonce</spanx>
               parameter sent in the Authorization Request.
@@ -1863,6 +1862,11 @@ scope=openid&response_type=code
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-04
+        <list style="symbols">
+	  <t>Make it clear that nonce is REQUIRED for implicit</t>
+      </list></t>
 
       <t>-03
         <list style="symbols">
