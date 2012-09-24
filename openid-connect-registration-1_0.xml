@@ -135,7 +135,9 @@
             One of the URL MUST match the Scheme, Host, and Path segments of the 
             <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
-            <t hangText="application_type">REQUIRED.  <spanx style="verb">native</spanx>
+            <t hangText="application_type">OPTIONAL. The default if not specified is 
+            <spanx style="verb">web</spanx>.  The defined values are
+            <spanx style="verb">native</spanx>
             or <spanx style="verb">web</spanx>. Web clients MUST only register https: Scheme
             <spanx style="verb">redirect_uris</spanx> that do not use localhost as the hostname.
             Native clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
@@ -899,6 +901,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>Changed redirect_uris from RECOMMENDED for code and REQUIRED for implicit to REQUIRED</t>
       <t>Changed 2.1 to only allow access_token as a parameter if type is rotate_secret</t>
       <t>Fixed reference in application_name and added example of ja-Hani-JP encoded name.</t>
+      <t>Made application_type OPTIONAL with web as the default</t>
       </list></t>
       
       <t>-11<list style="symbols">
