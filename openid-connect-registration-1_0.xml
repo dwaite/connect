@@ -135,6 +135,16 @@
             One of the URL MUST match the Scheme, Host, and Path segments of the 
             <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
+            <t hangText="application_type">REQUIRED.  <spanx style="verb">native</spanx>
+            or <spanx style="verb">web</spanx>. Web clients MUST only register https: Scheme
+            <spanx style="verb">redirect_uris</spanx> that do not use localhost as the hostname.
+            Native clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
+            URI schemes or http: scheme URI using localhost as the hostname. Authorization
+            Servers may place additional constraints on Native such as not supporting the token
+            response_type. The Authorization server MUST verify that all the registered 
+            <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
+            This prevents sharing a client_id across different types of clients.</t>
+
             <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_associate</spanx>
              request this is an Access Token obtained
             out of band to authorize the registrant. 
@@ -153,9 +163,6 @@
             addresses for people allowed to administer the information for this Client.
             This is used by some providers to enable a web UI to modify the 
             Client information.</t>
-
-            <t hangText="application_type">OPTIONAL.  <spanx style="verb">native</spanx>
-            or <spanx style="verb">web</spanx>.</t>
 
             <t hangText="application_name">OPTIONAL.  Name of the Client
             to be presented to the user. If desired, representation of 
@@ -880,6 +887,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-12<list style="symbols">
+      <t>Made 
       <t>Sec 2.1 clarification that updates replace all paramaters previously set.</t>
       <t>Sec 2.3 add rotate_secret to invalid client_id error</t> 
       <t>Added registration_access_token for updating and made client secret optional</t>
