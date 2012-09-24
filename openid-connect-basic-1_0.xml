@@ -636,7 +636,7 @@ Pragma: no-cache
         
       <section anchor="id.token.verification" title="ID Token Verification">
 
-	<t>To verify the validity of ID Token in the Token Endpoint Response, 
+	<t>The client MUST verify the validity of ID Token in the Token Endpoint Response, 
 	the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
 	period (".") characters, take the second segment, and base64url decode it to 
 	obtain a JSON object that includes the ID Token claims, which MUST be verified 
@@ -645,6 +645,9 @@ Pragma: no-cache
         <t>
           <list style="numbers">
 
+            <t> The Client MUST validate that the <spanx style="verb">iss</spanx> (issuer) Claim
+            is valid for the Token Endpoint that the <spanx style="verb">id_token</spanx>
+            was received from.</t> 
             <t> The Client MUST validate that the <spanx style="verb">client_id</spanx> in the
 	    <spanx style="verb">aud</spanx> (audience) Claim is one
 	    it has registered for the Issuer identified by the value in the
@@ -1503,6 +1506,7 @@ scope=openid&response_type=code
       <t>-21
         <list style="symbols">
         <t>added informative definition of nonce in 2.2.1</t>
+        <t>Clarified that the client MUST check that the issuer is valid for the token endpoint</t>
         </list></t>
       <t>-20
         <list style="symbols">
