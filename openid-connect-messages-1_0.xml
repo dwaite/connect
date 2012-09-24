@@ -579,7 +579,16 @@
                 If not present, the default ID Token contents are used. 
                 If present, these parameters are used
                 to request additional Claims incremental to the <xref target="id_token">
-                                default Claims of the ID Token.</xref></t>
+                default Claims of the ID Token.</xref></t>
+
+                <t hangText="registration">OPTIONAL. (Registration request):
+                	Requests the client to be to be registered at the authorization server 
+                	for the self-issued case. The value is the key-values defined in 
+                	section 2.1 of the 
+                	<xref target="OpenID.Registration">OpenID Connect Registration</xref> 
+                	serialized into JSON. 
+                </t>
+
               </list><figure>
                 <preamble>An example OpenID Request Object body before
 		base64url encoding and JWS signing is as follows:</preamble>
@@ -609,6 +618,13 @@
         "acr": { "values":["2"] }
        },
      "max_age": 86400
+   }
+ "registration":
+   {
+ 	"redirect_uris": "https://rp.com/authz/callback",
+ 	"logo_url": "https://rp.com/logo.png",
+ 	"jwk_url"="https://rp.com/public_key.jwk",
+ 	"id_token_encrypted_response_alg": "RSA1_5 A128CBC"
    }
 }]]></artwork>
 </figure></t>
