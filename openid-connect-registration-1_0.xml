@@ -514,12 +514,19 @@ Cache-Control: no-store
       </section>
 
       <section title="Client Registration Error Response">
-      <t>When an error condition occurs, the Client Registration Endpoint returns
+      <t>When an OAuth error condition occurs, the Client Registration Endpoint returns
       an Error Response as defined in Section 3 of
       the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification.</t>
       
-      <t>In addition to the error codes defined in Section 3.1 of <xref
-      target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
+      <t>When a registration error condition occurs, the Client Registration Endpoint returns
+      a HTTP 400 status code including a JSON object describing the error in the response body.</t>
+      <t>The JSON object contains two members:</t>
+      <t><list style="hanging">
+       <t hangText="error_code">The Error code.</t>
+       <t hangText="error_descryption">The additional text description of the error for debugging.</t>
+      </list></t>
+      
+      <t>This specification defines the
       following error codes:</t>
 
           <t><list style="hanging">
@@ -543,9 +550,13 @@ Cache-Control: no-store
 	  <preamble>Following is a non-normative example of an error response:</preamble>
 
 	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
-WWW-Authenticate: Bearer realm="example.com",
-  error="invalid_client_secret",
-  error_description="The client_secret is wrong for this client_id"]]></artwork>
+Content-Type: application/json
+Cache-Control: no-store
+   
+{
+ "error":"invalid_type",
+ "error_description":"The value of the type parameter must be one of client_associate, rotate_secret or client_update."
+}]]></artwork>
 	</figure></t>
       </section>
     </section>
@@ -902,6 +913,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>Changed 2.1 to only allow access_token as a parameter if type is rotate_secret</t>
       <t>Fixed reference in application_name and added example of ja-Hani-JP encoded name.</t>
       <t>Made application_type OPTIONAL with web as the default</t>
+      <t>Fixes #642 - Registration separates application errors from bearer.</t>
       </list></t>
       
       <t>-11<list style="symbols">
