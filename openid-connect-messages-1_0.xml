@@ -493,6 +493,15 @@
               the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
               (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
               using the key that the server is capable of decrypting. </t>
+              
+              <t hangText="login_hint">OPTIONAL. A hint to the authorization service 
+              as to the login identifier the user may use to authenticate at the authorization 
+              service (if necessary). 
+              This hint can be used by an RP if it first asks the user for their email 
+              address (or other identifier) and then wants to pass that value as a hint 
+              to the discovered authorization service. 
+              It is recommended that the hint value match the value used for discovery. 
+              The use of this parameter is up to the IdP's discretion.</t>
             </list></t>
 
           <section anchor="OpenID_Request_Object" title="OpenID Request Object">
@@ -599,6 +608,7 @@
  "redirect_uri": "https://client.example.org/cb",
  "scope": "openid profile",
  "state": "af0ifjsldkj",
+ "login_hint": "janedoe@example.org",
  "userinfo":
    {
      "claims":
@@ -3513,6 +3523,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>Fixed #608 - Messages - Request ID Token and Response ID Token. Moved response ID Token from section 2.1 to the response section.</t>
           <t>Fixed #543 - Messages - Security Consideration. Added ref to X.1254 | ISO 29115. </t>
           <t>Fixed #611 - Messages - Changed the default test to indicate that the value of auth_time needs to be essential </t>
+          <t>Fixed #646 - Messages - Add login_hint as a OAUth paramater and put in example in request_object</t>
         </list>
       </t>
 
