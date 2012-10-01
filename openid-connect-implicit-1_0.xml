@@ -690,7 +690,22 @@ req.send(postBody);]]></artwork>
 	      Clients MUST directly validate the ID Token per 
 	      <xref target="id.token.verification">ID Token Verification</xref>. 
 	    </t>
+	<figure>
+            <preamble>The following is a non-normative example of a base64url decoded 
+            ID Token
+	    (with line wraps for display purposes only):</preamble>
 
+            <artwork><![CDATA[
+{
+ "iss": "https://client.example.com",
+ "user_id": "24400320",
+ "aud": "s6BhdRkqt3",
+ "nonce": "n-0S6_WzA2Mj",
+ "exp": 1311281970,
+ "iat": 1311280970,
+ "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
+}]]></artwork>
+        </figure>
         </section>
         
       <section anchor="id.token.verification" title="ID Token Verification">
@@ -750,6 +765,7 @@ req.send(postBody);]]></artwork>
             
           </list>
 	</t>
+
       </section>
 
       <section anchor="userinfo" title="UserInfo Endpoint">
@@ -1866,6 +1882,7 @@ scope=openid&response_type=code
       <t>-04
         <list style="symbols">
 	  <t>Make it clear that nonce is REQUIRED for implicit</t>
+	  <t>RE #607 add example decoded id_token for non self issued.</t>
       </list></t>
 
       <t>-03
