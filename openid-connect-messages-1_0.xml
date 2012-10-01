@@ -701,7 +701,11 @@
                     Requests that the <spanx style="verb">auth_time</spanx> 
                     Claim be present in the 
                     <xref target="id_token">ID Token</xref> response.
-                    The Claim Value in the request is <spanx style="verb">null</spanx>.  
+                    The Claim Value in the request must be 
+                    <spanx style="verb">{"essential": true}</spanx> to require 
+                    <spanx style="verb">auth_time</spanx> in the response.  
+                    If the Claim Value in the request is <spanx style="verb">null</spanx>
+                    the has the option of not including the claim in the response.
                   </t>
                   
                   <t hangText="acr">OPTIONAL. 
@@ -923,7 +927,8 @@
                     <xref target="req.obj.id_token">id_token</xref> member of the 
                     <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
                     contains the Claim request 
-                    <spanx style="verb">auth_time</spanx>,
+                    <spanx style="verb">auth_time</spanx> with a paramater of 
+                    <spanx style="verb">{"essential": true}</spanx>,
         then this Claim is REQUIRED. The Claim Value
                     is the number of seconds from 1970-01-01T0:0:0Z as
                     measured in UTC until the date/time that the End-User
@@ -3507,6 +3512,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>Fixed #617 - Messages - 1.2 Terminology: id_token. Added sentence that it can contain other claims. </t>
           <t>Fixed #608 - Messages - Request ID Token and Response ID Token. Moved response ID Token from section 2.1 to the response section.</t>
           <t>Fixed #543 - Messages - Security Consideration. Added ref to X.1254 | ISO 29115. </t>
+          <t>Fixed #611 - Messages - Changed the default test to indicate that the value of auth_time needs to be essential </t>
         </list>
       </t>
 
