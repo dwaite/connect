@@ -469,28 +469,33 @@ response_type=code%20id_token
                 OpenID Request Object before base64url encoding and signing:</preamble>
 
                 <artwork><![CDATA[{
- "response_type": "code id_token",
- "client_id": "s6BhdRkqt3",
- "redirect_uri": "https://client.example.org/cb",
- "scope": "openid profile",
- "state": "af0ifjsldkj",
- "nonce": "n-0S6_WzA2Mj",
- "userinfo":
-   {
-     "claims":
-       {
-         "name": {"essential": true},
-         "nickname": null,
-         "email": {"essential": true},
-         "email_verified": {"essential": true},
-         "picture": null
-       }
-   },
- "id_token":
-   {
-     "max_age": 86400,
-     "claims:{"acr": {"values":["2"]}}
-   }
+  "response_type": "code id_token",
+  "client_id": "s6BhdRkqt3",
+  "redirect_uri": "https://client.example.org/cb",
+  "scope": "openid profile",
+  "state": "af0ifjsldkj",
+  "nonce": "n-0S6_WzA2Mj",
+  "userinfo": 
+    {
+      "claims": 
+        {
+          "name": {"essential": true},
+          "nickname": null,
+          "email": {"essential": true},
+          "email_verified": {"essential": true},
+          "picture": null
+        }
+    },
+    "id_token": 
+      {
+        "max_age": 86400,
+        "claims": 
+          {
+            "gender": null,
+            "birthday": {"essential": true},
+            "acr": {"values": ["2"]}
+          }
+      }
 }]]></artwork>
               </figure> <figure>
                 <preamble>The following is a non-normative example of
@@ -502,65 +507,80 @@ response_type=code%20id_token
 JSON Encoded Header =  {"alg":"RS256"}
 JSON Encoded Payload =
     {
-     "response_type":"code id_token",
-     "client_id":"s6BhdRkqt3",
-     "redirect_uri":"https://client.example.org/cb",
-     "scope":"openid profile",
-     "state":"af0ifjsldkj",
-     "nonce":"n-0S6_WzA2Mj",
-     "userinfo":{
-       "claims":{
-         "name":{"essential":true},
-         "nickname":null,"email":{"essential":true},
-         "email_verified":{"essential":true},
-         "picture":null
-        }
-      },
-     "id_token":{
-       "max_age":86400,
-       "claims":{
-         "acr":{"values":["2"]}
-        }
-      }
+      "response_type": "code id_token",
+      "client_id": "s6BhdRkqt3",
+      "redirect_uri": "https://client.example.org/cb",
+      "scope": "openid profile",
+      "state": "af0ifjsldkj",
+      "nonce": "n-0S6_WzA2Mj",
+      "userinfo": 
+        {
+          "claims": 
+            {
+              "name": {"essential": true},
+              "nickname": null,
+              "email": {"essential": true},
+              "email_verified": {"essential": true},
+              "picture": null
+            }
+        },
+        "id_token": 
+          {
+            "max_age": 86400,
+            "claims": 
+              {
+                "gender": null,
+                "birthday": {"essential": true},
+                "acr": {"values": ["2"]}
+              }
+          }
     }
+    
 OpenID Request Object =
-    eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiIs
-    ImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczpcL
-    1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2ZpbG
-    UiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWoiLCJ
-    1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYWwiOnRydWV9LCJu
-    aWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cnVlfSwiZW1haWxfd
-    mVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZSI6bnVsbH19LCJpZF
-    90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7ImFjciI6eyJ2YWx1ZXM
-    iOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1ICcidLEw8OCNyOlTR4Gk
-    6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4bEWTirUDGE3TsJCHRQZ
-    LzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MPvNxWbYXQ4wo9O6Y8Qnby
-    OrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZirsWdJ_wmSsfbQCWMRtA6JN
-    bV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtFvXqOLSZMqoKK4
-    0b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ
+    eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2RlIGlkX3Rv
+    a2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgInJlZGlyZWN0X
+    3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogICJzY29wZS
+    I6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZmpzbGRraiIsDQo
+    gICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm8iOiANCiAgICB7
+    DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgICAgICAibmFtZSI6I
+    HsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2tuYW1lIjogbnVsbC
+    wNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0KICAgICA
+    gICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAg
+    ICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCiAgICB9LA0KICAgICJpZ
+    F90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2FnZSI6IDg2NDAwLA0KIC
+    AgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KICAgICAgICAgICAgImdlbmR
+    lciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYXkiOiB7ImVzc2VudGlhbCI6
+    IHRydWV9LA0KICAgICAgICAgICAgImFjciI6IHsidmFsdWVzIjogWyIyIl19DQogI
+    CAgICAgICAgfQ0KICAgICAgfQ0KfQ.kbN3pf12-HUVSvL_yJqEmkux7NIfePNOxOM
+    Lkkdv1mgtjfIcfF7qZ5oEOHS_miO7IqQusEpV1cHROx2-VyPtZSRKcAXIOM9c9lHh
+    QSMIklcZU8yGQE8s7PKBzqj7lEIEJbX-FwGuLSW2_r-wxhdBHWZ8KMLmsCKjWwrYV
+    HWpNEJOfZ_IfIk5g1emqiRuM-47ZBqYRZiTxVzMG4pJa7Vq6DWWUHHN4pJWi8w4Ak
+    0hgShcF44yH_wRlJIQOvUn-E_B6ly6SRrtYEGzDxCrdQQJFJB7gflv5ws_YPyofOE
+    jIbUVPLPLXdCI4_Ev5-dOtoOHp11HgmESG0DuEmfhNBnuyA
 
+    
 The following is the RSA public key information that can be used
 to verify the OpenID Request Object signature in the above example.
 The values are an array of hexadecimal digits in big endian format.
                 
 modulus: 
 [
- ce,11,16,4c,12,55,4d,f7,14,7a,a9,cc,cc,e4,05,30,
- 21,15,41,63,b2,39,46,70,3f,c2,eb,05,68,7c,f2,d2,
- ab,67,23,c6,0a,f0,64,4c,3a,7e,13,60,73,c8,73,10,
- 57,8a,4a,e7,55,32,b3,66,0e,c3,32,fd,b1,ee,53,1c,
- 35,8c,75,af,6b,b6,c0,89,55,c8,f5,57,b5,9a,13,bc,
- 0f,82,5f,a4,20,87,56,59,fe,28,da,0e,99,b3,33,b2,
- fc,5a,78,ab,49,c6,dc,e4,ed,0d,10,a4,06,ed,a2,10,
- fd,b5,8f,cd,a9,45,24,6b,90,20,71,9f,36,82,85,f9,
- 40,ec,a6,5b,23,59,ff,ca,12,ad,c7,20,3b,15,d0,38,
- f3,42,da,49,56,72,28,0a,6f,ac,a8,98,86,87,00,09,
- 2c,1f,d3,2e,82,43,ec,24,12,2e,a6,55,74,49,b7,56,
- 81,4b,2c,25,2d,80,34,f2,88,e9,e6,19,19,43,7f,5e,
- 08,cd,a4,d4,47,57,76,16,da,af,df,7c,43,d3,d9,4f,
- 05,c0,d5,c7,ef,b8,64,d9,6c,35,b1,10,a2,e3,30,a5,
- 6e,2a,b4,f5,62,fb,3e,d8,d4,d7,85,90,16,d4,a8,c5,
- 4b,fd,d4,c0,b9,03,93,ec,38,75,53,7e,c7,9b,43,9f
+  cb,d2,ea,bf,87,c2,a7,a1,22,fa,ed,be,64,22,aa,f3,
+  76,2f,6c,51,24,e8,93,2c,fe,94,a3,ef,a7,8c,91,d7,
+  56,46,e5,97,d9,a0,4a,18,70,2d,2a,51,39,3f,bf,ef,
+  9f,ff,cf,08,a6,56,78,fb,77,bc,69,01,e9,e3,e0,cc,
+  01,6e,d3,c3,66,29,e9,b0,13,96,d0,23,47,ba,90,80,
+  a1,b6,df,fa,2b,34,f9,39,a6,97,0c,52,3a,a8,22,c9,
+  9a,4e,75,09,ce,15,60,56,b1,82,a7,af,32,77,18,af,
+  36,96,ff,9d,26,67,5c,86,48,52,10,cc,b6,0f,f1,b8,
+  a3,00,71,95,8d,d1,05,81,96,99,10,df,65,b2,7f,c6,
+  75,62,da,26,91,eb,07,74,4e,95,2e,74,13,8e,70,c6,
+  b9,60,f7,13,27,71,56,fc,a8,33,ee,5d,96,ab,be,08,
+  4b,2f,41,f3,3a,e6,11,69,d0,49,56,85,99,a3,00,cd,
+  4e,92,a9,93,64,64,95,9e,d0,68,13,bb,5c,3b,f7,b9,
+  1e,ec,fe,c7,f6,83,e6,c0,8d,26,31,61,41,ac,aa,43,
+  40,f5,bd,f1,55,6e,77,6a,6f,d4,65,9d,ed,65,b1,53,
+  22,1e,79,ec,92,02,58,a1,e5,5a,3e,6e,cd,e2,57,6b 
 ]
 
 exponent: [01,00,01]    
@@ -581,20 +601,27 @@ response_type=code%02id_token
 &scope=openid
 &state=af0ifjsldkj
 &nonce=n-0S6_WzA2Mj
-&request=eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF
-90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
-JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3Blbm
-lkIHByb2ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl
-9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYW
-wiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cn
-VlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZS
-I6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7Im
-FjciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1IC
-cidLEw8OCNyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4
-bEWTirUDGE3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MP
-vNxWbYXQ4wo9O6Y8QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZir
-sWdJ_wmSsfbQCWMRtA6JNbV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxV
-sRNWf6MtFvXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
+&request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
+RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
+JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
+ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
+pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
+8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
+AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
+tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
+RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
+ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
+AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
+FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
+AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
+kiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0KICAgICAgICAgICAgImFjciI6IHsidm
+FsdWVzIjogWyIyIl19DQogICAgICAgICAgfQ0KICAgICAgfQ0KfQ.kbN3pf12-HU
+VSvL_yJqEmkux7NIfePNOxOMLkkdv1mgtjfIcfF7qZ5oEOHS_miO7IqQusEpV1cH
+ROx2-VyPtZSRKcAXIOM9c9lHhQSMIklcZU8yGQE8s7PKBzqj7lEIEJbX-FwGuLSW
+2_r-wxhdBHWZ8KMLmsCKjWwrYVHWpNEJOfZ_IfIk5g1emqiRuM-47ZBqYRZiTxVz
+MG4pJa7Vq6DWWUHHN4pJWi8w4Ak0hgShcF44yH_wRlJIQOvUn-E_B6ly6SRrtYEG
+zDxCrdQQJFJB7gflv5ws_YPyofOEjIbUVPLPLXdCI4_Ev5-dOtoOHp11HgmESG0D
+uEmfhNBnuyA]]></artwork>
               </figure></t>
 
             <section anchor="request_req"
@@ -616,20 +643,27 @@ response_type=code%20id_token
 &scope=openid
 &state=af0ifjsldkj
 &nonce=n-0S6_WzA2Mj
-&request=eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF
-90b2tlbiIsImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOi
-JodHRwczpcL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3Blbm
-lkIHByb2ZpbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl
-9XekEyTWoiLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYW
-wiOnRydWV9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cn
-VlfSwiZW1haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZS
-I6bnVsbH19LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7Im
-FjciI6eyJ2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1IC
-cidLEw8OCNyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4
-bEWTirUDGE3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MP
-vNxWbYXQ4wo9O6Y8QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZir
-sWdJ_wmSsfbQCWMRtA6JNbV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxV
-sRNWf6MtFvXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
+&request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
+RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
+JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
+ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
+pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
+8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
+AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
+tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
+RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
+ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
+AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
+FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
+AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
+kiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0KICAgICAgICAgICAgImFjciI6IHsidm
+FsdWVzIjogWyIyIl19DQogICAgICAgICAgfQ0KICAgICAgfQ0KfQ.kbN3pf12-HU
+VSvL_yJqEmkux7NIfePNOxOMLkkdv1mgtjfIcfF7qZ5oEOHS_miO7IqQusEpV1cH
+ROx2-VyPtZSRKcAXIOM9c9lHhQSMIklcZU8yGQE8s7PKBzqj7lEIEJbX-FwGuLSW
+2_r-wxhdBHWZ8KMLmsCKjWwrYVHWpNEJOfZ_IfIk5g1emqiRuM-47ZBqYRZiTxVz
+MG4pJa7Vq6DWWUHHN4pJWi8w4Ak0hgShcF44yH_wRlJIQOvUn-E_B6ly6SRrtYEG
+zDxCrdQQJFJB7gflv5ws_YPyofOEjIbUVPLPLXdCI4_Ev5-dOtoOHp11HgmESG0D
+uEmfhNBnuyA]]></artwork>
               </figure>
             </section>
           </section>
@@ -664,20 +698,28 @@ sRNWf6MtFvXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
                 <preamble>Following is a non-normative example of a Request File
 		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[eyJhbGciOiJSUzI1NiJ9.eyJyZXNwb25zZV90eXBlIjoiY29kZSBpZF90b2tlbiI
-sImNsaWVudF9pZCI6InM2QmhkUmtxdDMiLCJyZWRpcmVjdF91cmkiOiJodHRwczp
-cL1wvY2xpZW50LmV4YW1wbGUuY29tXC9jYiIsInNjb3BlIjoib3BlbmlkIHByb2Z
-pbGUiLCJzdGF0ZSI6ImFmMGlmanNsZGtqIiwibm9uY2UiOiJuLTBTNl9XekEyTWo
-iLCJ1c2VyaW5mbyI6eyJjbGFpbXMiOnsibmFtZSI6eyJlc3NlbnRpYWwiOnRydWV
-9LCJuaWNrbmFtZSI6bnVsbCwiZW1haWwiOnsiZXNzZW50aWFsIjp0cnVlfSwiZW1
-haWxfdmVyaWZpZWQiOnsiZXNzZW50aWFsIjp0cnVlfSwicGljdHVyZSI6bnVsbH1
-9LCJpZF90b2tlbiI6eyJtYXhfYWdlIjo4NjQwMCwiY2xhaW1zIjp7ImFjciI6eyJ
-2YWx1ZXMiOlsiMiJdfX19fQ.krAJHvc-vo5ntIc5suj2u3gU75nZ1ICcidLEw8OC
-NyOlTR4Gk6etZDr5lozMFzhDSXAJ5TxhfUJLsp8VSum8spnmbGaqKr4bEWTirUDG
-E3TsJCHRQZLzwuAYlLcS-ZaHVk9ue0oB7q_GeGTAIDHBncJP1x1j-MPvNxWbYXQ4
-wo9O6Y8QnbyOrrLl5LHRMrvlLFnc0uqt5QKHqcQa6l9wYQjjWJXoZirsWdJ_wmSs
-fbQCWMRtA6JNbV0q0gImbOGno75GxFKNkguW5JBU4Vj5gEafz2EPSxVsRNWf6MtF
-vXqOLSZMqoKK40b2akbj0kGdZ8aPPSMoywaGclKlIHh0PQ]]></artwork>
+                <artwork><![CDATA[
+eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2RlIGlkX3R
+va2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgInJlZGlyZWN
+0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogICJzY29
+wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZmpzbGRraiI
+sDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm8iOiANCiA
+gICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgICAgICAibmF
+tZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2tuYW1lIjo
+gbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0
+KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0
+sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCiAgICB9LA0
+KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2FnZSI6IDg
+2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KICAgICAgICA
+gICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYXkiOiB7ImV
+zc2VudGlhbCI6IHRydWV9LA0KICAgICAgICAgICAgImFjciI6IHsidmFsdWVzIjo
+gWyIyIl19DQogICAgICAgICAgfQ0KICAgICAgfQ0KfQ.kbN3pf12-HUVSvL_yJqE
+mkux7NIfePNOxOMLkkdv1mgtjfIcfF7qZ5oEOHS_miO7IqQusEpV1cHROx2-VyPt
+ZSRKcAXIOM9c9lHhQSMIklcZU8yGQE8s7PKBzqj7lEIEJbX-FwGuLSW2_r-wxhdB
+HWZ8KMLmsCKjWwrYVHWpNEJOfZ_IfIk5g1emqiRuM-47ZBqYRZiTxVzMG4pJa7Vq
+6DWWUHHN4pJWi8w4Ak0hgShcF44yH_wRlJIQOvUn-E_B6ly6SRrtYEGzDxCrdQQJ
+FJB7gflv5ws_YPyofOEjIbUVPLPLXdCI4_Ev5-dOtoOHp11HgmESG0DuEmfhNBnu
+yA]]></artwork>
               </figure></t>
 
             <section anchor="rurl_create"
@@ -886,16 +928,32 @@ HTTP/1.1 302 Found
 Location: https://client.example.org/cb#
 access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZ
-XhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCa
-GRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwL
-CJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8
-XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr_id0
-29-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jUES4w
-4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwVftKV
-pFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2GAEH
-onKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
-&state=af0ifjsldkj]]></artwork>
+&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+zExMjgwOTcwLA0KICAgICJhdF9oYXNoIjogIjc3UW1VUHRqUGZ6V3RGMkFucEs5U
+ldwWHJXbHJlY2RiTFV5SkRJYjdTNlEiDQp9.ZP0kFjn7ZOYwga5dbfvvYLlu7DAa
+RRhgE7u88OEfRqmfWCB35mwSso1A255fbvdOPryGda3xy0t2P1gjNxc2cKA8T9Rm
+w0ae6UyLSaA9zROXfpdyRX6wEs_RMdnftBY60B_DCeFJkWQxUG6taXomiVH7Ozyk
+765VX3gRzSoxaJKbD1xo582s0dGmMvkUL4dg7-46eOrOLkQTujUAOnjqCfiqzL1C
+rchYsNZjwNBE8pySRhJTmedm882k0NRZPU1QMLJIVpB9e0Hiuwz1htHm3-XxZ63b
+bzRLG6jsWknphWIFraFrf59Kgmct7jfzBF5IOvfpcdFe9kHVkKX_acts-w
+
+Verifying and decoding the ID Token will yield the following 
+ID Token JSON object:
+
+{
+  "iss": "http://server.example.com",
+  "user_id": "248289761001",
+  "aud": "s6BhdRkqt3",
+  "nonce": "n-0S6_WzA2Mj",
+  "exp": 1311281970,
+  "iat": 1311280970,
+  "at_hash": "77QmUPtjPfzWtF2AnpK9RWpXrWlrecdbLUyJDIb7S6Q"
+}
+
+]]></artwork>
             </figure>
 
             <figure>
@@ -912,16 +970,32 @@ response_type=code%20id_token
 HTTP/1.1 302 Found
 Location: https://client.example.org/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZ
-XhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCa
-GRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwL
-CJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8
-XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr_id0
-29-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jUES4w
-4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwVftKV
-pFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2GAEH
-onKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
-&state=af0ifjsldkj]]></artwork>
+&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+zExMjgwOTcwLA0KICAgICJjX2hhc2giOiAiTERrdEtkb1FhazNQazBjblh4Q2x0Q
+mdfckNfM1RLVWI5T0xrNWZLTzl1QSINCn0.D6JxCgpOwlyuK7DPRu5hFOIJRSRDT
+B7TQNRbOw9Vg9WroDi_XNzaqXCFSDH_YqcE-CBhoxD-Iq4eQL4E2jIjil47u7i68
+Nheev7d8AJk4wfRimgpDhQX5K8YyGDWrTs7bhsMTPAPVa9bLIBndDZ2mEdmPcmR9
+mXcwJI3IGF9JOaStYXJXMYWUMCmQARZEKG9JxIYPZNhFsqKe4TYQEmrq2s_HHQwk
+XCGAmLBdptHY-Zx277qtidojQQFXzbD2Ak1ONT5sFjy3yxPnE87pNVtOEST5GJac
+O1O88gmvmjNayu1-f5mr5Uc70QC6DjlKem3cUN5kudAQ4sLvFkUr8gkIQ
+
+Verifying and decoding the ID Token will yield the following 
+ID Token JSON object:
+
+{
+  "iss": "http://server.example.com",
+  "user_id": "248289761001",
+  "aud": "s6BhdRkqt3",
+  "nonce": "n-0S6_WzA2Mj",
+  "exp": 1311281970,
+  "iat": 1311280970,
+  "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
+}
+
+]]></artwork>
             </figure>
 
             <figure>
@@ -959,18 +1033,114 @@ Location: https://client.example.org/cb#
 code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
 &access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
 &token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2ZXIuZ
-XhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoiczZCa
-GRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxOTcwL
-CJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW5EC8
-XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr_id0
-29-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jUES4w
-4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwVftKV
-pFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2GAEH
-onKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw
+&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+zExMjgwOTcwLA0KICAgICJhdF9oYXNoIjogIjc3UW1VUHRqUGZ6V3RGMkFucEs5U
+ldwWHJXbHJlY2RiTFV5SkRJYjdTNlEiDQogICAgImNfaGFzaCI6ICJMRGt0S2RvU
+WFrM1BrMGNuWHhDbHRCZ19yQ18zVEtVYjlPTGs1ZktPOXVBIg0KfQ.Jw-8W1LKps
+Go17BltEpLlq1AMhSw3IRBeZrS-P3cXrDebBn09G4DWnjhD2PPze_M3ldkqng3Xk
+0me_xWlg3VoJlveJ64lQ2oPe_8_0rT1sLM6UOy8-gPtwifxUfvrkpNX9KwqTju6W
+MfSlDWWxW8Y8GQBMWsG7xqjYANIr84bpQ-5KyHnDdYSEDf9Si7xa3uYsJVrv1M1o
+jF2tz_sNirH8aCmU1KpJ6nXPLw2uEo5slKp-b0-1AWoBcl0PSJpDJJCdTaXF_e_g
+Ovd5ko9ymTZ336ZQj630QjtGZ9E4b9C_HOnI15zXQ5mh6cb2VO2r5ckDtqBy0UL-
+QklkW8BfO9qg
 &state=af0ifjsldkj
+
+Verifying and decoding the ID Token will yield the following 
+ID Token JSON object:
+
+{
+  "iss": "http://server.example.com",
+  "user_id": "248289761001",
+  "aud": "s6BhdRkqt3",
+  "nonce": "n-0S6_WzA2Mj",
+  "exp": 1311281970,
+  "iat": 1311280970,
+  "at_hash": "77QmUPtjPfzWtF2AnpK9RWpXrWlrecdbLUyJDIb7S6Q",
+  "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
+}
+  
 ]]></artwork>
             </figure>
+            
+            <t>
+This following example makes a request with an OpenID Request Object 
+containing custom ID Token return Claims. The sample OpenID Request Object is 
+described in the <xref target="req_param_method">Request Parameter Section</xref>
+            </t>
+
+            <figure>
+              <preamble>Case 6: response_type=code id_token</preamble>
+              <artwork><![CDATA[
+https://server.example.com/op/authorize?
+response_type=code%20id_token
+&client_id=s6BhdRkqt3
+&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+&scope=openid
+&request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
+RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
+JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
+ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
+pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
+8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
+AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
+tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
+RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
+ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
+AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
+FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
+AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
+kiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0KICAgICAgICAgICAgImFjciI6IHsidm
+FsdWVzIjogWyIyIl19DQogICAgICAgICAgfQ0KICAgICAgfQ0KfQ.kbN3pf12-HU
+VSvL_yJqEmkux7NIfePNOxOMLkkdv1mgtjfIcfF7qZ5oEOHS_miO7IqQusEpV1cH
+ROx2-VyPtZSRKcAXIOM9c9lHhQSMIklcZU8yGQE8s7PKBzqj7lEIEJbX-FwGuLSW
+2_r-wxhdBHWZ8KMLmsCKjWwrYVHWpNEJOfZ_IfIk5g1emqiRuM-47ZBqYRZiTxVz
+MG4pJa7Vq6DWWUHHN4pJWi8w4Ak0hgShcF44yH_wRlJIQOvUn-E_B6ly6SRrtYEG
+zDxCrdQQJFJB7gflv5ws_YPyofOEjIbUVPLPLXdCI4_Ev5-dOtoOHp11HgmESG0D
+uEmfhNBnuyA
+&nonce=n-0S6_WzA2Mj
+&state=af0ifjsldkj
+
+
+HTTP/1.1 302 Found
+Location: https://client.example.org/cb#
+code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+&token_type=Bearer
+&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+zExMjgwOTcwLA0KICAgICJnZW5kZXIiOiAiZmVtYWxlIiwNCiAgICAiYmlydGhkY
+XkiOiAiMDEvMDEvMTk4NyIsDQogICAgImFjciI6ICIyIiwNCiAgICAiY19oYXNoI
+jogIkxEa3RLZG9RYWszUGswY25YeENsdEJnX3JDXzNUS1ViOU9MazVmS085dUEiD
+Qp9.ju1t0BmFqDHX1tFM-ZGrXr_fKXfV5Ba_xOyWNKu2WGTky5nieoeXs8GuTv8u
+TD7EftJeRiWgVgNdsyWm5SSD4ddYC8AJYNAtB1cCt_uY7N1rCe7shO1njCX0_Kjo
+KWmtjiJAN_9GLYBfDY17YpOIOI0a45dI9RtTWEwu26RAWXwvN9y7NV2uIwH4j-sr
+_Aw8xs-z9WFKtnEIUC_57BQK85vltiwGQ0ILPUkTigRPCxezwen2UE6Zx9GiP3ix
+KQhZUQN8yKWpbIp8K8j-BLzoFyRXc0KYqMdEMx-4n7hbuANofq_TrcmSs2IcI9xF
+q8x9r5cRIXiW2K4zALo8eBiUug
+&state=af0ifjsldkj
+
+Verifying and decoding the ID Token will yield the following 
+ID Token JSON object:
+
+{
+  "iss": "http://server.example.com",
+  "user_id": "248289761001",
+  "aud": "s6BhdRkqt3",
+  "nonce": "n-0S6_WzA2Mj",
+  "exp": 1311281970,
+  "iat": 1311280970,
+  "gender": "female",
+  "birthday": "01/01/1987",
+  "acr": "2",
+  "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
+}  
+]]></artwork>
+            </figure>
+                        
 
             <figure>
               <preamble>Public Key Information used to verify the ID Token</preamble>
@@ -1168,15 +1338,16 @@ Pragma: no-cache
  "token_type": "Bearer",
  "refresh_token": "8xLOxBtZp8",
  "expires_in": 3600,
- "id_token": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZXJ2Z
-XIuZXhhbXBsZS5jb20iLCJ1c2VyX2lkIjoiMjQ4Mjg5NzYxMDAxIiwiYXVkIjoic
-zZCaGRSa3F0MyIsIm5vbmNlIjoibi0wUzZfV3pBMk1qIiwiZXhwIjoxMzExMjgxO
-TcwLCJpYXQiOjEzMTEyODA5NzB9.RgXxzppVvn1EjUiV3LIZ19SyhdyREe_2jJjW
-5EC8XjNuJfe7Dte8YxRXxssJ67N8MT9mvOI3HOHm4whNx5FCyemyCGyTLHODCeAr
-_id029-4JP0KWySoan1jmT7vbGHhu89-l9MTdaEvu7pNZO7DHGwqnMWRe8hdG7jU
-ES4w4ReQTygKwXVVOaiGoeUrv6cZdbyOnpGlRlHaiOsv_xMunNVJtn5dLz-0zZwV
-ftKVpFuc1pGaVsyZsOtkT32E4c6MDHeCvIDlR5ESC0ct8BLvGJDB5954MjCR4_X2
-GAEHonKw4NF8wTmUFvhslYXmjRNFs21Byjn3jNb7lSa3MBfVsw"
+ "id_token": "eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL
+3NlcnZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxM
+DAxIiwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuL
+TBTNl9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiO
+iAxMzExMjgwOTcwDQp9.lsQI_KNHpl58YY24G9tUHXr3Yp7OKYnEaVpRL0KI4szT
+D6GXpZcgxIpkOCcajyDiIv62R9rBWASV191Akk1BM36gUMm8H5s8xyxNdRfBViCa
+xTqHA7X_vV3U-tSWl6McR5qaSJaNQBpg1oGPjZdPG7zWCG-yEJC4-Fbx2FPOS7-h
+5V0k33O5Okd-OoDUKoFPMd6ur5cIwsNyBazcsHdFHqWlCby5nl_HZdW-PHq0gjzy
+JydB5eYIvOfOHYBRVML9fKwdOLM2xVxJsPwvy3BqlVKc593p2WwItIg52ILWrc6A
+tqkqHxKsAXLVyAoVInYkl_NDBkCqYe2KgNJFzfEC8g"
 }]]></artwork>
 	  </figure>
 	</section>
