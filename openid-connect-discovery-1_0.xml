@@ -473,7 +473,8 @@ Content-Type: application/json
       <spanx style="verb">issuer</spanx>.
       The syntax and semantics of <spanx
       style="verb">.well-known</spanx> are defined in <xref
-      target="RFC5785">RFC 5785</xref>. <spanx style="verb">openid-configuration</spanx>
+      target="RFC5785">RFC 5785</xref> and apply to <spanx style="verb">issuer</spanx>
+      when it contains no path component. <spanx style="verb">openid-configuration</spanx>
       MUST point to a JSON document compliant with this specification.</t>
 
       <t>OpenID Providers MUST support receiving SWD requests via TLS 1.2
@@ -511,6 +512,14 @@ Host: example.com]]></artwork>
             <artwork><![CDATA[GET /issuer1/.well-known/openid-configuration HTTP/1.1
 Host: example.com]]></artwork>
           </figure></t>
+          
+       <t>Path components are allowed to support multiple issuers per host.
+       This is required in some multi tenant hosting configurations. 
+          Any <spanx style="verb">.well-known</spanx> in addition to the one specified 
+          in <xref target="RFC5785">RFC 5785</xref> are for issuer configuration and not
+           general information about the host.
+          </t>
+            
       </section>
 
       <section title="Provider Configuration Response">
@@ -1124,6 +1133,7 @@ Host: example.com]]></artwork>
           <t>Fixed #640 Added check_session_endpoint and end_session_endpoint</t>
           <t>Fixed #627 Configuration response must be 200 OK</t>
           <t>updated OAuth reference</t>
+          <t>Clarify the use of .well_known as part of a path for multi tenant</t>
         </list>
       </t>
 
