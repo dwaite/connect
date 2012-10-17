@@ -1308,18 +1308,37 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           </list></t>
         </section>
 
-        <section title="UserInfo Response">
+    	<section title="UserInfo Response">
           <t>If the requested schema is <spanx
           style="verb">openid</spanx>, the response MUST return a
           JSON object that contains the full set or a
           subset of the Claims that are defined below. Additional
           Claims (not specified below) MAY also be returned.</t>
 
-	  <t>
-	    If a Claim is not returned, that Claim Name SHOULD be
-	    omitted from the JSON object representing the Claims; it
-	    SHOULD NOT be present with a null or empty string value.
-	  </t>
+		  <t>
+		    If a Claim is not returned, that Claim Name SHOULD be
+		    omitted from the JSON object representing the Claims; it
+		    SHOULD NOT be present with a null or empty string value.
+		  </t>
+	 	</section>
+	 	<section title="UserInfo Error Response">
+          <t>When an error condition occurs, the UserInfo Endpoint returns
+          an Error Response. In addition to the error codes defined in Section 3.1 of
+          <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
+          defines the following error codes:</t>
+
+          <t><list style="hanging">
+            <t hangText="invalid_schema">The requested schema is invalid or
+            unsupported.</t>
+          </list></t>
+    	</section>
+    </section>
+
+    <section title="Standard Claims">
+    		<t>This specification defines a set of standard claims.
+    			They can be requested to be returned either in id_token 
+    			or userinfo response. 
+    		</t>
 
           <t>The members MAY be represented in multiple languages and scripts.
           To specify the languages and scripts, <xref
@@ -1599,19 +1618,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             over time.</t>
             
           </section>
-        </section>
 
-        <section title="UserInfo Error Response">
-          <t>When an error condition occurs, the UserInfo Endpoint returns
-          an Error Response. In addition to the error codes defined in Section 3.1 of
-          <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
-          defines the following error codes:</t>
-
-          <t><list style="hanging">
-            <t hangText="invalid_schema">The requested schema is invalid or
-            unsupported.</t>
-          </list></t>
-        </section>
       </section>
 
       <section anchor="idtype" title="User Identifier Types">
