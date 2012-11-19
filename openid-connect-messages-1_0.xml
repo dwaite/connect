@@ -726,7 +726,8 @@
                   representing acceptable Authentication Context Class Reference 
                   values appearing in order of preference.
                   <figure>
-                    <artwork><![CDATA[ "acr": {"values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
+                    <artwork><![CDATA[ "acr": {"essential": true,
+        "values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
                   </figure>
                   </t>
                   
@@ -2273,21 +2274,22 @@ Tokens and URL locations where the Claims may be retrieved:
                   </t>
                   <t>
                   If the <spanx style="verb">acr</spanx> Claim is requested
-		  as a required Claim
+		  as a essential Claim
                   in the <spanx style="verb">id_token</spanx> member 
                   with <spanx style="verb">values</spanx> as a parameter, 
                   the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
                   Claim value that matches one of the requested values. 
                   The Authorization 
                   server MAY ask the user to re-authenticate with additional factors 
-                  to meet the requirements. If this is a required Claim and the 
+                  to meet the requirements. If this is a essential Claim and the 
                   requirement cannot be met, then the Authorization Server MUST return an error.
-                  The Client MAY make this Claim optional by including "optional": true in the 
-                  <spanx style="verb">acr</spanx> Claim request. If the Claim is optional and the requested value for 
+                  The Client MAY make this Claim optional by not including "essential": true in the 
+                  <spanx style="verb">acr</spanx> Claim request. 
+                  If the Claim is not essential and the requested value for 
                   the user cannot be provided, the Authorization server SHOULD return 
                   the session's current <spanx style="verb">acr</spanx> as
                   the value of the <spanx style="verb">acr</spanx> Claim. 
-                  If the Claim is optional, the Authorization server is not required to
+                  If the Claim is not essential, the Authorization server is not required to
                   provide this Claim in its response.
                   </t>
 		  </list></t>
@@ -3554,6 +3556,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>Fixed #658 - Messages - 2.1.1 "id_token" name crash, id_token renamed to id_token_hint</t>
           <t>Fixed #612 - Messages - 4.1 change request_object_algs_supported to be RS256</t>
           <t>Fixed #662 - Messages - changed id_token_signed_response_algs to id_token_signed_response_alg in 5.1</t>
+          <t>Fixed #678 - Messages - Changed 5.1.3 terminology of acr to reflect essential vs required and fixed example</t>
         </list>
       </t>
 
