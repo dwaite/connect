@@ -241,7 +241,7 @@
 	    <spanx style="verb">pairwise</spanx> and
 	    <spanx style="verb">public</spanx>.</t>
 
-            <t hangText="require_signed_request_object">OPTIONAL.
+            <t hangText="request_object_signing_alg">OPTIONAL.
 	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> that MUST be required by the Authorization Server.
              The valid values are listed in
@@ -921,6 +921,12 @@ Cache-Control: no-store
 	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
 	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
 	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
+	  <t>
+	    Fixed #673 - Registration 2.1: Rename require_signed_request_object to request_object_alg.
+	    The actual change was to rename
+	    require_signed_request_object to request_object_signing_alg,
+	    following the naming convention used in the resolution to issue #614.
 	  </t>
       </list></t>
       

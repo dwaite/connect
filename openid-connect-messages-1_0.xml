@@ -1999,7 +1999,7 @@ Tokens and URL locations where the Claims may be retrieved:
       <t>The Client registers its required algorithms for Signing and Encryption 
       using the following Registration parameters:</t>
       <t><list style="hanging">
-             <t hangText="require_signed_request_object">OPTIONAL.  The 
+             <t hangText="request_object_signing_alg">OPTIONAL.  The 
              JWS signature algorithm <xref target="JWA" /> required for OpenID Request Objects
              by the Authorization Server. All OpenID Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
@@ -2252,7 +2252,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
           <t>To perform Signature Verification, 
           the <spanx style="verb">alg</spanx> parameter in the JWS header MUST match the value
-          of the <spanx style="verb">require_signed_request_object</spanx> set during
+          of the <spanx style="verb">request_object_signing_alg</spanx> set during
           <xref target="OpenID.Registration">Client Registration</xref> or a value that was
 	   pre-registered by other means.</t>
           
@@ -3563,6 +3563,12 @@ Tokens and URL locations where the Claims may be retrieved:
 	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
 	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
 	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
+	  <t>
+	    Fixed #673 - Registration 2.1: Rename require_signed_request_object to request_object_alg.
+	    The actual change was to rename
+	    require_signed_request_object to request_object_signing_alg,
+	    following the naming convention used in the resolution to issue #614.
 	  </t>
         </list>
       </t>
