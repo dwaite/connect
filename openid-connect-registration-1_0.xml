@@ -20,12 +20,11 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 11</title>
+    Dynamic Client Registration 1.0 - draft 12</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
       Ltd.</organization>
-
       <address>
         <email>n-sakimura@nri.co.jp</email>
       </address>
@@ -33,7 +32,6 @@
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
       <organization abbrev="Ping Identity">Ping Identity</organization>
-
       <address>
         <email>ve7jtb@ve7jtb.com</email>
       </address>
@@ -41,13 +39,12 @@
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
-
       <address>
         <email>mbj@microsoft.com</email>
       </address>
     </author>
 
-    <date day="25" month="May" year="2012" />
+    <date day="20" month="November" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -276,24 +273,11 @@
              The valid values are listed in
 	     Section 4.2 <xref target="JWA">JWA</xref>.
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
-             the default for this value is <spanx style="verb">A128CBC</spanx>.
+             the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
-             <t hangText="userinfo_encrypted_response_int">OPTIONAL.
-	     The JWE <spanx style="verb">int</spanx>
-             algorithm <xref target="JWA" /> required for integrity of UserInfo responses.
-             The valid HMAC values are listed in
-	     Section 4.3 of <xref target="JWA">JWA</xref>.
-             If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
-             and the <spanx style="verb">"userinfo_encrypted_response_enc"</spanx> 
-             is not an AEAD algorithm,
-             the default for this value is <spanx style="verb">HS256</spanx>.
-             If this is requested in combination with signing the response 
-             will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
+
              <t hangText="id_token_signed_response_alg">OPTIONAL.
 	     The JWS <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for the ID Token issued to this
@@ -321,25 +305,11 @@
              The valid values are listed in
 	     Section 4.2 of <xref target="JWA">JWA</xref>.
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-             the default for this value is <spanx style="verb">A128CBC</spanx>.
+             the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
-             <t hangText="id_token_encrypted_response_int">OPTIONAL.
-	     The JWE <spanx style="verb">int</spanx>
-             algorithm <xref target="JWA" /> required for integrity of the ID Token
-	     issued to this <spanx style="verb">client_id</spanx>.
-             The valid HMAC values are listed in
-	     Section 4.3 of <xref target="JWA">JWA</xref>.
-             If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-             and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
-             is not an AEAD algorithm,
-             the default for this value is <spanx style="verb">HS256</spanx>.
-             If this is requested in combination with signing the response 
-             will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
+
              <t hangText="default_max_age">OPTIONAL. (default max authentication age):  
                   Type: Integer 
                   - Specifies that the End-User must be actively authenticated if
@@ -411,8 +381,7 @@ type=client_associate
 &token_endpoint_auth_type=client_secret_basic
 &jwk_url=https://client.example.org/my_rsa_public_key.jwk
 &userinfo_encrypted_response_alg=RSA1_5
-&userinfo_encrypted_response_enc=A128CBC
-&userinfo_encrypted_response_int=HS256]]></artwork>
+&userinfo_encrypted_response_enc=A128CBC+HS256]]></artwork>
           </figure></t>
 
 	<section anchor="sector.identifier.url.verification" title="sector_identifier_url Verification">
@@ -945,6 +914,14 @@ Cache-Control: no-store
       <t>Updated references to OAuth and Bearer to reflect current drafts</t>
       <t>Fix typo error_description</t>
       <t>Re #642 change error to error_code in 2.3 example</t>
+	  <t>
+	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
+	    This fix tracks the parameter changes made to the JWE spec in draft-ietf-jose-json-web-encryption-06.
+	    It deletes the parameters {userinfo,id_token}_encrypted_response_int.
+	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
+	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
+	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
       </list></t>
       
       <t>-11<list style="symbols">

@@ -23,7 +23,6 @@
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
       Ltd.</organization>
-
       <address>
         <email>n-sakimura@nri.co.jp</email>
       </address>
@@ -31,7 +30,6 @@
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
       <organization abbrev="Ping Identity">Ping Identity</organization>
-
       <address>
         <email>ve7jtb@ve7jtb.com</email>
       </address>
@@ -39,7 +37,6 @@
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
-
       <address>
         <email>mbj@microsoft.com</email>
       </address>
@@ -47,13 +44,12 @@
 
     <author fullname="Edmund Jay" initials="E." surname="Jay">
       <organization abbrev="Illumila">Illumila</organization>
-
       <address>
         <email>ejay@mgi1.com</email>
       </address>
     </author>
 
-    <date day="14" month="September" year="2012" />
+    <date day="20" month="November" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -635,50 +631,116 @@ Host: example.com]]></artwork>
           this server supports. Valid types include
 	  <spanx style="verb">pairwise</spanx> and
 	  <spanx style="verb">public</spanx>.</c>
-          
-          <c>userinfo_algs_supported</c>
+
+          <c>userinfo_signing_alg_values_supported</c>
           <c>array</c>
-          <c>A JSON array containing a list of the
-	  <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
-	  signing and encryption algorithms <xref target="JWA" />
-           supported by the UserInfo Endpoint
-	   to encode the JWT <xref target="JWT" />.</c>
-           
-          <c>id_token_algs_supported</c>
+          <c>
+	    A JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
+	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+            supported by the UserInfo Endpoint
+	    to encode the claims in a JWT <xref target="JWT" />.
+          </c>
+
+          <c>userinfo_encryption_alg_values_supported</c>
           <c>array</c>
-          <c>A JSON array containing a list of the JWS and JWE
-	  signing and encryption algorithms <xref target="JWA" />
-           supported by the Authorization Server for the ID Token
-	   to encode the JWT <xref target="JWT" />.</c>
-           
-          <c>request_object_algs_supported</c>
+          <c>
+	    A JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
+	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+            supported by the UserInfo Endpoint
+	    to encode the claims in a JWT <xref target="JWT" />.
+          </c>
+
+          <c>userinfo_encryption_enc_values_supported</c>
           <c>array</c>
-          <c>A JSON array containing a list of the JWS and JWE
-	  signing and encryption algorithms <xref target="JWA" />
-	  supported by the Authorization Server for the OpenID Request Object described in
-	  Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
-	  to encode the JWT <xref target="JWT" />.
-	  Servers SHOULD support <spanx style="verb">RS256</spanx>.</c>
+          <c>
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
+            supported by the UserInfo Endpoint
+	    to encode the claims in a JWT <xref target="JWT" />.
+          </c>
+
+          <c>id_token_signing_alg_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for the ID Token
+	    to encode the claims in a JWT <xref target="JWT" />.
+          </c>
+
+          <c>id_token_encryption_alg_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for the ID Token
+	    to encode the claims in a JWT <xref target="JWT" />.
+          </c>
+
+          <c>id_token_encryption_enc_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values)
+	    supported by the Authorization Server for the ID Token
+	    to encode the claims in a JWT <xref target="JWT" />.
+          </c>
+
+          <c>request_object_signing_alg_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for the OpenID Request Object described in
+	    Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	    Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.
+          </c>
+
+          <c>request_object_encryption_alg_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for the OpenID Request Object described in
+	    Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+          </c>
+
+          <c>request_object_encryption_enc_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values)
+	    supported by the Authorization Server for the OpenID Request Object described in
+	    Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+          </c>
 
           <c>token_endpoint_auth_types_supported</c>
           <c>array</c>
-          <c>A JSON array containing a list of authentication
-	  types supported by this Token Endpoint. The options are <spanx style="verb">client_secret_post</spanx>, 
-	  <spanx style="verb">client_secret_basic</spanx>, <spanx style="verb">client_secret_jwt</spanx>, and <spanx style="verb">private_key_jwt</spanx>, as described in
-	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	  Other Authentication types may be defined by extension. If unspecified or
-	  omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
-	  Scheme as specified in
-	  Section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.</c>
+          <c>
+            A JSON array containing a list of authentication
+	    types supported by this Token Endpoint. The options are
+	    <spanx style="verb">client_secret_post</spanx>, 
+	    <spanx style="verb">client_secret_basic</spanx>,
+	    <spanx style="verb">client_secret_jwt</spanx>, and
+	    <spanx style="verb">private_key_jwt</spanx>, as described in
+	    Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	    Other authentication types may be defined by extension. If unspecified or
+	    omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
+	    the HTTP Basic Authentication Scheme as specified in
+	    Section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.
+          </c>
 
-          <c>token_endpoint_auth_algs_supported</c>
+          <c>token_endpoint_auth_signing_alg_values_supported</c>
           <c>array</c>
-          <c>A JSON array containing a list of the JWS signing algorithms <xref target="JWA" />
-           supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
-           and <spanx style="verb">client_secret_jwt</spanx> methods
-	   to encode the JWT <xref target="JWT" />.
-            Servers SHOULD support <spanx style="verb">RS256</spanx>.</c>
-           
+          <c>
+	    A JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
+	    and <spanx style="verb">client_secret_jwt</spanx> methods
+	    to encode the JWT <xref target="JWT" />.
+            Servers SHOULD support <spanx style="verb">RS256</spanx>.
+          </c>
+
         </texttable>
 
         <t>Example response:</t>
@@ -693,6 +755,8 @@ Host: example.com]]></artwork>
    "https://server.example.com/connect/token",
  "token_endpoint_auth_types_supported":
    ["client_secret_basic", "private_key_jwt"],
+ "token_endpoint_alg_values_supported":
+   ["RS256", "ES256"],
  "userinfo_endpoint":
    "https://server.example.com/connect/user",
  "refresh_session_endpoint":
@@ -713,12 +777,20 @@ Host: example.com]]></artwork>
    ["1","2","http://id.incommon.org/assurance/bronze"],
  "user_id_types_supported":
    ["public", "pairwise"],
- "userinfo_algs_supported":
-   ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "id_token_algs_supported":
-   ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"],
- "request_object_algs_supported":
-   ["HS256", "RS256", "A128CBC", "A128KW", "RSA1_5"]
+ "userinfo_signing_alg_values_supported":
+   ["RS256", "ES256", "HS256"],
+ "userinfo_encryption_alg_values_supported":
+   ["RSA1_5", "A128KW"],
+ "userinfo_encryption_enc_values_supported":
+   ["A128CBC+HS256", "A128GCM"],
+ "id_token_signing_alg_values_supported":
+   ["RS256", "ES256", "HS256"],
+ "id_token_encryption_alg_values_supported":
+   ["RSA1_5", "A128KW"],
+ "id_token_encryption_enc_values_supported":
+   ["A128CBC+HS256", "A128GCM"],
+ "request_object_signing_alg_values_supported":
+   ["none", "RS256", "ES256"]
  }]]></artwork>
           </figure></t>
       </section>
@@ -1136,6 +1208,14 @@ Host: example.com]]></artwork>
           <t>updated OAuth reference</t>
           <t>Clarify the use of .well_known as part of a path for multi tenant</t>
           <t>Fixes #665 Add client_secret_jwt to token_endpoint_auth_algs_supported</t>
+	  <t>
+	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
+	    This fix tracks the parameter changes made to the JWE spec in draft-ietf-jose-json-web-encryption-06.
+	    It deletes the parameters {userinfo,id_token}_encrypted_response_int.
+	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
+	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
+	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
         </list>
       </t>
 

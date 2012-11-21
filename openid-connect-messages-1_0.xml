@@ -19,7 +19,6 @@
             surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
       Ltd.</organization>
-
       <address>
         <email>n-sakimura@nri.co.jp</email>
       </address>
@@ -27,7 +26,6 @@
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
       <organization abbrev="Ping Identity">Ping Identity</organization>
-
       <address>
         <email>ve7jtb@ve7jtb.com</email>
       </address>
@@ -35,7 +33,6 @@
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
-
       <address>
         <email>mbj@microsoft.com</email>
       </address>
@@ -43,7 +40,6 @@
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization abbrev="Google">Google Inc.</organization>
-
       <address>
         <email>breno@google.com</email>
       </address>
@@ -63,7 +59,7 @@
       </address>
     </author>
 
-    <date day="30" month="August" year="2012" />
+    <date day="20" month="November" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -633,8 +629,9 @@
    {
  	"redirect_uris": "https://rp.com/authz/callback",
  	"logo_url": "https://rp.com/logo.png",
- 	"jwk_url"="https://rp.com/public_key.jwk",
- 	"id_token_encrypted_response_alg": "RSA1_5 A128CBC"
+ 	"jwk_url": "https://rp.com/public_key.jwk",
+ 	"id_token_encrypted_response_alg": "RSA1_5",
+ 	"id_token_encrypted_response_enc": "A128CBC+HS256"
    }
 }]]></artwork>
 </figure></t>
@@ -1934,28 +1931,67 @@ Tokens and URL locations where the Claims may be retrieved:
        The related elements are:</t>
       
       <t><list style="hanging">
-	  <t hangText="userinfo_algs_supported">
-	    A JSON array containing a list of the JWS and JWE
-	    signing and encryption algorithms <xref target="JWA" />
-            supported by the UserInfo Endpoint.</t>
-           
-          <t hangText="id_token_algs_supported">
-	    A JSON array containing a list of the JWS and JWE
-	    signing and encryption algorithms <xref target="JWA" />
-	    supported by the Authorization Server for the ID Token.</t>
-           
-          <t hangText="request_object_algs_supported">
-	    A JSON array containing a list of the JWS and JWE
-	    signing and encryption algorithms <xref target="JWA" />
+	  <t hangText="userinfo_signing_alg_values_supported">
+	    A JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
+	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+            supported by the UserInfo Endpoint
+	    to encode the claims in a JWT <xref target="JWT" />.</t>
+
+	  <t hangText="userinfo_encryption_alg_values_supported">
+	    A JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
+	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+            supported by the UserInfo Endpoint
+	    to encode the claims in a JWT <xref target="JWT" />.</t>
+
+	  <t hangText="userinfo_encryption_enc_values_supported">
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
+            supported by the UserInfo Endpoint
+	    to encode the claims in a JWT <xref target="JWT" />.</t>
+
+          <t hangText="id_token_signing_alg_values_supported">
+	    A JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for the ID Token
+	    to encode the claims in a JWT <xref target="JWT" />.</t>
+
+          <t hangText="id_token_encryption_alg_values_supported">
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for the ID Token
+	    to encode the claims in a JWT <xref target="JWT" />.</t>
+
+          <t hangText="id_token_encryption_enc_values_supported">
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values)
+	    supported by the Authorization Server for the ID Token
+	    to encode the claims in a JWT <xref target="JWT" />.</t>
+
+          <t hangText="request_object_signing_alg_values_supported">
+	    A JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for 
-            the <xref target="OpenID_Request_Object">OpenID Request Object</xref>. Servers SHOULD support 
-	    <spanx style="verb">RS256</spanx>.</t>
-      
-	  <t hangText="token_endpoint_auth_algs_supported">
-	    A JSON array containing a list of the <xref target="JWS">JWS</xref> 
-	    signing algorithms <xref target="JWA" />
-	    supported by the Token Endpoint for the
-	    <spanx style="verb">private_key_jwt</spanx> method.
+            the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.
+	    Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.</t>
+
+          <t hangText="request_object_encryption_alg_values_supported">
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Authorization Server for 
+            the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.</t>
+
+          <t hangText="request_object_encryption_enc_values_supported">
+	    A JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values)
+	    supported by the Authorization Server for 
+            the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.</t>
+
+	  <t hangText="token_endpoint_auth_signing_alg_values_supported">
+	    A JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
+	    and <spanx style="verb">client_secret_jwt</spanx> methods
+	    to encode the JWT <xref target="JWT" />.
             Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
 
       </list></t>
@@ -1987,16 +2023,7 @@ Tokens and URL locations where the Claims may be retrieved:
              JWE <spanx style="verb">enc</spanx>
              algorithm <xref target="JWA" /> required for UserInfo responses.
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
-             the default for this value is <spanx style="verb">A128CBC</spanx>.
-	         </t>
-             
-             <t hangText="userinfo_encrypted_response_int">OPTIONAL.  The 
-             JWE <spanx style="verb">int</spanx>
-             algorithm <xref target="JWA" /> required for UserInfo responses.
-	         If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
-             and the <spanx style="verb">"userinfo_encrypted_response_enc"</spanx> 
-             is not an AEAD algorithm,
-             the default for this value is <spanx style="verb">HS256</spanx>.
+             the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              </t>
              
              <t hangText="id_token_signed_response_alg">OPTIONAL.  The 
@@ -2019,17 +2046,7 @@ Tokens and URL locations where the Claims may be retrieved:
              algorithm <xref target="JWA" /> required for 
              ID Tokens issued to this <spanx style="verb">client_id</spanx>.
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-             the default for this value is <spanx style="verb">A128CBC</spanx>.
-             </t>
-             
-             <t hangText="id_token_encrypted_response_int">OPTIONAL.  
-             The JWE <spanx style="verb">int</spanx> 
-             algorithm <xref target="JWA" /> required for 
-             ID Tokens issued to this <spanx style="verb">client_id</spanx>.
-             If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-             and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
-             is not an AEAD algorithm,
-             the default for this value is <spanx style="verb">HS256</spanx>.
+             the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              </t>
       </list></t>
     </section>
@@ -2218,7 +2235,8 @@ Tokens and URL locations where the Claims may be retrieved:
          <section title="Encrypted Request Object">
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
-          in the <spanx style="verb">request_object_algs_supported</spanx> element of its 
+          in the <spanx style="verb">request_object_encryption_alg_values_supported</spanx> and
+	  <spanx style="verb">request_object_encryption_enc_values_supported</spanx> elements of its 
           Discovery Document, these are used by the Client to encrypt the JWT.</t>
           
           <t>The Authorization Server MUST decode the JWT in accordance with
@@ -3522,7 +3540,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-      <t>13
+      <t>-13
         <list style="symbols">
           <t>Fixed #588 - Messages: Token lifetime not privacy consideration</t>
           <t>Fixed #597 - Messages: Changed claim name birthday to birthdate and made the format ISO 8601:2004</t>
@@ -3537,7 +3555,15 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>Fixed #612 - Messages - 4.1 change request_object_algs_supported to be RS256</t>
           <t>Fixed #662 - Messages - changed id_token_signed_response_algs to id_token_signed_response_alg in 5.1</t>
           <t>Fixed #678 - Messages - Changed 5.1.3 terminology of acr to reflect essential vs required and fixed example</t>
-          <t>Fixes #679 - Messages - update reference to LoA registry from ID to RFC6711.</t>
+          <t>Fixed #679 - Messages - update reference to LoA registry from ID to RFC6711.</t>
+	  <t>
+	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
+	    This fix tracks the parameter changes made to the JWE spec in draft-ietf-jose-json-web-encryption-06.
+	    It deletes the parameters {userinfo,id_token}_encrypted_response_int.
+	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
+	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
+	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
         </list>
       </t>
 

@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Profile 1.0">OpenID Connect Implicit 
-    Client Profile 1.0 - draft 03</title>
+    Client Profile 1.0 - draft 04</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="16" month="August" year="2012" />
+    <date day="20" month="November" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1114,10 +1114,10 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
    ["id_token"],
  "user_id_types_supported":
    ["pairwise"],
- "id_token_algs_supported":
+ "id_token_signing_alg_values_supported":
    ["RS256"],
- "request_object_algs_supported":
-   ["RS256"]
+ "request_object_signing_alg_values_supported":
+   ["none", "RS256"]
  }]]>
             </artwork>
           </figure>
@@ -1883,6 +1883,14 @@ scope=openid&response_type=code
         <list style="symbols">
 	  <t>Make it clear that nonce is REQUIRED for implicit</t>
 	  <t>RE #607 add example decoded id_token for non self issued.</t>
+	  <t>
+	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
+	    This fix tracks the parameter changes made to the JWE spec in draft-ietf-jose-json-web-encryption-06.
+	    It deletes the parameters {userinfo,id_token}_encrypted_response_int.
+	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
+	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
+	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
       </list></t>
 
       <t>-03
