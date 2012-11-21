@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 20</title>
+    Client Profile 1.0 - draft 21</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="23" month="June" year="2012"/>
+    <date day="20" month="November" year="2012"/>
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -627,8 +627,6 @@ Pragma: no-cache
               for details regarding date/times in general and UTC in
               particular.</t>
 
-              
-
             </list></t>
             <t>Additional optional claims may be present in the ID Token.</t>
         	<figure>
@@ -648,12 +646,12 @@ Pragma: no-cache
         
         </section>
         
-      <section anchor="id.token.verification" title="ID Token Verification">
+      <section anchor="id.token.validation" title="ID Token Validation">
 
-	<t>The client MUST verify the validity of ID Token in the Token Endpoint Response, 
+	<t>The client MUST validate the ID Token in the Token Endpoint Response, 
 	the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
 	period (".") characters, take the second segment, and base64url decode it to 
-	obtain a JSON object that includes the ID Token claims, which MUST be verified 
+	obtain a JSON object that includes the ID Token claims, which MUST be validated 
 	as follows:</t>
 
         <t>
@@ -1519,10 +1517,12 @@ scope=openid&response_type=code
 
       <t>-21
         <list style="symbols">
-        <t>added informative definition of nonce in 2.2.1</t>
-        <t>Clarified that the client MUST check that the issuer is valid for the token endpoint</t>
-        <t>RE #607 add example decoded id_token for non self issued.</t>
+	  <t>added informative definition of nonce in 2.2.1</t>
+	  <t>Clarified that the client MUST check that the issuer is valid for the token endpoint</t>
+	  <t>RE #607 add example decoded id_token for non self issued.</t>
+	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
         </list></t>
+
       <t>-20
         <list style="symbols">
         <t>Added <spanx style="verb">preferred_username</spanx> claim

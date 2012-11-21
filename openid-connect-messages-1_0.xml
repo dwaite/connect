@@ -15,10 +15,8 @@
   <front>
     <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 13</title>
 
-    <author fullname="Nat Sakimura" initials="N." 
-            surname="Sakimura">
-      <organization abbrev="NRI">Nomura Research Institute,
-      Ltd.</organization>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
       <address>
         <email>n-sakimura@nri.co.jp</email>
       </address>
@@ -981,7 +979,7 @@
 
             <t>
               Clients MUST directly validate the ID Token per 
-              <xref target="id.token.verification">ID Token Verification</xref>. 
+              <xref target="id.token.validation">ID Token Validation</xref>. 
             </t>
             
            	<figure>
@@ -1229,7 +1227,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         </section>
 
         <section anchor="access_token_response" title="Access Token Response">
-          <t>After receiving and verifying a valid and authorized Access Token
+          <t>After receiving and validating a valid and authorized Access Token
           Request from the Client, the Authorization Server returns a successful
           response that includes an Access Token and an ID Token.  The
           parameters in the successful response are defined in Section 4.1.4
@@ -2030,7 +2028,7 @@ Tokens and URL locations where the Claims may be retrieved:
              JWS signature algorithm <xref target="JWA" /> required 
              for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
              The default if not specified is <spanx style="verb">RS256</spanx>.
-	         The public key for verifying the signature is provided by retrieving the 
+	         The public key for validating the signature is provided by retrieving the 
 	         document from the
 	         <spanx style="verb">jwk_url</spanx> element or the 
 	         <spanx style="verb">x509_url</spanx> element from discovery.</t>
@@ -2218,19 +2216,21 @@ Tokens and URL locations where the Claims may be retrieved:
       </section>
     </section>
 
-    <section title="Verification">
-      <section title="Authorization Request Verification">
-	<t>Authorization Request Verification consists of two main 
+    <section title="Validation">
+      <section title="Authorization Request Validation">
+	<t>Authorization Request Validation consists of two main 
 	  steps: (1) encryption and signature validation of 
 	  the value of <spanx style="verb">request</spanx> or 
 	  the content of <spanx style="verb">request_uri</spanx>,  
-	  and (2) parameter verification.
+	  and (2) parameter validation.
           If an OpenID Request Object was sent in the <spanx 
           style="verb">request</spanx> parameter or by reference in the
           <spanx style="verb">request_uri</spanx> parameter, the 
-          Request Object MUST verify as 
+          Request Object MUST validate as 
 		  <xref target="JWS">JWS</xref> or <xref target="JWE">JWE</xref> 
-		  objects that are encoded in the <xref target="JWT">JWT</xref>.</t>
+		  encoded objects,
+	for which nested encryption and signing may have been performed
+	in the manner described in <xref target="JWT" />.</t>
 
          <section title="Encrypted Request Object">
           
@@ -2242,7 +2242,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>The Authorization Server MUST decode the JWT in accordance with
           <xref target="JWE">JSON Web Encryption</xref> specification. 
 		  The result MAY be either OpenID Request Object or a JWS Signed JWT. 
-		  In the latter case, the signature verification MUST be performed 
+		  In the latter case, the signature validation MUST be performed 
 		  as defined in <xref target="signed.req.obj.var">Signed Request Object</xref>. </t>
           
           <t>The Authorization Server MUST return the error if there is a decryption error.</t>
@@ -2250,7 +2250,7 @@ Tokens and URL locations where the Claims may be retrieved:
             
 	 <section anchor="signed.req.obj.var" title="Signed Request Object">
 
-          <t>To perform Signature Verification, 
+          <t>To perform Signature Validation, 
           the <spanx style="verb">alg</spanx> parameter in the JWS header MUST match the value
           of the <spanx style="verb">request_object_signing_alg</spanx> set during
           <xref target="OpenID.Registration">Client Registration</xref> or a value that was
@@ -2263,7 +2263,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t>The Authorization Server MUST return the error authorization 
             response if there is a signature validation error.</t>
 	 </section>
-	 <section anchor="req.obj.veri" title="Parameter Verification">
+	 <section anchor="req.obj.veri" title="Parameter Validation">
 		  <t>The Authorization Server MUST construct the Authorization Request Message 
 		  from the OpenID Request Object 
 		  and the OAuth 2.0 Authorization Request parameters.
@@ -2271,17 +2271,17 @@ Tokens and URL locations where the Claims may be retrieved:
 		  the OpenID Request Object and the OAuth Authorization Request parameters,
 		  the parameter values MUST exactly match.
 		  Using this Authorization Request Message, the Authorization Server performs 
-		  the following steps of the request verification: 
+		  the following steps of the request validation: 
 		  </t>
 		  <t><list style="numbers">
 		  <t>The Authorization Server MUST understand all the parameters 
 		  except for the unsupported Claims. If there are any parameters that 
 		  it does not understand except for the unsupported Claims, it MUST return 
-		  an error response. </t>
-		  <t>The Authorization Server MUST verify that all the 
-		  OAuth 2.0 variables according to OAuth 2.0. </t>
+		  an error response.</t>
+		  <t>The Authorization Server MUST validate all the 
+		  OAuth 2.0 variables according to OAuth 2.0.</t>
 		  <t>The Authorization Server MUST verify that all the required parameters 
-		  are present. </t>
+		  are present.</t>
                   <t>If the <spanx style="verb">user_id</spanx> Claim
 		  as a member of <spanx style="verb">id_token</spanx> element
                   is requested with a specific value, 
@@ -2317,8 +2317,8 @@ Tokens and URL locations where the Claims may be retrieved:
 	 </section>
       </section>
 
-      <section anchor="id.token.verification" title="ID Token Verification">
-        <t>To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client
+      <section anchor="id.token.validation" title="ID Token Validation">
+        <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
 
         <t><list style="numbers">
@@ -2337,9 +2337,9 @@ Tokens and URL locations where the Claims may be retrieved:
              
             <t>If the <spanx style="verb">id_token</spanx> is received via direct
             communication between the client and the Token Endpoint, the TLS server 
-            verification MAY be used to validate the issuer in place of 
+            validation MAY be used to validate the issuer in place of 
             checking the token signature.
-            The Client MUST verify the signature of all other ID Tokens according to
+            The Client MUST validate the signature of all other ID Tokens according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
             
@@ -2392,9 +2392,9 @@ Tokens and URL locations where the Claims may be retrieved:
         
       </section>
 
-      <section title="UserInfo Response Verification">
+      <section title="UserInfo Response Validation">
 
-        <t>To verify the validity of the UserInfo response, the Client MUST do
+        <t>To validate the UserInfo response, the Client MUST do
         the following:</t>
 
         <t><list style="numbers">
@@ -2413,8 +2413,8 @@ Tokens and URL locations where the Claims may be retrieved:
           </list></t>
       </section>
 
-      <section anchor="access.token.verification" title="Access Token Verification">
-        <t>To verify the validity of an Access Token issued with an ID Token in 
+      <section anchor="access.token.validation" title="Access Token Validation">
+        <t>To validate an Access Token issued with an ID Token in 
         the implicit flow, the client SHOULD do the following:</t>
 
         <t><list style="numbers">
@@ -2431,8 +2431,8 @@ Tokens and URL locations where the Claims may be retrieved:
         </list></t>
         </section>
         
-      <section anchor="code.verification" title="Code Verification">
-        <t>To verify the validity of a <spanx style="verb">code</spanx> issued with an ID Token in 
+      <section anchor="code.validation" title="Code Validation">
+        <t>To validate a <spanx style="verb">code</spanx> issued with an ID Token in 
         the implicit flow, the client SHOULD do the following:</t>
 
         <t><list style="numbers">
@@ -2573,7 +2573,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
         <t><list style="numbers">
             <t>The token can be digitally signed by the OP. The Relying
-            Party SHOULD check the digital signature to verify that it was
+            Party SHOULD validate the digital signature to verify that it was
             issued by a legitimate OP.</t>
 
             <t>The token can be sent over a protected channel such as
@@ -2616,9 +2616,9 @@ Tokens and URL locations where the Claims may be retrieved:
         generated through the services of the Server.</t>
 		
         <t>To mitigate this threat, the response may be digitally signed by
-        the Server using a key that supports non-repudiation. The Client SHOULD check
+        the Server using a key that supports non-repudiation. The Client SHOULD validate
         the digital signature to verify that it was issued by a legitimate
-        Server and the integrity is intact.</t>
+        Server and its integrity is intact.</t>
       </section>
 	  
 	  <section anchor="request_repudation" title="Request Repudiation">
@@ -2630,7 +2630,7 @@ Tokens and URL locations where the Claims may be retrieved:
         <t>To mitigate this threat, the Sever MAY require that the 
 		request to be digitally signed by
         the Client using a key that supports non-repudiation. 
-		The Server SHOULD check
+		The Server SHOULD validate
         the digital signature to verify that it was issued by a legitimate
         Client and the integrity is intact.</t>
 	  </section>
@@ -2684,15 +2684,15 @@ Tokens and URL locations where the Claims may be retrieved:
       </section>
 
       <section title="Timing Attack">
-        <t>Timing attack is an attack that allows the attacker to 
-		obtain unnecessary large amount of information through the elapse time 
-		difference in the code path taken by a successful decryption and 
-		unsuccessful verification of signed message. 
+        <t>A timing attack is an attack that allows the attacker to 
+		obtain an unnecessary large amount of information through the elapsed time 
+		differences in the code paths taken by successful and unsuccessful decryption operations or
+		successful and unsuccessful signature validation of a message. 
 		It can be used to reduce the effective key length of the
         cipher used. </t>
-		<t>Implementations should not terminate the verification process 
+		<t>Implementations should not terminate the validation process 
 		at the instance of the finding error but should continue 
-		running until all the octets were processed to avoid this attack. </t>
+		running until all the octets have been processed to avoid this attack.</t>
       </section>
 	  
 	  <section title="Other Crypto Related Attacks">
@@ -3570,6 +3570,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	    require_signed_request_object to request_object_signing_alg,
 	    following the naming convention used in the resolution to issue #614.
 	  </t>
+	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
         </list>
       </t>
 

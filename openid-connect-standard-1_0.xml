@@ -210,8 +210,8 @@
               <t>Client receives a response that contains an Access Token and ID
               Token in the response body.</t>
 
-              <t>Client validates ID Token to get the End-User's
-              identifier.</t>
+              <t>Client validates the ID Token and retrieves the End-User's
+              user identifier.</t>
 
               <t>(OPTIONAL) Client accesses the <xref 
               target="userinfo_ep">UserInfo Endpoint</xref>  with the Access
@@ -219,7 +219,7 @@
 
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
-          MUST verify it according to the verification rule set in <xref
+          MUST validate it according to the validation rules in <xref
           target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
         </section>
 
@@ -240,8 +240,8 @@
               <t>Authorization Server Sends the End-User back to the Client with
               an Access Token and an ID Token if requested.</t>
 
-              <t>Client validates ID Token to get the End-User's
-              identifier.</t>
+              <t>Client validates the ID Token and retrieves the End-User's
+              user identifier.</t>
 
               <t>(OPTIONAL) Client accesses the <xref 
               target="userinfo_ep">UserInfo Endpoint</xref>  with the Access
@@ -249,7 +249,7 @@
 
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
-          MUST verify it according to the verification rule set in <xref
+          MUST validate it according to the validation rules in <xref
           target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
         </section>
 
@@ -556,7 +556,7 @@ OpenID Request Object =
 
     
 The following is the RSA public key information that can be used
-to verify the OpenID Request Object signature in the above example.
+to validate the OpenID Request Object signature in the above example.
 The values are an array of hexadecimal digits in big endian format.
                 
 modulus: 
@@ -1381,7 +1381,7 @@ Pragma: no-cache
           specified in Section 6 of 
           <xref target="OAuth2.0">OAuth 2.0</xref>:</t>
         
-        <t>The Authorization Server MUST verify the validity of the Refresh
+        <t>The Authorization Server MUST validate the Refresh
           Token.
         </t>
 
@@ -1390,7 +1390,7 @@ Pragma: no-cache
           return either a successful response or an error response that corresponds to
           the received Refresh Token.</t>
 
-          <t>Upon successful verification of the Refresh Token, a successful
+          <t>Upon successful validation of the Refresh Token, a successful
           response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
           Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
@@ -1493,7 +1493,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
 
         <t>Upon receipt of the UserInfo Response, the Client MUST verify 
         the response in accordance with
-	Section 5.3 (UserInfo Response Verification) of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	Section 5.3 (UserInfo Response Validation) of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
         </t>
 
         <figure>
@@ -1643,8 +1643,8 @@ Location: openid://
           response, the response parameters will be returned in a fragment.
         </t>
       </section>
-      <section anchor="self_issued.verification" title="Self-Issued Identity ID Token Verification">
-        <t>To verify the validity of ID Token in the Authorization or Token Endpoint Response, the Client
+      <section anchor="self_issued.validation" title="Self-Issued Identity ID Token Validation">
+        <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
 
         <t><list style="numbers">
@@ -2427,6 +2427,7 @@ scope=openid&response_type=code
 	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
 	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
 	  </t>
+	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
       </list></t>
 
       <t>-13
