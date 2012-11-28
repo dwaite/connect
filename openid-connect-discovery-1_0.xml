@@ -385,67 +385,6 @@ Content-Type: application/json
             </figure></t>
         </section>
       </section>
-
-      <section anchor="redirection" title="Redirection">
-        <t>In cases where the SWD request is to be handled at a host or location
-        other than the one derived from the End-User's Identifier, the host
-        will return a JSON object containing the new location.
-	(Support for service redirection is a required feature of
-	<xref target="SWD">Simple Web Discovery</xref>.)</t>
-
-        <t>To enable service level redirection, a SWD server MAY return a 200
-        OK to an HTTPS request with a content type of application/json (or
-        whatever other content type has been negotiated) that contains a JSON
-        object that contains a member pair whose name is the string
-        <spanx style="verb">SWD_service_redirect</spanx>
-	whose value is a JSON object with a member pair
-        whose name is <spanx style="verb">location</spanx>
-	and whose value is a string that encodes a
-        URI. Optionally the JSON object value of
-	<spanx style="verb">SWD_service_redirect</spanx> MAY
-        also contain a member whose name is <spanx style="verb">expires</spanx>
-	and whose value is a
-        JSON number that encodes an integer.</t>
-
-        <t>The <spanx style="verb">location</spanx> member
-	identifies the URI that the caller MUST
-        redirect all SWD requests for that domain to until the
-	<spanx style="verb">expires</spanx> time
-        is met. SWD requests for the redirected domain MUST be constructed by
-        taking the URI returned in the
-	<spanx style="verb">location</spanx> and using it as the base URI
-        to which the SWD form arguments are then added as query parameters.
-        The location URI MUST NOT include a query component.</t>
-
-        <t><figure>
-            <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=joe%40example.com
-    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
-    HTTP/1.1
-Host: example.com
-
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
- "SWD_service_redirect":
-  {
-   "location":"https://example.net/swd_server"
-  }
-}
-
-GET /swd_server?principal=joe%40example.com
-    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
-    HTTP/1.1
-Host: example.net
-
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
- "locations":["https://server.example.com"]
-}]]></artwork>
-          </figure></t>
-      </section>
     </section>
 
     <section anchor="ProviderConfig"
@@ -979,8 +918,7 @@ Host: example.com]]></artwork>
         <front>
           <title>Simple Web Discovery</title>
 
-          <author fullname="Michael B. Jones" initials="M.B."
-                  surname="Jones">
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
@@ -988,7 +926,7 @@ Host: example.com]]></artwork>
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="13" month="December" year="2011" />
+          <date day="5" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-jones-simple-web-discovery"
@@ -1191,7 +1129,6 @@ Host: example.com]]></artwork>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
       
-
       <t>-10
         <list style="symbols">
           <t>Changed Identifier defintion #621</t>
@@ -1211,6 +1148,10 @@ Host: example.com]]></artwork>
 	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
 	  </t>
 	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
+	  <t>
+	    Removed section on Redirection, since it was removed from Simple Web Discovery
+	    in favor of the "simple-web-discovery" domain prefix.
+	  </t>
         </list>
       </t>
 
