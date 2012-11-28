@@ -217,7 +217,7 @@
 	    <spanx style="verb">picture</spanx>,
 	    <spanx style="verb">website</spanx>,
 	    <spanx style="verb">gender</spanx>,
-	    <spanx style="verb">birthday</spanx>,
+	    <spanx style="verb">birthdate</spanx>,
 	    <spanx style="verb">zoneinfo</spanx>,
 	    <spanx style="verb">locale</spanx>, and
 	    <spanx style="verb">updated_time</spanx>.</t>
@@ -917,11 +917,15 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	    <spanx style="verb">male</spanx>.  Other values MAY be used
 	    when neither of the defined values are applicable.</c>
 
-	    <c>birthday</c>
+	    <c>birthdate</c>
 	    <c>string</c>
-	    <c>The End-User's birthday, represented as a date string in MM/DD/YYYY
-	    format. The year MAY be <spanx style="verb">0000</spanx>, indicating
-	    that it is omitted.</c>
+      <c>The End-User's birthday, represented as an 
+      <xref target="ISO8601:2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> 
+      format. The year MAY be <spanx style="verb">9999</spanx>, indicating that it is omitted. 
+      To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that 
+      depending on the underlying platform's date related function, providing just year may 
+      result in varying month and day, so the implementors should take this factor into account 
+      to correctly process the dates. </c>
 
 	    <c>zoneinfo</c>
 	    <c>string</c>
@@ -1520,6 +1524,21 @@ scope=openid&response_type=code
 
         <format target="http://www.w3.org/WAI/ER/IG/ert/iso639.htm"
                 type="HTML" />
+      </reference>
+
+      <reference anchor="ISO8601:2004">
+        <front>
+          <title>ISO 8601:2004. Data elements and interchange formats — Information interchange —
+Representation of dates and times</title>
+
+          <author fullname="International Organization for Standardization"
+                  initials="" surname="">
+            <organization abbrev="ISO">International Organization for
+            Standardization</organization>
+          </author>
+
+          <date year="2004" />
+        </front>
       </reference>
 
       <reference anchor="E.164">
