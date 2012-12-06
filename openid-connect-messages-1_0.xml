@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="20" month="November" year="2012" />
+    <date day="6" month="December" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -93,7 +93,7 @@
 	"Authorization Endpoint", "Client", "Client Identifier", "Client
 	Secret", "Protected Resource", "Resource Owner", "Resource Server", and
 	"Token Endpoint" defined by
-	<xref target="OAuth2.0">OAuth 2.0</xref>,
+	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms "Claim Names" and "Claim Values" defined by
 	<xref target="JWT">JSON Web Token (JWT)</xref>.
 	This specification also defines the following terms:
@@ -249,9 +249,9 @@
           <t>
             An Authorization Request is a message sent from an RP 
             to the OP's Authorization Endpoint. 
-            It is an extended <xref target="OAuth2.0">OAuth 2.0</xref> 
+            It is an extended <xref target="RFC6749">OAuth 2.0</xref> 
             Authorization Request. 
-            Section 4.1.1 and 4.2.1 of <xref target="OAuth2.0">OAuth 2.0</xref> 
+            Section 4.1.1 and 4.2.1 of <xref target="RFC6749">OAuth 2.0</xref> 
             defines the OAuth 2.0 Authorization Request parameters. 
             In this specification, the values to the parameters are defined as follows. 
           </t>
@@ -832,15 +832,15 @@
           <t>When the <spanx style="verb">response_type</spanx> in the request
           is <spanx style="verb">token</spanx>, the Authorization
           Response MUST return the parameters defined in Section 4.2.2 of
-          <xref target="OAuth2.0">OAuth 2.0</xref>. This specification only
-          supports <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>. The
+          <xref target="RFC6749">OAuth 2.0</xref>. This specification only
+          supports <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
           OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
           MUST be set to "<spanx style="verb">Bearer</spanx>".</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
           is <spanx style="verb">code</spanx>, the Authorization
           Response MUST return the parameters defined in Section 4.1.2 of
-          <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
+          <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
           <t>When the <spanx style="verb">response_type</spanx>
           includes other values, they must be returned as defined by
@@ -1008,10 +1008,10 @@
           <t>If the End-User denies the access request or if the request
           fails, the OP (Authorization Server) informs the RP (Client) by returning
           parameters defined in sections 4.1.2.1 and 4.2.2.1 of <xref
-          target="OAuth2.0">OAuth 2.0</xref>.</t>
+          target="RFC6749">OAuth 2.0</xref>.</t>
 
 	  <t>In addition to the error codes defined in Sections 4.1.2.1 and 4.2.2.1 of
-	  <xref target="OAuth2.0">OAuth 2.0</xref>, this specification
+	  <xref target="RFC6749">OAuth 2.0</xref>, this specification
 	  defines the following error codes:</t>
 
 	  <t><list style="hanging">
@@ -1096,13 +1096,13 @@
           Clients that have received a <spanx style='verb'>client_secret</spanx> value
           from the Authorization Server, authenticate with the Authorization Server
           in accordance with Section 3.2.1 of <xref
-          target="OAuth2.0">OAuth 2.0</xref> using HTTP Basic authentication scheme. </t>
+          target="RFC6749">OAuth 2.0</xref> using HTTP Basic authentication scheme. </t>
           
           <t hangText="client_secret_post">
           Clients that have received a <spanx style='verb'>client_secret</spanx> value 
           from the Authorization Server, authenticate with the Authorization Server
           in accordance with Section 3.2.1 of <xref
-          target="OAuth2.0">OAuth 2.0</xref> by including the client credentials in the request body. </t>
+          target="RFC6749">OAuth 2.0</xref> by including the client credentials in the request body. </t>
           
           <t hangText="client_secret_jwt"> 
           Clients that have received a <spanx style='verb'>client_secret</spanx> value 
@@ -1218,10 +1218,10 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
           <t>In addition to the Client authentication parameters,
           if this is a Refresh Token Request, the Client MUST send the additional parameters 
-          specified in Section 6 of <xref target="OAuth2.0">OAuth 2.0</xref>.
+          specified in Section 6 of <xref target="RFC6749">OAuth 2.0</xref>.
           Otherwise the Client
           MUST send the request parameter for the Access Token Endpoint as
-          specified in Section 4.1.3 of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
+          specified in Section 4.1.3 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
           <t></t>
         </section>
@@ -1231,10 +1231,10 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           Request from the Client, the Authorization Server returns a successful
           response that includes an Access Token and an ID Token.  The
           parameters in the successful response are defined in Section 4.1.4
-          of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
+          of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
           <t>This specification further constrains that only <xref
-          target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> are issued at the
+          target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> are issued at the
           Token Endpoint. The OAuth 2.0 response parameter "<spanx
           style="verb">token_type</spanx>" MUST be set to "<spanx
           style="verb">Bearer</spanx>".</t>
@@ -1267,7 +1267,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 }]]></artwork>
           </figure>
 
-          <t>As in the <xref target="OAuth2.0">OAuth 2.0</xref>, Clients
+          <t>As in the <xref target="RFC6749">OAuth 2.0</xref>, Clients
           SHOULD ignore unrecognized response parameters.</t>
         </section>
 
@@ -1275,7 +1275,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           <t>If the token request is invalid or unauthorized, the
           Authorization Server constructs the error response. The parameters
           of the Token Error Response are defined as in Section 5.2 of <xref
-          target="OAuth2.0">OAuth 2.0</xref>.</t>
+          target="RFC6749">OAuth 2.0</xref>.</t>
         </section>
       </section>
 
@@ -1320,7 +1320,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	 	<section title="UserInfo Error Response">
           <t>When an error condition occurs, the UserInfo Endpoint returns
           an Error Response. In addition to the error codes defined in Section 3.1 of
-          <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification
+          <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification
           defines the following error codes:</t>
 
           <t><list style="hanging">
@@ -1776,8 +1776,8 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
 		  <t hangText="access_token">OPTIONAL. Access Token
 		  enabling retrieval of the Claims from the endpoint URL
-		  by using the <xref target="OAuth.Bearer">OAuth 2.0 Bearer</xref>
-		  scheme. Claims SHOULD be requested using
+		  by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
+		  protocol. Claims SHOULD be requested using
 		  the Authorization Request header field and Claims
 		  Sources MUST support this method. If the Access Token
 		  is not available, Clients MAY need to retrieve the
@@ -2801,6 +2801,8 @@ Tokens and URL locations where the Claims may be retrieved:
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6711"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
 
       <reference anchor="USA15">
         <front>
@@ -2853,7 +2855,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="23" month="June" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -2890,7 +2892,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="23" month="June" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -2925,7 +2927,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="23" month="June" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -2953,7 +2955,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2978,7 +2980,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -3016,33 +3018,10 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OAuth2.0">
-        <front>
-          <title>The OAuth 2.0 Authorization Framework</title>
-
-          <author fullname="Eran Hammer" initials="E." role="editor" surname="Hammer">
-            <organization></organization>
-          </author>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="Facebook">Facebook</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <date day="19" month="June" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
                 type="HTML" />
       </reference>
 
@@ -3070,29 +3049,6 @@ Tokens and URL locations where the Claims may be retrieved:
                 type="HTML" />
       </reference>
 
-      <reference anchor="OAuth.Bearer">
-        <front>
-          <title>The OAuth 2.0 Authorization Framework: Bearer Token Usage</title>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization>Independent</organization>
-          </author>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization>Facebook</organization>
-          </author>
-
-          <date day="19" month="June" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
-                type="HTML" />
-      </reference>
-
       <reference anchor="JWT">
         <front>
           <title>JSON Web Token</title>
@@ -3109,7 +3065,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="22" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
@@ -3133,7 +3089,7 @@ Tokens and URL locations where the Claims may be retrieved:
             Ltd.</organization>
           </author>
 
-          <date day="12" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature"
@@ -3156,7 +3112,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	    <organization>Cisco Systems, Inc.</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
@@ -3170,7 +3126,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key" type="HTML" />
@@ -3184,7 +3140,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms" type="HTML" />
@@ -3206,7 +3162,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	      <organization>Salesforce</organization>
 	    </author>
 
-	    <date day="22" month="May" year="2012"/>
+	    <date day="6" month="November" year="2012"/>
 	  </front>
 	<format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer"
 		    type="HTML" />
@@ -3337,17 +3293,15 @@ Representation of dates and times</title>
              <organization abbrev="Facebook"> Facebook</organization>
            </author>
 
-           <date day="25" month="May" year="2012"></date>
-
+           <date day="19" month="November" year="2012"></date>
         </front>
         <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
               type="HTML" />
       </reference>
 
-    
     </references>
-
     <references title="Informative References">
+
       <reference anchor="OpenID.2.0">
         <front>
           <title>OpenID Authentication 2.0</title>
@@ -3587,6 +3541,7 @@ Representation of dates and times</title>
 	    following the naming convention used in the resolution to issue #614.
 	  </t>
 	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
+          <t>Referenced OAuth 2.0 RFCs -- RFC 6749 and RFC 6750.</t>
         </list>
       </t>
 

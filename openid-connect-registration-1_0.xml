@@ -39,7 +39,7 @@
       </address>
     </author>
 
-    <date day="20" month="November" year="2012" />
+    <date day="6" month="December" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -81,7 +81,7 @@
 	"Authorization Endpoint", "Client", "Client Identifier", "Client
 	Secret", "Protected Resource", "Resource Owner", "Resource Server", and
 	"Token Endpoint" defined by
-	<xref target="OAuth2.0">OAuth 2.0</xref>,
+	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
 	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	It defines no additional terms.</t>
@@ -101,7 +101,7 @@
       Access Tokens.
       If an Access Token is required for Client registration, the Client Registration Endpoint
       MUST be able to accept Access Tokens in the manner described in the
-      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
+      <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
       specification.</t>
 
       <section title="Client Registration and Client Update Request">
@@ -149,9 +149,9 @@
             This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
-            target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
+            target="RFC6749">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header must be <xref
-            target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
+            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
 
             <t hangText="contacts">OPTIONAL.  Space delimited list of email
             addresses for people allowed to administer the information for this Client.
@@ -176,7 +176,7 @@
             Other Authentication methods may be defined by extension. If unspecified or
 	    omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
 	    Scheme as specified in
-            Section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
+            Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
             <t hangText="policy_url">OPTIONAL.  A URL location that the Relying 
             Party Client provides to the End-User to read about the how the
@@ -352,7 +352,7 @@
       requests the <spanx style="verb">registration_access_token</spanx> is used as the
       Access Token to restrict update access to only the registered client.</t>
       <t>The Client Registration Endpoint MUST accept Access Tokens as
-      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
+      <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
           
           <t><figure>
 	    <preamble>Following is a non-normative example request
@@ -488,7 +488,7 @@ Cache-Control: no-store
       <section title="Client Registration Error Response">
       <t>When an OAuth error condition occurs, the Client Registration Endpoint returns
       an Error Response as defined in Section 3 of
-      the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification.</t>
+      the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.</t>
       
       <t>When a registration error condition occurs, the Client Registration Endpoint returns
       a HTTP 400 status code including a JSON object describing the error in the response body.</t>
@@ -617,6 +617,8 @@ Cache-Control: no-store
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
 
       <reference anchor="USA15">
         <front>
@@ -672,7 +674,7 @@ Cache-Control: no-store
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -705,7 +707,7 @@ Cache-Control: no-store
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="2" month="August" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -720,7 +722,7 @@ Cache-Control: no-store
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="12" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms"
@@ -743,7 +745,7 @@ Cache-Control: no-store
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="22" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
@@ -767,7 +769,7 @@ Cache-Control: no-store
             Ltd.</organization>
           </author>
 
-          <date day="12" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature"
@@ -790,7 +792,7 @@ Cache-Control: no-store
 	    <organization>Cisco Systems, Inc.</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
@@ -804,45 +806,12 @@ Cache-Control: no-store
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key" type="HTML" />
       </reference>
 
-      <reference anchor="OAuth2.0">
-        <front>
-          <title>OAuth 2.0 Authorization Protocol</title>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <date day="31" month="July" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
-                type="HTML" />
-      </reference>
-      
-      <reference anchor="OAuth.Bearer">
-        <front>
-          <title>OAuth 2.0 Protocol: Bearer Tokens</title>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization>Independent</organization>
-          </author>
-
-          <date day="1" month="Aug" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
-                type="HTML" />
-      </reference>
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -924,6 +893,7 @@ Cache-Control: no-store
 	    following the naming convention used in the resolution to issue #614.
 	  </t>
 	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
+          <t>Referenced OAuth 2.0 RFCs -- RFC 6749 and RFC 6750.</t>
       </list></t>
       
       <t>-11<list style="symbols">

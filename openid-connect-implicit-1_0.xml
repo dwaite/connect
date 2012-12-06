@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="20" month="November" year="2012" />
+    <date day="6" month="December" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -111,7 +111,7 @@
 	  "Authorization Code", "Authorization Grant", "Authorization Server",
 	  "Authorization Endpoint", "Client", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Resource Owner", "Resource Server", and
-	  "Token Endpoint" defined by <xref target="OAuth2.0">OAuth 2.0</xref>.
+	  "Token Endpoint" defined by <xref target="RFC6749">OAuth 2.0</xref>.
 	  This specification also defines the following terms:
           <list style="hanging">
             <t hangText="Relying Party (RP)">
@@ -180,7 +180,7 @@
 
       <section title="OpenID Connect Scopes" anchor="scopes">
         <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of 
-        <xref target="OAuth2.0">OAuth 2.0</xref> to specify what
+        <xref target="RFC6749">OAuth 2.0</xref> to specify what
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
@@ -488,13 +488,13 @@ response_type=token%20id_token
             component of the redirection URI using the 
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format as defined in Section 4.2.2 of
-            <xref target="OAuth2.0">OAuth 2.0</xref> and 
+            <xref target="RFC6749">OAuth 2.0</xref> and 
             <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type
             Encoding Practices</xref>.</t>
 
             <t>In the Implicit Flow, the entire response is returned in the
             fragment component of the redirect URL, as defined in 4.2.2 of
-            <xref target="OAuth2.0">OAuth 2.0</xref></t>
+            <xref target="RFC6749">OAuth 2.0</xref></t>
 
             <t>
 	      <list style="hanging">
@@ -541,7 +541,7 @@ access_token=SlAV32hkKG
             <t>If the End-User denies the authorization or the End-User authentication
             fails, the Authorization Server MUST return the error
             authorization response as defined in 4.2.2.1 of 
-            <xref target="OAuth2.0">OAuth 2.0</xref>. No other parameters 
+            <xref target="RFC6749">OAuth 2.0</xref>. No other parameters 
             SHOULD be returned.</t>
           </section>
           
@@ -788,9 +788,9 @@ req.send(postBody);]]></artwork>
 
 	  <t>Clients MAY send requests with the following parameters to the
 	  UserInfo Endpoint to obtain further information about the End-User. The
-	  UserInfo Endpoint is an <xref target="OAuth2.0">OAuth 2.0</xref>
+	  UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
 	  Protected Resource that complies with the <xref
-	  target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification. As such,
+	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification. As such,
 	  the Access Token SHOULD be specified via the HTTP Authorization
 	  header.</t>
 
@@ -1080,10 +1080,10 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 
 	  <t>When an error condition occurs, the UserInfo Endpoint returns
 	  an Error Response as defined in Section 3 of
-	  <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
+	  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
 
 	  <t>In addition to the error codes defined in Section 3.1 of <xref
-	  target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
+	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification defines the
 	  following error codes:</t>
 
 	  <t>
@@ -1431,6 +1431,8 @@ scope=openid&response_type=code
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
 
       <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
@@ -1457,40 +1459,6 @@ scope=openid&response_type=code
         </front>
 
         <seriesInfo name="Unicode Standard Annex" value="15" />
-      </reference>
-
-      <reference anchor="OAuth2.0">
-        <front>
-          <title>The OAuth 2.0 Authorization Framework</title>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <date day="31" month="July" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OAuth.Bearer">
-        <front>
-          <title>The OAuth 2.0 Authorization Framework: Bearer Token Usage</title>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization>Independent</organization>
-          </author>
-
-          <date day="1" month="August" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
-                type="HTML" />
       </reference>
 
       <reference anchor="ISO639-1">
@@ -1600,7 +1568,7 @@ Representation of dates and times</title>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="23" month="June" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1635,7 +1603,7 @@ Representation of dates and times</title>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="16" month="August" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -1663,7 +1631,7 @@ Representation of dates and times</title>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1687,7 +1655,7 @@ Representation of dates and times</title>
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1710,7 +1678,7 @@ Representation of dates and times</title>
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="30" month="July" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
@@ -1733,7 +1701,7 @@ Representation of dates and times</title>
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="30" month="July" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature" type="HTML" />
@@ -1755,7 +1723,7 @@ Representation of dates and times</title>
 	    <organization>Cisco Systems, Inc.</organization>
 	  </author>
 
-	  <date day="30" month="July" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
@@ -1777,7 +1745,7 @@ Representation of dates and times</title>
              <organization abbrev="Facebook"> Facebook</organization>
            </author>
 
-           <date day="25" month="May" year="2012"></date>
+           <date day="19" month="November" year="2012"></date>
         </front>
 
         <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -1813,7 +1781,7 @@ Representation of dates and times</title>
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="23" month="June" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -1912,6 +1880,7 @@ Representation of dates and times</title>
 	  </t>
 	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
 	  <t>Fixed #682 - Change remaining uses of "birthday" to "birthdate".</t>
+          <t>Referenced OAuth 2.0 RFCs -- RFC 6749 and RFC 6750.</t>
       </list></t>
 
       <t>-03
