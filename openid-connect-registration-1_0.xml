@@ -4,28 +4,22 @@
 "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="draft-openid-connect-registration-1_0"
      ipr="trust200902">
+
   <?rfc toc="yes" ?>
-
   <?rfc tocdepth="4" ?>
-
   <?rfc symrefs="yes" ?>
-
   <?rfc sortrefs="yes"?>
-
   <?rfc strict="no" ?>
-
   <?rfc iprnotified="no" ?>
-
   <?rfc private="Draft" ?>
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 11</title>
+    Dynamic Client Registration 1.0 - draft 12</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
       Ltd.</organization>
-
       <address>
         <email>n-sakimura@nri.co.jp</email>
       </address>
@@ -33,7 +27,6 @@
 
     <author fullname="John Bradley" initials="J." surname="Bradley">
       <organization abbrev="Ping Identity">Ping Identity</organization>
-
       <address>
         <email>ve7jtb@ve7jtb.com</email>
       </address>
@@ -41,13 +34,12 @@
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
-
       <address>
         <email>mbj@microsoft.com</email>
       </address>
     </author>
 
-    <date day="25" month="May" year="2012" />
+    <date day="6" month="December" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -89,7 +81,7 @@
 	"Authorization Endpoint", "Client", "Client Identifier", "Client
 	Secret", "Protected Resource", "Resource Owner", "Resource Server", and
 	"Token Endpoint" defined by
-	<xref target="OAuth2.0">OAuth 2.0</xref>,
+	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
 	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	It defines no additional terms.</t>
@@ -109,7 +101,7 @@
       Access Tokens.
       If an Access Token is required for Client registration, the Client Registration Endpoint
       MUST be able to accept Access Tokens in the manner described in the
-      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>
+      <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
       specification.</t>
 
       <section title="Client Registration and Client Update Request">
@@ -135,6 +127,18 @@
             One of the URL MUST match the Scheme, Host, and Path segments of the 
             <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
+            <t hangText="application_type">OPTIONAL. The default if not specified is 
+            <spanx style="verb">web</spanx>.  The defined values are
+            <spanx style="verb">native</spanx>
+            or <spanx style="verb">web</spanx>. Web clients MUST only register https: Scheme
+            <spanx style="verb">redirect_uris</spanx> that do not use localhost as the hostname.
+            Native clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
+            URI schemes or http: scheme URI using localhost as the hostname. Authorization
+            Servers may place additional constraints on Native such as not supporting the token
+            response_type. The Authorization server MUST verify that all the registered 
+            <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
+            This prevents sharing a client_id across different types of clients.</t>
+
             <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_associate</spanx>
              request this is an Access Token obtained
             out of band to authorize the registrant. 
@@ -145,23 +149,20 @@
             This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
-            target="OAuth2.0">OAuth 2.0</xref>. Access Tokens sent in the
+            target="RFC6749">OAuth 2.0</xref>. Access Tokens sent in the
             authorization header must be <xref
-            target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
+            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
 
             <t hangText="contacts">OPTIONAL.  Space delimited list of email
             addresses for people allowed to administer the information for this Client.
             This is used by some providers to enable a web UI to modify the 
             Client information.</t>
 
-            <t hangText="application_type">OPTIONAL.  <spanx style="verb">native</spanx>
-            or <spanx style="verb">web</spanx>.</t>
-
             <t hangText="application_name">OPTIONAL.  Name of the Client
             to be presented to the user. If desired, representation of 
             this claim in different languages and scripts is obtained 
             by applying the rules set in  
-            2.1.1.1.3  "claims" member of 
+            2.1.1.1.3.  "claims" member of 
             <xref target="OpenID.Messages">OpenID Connect Messages. 
             </xref></t>
 
@@ -175,7 +176,7 @@
             Other Authentication methods may be defined by extension. If unspecified or
 	    omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
 	    Scheme as specified in
-            Section 2.3.1 of <xref target="OAuth2.0">OAuth 2.0</xref>.</t>
+            Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
             <t hangText="policy_url">OPTIONAL.  A URL location that the Relying 
             Party Client provides to the End-User to read about the how the
@@ -224,7 +225,7 @@
             <t hangText="sector_identifier_url">OPTIONAL. A HTTPS scheme URL to be used in
             calculating Pseudonymous Identifiers by the OP. The URL contains a
             file with a single JSON array of <spanx style="verb">redirect_uri</spanx> values.
-            Please see <xref target="sector.identifier.url.verification" />.
+            Please see <xref target="sector.identifier.url.validation" />.
 	    </t>
             
             <t hangText="user_id_type">OPTIONAL. The <spanx style="verb">user_id_type</spanx> requested for 
@@ -235,7 +236,7 @@
 	    <spanx style="verb">pairwise</spanx> and
 	    <spanx style="verb">public</spanx>.</t>
 
-            <t hangText="require_signed_request_object">OPTIONAL.
+            <t hangText="request_object_signing_alg">OPTIONAL.
 	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> that MUST be required by the Authorization Server.
              The valid values are listed in
@@ -267,24 +268,11 @@
              The valid values are listed in
 	     Section 4.2 <xref target="JWA">JWA</xref>.
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
-             the default for this value is <spanx style="verb">A128CBC</spanx>.
+             the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
-             <t hangText="userinfo_encrypted_response_int">OPTIONAL.
-	     The JWE <spanx style="verb">int</spanx>
-             algorithm <xref target="JWA" /> required for integrity of UserInfo responses.
-             The valid HMAC values are listed in
-	     Section 4.3 of <xref target="JWA">JWA</xref>.
-             If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
-             and the <spanx style="verb">"userinfo_encrypted_response_enc"</spanx> 
-             is not an AEAD algorithm,
-             the default for this value is <spanx style="verb">HS256</spanx>.
-             If this is requested in combination with signing the response 
-             will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
+
              <t hangText="id_token_signed_response_alg">OPTIONAL.
 	     The JWS <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for the ID Token issued to this
@@ -292,7 +280,7 @@
 	     The valid values are listed in
 	     Section 3.1 of <xref target="JWA">JWA</xref>.
 	     The default if not specified is <spanx style="verb">RS256</spanx>.
-	     The public key for verifying the signature is provided by retrieving the 
+	     The public key for validating the signature is provided by retrieving the 
 	     document from the
 	     <spanx style="verb">jwk_url</spanx> element or the <spanx style="verb">x509_url</spanx>
 	     element from discovery.</t>
@@ -312,26 +300,12 @@
              The valid values are listed in
 	     Section 4.2 of <xref target="JWA">JWA</xref>.
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-             the default for this value is <spanx style="verb">A128CBC</spanx>.
+             the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              If this is requested in combination with signing the response 
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
-             <t hangText="id_token_encrypted_response_int">OPTIONAL.
-	     The JWE <spanx style="verb">int</spanx>
-             algorithm <xref target="JWA" /> required for integrity of the ID Token
-	     issued to this <spanx style="verb">client_id</spanx>.
-             The valid HMAC values are listed in
-	     Section 4.3 of <xref target="JWA">JWA</xref>.
-             If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-             and the <spanx style="verb">"id_token_encrypted_response_enc"</spanx> 
-             is not an AEAD algorithm,
-             the default for this value is <spanx style="verb">HS256</spanx>.
-             If this is requested in combination with signing the response 
-             will be signed then encrypted. If this is specified the response will be 
-             <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-             
-             <t hangText="default_max_age">OPTIONAL. (default maximum authentication age):  
+
+             <t hangText="default_max_age">OPTIONAL. (default max authentication age):  
                   Type: Integer 
                   - Specifies that the End-User must be actively authenticated if
                   any present authentication is older than the specified
@@ -341,7 +315,7 @@
                   request parameter.) The <spanx style="verb">max_age</spanx> claim in the 
                   request object overrides this default value.</t>
             
-            <t hangText="require_auth_time">OPTIONAL. (default require authentication time claim):  
+            <t hangText="require_auth_time">OPTIONAL. (default max authentication age):  
                   Type: Logical 
                   -  If the value is true, then the <spanx style="verb">auth_time</spanx> 
                   claim in the <spanx style="verb">id_token</spanx> is REQUIRED. 
@@ -361,6 +335,14 @@
                   The <spanx style="verb">acr</spanx> claim in the 
                   request object overrides this default value.</t>
 
+            <t hangText="javascript_origin_uris">OPTIONAL. 
+            A space-delimited list of Javascript origin URIs consisting of a Scheme, Host, and
+            OPTIONAL Port. Client Javascript from the registered URIs are authorized to communicate
+            with Authorization Server Javascript in 
+            <xref target="OpenID.Session">OpenID Connect Session Management</xref>.
+            </t>
+
+
           </list></t>
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
       may require an Access Token for <spanx style="verb">client_associate</spanx> 
@@ -370,7 +352,7 @@
       requests the <spanx style="verb">registration_access_token</spanx> is used as the
       Access Token to restrict update access to only the registered client.</t>
       <t>The Client Registration Endpoint MUST accept Access Tokens as
-      <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>.</t>
+      <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
           
           <t><figure>
 	    <preamble>Following is a non-normative example request
@@ -382,8 +364,11 @@ Host: server.example.com
 Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 
 type=client_associate
+&application_type=web
 &redirect_uris=https://client.example.org/callback
     %20https://client.example.org/callback2
+&application_name=My%20Example%20
+&application_name%23ja-Hani-JP=    
 &logo_url=https://client.example.org/logo.png
 &user_id_type=pairwise
 &sector_identifier_url=
@@ -391,11 +376,10 @@ type=client_associate
 &token_endpoint_auth_type=client_secret_basic
 &jwk_url=https://client.example.org/my_rsa_public_key.jwk
 &userinfo_encrypted_response_alg=RSA1_5
-&userinfo_encrypted_response_enc=A128CBC
-&userinfo_encrypted_response_int=HS256]]></artwork>
+&userinfo_encrypted_response_enc=A128CBC+HS256]]></artwork>
           </figure></t>
 
-	<section anchor="sector.identifier.url.verification" title="sector_identifier_url Verification">
+	<section anchor="sector.identifier.url.validation" title="sector_identifier_url Validation">
 	  <t>Providers who use pairwise <spanx style="verb">user_id</spanx> values SHOULD support this element.</t>
 	  <t>It provides a way for a group of websites under a single administrative control
 	  to have consistent pairwise <spanx style="verb">user_id</spanx> values independent of the individual domain names.
@@ -502,12 +486,19 @@ Cache-Control: no-store
       </section>
 
       <section title="Client Registration Error Response">
-      <t>When an error condition occurs, the Client Registration Endpoint returns
+      <t>When an OAuth error condition occurs, the Client Registration Endpoint returns
       an Error Response as defined in Section 3 of
-      the <xref target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref> specification.</t>
+      the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.</t>
       
-      <t>In addition to the error codes defined in Section 3.1 of <xref
-      target="OAuth.Bearer">OAuth 2.0 Bearer Tokens</xref>, this specification defines the
+      <t>When a registration error condition occurs, the Client Registration Endpoint returns
+      a HTTP 400 status code including a JSON object describing the error in the response body.</t>
+      <t>The JSON object contains two members:</t>
+      <t><list style="hanging">
+       <t hangText="error_code">The Error code.</t>
+       <t hangText="error_description">The additional text description of the error for debugging.</t>
+      </list></t>
+      
+      <t>This specification defines the
       following error codes:</t>
 
           <t><list style="hanging">
@@ -520,8 +511,10 @@ Cache-Control: no-store
             <spanx style="verb">client_update</spanx> or 
             <spanx style="verb">rotate_secret</spanx> is not valid for the provided 
             <spanx style="verb">client_id</spanx>.</t>
-            
-           <t hangText="invalid_configuration_parameter">The value of one of the configuration parameters is invalid.</t>
+
+          <t hangText="invalid_redirect_uri">The value of one or more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
+
+            <t hangText="invalid_configuration_parameter">The value of one of the configuration parameters is invalid.</t>
 	       </list></t>
 	        
 
@@ -529,9 +522,13 @@ Cache-Control: no-store
 	  <preamble>Following is a non-normative example of an error response:</preamble>
 
 	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
-WWW-Authenticate: Bearer realm="example.com",
-  error="invalid_client_secret",
-  error_description="The client_secret is wrong for this client_id"]]></artwork>
+Content-Type: application/json
+Cache-Control: no-store
+   
+{
+ "error_code":"invalid_type",
+ "error_description":"The value of the type parameter must be one of client_associate, rotate_secret or client_update."
+}]]></artwork>
 	</figure></t>
       </section>
     </section>
@@ -620,6 +617,8 @@ WWW-Authenticate: Bearer realm="example.com",
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
 
       <reference anchor="USA15">
         <front>
@@ -675,10 +674,43 @@ WWW-Authenticate: Bearer realm="example.com",
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="25" month="May" year="2012" />
+          <date day="6" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Session">
+        <front>
+          <title>OpenID Connect Session Management 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B."
+                  surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Naveen Agarwal" initials="N." surname="Agarwal">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <date day="6" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-session-1_0.html"
                 type="HTML" />
       </reference>
 
@@ -690,7 +722,7 @@ WWW-Authenticate: Bearer realm="example.com",
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="12" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms"
@@ -713,7 +745,7 @@ WWW-Authenticate: Bearer realm="example.com",
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="22" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token"
@@ -737,7 +769,7 @@ WWW-Authenticate: Bearer realm="example.com",
             Ltd.</organization>
           </author>
 
-          <date day="12" month="May" year="2012" />
+          <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature"
@@ -760,7 +792,7 @@ WWW-Authenticate: Bearer realm="example.com",
 	    <organization>Cisco Systems, Inc.</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
@@ -774,58 +806,12 @@ WWW-Authenticate: Bearer realm="example.com",
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="12" month="May" year="2012" />
+	  <date day="6" month="November" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key" type="HTML" />
       </reference>
 
-      <reference anchor="OAuth2.0">
-        <front>
-          <title>OAuth 2.0 Authorization Protocol</title>
-
-          <author fullname="Eran Hammer" initials="E." role="editor"
-                  surname="Hammer">
-            <organization></organization>
-          </author>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization abbrev="Facebook">Facebook</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <date day="1" month="May" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2"
-                type="HTML" />
-      </reference>
-      
-      <reference anchor="OAuth.Bearer">
-        <front>
-          <title>OAuth 2.0 Protocol: Bearer Tokens</title>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Dick Hardt" initials="D." surname="Hardt">
-            <organization>Independent</organization>
-          </author>
-
-          <author fullname="David Recordon" initials="D." surname="Recordon">
-            <organization>Facebook</organization>
-          </author>
-
-          <date day="23" month="April" year="2012" />
-        </front>
-
-        <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer"
-                type="HTML" />
-      </reference>
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -878,6 +864,7 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-12<list style="symbols">
+      <t>Made application_type REQUIRED and added a explanation about redirect_uris registration</t>
       <t>Sec 2.1 clarification that updates replace all paramaters previously set.</t>
       <t>Sec 2.3 add rotate_secret to invalid client_id error</t> 
       <t>Added registration_access_token for updating and made client secret optional</t>
@@ -885,7 +872,28 @@ WWW-Authenticate: Bearer realm="example.com",
       <t>removed client_id from request as the client_id is implicit in the access token for updates</t>
       <t>Changed redirect_uris from RECOMMENDED for code and REQUIRED for implicit to REQUIRED</t>
       <t>Changed 2.1 to only allow access_token as a parameter if type is rotate_secret</t>
-      <t>Fixes #674 description of require_auth_time </t>
+      <t>Fixed reference in application_name and added example of ja-Hani-JP encoded name.</t>
+      <t>Made application_type OPTIONAL with web as the default</t>
+      <t>Fixes #642 - Registration separates application errors from bearer.</t>
+      <t>Updated references to OAuth and Bearer to reflect current drafts</t>
+      <t>Fix typo error_description</t>
+      <t>Re #642 change error to error_code in 2.3 example</t>
+	  <t>
+	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
+	    This fix tracks the parameter changes made to the JWE spec in draft-ietf-jose-json-web-encryption-06.
+	    It deletes the parameters {userinfo,id_token}_encrypted_response_int.
+	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
+	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
+	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
+	  </t>
+	  <t>
+	    Fixed #673 - Registration 2.1: Rename require_signed_request_object to request_object_alg.
+	    The actual change was to rename
+	    require_signed_request_object to request_object_signing_alg,
+	    following the naming convention used in the resolution to issue #614.
+	  </t>
+	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
+          <t>Referenced OAuth 2.0 RFCs -- RFC 6749 and RFC 6750.</t>
       </list></t>
       
       <t>-11<list style="symbols">
