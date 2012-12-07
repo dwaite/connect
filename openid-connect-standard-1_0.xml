@@ -1301,10 +1301,19 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
                 Verify that the Authorization Code is valid, and
               </t>
               <t>
-                Ensure that the <spanx style='verb'>redirect_uri</spanx> parameter is present if
-                the <spanx style='verb'>redirect_uri</spanx> parameter was included in the initial
-                Authorization Request and that their
-                values are identical for the Scheme, Host, Path, and Query Parameter segments.
+                Ensure that, if <spanx style='verb'>redirect_uri</spanx> parameter is
+		present (which it should be), that the
+		Scheme, Host, Path, and Query Parameter segments
+		are identical to the <spanx style='verb'>redirect_uri</spanx>
+		parameter value that was included in the initial Authorization Request
+		(which also should have been present).
+		Should the <spanx style='verb'>redirect_uri</spanx> parameter value
+		not be present when there is only one registered
+		<spanx style='verb'>redirect_uri</spanx> value,
+		the Authorization Server MAY return an error
+		(since the client should have included the parameter)
+		or MAY proceed without an error
+		(since OAuth 2.0 permits the parameter to be omitted in this case).
               </t>
             </list>
           </t>
@@ -2385,6 +2394,7 @@ scope=openid&response_type=code
 	  </t>
 	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
 	  <t>Fixed #681 - Change remaining uses of "birthday" to "birthdate".</t>
+	  <t>Fixed #669 - Inconsistent treatment of redirect_uri parameter.</t>
           <t>Referenced OAuth 2.0 RFCs -- RFC 6749 and RFC 6750.</t>
       </list></t>
 
