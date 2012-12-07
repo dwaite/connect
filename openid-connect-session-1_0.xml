@@ -110,7 +110,7 @@
           <t hangText="check_session_endpoint">URL of an OP endpoint that provides 
           a page to support cross-origin communications for session state 
           information with the RP client, using the HTML5 postMessage API. The 
-          page is loaded from an invisible iframe embeddded in an RP page so 
+          page is loaded from an invisible iframe embedded in an RP page so 
           that it can run in the OP's security context. It accepts postMessage
           requests from the relevant RP iframe and postMessage back the login 
           status of the user at the OP.</t>
@@ -164,7 +164,7 @@
         <spanx style='verb'>check_session_endpoint</spanx> with the following parameters.</t>
 
         <t><list style="hanging">
-            <t hangText="user_hint">REQUIRED. ID Token that the RP received
+            <t hangText="id_token_hint">REQUIRED. ID Token that the RP received
             when it logged in the user. The value of the <spanx style='verb'>aud</spanx> field, which is a
             <spanx style='verb'>client_id</spanx> of the RP, is used to set the source origin for the
             postMessage request. Note: If the ID Token was asymmetrically
@@ -239,7 +239,7 @@ function receiveMessage(e){
         iframe. </t>
 
         <t><figure>
-            <artwork><![CDATA[Var stat = "unchanged";
+            <artwork><![CDATA[var stat = "unchanged";
 var mes = CryptoJS.SHA256(client_id + origin + opss + salt) + "." + salt;
 
 function check_session()
@@ -390,6 +390,10 @@ function receiveMessage(e)
 
       <t>-09
         <list style="symbols">
+	  <t>
+	    Changed <spanx style='verb'>user_hint</spanx> to
+	    <spanx style='verb'>id_token_hint</spanx> for consistency with Messages.
+	  </t>
 	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
           <t>Referenced OAuth 2.0 RFC -- RFC 6749.</t>
       </list></t>

@@ -495,7 +495,7 @@
               address (or other identifier) and then wants to pass that value as a hint 
               to the discovered authorization service. 
               It is recommended that the hint value match the value used for discovery. 
-              The use of this parameter is up to the IdP's discretion.</t>
+              The use of this parameter is up to the OP's discretion.</t>
             </list></t>
 
           <section anchor="OpenID_Request_Object" title="OpenID Request Object">
@@ -933,7 +933,7 @@
                     <xref target="req.obj.id_token">id_token</xref> member of the 
                     <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
                     contains the Claim request 
-                    <spanx style="verb">auth_time</spanx> with a paramater of 
+                    <spanx style="verb">auth_time</spanx> with a parameter of 
                     <spanx style="verb">{"essential": true}</spanx>,
         then this Claim is REQUIRED. The Claim Value
                     is the number of seconds from 1970-01-01T0:0:0Z as
@@ -1450,7 +1450,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             <c>string</c>
 
             <c>The End-User's birthday, represented as an <xref
-            target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> format. The year MAY be <spanx style="verb">9999</spanx>, indicating that it is omitted. To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that depending on the underlying platform's date related function, providing just year may result in varying month and day, so the implementors should take this factor into account to correctly process the dates. </c>
+            target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> format. The year MAY be <spanx style="verb">9999</spanx>, indicating that it is omitted. To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that depending on the underlying platform's date related function, providing just year may result in varying month and day, so the implementers should take this factor into account to correctly process the dates. </c>
 
             <c>zoneinfo</c>
 
@@ -2293,14 +2293,14 @@ Tokens and URL locations where the Claims may be retrieved:
                   </t>
                   <t>
                   If the <spanx style="verb">acr</spanx> Claim is requested
-		  as a essential Claim
+		  as an essential Claim
                   in the <spanx style="verb">id_token</spanx> member 
                   with <spanx style="verb">values</spanx> as a parameter, 
                   the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
                   Claim value that matches one of the requested values. 
                   The Authorization 
                   server MAY ask the user to re-authenticate with additional factors 
-                  to meet the requirements. If this is a essential Claim and the 
+                  to meet the requirements. If this is an essential Claim and the 
                   requirement cannot be met, then the Authorization Server MUST return an error.
                   The Client MAY make this Claim optional by not including "essential": true in the 
                   <spanx style="verb">acr</spanx> Claim request. 
@@ -2535,7 +2535,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	    that applies to this standard as well. 
       <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
       also provides threats and controls that 
-      implementors should take into account. 
+      implementers should take into account. 
       In addition, this standard provides 
 	    additional control measures listed below. </t>
 	  
@@ -3042,7 +3042,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Oracle">Oracle Corporation</organization>
           </author>
 
-          <date day="27" month="May" year="2012" />
+          <date day="6" month="October" year="2012" />
         </front>
 
         <format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel"
@@ -3519,12 +3519,12 @@ Representation of dates and times</title>
           <t>Fixed #608 - Messages - Request ID Token and Response ID Token. Moved response ID Token from section 2.1 to the response section.</t>
           <t>Fixed #543 - Messages - Security Consideration. Added ref to X.1254 | ISO 29115. </t>
           <t>Fixed #611 - Messages - Changed the default test to indicate that the value of auth_time needs to be essential </t>
-          <t>Fixed #646 - Messages - Add login_hint as a OAUth paramater and put in example in request_object</t>
+          <t>Fixed #646 - Messages - Add login_hint as an OAuth parameter and put in example in request object</t>
           <t>Fixed #607 - Messages - add example decoded id_token.</t>
           <t>Fixed #658 - Messages - 2.1.1 "id_token" name crash, id_token renamed to id_token_hint</t>
           <t>Fixed #612 - Messages - 4.1 change request_object_algs_supported to be RS256</t>
           <t>Fixed #662 - Messages - changed id_token_signed_response_algs to id_token_signed_response_alg in 5.1</t>
-          <t>Fixed #678 - Messages - Changed 5.1.3 terminology of acr to reflect essential vs required and fixed example</t>
+          <t>Fixed #678 - Messages - Changed 5.1.3 terminology of acr to reflect essential vs. required and fixed example</t>
           <t>Fixed #679 - Messages - update reference to LoA registry from ID to RFC6711.</t>
 	  <t>
 	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
