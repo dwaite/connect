@@ -559,9 +559,9 @@ Host: example.com]]></artwork>
           <c>A JSON array containing a list of the Authentication Context Class References
           that this server supports.</c>
 
-          <c>user_id_types_supported</c>
+          <c>subject_types_supported</c>
           <c>array</c>
-          <c>A JSON array containing a list of the user identifier types that
+          <c>A JSON array containing a list of the subject identifier types that
           this server supports. Valid types include
 	  <spanx style="verb">pairwise</spanx> and
 	  <spanx style="verb">public</spanx>.</c>
@@ -709,7 +709,7 @@ Host: example.com]]></artwork>
    ["code", "code id_token", "token id_token"],
  "acrs_supported":
    ["1","2","http://id.incommon.org/assurance/bronze"],
- "user_id_types_supported":
+ "subject_types_supported":
    ["public", "pairwise"],
  "userinfo_signing_alg_values_supported":
    ["RS256", "ES256", "HS256"],
@@ -1149,6 +1149,10 @@ Host: example.com]]></artwork>
       <t>[[ To be removed from the final specification ]]</t>
       <t>-11
         <list style="symbols">
+	  <t>Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
+	  and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
+	  user_id -> sub, user_id_types_supported -> subject_types_supported,
+	  user_id_type -> subject_type, and prn -> sub.</t>
           <t>Fixed #676 Allow port number to be specified for e-mail syntax identifiers</t>
           <t>Improved the fix for #625 Scheme extraction.</t>
         </list>

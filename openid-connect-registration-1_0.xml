@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="US-ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 12</title>
+    Dynamic Client Registration 1.0 - draft 13</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -228,10 +228,10 @@
             Please see <xref target="sector.identifier.url.validation" />.
 	    </t>
             
-            <t hangText="user_id_type">OPTIONAL. The <spanx style="verb">user_id_type</spanx> requested for 
+            <t hangText="subject_type">OPTIONAL. The <spanx style="verb">subject_type</spanx> requested for 
             responses to this <spanx style="verb">client_id</spanx>. The
-	    <spanx style="verb">user_id_types_supported</spanx> element of discovery 
-            contains a list of the supported <spanx style="verb">user_id_type</spanx>
+	    <spanx style="verb">subject_types_supported</spanx> element of discovery 
+            contains a list of the supported <spanx style="verb">subject_type</spanx>
 	    values for this server. Valid types include
 	    <spanx style="verb">pairwise</spanx> and
 	    <spanx style="verb">public</spanx>.</t>
@@ -370,7 +370,7 @@ type=client_associate
 &application_name=My%20Example%20
 &application_name%23ja-Jpan-JP=ワタシ用の例
 &logo_url=https://client.example.org/logo.png
-&user_id_type=pairwise
+&subject_type=pairwise
 &sector_identifier_url=
     https://othercompany.com/file_of_redirect_uris_for_our_sites.js
 &token_endpoint_auth_type=client_secret_basic
@@ -380,9 +380,9 @@ type=client_associate
           </figure></t>
 
 	<section anchor="sector.identifier.url.validation" title="sector_identifier_url Validation">
-	  <t>Providers who use pairwise <spanx style="verb">user_id</spanx> values SHOULD support this element.</t>
+	  <t>Providers who use pairwise <spanx style="verb">sub</spanx> (subject) values SHOULD support this element.</t>
 	  <t>It provides a way for a group of websites under a single administrative control
-	  to have consistent pairwise <spanx style="verb">user_id</spanx> values independent of the individual domain names.
+	  to have consistent pairwise <spanx style="verb">sub</spanx> values independent of the individual domain names.
 	  It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
 	  reregister all of their users.</t>
 
@@ -870,6 +870,14 @@ Cache-Control: no-store
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-13
+        <list style="symbols">
+	  <t>Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
+	  and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
+	  user_id -> sub, user_id_types_supported -> subject_types_supported,
+	  user_id_type -> subject_type, and prn -> sub.</t>
+        </list></t>
 
       <t>-12<list style="symbols">
       <t>Made application_type REQUIRED and added an explanation about redirect_uris registration</t>

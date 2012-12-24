@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 21</title>
+    Client Profile 1.0 - draft 22</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -189,7 +189,7 @@
 	    Server that the Client is making an OpenID Connect request. If the
 	    <spanx style="verb">openid</spanx> scope value is not present,
 	    the request MUST NOT be treated as an OpenID Connect request.
-	    This scope value requests access to the <spanx style="verb">user_id</spanx>
+	    This scope value requests access to the <spanx style="verb">sub</spanx> (subject)
 	    Claim at the UserInfo Endpoint.</t>
 
             <t hangText="profile">OPTIONAL. This scope value 
@@ -452,8 +452,9 @@ response_type=code
 	  consenting to and obtain his consent or by establishing consent via
 	  other means (for example, via previous administrative consent).</t>
 
-          <t>The <spanx style="verb">openid</spanx> scope grants the RP access
-	  to the user identifier of the authenticated End-User of the session.</t>
+          <t>The <spanx style="verb">openid</spanx> scope requests access
+	  to the <spanx style="verb">sub</spanx> (subject) identifier
+	  of the authenticated End-User of the session.</t>
 
           <t>All other scopes are optional. It is up to the OpenID Provider
 	  to determine if an error should be returned in the case of the End-User
@@ -596,7 +597,7 @@ Pragma: no-cache
               <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
               of the response.</t>
 
-              <t hangText="user_id">REQUIRED. A locally unique and never
+              <t hangText="sub">REQUIRED. Subject identifier - a locally unique and never
               reassigned identifier within the Issuer for the End-User, 
               which is intended to be
               consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
@@ -637,7 +638,7 @@ Pragma: no-cache
             <artwork><![CDATA[
 {
  "iss": "https://client.example.com",
- "user_id": "24400320",
+ "sub": "24400320",
  "aud": "s6BhdRkqt3",
  "exp": 1311281970,
  "iat": 1311280970
@@ -702,9 +703,9 @@ Pragma: no-cache
 	other transport-layer mechanisms with equivalent security.</t>
 
         <t>NOTE: The UserInfo Endpoint response is not guaranteed to be about the
-	Interactive user identified by the <spanx style="verb">user_id</spanx> element of the ID Token.
-	The <spanx style="verb">user_id</spanx> Claim in the UserInfo Endpoint response MUST exactly match the
-	<spanx style="verb">user_id</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
+	Interactive user identified by the <spanx style="verb">sub</spanx> (subject) element of the ID Token.
+	The <spanx style="verb">sub</spanx> Claim in the UserInfo Endpoint response MUST exactly match the
+	<spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
 
         <section title="UserInfo Request">
 
@@ -770,7 +771,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
             <ttcol align="left">Type</ttcol>
             <ttcol align="left">Description</ttcol>
 
-            <c>user_id</c>
+            <c>sub</c>
             <c>string</c>
             <c>REQUIRED Identifier for the End-User at the Issuer.</c>
 
@@ -895,7 +896,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	    a response:</preamble>
 
             <artwork><![CDATA[{
- "user_id": "248289761001",
+ "sub": "248289761001",
  "name": "Jane Doe",
  "given_name": "Jane",
  "family_name": "Doe",
@@ -974,13 +975,13 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 
 	  <section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
-	    <t>The <spanx style="verb">user_id</spanx> claim is the only claim that a client
-	    can rely upon to be stable, since the <spanx style="verb">user_id</spanx>
+	    <t>The <spanx style="verb">sub</spanx> (subject) claim is the only claim that a client
+	    can rely upon to be stable, since the <spanx style="verb">sub</spanx>
 	    claim MUST be locally unique and never reassigned within the Issuer
 	    for a particular End-User, as described in <xref target="id_token"></xref>.</t>
           
 	    <t>Therefore, the only guaranteed unique identifier for a given End-User is a 
-	    combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
+	    combination of the Issuer's identifier and the <spanx style="verb">sub</spanx>
 	    claim; other fields such as <spanx style="verb">preferred_username</spanx>
 	    and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
 	    for a given End-User.</t>
@@ -1080,7 +1081,7 @@ scope=openid&response_type=code
 	values in the messages to known values. For example, the Claim
 	Names returned by the UserInfo Endpoint might be compared to
 	specific Claim Names such as <spanx
-	style="verb">user_id</spanx>.  Comparing Unicode strings,
+	style="verb">sub</spanx>.  Comparing Unicode strings,
 	however, has significant security implications.
       </t>
       <t>
@@ -1135,8 +1136,8 @@ scope=openid&response_type=code
       the End-User so that the End-User can monitor who accessed his data.</t>
 
       <t>To protect the End-User from a possible correlation among Clients, the
-      use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
-      style="verb">user_id</spanx> SHOULD be considered.</t>
+      use of a Pairwise Pseudonymous Identifier (PPID) as the
+      <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -1489,6 +1490,14 @@ Representation of dates and times</title>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-22
+        <list style="symbols">
+	  <t>Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
+	  and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
+	  user_id -> sub, user_id_types_supported -> subject_types_supported,
+	  user_id_type -> subject_type, and prn -> sub.</t>
+        </list></t>
 
       <t>-21
         <list style="symbols">

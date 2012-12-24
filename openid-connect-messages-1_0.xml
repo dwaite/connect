@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 13</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 14</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -344,7 +344,7 @@
 	      Server that the Client is making an OpenID Connect request. If the
 	      <spanx style="verb">openid</spanx> scope value is not present,
 	      the request MUST NOT be treated as an OpenID Connect request.
-	      This scope value requests access to the <spanx style="verb">user_id</spanx>
+	      This scope value requests access to the <spanx style="verb">sub</spanx> (subject)
 	      Claim at the UserInfo Endpoint.</t>
 
 	      <t hangText="profile">OPTIONAL. This scope value
@@ -690,8 +690,8 @@
 
               <t>
                 <list style="hanging">
-                  <t hangText="user_id">OPTIONAL. (User Identifier): 
-                    The User Identifier for which an ID Token is being requested.
+                  <t hangText="sub">OPTIONAL. Subject identifier - 
+                    The  <spanx style="verb">sub</spanx> (subject) identifier for which an ID Token is being requested.
                     If the specified user is not currently authenticated to the Authorization 
                     Server, they may be prompted for authentication, unless the 
                     <spanx style="verb">prompt</spanx> parameter in the Authorization Request 
@@ -699,7 +699,7 @@
                     The Claim Value in the request is an object containing the single element
                     <spanx style="verb">value</spanx>.  
                     <figure>
-                      <artwork><![CDATA[ "user_id": {"value":"248289761001"}]]></artwork>
+                      <artwork><![CDATA[ "sub": {"value":"248289761001"}]]></artwork>
                     </figure>
                   </t>
                   <t hangText="auth_time">OPTIONAL. (authenticated at):
@@ -864,7 +864,7 @@
                 <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
                 of the response.</t>
 
-                <t hangText="user_id">REQUIRED. A locally unique and never
+                <t hangText="sub">REQUIRED. Subject identifier - a locally unique and never
                 reassigned identifier within the Issuer for the End-User, 
                 which is intended to be
                 consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
@@ -990,7 +990,7 @@
             <artwork><![CDATA[
 {
  "iss": "https://client.example.com",
- "user_id": "24400320",
+ "sub": "24400320",
  "aud": "s6BhdRkqt3",
  "nonce": "n-0S6_WzA2Mj",
  "exp": 1311281970,
@@ -1120,7 +1120,7 @@
           <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-          <t hangText="prn">REQUIRED. The <spanx style="verb">prn</spanx> (principal) Claim.
+          <t hangText="sub">REQUIRED. The <spanx style="verb">sub</spanx> (subject) Claim.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
            <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
@@ -1159,7 +1159,7 @@
                     <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
 		    This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-          <t hangText="prn">REQUIRED. The <spanx style="verb">prn</spanx> (principal) Claim.
+          <t hangText="sub">REQUIRED. The <spanx style="verb">sub</spanx> (subject) Claim.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
           <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
@@ -1352,7 +1352,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
             <ttcol align="left">Description</ttcol>
 
-            <c>user_id</c>
+            <c>sub</c>
 
             <c>string</c>
 
@@ -1508,8 +1508,8 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           values for some schema elements as part of the
 	  <spanx style="verb">openid</spanx> scope.</t>
 
-          <t>The <spanx style="verb">user_id</spanx> Claim in the UserInfo Endpoint response MUST exactly match the 
-          <spanx style="verb">user_id</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
+          <t>The <spanx style="verb">sub</spanx> (subject) Claim in the UserInfo Endpoint response MUST exactly match the 
+          <spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
           
           <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
           different format was specified during <xref target="OpenID.Registration">
@@ -1538,7 +1538,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           <preamble>The following is a non-normative example of such a
           response:</preamble>
             <artwork><![CDATA[{
- "user_id": "248289761001",
+ "sub": "248289761001",
  "name": "Jane Doe",
  "given_name": "Jane",
  "family_name": "Doe",
@@ -1593,13 +1593,13 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
 	  <section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
-	    <t>The <spanx style="verb">user_id</spanx> claim is the only claim that a client
-	    can rely upon to be stable, since the <spanx style="verb">user_id</spanx>
+	    <t>The <spanx style="verb">sub</spanx> (subject) claim is the only claim that a client
+	    can rely upon to be stable, since the <spanx style="verb">sub</spanx>
 	    claim MUST be locally unique and never reassigned within the Issuer
 	    for a particular End-User, as described in <xref target="id_token"></xref>.</t>
           
 	    <t>Therefore, the only guaranteed unique identifier for a given End-User is a 
-	    combination of the Issuer's identifier and the <spanx style="verb">user_id</spanx>
+	    combination of the Issuer's identifier and the <spanx style="verb">sub</spanx>
 	    claim; other fields such as <spanx style="verb">preferred_username</spanx>
 	    and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
 	    for a given End-User.</t>
@@ -1618,33 +1618,33 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
       </section>
 
-      <section anchor="idtype" title="User Identifier Types">
+      <section anchor="idtype" title="Subject Identifier Types">
 	<t>Provider's Discovery documents SHOULD list their supported identifier types in the 
-	<spanx style="verb">user_id_types_supported</spanx> element.
+	<spanx style="verb">subject_types_supported</spanx> element.
 	If there is more than one type listed in the array, the Client MAY elect to
 	provide its preferred identifier type using the
-	<spanx style="verb">user_id_type</spanx> parameter during registration.
+	<spanx style="verb">subject_type</spanx> parameter during registration.
 	The types supported by this specification are:</t>
 	
 	<t><list style="hanging">
-	  <t hangText="public"> This provides the same <spanx style="verb">user_id</spanx> value to all Clients. It is the default if
-	  the provider has no <spanx style="verb">user_id_types_supported</spanx> element in its discovery document.</t>
-	  <t hangText="pairwise"> This provides a different <spanx style="verb">user_id</spanx> value to each Client, to prevent
+	  <t hangText="public"> This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
+	  the provider has no <spanx style="verb">subject_types_supported</spanx> element in its discovery document.</t>
+	  <t hangText="pairwise"> This provides a different <spanx style="verb">sub</spanx> value to each Client, to prevent
 	  correlation of the user's activities by Clients without the user's permission.</t>
 	</list></t>
 
 	<section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
 
 	  <t>The OpenID Provider MUST calculate a unique
-	  <spanx style="verb">user_id</spanx> value for each
-	  Sector Identifier.  The user_id MUST NOT be reversible
+	  <spanx style="verb">sub</spanx> (subject) value for each
+	  Sector Identifier.  The subject value MUST NOT be reversible
 	  by any party other than the OpenID Provider.</t>
 
-	  <t>Providers who use pairwise <spanx style="verb">user_id</spanx> values SHOULD 
+	  <t>Providers who use pairwise <spanx style="verb">sub</spanx> values SHOULD 
 	  support the <spanx style="verb">sector_identifier_url</spanx> in 
 	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>.
 	  It provides a way for a group of websites under common administrative 
-	  control to have consistent pairwise <spanx style="verb">user_id</spanx> 
+	  control to have consistent pairwise <spanx style="verb">sub</spanx> 
 	  values independent of the individual domain names.
 	  It also provides a way for Clients to change 
 	  <spanx style="verb">redirect_uri</spanx> domains without having to 
@@ -1678,12 +1678,12 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	  <t>1.  The Sector Identifier can be concatenated with a local account ID and a salt 
 	  value that is kept secret by the Provider. The concatenated string is then 
 	  hashed by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">user_id</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).</t>
+	  <t>Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).</t>
 
 	  <t>2.  The Sector Identifier can be concatenated with a local account ID and a salt 
 	  value that is kept secret by the Provider. The concatenated string is then 
 	  encrypted by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">user_id</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).</t>
+	  <t>Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).</t>
 	  
 	  <t>3.  The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
 	  Sector Identifier and local account ID.  This is stored in a table and 
@@ -2283,7 +2283,7 @@ Tokens and URL locations where the Claims may be retrieved:
 		  OAuth 2.0 variables according to OAuth 2.0.</t>
 		  <t>The Authorization Server MUST verify that all the required parameters 
 		  are present.</t>
-                  <t>If the <spanx style="verb">user_id</spanx> Claim
+                  <t>If the <spanx style="verb">sub</spanx> (subject) Claim
 		  as a member of <spanx style="verb">id_token</spanx> element
                   is requested with a specific value, 
                   the Authorization Server MUST only send a positive response if that user 
@@ -2459,7 +2459,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	values in the messages to known values. For example, the Claim
 	Names returned by the UserInfo Endpoint might be compared to
 	specific Claim Names such as <spanx
-	style="verb">user_id</spanx>.  Comparing Unicode strings,
+	style="verb">sub</spanx>.  Comparing Unicode strings,
 	however, has significant security implications.
       </t>
       <t>
@@ -2778,7 +2778,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
       <t>To protect the End-User from a possible correlation among Clients, the
       use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
-      style="verb">user_id</spanx> SHOULD be considered.</t>
+      style="verb">sub</spanx> SHOULD be considered.</t>
       
     </section>
 
@@ -3510,6 +3510,15 @@ Representation of dates and times</title>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-14
+        <list style="symbols">
+	  <t>Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
+	  and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
+	  user_id -> sub, user_id_types_supported -> subject_types_supported,
+	  user_id_type -> subject_type, and prn -> sub.</t>
+        </list></t>
+
       <t>-13
         <list style="symbols">
           <t>Fixed #588 - Messages: Token lifetime not privacy consideration</t>
