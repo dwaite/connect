@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="6" month="December" year="2012" />
+    <date day="26" month="December" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1123,9 +1123,9 @@
           <t hangText="sub">REQUIRED. The <spanx style="verb">sub</spanx> (subject) Claim.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-           <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
-	   A value that identifies the
-      Authorization Server as the intended audience.  The Authorization
+          <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
+	  A value that identifies the
+      Authorization Server as an intended audience.  The Authorization
       Server MUST verify that it is an intended audience for the
       token.  The Audience SHOULD be the URL of the Authorization
       Server's Token Endpoint.</t>
@@ -1164,9 +1164,9 @@
 
           <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
 	  A value that identifies the
-      Authorization Server as the intended audience.  The Authorization
+      Authorization Server as an intended audience.  The Authorization
       Server MUST verify that it is an intended audience for the
-      assertion.  The Audience SHOULD be the URL of the Authorization
+      token.  The Audience SHOULD be the URL of the Authorization
       Server's Token Endpoint.</t>
 
            <t hangText="jti">REQUIRED. The <spanx style="verb">jti</spanx> (JWT ID) Claim.
@@ -2327,15 +2327,18 @@ Tokens and URL locations where the Claims may be retrieved:
             <spanx style="verb">id_token_encrypted_response_alg</spanx>
             parameter during Registration, decrypt the <xref target="JWE">id_token</xref>,
             using the key pair specified during Registration.</t>
-            
-            <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
-            <spanx style="verb">aud</spanx> (audience) Claim is one
-             it has registered for the Issuer identified by the value in the 
-             <spanx style="verb">iss</spanx> (issuer) Claim.
-              The ID Token MUST be rejected if the value of 
-              <spanx style="verb">aud</spanx> (audience) is not valid for the 
-              Issuer.</t>
-             
+
+            <t>
+	      The Client MUST validate that the
+	      <spanx style="verb">aud</spanx> (audience) Claim
+	      contains its <spanx style="verb">client_id</spanx> value
+	      registered at the Issuer identified by the
+	      <spanx style="verb">iss</spanx> (issuer) Claim
+	      as an audience.
+	      The ID Token MUST be rejected if the ID Token does not list
+	      the Client as a valid audience.
+	    </t>
+
             <t>If the <spanx style="verb">id_token</spanx> is received via direct
             communication between the client and the Token Endpoint, the TLS server 
             validation MAY be used to validate the issuer in place of 
@@ -2855,7 +2858,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -2892,7 +2895,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -2927,7 +2930,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -2955,7 +2958,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2980,7 +2983,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -3018,7 +3021,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -3513,10 +3516,15 @@ Representation of dates and times</title>
 
       <t>-14
         <list style="symbols">
-	  <t>Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
-	  and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
-	  user_id -> sub, user_id_types_supported -> subject_types_supported,
-	  user_id_type -> subject_type, and prn -> sub.</t>
+	  <t>
+	    Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
+	    and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
+	    user_id -> sub, user_id_types_supported -> subject_types_supported,
+	    user_id_type -> subject_type, and prn -> sub.
+	  </t>
+	  <t>
+	    Fixed #689 - Track JWT change that allows JWTs to have multiple audiences.
+	  </t>
         </list></t>
 
       <t>-13

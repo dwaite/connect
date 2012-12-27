@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 09</title>
+    Session Management 1.0 - draft 10</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="6" month="December" year="2012" />
+    <date day="26" month="December" year="2012" />
 
     <abstract>
       <t>NOTE: This is a first cut of a significant rewrite based on the
@@ -165,7 +165,7 @@
 
         <t><list style="hanging">
             <t hangText="id_token_hint">REQUIRED. ID Token that the RP received
-            when it logged in the user. The value of the <spanx style='verb'>aud</spanx> field, which is a
+            when it logged in the user. The value of the <spanx style='verb'>aud</spanx> field, which contains a
             <spanx style='verb'>client_id</spanx> of the RP, is used to set the source origin for the
             postMessage request. Note: If the ID Token was asymmetrically
             encrypted for the RP, then the RP MUST decrypt it and use the
@@ -325,7 +325,7 @@ function receiveMessage(e)
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -387,6 +387,13 @@ function receiveMessage(e)
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-10
+        <list style="symbols">
+	  <t>
+	    Fixed #689 - Track JWT change that allows JWTs to have multiple audiences.
+	  </t>
+        </list></t>
 
       <t>-09
         <list style="symbols">

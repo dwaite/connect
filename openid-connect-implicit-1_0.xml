@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="6" month="December" year="2012" />
+    <date day="26" month="December" year="2012" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -717,14 +717,17 @@ req.send(postBody);]]></artwork>
         <t>
           <list style="numbers">
 
-            <t>The Client MUST validate that the <spanx style="verb">client_id</spanx> in the 
-            <spanx style="verb">aud</spanx> (audience) Claim is one
-	    it has registered for the Issuer identified by the value in the 
-	    <spanx style="verb">iss</spanx> (issuer) Claim.
-	    The ID Token MUST be rejected if the value of 
-	    <spanx style="verb">aud</spanx> (audience) is not valid for the 
-	    Issuer.</t>
-             
+            <t>
+	      The Client MUST validate that the
+	      <spanx style="verb">aud</spanx> (audience) Claim
+	      contains its <spanx style="verb">client_id</spanx> value
+	      registered at the Issuer identified by the
+	      <spanx style="verb">iss</spanx> (issuer) Claim
+	      as an audience.
+	      The ID Token MUST be rejected if the ID Token does not list
+	      the Client as a valid audience.
+	    </t>
+
             <t>The Client MUST validate the signature of the ID Token according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
@@ -1217,11 +1220,12 @@ Location: openid://
 	    <xref target="id.token.validation"/>.
           </t>
           <t>
-            The Client MUST validate that the value of the 
-            <spanx style="verb">aud</spanx> (audience) Claim is the value of the <spanx style="verb">redirect_uri</spanx>
-             that the client sent in the authentication request. 
-           </t>
-           <t>
+            The Client MUST validate that the 
+            <spanx style="verb">aud</spanx> (audience) Claim
+	    contains the value of the <spanx style="verb">redirect_uri</spanx>
+            that the client sent in the authentication request as an audience. 
+	  </t>
+	  <t>
             The Client MUST validate the signature of the ID Token according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header,  
@@ -1569,7 +1573,7 @@ Representation of dates and times</title>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1604,7 +1608,7 @@ Representation of dates and times</title>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
@@ -1632,7 +1636,7 @@ Representation of dates and times</title>
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1656,7 +1660,7 @@ Representation of dates and times</title>
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1782,7 +1786,7 @@ Representation of dates and times</title>
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="6" month="December" year="2012" />
+          <date day="26" month="December" year="2012" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -1869,10 +1873,15 @@ Representation of dates and times</title>
 
       <t>-05
         <list style="symbols">
-	  <t>Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
-	  and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
-	  user_id -> sub, user_id_types_supported -> subject_types_supported,
-	  user_id_type -> subject_type, and prn -> sub.</t>
+	  <t>
+	    Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
+	    and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
+	    user_id -> sub, user_id_types_supported -> subject_types_supported,
+	    user_id_type -> subject_type, and prn -> sub.
+	  </t>
+	  <t>
+	    Fixed #689 - Track JWT change that allows JWTs to have multiple audiences.
+	  </t>
         </list></t>
 
       <t>-04
