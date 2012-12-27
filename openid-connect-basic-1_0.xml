@@ -189,8 +189,7 @@
 	    Server that the Client is making an OpenID Connect request. If the
 	    <spanx style="verb">openid</spanx> scope value is not present,
 	    the request MUST NOT be treated as an OpenID Connect request.
-	    This scope value requests access to the <spanx style="verb">sub</spanx> (subject)
-	    Claim at the UserInfo Endpoint.</t>
+	    </t>
 
             <t hangText="profile">OPTIONAL. This scope value 
 	    requests that access to the End-User's default <xref
@@ -229,14 +228,13 @@
           </list>
         </t>
 
-        <t>Multiple scopes MAY be requested by creating a space delimited, case
+        <t>Multiple scope values MAY be used by creating a space delimited, case
         sensitive list of ASCII scope values.</t>
-
+	
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
-        information requested by Clients.</t>
-
-        <t>To increase new account activation, a Client may elect to
+        information requested by Clients.
+        To increase new account activation, a Client may elect to
         only request a subset of the information available from the
         UserInfo Endpoint.</t>
 
@@ -316,7 +314,7 @@
 	      OPTIONAL <spanx style="verb">scope</spanx> strings of
               <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
               <spanx style="verb">address</spanx>, and <spanx style="verb">phone</spanx>
-	      are also supported.</t>
+	      are also defined.</t>
 
               <t hangText="redirect_uri">A redirection URI where the response
               will be sent. This MUST be pre-registered with the provider.</t>
@@ -452,14 +450,11 @@ response_type=code
 	  consenting to and obtain his consent or by establishing consent via
 	  other means (for example, via previous administrative consent).</t>
 
-          <t>The <spanx style="verb">openid</spanx> scope requests access
-	  to the <spanx style="verb">sub</spanx> (subject) identifier
-	  of the authenticated End-User of the session.</t>
-
-          <t>All other scopes are optional. It is up to the OpenID Provider
-	  to determine if an error should be returned in the case of the End-User
-	  declining to authorize scopes other than
-	  <spanx style="verb">openid</spanx>.</t>
+          <t>
+	    The <spanx style="verb">openid</spanx> scope value declares
+	    that this OAuth 2.0 request is an OpenID Connect request.
+	    Use of all other scope values is OPTIONAL.
+	  </t>
         </section>
 
         <section anchor="code_res"
@@ -729,8 +724,8 @@ Pragma: no-cache
 	      header or a form-encoded HTTP POST body parameter.</t>
 
               <t hangText="schema">REQUIRED. The schema in which the
-	      data is to be returned. The only defined value is <spanx
-	      style="verb">openid</spanx>.</t>
+	      data is to be returned. The only defined <spanx style="verb">schema</spanx>
+	      value is <spanx style="verb">openid</spanx>.</t>
 
               <t hangText="id">This identifier is reserved. It MUST be
 	      ignored by the endpoint when the <spanx
@@ -748,11 +743,12 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
         </section>
 
         <section anchor="id_res" title="UserInfo Response">
-          <t>If the requested schema is <spanx style="verb">openid</spanx>,
-	  the response MUST return a
-	  JSON object that contains the full set or subset of Claims that are
-	  defined below. Additional Claims (not specified below) MAY also be
-	  returned.</t>
+          <t>
+	    If the requested schema is <spanx style="verb">openid</spanx>, 
+	    the UserInfo claims must be returned as the members of a JSON object.
+	    The Claims defined below can be returned, as can additional
+	    Claims (not specified below).
+	  </t>
 
           <t>
             If a Claim is not returned, that Claim Name SHOULD be
@@ -777,7 +773,9 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 
             <c>sub</c>
             <c>string</c>
-            <c>REQUIRED Identifier for the End-User at the Issuer.</c>
+            <c>Subject - Identifier for the End-User at the Issuer.
+	    The <spanx style="verb">sub</spanx> (subject) Claim
+	    MUST always be returned in the UserInfo response.</c>
 
             <c>name</c>
             <c>string</c>
@@ -1505,6 +1503,10 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #689 - Track JWT change that allows JWTs to have multiple audiences.
+	  </t>
+	  <t>
+	    Fixed #660 - Clarifed that returning the <spanx style="verb">sub</spanx>
+	    value from the UserInfo endpoint is mandatory.
 	  </t>
          </list></t>
 

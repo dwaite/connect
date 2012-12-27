@@ -344,8 +344,7 @@
 	      Server that the Client is making an OpenID Connect request. If the
 	      <spanx style="verb">openid</spanx> scope value is not present,
 	      the request MUST NOT be treated as an OpenID Connect request.
-	      This scope value requests access to the <spanx style="verb">sub</spanx> (subject)
-	      Claim at the UserInfo Endpoint.</t>
+	      </t>
 
 	      <t hangText="profile">OPTIONAL. This scope value
 	      requests that access to the End-User's default <xref
@@ -1294,9 +1293,9 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             <t hangText="access_token">REQUIRED. The Access Token obtained
             from an OpenID Connect Authorization Request. </t>
 
-            <t hangText="schema">REQUIRED. The schema in which the
-            data is to be returned. The only defined value is <spanx
-            style="verb">openid</spanx>.</t>
+	    <t hangText="schema">REQUIRED. The schema in which the
+	    data is to be returned. The only defined <spanx style="verb">schema</spanx>
+	    value is <spanx style="verb">openid</spanx>.</t>
 
             <t hangText="id">This identifier is reserved. It MUST be
             ignored by the endpoint when the <spanx
@@ -1305,11 +1304,12 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         </section>
 
     	<section title="UserInfo Response">
-          <t>If the requested schema is <spanx
-          style="verb">openid</spanx>, the response MUST return a
-          JSON object that contains the full set or a
-          subset of the Claims that are defined below. Additional
-          Claims (not specified below) MAY also be returned.</t>
+          <t>
+	    If the requested schema is <spanx style="verb">openid</spanx>, 
+	    the UserInfo claims must be returned as the members of a JSON object.
+	    The Claims defined below can be returned, as can additional
+	    Claims (not specified below).
+	  </t>
 
 		  <t>
 		    If a Claim is not returned, that Claim Name SHOULD be
@@ -1353,40 +1353,30 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             <ttcol align="left">Description</ttcol>
 
             <c>sub</c>
-
             <c>string</c>
-
-            <c>REQUIRED Identifier for the End-User at the Issuer.</c>
+            <c>Subject - Identifier for the End-User at the Issuer.
+	    The <spanx style="verb">sub</spanx> (subject) Claim
+	    MUST always be returned in the UserInfo response.</c>
 
             <c>name</c>
-
             <c>string</c>
-
             <c>End-User's full name in displayable form including all name parts,
             ordered according to End-User's locale and preferences.</c>
 
             <c>given_name</c>
-
             <c>string</c>
-
             <c>Given name or first name of the End-User.</c>
 
             <c>family_name</c>
-
             <c>string</c>
-
             <c>Surname or last name of the End-User.</c>
 
             <c>middle_name</c>
-
             <c>string</c>
-
             <c>Middle name of the End-User.</c>
 
             <c>nickname</c>
-
             <c>string</c>
-
             <c>Casual name of the End-User that MAY or MAY not be the same as the
             <spanx style="verb">given_name</spanx>. For instance, a <spanx
             style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
@@ -1404,66 +1394,48 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             (See <xref target="claim.stability"></xref>.)</c>
 
             <c>profile</c>
-
             <c>string</c>
-
             <c>URL of the End-User's profile page.</c>
 
             <c>picture</c>
-
             <c>string</c>
-
             <c>URL of the End-User's profile picture.</c>
 
             <c>website</c>
-
             <c>string</c>
-
             <c>URL of the End-User's web page or blog.</c>
 
             <c>email</c>
-
             <c>string</c>
-
             <c>The End-User's preferred e-mail address. 
             This value MUST NOT be relied upon to be unique by 
             the RP. (See <xref target="claim.stability"></xref>.)</c>
 
             <c>email_verified</c>
-
             <c>boolean</c>
-
             <c>True if the End-User's e-mail address has been verified; otherwise
             false.</c>
 
             <c>gender</c>
-
             <c>string</c>
-
 	    <c>The End-User's gender: Values defined by this
 	    specification are <spanx style="verb">female</spanx> and
 	    <spanx style="verb">male</spanx>.  Other values MAY be used
 	    when neither of the defined values are applicable.</c>
 
             <c>birthdate</c>
-
             <c>string</c>
-
             <c>The End-User's birthday, represented as an <xref
             target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> format. The year MAY be <spanx style="verb">9999</spanx>, indicating that it is omitted. To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that depending on the underlying platform's date related function, providing just year may result in varying month and day, so the implementers should take this factor into account to correctly process the dates. </c>
 
             <c>zoneinfo</c>
-
             <c>string</c>
-
             <c>String from zoneinfo <xref target="zoneinfo"></xref> time zone
             database. For example, <spanx style="verb">Europe/Paris</spanx> or
             <spanx style="verb">America/Los_Angeles</spanx>.</c>
 
             <c>locale</c>
-
             <c>string</c>
-
             <c>The End-User's locale, represented as a
 	    <xref target="RFC5646">BCP47</xref> language tag.
 	    This is typically an <xref
@@ -1477,9 +1449,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             accept this locale syntax as well.</c>
 
             <c>phone_number</c>
-
             <c>string</c>
-
             <c>The End-User's preferred telephone number. <xref target="E.164">
             E.164</xref> is RECOMMENDED as the format of this Claim. 
             For example, <spanx
@@ -1487,26 +1457,21 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
 
             <c>address</c>
-
             <c>JSON object</c>
-
             <c>The End-User's preferred address. The value of the <spanx
             style="verb">address</spanx> member is a <xref
             target="RFC4627">JSON</xref> structure containing some or all of
             the members defined in <xref target="address_claim" />. </c>
 
             <c>updated_time</c>
-
             <c>string</c>
-
             <c>Time the End-User's information was last updated, represented as a
             <xref target="RFC3339">RFC 3339</xref> datetime. For example,
             <spanx style="verb">2011-01-03T23:58:42+0000</spanx>.</c>
           </texttable>
 
-          <t>For privacy reasons, OpenID Providers MAY elect to not provide
-          values for some schema elements as part of the
-	  <spanx style="verb">openid</spanx> scope.</t>
+          <t>For privacy reasons, OpenID Providers MAY elect to not return
+	  values for some requested Claims.</t>
 
           <t>The <spanx style="verb">sub</spanx> (subject) Claim in the UserInfo Endpoint response MUST exactly match the 
           <spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
@@ -3524,6 +3489,10 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #689 - Track JWT change that allows JWTs to have multiple audiences.
+	  </t>
+	  <t>
+	    Fixed #660 - Clarifed that returning the <spanx style="verb">sub</spanx>
+	    value from the UserInfo endpoint is mandatory.
 	  </t>
         </list></t>
 
