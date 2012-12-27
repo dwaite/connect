@@ -871,8 +871,14 @@
                 It MUST NOT exceed 255 ASCII characters in length.</t>
 
                 <t hangText="aud">REQUIRED. This member identifies the audience
-                that this ID Token is intended for. It MUST be the OAuth 2.0 <spanx style="verb">client_id</spanx>
-                of the Client.</t>
+                that this ID Token is intended for. It MUST contain the
+		OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
+
+		<t hangText="azp">OPTIONAL. Authorized Party -
+		This member identifies an OAuth 2.0 client authorized to use this
+		ID Token as an OAuth access token, if different than the
+		Client that requested the ID Token. It MUST contain the
+		<spanx style="verb">client_id</spanx> of the authorized party.</t>
 
                 <t hangText="exp">REQUIRED. Type Integer. Identifies the
                 expiration time on or after which the ID Token MUST NOT be
@@ -3493,6 +3499,9 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #660 - Clarifed that returning the <spanx style="verb">sub</spanx>
 	    value from the UserInfo endpoint is mandatory.
+	  </t>
+	  <t>
+	    Fixed #636 - ID Token authorized party claim.
 	  </t>
         </list></t>
 
