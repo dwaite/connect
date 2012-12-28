@@ -335,8 +335,13 @@
 	    type supported by the Authorization Server.</t>
 
 	    <t hangText="scope">A space delimited, case sensitive list of
-	    ASCII string values. The values specify an additive list of
-	    voluntary Claims that are returned from the UserInfo Endpoint.
+	    ASCII string values. The values
+	    <spanx style="verb">profile</spanx>,
+	    <spanx style="verb">email</spanx>,
+	    <spanx style="verb">address</spanx>,
+	    and <spanx style="verb">phone</spanx>,
+	    specify an additive list of voluntary Claims
+	    being requested from the UserInfo Endpoint.
 	    The following scope values are defined:
 
 	    <list style="hanging">
@@ -378,6 +383,13 @@
 	      <t hangText="phone">OPTIONAL. This scope value requests that access to 
 	      the <spanx style="verb">phone_number</spanx> Claim at the 
 	      UserInfo Endpoint be granted by the issued Access Token.</t>
+
+	      <t hangText="offline_access">OPTIONAL. This scope value requests
+	      that an OAuth 2.0 refresh token be issued that can be used to
+	      obtain an access token that grants access the End User's
+	      UserInfo endpoint even when the user is not present (not logged in).
+	      See <xref target="OfflineAccess"/> for more information
+	      about offline access.</t>
 
 	    </list></t>
 	  </list></t>
@@ -2426,6 +2438,53 @@ Tokens and URL locations where the Claims may be retrieved:
         
     </section>
 
+    <section title="Offline Access" anchor="OfflineAccess">
+      <t>
+	The <spanx style="verb">offline_access</spanx> scope value requests
+	that an OAuth 2.0 refresh token be issued that can be used to
+	obtain an access token that grants access the End User's
+	UserInfo endpoint even when the user is not present (not logged in).
+	When offline access is requested, a <spanx style="verb">prompt</spanx>,
+	parameter value of <spanx style="verb">consent</spanx> MUST be used.
+	The user MUST always explicitly consent to the return of a refresh token
+	that enables offline access.
+	A previously saved user consent is not sufficient to grant offline access.
+      </t>
+      <t>
+	Upon receipt of a scope parameter containing the
+	<spanx style="verb">offline_access</spanx> value, the Authorization Server:
+      </t>
+	<list style="symbols">
+	  <t>
+	    MUST ensure that the prompt parameter contains <spanx
+	    style="verb">consent</spanx>; if the prompt parameter is
+	    does not contain <spanx style="verb">consent</spanx> then
+	    it MUST ignore the <spanx style="verb">offline_access</spanx> request,
+	  </t>
+	  <t>
+	    MUST ignore the <spanx style="verb">offline_access</spanx> request
+	    if the client is using the "Implicit Flow",
+	  </t>
+	  <t>
+	    MUST explicitly receive user consent for all clients when
+	    the registered <spanx style="verb">application_type</spanx>
+	    is <spanx style="verb">web</spanx>,
+	  </t>
+	  <t>
+	    SHOULD explicitly receive user consent for all clients when
+	    the registered <spanx style="verb">application_type</spanx>
+	    is <spanx style="verb">native</spanx>.
+	  </t>
+	</list>
+
+	<t>
+	  The use of refresh tokens is not exclusive to the
+	  <spanx style="verb">offline_access</spanx> use case.
+	  The Authorization Server MAY grant refresh tokens
+	  in other contexts that are beyond the scope of this specification.
+      </t>
+    </section>
+
     <section anchor="stringops" title="String Operations">
 
       <t>
@@ -3502,6 +3561,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #636 - ID Token authorized party claim.
+	  </t>
+	  <t>
+	    Fixed #539 - Add scope for offline access.
 	  </t>
         </list></t>
 
