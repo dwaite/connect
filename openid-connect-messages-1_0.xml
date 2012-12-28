@@ -638,7 +638,7 @@
    {
  	"redirect_uris": "https://rp.com/authz/callback",
  	"logo_url": "https://rp.com/logo.png",
- 	"jwk_url": "https://rp.com/public_key.jwk",
+ 	"jwk_url": "https://rp.com/public_key.jwks",
  	"id_token_encrypted_response_alg": "RSA1_5",
  	"id_token_encrypted_response_enc": "A128CBC+HS256"
    }
@@ -2040,9 +2040,9 @@ Tokens and URL locations where the Claims may be retrieved:
       <t>The Provider provides its public Keys during Discovery in the following elements:</t>
       <t><list style="hanging">
         <t hangText="jwk_url">
-          URL of the OP's <xref target="JWK">JSON Web Key</xref> document
-	  that contains the Server's signing key
-          that is used for signing the JWT. 
+          URL of the OP's JSON Web Key Set <xref target="JWK"/> document
+	  that contains the Server's signing key(s)
+          that are used for signing the JWT. 
           It MAY also be used by the Client to encrypt the JWT
           to the Server if <spanx style="verb">x509_encryption_url</spanx> or 
           <spanx style="verb">jwk_encryption_url</spanx> is not specified, 
@@ -2050,9 +2050,9 @@ Tokens and URL locations where the Claims may be retrieved:
           SHOULD be used.</t>
           
         <t hangText="jwk_encryption_url">          
-          URL of the OP's <xref target="JWK">JSON Web Key</xref> document
-	  that contains the Server's encryption key
-          that is used by the Client to encrypt the JWT to the Server. 
+          URL of the OP's JSON Web Key Set <xref target="JWK"/> document
+	  that contains the Server's encryption key(s)
+          that are used by the Client to encrypt the JWT to the Server. 
           If it is not present, its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.</t>
 
@@ -2077,16 +2077,17 @@ Tokens and URL locations where the Claims may be retrieved:
       <t>The Client provides its public Keys during Registration, in the following 
       elements:</t>
       <t><list style="hanging">      
-            <t hangText="jwk_url">OPTIONAL. URL for the Client's <xref
-            target="JWK">JSON Web Key</xref> document that is used for 
+            <t hangText="jwk_url">OPTIONAL. URL for the Client's
+	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
+	    that are used for 
             signing the Request Objects.
             If <spanx style="verb">jwk_encryption_url</spanx> is not 
             provided, it is also used by the Server 
             to encrypt the <xref target="JWT">JWT</xref> to the Client.</t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's <xref
-            target="JWK">JSON Web Key</xref>. 
-            It is used by the Server to encrypt the response objects.</t>
+            <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's
+	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
+            used by the Server to encrypt the response objects to the Client.</t>
 
             <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
             Certificate or Certificate chain. 
@@ -3567,6 +3568,11 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #690 - Inconsistent language in requirement of id_token response_type.
+	  </t>
+	  <t>
+	    Clarified that <spanx style="verb">jwk_url</spanx> and
+	    <spanx style="verb">jwk_enryption_url</spanx> refer to
+	    documents containing JWK Sets - not single JWK keys.
 	  </t>
         </list></t>
 

@@ -516,13 +516,13 @@ Host: example.com]]></artwork>
 
           <c>jwk_url</c>
           <c>string</c>
-          <c>URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Server's signing Key</c>
+          <c>URL of the OP's JSON Web Key Set <xref target="JWK"/>
+          document containing the server's signing key(s)</c>
           
           <c>jwk_encryption_url</c>
           <c>string</c>
-          <c>URL of the OP's <xref target="JWK">JSON Web Key </xref>
-          document. Server's Encryption Key, if not present, its value 
+          <c>URL of the OP's JSON Web Key Set <xref target="JWK"/>
+          document containing the server's encryption key(s); if not present, its value 
           is the same as the URL provided by <spanx style="verb">jwk_url</spanx></c>
 
           <c>x509_url</c>
@@ -701,7 +701,7 @@ Host: example.com]]></artwork>
  "end_session_endpoint":
    "https://server.example.com/connect/end_session",
  "jwk_url":
-   "https://server.example.com/jwk.json",
+   "https://server.example.com/jwks.json",
  "registration_endpoint":
    "https://server.example.com/connect/register",
  "scopes_supported":
@@ -1161,6 +1161,11 @@ Host: example.com]]></artwork>
 	  </t>
           <t>
 	    Improved the fix for #625 Scheme extraction.
+	  </t>
+	  <t>
+	    Clarified that <spanx style="verb">jwk_url</spanx> and
+	    <spanx style="verb">jwk_enryption_url</spanx> refer to
+	    documents containing JWK Sets - not single JWK keys.
 	  </t>
         </list>
       </t>

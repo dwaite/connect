@@ -189,9 +189,9 @@
 	    The OpenID Provider SHOULD display this
             URL to the End-User if it is given.</t>
 
-            <t hangText="jwk_url">OPTIONAL.  URL for the Client's <xref
-            target="JWK">JSON Web Key</xref> document
-	    that is used for
+            <t hangText="jwk_url">OPTIONAL.  URL for the Client's
+	    JSON Web Key Set <xref target="JWK"/> document
+	    containing key(s) that are used for
             signing Token Endpoint Requests and OpenID Request Objects.
             If <spanx style="verb">jwk_encryption_url</spanx> is not 
             provided it is also used to encrypt
@@ -200,9 +200,9 @@
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL.  URL for the Client's <xref
-            target="JWK">JSON Web Key</xref>
-	    that is used to encrypt
+            <t hangText="jwk_encryption_url">OPTIONAL.  URL for the Client's
+	    JSON Web Key Set <xref target="JWK"/> document
+	    containing key(s) that are used to encrypt
 	    the ID Token and User Info Endpoint Responses to the Client.
             If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
 	    and <spanx style="verb">x509_encryption_url</spanx>,
@@ -380,7 +380,7 @@ type=client_associate
 &sector_identifier_url=
     https://othercompany.com/file_of_redirect_uris_for_our_sites.js
 &token_endpoint_auth_type=client_secret_basic
-&jwk_url=https://client.example.org/my_rsa_public_key.jwk
+&jwk_url=https://client.example.org/my_rsa_public_key.jwks
 &userinfo_encrypted_response_alg=RSA1_5
 &userinfo_encrypted_response_enc=A128CBC+HS256]]></artwork>
           </figure></t>
@@ -888,6 +888,11 @@ Cache-Control: no-store
 	  <t>
 	    Fixed #685 - The policy URL should be different from the terms-of-service URL.
 	    A new <spanx style="verb">tos_url</spanx> registration parameter was added.
+	  </t>
+	  <t>
+	    Clarified that <spanx style="verb">jwk_url</spanx> and
+	    <spanx style="verb">jwk_enryption_url</spanx> refer to
+	    documents containing JWK Sets - not single JWK keys.
 	  </t>
         </list></t>
 
