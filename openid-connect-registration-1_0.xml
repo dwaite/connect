@@ -347,7 +347,13 @@
             with Authorization Server JavaScript in 
             <xref target="OpenID.Session">OpenID Connect Session Management</xref>.
             </t>
-
+             
+             <t hangText="initiate_login_uri">OPTIONAL. 
+            A https: scheme URI that the authorization server can call to initiate a login at the client.
+            The URI MUST accept both GET and POST. The client MUST understand the 
+            <spanx style="verb">email</spanx> and <spanx style="verb">providerId</spanx> paramaters and 
+            SHOULD support the <spanx style="verb">target_link</spanx> paramater.
+            </t>
 
           </list></t>
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
@@ -903,6 +909,7 @@ Cache-Control: no-store
 	    <spanx style="verb">jwk_encryption_url</spanx> refer to
 	    documents containing JWK Sets - not single JWK keys.
 	  </t>
+	  <t>Re #601 add initiate_login_uri for unsolicited request</t>
         </list></t>
 
       <t>-12<list style="symbols">
