@@ -2318,10 +2318,16 @@ Tokens and URL locations where the Claims may be retrieved:
 	      contains its <spanx style="verb">client_id</spanx> value
 	      registered at the Issuer identified by the
 	      <spanx style="verb">iss</spanx> (issuer) Claim
-	      as an audience.
+	      as an audience. The <spanx style="verb">aud</spanx> (audience) Claim may contain an array with more than one element.
 	      The ID Token MUST be rejected if the ID Token does not list
-	      the Client as a valid audience.
+	      the Client as a valid audience, or if it contains additional audiences not trusted by the client.
 	    </t>
+	    
+	    <t>If the token contains multiple audiences or contains a <spanx style="verb">azp</spanx> (authorized presenter) claim, the client SHOULD verify 
+	    the identity of the presenter.  The authorized presenter of the token is
+	     identified by a <spanx style="verb">azp</spanx> claim in the token.  
+	     The <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>, a direct connection to the token endpoint or other extension 
+	     may be used to identify the presenter.</t>
 
             <t>If the <spanx style="verb">id_token</spanx> is received via direct
             communication between the client and the Token Endpoint, the TLS server 
@@ -2343,7 +2349,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	        the <spanx style="verb">client_secret</spanx> for the 
             <spanx style="verb">client_id</spanx> contained in the 
             <spanx style="verb">aud</spanx> (audience) Claim is used as the key
-	    to validate the signature.</t> 
+	    to validate the signature. Multiple audiences are not supported for MAC based algorithms.</t> 
             
             <t>For other Signing algorithms, the Client must use the signing key provided
 	    in Discovery by the Issuer.
@@ -3580,6 +3586,9 @@ Representation of dates and times</title>
 	    Clarified that <spanx style="verb">jwk_url</spanx> and
 	    <spanx style="verb">jwk_encryption_url</spanx> refer to
 	    documents containing JWK Sets - not single JWK keys.
+	  </t>
+	  <t>
+	    Fixed #689 - Add caution about multiple audiences and azp .
 	  </t>
         </list></t>
 
