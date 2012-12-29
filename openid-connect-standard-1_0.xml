@@ -1747,6 +1747,39 @@ Location: openid://
       </section>
     </section>
 
+<section anchor="client_Initiate_login" title="Initiating login at a client from a third party">
+      <t>In some cases the login flow may start at the authorization server or other party via a stored link.
+      The target resource at the client may also be a deep link rather than a default landing page.</t>
+
+      <t>The client may optionally <xref
+      target="OpenID.Registration">register</xref> a <spanx style="verb">initiate_login_uri</spanx> that
+      can be used by the Authorization server or other party to initiate login for a user at the client.</t>
+      
+      <t>The Authorization Server or Third Party sends the Initiation Request to the Client Initiation
+           Endpoint with the following parameters. </t>
+        <t><list style="hanging">
+          <t hangText="login_hint">
+            REQUIRED. A hint to the authorization service 
+              as to the login identifier the user may use to authenticate at the authorization 
+              service.
+          </t>
+          <t hangText="iss">
+            REQUIRED. The Issuer Identifier for the Issuer who the client is to send the authentication request to. 
+            The value MUST be a https: scheme URI.
+          </t>
+          <t hangText="target_link_uri">
+            OPTIONAL. The URI that the client is requested to redirect to after authentication.  Clients MUST verify the value of  the
+            <spanx style="verb">target_link_uri</spanx> to prevent being used as a open redirector to external sites.
+          </t>
+          
+        </list></t>
+        
+        <t>Other parameters MAY be sent, if defined by extensions.  Parameters not understood MUST be ignored by the client.</t>
+        
+        <t>Clients SHOULD employ frame busting and other techniques to prevent users from being logged in by third party sites without there knowledge.</t>
+      
+    </section>
+
     <section anchor="disco_reg" title="Discovery and Registration">
       <t>Some OpenID Connect installations can use a pre-configured set of
       OpenID Providers and/or Relying Parties. In those cases, it may not be
@@ -2402,6 +2435,7 @@ scope=openid&response_type=code
 	  <t>
 	    Fixed #539 - Add scope for offline access.
 	  </t>
+	  <t>Re #601 add Initiating login at a client from a third party</t>
         </list></t>
 
       <t>-14
