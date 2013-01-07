@@ -39,7 +39,7 @@
       </address>
     </author>
 
-    <date day="27" month="December" year="2012" />
+    <date day="7" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -113,7 +113,7 @@
 
         <t><list style="hanging">
             
-            <t hangText="operation">REQUIRED.  Values are <spanx style="verb">client_associate</spanx>
+            <t hangText="operation">REQUIRED.  Values are <spanx style="verb">client_register</spanx>
             (for new registrations), <spanx style="verb">rotate_secret</spanx> 
             to request rotation of the <spanx style="verb">client_secret</spanx>, and
             <spanx style="verb">client_update</spanx> (for updating parameters of an existing
@@ -139,12 +139,12 @@
             <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
             This prevents sharing a client_id across different types of clients.</t>
 
-            <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_associate</spanx>
+            <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_register</spanx>
              request this is an Access Token obtained
             out of band to authorize the registrant. 
             If this is a <spanx style="verb">client_update</spanx>
             request this is the <spanx style="verb">registration_access_token</spanx> 
-            returned in the <spanx style="verb">client_associate</spanx> or 
+            returned in the <spanx style="verb">client_register</spanx> or 
             <spanx style="verb">rotate_secret</spanx> response.
             This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
@@ -361,7 +361,7 @@
 
           </list></t>
       <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
-      may require an Access Token for <spanx style="verb">client_associate</spanx> 
+      may require an Access Token for <spanx style="verb">client_register</spanx> 
       requests in order to restrict registration requests
       to only authorized Clients. </t>
       <t>For <spanx style="verb">client_update</spanx>
@@ -379,7 +379,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: server.example.com
 Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 
-operation=client_associate
+operation=client_register
 &application_type=web
 &redirect_uris=https://client.example.org/callback
     %20https://client.example.org/callback2
@@ -437,9 +437,9 @@ Pragma: no-cache
         <t>The response is returned as a JSON object with all the parameters
         as top level elements.</t>
         
-        <section title="Client Associate or Rotate Secret Response">
+        <section title="Client Register or Rotate Secret Response">
         <t>If the value of type in the request was 
-        <spanx style="verb">client_associate</spanx> or
+        <spanx style="verb">client_register</spanx> or
         <spanx style="verb">rotate_secret</spanx> then return the following. </t>
         <t><list style="hanging">
             <t hangText="client_id">REQUIRED. The unique Client
@@ -543,7 +543,7 @@ Cache-Control: no-store
    
 {
  "error_code":"invalid_operation",
- "error_description":"The value of the operation parameter must be one of client_associate, rotate_secret or client_update."
+ "error_description":"The value of the operation parameter must be one of client_register, rotate_secret or client_update."
 }]]></artwork>
 	</figure></t>
       </section>
@@ -896,6 +896,7 @@ Cache-Control: no-store
         <list style="symbols">
 	  <t>Changed "type" to "operation"</t>
 	  <t>Added "none" auth type</t>
+	  <t>Changed "associate" to "register"</t>
         </list>
       </t>
 
