@@ -412,7 +412,7 @@ operation=client_register
 &sector_identifier_url=
     https://othercompany.com/file_of_redirect_uris_for_our_sites.js
 &token_endpoint_auth_type=client_secret_basic
-&jwk_url=https://client.example.org/my_rsa_public_key.jwks
+&jwk_url=https://client.example.org/my_rsa_public_key.jwk
 &userinfo_encrypted_response_alg=RSA1_5
 &userinfo_encrypted_response_enc=A128CBC+HS256]]></artwork>
           </figure></t>
@@ -459,11 +459,10 @@ Pragma: no-cache
         <t>The response is returned as a JSON object with all the parameters
         as top level elements.</t>
         
-        <section title="Client Register or Rotate Secret Response">
-        <t>If the value of type in the request was 
-        <spanx style="verb">client_register</spanx> or
-        <spanx style="verb">rotate_secret</spanx> then return the following. </t>
-        <t><list style="hanging">
+        <section title="Client Register Response">
+          <t>If the value of type in the request was 
+          <spanx style="verb">client_register</spanx> then return the following. </t>
+          <t><list style="hanging">
             <t hangText="client_id">REQUIRED. The unique Client
             identifier.</t>
 
@@ -471,7 +470,68 @@ Pragma: no-cache
             MUST be unique for each <spanx style="verb">client_id</spanx>. 
             This value us used by confidential clients. It is not required for
             clients selecting a token_endpoint_auth_type of 
-            <spanx style="verb">private_key_jwt</spanx></t>
+            <spanx style="verb">private_key_jwt</spanx> or <spanx style="verb">none</spanx>.</t>
+            
+            <t hangText="registration_access_token">REQUIRED. The Access token used by the 
+            client to perform <spanx style="verb">client_update</spanx> requests.</t>
+
+            <t hangText="expires_at">OPTIONAL. The number of
+            seconds from 1970-01-01T0:0:0Z as measured in UTC that the 
+            <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
+            they do not expire. See <xref target="RFC3339">RFC 3339</xref>
+            for details regarding date/times in general and UTC in particular.</t>
+          </list></t>
+
+        <t>Additionally, the server MUST include all registered metadata about a client as described in 
+           Section 2.1, including any fields that the server has provisioned on the client's behalf.
+        </t>
+
+        <t><figure>
+	  <preamble>Following is a non-normative example response
+(linebreaks are for display purposes only):</preamble>
+
+            <artwork><![CDATA[HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+
+{
+ "client_id":"s6BhdRkqt3",
+ "client_secret":
+   "cf136dc3c1fd9153029bb9c6cc9ecead918bad9887fce6c93f31185e5885805d",
+ "registration_access_token": "this.is.a.access.token.value.ffx83",
+ "grant_type": "authorization_code refresh_token",
+ "token_endpoint_auth_type": "client_secret_basic client_secret_post",
+ "scope": "openid profile address phone email offline_access",
+ "expires_at":2893276800,
+ "application_type":"web",
+ "redirect_uris":
+ "https://client.example.org/callback
+ https://client.example.org/callback2",
+ "client_name":"My Example",
+ "client_name#ja-Jpan-JP":"ã¯ã¿ã·ç¨ã®ä¾",
+ "logo_url":"https://client.example.org/logo.png",
+ "subject_type":"pairwise"
+ "sector_identifier_url":
+    "https://othercompany.com/file_of_redirect_uris_for_our_sites.js"
+ "jwk_url":"https://client.example.org/my_rsa_public_key.jwk",
+ "userinfo_encrypted_response_alg":"RSA1_5",
+ "userinfo_encrypted_response_enc":"A128CBC+HS256"
+}]]></artwork>
+          </figure></t>
+      </section>
+
+        <section title="Rotate Secret Response">
+          <t>If the value of type in the request was 
+          <spanx style="verb">rotate_secret</spanx> then return the following. </t>
+          <t><list style="hanging">
+            <t hangText="client_id">REQUIRED. The unique Client
+            identifier.</t>
+
+            <t hangText="client_secret">OPTIONAL. The Client secret. This
+            MUST be unique for each <spanx style="verb">client_id</spanx>. 
+            This value us used by confidential clients. It is not required for
+            clients selecting a token_endpoint_auth_type of 
+            <spanx style="verb">private_key_jwt</spanx> or <spanx style="verb">none</spanx>.</t>
             
             <t hangText="registration_access_token">REQUIRED. The Access token used by the 
             client to perform <spanx style="verb">client_update</spanx> requests.</t>
@@ -499,7 +559,7 @@ Cache-Control: no-store
 }]]></artwork>
           </figure></t>
       </section>
-      <section title="Client Update">
+      <section title="Client Update Response">
         <t>If the value of type in the request was 
         <spanx style="verb">client_update</spanx>. </t>
         <t><list style="hanging">
@@ -508,8 +568,13 @@ Cache-Control: no-store
             
           </list></t>
 
+        <t>Additionally, the server MUST include all registered metadata about a client as described in 
+           Section 2.1, including any fields that the server has provisioned on the client's behalf.
+        </t>
+
         <t><figure>
-	  <preamble>Following is a non-normative example response:</preamble>
+	  <preamble>Following is a non-normative example response
+            (line breaks are for display purposes only):</preamble>
 
             <artwork><![CDATA[HTTP/1.1 200 OK
 Content-Type: application/json
@@ -517,6 +582,22 @@ Cache-Control: no-store
 
 {
  "client_id":"s6BhdRkqt3"
+ "token_endpoint_auth_type": "client_secret_basic client_secret_post",
+ "scope": "openid profile address phone email offline_access",
+ "expires_at":2893276800,
+ "application_type":"web",
+ "redirect_uris":
+ "https://client.example.org/callback
+ https://client.example.org/callback2",
+ "client_name":"My Example",
+ "client_name#ja-Jpan-JP":"ã¯ã¿ã·ç¨ã®ä¾",
+ "logo_url":"https://client.example.org/logo.png",
+ "subject_type":"pairwise"
+ "sector_identifier_url":
+    "https://othercompany.com/file_of_redirect_uris_for_our_sites.js"
+ "jwk_url":"https://client.example.org/my_rsa_public_key.jwk",
+ "userinfo_encrypted_response_alg":"RSA1_5",
+ "userinfo_encrypted_response_enc":"A128CBC+HS256"
 }]]></artwork>
           </figure></t>
       </section>
@@ -920,6 +1001,8 @@ Cache-Control: no-store
 	  <t>Added "none" auth type</t>
 	  <t>Changed "associate" to "register"</t>
 	  <t>Changed "application_name" to "client_name"</t>
+	  <t>Changed responses of client_register and client_update to include full
+             client information instead of just the id.</t>
         </list>
       </t>
 
