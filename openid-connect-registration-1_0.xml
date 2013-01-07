@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 13</title>
+    Dynamic Client Registration 1.0 - draft 14</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -113,7 +113,7 @@
 
         <t><list style="hanging">
             
-            <t hangText="type">REQUIRED.  Values are <spanx style="verb">client_associate</spanx>
+            <t hangText="operation">REQUIRED.  Values are <spanx style="verb">client_associate</spanx>
             (for new registrations), <spanx style="verb">rotate_secret</spanx> 
             to request rotation of the <spanx style="verb">client_secret</spanx>, and
             <spanx style="verb">client_update</spanx> (for updating parameters of an existing
@@ -375,7 +375,7 @@ Content-Type: application/x-www-form-urlencoded
 Host: server.example.com
 Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X
 
-type=client_associate
+operation=client_associate
 &application_type=web
 &redirect_uris=https://client.example.org/callback
     %20https://client.example.org/callback2
@@ -515,7 +515,7 @@ Cache-Control: no-store
 
           <t><list style="hanging">
           
-          <t hangText="invalid_type">The value of <spanx style="verb">type</spanx> is invalid or not supported.</t>
+          <t hangText="invalid_operation">The value of <spanx style="verb">operation</spanx> is invalid or not supported.</t>
           
           <t hangText="invalid_client_id">The value of <spanx style="verb">client_id</spanx> is invalid.</t>
           
@@ -538,8 +538,8 @@ Content-Type: application/json
 Cache-Control: no-store
    
 {
- "error_code":"invalid_type",
- "error_description":"The value of the type parameter must be one of client_associate, rotate_secret or client_update."
+ "error_code":"invalid_operation",
+ "error_description":"The value of the operation parameter must be one of client_associate, rotate_secret or client_update."
 }]]></artwork>
 	</figure></t>
       </section>
@@ -887,6 +887,14 @@ Cache-Control: no-store
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-14
+        <list style="symbols">
+	  <t>
+            Changed "type" to "operation"
+          </t>
+        </list>
+      </t>
 
       <t>-13
         <list style="symbols">
