@@ -169,6 +169,28 @@
             <t hangText="logo_url">OPTIONAL.  A URL that references a logo for the 
             Client application.</t>
 
+            <t hangText="scope">OPTIONAL. Space
+            separated list of scopes that the client will be allowed to request
+            tokens for. If omitted, an Authorization Server MAY register a
+            Client with a default set of allowed scopes.</t>
+
+            <t hangText="grant_type">OPTIONAL. Space
+            separated list of grant types that a client may use. These grant
+            types are defined as follows:<list style="symbols">
+                <t><spanx style="verb">authorization_code</spanx>: The
+                Authorization Code Grant described in OAuth2 Section 4.1.</t>
+
+                <t><spanx style="verb">implicit</spanx>: The Implicit Grant
+                described in OAuth2 Section 4.2.</t>
+
+                <t><spanx style="verb">refresh_token</spanx>: The Refresh Token
+                Grant described in OAuth2 Section 6.</t>
+              </list>Authorization Servers MAY allow for other values as defined
+            in grant type extensions to OAuth2. The extension process is
+            described in OAuth2 Section 2.5, and the value of this parameter
+            MUST be the same as the value of the grant_type parameter defined in
+            the extension.</t>
+
             <t hangText="token_endpoint_auth_type">OPTIONAL.  The requested authentication
             type for the Token Endpoint. The options are 
             <spanx style="verb">none</spanx>,
