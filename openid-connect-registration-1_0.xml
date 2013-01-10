@@ -174,31 +174,8 @@
             <t hangText="logo_url">OPTIONAL.  A URL that references a logo for the 
             Client application.</t>
 
-            <t hangText="scope">OPTIONAL. Space
-            separated list of scopes that the client will be allowed to request
-            tokens for. If omitted, an Authorization Server MAY register a
-            Client with a default set of allowed scopes.</t>
-
-            <t hangText="grant_type">OPTIONAL. Space
-            separated list of grant types that a client may use. These grant
-            types are defined as follows:<list style="symbols">
-                <t><spanx style="verb">authorization_code</spanx>: The
-                Authorization Code Grant described in OAuth2 Section 4.1.</t>
-
-                <t><spanx style="verb">implicit</spanx>: The Implicit Grant
-                described in OAuth2 Section 4.2.</t>
-
-                <t><spanx style="verb">refresh_token</spanx>: The Refresh Token
-                Grant described in OAuth2 Section 6.</t>
-              </list>Authorization Servers MAY allow for other values as defined
-            in grant type extensions to OAuth2. The extension process is
-            described in OAuth2 Section 2.5, and the value of this parameter
-            MUST be the same as the value of the grant_type parameter defined in
-            the extension.</t>
-
             <t hangText="token_endpoint_auth_type">OPTIONAL.  The requested authentication
             type for the Token Endpoint. The options are 
-            <spanx style="verb">none</spanx>,
             <spanx style="verb">client_secret_post</spanx>, 
             <spanx style="verb">client_secret_basic</spanx>, 
             <spanx style="verb">client_secret_jwt</spanx>, 
@@ -475,7 +452,7 @@ Pragma: no-cache
             MUST be unique for each <spanx style="verb">client_id</spanx>. 
             This value us used by confidential clients. It is not required for
             clients selecting a token_endpoint_auth_type of 
-            <spanx style="verb">private_key_jwt</spanx> or <spanx style="verb">none</spanx>.</t>
+            <spanx style="verb">private_key_jwt</spanx>.</t>
             
             <t hangText="registration_access_token">REQUIRED. The Access token used by the 
             client to perform <spanx style="verb">client_update</spanx> requests.</t>
@@ -504,9 +481,7 @@ Cache-Control: no-store
  "client_secret":
    "cf136dc3c1fd9153029bb9c6cc9ecead918bad9887fce6c93f31185e5885805d",
  "registration_access_token": "this.is.a.access.token.value.ffx83",
- "grant_type": "authorization_code refresh_token",
  "token_endpoint_auth_type": "client_secret_basic client_secret_post",
- "scope": "openid profile address phone email offline_access",
  "expires_at":2893276800,
  "application_type":"web",
  "redirect_uris":
@@ -536,7 +511,7 @@ Cache-Control: no-store
             MUST be unique for each <spanx style="verb">client_id</spanx>. 
             This value us used by confidential clients. It is not required for
             clients selecting a token_endpoint_auth_type of 
-            <spanx style="verb">private_key_jwt</spanx> or <spanx style="verb">none</spanx>.</t>
+            <spanx style="verb">private_key_jwt</spanx>.</t>
             
             <t hangText="registration_access_token">REQUIRED. The Access token used by the 
             client to perform <spanx style="verb">client_update</spanx> requests.</t>
@@ -588,7 +563,6 @@ Cache-Control: no-store
 {
  "client_id":"s6BhdRkqt3"
  "token_endpoint_auth_type": "client_secret_basic client_secret_post",
- "scope": "openid profile address phone email offline_access",
  "expires_at":2893276800,
  "application_type":"web",
  "redirect_uris":
@@ -1017,8 +991,8 @@ Cache-Control: no-store
 
       <t>-14
         <list style="symbols">
-	  <t>Changed "type" to "operation"</t>
-	  <t>Added "none" auth type</t>
+	  <t>Changed "type" to "operation". The name "type" implied that it was a 
+             piece of metadata on the client itself, i.e. the "type of the client".</t>
 	  <t>Changed "associate" to "register"</t>
 	  <t>Changed "application_name" to "client_name"</t>
 	  <t>Changed responses of client_register and client_update to include full
