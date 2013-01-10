@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 10</title>
+    Session Management 1.0 - draft 11</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -51,30 +51,31 @@
       </address>
     </author>
 
-    <date day="27" month="December" year="2012" />
+    <date day="10" month="January" year="2013" />
 
     <abstract>
-      <t>NOTE: This is a first cut of a significant rewrite based on the
-      decisions made at the May 5, 2012 working group meeting.</t>
-
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
       protocol. It allows Clients to verify the identity of the End-User based
       on the authentication performed by an Authorization Server, as well as
       to obtain basic profile information about the End-User in an
       interoperable and RESTful manner.</t>
 
-      <t>This document describes how to manage sessions for OpenID
-      Connect.</t>
+      <t>
+	This document describes how to manage sessions for OpenID Connect,
+	including when to log out the user.
+      </t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
-      <t>While OpenID Connect Messages and Standard defines the method to
-      login the user to the RP based on the ID token, it does not talk about
-      how to continuously monitor the user's login status at the OP so that
-      the RP may logout the user once the user has logged out of the OP. This
-      specification defines the method to achieve this.</t>
+      <t>
+	This specification complements the OpenID Connect Messages and
+	Standard specifications by defining how to monitor the user's
+	login status at the OpenID Provider on an ongoing basis so
+	that the Relying Party can log out the user once the user has
+	logged out of the OpenID Provider.
+      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -99,44 +100,51 @@
     </section>
 
     <section title="Endpoint Discovery">
-      <t>To support the OpenID Connect session management, the RP MUST obtain
+      <t>To support the OpenID Connect session management, the RP needs to obtain
       the session management related endpoint URLs. This can either be
-      obtained out of band or through the OP configuration file as described
-      in OpenID Connect Discovery.</t>
+      communicated out of band or through the OP configuration file, as described
+      in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.</t>
 
       <t>The OP endpoints defined in this specification are as follows:</t>
 
       <t><list style="hanging">
-          <t hangText="check_session_endpoint">URL of an OP endpoint that provides 
-          a page to support cross-origin communications for session state 
-          information with the RP client, using the HTML5 postMessage API. The 
-          page is loaded from an invisible iframe embedded in an RP page so 
-          that it can run in the OP's security context. It accepts postMessage
-          requests from the relevant RP iframe and postMessage back the login 
-          status of the user at the OP.</t>
+          <t hangText="check_session_iframe_url">
+	    URL of an OP iframe that supports cross-origin communications
+	    for session state information with the RP client,
+	    using the HTML 5 postMessage API.
+	    The page is loaded from an invisible iframe embeddded in
+	    an RP page so that it can run in the OP's security context. 
+	    It accepts postMessage requests from the relevant RP iframe and
+	    uses postMessage to post back the login status of the user at the OP.
+	  </t>
 
-          <t hangText="end_session_endpoint">The URL that initiates the user
-          logout at the OP.</t>
+          <t hangText="end_session_endpoint_url">
+	    URL that initiates user logout at the OP.
+	  </t>
         </list></t>
-
-      <t>The RP endpoints defined in this specification are as follows:</t>
     </section>
 
     <section title="Creating and Updating Sessions">
-      <t>In OpenID Connect, the session at the RP typically starts when the RP
-      validates the user's ID Token. Refer to OpenID Connect Standard to find
-      out how to obtain an ID Token and validate it. Typically, when the RP has
-      enough knowledge on the user's identity, the RP sends the authentication
-      request with previously obtained ID Token as the user hint with
-      prompt=none. </t>
+      <t>
+	In OpenID Connect, the session at the RP typically starts when the RP
+	validates the user's ID Token.
+	Refer to the OpenID Connect Messages <xref target="OpenID.Messages"/>
+	and OpenID Connect Standard <xref target="OpenID.Standard"/> specifications to find
+	out how to obtain an ID Token and validate it. 
+	When the OP supports session management, it MUST also return the Session State
+	as an additional <spanx style="verb">session_state</spanx> parameter
+	in the authorization response.
+	An OpenID Connect authorization response is specified in Section 2.1.2 of
+	OpenID Connect Messages.
+      </t>
 
-      <t>This specification defines one additional claim in the ID Token. </t>
+      <t>This parameter is:</t>
 
       <t><list style="hanging">
-          <t hangText="ops">OP Session Status.
+          <t hangText="session_state">Session State.
 	  A JSON string that represents the user's login state
           at the OP.  This string is opaque to the RP.
-	  REQUIRED if session management is supported.
+	  This is REQUIRED if session management is supported.
 	  </t>
         </list></t>
     </section>
@@ -161,64 +169,123 @@
 
       <section title="OP iframe">
         <t>The RP typically loads an invisible OP iframe in the page from the OP's
-        <spanx style='verb'>check_session_endpoint</spanx> with the following parameters.</t>
-
-        <t><list style="hanging">
-            <t hangText="id_token_hint">REQUIRED. ID Token that the RP received
-            when it logged in the user. The value of the <spanx style='verb'>aud</spanx> field, which contains a
-            <spanx style='verb'>client_id</spanx> of the RP, is used to set the source origin for the
-            postMessage request. Note: If the ID Token was asymmetrically
-            encrypted for the RP, then the RP MUST decrypt it and use the
-            decrypted version of the ID Token in this field.</t>
-          </list></t>
+        <spanx style='verb'>check_session_iframe_url</spanx>.</t>
 
         <t>The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
         address it later.</t>
 
-        <t>The OP iframe MUST accept the postMessage from the source origin
-        that was registered with the client. It MUST reject the postMessage
-        request from other source origin.</t>
+	<t>
+	  The OP iframe MUST enforce that the caller has the same
+	  origin as its parent frame. It MUST reject the postMessage
+	  request from other source origin.
+	</t>
+        <t>
+	  The postMessage from the RP iframe delivers the
+	  concatenation of the following, as the data:
 
-        <t>The postMessage from the RP iframe delivers session state, the
-        concatenation of the following, as the data:</t>
+	  <list style="symbols">
+            <t>Client ID + " " + Session State</t>
+          </list>
+	</t>
+	<t>
+	  The OP frame has access to Browser state at the OP (in a
+	  cookie or in HTML5 storage) that it uses to calculate and
+	  compare the OP session state that was passed by the RP.
+	</t>
+	<t>
+	  The OP iframe MUST recalculate it from the previously
+	  obtained Client ID, the source origin URL (from the
+	  postMessage), and the current OP Browser state.
+	  If the received value and the
+	  calculated value do not match, then the OP iframe MUST postMessage
+	  the string <spanx style='verb'>changed</spanx> back to the source.
+	  If it matched, then it MUST postMessage the string
+	  <spanx style='verb'>unchanged</spanx>.
+	</t>
+        <t>
+	  Following is non-normative example pseudo-code for the OP iframe:
+	</t>
 
-        <t><list style="numbers">
-            <t>SHA-256 hash of the concatenation of the Client ID, the source
-            origin URL, the OP session state, and a salt, which is 128 bits or
-            more,</t>
+        <t>
+	  <figure>
+            <artwork><![CDATA[
+window.addEventListener("message", receiveMessage, false);
 
-            <t>an ASCII period ('.') character, i.e., 0x2E,</t>
-
-            <t>the salt.</t>
-          </list></t>
-
-        <t>The OP iframe MUST recalculate it from the previously obtained
-        Client ID, the source origin URL, the current OP session state, and
-        the salt obtained from the data. If the received value and the
-        calculated value do not match, then the OP iframe MUST postMessage
-        the string <spanx style='verb'>changed</spanx> back to the source. If it matched, then it MUST
-        postMessage the string <spanx style='verb'>unchanged</spanx>.</t>
-
-        <t>Following is a non-normative example pseudo code for the OP
-        iframe.</t>
-
-        <t><figure>
-            <artwork><![CDATA[window.addEventListener("message",receiveMessage, false);
-function receiveMessage(e){
-  if ( e.origin !== "http://client.example.net" ) {
-    return;
-  }
-  var stat;
-  var opss = get_op_session_state();
-  var ss = CryptoJS.SHA256(client_id + origin + opss + salt) + "." + salt;
-  if (e.data == ss) {
+function receiveMessage(e){ // e has client_id and session_state
+  // Validate message origin
+  var salt;
+  client_id = message.split(' ')[0];
+  session_state = message.split(' ')[1];
+  salt = session_state.split('.')[1];
+  var opbs = get_op_browser_state();
+  var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' + opbs + [' ' + salt]) [+ "." + salt];
+  if (e.session_state == ss) {
     stat = 'unchanged';
-  } else [
+  } else {
     stat = 'changed';
   }
+
   e.source.postMessage(stat, e.origin);
-};]]></artwork>
-          </figure></t>
+};
+]]></artwork>
+          </figure>
+	</t>
+	<t>
+	  The OP browser state is typically going to be stored in a
+	  cookie or HTML5 local storage.  It is origin bound to the
+	  authorization server.  It captures meaningful events such as
+	  logins, logouts, change of user, etc.  Thus the OP should
+	  update the value of the browser state in response to such
+	  meaningful events. As a result, the next call to
+	  check_session_state after such an event will return the
+	  value <spanx style='verb'>changed</spanx>.
+	  It is recommended that the OP do not update
+	  the browser state too frequently in the absence of
+	  meaningful events so as to spare excessive network traffic
+	  at the client in response to spurious <spanx style='verb'>changed</spanx> events.
+	</t>
+	<t>
+	  The computation of the session state returned in response to
+	  unsuccessful authorization requests should, in addition to
+	  the browser state, incorporate sufficient randomness in the
+	  form of a salt so as to prevent identification of a user
+	  across successive calls to the OP authentication endpoint.
+	</t>
+	<t>
+	  In the case of an authorized client (successful
+	  authorization response), the OP should change the value of
+	  the session state returned to the client under one of the
+	  following events:
+
+	  <list style="symbols">
+	    <t>
+	      The set of users authenticated to the browser changes
+	      (login, logout, session add).
+	    </t>
+	    <t>
+	      The authorization status of the client changes.
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  In addition, the browser state used to verify the session state
+	  should change with such events.
+	  Calls to check_session_state will return <spanx style='verb'>changed</spanx>
+	  against earlier versions of session state after such events.
+	  It is recommended that the browser state should not vary too
+	  frequently in the absence of such events to minimize network
+	  traffic caused by the client's response to <spanx style='verb'>changed</spanx>
+	  notifications.
+	</t>
+	<t>
+	  In the case of an unsuccessful authorization request, the
+	  value of the session state returned should vary with each
+	  request. However, the browser session state need not change
+	  unless a meaningful event happens. In particular, many
+	  values of session state can be simultaneously valid, for
+	  instance by the introduction of random salt in the session
+	  states issued in response to unsuccessful authorization requests.
+	</t>
       </section>
 
       <section title="RP iframe">
@@ -235,20 +302,23 @@ function receiveMessage(e){
         <spanx style='verb'>prompt=none</spanx> to find the current 
         session state at the OP. </t>
 
-        <t>Following is a non-normative example pseudo code for the RP
-        iframe. </t>
+        <t>
+	  Following is non-normative example pseudo-code for the RP iframe:
+	</t>
 
-        <t><figure>
-            <artwork><![CDATA[var stat = "unchanged";
-var mes = CryptoJS.SHA256(client_id + origin + opss + salt) + "." + salt;
+        <t>
+	  <figure>
+            <artwork><![CDATA[
+var stat = "unchanged";
+var mes = client_id + " " + session_state;
 
 function check_session()
 {
   var targetOrigin  = "http://server.example.com";
   var win = window.parent.document.getElementById("op").contentWindow;
   win.postMessage( mes, targetOrigin);
-
 }
+
 function setTimer()
 {
   check_session();
@@ -262,10 +332,27 @@ function receiveMessage(e)
   var targetOrigin  = "http://server.example.com";
   if (e.origin !== targetOrigin ) {return;}
   stat = e.data;
-}
 
+  if stat == "changed" then take the actions below...
+}
 ]]></artwork>
-          </figure></t>
+          </figure>
+	</t>
+	<t>
+	  When the RP detects a session state change, it should first
+	  try an immediate mode request within an iframe to obtain a
+	  new ID Token and session state, sending the old ID Token as
+	  the <spanx style="verb">id_token_hint</spanx>. 
+	  If the RP receives an ID token for the same user, it should
+	  simply update the value of the session state.  If it doesn't
+	  receive an ID token or receives an ID token for another
+	  user, then it needs to handle this case as a logout for the
+	  original user.
+	</t>
+	<t>
+	  Note that the session state is origin bound.
+	  Session state SHOULD be returned upon an authorization failure.
+	</t>
       </section>
     </section>
 
@@ -332,6 +419,69 @@ function receiveMessage(e)
                 type="HTML" />
       </reference>
 
+      <reference anchor="OpenID.Standard">
+        <front>
+          <title>OpenID Connect Standard 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+            <organization abbrev="Salesforce">Salesforce</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="27" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Discovery">
+        <front>
+          <title>OpenID Connect Discovery 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="27" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
+                type="HTML" />
+      </reference>
+
     </references>
 
     <!-- <references title="Informative References"> -->
@@ -387,6 +537,22 @@ function receiveMessage(e)
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-11
+        <list style="symbols">
+	  <t>
+	    Applied changes from October 24, 2012 editing session at the
+	    Internet Identity Workshop (IIW).
+	    This separates the session state from the ID Token,
+	    adding the new <spanx style="verb">session_state</spanx> parameter
+	    to the authorization response.
+	    These identifiers also changed:
+	    <spanx style="verb">check_session_endpoint</spanx> to
+	    <spanx style="verb">check_session_iframe_url</spanx> and
+	    <spanx style="verb">end_session_endpoint</spanx> to
+	    <spanx style="verb">end_session_endpoint_url</spanx>.
+	  </t>
+        </list></t>
 
       <t>-10
         <list style="symbols">
