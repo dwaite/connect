@@ -556,7 +556,11 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
                 UserInfo Endpoint.</t>
 
                 <t hangText="token_type">REQUIRED. The value MUST be
-                "bearer"</t>
+                "bearer" or other <spanx style="verb">token_type</spanx> the client 
+                has negotiated with the Authorization Server.
+                Clients implementing this profile MUST support the <xref
+	            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
+	            This profile only describes the use of bearer tokens.</t>
 
                 <t hangText="id_token">REQUIRED. The ID Token.</t>
 
@@ -1515,6 +1519,13 @@ Representation of dates and times</title>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-23
+        <list style="symbols">
+	  <t>
+	    Re #620 - Update Sec 2.2.6.2. to allow for other token types, but make bearer mandatory to support for basic clients.
+	  </t>
+	   </list></t>
+	   
       <t>-22
         <list style="symbols">
 	  <t>
