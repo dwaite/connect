@@ -849,9 +849,10 @@
           is <spanx style="verb">token</spanx>, the Authorization
           Response MUST return the parameters defined in Section 4.2.2 of
           <xref target="RFC6749">OAuth 2.0</xref>. This specification only
-          supports <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
+          describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
           OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
-          MUST be set to "<spanx style="verb">Bearer</spanx>".</t>
+          MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
+          has been negotiated with the client.</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
           is <spanx style="verb">code</spanx>, the Authorization
@@ -1256,11 +1257,16 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           parameters in the successful response are defined in Section 4.1.4
           of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
-          <t>This specification further constrains that only <xref
-          target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> are issued at the
-          Token Endpoint. The OAuth 2.0 response parameter "<spanx
-          style="verb">token_type</spanx>" MUST be set to "<spanx
-          style="verb">Bearer</spanx>".</t>
+          <t>This specification only
+          describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
+          OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
+          MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
+          has been negotiated with the client. Servers SHOULD support 
+          <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> for interoperability.
+          For security reasons Servers may only allow clients to register specific 
+          <spanx style="verb">token_type</spanx>. Clients MUST support 
+          <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> and MAY support other
+          <spanx style="verb">token_type</spanx>. </t>
 
           <t>In addition to the OAuth 2.0 response parameters, the following
           parameters MUST be included in the response if the 
