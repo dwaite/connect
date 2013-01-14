@@ -341,7 +341,10 @@
 	    <spanx style="verb">address</spanx>,
 	    and <spanx style="verb">phone</spanx>,
 	    specify an additive list of voluntary Claims
-	    being requested from the UserInfo Endpoint.
+	    being requested from the UserInfo Endpoint.  If any of the following optional scopes, 
+	    are requested by the client,
+	    it MUST also request a access token for the UserInfo Endpoint.  Other scopes my define returning
+	    information from other Endpoints.  
 	    The following scope values are defined:
 
 	    <list style="hanging">
@@ -349,6 +352,8 @@
 	      Server that the Client is making an OpenID Connect request. If the
 	      <spanx style="verb">openid</spanx> scope value is not present,
 	      the request MUST NOT be treated as an OpenID Connect request.
+	      This scope dosen't request any claims from the UserInfo Endpoint, so may be used 
+	      without requesting an access token.
 	      </t>
 
 	      <t hangText="profile">OPTIONAL. This scope value
@@ -3558,6 +3563,14 @@ Representation of dates and times</title>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+ <t>-15
+        <list style="symbols">
+	  <t>
+	    Fixed #671 - Sec 2.1.1 added test to require client to request a access token for 
+	    the UserInfo Endpoint if requesting the default scopes.
+	  </t>
+	  </list></t>
+	  
       <t>-14
         <list style="symbols">
 	  <t>
