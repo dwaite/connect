@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="10" month="January" year="2013" />
+    <date day="14" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -356,7 +356,7 @@ function receiveMessage(e)
       </section>
     </section>
 
-    <section title="RP initiated Logout">
+    <section title="RP Initiated Logout">
       <t>Sometimes, the RP may want to notify the OP that the user has logged
       out of the site, and he may want to logout of the OP as well. In this
       case, the RP, after having logged out the user, sends the user to the
@@ -366,6 +366,27 @@ function receiveMessage(e)
       <t>Upon receipt of such message, the OP SHOULD prompt the user whether
       he wants to logout of the OP as well. If the user says "yes", then the OP MUST
       log him out.</t>
+
+      <section title="Redirection to the RP After Logout">
+	<t>
+	  In some cases, the RP may want the user to be redirected back to the RP
+	  after a logout has been performed.
+	  This specification defines an additional dynamic registration parameter
+	  for this purpose, per Section 2.1 of
+	  <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
+	</t>
+	<t>
+	  <list style="hanging">
+            <t hangText="post_logout_redirect_url">
+	      OPTIONAL.
+	      The RP supplies this URL to request that the user be redirected to this location
+	      after a logout has been performed.
+	      If supplied, the OP SHOULD honor this request following a logout initiated from this RP.
+	    </t>
+	  </list>
+	</t>
+      </section>
+
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -479,6 +500,31 @@ function receiveMessage(e)
         </front>
 
         <format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Registration">
+        <front>
+          <title>OpenID Connect Dynamic Client
+          Registration 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <date day="27" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
                 type="HTML" />
       </reference>
 
