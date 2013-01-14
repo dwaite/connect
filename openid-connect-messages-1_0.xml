@@ -972,11 +972,11 @@
           in an implicit flow, this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">access_token</spanx> 
-                with the SHA-2 family hash algorithm
-                of the same length as the hash used in the <spanx style="verb">alg</spanx>
-                parameter of the <xref target="JWS">JWS</xref> header.
+                with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+                <spanx style="verb">alg</spanx>
+                parameter in the <xref target="JWS">JWS</xref> header.
           For instance, if the <spanx style="verb">alg</spanx> is
-                <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
+                <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
           with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
                 <t hangText="c_hash">OPTIONAL. 
@@ -984,11 +984,12 @@
           in an implicit flow, this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">code</spanx> 
-                with the SHA-2 family hash algorithm
-                of the same length as the hash used in the <spanx style="verb">alg</spanx>
-                parameter of the JWS header. For instance, if the <spanx style="verb">alg</spanx> is
-                <spanx style="verb">HS256</spanx>, hash <spanx style="verb">code</spanx>
-          with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+                with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+                <spanx style="verb">alg</spanx>
+                parameter in the <xref target="JWS">JWS</xref> header.
+                 For instance, if the <spanx style="verb">alg</spanx> is
+                <spanx style="verb">HS512</spanx>, hash <spanx style="verb">code</spanx>
+          with SHA-512, then take the left-most 256 bits and base64url encode them.</t>
 
               </list></t>
 
@@ -2418,9 +2419,9 @@ Tokens and URL locations where the Claims may be retrieved:
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">access_token</spanx> 
-              with the SHA-2 family hash algorithm
-              of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              parameter of the JWS header of the ID Token.</t>
+                with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+                <spanx style="verb">alg</spanx>
+                parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
               
             <t>Take the left-most half of the hash and base64url encode it.</t>
 
@@ -2436,9 +2437,9 @@ Tokens and URL locations where the Claims may be retrieved:
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">code</spanx> 
-              with the SHA-2 family hash algorithm
-              of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              parameter of the JWS header of the ID Token.</t>
+             with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+                <spanx style="verb">alg</spanx>
+                parameter in the the ID Token's <xref target="JWS">JWS</xref> header.</t>
               
             <t>Take the left-most half of the hash and base64url encode it.</t>
 
@@ -3569,6 +3570,10 @@ Representation of dates and times</title>
 	    Fixed #671 - Sec 2.1.1 added test to require client to request a access token for 
 	    the UserInfo Endpoint if requesting the default scopes.
 	  </t>
+	  <t>
+	    Fixed  #637 removed requirement for hash of at_token and code to be SHA2 in
+	    Sec 2.1.2.1 and Sec 5.2
+	    </t>
 	  </list></t>
 	  
       <t>-14

@@ -675,17 +675,17 @@ req.send(postBody);]]></artwork>
 	      Use of the nonce is REQUIRED when using the implicit flow
 	      and OPTIONAL when using the code flow.</t>
 	      
-	      <t hangText="at_hash">
-              If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-	      in an implicit flow, this is REQUIRED.
-              The value is produced by base64url encoding the left-most half of the hash 
-              created by hashing the <spanx style="verb">access_token</spanx> 
-              with the SHA-2 family hash algorithm
-              of the same length as the hash used in the <spanx style="verb">alg</spanx>
-              parameter of the <xref target="JWS">JWS</xref> header.
-	      For instance, if the <spanx style="verb">alg</spanx> is
-              <spanx style="verb">HS256</spanx>, hash <spanx style="verb">access_token</spanx>
-	      with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+	      <t hangText="at_hash">OPTIONAL. 
+                If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+          in an implicit flow, this is REQUIRED.
+                The value is produced by base64url encoding the left-most half of the hash 
+                created by hashing the <spanx style="verb">access_token</spanx> 
+                with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+                <spanx style="verb">alg</spanx>
+                parameter in the <xref target="JWS">JWS</xref> header.
+          For instance, if the <spanx style="verb">alg</spanx> is
+                <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
+          with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
             </list></t>
             <t>Additional optional claims may be present in the ID Token.</t>
@@ -781,6 +781,24 @@ req.send(postBody);]]></artwork>
 	</t>
 
       </section>
+
+     <section anchor="access.token.validation" title="Access Token Validation">
+        <t>To validate an Access Token issued with an ID Token in 
+        the implicit flow, the client SHOULD do the following:</t>
+
+        <t><list style="numbers">
+            <t>Hash the <spanx style="verb">access_token</spanx> 
+                with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+                <spanx style="verb">alg</spanx>
+                parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
+              
+            <t>Take the left-most half of the hash and base64url encode it.</t>
+
+            <t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
+            match the value produced in the previous step if <spanx style="verb">at_hash</spanx>
+            is present in the ID Token.</t>
+        </list></t>
+        </section>
 
       <section anchor="userinfo" title="UserInfo Endpoint">
 
@@ -1887,6 +1905,15 @@ Representation of dates and times</title>
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+    <t>-06
+        <list style="symbols">
+	  <t>
+	    Fixed  #637 removed requirement for hash of at_token and code to be SHA2 in
+	    Sec 2.1.2.1 and Sec 5.2
+	    </t>
+	    <t> Added Sec 2.5 access token validation </t>
+	  </list></t>
+	  
       <t>-05
         <list style="symbols">
 	  <t>
