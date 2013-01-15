@@ -1134,7 +1134,7 @@
           The Client Authenticates in accordance with Section 2.2 of <xref
           target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>. 
-          The JWT MUST contain the Claims:</t>
+          The JWT MUST contain the following REQUIRED Claims and MAY contain the following OPTIONAL Claims:</t>
          
           <t><list style="hanging">
           <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
@@ -1154,12 +1154,16 @@
 	   A unique identifier for the token.  The
       JWT ID MAY be used by implementations requiring message
       de-duplication for one-time use assertions. </t>
+
            <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
 	   Claim that limits the time window during which the JWT can be used.</t>
+
             <t hangText="iat">OPTIONAL.  The <spanx style="verb">iat</spanx> (issued at)
 	    Claim that identifies the time at which the JWT was issued. </t>
-            </list></t>
+	  </list></t>
              
+	  <t>The JWT MAY contain other Claims that are understood by all parties using it.</t>
+
           <t>The authentication token MUST be sent as the value of the <spanx
 	      style='verb'>client_assertion</spanx> parameter.</t>
 
@@ -1174,10 +1178,11 @@
           The Client Authenticates in accordance with Section 2.2 of <xref
           target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
-          The JWT MUST contain the Claims:</t>
+          The JWT MUST contain the following REQUIRED Claims and MAY contain the following OPTIONAL Claims:</t>
+
           <t><list style="hanging">
-                    <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
-		    This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
+	    <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
+	    This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
           <t hangText="sub">REQUIRED. The <spanx style="verb">sub</spanx> (subject) Claim.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
@@ -1191,13 +1196,17 @@
 
            <t hangText="jti">REQUIRED. The <spanx style="verb">jti</spanx> (JWT ID) Claim.
 	   A unique identifier for the token.  The
-      token ID MAY be used by implementations requiring message
+      JWT ID MAY be used by implementations requiring message
       de-duplication for one-time use assertions. </t>
+
            <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
 	   Claim that limits the time window during which the JWT can be used.</t>
+
             <t hangText="iat">OPTIONAL.  The <spanx style="verb">iat</spanx> (issued at)
 	    Claim that identifies the time at which the JWT was issued. </t>
-            </list></t>
+	  </list></t>
+
+	  <t>The JWT MAY contain other Claims that are understood by all parties using it.</t>
 
 	  <t>The authentication token MUST be sent as the value of the <spanx
 	      style='verb'>client_assertion</spanx> parameter.</t>
@@ -3580,7 +3589,10 @@ Representation of dates and times</title>
 	    	  Fixes #620 - Update Sec 2.1.2 and Sec 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
 	  </t>
 	  <t> Fixes #684 Removed error response in redirect to client if the redirect_uri is wrong to align with OAuth.</t>
-	  </list></t>
+	  <t>
+	    Fixed #695 - Contradictory OPTIONAL MUSTs in JWT Client Authentication.
+	  </t>
+        </list></t>
 	  
       <t>-14
         <list style="symbols">
