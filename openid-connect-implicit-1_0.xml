@@ -1215,6 +1215,13 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
             value at the registration time, so it has to be provided 
             as a part of the authorization request. 
           </t>
+          <t hangText="request">OPTIONAL. An
+	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value. 
+	      The <xref target="OpenID_Request_Object">OpenID Request Object</xref> may be
+	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
+	      of the id_token 
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+
         </list></t>
         <t>
           Other parameters MAY be sent. 
@@ -1919,6 +1926,7 @@ Representation of dates and times</title>
 	    	  <t>
 	    	    Re #620 - Update Sec 2.2.5.1 to allow for other token types, but make bearer mandatory to support for implicit clients.
 	  </t>
+	  <t> Re #657 update sec 3.3 to say that the sub is sent as the kid if the id_token is encrypted in the request.</t>
 	  </list></t>
 	  
       <t>-05
