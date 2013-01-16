@@ -1028,7 +1028,7 @@
 
         </section>
 
-        <section title="Authorization Error Response">
+        <section anchor="AuthError" title="Authorization Error Response">
           <t>If the End-User denies the access request or if the request
           fails, the OP (Authorization Server) informs the RP (Client) by returning
           parameters defined in sections 4.1.2.1 and 4.2.2.1 of <xref
@@ -1352,7 +1352,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 		    SHOULD NOT be present with a null or empty string value.
 		  </t>
 	 	</section>
-	 	<section title="UserInfo Error Response">
+	 	<section anchor="UserInfoError" title="UserInfo Error Response">
           <t>When an error condition occurs, the UserInfo Endpoint returns
           an Error Response. In addition to the error codes defined in Section 3.1 of
           <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification
@@ -1365,11 +1365,11 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
     	</section>
     </section>
 
-    <section title="Standard Claims">
-    		<t>This specification defines a set of standard claims.
-    			They can be requested to be returned either in id_token 
-    			or userinfo response. 
-    		</t>
+    <section anchor="StandardClaims" title="Standard Claims">
+      <t>This specification defines a set of standard claims.
+      They can be requested to be returned either in the
+      UserInfo response or in the ID Token. 
+      </t>
 
           <t>The members MAY be represented in multiple languages and scripts.
           To specify the languages and scripts, <xref
@@ -2839,251 +2839,379 @@ Tokens and URL locations where the Claims may be retrieved:
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>
-	This specification registers the Claims defined in
-	<xref target="ClaimTable"/> in the IANA
-	JSON Web Token Claims registry
-	defined in <xref target="JWT"/>.
-      </t>
 
-      <section title='Registry Contents'>
-	<t> <?rfc subcompact="yes"?>
-	<list style='symbols'>
-	  <t>
-	    Claim Name: <spanx style="verb">name</spanx>
+      <section anchor="ClaimsRegistry" title="JSON Web Token Claims Registry">
+	<t>
+	  This specification registers the Claims defined in
+	  <xref target="StandardClaims"/> in the IANA
+	  JSON Web Token Claims registry
+	  defined in <xref target="JWT"/>.
+	</t>
+
+	<section title='Registry Contents'>
+	  <t> <?rfc subcompact="yes"?>
+	  <list style='symbols'>
+	    <t>
+	      Claim Name: <spanx style="verb">name</spanx>
+	    </t>
+	    <t>
+	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s): <xref target="StandardClaims"/> of this document
+	    </t>
+	  </list>
 	  </t>
 	  <t>
-	    Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">given_name</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
 	  </t>
 	  <t>
-	    Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">family_name</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
 	  </t>
-	</list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">given_name</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">family_name</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">middle_name</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">nickname</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">preferred_username</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">profile</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">picture</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">website</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">email</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">email_verified</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">gender</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">birthdate</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">zoneinfo</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">locale</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">phone_number</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">address</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">updated_time</spanx>
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): <xref target="ClaimTable"/> of [[ this document ]]
-	    </t>
-	  </list>
-	</t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">middle_name</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">nickname</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">preferred_username</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">profile</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">picture</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">website</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">email</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">email_verified</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">gender</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">birthdate</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">zoneinfo</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">locale</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">phone_number</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">address</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">updated_time</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="StandardClaims"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
       </section>
-      <?rfc subcompact="no"?>
-    
+
+      <section anchor="OAuthErrorRegistry" title="OAuth Extensions Error Registry">
+
+	<t>
+	  This specification registers the following errors
+	  in the IANA
+	  OAuth Extensions Error registry
+	  defined in <xref target="RFC6749">RFC 6749</xref>.
+	</t>
+
+	<section title='Registry Contents'>
+          <t> <?rfc subcompact="yes"?>
+	    <list style="symbols">
+              <t>Error name: invalid_redirect_uri </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+
+          <t>
+	    <list style="symbols">
+              <t>Error name: interaction_required </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+
+          <t>
+	    <list style="symbols">
+              <t>Error name: login_required </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+
+          <t>
+	    <list style="symbols">
+              <t>Error name: session_selection_required </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+
+          <t>
+	    <list style="symbols">
+              <t>Error name: consent_required </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+
+          <t>
+	    <list style="symbols">
+              <t>Error name: invalid_request_uri </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+	  
+          <t>
+	    <list style="symbols">
+              <t>Error name: invalid_openid_request_object </t>
+
+              <t>Error usage location: Authorization Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+            </list>
+	  </t>
+
+          <t>
+	    <list style="symbols">
+              <t>Error name: invalid_schema </t>
+
+              <t>Error usage location: UserInfo Endpoint</t>
+
+              <t>Related protocol extension: OpenID Connect</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="UserInfoError"/> of this document</t>
+            </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+
+      </section>
     </section>
 
   </middle>
@@ -3836,6 +3964,18 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #600 - Register Connect Claims in JWT Claims Registry.
+	  </t>
+	  <t>
+	    Made the OpenID Foundation Artifact Binding Working Group the change controller for
+	    the values registered with IANA.
+	  </t>
+	  <t>
+	    Moved OAuth error registrations from Standard to Messages
+	    since the errors are defined in Messages and not in Standard.
+	  </t>
+	  <t>
+	    Use "OpenID Connect" as the "Related protocol extension" value in
+	    OAuth Extensions Error registry entries.
 	  </t>
         </list></t>
 	  

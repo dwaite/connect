@@ -705,7 +705,8 @@ Host: example.com]]></artwork>
  "registration_endpoint":
    "https://server.example.com/connect/register",
  "scopes_supported":
-   ["openid", "profile", "email", "address", "phone", "offline_access"],
+   ["openid", "profile", "email", "address",
+    "phone", "offline_access"],
  "response_types_supported":
    ["code", "code id_token", "token id_token"],
  "acr_values_supported":
@@ -782,20 +783,41 @@ Host: example.com]]></artwork>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>
-	Per <xref target="RFC5785">RFC 5785</xref>, the following
-	registration is requested:
-        <list style="hanging">
-          <t hangText="URI suffix">openid-configuration</t>
-          <t hangText="Change controller">OpenID Foundation</t>
-          <t hangText="Specification document">This document</t>
-        </list>
-      </t>
+      <section anchor="WellKnownRegistry" title="Well-Known URI Registry">
+	<t>
+	  This specification registers the well-known URI defined in
+	  <xref target="ProviderConfig"/> in the IANA
+	  Well-Known URI registry
+	  defined in <xref target="RFC5785">RFC 5785</xref>.
+	</t>
+
+	<section title='Registry Contents'>
+	  <t> <?rfc subcompact="yes"?>
+            <list style='symbols'>
+	      <t>
+		URI suffix: openid-configuration
+	      </t>
+	      <t>
+		Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification document: <xref target="ProviderConfig"/> of this document
+	      </t>
+	      <t>
+		Related information: (none)
+	      </t>
+	    </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+
+      </section>
     </section>
 
     <section anchor="Security" title="Security Considerations">
       <t>TBD</t>
     </section>
+
   </middle>
 
   <back>
@@ -1176,6 +1198,10 @@ Host: example.com]]></artwork>
 	    Clarified that <spanx style="verb">jwk_url</spanx> and
 	    <spanx style="verb">jwk_encryption_url</spanx> refer to
 	    documents containing JWK Sets - not single JWK keys.
+	  </t>
+	  <t>
+	    Made the OpenID Foundation Artifact Binding Working Group the change controller for
+	    the values registered with IANA.
 	  </t>
         </list>
       </t>
