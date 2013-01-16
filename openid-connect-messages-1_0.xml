@@ -484,8 +484,13 @@
                 error is returned.</t>
 
               <t hangText="request">OPTIONAL. An
-	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value.</t>
-
+	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value. 
+	      The <xref target="OpenID_Request_Object">OpenID Request Object</xref> may be
+	      encrypted in a JWE by the client.  For a Self-Issued id_token the 
+	      <spanx style="verb">sub</spanx> (subject)
+	      of the id_token 
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+	      
               <t hangText="request_uri">OPTIONAL. An URL that points to an
               OpenID Request Object. This is used to pass an OpenID Request
               Object by reference.</t>
@@ -502,7 +507,11 @@
               received by the RP was encrypted, 
               the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
               (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
-              using the key that the server is capable of decrypting. </t>
+              using the key that the server is capable of decrypting. 
+               For a Self-Issued id_token the 
+	      <spanx style="verb">sub</spanx> (subject)
+	      of the id_token 
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
               
               <t hangText="login_hint">OPTIONAL. A hint to the authorization service 
               as to the login identifier the user may use to authenticate at the authorization 
@@ -3977,6 +3986,7 @@ Representation of dates and times</title>
 	    Use "OpenID Connect" as the "Related protocol extension" value in
 	    OAuth Extensions Error registry entries.
 	  </t>
+	  <t> Fixed #657 Sec 2.1.1 Specify the sub is used as the kid if the request object or id_token_hint is encrypted</t>
         </list></t>
 	  
       <t>-14

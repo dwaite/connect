@@ -1222,6 +1222,24 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	      of the id_token 
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
+           <t hangText="id_token_hint">OPTIONAL. An <xref target="id_token">ID Token</xref>
+              passed to the Authorization server as a hint about the user's current or past
+              authenticated session with the client. This SHOULD be present if 
+              <spanx style="verb">prompt=none</spanx> is sent. 
+              The value is a <xref target="JWS">JWS</xref> encoded 
+              ID token as signed by the issuer, 
+              the <xref target="JWS">JWS</xref> may be <xref target="JWE">JWE</xref> encrypted by 
+              the public key of the issuer for 
+              additional confidentiality. If the <spanx style="verb">id_token</spanx> 
+              received by the RP was encrypted, 
+              the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
+              (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
+              using the key that the server is capable of decrypting. 
+               For a Self-Issued id_token the 
+	      <spanx style="verb">sub</spanx> (subject)
+	      of the id_token 
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+	      
         </list></t>
         <t>
           Other parameters MAY be sent. 
