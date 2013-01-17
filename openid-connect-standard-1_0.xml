@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Standard 1.0">OpenID Connect Standard 1.0 - draft 15</title>
+    <title abbrev="OpenID Connect Standard 1.0">OpenID Connect Standard 1.0 - draft 16</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="27" month="December" year="2012" />
+    <date day="16" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the
@@ -1628,10 +1628,36 @@ WWW-Authenticate: Bearer realm="example.com",
             value at the registration time, so it has to be provided 
             as a part of the authorization request. 
           </t>
+          <t hangText="request">OPTIONAL. An
+	      OpenID Request Object value, as defined in
+	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>. 
+	      The OpenID Request Object may be
+	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
+	      of the ID Token
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+
+           <t hangText="id_token_hint">OPTIONAL. An ID Token
+              passed to the Authorization server as a hint about the user's current or past
+              authenticated session with the client. This SHOULD be present if 
+              <spanx style="verb">prompt=none</spanx> is sent. 
+              The value is a <xref target="JWS">JWS</xref> encoded 
+              ID token as signed by the issuer, 
+              the <xref target="JWS">JWS</xref> may be <xref target="JWE">JWE</xref> encrypted by 
+              the public key of the issuer for 
+              additional confidentiality. If the <spanx style="verb">id_token</spanx> 
+              received by the RP was encrypted, 
+              the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
+              (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
+              using the key that the server is capable of decrypting. 
+               For a Self-Issued id_token the 
+	      <spanx style="verb">sub</spanx> (subject)
+	      of the id_token 
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+	      
         </list></t>
         <t>
           Other parameters MAY be sent. 
-          Note that all claims are returned in the <spanx style="verb">id_token</spanx>.  
+          Note that all claims are returned in the ID Token.
         </t>
         <t>The entire URL MUST NOT exceed 2048 bytes.</t>
         <figure>
@@ -1651,7 +1677,7 @@ Location: openid://
         <t>Self-Issued Identity Provider Response is the same as the normal implicit flow 
           response apart from the fact that the <spanx style="verb">iss</spanx> claim value is 
           <spanx style="verb">https://self-issued.me</spanx> and all claims are 
-          returned in <spanx style="verb">id_token</spanx>. Since it is an implicit flow 
+          returned in the ID Token. Since it is an implicit flow 
           response, the response parameters will be returned in a fragment.
         </t>
       </section>
@@ -1781,21 +1807,6 @@ Location: openid://
       
     </section>
 
-    <section anchor="disco_reg" title="Discovery and Registration">
-      <t>Some OpenID Connect installations can use a pre-configured set of
-      OpenID Providers and/or Relying Parties. In those cases, it may not be
-      necessary to support dynamic discovery of information about identities
-      or services or dynamic registration of Clients.</t>
-
-      <t>However, if installations choose to support unanticipated
-      interactions between Relying Parties and OpenID Providers that do not
-      have pre-configured relationships, they SHOULD accomplish this by
-      implementing the facilities defined in the <xref
-      target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
-      target="OpenID.Registration">OpenID Connect Dynamic Client Registration
-      1.0</xref> specifications.</t>
-    </section>
-
     <section anchor="Serializations" title="Serializations">
       <t>A request message MAY be serialized using one of the following methods:
         <list style="numbers">
@@ -1845,9 +1856,44 @@ scope=openid&response_type=code
       </section>
     </section>
 
+    <section anchor="ImplementationConsiderations" title="Implementation Considerations">
+      <t>
+	This specification defines features used by both Relying Parties and
+	OpenID Providers.  Features that are mandatory to implement for
+	Relying Parties are already described in the
+	<xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> and
+	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref>
+	specifications, and so are not discussed again here.
+      </t>
+      <t>
+	All OpenID Providers MUST implement the features that are already listed elsewhere
+	in this specification as being "REQUIRED" or are described with a "MUST".
+	Since this specification is a protocol binding for the
+	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> specification,
+	all the implementation considerations described in that specification
+	also apply here.
+      </t>
+
+      <section anchor="disco_reg" title="Discovery and Registration">
+
+	<t>Some OpenID Connect installations can use a pre-configured set of
+	OpenID Providers and/or Relying Parties. In those cases, it may not be
+	necessary to support dynamic discovery of information about identities
+	or services or dynamic registration of Clients.</t>
+
+	<t>However, if installations choose to support unanticipated
+	interactions between Relying Parties and OpenID Providers that do not
+	have pre-configured relationships, they SHOULD accomplish this by
+	implementing the facilities defined in the <xref
+	target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
+	target="OpenID.Registration">OpenID Connect Dynamic Client Registration
+	1.0</xref> specifications.</t>
+      </section>
+    </section>
+
     <section anchor="security_considerations" title="Security Considerations">
       <t>This specification references the security considerations defined in
-      <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+      <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
       <t>In addition, the following list of attack vectors and remedies are
       also considered.</t>
@@ -2194,6 +2240,77 @@ scope=openid&response_type=code
       <format target="http://www.w3.org/TR/access-control/"
               type="HTML" />
       </reference>
+
+      <reference anchor="OpenID.Basic">
+        <front>
+          <title>OpenID Connect Basic Client Profile 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+           <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B."
+                  surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+            <organization abbrev="Salesforce">Salesforce</organization>
+          </author>
+
+          <date day="27" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-basic-1_0.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Implicit">
+        <front>
+          <title>OpenID Connect Implicit Client Profile 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute,
+            Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+           <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B."
+                  surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+            <organization abbrev="Salesforce">Salesforce</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="27" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
+                type="HTML" />
+      </reference>
+
     </references>
 
     <section title="Footnotes">
@@ -2276,6 +2393,13 @@ scope=openid&response_type=code
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-16
+        <list style="symbols">
+	  <t>
+	    Added Implementation Considerations section.
+	  </t>
+        </list></t>
 
       <t>-15
         <list style="symbols">

@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 22</title>
+    Client Profile 1.0 - draft 23</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="27" month="December" year="2012" />
+    <date day="16" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1046,22 +1046,6 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
       </section>
     </section>
 
-    <section anchor="disco_reg" title="Discovery and Registration">
-
-      <t>Some OpenID Connect installations can use a pre-configured set of
-      OpenID Providers and/or Relying Parties. In those cases, it may not be
-      necessary to support dynamic discovery of information about identities
-      or services or dynamic registration of Clients.</t>
-
-      <t>However, if installations choose to support unanticipated
-      interactions between Relying Parties and OpenID Providers that do not
-      have pre-configured relationships, they SHOULD accomplish this by
-      implementing the facilities defined in the <xref
-      target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
-      target="OpenID.Registration">OpenID Connect Dynamic Client Registration
-      1.0</xref> specifications.</t>
-    </section>
-
     <section anchor="qss" title="Query String Serialization">
       <t>In order to serialize the parameters using the query string
       serialization, the Client constructs the string by adding the
@@ -1137,6 +1121,31 @@ scope=openid&response_type=code
 	character (0x20) MAY be used for this purpose.
       </t>
 
+    </section>
+
+    <section anchor="ImplementationConsiderations" title="Implementation Considerations">
+      <t>
+	This specification defines features used by Relying Parties
+	using the OAuth code grant type.
+	All of these Relying Parties MUST implement the features that are listed
+	in this specification as being "REQUIRED" or are described with a "MUST".
+      </t>
+
+      <section anchor="disco_reg" title="Discovery and Registration">
+
+	<t>Some OpenID Connect installations can use a pre-configured set of
+	OpenID Providers and/or Relying Parties. In those cases, it may not be
+	necessary to support dynamic discovery of information about identities
+	or services or dynamic registration of Clients.</t>
+
+	<t>However, if installations choose to support unanticipated
+	interactions between Relying Parties and OpenID Providers that do not
+	have pre-configured relationships, they SHOULD accomplish this by
+	implementing the facilities defined in the <xref
+	target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> and <xref
+	target="OpenID.Registration">OpenID Connect Dynamic Client Registration
+	1.0</xref> specifications.</t>
+      </section>
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
@@ -1524,7 +1533,10 @@ Representation of dates and times</title>
 	  <t>
 	    Re #620 - Update Sec 2.2.6.2. to allow for other token types, but make bearer mandatory to support for basic clients.
 	  </t>
-	   </list></t>
+	  <t>
+	    Added Implementation Considerations section.
+	  </t>
+      </list></t>
 	   
       <t>-22
         <list style="symbols">
