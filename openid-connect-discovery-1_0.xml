@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="16" month="January" year="2013" />
+    <date day="17" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -280,9 +280,10 @@
 	    following request to get the discovery information
 	    (with line wraps for display purposes only):</preamble>
 
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery?principal=joe%40example.com
-    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
-    HTTP/1.1
+              <artwork><![CDATA[
+GET /.well-known/simple-web-discovery?principal=joe%40example.com
+  &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+  HTTP/1.1
 Host: example.com
 
 HTTP/1.1 200 OK
@@ -371,10 +372,11 @@ Content-Type: application/json
 	    following request to get the discovery information
 	    (with line wraps for display purposes only):</preamble>
 
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery
-    ?principal=https%3A%2F%2Fexample.com%3A8080%2F
-    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
-    HTTP/1.1
+              <artwork><![CDATA[
+GET /.well-known/simple-web-discovery
+  ?principal=https%3A%2F%2Fexample.com%3A8080%2F
+  &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+  HTTP/1.1
 Host: example.com:8080
 
 HTTP/1.1 200 OK
@@ -382,7 +384,8 @@ Content-Type: application/json
 
 {
  "locations":["https://server.example.com"]
-}]]></artwork>
+}
+]]></artwork>
             </figure></t>
         </section>
       </section>
@@ -644,7 +647,7 @@ Host: example.com]]></artwork>
 	    Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
           </c>
 
-          <c>token_endpoint_auth_types_supported</c>
+          <c>token_endpoint_auth_methods_supported</c>
           <c>array</c>
           <c>
             A JSON array containing a list of authentication
@@ -709,7 +712,7 @@ Host: example.com]]></artwork>
    "https://server.example.com",
  "token_endpoint":
    "https://server.example.com/connect/token",
- "token_endpoint_auth_types_supported":
+ "token_endpoint_auth_methods_supported":
    ["client_secret_basic", "private_key_jwt"],
  "token_endpoint_alg_values_supported":
    ["RS256", "ES256"],
@@ -1232,6 +1235,13 @@ Host: example.com]]></artwork>
 	  </t>
 	  <t>
 	    Added Implementation Considerations section.
+	  </t>
+	  <t>
+	    Fixed #656 - Changed
+	    <spanx style="verb">token_endpoint_auth_type</spanx> to
+	    <spanx style="verb">token_endpoint_auth_method</spanx> and
+	    <spanx style="verb">token_endpoint_auth_types_supported</spanx> to
+	    <spanx style="verb">token_endpoint_auth_methods_supported</spanx>.
 	  </t>
         </list>
       </t>
