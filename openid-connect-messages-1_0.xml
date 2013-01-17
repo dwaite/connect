@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 14</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 15</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="27" month="December" year="2012" />
+    <date day="16" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -683,7 +683,9 @@
                   languages and scripts for the entire Claims request, 
                   represented as a JSON array of <xref
                   target="RFC5646">BCP47</xref> language tag values,
-		  ordered by preference.</t>
+		  ordered by preference.
+		  An error SHOULD NOT result if some or all of the requested locales are not
+		  supported by the OpenID Provider.</t>
                 </list>
                 </t>
                  <t>All members of the <spanx style="verb">userinfo</spanx>
@@ -715,7 +717,7 @@
 
               <t>
                 <list style="hanging">
-                  <t hangText="sub">OPTIONAL. Subject identifier - 
+                  <t hangText="sub">OPTIONAL. (Subject Identifier):
                     The  <spanx style="verb">sub</spanx> (subject) identifier for which an ID Token is being requested.
                     If the specified user is not currently authenticated to the Authorization 
                     Server, they may be prompted for authentication, unless the 
@@ -727,9 +729,10 @@
                       <artwork><![CDATA[ "sub": {"value":"248289761001"}]]></artwork>
                     </figure>
                   </t>
-                  <t hangText="auth_time">OPTIONAL. (authenticated at):
+                  <t hangText="auth_time">OPTIONAL. (Authentication Time):
                     Requests that the <spanx style="verb">auth_time</spanx> 
-                    Claim be present in the 
+                    Claim containing the time at which the user authenticated
+		    be present in the 
                     <xref target="id_token">ID Token</xref> response.
                     The Claim Value in the request must be 
                     <spanx style="verb">{"essential": true}</spanx> to require 
@@ -757,7 +760,7 @@
               Request Object:</t>
 
               <t><list style="hanging">
-                  <t hangText="max_age">OPTIONAL. (max authentication age):
+                  <t hangText="max_age">OPTIONAL. (Max Authentication Age):
                   Specifies that the End-User must be actively authenticated if
                   any present authentication is older than the specified
                   number of seconds. (The <spanx style="verb">max_age</spanx> request parameter
@@ -850,7 +853,7 @@
           </section>
         </section>
 
-        <section title="Authorization Response">
+        <section anchor="AuthzResponse" title="Authorization Response">
           <t>An Authorization Response is a message returned from the 
             OP's Authorization Endpoint in response to the Authorization Request 
             by the RP. </t>
@@ -2557,19 +2560,135 @@ Tokens and URL locations where the Claims may be retrieved:
 
     </section>
 
-    <section anchor="related" title="Related Specifications">
-	  <t>This specification is an abstract specification. It needs to be 
-	  bound to a protocol to be used in practice. One such example of 
-	  protocol binding is:
-      <list style="symbols">
+    <section anchor="ImplementationConsiderations" title="Implementation Considerations">
+      <t>
+	This specification defines features used by both Relying Parties and
+	OpenID Providers.  Features that are mandatory to implement for
+	Relying Parties are already described in the
+	<xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> and
+	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref>
+	specifications, and so are not discussed again here.
+      </t>
+      <t>
+	It is expeceted that some OpenID Providers will require
+	static, out-of-band configuration of RPs using them,
+	whereas others will support dynamic usage by RPs without
+	a pre-established relationship between them.
+	For that reason, the mandatory-to-implement features for OPs
+	are listed below in two groups:
+	the first for all OPs and the second for "Dynamic" OpenID Providers.
+      </t>
+
+      <section anchor="ServerMTI" title="Mandatory to Implement Features for All OpenID Providers">
+	<t>
+	  All OpenID Providers MUST implement the following features defined in this specification.
+	  This list augments the set of features that are already listed elsewhere
+	  as being "REQUIRED" or are described with a "MUST",
+	  and so is not, by itself, a comprehensive set of implementation requriements for OPs.
+	</t>
+	<t>
+	  <list style="hanging">
+
+	    <t hangText="Signing ID Tokens with RSA HMAC SHA-256">
+	      OPs MUST support signing ID Tokens with the RSA HMAC SHA-256 algorithm
+	      (an <spanx style="verb">alg</spanx> value of <spanx style="verb">RS256</spanx>).
+	    </t>
+	    <t hangText="OpenID Request Object">
+	      OPs MUST support requests made using an OpenID Request Object
+	      with the <spanx style="verb">request</spanx> parameter,
+	      as defined in <xref target="OpenID_Request_Object"/>,
+	      including supporting requests for specific claims to be returned
+	      in the ID Token and from the UserInfo Endpoint.
+	    </t>
+	    <t hangText="Prompt Parameter">
+	      OPs must support the <spanx style="verb">prompt</spanx> parameter,
+	      as defined in <xref target="auth_req"/>, including the specified
+	      user interface behaviors such as <spanx style="verb">none</spanx>
+	      and <spanx style="verb">login</spanx>.
+	    </t>
+	    <t hangText="Preferred Locales">
+	      OPs MUST support requests for preferred languages and scripts via the
+	      <spanx style="verb">preferred_locales</spanx> member of the
+	      OpenID Request Object,
+	      as defined in <xref target="req.obj.userinfo"/>.
+	    </t>
+	    <t hangText="Authentication Context Class Reference">
+	      OPs MUST support requests for specific
+	      authentication context class reference values
+	      as a non-essential claim, via a request for listed
+	      <spanx style="verb">acr</spanx> claim values in the
+	      OpenID Request Object,
+	      as defined in <xref target="req.obj.id_token"/>
+	      and <xref target="req.obj.veri"/>.
+	    </t>
+	    <t hangText="Authentication Time">
+	      OPs MUST support returning the time at which the user authenticated
+	      via the <spanx style="verb">auth_time</spanx> Claim,
+	      as defined in <xref target="req.obj.id_token"/>
+	      and <xref target="id_token"/>.
+	    </t>
+	    <t hangText="Maximum Authentication Age">
+	      OPs MUST support enforcing a maximum authenticaiton age
+	      via the <spanx style="verb">max_age</spanx> parameter,
+	      as defined in <xref target="req.obj.id_token"/>.
+	    </t>
+	    <t hangText="Request URI">
+	      OPs MUST support requests made using an OpenID Request Object
+	      that is retrieved from a Request URI that is provided
+      	      with the <spanx style="verb">request_uri</spanx> parameter,
+	      as defined in <xref target="auth_req"/>.
+	    </t>
+
+	  </list>
+	</t>
+      </section>
+
+      <section anchor="DynamicMTI" title="Mandatory to Implement Features for Dynamic OpenID Providers">
+	<t>
+	  In addition to the features listed above,
+	  OpenID Providers supporting dynamic establishment of relationships with RPs
+	  MUST also implement the following features defined in this and related specifications.
+	</t>
+	<t>
+	  <list style="hanging">
+
+	    <t hangText="Keys in X.509 Format">
+	      These OPs MUST publish their public keys in X.509 format.
+	    </t>
+	    <t hangText="UserInfo Endpoint">
+	      These OPs MUST support the UserInfo Endpoint,
+	      as defined in <xref target="userinfo_ep"/>.
+	      (Supporting the UserInfo Endpoint is strongly RECOMMENDED for all OPs
+	      that are not self-issued OPs.)
+	    </t>
+	    <t hangText="Discovery">
+	      These OPs MUST support feature discovery,
+	      as defined in
+	      <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.
+	    </t>
+	    <t hangText="Dynamic Registration">
+	      These OPs MUST support dynamic client registration,
+	      as defined in
+	      <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
+	    </t>
+
+	  </list>
+	</t>
+      </section>
+
+      <section anchor="related" title="Related Specifications">
+	<t>This specification is an abstract specification. It needs to be 
+	bound to a protocol to be used in practice. One such example of 
+	protocol binding is:
+	<list style="symbols">
           <t><xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
           - Protocol binding for the full set of OpenID Connect messages</t>
-	  </list>
-	   </t>
-	  
-      <t>These related OpenID Connect specifications MAY OPTIONALLY be used in
-      combination with this specification to provide additional functionality:
-      <list style="symbols">
+	</list>
+	</t>
+	
+	<t>These related OpenID Connect specifications MAY OPTIONALLY be used in
+	combination with this specification to provide additional functionality:
+	<list style="symbols">
 
           <t><xref target="OpenID.Discovery">OpenID Connect Discovery
           1.0</xref> - Dynamic discovery for user and Authorization Server 
@@ -2592,6 +2711,7 @@ Tokens and URL locations where the Claims may be retrieved:
           <t><xref target="OpenID.Session">OpenID Connect Session Management
           1.0</xref> - Session management for OpenID Connect sessions</t>
         </list></t>
+      </section>
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
@@ -3453,7 +3573,7 @@ Tokens and URL locations where the Claims may be retrieved:
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="27" month="December" year="2012" />
+          <date day="14" month="January" year="2013" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -3987,6 +4107,12 @@ Representation of dates and times</title>
 	    OAuth Extensions Error registry entries.
 	  </t>
 	  <t> Fixed #657 Sec 2.1.1 Specify the sub is used as the kid if the request object or id_token_hint is encrypted</t>
+	  <t>
+	    Added section on Mandatory to Implement (MTI) features, per issue #604.
+	  </t>
+	  <t>
+	    Specified that dynamic OPs must publish their public keys in X.509 format, per issue #633.
+	  </t>
         </list></t>
 	  
       <t>-14
