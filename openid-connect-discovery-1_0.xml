@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="27" month="December" year="2012" />
+    <date day="16" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -496,12 +496,7 @@ Host: example.com]]></artwork>
           <c>URL of the OP's UserInfo Endpoint <xref
           target="OpenID.Messages"></xref></c>
 
-          <c>refresh_session_endpoint</c>
-          <c>string</c>
-          <c>URL of the OP's Refresh Session Endpoint <xref
-          target="OpenID.Session"></xref></c>
-
-          <c>check_session_endpoint</c>
+          <c>check_session_iframe_url</c>
           <c>string</c>
           <c>URL of an OP endpoint that provides a page to support cross-origin
           communications for session state information with the RP client, using
@@ -509,7 +504,7 @@ Host: example.com]]></artwork>
           embedded in an RP page so that it can run in the OP's security context.<xref
           target="OpenID.Session"></xref></c>
 
-          <c>end_session_endpoint</c>
+          <c>end_session_endpoint_url</c>
           <c>string</c>
           <c>URL of the OP's endpoint that initiates the user logout <xref
           target="OpenID.Session"></xref></c>
@@ -676,15 +671,6 @@ Host: example.com]]></artwork>
             Servers SHOULD support <spanx style="verb">RS256</spanx>.
           </c>
 
-          <c>client_authentication_methods_supported</c>
-          <c>array</c>
-          <c>
-	    A JSON array containing a list of the client authentication methods
-	    that the OpenID Provider supports.
-	    These methods are described in
-	    Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-          </c>
-
           <c>display_values_supported</c>
           <c>array</c>
           <c>
@@ -729,11 +715,9 @@ Host: example.com]]></artwork>
    ["RS256", "ES256"],
  "userinfo_endpoint":
    "https://server.example.com/connect/user",
- "refresh_session_endpoint":
-   "https://server.example.com/connect/refresh_session",
- "check_session_endpoint":
+ "check_session_iframe_url":
    "https://server.example.com/connect/check_session",
- "end_session_endpoint":
+ "end_session_endpoint_url":
    "https://server.example.com/connect/end_session",
  "jwk_url":
    "https://server.example.com/jwks.json",
@@ -762,8 +746,6 @@ Host: example.com]]></artwork>
    ["A128CBC+HS256", "A128GCM"],
  "request_object_signing_alg_values_supported":
    ["none", "RS256", "ES256"],
- "client_authentication_methods_supported":
-   ["client_secret_basic", "private_key_jwt"],
  "display_values_supported":
    ["page", "popup"],
  "claim_types_supported":
@@ -828,6 +810,22 @@ Host: example.com]]></artwork>
 
     </section>
 
+    <section anchor="ImplementationConsiderations" title="Implementation Considerations">
+      <t>
+	This specification defines features used by both Relying Parties and
+	OpenID Providers that choose to implement Discovery.
+	All of these Relying Parties and OpenID Providers
+	MUST implement the features that are listed
+	in this specification as being "REQUIRED" or are described with a "MUST".
+	No other implementation considerations for implementations of
+	Discovery are defined by this specification.
+      </t>
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t>TBD</t>
+    </section>
+
     <section anchor="IANA" title="IANA Considerations">
       <section anchor="WellKnownRegistry" title="Well-Known URI Registry">
 	<t>
@@ -858,10 +856,6 @@ Host: example.com]]></artwork>
 	<?rfc subcompact="no"?>
 
       </section>
-    </section>
-
-    <section anchor="Security" title="Security Considerations">
-      <t>TBD</t>
     </section>
 
   </middle>
@@ -1231,11 +1225,13 @@ Host: example.com]]></artwork>
 	  </t>
 	  <t>
 	    Added
-	    <spanx style="verb">client_authentication_methods_supported</spanx>,
 	    <spanx style="verb">display_values_supported</spanx>,
 	    <spanx style="verb">claim_types_supported</spanx>, and
 	    <spanx style="verb">claims_supported</spanx>
 	    discovery elements, fixing issue #656.
+	  </t>
+	  <t>
+	    Added Implementation Considerations section.
 	  </t>
         </list>
       </t>

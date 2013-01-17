@@ -39,7 +39,7 @@
       </address>
     </author>
 
-    <date day="7" month="January" year="2013" />
+    <date day="16" month="January" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -509,7 +509,7 @@ Cache-Control: no-store
 
             <t hangText="client_secret">OPTIONAL. The Client secret. This
             MUST be unique for each <spanx style="verb">client_id</spanx>. 
-            This value us used by confidential clients. It is not required for
+            This value is used by confidential clients. It is not required for
             clients selecting a token_endpoint_auth_type of 
             <spanx style="verb">private_key_jwt</spanx>.</t>
             
@@ -671,8 +671,16 @@ Cache-Control: no-store
 
     </section>
 
-    <section anchor="IANA" title="IANA Considerations">
-      <t>This document makes no requests of IANA.</t>
+    <section anchor="ImplementationConsiderations" title="Implementation Considerations">
+      <t>
+	This specification defines features used by both Relying Parties and
+	OpenID Providers that choose to implement Dynamic Client Registration.
+	All of these Relying Parties and OpenID Providers
+	MUST implement the features that are listed
+	in this specification as being "REQUIRED" or are described with a "MUST".
+	No other implementation considerations for implementations of
+	Dynamic Client Registration are defined by this specification.
+      </t>
     </section>
 
     <section anchor="Security" title="Security Considerations">
@@ -714,6 +722,11 @@ Cache-Control: no-store
       same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.</t>
       
     </section>
+
+    <section anchor="IANA" title="IANA Considerations">
+      <t>This document makes no requests of IANA.</t>
+    </section>
+
   </middle>
 
   <back>
@@ -991,12 +1004,19 @@ Cache-Control: no-store
 
       <t>-14
         <list style="symbols">
-	  <t>Changed "type" to "operation". The name "type" implied that it was a 
-             piece of metadata on the client itself, i.e. the "type of the client".</t>
-	  <t>Changed "associate" to "register"</t>
-	  <t>Changed "application_name" to "client_name"</t>
-	  <t>Changed responses of client_register and client_update to include full
-             client information instead of just the id.</t>
+	  <t>
+	    Changed the syntax of some elements to match the syntax used in the
+	    OAuth Dynamic Client Registration draft.  Specifically, 
+	    changed <spanx style="verb">type</spanx> to <spanx style="verb">operation</spanx>,
+	    changed <spanx style="verb">associate</spanx> to <spanx style="verb">register</spanx>, and
+	    changed <spanx style="verb">application_name</spanx> to <spanx style="verb">client_name</spanx>.
+	    Also changed the responses of <spanx style="verb">client_register</spanx>
+	    and <spanx style="verb">client_update</spanx> to include full
+	    client information instead of just the Client ID.
+	  </t>
+	  <t>
+	    Added Implementation Considerations section.
+	  </t>
         </list>
       </t>
 
