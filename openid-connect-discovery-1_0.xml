@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 11</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 12</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -676,6 +676,41 @@ Host: example.com]]></artwork>
             Servers SHOULD support <spanx style="verb">RS256</spanx>.
           </c>
 
+          <c>client_authentication_methods_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the client authentication methods
+	    that the OpenID Provider supports.
+	    These methods are described in
+	    Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+          </c>
+
+          <c>display_values_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the <spanx style="verb">display</spanx>
+	    parameter values that the OpenID Provider supports.
+	    These values are described in
+	    Section 2.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+          </c>
+
+          <c>claim_types_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the claim types
+	    that the OpenID Provider supports.
+	    These claim types are described in
+	    Section 2.6 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+          </c>
+
+          <c>claims_supported</c>
+          <c>array</c>
+          <c>
+	    A JSON array containing a list of the Claim Names of the Claims
+	    that the OpenID Provider may be able to supply values for.
+	    Note that for privacy or other reasons, this may not be an exhaustive list.
+          </c>
+
         </texttable>
 
         <t>Example response:</t>
@@ -708,7 +743,7 @@ Host: example.com]]></artwork>
    ["openid", "profile", "email", "address",
     "phone", "offline_access"],
  "response_types_supported":
-   ["code", "code id_token", "token id_token"],
+   ["code", "code id_token", "id_token", "token id_token"],
  "acr_values_supported":
    ["1","2","http://id.incommon.org/assurance/bronze"],
  "subject_types_supported":
@@ -726,7 +761,18 @@ Host: example.com]]></artwork>
  "id_token_encryption_enc_values_supported":
    ["A128CBC+HS256", "A128GCM"],
  "request_object_signing_alg_values_supported":
-   ["none", "RS256", "ES256"]
+   ["none", "RS256", "ES256"],
+ "client_authentication_methods_supported":
+   ["client_secret_basic", "private_key_jwt"],
+ "display_values_supported":
+   ["page", "popup"],
+ "claim_types_supported":
+   ["normal", "distributed"],
+ "claims_supported":
+   ["sub", "iss", "auth_time", "acr",
+    "name", "given_name", "family_name", "nickname",
+    "profile", "picture", "website",
+    "email", "email_verified", "locale", "zoneinfo"]
  }]]></artwork>
           </figure></t>
       </section>
@@ -1176,6 +1222,24 @@ Host: example.com]]></artwork>
 
     <section title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-12
+        <list style="symbols">
+	  <t>
+	    Made the OpenID Foundation Artifact Binding Working Group the change controller for
+	    the values registered with IANA.
+	  </t>
+	  <t>
+	    Added
+	    <spanx style="verb">client_authentication_methods_supported</spanx>,
+	    <spanx style="verb">display_values_supported</spanx>,
+	    <spanx style="verb">claim_types_supported</spanx>, and
+	    <spanx style="verb">claims_supported</spanx>
+	    discovery elements, fixing issue #656.
+	  </t>
+        </list>
+      </t>
+      
       <t>-11
         <list style="symbols">
 	  <t>
@@ -1198,10 +1262,6 @@ Host: example.com]]></artwork>
 	    Clarified that <spanx style="verb">jwk_url</spanx> and
 	    <spanx style="verb">jwk_encryption_url</spanx> refer to
 	    documents containing JWK Sets - not single JWK keys.
-	  </t>
-	  <t>
-	    Made the OpenID Foundation Artifact Binding Working Group the change controller for
-	    the values registered with IANA.
 	  </t>
         </list>
       </t>
