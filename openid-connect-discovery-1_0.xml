@@ -699,6 +699,15 @@ Host: example.com]]></artwork>
 	    that the OpenID Provider may be able to supply values for.
 	    Note that for privacy or other reasons, this may not be an exhaustive list.
           </c>
+          
+          <c>service_documentation</c>
+          <c>string</c>
+          <c>
+	    URL of a page containing human-readable information that
+	    developers might want or need to know when using the OpenID Provider.
+	    In particular, if the OpenID Provider does not support dynamic client registration,
+	    then information on how to register clients should be provided in this documentation.
+	  </c>
 
         </texttable>
 
@@ -757,7 +766,9 @@ Host: example.com]]></artwork>
    ["sub", "iss", "auth_time", "acr",
     "name", "given_name", "family_name", "nickname",
     "profile", "picture", "website",
-    "email", "email_verified", "locale", "zoneinfo"]
+    "email", "email_verified", "locale", "zoneinfo"],
+ "service_documentation":
+   "http://server.example.com/connect/service_documentation.html"
  }]]></artwork>
           </figure></t>
       </section>
@@ -1242,6 +1253,10 @@ Host: example.com]]></artwork>
 	    <spanx style="verb">token_endpoint_auth_method</spanx> and
 	    <spanx style="verb">token_endpoint_auth_types_supported</spanx> to
 	    <spanx style="verb">token_endpoint_auth_methods_supported</spanx>.
+	  </t>
+	  <t>
+	    Fixed #697 - Added <spanx style="verb">service_documentation</spanx>
+	    to enable OPs not supporting dynamic registration to say how to register clients.
 	  </t>
         </list>
       </t>
