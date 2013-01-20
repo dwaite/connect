@@ -1008,16 +1008,12 @@
 
                 <t hangText="at_hash">OPTIONAL. 
 	        Access Token hash value.
-<<<<<<< mine
-                If the ID Token is issued from the Authorization endpoint with a 
+
+                If the ID Token is issued from the Authorization endpoint with an 
                 <spanx style="verb">access_token</spanx>
-          in response to a request specifying a <spanx style="verb">response_type</spanx> value
-          of <spanx style="verb">token id_token</spanx> , this is REQUIRED.
-=======
-                If the ID Token is issued with an <spanx style="verb">access_token</spanx>
           in response to a request using a <spanx style="verb">response_type</spanx> value
           of <spanx style="verb">token id_token</spanx>, this is REQUIRED.
->>>>>>> theirs
+
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">access_token</spanx> 
                 with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
@@ -2510,7 +2506,8 @@ Tokens and URL locations where the Claims may be retrieved:
       <section anchor="access.token.validation" title="Access Token Validation">
         <t>To validate an Access Token issued from the Authorization endpoint with an ID Token in 
         response to a request containing a <spanx style="verb">response_type</spanx> of
-        <spanx style="verb">token id_token</spanx>, the client SHOULD do the following:</t>
+        <spanx style="verb">token id_token</spanx> or <spanx style="verb">code token id_token</spanx> , 
+        the client SHOULD do the following:</t>
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">access_token</spanx> 
@@ -4277,6 +4274,8 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #700 - Incomplete specification names.
 	  </t>
+	  <t>Fixed merge and added code token id_token response_type to at_hash</t>
+	  
         </list></t>
 	  
       <t>-14
