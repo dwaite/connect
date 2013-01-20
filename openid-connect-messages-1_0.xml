@@ -70,7 +70,7 @@
       the associated message formats. 
       The actual use MUST be based on one of 
       the companion protocol bindings specifications 
-      such as OpenID Connect Standard.</t>
+      such as OpenID Connect Standard 1.0.</t>
     </abstract>
   </front>
 
@@ -151,11 +151,10 @@
 	    Relying Party and an OpenID Provider.</t>
 
 	    <t hangText="OpenID Provider (OP)">
-        Service capable of providing Claims to a Relying Party. 
-        It is an OAuth 2.0 Authorization Server that is capable of 
-        returning claims around the authentication event and 
-        other Claims in <spanx style="verb">id_token</spanx> 
-        and UserInfo Endpoint response. 
+        OAuth 2.0 Authorization Server that is capable of 
+        returning Claims to a Relying Party
+	about the authentication event and the End-User
+	in an ID Token and/or a UserInfo Endpoint response. 
       </t>
 
 	    <t hangText="OP Endpoints">Authorization Endpoint, Token
@@ -199,9 +198,9 @@
 	This specification
 	only defines the abstract message flow and message formats. The actual
 	use MUST be based on one of the companion protocol bindings
-	specifications such as <xref target="OpenID.Basic">OpenID Connect
-	Basic Client</xref> or <xref target="OpenID.Standard">OpenID Connect
-	Standard</xref>.
+	specifications such as
+	<xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> or
+	<xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>.
       </t>
       </section>
     </section>
@@ -424,8 +423,9 @@
               <t hangText="nonce">Random, unique string value used
               to mitigate replay attacks.
 	      Use of the nonce is REQUIRED for all requests, unless 
-	      the <spanx style="verb">response_type</spanx> <spanx style="verb">code</spanx> 
-	      where it is OPTIONAL.</t>
+	      a <spanx style="verb">response_type</spanx> value of
+	      <spanx style="verb">code</spanx> 
+	      is used, in which case it is OPTIONAL.</t>
 
             <t hangText="display">OPTIONAL.
 	      ASCII string value that specifies
@@ -626,7 +626,7 @@
 		for the self-issued case.  The value is
 		a JSON object containing the name/value pairs defined in
 		Section 2.1 of the 
-		<xref target="OpenID.Registration">OpenID Connect Registration</xref>
+		<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
 		specification.
                 </t>
 
@@ -984,8 +984,9 @@
           <xref target="id_token">ID Token</xref> with the Claim value
           being the nonce value sent in the Authorization Request.
           Use of the nonce is REQUIRED for all requests, unless 
-	      the <spanx style="verb">response_type</spanx> <spanx style="verb">code</spanx> 
-	      where it is OPTIONAL.</t>
+	  a <spanx style="verb">response_type</spanx> value of
+	  <spanx style="verb">code</spanx> 
+		is used, in which case it is OPTIONAL.</t>
 
                 <t hangText="auth_time">OPTIONAL.
 		  Time when the End-User authentication occurred,
@@ -1007,10 +1008,16 @@
 
                 <t hangText="at_hash">OPTIONAL. 
 	        Access Token hash value.
+<<<<<<< mine
                 If the ID Token is issued from the Authorization endpoint with a 
                 <spanx style="verb">access_token</spanx>
           in response to a request specifying a <spanx style="verb">response_type</spanx> value
           of <spanx style="verb">token id_token</spanx> , this is REQUIRED.
+=======
+                If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+          in response to a request using a <spanx style="verb">response_type</spanx> value
+          of <spanx style="verb">token id_token</spanx>, this is REQUIRED.
+>>>>>>> theirs
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">access_token</spanx> 
                 with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
@@ -1574,8 +1581,8 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           <spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
           
           <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-          different format was specified during <xref target="OpenID.Registration">
-          OpenID Connect Dynamic Client Registration 1.0</xref>.
+          different format was specified during registration
+	  <xref target="OpenID.Registration"/>.
 	      The UserInfo Endpoint MAY return Claims in
           JWT format, which can be signed and/or encrypted.
 	      The UserInfo Endpoint MUST return a content-type header to indicate
@@ -2969,12 +2976,18 @@ Tokens and URL locations where the Claims may be retrieved:
 	  </section>
 
 	  <section anchor="issuer_identifier" title="Issuer Identifier">
-	    <t>OpenID Connect supports multiple issuers per Host and Port combination.</t>
-	    <t>The issuer returned by discovery MUST exactly match the value of 
+	    <t>OpenID Connect supports multiple issuers per Host and Port combination.
+	    The issuer returned by discovery MUST exactly match the value of 
 	    <spanx style="verb">iss</spanx> in the ID Token.</t>
-	    <t>It is RECOMMENDED that only a single issuer per host be used. Simple Web 
-	    Discovery treats the path component of any URI as part of the user identifier. 
-		</t>
+
+	    <t>OpenID Connect treats the path component of any URI as
+	    part of the user identifier.  For instance, the subject
+	    "1234" with an issuer of "https://example.com" is not
+	    equivalent to the subject "1234" with an issuer of
+	    "https://example.com/sales".
+	    </t>
+
+	    <t>It is RECOMMENDED that only a single issuer per host be used.</t>
 	  </section>		
 
 	  <section anchor="TLS_requirements" title="TLS Requirements">
@@ -3560,8 +3573,7 @@ Tokens and URL locations where the Claims may be retrieved:
 
       <reference anchor="OpenID.Registration">
         <front>
-          <title>OpenID Connect Dynamic Client
-          Registration 1.0</title>
+          <title>OpenID Connect Dynamic Client Registration 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute,
@@ -3645,8 +3657,7 @@ Tokens and URL locations where the Claims may be retrieved:
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <date day="27" month="December" year="2012" />
@@ -3873,8 +3884,7 @@ Representation of dates and times</title>
           <title>OpenID Connect Basic Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -3906,8 +3916,7 @@ Representation of dates and times</title>
           <title>OpenID Connect Implicit Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -3979,8 +3988,7 @@ Representation of dates and times</title>
           1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -4085,8 +4093,7 @@ Representation of dates and times</title>
               </address>
             </author>
             <author fullname="Nat Sakimura" initials="N.S" surname="Sakimura">
-              <organization abbrev="NRI">Nomura Research Institute,
-                Ltd.</organization>
+              <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
                 <address>
                   <postal>
                     <street>Marunouchi Kitaguchi Building, 1-6-5 Marunouchi</street>
@@ -4153,8 +4160,7 @@ Representation of dates and times</title>
 
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
 
-          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute,
-          Ltd.</t>
+          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
 
           <t>Nov Matake (nov@matake.jp), Independent</t>
 
@@ -4226,8 +4232,8 @@ Representation of dates and times</title>
 	    Fixed  #637 removed requirement for hash of at_token and code to be SHA2 in
 	    Sec 2.1.2.1 and Sec 5.2
 	    </t>
-	    	  <t>
-	    	  Fixes #620 - Update Sec 2.1.2 and Sec 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
+	    <t>
+	      Fixes #620 - Update Sec 2.1.2 and Sec 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
 	  </t>
 	  <t> Fixes #684 Removed error response in redirect to client if the redirect_uri is wrong to align with OAuth.</t>
 	  <t>
@@ -4262,8 +4268,15 @@ Representation of dates and times</title>
 	    Fixed #698 - Inconsistent use of articles.
 	  </t>
 	  <t> Re #648 change validation of id_token at_hash and c_hash to a response type of token id_token rather than implicit</t>
-
-
+	  <t>
+	    Fixed #699 - OpenID Provider (OP) definition repetitive.
+	  </t>
+	  <t>
+	    Fixed #701 - Mention of SWD without a reference.
+	  </t>
+	  <t>
+	    Fixed #700 - Incomplete specification names.
+	  </t>
         </list></t>
 	  
       <t>-14
