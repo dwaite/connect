@@ -98,7 +98,7 @@
 	<xref target="JWT">JSON Web Token (JWT)</xref>.
 	This specification also defines the following terms:
 	  <list style="hanging">
-	    <t hangText="Authentication">An act of verifying End-User's possession 
+	    <t hangText="Authentication">Act of verifying End-User's possession 
 	    of previously provisioned credentials.</t>
 
             <t hangText="Authentication Context">
@@ -114,13 +114,13 @@
             Identifier that identifies the Authentication Context. 
             </t>
 
-	    <t hangText="Claim">A piece of information about an Entity that a
+	    <t hangText="Claim">Piece of information about an Entity that a
 	    Claims Provider asserts about that Entity.</t>
 
-	    <t hangText="Claims Provider">A Server that can
+	    <t hangText="Claims Provider">Server that can
 	    return Claims about an Entity.</t>
 
-	    <t hangText="End-User">A human Resource Owner.</t>
+	    <t hangText="End-User">Human Resource Owner.</t>
 
 	    <t hangText="Entity">Something that has a separate and
 	    distinct existence and that can be identified in context.
@@ -133,25 +133,25 @@
             natural person to whom such information relates. </t>
 
         <t hangText="Pairwise Pseudonymous Identifier (PPID)">
-        An identifier that identifies the Entity to a Relying Party. 
+        Identifier that identifies the Entity to a Relying Party. 
         An Entity's PPID at one Relying Party cannot be correlated 
         with the Entity's PPID at another Relying Party. </t>
 
-	    <t hangText="ID Token">A token that contains Claims about the authentication event. 
+	    <t hangText="ID Token">Token that contains Claims about the authentication event. 
         It may contain other claims. </t>
 
-	    <t hangText="Issuer">An Entity that issues a set of Claims.</t>
+	    <t hangText="Issuer">Entity that issues a set of Claims.</t>
 
-	    <t hangText="Issuer Identifier">A verifiable identifier for
+	    <t hangText="Issuer Identifier">Verifiable identifier for
 	    an Issuer.  An Issuer Identifier is an HTTPS URL that
 	    contains scheme, host, and OPTIONALLY, port number and path
 	    components.  (No query or fragment components may be present.)</t>
 
-	    <t hangText="Message">A request or a response between an OpenID 
+	    <t hangText="Message">Request or a response between an OpenID 
 	    Relying Party and an OpenID Provider.</t>
 
 	    <t hangText="OpenID Provider (OP)">
-        A service capable of providing Claims to a Relying Party. 
+        Service capable of providing Claims to a Relying Party. 
         It is an OAuth 2.0 Authorization Server that is capable of 
         returning claims around the authentication event and 
         other Claims in <spanx style="verb">id_token</spanx> 
@@ -161,15 +161,15 @@
 	    <t hangText="OP Endpoints">Authorization Endpoint, Token
 	    Endpoint, and UserInfo Endpoint.</t>
 
-	    <t hangText="OpenID Request Object">A JSON object that holds the
+	    <t hangText="OpenID Request Object">JSON object that holds
 	    OpenID request parameters.</t>
 
 	    <t hangText="Relying Party (RP)">
-        An application requiring Claims from an OpenID Provider. 
+        Application requiring Claims from an OpenID Provider. 
         It is an extended OAuth 2.0 client. 
       </t>
 
-	    <t hangText="UserInfo Endpoint">A Protected Resource that, when
+	    <t hangText="UserInfo Endpoint">Protected Resource that, when
 	    presented with an Access Token by the Client, returns Claims
 	    about the End-User represented by that Access Token.</t>
 	  </list></t>
@@ -244,7 +244,6 @@
         <spanx style="verb">response_type</spanx> and 
         <spanx style="verb">scope</spanx>.</t>
 
-
         <section anchor="auth_req" title="Authorization Request">
           <t>
             An Authorization Request is a message sent from an RP 
@@ -258,14 +257,14 @@
 
           <t><list style="hanging">
 	    <t hangText="response_type">
-	      This parameter controls the parameters returned in the response from the
+	      Value that controls the parameters returned in the response from the
 	      Authorization Endpoint.
 	    </t>
 
 	    <t>The OAuth 2.0 specification documents two response types:
 
 	    <list style="hanging">
-	      <t hangText="code"> When supplied as the value for the
+	      <t hangText="code">When supplied as the value for the
 	      <spanx style="verb">response_type</spanx> parameter, a
 	      successful response MUST include an Authorization Code as
 	      defined in the OAuth 2.0 specification. Both successful
@@ -274,7 +273,7 @@
 	      from the Token Endpoint. Authorization Servers MUST support
 	      this <spanx style="verb">response_type</spanx>.</t>
 
-	      <t hangText="token"> When supplied as the value for the
+	      <t hangText="token">When supplied as the value for the
 	      <spanx style="verb">response_type</spanx> parameter, a
 	      successful response MUST include an Access Token as
 	      defined in the OAuth 2.0 specification.  Both successful
@@ -334,8 +333,9 @@
 	    <t>The Client may request any OAuth 2.0 registered response
 	    type supported by the Authorization Server.</t>
 
-	    <t hangText="scope">A space delimited, case sensitive list of
-	    ASCII string values. The values
+	    <t hangText="scope">
+	      Space delimited, case sensitive list of
+	    ASCII OAuth 2.0 scope values. The values
 	    <spanx style="verb">profile</spanx>,
 	    <spanx style="verb">email</spanx>,
 	    <spanx style="verb">address</spanx>,
@@ -402,16 +402,17 @@
           <t>Other REQUIRED OAuth 2.0 parameters in the request include:</t>
 
           <t><list style="hanging">
-              <t hangText="client_id">The OAuth 2.0 Client Identifier.</t>
+              <t hangText="client_id">OAuth 2.0 Client Identifier.</t>
 
-              <t hangText="redirect_uri">A redirection URI where the response
+              <t hangText="redirect_uri">Redirection URI to which the response
               will be sent.</t>
             </list></t>
 
           <t>The request MAY contain the following OAuth 2.0 parameters:</t>
 
           <t><list style="hanging">
-              <t hangText="state">RECOMMENDED.  An opaque value used
+              <t hangText="state">RECOMMENDED.
+	      Opaque value used
               to maintain state between the request and the callback;
               it can serve as a protection against XSRF attacks, among
 	      other uses.</t>
@@ -420,39 +421,43 @@
           <t>The following extension parameters are also defined:</t>
 
           <t><list style="hanging">
-              <t hangText="nonce">A random, unique string value used
+              <t hangText="nonce">Random, unique string value used
               to mitigate replay attacks.
 	      Use of the nonce is REQUIRED when using the implicit flow
 	      and OPTIONAL when using the code flow.</t>
 
-            <t hangText="display">OPTIONAL. An ASCII string value that specifies
+            <t hangText="display">OPTIONAL.
+	      ASCII string value that specifies
               how the Authorization Server displays the authentication and
               consent user interface pages to the End-User.
+
               <list style="hanging">
-              <t hangText="page">The Authorization Server SHOULD display
-              authentication and consent UI consistent with a full user-agent page
-              view. If the display parameter is not specified this is the
-              default display mode.</t>
+		<t hangText="page">The Authorization Server SHOULD display
+		authentication and consent UI consistent with a full user-agent page
+		view. If the display parameter is not specified this is the
+		default display mode.</t>
 
-              <t hangText="popup">The Authorization Server SHOULD display
-              authentication and consent UI consistent with a popup user-agent
-              window. The popup user-agent window SHOULD be 450 pixels wide
-              and 500 pixels tall.</t>
+		<t hangText="popup">The Authorization Server SHOULD display
+		authentication and consent UI consistent with a popup user-agent
+		window. The popup user-agent window SHOULD be 450 pixels wide
+		and 500 pixels tall.</t>
 
-              <t hangText="touch">The Authorization Server SHOULD display
-              authentication and consent UI consistent with a device that
-              leverages a touch interface. The Authorization Server MAY attempt
-              to detect the touch device and further customize the interface.</t>
+		<t hangText="touch">The Authorization Server SHOULD display
+		authentication and consent UI consistent with a device that
+		leverages a touch interface. The Authorization Server MAY attempt
+		to detect the touch device and further customize the interface.</t>
 
-              <t hangText="wap">The Authorization Server SHOULD display
-              authentication and consent UI consistent with a "feature phone"
-              type display.</t>
+		<t hangText="wap">The Authorization Server SHOULD display
+		authentication and consent UI consistent with a "feature phone"
+		type display.</t>
              </list></t>
 
-              <t hangText="prompt">OPTIONAL. A space delimited, case sensitive
+              <t hangText="prompt">OPTIONAL.
+	      Space delimited, case sensitive
               list of ASCII string values that specifies whether the Authorization
               Server prompts the End-User for reauthentication and consent. The
               possible values are:
+
 	      <list style="hanging">
                 <t hangText="none">The Authorization Server
                 MUST NOT display any authentication or consent
@@ -483,7 +488,7 @@
 		with any other value, an
                 error is returned.</t>
 
-              <t hangText="request">OPTIONAL. An
+              <t hangText="request">OPTIONAL.
 	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value. 
 	      The <xref target="OpenID_Request_Object">OpenID Request Object</xref> may be
 	      encrypted in a JWE by the client.  For a Self-Issued id_token the 
@@ -491,11 +496,13 @@
 	      of the id_token 
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 	      
-              <t hangText="request_uri">OPTIONAL. An URL that points to an
+              <t hangText="request_uri">OPTIONAL.
+	      URL that references an
               OpenID Request Object. This is used to pass an OpenID Request
               Object by reference.</t>
               
-              <t hangText="id_token_hint">OPTIONAL. An <xref target="id_token">ID Token</xref>
+              <t hangText="id_token_hint">OPTIONAL.
+	      <xref target="id_token">ID Token</xref>
               passed to the Authorization server as a hint about the user's current or past
               authenticated session with the client. This SHOULD be present if 
               <spanx style="verb">prompt=none</spanx> is sent. 
@@ -513,8 +520,9 @@
 	      of the id_token 
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
               
-              <t hangText="login_hint">OPTIONAL. A hint to the authorization service 
-              as to the login identifier the user may use to authenticate at the authorization 
+              <t hangText="login_hint">OPTIONAL.
+	      Hint to the authorization service 
+              about the login identifier the user may use to authenticate at the authorization 
               service (if necessary). 
               This hint can be used by an RP if it first asks the user for their email 
               address (or other identifier) and then wants to pass that value as a hint 
@@ -597,24 +605,28 @@
             specification are:</t>
 
             <t><list style="hanging">
-                <t hangText="userinfo">OPTIONAL. (UserInfo request): Requests
+                <t hangText="userinfo">OPTIONAL.
+		UserInfo request. Requests
                 affecting the values to be returned from the UserInfo
                 Endpoint. If not present, the UserInfo Endpoint behaves in the
                 default manner.</t>
 
-                <t hangText="id_token">OPTIONAL. (ID Token request): Requests
+                <t hangText="id_token">OPTIONAL.
+		ID Token request.  Requests
                 affecting the values to be returned in the ID Token. 
                 If not present, the default ID Token contents are used. 
                 If present, these parameters are used
                 to request additional Claims incremental to the <xref target="id_token">
                 default Claims of the ID Token.</xref></t>
 
-                <t hangText="registration">OPTIONAL. (Registration request):
-                	Requests the client to be to be registered at the authorization server 
-                	for the self-issued case. The value is the key-values defined in 
-                	section 2.1 of the 
-                	<xref target="OpenID.Registration">OpenID Connect Registration</xref> 
-                	serialized into JSON. 
+                <t hangText="registration">OPTIONAL.
+		Registration request.
+		Requests the client to be to be registered at the authorization server 
+		for the self-issued case.  The value is
+		a JSON object containing the name/value pairs defined in
+		Section 2.1 of the 
+		<xref target="OpenID.Registration">OpenID Connect Registration</xref>
+		specification.
                 </t>
 
               </list><figure>
@@ -666,8 +678,8 @@
 
               <t>
                 <list style="hanging">
-                  <t hangText="claims">
-                    OPTIONAL. (Requested Claims): 
+                  <t hangText="claims">OPTIONAL.
+		    Requested Claims.
                     A JSON object containing a set of individual Claims 
                     being requested from the UserInfo Endpoint in 
                     addition to those requested by the 
@@ -679,7 +691,8 @@
                     <xref target="claims_member"/>.
                   </t>
 
-                  <t hangText="preferred_locales">OPTIONAL.  A list of preferred 
+                  <t hangText="preferred_locales">OPTIONAL.
+		  A list of preferred 
                   languages and scripts for the entire Claims request, 
                   represented as a JSON array of <xref
                   target="RFC5646">BCP47</xref> language tag values,
@@ -742,9 +755,9 @@
                   </t>
                   
                   <t hangText="acr">OPTIONAL. 
-                  (Authentication Context Class Reference): 
-                  Requests the desired 
-                  Authentication Context Class References. 
+                  Authentication Context Class Reference. 
+                  Requests that the specified
+                  Authentication Context Class Reference values be used. 
                   The element <spanx style="verb">values</spanx> is an ordered array of strings 
                   representing acceptable Authentication Context Class Reference 
                   values appearing in order of preference.
@@ -760,7 +773,8 @@
               Request Object:</t>
 
               <t><list style="hanging">
-                  <t hangText="max_age">OPTIONAL. (Max Authentication Age):
+                  <t hangText="max_age">OPTIONAL.
+		  Maximum Authentication Age.
                   Specifies that the End-User must be actively authenticated if
                   any present authentication is older than the specified
                   number of seconds. (The <spanx style="verb">max_age</spanx> request parameter
@@ -813,20 +827,23 @@
                 <t>
                   <list style="hanging">
                     <t hangText="null">
-                      This indicates that this Claim is being
+                      Indicates that this Claim is being
                       requested in the default manner. In particular, this is a 
                       voluntary Claim. 
                     </t>
                     <t hangText="A JSON Object">
-                      This is used to provide additional information about the Claim being 
+                      Used to provide additional information about the Claim being 
                       requested. This specification defines the following member: 
                     </t>
                     <t>
                       <list style="hanging">
-                        <t hangText="essential">OPTIONAL. If the value is set to true, 
-                          this indicates that the claim being requested is an essential claim. 
-                          If the value is set to false, it indicates that 
-                          it is a voluntary claim. The default is false. 
+                        <t hangText="essential">OPTIONAL.
+			Indicates whether the claim being requested is an essential claim.
+			If the value is <spanx style="verb">true</spanx>, 
+			this indicates that the claim is an essential claim. 
+			If the value is <spanx style="verb">false</spanx>,
+			it indicates that it is a voluntary claim.
+			The default is <spanx style="verb">false</spanx>.
                         </t>
                       </list>
                     </t>
@@ -890,49 +907,53 @@
             <t>The following Claims are REQUIRED and OPTIONAL within the ID Token:</t>
 
             <t><list style="hanging">
-                <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
+                <t hangText="iss">REQUIRED.
+		Issuer Identifier for the Issuer
                 of the response.</t>
 
-                <t hangText="sub">REQUIRED. Subject identifier - a locally unique and never
+                <t hangText="sub">REQUIRED.
+		Subject identifier.  A locally unique and never
                 reassigned identifier within the Issuer for the End-User, 
                 which is intended to be
                 consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
                 or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
                 It MUST NOT exceed 255 ASCII characters in length.</t>
 
-                <t hangText="aud">REQUIRED. This member identifies the audience
+                <t hangText="aud">REQUIRED.
+		Audience
                 that this ID Token is intended for. It MUST contain the
 		OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
 
-		<t hangText="azp">OPTIONAL. Authorized Party -
+		<t hangText="azp">OPTIONAL.
+		Authorized Party.
 		This member identifies an OAuth 2.0 client authorized to use this
 		ID Token as an OAuth access token, if different than the
 		Client that requested the ID Token. It MUST contain the
 		<spanx style="verb">client_id</spanx> of the authorized party.</t>
 
-                <t hangText="exp">REQUIRED. Type Integer. Identifies the
-                expiration time on or after which the ID Token MUST NOT be
+                <t hangText="exp">REQUIRED.
+                Expiration time on or after which the ID Token MUST NOT be
                 accepted for processing. The processing of this parameter
                 requires that the current date/time MUST be before the
                 expiration date/time listed in the value. Implementers MAY
                 provide for some small leeway, usually no more than a few
-                minutes, to account for clock skew. The value is number of
+                minutes, to account for clock skew. The value is the number of
                 seconds from 1970-01-01T0:0:0Z as measured in UTC until the
                 desired date/time. See <xref target="RFC3339">RFC 3339</xref>
                 for details regarding date/times in general and UTC in
                 particular.</t>
                 
-                <t hangText="iat">REQUIRED. Type Integer. The <spanx style="verb">iat</spanx> 
-                (issued at) Claim identifies the time at which the JWT was issued. 
-                The value is number of
+                <t hangText="iat">REQUIRED.
+		Time at which the JWT was issued. 
+                The value is the number of
                 seconds from 1970-01-01T0:0:0Z as measured in UTC until the
                 desired date/time. See <xref target="RFC3339">RFC 3339</xref>
                 for details regarding date/times in general and UTC in
                 particular.</t>
 
-                <t hangText="acr">OPTIONAL. (Authentication Context Class Reference): 
-                Type String. 
-                Specifies an Authentication Context Class Reference of the ID Token. 
+                <t hangText="acr">OPTIONAL.
+		Authentication Context Class Reference.
+                String specifying an Authentication Context Class Reference value. 
                 The values "1", "2", "3", and "4" map to the
                 <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
                 entity authentication assurance level of the authentication performed. 
@@ -949,7 +970,7 @@
                 name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
                 </t>
 
-                <t hangText="nonce">A string value used to associate a Client session 
+                <t hangText="nonce">String value used to associate a Client session 
                 with an ID Token, and to mitigate replay attacks. 
                 The value is passed through unmodified from the Authorization Request to the ID Token.
           If present in the <xref target="id_token">ID Token</xref>,
@@ -964,23 +985,26 @@
           Use of the nonce is REQUIRED when using the implicit flow
           and OPTIONAL when using the code flow.</t>
 
-                <t hangText="auth_time">OPTIONAL. If the 
-                    <xref target="req.obj.id_token">id_token</xref> member of the 
-                    <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
-                    contains the Claim request 
-                    <spanx style="verb">auth_time</spanx> with a parameter of 
-                    <spanx style="verb">{"essential": true}</spanx>,
-        then this Claim is REQUIRED. The Claim Value
-                    is the number of seconds from 1970-01-01T0:0:0Z as
-                    measured in UTC until the date/time that the End-User
-                    authentication occurred. (The <spanx style="verb">auth_time</spanx>
-        Claim semantically
-                    corresponds to the OpenID 2.0
-                    <xref target="OpenID.PAPE">PAPE</xref> 
-                    <spanx style="verb">auth_time</spanx> response
-                    parameter.)</t>
+                <t hangText="auth_time">OPTIONAL.
+		  Time when the End-User authentication occurred,
+		  specified as the number of seconds from 1970-01-01T0:0:0Z as
+		  measured in UTC.
+		  If the 
+		  <xref target="req.obj.id_token">id_token</xref> member of the 
+		  <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
+		  contains the Claim request
+		  <spanx style="verb">auth_time</spanx> with a parameter of 
+		  <spanx style="verb">{"essential": true}</spanx>,
+		  then this Claim is REQUIRED.
+		  (The <spanx style="verb">auth_time</spanx>
+		  Claim semantically
+		  corresponds to the OpenID 2.0
+		  <xref target="OpenID.PAPE">PAPE</xref> 
+		  <spanx style="verb">auth_time</spanx> response
+		  parameter.)</t>
 
                 <t hangText="at_hash">OPTIONAL. 
+	        Access Token hash value.
                 If the ID Token is issued with an <spanx style="verb">access_token</spanx>
           in an implicit flow, this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
@@ -992,7 +1016,8 @@
                 <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
           with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
-                <t hangText="c_hash">OPTIONAL. 
+                <t hangText="c_hash">OPTIONAL.
+		Code hash value.
                 If the ID Token is issued with a <spanx style="verb">code</spanx>
           in an implicit flow, this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
@@ -1096,7 +1121,7 @@
 
 	      <t hangText="invalid_request_uri">The 
 	      <spanx style="verb">request_uri</spanx> in
-	      the Authorization Request returns an error or invalid data.</t>
+	      the Authorization Request returns an error or contains invalid data.</t>
 
 	      <t hangText="invalid_openid_request_object">The 
 	      <spanx style="verb">request</spanx> parameter contains an invalid 
@@ -1149,32 +1174,40 @@
           The JWT MUST contain the following REQUIRED Claims and MAY contain the following OPTIONAL Claims:</t>
          
           <t><list style="hanging">
-          <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
+          <t hangText="iss">REQUIRED.
+	  Issuer.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-          <t hangText="sub">REQUIRED. The <spanx style="verb">sub</spanx> (subject) Claim.
+          <t hangText="sub">REQUIRED.
+	  Subject.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-          <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
-	  A value that identifies the
+          <t hangText="aud">REQUIRED.
+	  Audience.
+	  Value that identifies the
       Authorization Server as an intended audience.  The Authorization
       Server MUST verify that it is an intended audience for the
       token.  The Audience SHOULD be the URL of the Authorization
       Server's Token Endpoint.</t>
 
-           <t hangText="jti">REQUIRED. The  <spanx style="verb">jti</spanx> (JWT ID) Claim.
+           <t hangText="jti">REQUIRED.
+	   JWT ID.
 	   A unique identifier for the token.  The
       JWT ID MAY be used by implementations requiring message
       de-duplication for one-time use assertions. </t>
 
-           <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
-	   Claim that limits the time window during which the JWT can be used.</t>
+           <t hangText="exp">REQUIRED.
+	   Expiration time on or after which the ID Token MUST NOT be
+	   accepted for processing.</t>
 
-            <t hangText="iat">OPTIONAL.  The <spanx style="verb">iat</spanx> (issued at)
-	    Claim that identifies the time at which the JWT was issued. </t>
+	   <t hangText="iat">OPTIONAL.
+	   Time at which the JWT was issued. 
+	   The value is the number of seconds from 1970-01-01T0:0:0Z
+	   as measured in UTC until the desired date/time.</t>
 	  </list></t>
-             
-	  <t>The JWT MAY contain other Claims that are understood by all parties using it.</t>
+
+	  <t>The JWT MAY contain other Claims
+	  that are understood by all parties using it.</t>
 
           <t>The authentication token MUST be sent as the value of the <spanx
 	      style='verb'>client_assertion</spanx> parameter.</t>
@@ -1193,32 +1226,41 @@
           The JWT MUST contain the following REQUIRED Claims and MAY contain the following OPTIONAL Claims:</t>
 
           <t><list style="hanging">
-	    <t hangText="iss">REQUIRED. The <spanx style="verb">iss</spanx> (issuer) Claim.
+	    <t hangText="iss">REQUIRED.
+	    Issuer.
 	    This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-          <t hangText="sub">REQUIRED. The <spanx style="verb">sub</spanx> (subject) Claim.
+          <t hangText="sub">REQUIRED.
+	  Subject.
 	  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-          <t hangText="aud">REQUIRED. The <spanx style="verb">aud</spanx> (audience) Claim.
+          <t hangText="aud">REQUIRED.
+	  Audience.
+	  The <spanx style="verb">aud</spanx> (audience) Claim.
 	  A value that identifies the
       Authorization Server as an intended audience.  The Authorization
       Server MUST verify that it is an intended audience for the
       token.  The Audience SHOULD be the URL of the Authorization
       Server's Token Endpoint.</t>
 
-           <t hangText="jti">REQUIRED. The <spanx style="verb">jti</spanx> (JWT ID) Claim.
+           <t hangText="jti">REQUIRED.
+	   JWT ID.
 	   A unique identifier for the token.  The
       JWT ID MAY be used by implementations requiring message
       de-duplication for one-time use assertions. </t>
 
-           <t hangText="exp">REQUIRED.  The <spanx style="verb">exp</spanx> (expiration)
-	   Claim that limits the time window during which the JWT can be used.</t>
+           <t hangText="exp">REQUIRED.
+	   Expiration time on or after which the ID Token MUST NOT be
+	   accepted for processing.</t>
 
-            <t hangText="iat">OPTIONAL.  The <spanx style="verb">iat</spanx> (issued at)
-	    Claim that identifies the time at which the JWT was issued. </t>
+	   <t hangText="iat">OPTIONAL.
+	   Time at which the JWT was issued. 
+	   The value is the number of seconds from 1970-01-01T0:0:0Z
+	   as measured in UTC until the desired date/time.</t>
 	  </list></t>
 
-	  <t>The JWT MAY contain other Claims that are understood by all parties using it.</t>
+	  <t>The JWT MAY contain other Claims
+	  that are understood by all parties using it.</t>
 
 	  <t>The authentication token MUST be sent as the value of the <spanx
 	      style='verb'>client_assertion</spanx> parameter.</t>
@@ -1293,7 +1335,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           contained <spanx style="verb">openid</spanx>:</t>
 
           <t><list style="hanging">
-            <t hangText="id_token">The ID Token value associated with the
+            <t hangText="id_token">ID Token value associated with the
             authentication session.</t>
           </list></t>
 
@@ -1337,10 +1379,12 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           UserInfo Endpoint to obtain further information about the End-User.</t>
 
           <t><list style="hanging">
-            <t hangText="access_token">REQUIRED. The Access Token obtained
+            <t hangText="access_token">REQUIRED.
+	    Access Token obtained
             from an OpenID Connect Authorization Request. </t>
 
-	    <t hangText="schema">REQUIRED. The schema in which the
+	    <t hangText="schema">REQUIRED.
+	    Schema in which the
 	    data is to be returned. The only defined <spanx style="verb">schema</spanx>
 	    value is <spanx style="verb">openid</spanx>.</t>
 
@@ -1583,22 +1627,27 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	      component fields should be combined.
 	    </t>
 	    <t><list style="hanging">
-		<t hangText="formatted">The full mailing address, 
+		<t hangText="formatted">Full mailing address, 
 		formatted for display or use with a mailing label. 
 		This field MAY contain newlines. This is the 
 		Primary Sub-Field for this field, 
 		for the purposes of sorting and filtering.</t>
+
 		<t hangText="street_address">
-		The full street address component, 
+		Full street address component, 
 		which may include house number, street name, 
 		PO BOX, and multi-line extended street 
 		address information. This field MAY contain newlines.</t>
-		<t hangText="locality">The city or locality component.</t>
-		<t hangText="region">The state, province, 
+
+		<t hangText="locality">City or locality component.</t>
+
+		<t hangText="region">State, province, 
 		prefecture or region component.</t>
-		<t hangText="postal_code">The zip code or 
+
+		<t hangText="postal_code">Zip code or 
 		postal code component.</t>
-		<t hangText="country">The country name component.</t>
+
+		<t hangText="country">Country name component.</t>
 	      </list>
 	    </t>
           </section>
@@ -1639,9 +1688,11 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	The types supported by this specification are:</t>
 	
 	<t><list style="hanging">
-	  <t hangText="public"> This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
+	  <t hangText="public">
+	    This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
 	  the provider has no <spanx style="verb">subject_types_supported</spanx> element in its discovery document.</t>
-	  <t hangText="pairwise"> This provides a different <spanx style="verb">sub</spanx> value to each Client, to prevent
+	  <t hangText="pairwise">
+	    This provides a different <spanx style="verb">sub</spanx> value to each Client, to prevent
 	  correlation of the user's activities by Clients without the user's permission.</t>
 	</list></t>
 
@@ -1749,13 +1800,13 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
 	  <t>
 	    <list style="hanging">
-	      <t hangText="_claim_names">This value is a JSON object whose member
+	      <t hangText="_claim_names">JSON object whose member
 	      names are the Claim Names for the Aggregated and Distributed
 	      Claims. The member values are references to the member names
 	      in the <spanx style="verb">_claim_sources</spanx> member from which
 	      the actual Claim Values can be retrieved.</t>
 
-	      <t hangText="_claim_sources">This value is a JSON object whose
+	      <t hangText="_claim_sources">JSON object whose
 	      member names are referenced by the member values of the
 	      <spanx style="verb">_claim_names</spanx> member. The member values
 	      contain sets of Aggregated Claims or reference locations for
@@ -1765,7 +1816,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
 	      <list style="hanging">
 
-		<t hangText="Aggregated Claims">A JSON object that MUST
+		<t hangText="Aggregated Claims">JSON object that MUST
 		contain the <spanx style="verb">JWT</spanx> member whose value is a <xref
 		target="JWT">JWT</xref> that MUST contain all the Claims
 		in the <spanx style="verb">_claim_names</spanx> object that references the
@@ -1773,20 +1824,23 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 		be present if they are understood by both parties.
 
 		<list style="hanging">
-		  <t hangText="JWT">REQUIRED. JWT Value.</t>
+		  <t hangText="JWT">REQUIRED.
+		  JWT value containing claim values.</t>
 		</list>
 		</t>
 
-		<t hangText="Distributed Claims">A JSON object that
-		contains the following members and values:
+		<t hangText="Distributed Claims">
+		  JSON object that
+		  contains the following members and values:
 
 		<list style="hanging">
-		  <t hangText="endpoint">REQUIRED. The value is the
+		  <t hangText="endpoint">REQUIRED.
 		  OAuth 2.0 resource endpoint from which the associated
 		  Claim can be retrieved. The endpoint URL MUST return
 		  the Claim as a JWT.</t>
 
-		  <t hangText="access_token">OPTIONAL. Access Token
+		  <t hangText="access_token">OPTIONAL.
+		  Access Token
 		  enabling retrieval of the Claims from the endpoint URL
 		  by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
 		  protocol. Claims SHOULD be requested using
@@ -1943,62 +1997,62 @@ Tokens and URL locations where the Claims may be retrieved:
       
       <t><list style="hanging">
 	  <t hangText="userinfo_signing_alg_values_supported">
-	    A JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
+	    JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
 	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
             supported by the UserInfo Endpoint
 	    to encode the claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="userinfo_encryption_alg_values_supported">
-	    A JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
+	    JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
 	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
             supported by the UserInfo Endpoint
 	    to encode the claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="userinfo_encryption_enc_values_supported">
-	    A JSON array containing a list of the JWE encryption algorithms
+	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
             supported by the UserInfo Endpoint
 	    to encode the claims in a JWT <xref target="JWT" />.</t>
 
           <t hangText="id_token_signing_alg_values_supported">
-	    A JSON array containing a list of the JWS signing algorithms
+	    JSON array containing a list of the JWS signing algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for the ID Token
 	    to encode the claims in a JWT <xref target="JWT" />.</t>
 
           <t hangText="id_token_encryption_alg_values_supported">
-	    A JSON array containing a list of the JWE encryption algorithms
+	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for the ID Token
 	    to encode the claims in a JWT <xref target="JWT" />.</t>
 
           <t hangText="id_token_encryption_enc_values_supported">
-	    A JSON array containing a list of the JWE encryption algorithms
+	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">enc</spanx> values)
 	    supported by the Authorization Server for the ID Token
 	    to encode the claims in a JWT <xref target="JWT" />.</t>
 
           <t hangText="request_object_signing_alg_values_supported">
-	    A JSON array containing a list of the JWS signing algorithms
+	    JSON array containing a list of the JWS signing algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for 
             the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.
 	    Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.</t>
 
           <t hangText="request_object_encryption_alg_values_supported">
-	    A JSON array containing a list of the JWE encryption algorithms
+	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for 
             the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.</t>
 
           <t hangText="request_object_encryption_enc_values_supported">
-	    A JSON array containing a list of the JWE encryption algorithms
+	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">enc</spanx> values)
 	    supported by the Authorization Server for 
             the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.</t>
 
 	  <t hangText="token_endpoint_auth_signing_alg_values_supported">
-	    A JSON array containing a list of the JWS signing algorithms
+	    JSON array containing a list of the JWS signing algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
 	    and <spanx style="verb">client_secret_jwt</spanx> methods
@@ -2010,19 +2064,19 @@ Tokens and URL locations where the Claims may be retrieved:
       <t>The Client registers its required algorithms for Signing and Encryption 
       using the following Registration parameters:</t>
       <t><list style="hanging">
-             <t hangText="request_object_signing_alg">OPTIONAL.  The 
+             <t hangText="request_object_signing_alg">OPTIONAL.
              JWS signature algorithm <xref target="JWA" /> required for OpenID Request Objects
              by the Authorization Server. All OpenID Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
              Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
               
-             <t hangText="userinfo_signed_response_alg">OPTIONAL.  The 
+             <t hangText="userinfo_signed_response_alg">OPTIONAL.
              JWS signature algorithm <xref target="JWA" /> required for UserInfo responses. 
              If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
              <t hangText="userinfo_encrypted_response_alg">OPTIONAL.  
-             The JWE <spanx style="verb">alg</spanx>
+             JWE <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for UserInfo responses.
 	         If this is requested in 
              combination with signing, the response 
@@ -2030,14 +2084,14 @@ Tokens and URL locations where the Claims may be retrieved:
              If this is specified, the response will be 
              <xref target="JWT">JWT</xref> serialized.</t>
              
-             <t hangText="userinfo_encrypted_response_enc">OPTIONAL.  The 
+             <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
              JWE <spanx style="verb">enc</spanx>
              algorithm <xref target="JWA" /> required for UserInfo responses.
              If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              </t>
              
-             <t hangText="id_token_signed_response_alg">OPTIONAL.  The 
+             <t hangText="id_token_signed_response_alg">OPTIONAL.
              JWS signature algorithm <xref target="JWA" /> required 
              for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
              The default if not specified is <spanx style="verb">RS256</spanx>.
@@ -2047,13 +2101,13 @@ Tokens and URL locations where the Claims may be retrieved:
 	         <spanx style="verb">x509_url</spanx> element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
-             The JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
+             JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
 	     required for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
              If this is requested, the response MUST be signed then encrypted. 
              The default if not specified is no encryption.</t>
              
              <t hangText="id_token_encrypted_response_enc">OPTIONAL.  
-             The JWE <spanx style="verb">enc</spanx> 
+             JWE <spanx style="verb">enc</spanx> 
              algorithm <xref target="JWA" /> required for 
              ID Tokens issued to this <spanx style="verb">client_id</spanx>.
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
@@ -2061,6 +2115,7 @@ Tokens and URL locations where the Claims may be retrieved:
              </t>
       </list></t>
     </section>
+
     <section anchor="sigenc.key" title="Keys">
       
       <t>The Server advertises its supported signing and encryption algorithms
@@ -2106,7 +2161,8 @@ Tokens and URL locations where the Claims may be retrieved:
       <t>The Client provides its public Keys during Registration, in the following 
       elements:</t>
       <t><list style="hanging">      
-            <t hangText="jwk_url">OPTIONAL. URL for the Client's
+            <t hangText="jwk_url">OPTIONAL.
+	    URL for the Client's
 	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
 	    that are used for 
             signing the Request Objects.
@@ -2114,11 +2170,13 @@ Tokens and URL locations where the Claims may be retrieved:
             provided, it is also used by the Server 
             to encrypt the <xref target="JWT">JWT</xref> to the Client.</t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL. URL for the Client's
+            <t hangText="jwk_encryption_url">OPTIONAL.
+	    URL for the Client's
 	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
             used by the Server to encrypt the response objects to the Client.</t>
 
-            <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
+            <t hangText="x509_url">OPTIONAL.
+	    URL for the Client's PEM encoded X.509
             Certificate or Certificate chain. 
             It is used by the Client for
             signing the Request Objects.
@@ -2128,8 +2186,8 @@ Tokens and URL locations where the Claims may be retrieved:
             The certificate referenced SHOULD be valid for its 
             intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
             
-            <t hangText="x509_encryption_url">
-            OPTIONAL. URL for the Client's PEM encoded 
+            <t hangText="x509_encryption_url">OPTIONAL.
+	    URL for the Client's PEM encoded 
             X.509 Certificate or Certificate chain, used to encrypt
 	    the <xref target="JWT">JWT</xref> to the Client.
             The certificate referenced SHOULD be valid for its 
@@ -4188,6 +4246,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Specified that dynamic OPs must publish their public keys in X.509 format, per issue #633.
+	  </t>
+	  <t>
+	    Fixed #698 - Inconsistent use of articles.
 	  </t>
         </list></t>
 	  

@@ -109,7 +109,7 @@
       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
       specification.</t>
 
-      <section title="Client Registration and Client Update Request">
+      <section anchor="ClientRegistration" title="Client Registration and Client Update Request">
         <t>Client Update Requests replace all previous parameters set for a 
         <spanx style="verb">client_id</spanx>.</t>
         <t>Clients MUST send requests encoded as a POST with the following
@@ -118,7 +118,9 @@
 
         <t><list style="hanging">
             
-            <t hangText="operation">REQUIRED.  Values are <spanx style="verb">client_register</spanx>
+            <t hangText="operation">REQUIRED.
+	    Registration operation being performed.
+	    Values are <spanx style="verb">client_register</spanx>
             (for new registrations), <spanx style="verb">rotate_secret</spanx> 
             to request rotation of the <spanx style="verb">client_secret</spanx>, and
             <spanx style="verb">client_update</spanx> (for updating parameters of an existing
@@ -128,11 +130,13 @@
             </t>
             
             <t hangText="redirect_uris">REQUIRED.
-            A space-delimited list of redirect URIs.
+            Space-delimited list of redirect URIs.
             One of the URL MUST match the Scheme, Host, and Path segments of the 
             <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
-            <t hangText="application_type">OPTIONAL. The default if not specified is 
+            <t hangText="application_type">OPTIONAL.
+	    Kind of the application.
+	    The default if not specified is 
             <spanx style="verb">web</spanx>.  The defined values are
             <spanx style="verb">native</spanx>
             or <spanx style="verb">web</spanx>. Web clients MUST only register https: Scheme
@@ -144,26 +148,28 @@
             <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
             This prevents sharing a client_id across different types of clients.</t>
 
-            <t hangText="access_token">OPTIONAL. If this is a <spanx style="verb">client_register</spanx>
-             request this is an Access Token obtained
+            <t hangText="access_token">OPTIONAL.
+	    If this is a <spanx style="verb">client_register</spanx>
+	    request, this is an Access Token obtained
             out of band to authorize the registrant. 
             If this is a <spanx style="verb">client_update</spanx>
-            request this is the <spanx style="verb">registration_access_token</spanx> 
+            request, this is the <spanx style="verb">registration_access_token</spanx> 
             returned in the <spanx style="verb">client_register</spanx> or 
             <spanx style="verb">rotate_secret</spanx> response.
             This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
             target="RFC6749">OAuth 2.0</xref>. Access Tokens sent in the
-            authorization header must be <xref
-            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
+            authorization header must be bearer tokens <xref target="RFC6750"/>.</t>
 
-            <t hangText="contacts">OPTIONAL.  Space delimited list of email
+            <t hangText="contacts">OPTIONAL.
+	    Space delimited list of e-mail
             addresses for people allowed to administer the information for this Client.
             This is used by some providers to enable a web UI to modify the 
             Client information.</t>
 
-            <t hangText="client_name">OPTIONAL.  Name of the Client
+            <t hangText="client_name">OPTIONAL.
+	    Name of the Client
             to be presented to the user. If desired, representation of 
             this claim in different languages and scripts is obtained 
             by applying the rules set in  
@@ -171,11 +177,13 @@
             <xref target="OpenID.Messages">OpenID Connect Messages. 
             </xref></t>
 
-            <t hangText="logo_url">OPTIONAL.  A URL that references a logo for the 
+            <t hangText="logo_url">OPTIONAL.
+	    URL that references a logo for the 
             Client application.</t>
 
-            <t hangText="token_endpoint_auth_method">OPTIONAL.  The requested authentication
-            type for the Token Endpoint. The options are 
+            <t hangText="token_endpoint_auth_method">OPTIONAL.
+	    Requested authentication method for the Token Endpoint.
+	    The options are 
             <spanx style="verb">client_secret_post</spanx>, 
             <spanx style="verb">client_secret_basic</spanx>, 
             <spanx style="verb">client_secret_jwt</spanx>, 
@@ -186,18 +194,21 @@
 	    Scheme as specified in
             Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
-            <t hangText="policy_url">OPTIONAL.  A URL location that the Relying 
+            <t hangText="policy_url">OPTIONAL.
+	    URL location that the Relying 
             Party Client provides to the End-User to read about the how the
             profile data will be used. The OpenID Provider SHOULD display this
             URL to the End-User if it is given.</t>
 
-            <t hangText="tos_url">OPTIONAL.  A URL location that the Relying 
+            <t hangText="tos_url">OPTIONAL.
+	    URL location that the Relying 
             Party Client provides to the End-User to read about
 	    the Relying Party's terms of service.
 	    The OpenID Provider SHOULD display this
             URL to the End-User if it is given.</t>
 
-            <t hangText="jwk_url">OPTIONAL.  URL for the Client's
+            <t hangText="jwk_url">OPTIONAL.
+	    URL for the Client's
 	    JSON Web Key Set <xref target="JWK"/> document
 	    containing key(s) that are used for
             signing Token Endpoint Requests and OpenID Request Objects.
@@ -208,7 +219,8 @@
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL.  URL for the Client's
+            <t hangText="jwk_encryption_url">OPTIONAL.
+	    URL for the Client's
 	    JSON Web Key Set <xref target="JWK"/> document
 	    containing key(s) that are used to encrypt
 	    the ID Token and User Info Endpoint Responses to the Client.
@@ -216,7 +228,8 @@
 	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
 
-            <t hangText="x509_url">OPTIONAL.  URL for the Client's PEM encoded X.509
+            <t hangText="x509_url">OPTIONAL.
+	    URL for the Client's PEM encoded X.509
             Certificate or Certificate chain
 	    that is used for
             signing Token Endpoint Requests and OpenID Request Objects.
@@ -228,7 +241,8 @@
 	    and <spanx style="verb">jwk_url</spanx>,
 	    the keys contained in both formats SHOULD be the same.</t>
             
-	    <t hangText="x509_encryption_url">OPTIONAL.  URL for the Client's PEM encoded X.509
+	    <t hangText="x509_encryption_url">OPTIONAL.
+	    URL for the Client's PEM encoded X.509
             Certificate or Certificate chain
 	    that is used to encrypt
             the ID Token and User Info Endpoint Responses to the Client. 
@@ -236,13 +250,15 @@
 	    and <spanx style="verb">x509_encryption_url</spanx>,
             the keys contained in both formats SHOULD be the same.</t>
             
-            <t hangText="sector_identifier_url">OPTIONAL. A HTTPS scheme URL to be used in
-            calculating Pseudonymous Identifiers by the OP. The URL contains a
+            <t hangText="sector_identifier_url">OPTIONAL.
+	    URL using the https: scheme to be used in
+            calculating Pseudonymous Identifiers by the OP. The URL references a
             file with a single JSON array of <spanx style="verb">redirect_uri</spanx> values.
             Please see <xref target="sector.identifier.url.validation" />.
 	    </t>
             
-            <t hangText="subject_type">OPTIONAL. The <spanx style="verb">subject_type</spanx> requested for 
+            <t hangText="subject_type">OPTIONAL.
+	    <spanx style="verb">subject_type</spanx> requested for 
             responses to this <spanx style="verb">client_id</spanx>. The
 	    <spanx style="verb">subject_types_supported</spanx> element of discovery 
             contains a list of the supported <spanx style="verb">subject_type</spanx>
@@ -251,7 +267,7 @@
 	    <spanx style="verb">public</spanx>.</t>
 
             <t hangText="request_object_signing_alg">OPTIONAL.
-	     The <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
+	     <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> that MUST be required by the Authorization Server.
              The valid values are listed in
 	     Section 3.1 of <xref target="JWA">JWA</xref>.
@@ -260,7 +276,7 @@
              Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
               
              <t hangText="userinfo_signed_response_alg">OPTIONAL.
-	     The JWS <spanx style="verb">alg</spanx>
+	     JWS <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for UserInfo responses. 
              The valid values are listed in
 	     Section 3.1 of <xref target="JWA">JWA</xref>.
@@ -268,7 +284,7 @@
              <xref target="JWT">JWT</xref> serialized, and signed using JWS.</t>
              
              <t hangText="userinfo_encrypted_response_alg">OPTIONAL.
-	     The <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
+	     <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
              algorithm <xref target="JWA" /> required for encrypting UserInfo responses. 
              The valid values are listed in
 	     Section 4.1 of <xref target="JWA">JWA</xref>.
@@ -277,7 +293,7 @@
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
              
              <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
-	     The JWE <spanx style="verb">enc</spanx>
+	     JWE <spanx style="verb">enc</spanx>
              algorithm <xref target="JWA" /> required for symmetric encryption of UserInfo responses.
              The valid values are listed in
 	     Section 4.2 <xref target="JWA">JWA</xref>.
@@ -288,7 +304,7 @@
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
 
              <t hangText="id_token_signed_response_alg">OPTIONAL.
-	     The JWS <spanx style="verb">alg</spanx>
+	     JWS <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for the ID Token issued to this
 	     <spanx style="verb">client_id</spanx>.
 	     The valid values are listed in
@@ -300,7 +316,7 @@
 	     element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.
-	     The JWE <spanx style="verb">alg</spanx>
+	     JWE <spanx style="verb">alg</spanx>
              algorithm <xref target="JWA" /> required for encrypting the ID Token issued to this <spanx style="verb">client_id</spanx>.
              The valid values are listed in
 	     Section 4.1 of <xref target="JWA">JWA</xref>.
@@ -308,7 +324,7 @@
              The default if not specified is no encryption.</t>
              
              <t hangText="id_token_encrypted_response_enc">OPTIONAL.
-	     The JWE <spanx style="verb">enc</spanx>
+	     JWE <spanx style="verb">enc</spanx>
              algorithm <xref target="JWA" /> required for symmetric encryption of the ID Token
 	     issued to this <spanx style="verb">client_id</spanx>. 
              The valid values are listed in
@@ -319,29 +335,28 @@
              will be signed then encrypted. If this is specified the response will be 
              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
 
-             <t hangText="default_max_age">OPTIONAL. (default max authentication age):  
-                  Type: Integer 
-                  - Specifies that the End-User must be actively authenticated if
+             <t hangText="default_max_age">OPTIONAL.
+	     Default max authentication age
+	     that specifies that the End-User must be actively authenticated if
                   any present authentication is older than the specified
-                  number of seconds. (The <spanx style="verb">max_age</spanx> request parameter
+                  number of seconds represented as an integer.
+		  (The <spanx style="verb">max_age</spanx> request parameter
                   corresponds to the OpenID 2.0
                   PAPE <spanx style="verb">max_auth_age</spanx>
                   request parameter.) The <spanx style="verb">max_age</spanx> claim in the 
                   request object overrides this default value.</t>
             
-            <t hangText="require_auth_time">OPTIONAL. (require auth_time claim):  
-                  Type: Logical 
-                  -  If the value is true, then the <spanx style="verb">auth_time</spanx> 
-                  claim in the <spanx style="verb">id_token</spanx> is REQUIRED. 
-                  The returned Claim Value is the number of seconds from 
-                  1970-01-01T0:0:0Z as measured in UTC until the date/time that the 
-                  End-User authentication occurred. (The auth_time Claim semantically 
-                  corresponds to the OpenID 2.0 PAPE auth_time response parameter.) 
-                  The auth_time claim request in the request object overrides this setting.</t>
+            <t hangText="require_auth_time">OPTIONAL.
+	    Boolean value specifying whether the <spanx style="verb">auth_time</spanx> 
+	    claim in the <spanx style="verb">id_token</spanx> is REQUIRED.
+	    It is REQUIRED when the value is <spanx style="verb">true</spanx>.
+	    The <spanx style="verb">auth_time</spanx> claim request
+	    in the request object overrides this setting.</t>
                   
-            <t hangText="default_acr">OPTIONAL. (default authentication context class reference):  
-                  Type: String 
-                  - Specifies the default value that the Authorization server must use 
+            <t hangText="default_acr">OPTIONAL.
+	    Default authentication context class reference value. 
+                  String that 
+                  specifies the default value that the Authorization Server must use 
                   for processing requests from this client.  The 
                   <spanx style="verb">acr_values_supported</spanx> element of discovery 
                   contains a list of the supported <spanx style="verb">acr</spanx>
@@ -350,17 +365,19 @@
                   request object overrides this default value.</t>
 
             <t hangText="javascript_origin_uris">OPTIONAL. 
-            A space-delimited list of JavaScript origin URIs consisting of a Scheme, Host, and
+            Space-delimited list of JavaScript origin URIs consisting of a Scheme, Host, and
             OPTIONAL Port. Client JavaScript from the registered URIs are authorized to communicate
             with Authorization Server JavaScript in 
             <xref target="OpenID.Session">OpenID Connect Session Management</xref>.
             </t>
              
              <t hangText="initiate_login_uri">OPTIONAL. 
-            A https: scheme URI that the authorization server can call to initiate a login at the client.
-            The URI MUST accept both GET and POST. The client MUST understand the 
-            <spanx style="verb">login_hint</spanx> and <spanx style="verb">iss</spanx> paramaters and 
-            SHOULD support the <spanx style="verb">target_link_uri</spanx> paramater.
+            URI using the https: scheme that the authorization server can call
+	    to initiate a login at the client.
+            The URI MUST accept requsts via both GET and POST.
+	    The client MUST understand the 
+            <spanx style="verb">login_hint</spanx> and <spanx style="verb">iss</spanx> parameters and 
+            SHOULD support the <spanx style="verb">target_link_uri</spanx> parameter.
             </t>
 
           </list></t>
@@ -412,7 +429,7 @@ operation=client_register
 	  Section 2.4.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
 
 	  <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
-	  must be a HTTPS scheme URL that identifies
+	  must be a URL using the https: scheme that references
 	  a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
 	  The Registration Server MUST perform a TLS/SSL server certificate check, per
 	  <xref target="RFC6125">RFC 6125</xref>.
@@ -447,27 +464,33 @@ Pragma: no-cache
           <t>If the value of type in the request was 
           <spanx style="verb">client_register</spanx> then return the following. </t>
           <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The unique Client
+            <t hangText="client_id">REQUIRED.
+	    Unique Client
             identifier.</t>
 
-            <t hangText="client_secret">OPTIONAL. The Client secret. This
+            <t hangText="client_secret">OPTIONAL.
+	    Client secret. This
             MUST be unique for each <spanx style="verb">client_id</spanx>. 
-            This value us used by confidential clients. It is not required for
+            This value is used by confidential clients. It is not required for
             clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of 
             <spanx style="verb">private_key_jwt</spanx>.</t>
             
-            <t hangText="registration_access_token">REQUIRED. The Access token used by the 
+            <t hangText="registration_access_token">REQUIRED.
+	    Access token used by the 
             client to perform <spanx style="verb">client_update</spanx> requests.</t>
 
-            <t hangText="expires_at">OPTIONAL. The number of
-            seconds from 1970-01-01T0:0:0Z as measured in UTC that the 
-            <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
-            they do not expire. See <xref target="RFC3339">RFC 3339</xref>
+            <t hangText="expires_at">OPTIONAL.
+	    Time at which the <spanx style="verb">client_secret</spanx> will expire
+	    or <spanx style="verb">0</spanx> if it will not expire.
+	    The time is represented as the number of
+            seconds from 1970-01-01T0:0:0Z as measured in UTC.
+	    See <xref target="RFC3339">RFC 3339</xref>
             for details regarding date/times in general and UTC in particular.</t>
           </list></t>
 
         <t>Additionally, the server MUST include all registered metadata about a client as described in 
-           Section 2.1, including any fields that the server has provisioned on the client's behalf.
+           <xref target="ClientRegistration"/>,
+	   including any fields that the server has provisioned on the client's behalf.
         </t>
 
         <t><figure>
@@ -513,22 +536,26 @@ Cache-Control: no-store
           <t>If the value of type in the request was 
           <spanx style="verb">rotate_secret</spanx> then return the following. </t>
           <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The unique Client
+            <t hangText="client_id">REQUIRED.
+	    Unique Client
             identifier.</t>
 
-            <t hangText="client_secret">OPTIONAL. The Client secret. This
+            <t hangText="client_secret">OPTIONAL.
+	    Client secret. This
             MUST be unique for each <spanx style="verb">client_id</spanx>. 
             This value is used by confidential clients. It is not required for
-            clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
+            Clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
             <spanx style="verb">private_key_jwt</spanx>.</t>
             
-            <t hangText="registration_access_token">REQUIRED. The Access token used by the 
-            client to perform <spanx style="verb">client_update</spanx> requests.</t>
+            <t hangText="registration_access_token">REQUIRED.
+	    Access Token used by the 
+            Client to perform <spanx style="verb">client_update</spanx> requests.</t>
 
-            <t hangText="expires_at">OPTIONAL. The number of
-            seconds from 1970-01-01T0:0:0Z as measured in UTC that the 
+            <t hangText="expires_at">OPTIONAL.
+	    Number of
+            seconds from 1970-01-01T0:0:0Z as measured in UTC at which the 
             <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
-            they do not expire. See <xref target="RFC3339">RFC 3339</xref>
+            it will not expire. See <xref target="RFC3339">RFC 3339</xref>
             for details regarding date/times in general and UTC in particular.</t>
           </list></t>
 
@@ -552,13 +579,15 @@ Cache-Control: no-store
         <t>If the value of type in the request was 
         <spanx style="verb">client_update</spanx>. </t>
         <t><list style="hanging">
-            <t hangText="client_id">REQUIRED. The unique Client
+            <t hangText="client_id">REQUIRED.
+	    Unique Client
             identifier.</t>
             
           </list></t>
 
         <t>Additionally, the server MUST include all registered metadata about a client as described in 
-           Section 2.1, including any fields that the server has provisioned on the client's behalf.
+           <xref target="ClientRegistration"/>,
+	   including any fields that the server has provisioned on the client's behalf.
         </t>
 
         <t><figure>
@@ -605,8 +634,8 @@ Cache-Control: no-store
       a HTTP 400 status code including a JSON object describing the error in the response body.</t>
       <t>The JSON object contains two members:</t>
       <t><list style="hanging">
-       <t hangText="error_code">The Error code.</t>
-       <t hangText="error_description">The additional text description of the error for debugging.</t>
+       <t hangText="error_code">Error code.</t>
+       <t hangText="error_description">Additional text description of the error for debugging.</t>
       </list></t>
       
       <t>This specification defines the
@@ -614,18 +643,18 @@ Cache-Control: no-store
 
           <t><list style="hanging">
           
-          <t hangText="invalid_operation">The value of <spanx style="verb">operation</spanx> is invalid or not supported.</t>
+          <t hangText="invalid_operation">Value of <spanx style="verb">operation</spanx> is invalid or not supported.</t>
           
-          <t hangText="invalid_client_id">The value of <spanx style="verb">client_id</spanx> is invalid.</t>
+          <t hangText="invalid_client_id">Value of <spanx style="verb">client_id</spanx> is invalid.</t>
           
-          <t hangText="invalid_client_secret">The <spanx style="verb">client_secret</spanx> provided for a 
+          <t hangText="invalid_client_secret"><spanx style="verb">client_secret</spanx> provided for a 
             <spanx style="verb">client_update</spanx> or 
             <spanx style="verb">rotate_secret</spanx> is not valid for the provided 
             <spanx style="verb">client_id</spanx>.</t>
 
-          <t hangText="invalid_redirect_uri">The value of one or more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
+          <t hangText="invalid_redirect_uri">Value of one or more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
 
-            <t hangText="invalid_configuration_parameter">The value of one of the configuration parameters is invalid.</t>
+            <t hangText="invalid_configuration_parameter">Value of one of the configuration parameters is invalid.</t>
 	       </list></t>
 	        
 
@@ -1037,6 +1066,9 @@ Cache-Control: no-store
 	    <spanx style="verb">token_endpoint_auth_method</spanx> and
 	    <spanx style="verb">token_endpoint_auth_types_supported</spanx> to
 	    <spanx style="verb">token_endpoint_auth_methods_supported</spanx>.
+	  </t>
+	  <t>
+	    Fixed #698 - Inconsistent use of articles.
 	  </t>
         </list>
       </t>

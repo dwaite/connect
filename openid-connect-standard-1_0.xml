@@ -93,11 +93,11 @@
 	<xref target="OpenID.Messages">OpenID Connect Messages</xref>.
 	This specification also defines the following terms:
 	  <list style="hanging">
-	    <t hangText="Request File">A document whose contents
+	    <t hangText="Request File">Document whose contents
 	    is an OpenID Request Object representing a set of Authorization Request
 	    parameters.</t>
 
-	    <t hangText="Request File URI">A URL that references a Request File.
+	    <t hangText="Request File URI">URL that references a Request File.
 	    The Request File contents MUST be retrievable by the
 	    Authorization Server.</t>
 	  </list></t>
@@ -290,8 +290,8 @@
           <t>The required Authorization Request parameters are as follows:</t>
 
           <t><list style="hanging">
-              <t hangText="response_type">An OAuth 2.0 registered
-              response type that determines how the Authorization
+              <t hangText="response_type">OAuth 2.0 registered
+              response type value that determines how the Authorization
               Response is returned to the Client.  As described in
               <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
               the following registered values are supported:
@@ -311,9 +311,11 @@
                   <t><spanx style="verb">code token id_token</spanx></t>
                 </list></t>
 
-              <t hangText="client_id">The Client identifier.</t>
+              <t hangText="client_id">OAuth 2.0 Client identifier.</t>
 
-              <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
+              <t hangText="scope">
+		OAuth 2.0 <spanx style="verb">scope</spanx> value.
+		It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings.
 	      A non-exclusive list of other values that MAY be included are
               <spanx style="verb">profile</spanx>,
@@ -324,7 +326,7 @@
               These values specify an additive list of Claims that are returned
               from the UserInfo Endpoint.</t>
 
-              <t hangText="redirect_uri">A redirection URI where the response
+              <t hangText="redirect_uri">Redirection URI to which the response
               will be sent. The Scheme, Host, Path, and Query Parameter segments of this URI MUST 
               match one of the <spanx style="verb">redirect_uris</spanx> registered 
               for the <spanx style="verb">client_id</spanx> in the <xref
@@ -337,34 +339,34 @@
 
           <t><list style="hanging">
 
-             <t hangText="nonce">A string value used to associate a Client session 
+             <t hangText="nonce">String value used to associate a Client session 
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified from the Authorization Request to the ID Token.
                Use of the nonce is REQUIRED when using the implicit flow
 	           and OPTIONAL when using the code flow.</t>
 
-              <t hangText="state">An opaque value used to maintain state
+              <t hangText="state">Opaque value used to maintain state
               between the request and the callback.</t>
 
-               <t hangText="request">An OpenID Request Object value.</t>
+               <t hangText="request">OpenID Request Object value.</t>
 
-              <t hangText="request_uri">A URL that points to an OpenID
+              <t hangText="request_uri">URL that references an OpenID
               Request Object.</t>
 
-              <t hangText="display">An ASCII string value that specifies
+              <t hangText="display">ASCII string value that specifies
               how the Authorization Server displays the authentication page to
               the End-User. Refer to
 	      Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
 	      for more information.</t>
 
-              <t hangText="prompt">A space delimited list of ASCII strings
+              <t hangText="prompt">Space delimited list of ASCII strings
 	      that can contain the values
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
               <spanx style="verb">select_account</spanx>, and
 	      <spanx style="verb">none</spanx>. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages</xref> for
               more information.</t>
-              <t hangText="id_token_hint">An ID Token
+              <t hangText="id_token_hint">ID Token
               passed to the Authorization server as a hint. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages</xref> for
               more information.</t>
@@ -1184,15 +1186,17 @@ exponent: [01,00,01]]]></artwork>
 
             <t>The error response parameters are the following:
               <list style="hanging">
-                <t hangText="error">REQUIRED. The error code.</t>
+                <t hangText="error">REQUIRED. Error code.</t>
 
-                <t hangText="error_description">OPTIONAL. A human-readable UTF-8
+                <t hangText="error_description">OPTIONAL. Human-readable ASCII
                 encoded text description of the error.</t>
 
-                <t hangText="error_uri">OPTIONAL. A URI to a web page that
+                <t hangText="error_uri">OPTIONAL. URI of a web page that
                 includes additional information about the error.</t>
 
-                <t hangText="state">REQUIRED if the Authorization Request
+                <t hangText="state">
+		  OAuth 2.0 state value.
+		  REQUIRED if the Authorization Request
                 included the <spanx style="verb">state</spanx> parameter. Set
                 to the exact value received from the Client.</t>
               </list></t>
@@ -1590,7 +1594,7 @@ WWW-Authenticate: Bearer realm="example.com",
         </t>
         <t><list style="hanging">
           <t hangText="client_id">
-            The <spanx style="verb">redirect_uri</spanx> of the Client. 
+            <spanx style="verb">redirect_uri</spanx> of the Client. 
           </t>
           <t hangText="expires_at">
             0.
@@ -1608,27 +1612,27 @@ WWW-Authenticate: Bearer realm="example.com",
            Endpoint with the following REQUIRED parameters. </t>
         <t><list style="hanging">
           <t hangText="response_type">
-            REQUIRED. The value <spanx style="verb">id_token</spanx>.
+            REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
           </t>
           <t hangText="client_id">
-            REQUIRED. The <spanx style="verb">redirect_uri</spanx> 
+            REQUIRED. <spanx style="verb">redirect_uri</spanx> 
             of the client. Note that since it is same as the 
             <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">redirect_uri</spanx> 
             is not required to be sent in the request. 
           </t>
           <t hangText="scope">
-            REQUIRED. The <spanx style="verb">scope</spanx> parameter,
+            REQUIRED. <spanx style="verb">scope</spanx> parameter value,
             as defined in <xref target="scopes"/>.
           </t>
           <t hangText="policy_url">
-            REQUIRED. A URL of a page that the Client provides to the 
+            REQUIRED. URL of a page that the Client provides to the 
             End-User to read describing the how the attributes received will be used. 
             The OP SHOULD display this URL to the End-User. 
             Unlike the standard OP case, a self-issued OP cannot receive this 
             value at the registration time, so it has to be provided 
             as a part of the authorization request. 
           </t>
-          <t hangText="request">OPTIONAL. An
+          <t hangText="request">OPTIONAL.
 	      OpenID Request Object value, as defined in
 	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>. 
 	      The OpenID Request Object may be
@@ -1636,7 +1640,8 @@ WWW-Authenticate: Bearer realm="example.com",
 	      of the ID Token
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
-           <t hangText="id_token_hint">OPTIONAL. An ID Token
+           <t hangText="id_token_hint">OPTIONAL.
+	     ID Token
               passed to the Authorization server as a hint about the user's current or past
               authenticated session with the client. This SHOULD be present if 
               <spanx style="verb">prompt=none</spanx> is sent. 
@@ -1785,17 +1790,18 @@ Location: openid://
       <t>The Authorization Server or Third Party sends the Initiation Request to the Client Initiation
            Endpoint with the following parameters. </t>
         <t><list style="hanging">
-          <t hangText="login_hint">
-            REQUIRED. A hint to the authorization service 
-              as to the login identifier the user may use to authenticate at the authorization 
+          <t hangText="login_hint">REQUIRED.
+	    Hint to the authorization service 
+            about the login identifier the user may use to authenticate at the authorization 
               service.
           </t>
-          <t hangText="iss">
-            REQUIRED. The Issuer Identifier for the Issuer who the client is to send the authentication request to. 
-            The value MUST be a https: scheme URI.
+          <t hangText="iss">REQUIRED.
+	    Issuer Identifier for the Issuer that the client is to send the authentication request to. 
+            The value MUST be a URI using the https: scheme.
           </t>
-          <t hangText="target_link_uri">
-            OPTIONAL. The URI that the client is requested to redirect to after authentication.  Clients MUST verify the value of  the
+          <t hangText="target_link_uri">OPTIONAL.
+	    URI that the client is requested to redirect to after authentication.
+	    Clients MUST verify the value of  the
             <spanx style="verb">target_link_uri</spanx> to prevent being used as a open redirector to external sites.
           </t>
           
@@ -2398,6 +2404,9 @@ scope=openid&response_type=code
         <list style="symbols">
 	  <t>
 	    Added Implementation Considerations section.
+	  </t>
+	  <t>
+	    Fixed #698 - Inconsistent use of articles.
 	  </t>
         </list></t>
 

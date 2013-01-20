@@ -142,7 +142,7 @@
 
       <t><list style="hanging">
           <t hangText="session_state">Session State.
-	  A JSON string that represents the user's login state
+	  JSON string that represents the user's login state
           at the OP.  This string is opaque to the RP.
 	  This is REQUIRED if session management is supported.
 	  </t>
@@ -218,7 +218,8 @@ function receiveMessage(e){ // e has client_id and session_state
   session_state = message.split(' ')[1];
   salt = session_state.split('.')[1];
   var opbs = get_op_browser_state();
-  var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' + opbs + [' ' + salt]) [+ "." + salt];
+  var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' +
+    opbs + [' ' + salt]) [+ "." + salt];
   if (e.session_state == ss) {
     stat = 'unchanged';
   } else {
@@ -315,7 +316,8 @@ var mes = client_id + " " + session_state;
 function check_session()
 {
   var targetOrigin  = "http://server.example.com";
-  var win = window.parent.document.getElementById("op").contentWindow;
+  var win = window.parent.document.getElementById("op").
+              contentWindow;
   win.postMessage( mes, targetOrigin);
 }
 
@@ -379,7 +381,7 @@ function receiveMessage(e)
 	  <list style="hanging">
             <t hangText="post_logout_redirect_url">
 	      OPTIONAL.
-	      The RP supplies this URL to request that the user be redirected to this location
+	      URL supplied by the RP to request that the user be redirected to this location
 	      after a logout has been performed.
 	      If supplied, the OP SHOULD honor this request following a logout initiated from this RP.
 	    </t>
@@ -616,6 +618,9 @@ function receiveMessage(e)
 	  </t>
 	  <t>
 	    Added Implementation Considerations section.
+	  </t>
+	  <t>
+	    Fixed #698 - Inconsistent use of articles.
 	  </t>
         </list></t>
 

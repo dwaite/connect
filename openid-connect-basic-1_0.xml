@@ -299,7 +299,7 @@
           <t>
             <list style="hanging">
               <t hangText="response_type">
-                It MUST be <spanx style="verb">code</spanx>.
+                This value MUST be <spanx style="verb">code</spanx>.
 		This requests that both an Access Token and an ID Token be returned
 		from the Token Endpoint in exchange to <spanx style="verb">code</spanx>. 
               </t>
@@ -312,9 +312,11 @@
           <t>
             <list style="hanging">
 
-              <t hangText="client_id">The OAuth 2.0 Client Identifier.</t>
+              <t hangText="client_id">OAuth 2.0 Client Identifier.</t>
 
-              <t hangText="scope">It MUST include <spanx style="verb">openid</spanx>
+              <t hangText="scope">
+		OAuth 2.0 <spanx style="verb">scope</spanx> value.
+		It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings.
 	      OPTIONAL <spanx style="verb">scope</spanx> strings of
               <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
@@ -322,7 +324,7 @@
 	      and <spanx style="verb">offline_access</spanx>
 	      are also defined.</t>
 
-              <t hangText="redirect_uri">A redirection URI where the response
+              <t hangText="redirect_uri">Redirection URI to which the response
               will be sent. This MUST be pre-registered with the provider.</t>
             </list>
           </t>
@@ -332,11 +334,11 @@
           <t>
             <list style="hanging">
 
-              <t hangText="state">RECOMMENDED.  An opaque value used
+              <t hangText="state">RECOMMENDED.  Opaque value used
               to maintain state between the request and the callback;
               serves as a protection against XSRF attacks.</t>
 
-              <t hangText="display">An ASCII string value that specifies
+              <t hangText="display">ASCII string value that specifies
               how the Authorization Server displays the authentication and
               consent user interface pages to the End-User. The following values
               are supported:
@@ -363,14 +365,14 @@
               </list>
             </t>
 
-            <t hangText="prompt">A space delimited, case sensitive list of
+            <t hangText="prompt">Space delimited, case sensitive list of
 	    ASCII string values that specifies whether the Authorization Server prompts
 	    the End-User for reauthentication and consent. The possible values
 	    are:
 
 	    <list style="hanging">
-	      <t hangText="none">This value informs the Authorization Server
-	      that it MUST NOT display any authentication or consent
+	      <t hangText="none">The Authorization Server
+	      MUST NOT display any authentication or consent
 	      user interface pages. An error is returned if the End-User 
 	      is not already authenticated or the Client does not have 
 	      pre-configured consent for the requested
@@ -399,13 +401,13 @@
 	    error is returned.
             </t>
             
-        <t hangText="nonce">A string value used to associate a Client session 
+        <t hangText="nonce">String value used to associate a Client session 
         with an ID Token, and to mitigate replay attacks. The value is passed 
         through unmodified from the Authorization Request to the ID Token. 
         Use of the nonce is OPTIONAL when using the code flow.</t>
         
-        <t hangText="login_hint"> A hint to the authorization service 
-              as to the login identifier the user may use to authenticate at the authorization 
+        <t hangText="login_hint">Hint to the authorization service 
+	  about the login identifier the user may use to authenticate at the authorization 
               service (if necessary). 
               This hint can be used by an RP if it first asks the user for their email 
               address (or other identifier) and then wants to pass that value as a hint 
@@ -490,9 +492,12 @@ response_type=code
 
             <t>
               <list style="hanging">
-                <t hangText="code">REQUIRED. The OAuth 2.0 authorization code.</t>
+                <t hangText="code">REQUIRED.
+		OAuth 2.0 authorization code.</t>
 		
-                <t hangText="state">REQUIRED if the
+                <t hangText="state">
+		  OAuth 2.0 state value.
+		  REQUIRED if the
 		<spanx style="verb">state</spanx> parameter is present in the
                 client Authorization Request. Clients MUST verify that the 
                 <spanx style="verb">state</spanx> value is equal to the exact 
@@ -552,22 +557,26 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 
             <t>
               <list style="hanging">
-                <t hangText="access_token">REQUIRED. The Access Token for the
+                <t hangText="access_token">REQUIRED.
+		Access Token for the
                 UserInfo Endpoint.</t>
 
-                <t hangText="token_type">REQUIRED. The value MUST be
-                "bearer" or other <spanx style="verb">token_type</spanx> the client 
+                <t hangText="token_type">REQUIRED.
+		OAuth 2.0 token type value.
+		The value MUST be
+                "bearer" or another <spanx style="verb">token_type</spanx> the client 
                 has negotiated with the Authorization Server.
                 Clients implementing this profile MUST support the <xref
 	            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
 	            This profile only describes the use of bearer tokens.</t>
 
-                <t hangText="id_token">REQUIRED. The ID Token.</t>
+                <t hangText="id_token">REQUIRED.
+		ID Token.</t>
 
-                <t hangText="expires_in">OPTIONAL. The expiration time in
-                seconds of the Access Token.</t>
+                <t hangText="expires_in">OPTIONAL.
+		Expiration time of the Access Token in seconds.</t>
 
-                <t hangText="refresh_token">OPTIONAL. The Refresh Token.</t>
+                <t hangText="refresh_token">OPTIONAL. Refresh Token.</t>
               </list>
             </t>
 
@@ -608,48 +617,55 @@ Pragma: no-cache
           <t>The following Claims are REQUIRED within the ID Token:</t>
 
           <t><list style="hanging">
-              <t hangText="iss">REQUIRED. The Issuer Identifier for the Issuer
+              <t hangText="iss">REQUIRED.
+	      Issuer Identifier for the Issuer
               of the response.</t>
 
-              <t hangText="sub">REQUIRED. Subject identifier - a locally unique and never
+              <t hangText="sub">REQUIRED.
+	      Subject identifier.  A locally unique and never
               reassigned identifier within the Issuer for the End-User, 
               which is intended to be
               consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
               or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
               It MUST NOT exceed 255 ASCII characters in length.</t>
 
-              <t hangText="aud">REQUIRED. This member identifies the audience
+              <t hangText="aud">REQUIRED.
+	      Audience
               that this ID Token is intended for. It MUST contain the
 	      OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
 
-              <t hangText="azp">OPTIONAL. Authorized Party -
+              <t hangText="azp">OPTIONAL.
+	      Authorized Party.
 	      This member identifies an OAuth 2.0 client authorized to use this
 	      ID Token as an OAuth access token, if different than the
 	      Client that requested the ID Token. It MUST contain the
 	      <spanx style="verb">client_id</spanx> of the authorized party.</t>
 
-              <t hangText="exp">REQUIRED. Type Integer. Identifies the
-              expiration time on or after which the ID Token MUST NOT be
+              <t hangText="exp">REQUIRED.
+              Expiration time on or after which the ID Token MUST NOT be
               accepted for processing. The processing of this parameter
               requires that the current date/time MUST be before the
               expiration date/time listed in the value. Implementers MAY
               provide for some small leeway, usually no more than a few
-              minutes, to account for clock skew. The value is number of
+              minutes, to account for clock skew. The value is the number of
               seconds from 1970-01-01T0:0:0Z as measured in UTC until the
               desired date/time. See <xref target="RFC3339">RFC 3339</xref>
               for details regarding date/times in general and UTC in
               particular.</t>
               
-              <t hangText="iat">REQUIRED. Type Integer. The <spanx style="verb">iat</spanx> 
-              (issued at) Claim identifies the time at which the JWT was issued. 
-              The value is number of
+              <t hangText="iat">REQUIRED.
+	      Time at which the JWT was issued. 
+              The value is the number of
               seconds from 1970-01-01T0:0:0Z as measured in UTC until the
               desired date/time. See <xref target="RFC3339">RFC 3339</xref>
               for details regarding date/times in general and UTC in
               particular.</t>
 
             </list></t>
-            <t>Additional optional claims may be present in the ID Token.</t>
+
+	    <t>The JWT MAY contain other Claims
+	    that are understood by all parties using it.</t>
+
         	<figure>
             <preamble>The following is a non-normative example of a base64url decoded 
             ID Token
@@ -743,12 +759,14 @@ Pragma: no-cache
 
           <t>
             <list style="hanging">
-              <t hangText="access_token"> REQUIRED. The Access Token obtained
+              <t hangText="access_token"> REQUIRED.
+	      Access Token obtained
 	      from an OpenID Connect Authorization Request. This parameter MUST
 	      only be sent using one method through either the HTTP Authorization
 	      header or a form-encoded HTTP POST body parameter.</t>
 
-              <t hangText="schema">REQUIRED. The schema in which the
+              <t hangText="schema">REQUIRED.
+	      Schema in which the
 	      data is to be returned. The only defined <spanx style="verb">schema</spanx>
 	      value is <spanx style="verb">openid</spanx>.</t>
 
@@ -975,27 +993,27 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	    </t>
             <t>
               <list style="hanging">
-                <t hangText="formatted">The full mailing address, 
+                <t hangText="formatted">Full mailing address, 
 		formatted for display or use with a mailing label. 
 		This field MAY contain newlines. This is the 
 		Primary Sub-Field for this field, 
 		for the purposes of sorting and filtering.</t>
 
                 <t hangText="street_address">
-		The full street address component, 
+		Full street address component, 
 		which may include house number, street name, 
 		PO BOX, and multi-line extended street 
 		address information. This field MAY contain newlines.</t>
 
-                <t hangText="locality">The city or locality component.</t>
+                <t hangText="locality">City or locality component.</t>
 
-                <t hangText="region">The state, province, 
+                <t hangText="region">State, province, 
 		prefecture or region component.</t>
 
-                <t hangText="postal_code">The zip code or 
+                <t hangText="postal_code">Zip code or 
 		postal code component.</t>
 
-                <t hangText="country">The country name component.</t>
+                <t hangText="country">Country name component.</t>
               </list>
             </t>
           </section>
@@ -1535,6 +1553,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Added Implementation Considerations section.
+	  </t>
+	  <t>
+	    Fixed #698 - Inconsistent use of articles.
 	  </t>
       </list></t>
 	   
