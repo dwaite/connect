@@ -2964,12 +2964,18 @@ Tokens and URL locations where the Claims may be retrieved:
 	  </section>
 
 	  <section anchor="issuer_identifier" title="Issuer Identifier">
-	    <t>OpenID Connect supports multiple issuers per Host and Port combination.</t>
-	    <t>The issuer returned by discovery MUST exactly match the value of 
+	    <t>OpenID Connect supports multiple issuers per Host and Port combination.
+	    The issuer returned by discovery MUST exactly match the value of 
 	    <spanx style="verb">iss</spanx> in the ID Token.</t>
-	    <t>It is RECOMMENDED that only a single issuer per host be used. Simple Web 
-	    Discovery treats the path component of any URI as part of the user identifier. 
-		</t>
+
+	    <t>OpenID Connect treats the path component of any URI as
+	    part of the user identifier.  For instance, the subject
+	    "1234" with an issuer of "https://example.com" is not
+	    equivalent to the subject "1234" with an issuer of
+	    "https://example.com/sales".
+	    </t>
+
+	    <t>It is RECOMMENDED that only a single issuer per host be used.</t>
 	  </section>		
 
 	  <section anchor="TLS_requirements" title="TLS Requirements">
@@ -4221,8 +4227,8 @@ Representation of dates and times</title>
 	    Fixed  #637 removed requirement for hash of at_token and code to be SHA2 in
 	    Sec 2.1.2.1 and Sec 5.2
 	    </t>
-	    	  <t>
-	    	  Fixes #620 - Update Sec 2.1.2 and Sec 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
+	    <t>
+	      Fixes #620 - Update Sec 2.1.2 and Sec 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
 	  </t>
 	  <t> Fixes #684 Removed error response in redirect to client if the redirect_uri is wrong to align with OAuth.</t>
 	  <t>
@@ -4257,6 +4263,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #699 - OpenID Provider (OP) definition repetitive.
+	  </t>
+	  <t>
+	    Fixed #701 - Mention of SWD without a reference.
 	  </t>
         </list></t>
 	  
