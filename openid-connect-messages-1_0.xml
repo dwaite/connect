@@ -1007,7 +1007,8 @@
 
                 <t hangText="at_hash">OPTIONAL. 
 	        Access Token hash value.
-                If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+                If the ID Token is issued from the Authorization endpoint with a 
+                <spanx style="verb">access_token</spanx>
           in response to a request specifying a <spanx style="verb">response_type</spanx> value
           of <spanx style="verb">token id_token</spanx> , this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
@@ -1021,8 +1022,10 @@
 
                 <t hangText="c_hash">OPTIONAL.
 		Code hash value.
-                If the ID Token is issued with a <spanx style="verb">code</spanx>
-          in an implicit flow, this is REQUIRED.
+                If the ID Token is issued from the Authorization endpoint with a 
+                <spanx style="verb">code</spanx>
+          in response to a request specifying a <spanx style="verb">response_type</spanx> value
+          of <spanx style="verb">code id_token</spanx> , this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">code</spanx> 
                 with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
@@ -2498,8 +2501,9 @@ Tokens and URL locations where the Claims may be retrieved:
       </section>
 
       <section anchor="access.token.validation" title="Access Token Validation">
-        <t>To validate an Access Token issued with an ID Token in 
-        the implicit flow, the client SHOULD do the following:</t>
+        <t>To validate an Access Token issued from the Authorization endpoint with an ID Token in 
+        response to a request containing a <spanx style="verb">response_type</spanx> of
+        <spanx style="verb">token id_token</spanx>, the client SHOULD do the following:</t>
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">access_token</spanx> 
@@ -2516,8 +2520,9 @@ Tokens and URL locations where the Claims may be retrieved:
         </section>
         
       <section anchor="code.validation" title="Code Validation">
-        <t>To validate a <spanx style="verb">code</spanx> issued with an ID Token in 
-        the implicit flow, the client SHOULD do the following:</t>
+        <t>To validate a <spanx style="verb">code</spanx> issued from the Authorization endpoint with an ID Token in 
+        response to a request containing a <spanx style="verb">response_type</spanx> of
+        <spanx style="verb">code id_token</spanx>, the client SHOULD do the following:</t>
 
         <t><list style="numbers">
             <t>Hash the <spanx style="verb">code</spanx> 
@@ -2560,7 +2565,8 @@ Tokens and URL locations where the Claims may be retrieved:
 	  </t>
 	  <t>
 	    MUST ignore the <spanx style="verb">offline_access</spanx> request
-	    if the client is using the "Implicit Flow",
+	    if the client is not requesting a <spanx style="verb">response_type</spanx> of
+	    <spanx style="verb">code</spanx> or <spanx style="verb">code id_token</spanx>.
 	  </t>
 	  <t>
 	    MUST explicitly receive user consent for all clients when
@@ -4250,11 +4256,13 @@ Representation of dates and times</title>
 	  <t>
 	    Specified that dynamic OPs must publish their public keys in X.509 format, per issue #633.
 	  </t>
-	  <t> Re #648 change references in nonce and at_hash to a response type of token if_token rather than implicit</t>
+	  <t> Re #648 change references in nonce and at_hash to a response type of token id_token rather than implicit</t>
 
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
 	  </t>
+	  <t> Re #648 change validation of id_token at_hash and c_hash to a response type of token id_token rather than implicit</t>
+
 
         </list></t>
 	  
