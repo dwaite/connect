@@ -90,7 +90,7 @@
 	"Token Endpoint" defined by
 	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
-	<xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	This specification also defines the following terms:
 	  <list style="hanging">
 	    <t hangText="Request File">Document whose contents
@@ -127,7 +127,7 @@
         <t>Clients MUST specify the desired scopes in an Authorization Request to
         obtain an Access Token with the proper permissions.
         The scope names used by OpenID Connect are defined in
-	Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+	Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         
         <t>The Authorization Server MAY fully or partially ignore the scope values
          requested by the Client based on the Authorization Server policy or
@@ -175,7 +175,7 @@
 
         <section anchor="retrieving_code_token" 
                  title="How to Get an Authorization Code, Access Token, and ID Token">
-          <t>In OpenID Connect Standard, the Client sends authorization request 
+          <t>In this specification, the Client sends authorization request 
           to the Authorization Endpoint through the User Agent to obtain the 
           Access Token and ID Token. It MAY obtain them from the Authorization 
           Endpoint or from Token Endpoint utilizing the <spanx style="verb">
@@ -220,7 +220,7 @@
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
           MUST validate it according to the validation rules in <xref
-          target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+          target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         </section>
 
         <section anchor="implicit_flow" title="Implicit Flow">
@@ -250,7 +250,7 @@
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
           MUST validate it according to the validation rules in <xref
-          target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+          target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         </section>
 
       </section>
@@ -356,7 +356,7 @@
               <t hangText="display">ASCII string value that specifies
               how the Authorization Server displays the authentication page to
               the End-User. Refer to
-	      Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
+	      Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	      for more information.</t>
 
               <t hangText="prompt">Space delimited list of ASCII strings
@@ -364,11 +364,11 @@
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
               <spanx style="verb">select_account</spanx>, and
 	      <spanx style="verb">none</spanx>. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages</xref> for
+              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
               <t hangText="id_token_hint">ID Token
               passed to the Authorization server as a hint. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages</xref> for
+              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
             </list></t>
 
@@ -796,7 +796,7 @@ Host: client.example.org]]></artwork>
 	<section title="Authorization Server Validates Request Object">
 
           <t>The Authorization Server validates the request according to 
-	  Section 5.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+	  Section 5.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 	</section>
 
         <section title="Authorization Server Authenticates the End-User">
@@ -874,7 +874,7 @@ Host: client.example.org]]></artwork>
             <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Authorization Response 
             as described in
-	    Section 2.1.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref> 
+	    Section 2.1.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> 
             to the Client by adding the response parameters to <spanx
             style="verb">redirect_uri</spanx> specified in the Authorization
             Request using the "application/x-www-form-urlencoded" format.</t>
@@ -1178,7 +1178,7 @@ exponent: [01,00,01]]]></artwork>
             <t>If the End-User denies the authorization or the user authentication
             fails, the Authorization Server MUST return the error authorization 
             response as defined in
-	    Section 2.1.4 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	    Section 2.1.4 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	    The Authorization Server returns the Client to
             the redirection URI specified in the Authorization Request
             with the appropriate error parameters. No
@@ -1234,7 +1234,7 @@ error=invalid_request
 
       <t>Clients MAY provide authentication parameters in the request to the
       Token Endpoint as described in
-      Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+      Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
       <t>Authorization Servers MUST support the use of the HTTP "POST"
       method defined in <xref target="RFC2616">RFC 2616</xref> at the
@@ -1273,7 +1273,7 @@ error=invalid_request
           <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
           authenticate to the Token Endpoint using the authentication method
 	  registered for its <spanx style="verb">client_id</spanx>, as documented in
-	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 4.1.3 of 
@@ -1332,7 +1332,7 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 
 	  <t>A successful response returns the "<spanx style="verb">application/json</spanx>"
 	  media type and the response body is the Access Token Response documented in
-	  Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+	  Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
 
 	  <figure>
@@ -1367,7 +1367,7 @@ tqkqHxKsAXLVyAoVInYkl_NDBkCqYe2KgNJFzfEC8g"
 	  <t>If the Token Request is invalid or unauthorized, the
 	  Authorization Server constructs the response by returning the
 	  Token Error Response defined in <xref
-	  target="OpenID.Messages">OpenID Connect Messages</xref> in the
+	  target="OpenID.Messages">OpenID Connect Messages 1.0</xref> in the
 	  entity body of the HTTP response using the <spanx style="verb">application/json</spanx>
 	  media type with HTTP response code 400.</t>
 
@@ -1390,7 +1390,7 @@ Pragma: no-cache
          <t>To refresh an Access Token, the Client MUST
           authenticate to the Token Endpoint using the authentication method registered
 	  for its <spanx style="verb">client_id</spanx>, as documented in
-	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
           <xref target="form_serialization">form serialization</xref> as 
           specified in Section 6 of 
@@ -1408,7 +1408,7 @@ Pragma: no-cache
           <t>Upon successful validation of the Refresh Token, a successful
           response returns the "<spanx style="verb">application/json</spanx>"
           media type and the response body is the Access Token Response of 
-          Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
+          Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	  except that it MUST NOT return an <spanx style="verb">id_token</spanx>.</t>
         
           <figure>
@@ -1452,7 +1452,7 @@ Pragma: no-cache
     <section anchor="userinfo_ep" title="UserInfo Endpoint">
       <t>To obtain the requested Claims about the End-User, the Client
       makes a GET or POST request to the UserInfo Endpoint as in <xref
-      target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
       <t>Authorization Servers MUST require the use of a transport-layer
       security mechanism. The Authorization Server MUST support TLS 1.2
@@ -1473,7 +1473,7 @@ Pragma: no-cache
 
       <section title="UserInfo Request">
         <t>Client SHOULD send the UserInfo Request defined in
-	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>
+	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
         either in HTTP GET or POST request.</t>
         
         <t>The Access Token obtained
@@ -1499,7 +1499,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
         
         <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
         return the JSON Serialization of the UserInfo response as in <xref
-        target="OpenID.Messages">OpenID Messages</xref> in the HTTP response
+        target="OpenID.Messages">OpenID Messages 1.0</xref> in the HTTP response
         body. The content-type of the HTTP response MUST be set to <spanx
         style="verb">application/json</spanx> if the response body is a text
         JSON structure. If the JSON response is
@@ -1508,7 +1508,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
 
         <t>Upon receipt of the UserInfo Response, the Client MUST verify 
         the response in accordance with
-	Section 5.3 (UserInfo Response Validation) of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	Section 5.3 (UserInfo Response Validation) of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
         </t>
 
         <figure>
@@ -1534,7 +1534,7 @@ Content-Type: application/json
   an Error Response as defined in Section 3 of
   the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification
   utilizing an error code as specified in
-  Section 2.3.3 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.</t>
+  Section 2.3.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
   <t>The HTTP 400 (Bad Request) status code SHOULD be returned for the 
     <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> response
@@ -1634,7 +1634,7 @@ WWW-Authenticate: Bearer realm="example.com",
           </t>
           <t hangText="request">OPTIONAL.
 	      OpenID Request Object value, as defined in
-	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>. 
+	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
 	      The OpenID Request Object may be
 	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
 	      of the ID Token
@@ -1696,7 +1696,7 @@ Location: openid://
             If <spanx style="verb">iss</spanx> contains a different value, 
             the ID Token is not self-issued, and instead 
             it MUST be validated according to
-	    Section 5.2 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
+	    Section 5.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
           </t>
           <t>
             The Client MUST validate that the 
@@ -2086,8 +2086,7 @@ scope=openid&response_type=code
           </author>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <date day="27" month="December" year="2012" />
@@ -2158,12 +2157,10 @@ scope=openid&response_type=code
 
       <reference anchor="OpenID.Registration">
         <front>
-          <title abbrev="Abbreviated-Title">OpenID Connect Dynamic Client
-          Registration 1.0</title>
+          <title>OpenID Connect Dynamic Client Registration 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -2186,8 +2183,7 @@ scope=openid&response_type=code
           <title>OpenID Connect Discovery 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -2252,8 +2248,7 @@ scope=openid&response_type=code
           <title>OpenID Connect Basic Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -2285,8 +2280,7 @@ scope=openid&response_type=code
           <title>OpenID Connect Implicit Client Profile 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -2346,8 +2340,7 @@ scope=openid&response_type=code
 
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
 
-          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute,
-          Ltd.</t>
+          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
 
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
 
