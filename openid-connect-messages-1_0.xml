@@ -423,8 +423,9 @@
           <t><list style="hanging">
               <t hangText="nonce">Random, unique string value used
               to mitigate replay attacks.
-	      Use of the nonce is REQUIRED when using the implicit flow
-	      and OPTIONAL when using the code flow.</t>
+	      Use of the nonce is REQUIRED When the <spanx style="verb">response_type</spanx> in the request
+          is <spanx style="verb">token id_token</spanx> 
+	      and OPTIONAL when using other <spanx style="verb">response_type</spanx> values.</t>
 
             <t hangText="display">OPTIONAL.
 	      ASCII string value that specifies
@@ -982,8 +983,9 @@
           MUST include a <spanx style="verb">nonce</spanx> Claim in the
           <xref target="id_token">ID Token</xref> with the Claim value
           being the nonce value sent in the Authorization Request.
-          Use of the nonce is REQUIRED when using the implicit flow
-          and OPTIONAL when using the code flow.</t>
+          Use of the nonce is REQUIRED When the <spanx style="verb">response_type</spanx> in the request
+          is <spanx style="verb">token id_token</spanx> 
+	      and OPTIONAL when using other <spanx style="verb">response_type</spanx> values.</t>
 
                 <t hangText="auth_time">OPTIONAL.
 		  Time when the End-User authentication occurred,
@@ -1006,7 +1008,8 @@
                 <t hangText="at_hash">OPTIONAL. 
 	        Access Token hash value.
                 If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-          in an implicit flow, this is REQUIRED.
+          in response to a request specifying a <spanx style="verb">response_type</spanx> value
+          of <spanx style="verb">token id_token</spanx> , this is REQUIRED.
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">access_token</spanx> 
                 with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
@@ -4247,9 +4250,12 @@ Representation of dates and times</title>
 	  <t>
 	    Specified that dynamic OPs must publish their public keys in X.509 format, per issue #633.
 	  </t>
+	  <t> Re #648 change references in nonce and at_hash to a response type of token if_token rather than implicit</t>
+
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
 	  </t>
+
         </list></t>
 	  
       <t>-14
