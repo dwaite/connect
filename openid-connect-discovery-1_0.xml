@@ -473,31 +473,31 @@ Host: example.com]]></artwork>
 	<t>
 	  <list style="hanging">
 
-	    <t hangText="version">
+	    <t hangText="version">REQUIRED.
 	      Version string of the provider response. "3.0" is the default.
 	    </t>
 
-	    <t hangText="issuer">
+	    <t hangText="issuer">REQUIRED.
 	      URL using the https: scheme with no query or fragment component that the OP asserts as its
 	      Issuer Identifier
 	    </t>
 
-	    <t hangText="authorization_endpoint">
+	    <t hangText="authorization_endpoint">OPTIONAL.
 	      URL of the OP's Authentication and Authorization Endpoint <xref
 	      target="OpenID.Messages"></xref>
 	    </t>
 
-	    <t hangText="token_endpoint">
+	    <t hangText="token_endpoint">OPTIONAL.
 	      URL of the OP's OAuth 2.0 Token Endpoint <xref
 	      target="OpenID.Messages"></xref>
 	    </t>
 	    
-	    <t hangText="userinfo_endpoint">
+	    <t hangText="userinfo_endpoint">RECOMMENDED.
 	      URL of the OP's UserInfo Endpoint <xref
 	      target="OpenID.Messages"></xref>
 	    </t>
 
-	    <t hangText="check_session_iframe_url">
+	    <t hangText="check_session_iframe_url">OPTIONAL.
 	      URL of an OP endpoint that provides a page to support cross-origin
 	      communications for session state information with the RP client, using
 	      the HTML5 postMessage API. The page is loaded from an invisible iframe
@@ -505,45 +505,45 @@ Host: example.com]]></artwork>
 	      target="OpenID.Session"></xref>
 	    </t>
 
-	    <t hangText="end_session_endpoint_url">
+	    <t hangText="end_session_endpoint_url">OPTIONAL.
 	      URL of the OP's endpoint that initiates the user logout <xref
 	      target="OpenID.Session"></xref>
 	    </t>
 
-	    <t hangText="jwk_url">
+	    <t hangText="jwk_url">OPTIONAL.
 	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
 	      document containing the server's signing key(s)
 	    </t>
 	    
-	    <t hangText="jwk_encryption_url">
+	    <t hangText="jwk_encryption_url">OPTIONAL.
 	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
 	      document containing the server's encryption key(s); if not present, its value 
 	      is the same as the URL provided by <spanx style="verb">jwk_url</spanx>
 	    </t>
 
-	    <t hangText="x509_url">
+	    <t hangText="x509_url">REQUIRED.
 	      URL of the OP's X.509 certificates in PEM format.
 	    </t>
 	    
-	    <t hangText="x509_encryption_url">
+	    <t hangText="x509_encryption_url">OPTIONAL.
 	      URL of the OP's X.509 certificates in PEM format.
 	      Server's Encryption Key, if not present its value 
 	      is the same as the URL provided by <spanx style="verb">x509_url</spanx>
 	    </t>
 
-	    <t hangText="registration_endpoint">
+	    <t hangText="registration_endpoint">RECOMMENDED.
 	      URL of the OP's Dynamic Client Registration Endpoint <xref
 	      target="OpenID.Registration"></xref>
 	    </t>
 
-	    <t hangText="scopes_supported">
+	    <t hangText="scopes_supported">RECOMMENDED.
 	      JSON array containing a list of the <xref
 	      target="RFC6749">OAuth 2.0 </xref> scope values that this server
 	      supports. The server MUST support the <spanx style="verb">openid</spanx>
 	      scope value.
 	    </t>
 
-	    <t hangText="response_types_supported">
+	    <t hangText="response_types_supported">REQUIRED.
 	      JSON array containing a list of the OAuth 2.0 
 	      <spanx style="verb">response_type</spanx> that this
 	      server supports. The server MUST support the <spanx style="verb">code</spanx>,
@@ -551,61 +551,61 @@ Host: example.com]]></artwork>
 	      <spanx style="verb">response_type</spanx>.
 	    </t>
 
-	    <t hangText="acr_values_supported">
+	    <t hangText="acr_values_supported">OPTIONAL.
 	      JSON array containing a list of the Authentication Context Class References
 	      that this server supports.
 	    </t>
 
-	    <t hangText="subject_types_supported">
+	    <t hangText="subject_types_supported">REQUIRED.
 	      JSON array containing a list of the subject identifier types that
 	      this server supports. Valid types include
 	      <spanx style="verb">pairwise</spanx> and
 	      <spanx style="verb">public</spanx>.
 	    </t>
 
-	    <t hangText="userinfo_signing_alg_values_supported">
+	    <t hangText="userinfo_signing_alg_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
 	      (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
 	      supported by the UserInfo Endpoint
 	      to encode the claims in a JWT <xref target="JWT" />.
 	    </t>
 
-	    <t hangText="userinfo_encryption_alg_values_supported">
+	    <t hangText="userinfo_encryption_alg_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
 	      (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
 	      supported by the UserInfo Endpoint
 	      to encode the claims in a JWT <xref target="JWT" />.
 	    </t>
 
-	    <t hangText="userinfo_encryption_enc_values_supported">
+	    <t hangText="userinfo_encryption_enc_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWE encryption algorithms
 	      (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
 	      supported by the UserInfo Endpoint
 	      to encode the claims in a JWT <xref target="JWT" />.
 	    </t>
 
-	    <t hangText="id_token_signing_alg_values_supported">
+	    <t hangText="id_token_signing_alg_values_supported">REQUIRED.
 	      JSON array containing a list of the JWS signing algorithms
 	      (<spanx style="verb">alg</spanx> values)
 	      supported by the Authorization Server for the ID Token
 	      to encode the claims in a JWT <xref target="JWT" />.
 	    </t>
 
-	    <t hangText="id_token_encryption_alg_values_supported">
+	    <t hangText="id_token_encryption_alg_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWE encryption algorithms
 	      (<spanx style="verb">alg</spanx> values)
 	      supported by the Authorization Server for the ID Token
 	      to encode the claims in a JWT <xref target="JWT" />.
 	    </t>
 
-	    <t hangText="id_token_encryption_enc_values_supported">
+	    <t hangText="id_token_encryption_enc_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWE encryption algorithms
 	      (<spanx style="verb">enc</spanx> values)
 	      supported by the Authorization Server for the ID Token
 	      to encode the claims in a JWT <xref target="JWT" />.
 	    </t>
 
-	    <t hangText="request_object_signing_alg_values_supported">
+	    <t hangText="request_object_signing_alg_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWS signing algorithms
 	      (<spanx style="verb">alg</spanx> values)
 	      supported by the Authorization Server for the OpenID Request Object described in
@@ -613,21 +613,21 @@ Host: example.com]]></artwork>
 	      Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.
 	    </t>
 
-	    <t hangText="request_object_encryption_alg_values_supported">
+	    <t hangText="request_object_encryption_alg_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWE encryption algorithms
 	      (<spanx style="verb">alg</spanx> values)
 	      supported by the Authorization Server for the OpenID Request Object described in
 	      Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
 	    </t>
 
-	    <t hangText="request_object_encryption_enc_values_supported">
+	    <t hangText="request_object_encryption_enc_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWE encryption algorithms
 	      (<spanx style="verb">enc</spanx> values)
 	      supported by the Authorization Server for the OpenID Request Object described in
 	      Section 2.1.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages</xref>.
 	    </t>
 
-	    <t hangText="token_endpoint_auth_methods_supported">
+	    <t hangText="token_endpoint_auth_methods_supported">OPTIONAL.
 	      JSON array containing a list of authentication
 	      types supported by this Token Endpoint. The options are
 	      <spanx style="verb">client_secret_post</spanx>, 
@@ -641,7 +641,7 @@ Host: example.com]]></artwork>
 	      Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
 	    </t>
 
-	    <t hangText="token_endpoint_auth_signing_alg_values_supported">
+	    <t hangText="token_endpoint_auth_signing_alg_values_supported">OPTIONAL.
 	      JSON array containing a list of the JWS signing algorithms
 	      (<spanx style="verb">alg</spanx> values)
 	      supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
@@ -650,27 +650,29 @@ Host: example.com]]></artwork>
 	      Servers SHOULD support <spanx style="verb">RS256</spanx>.
 	    </t>
 
-	    <t hangText="display_values_supported">
+	    <t hangText="display_values_supported">OPTIONAL.
 	      JSON array containing a list of the <spanx style="verb">display</spanx>
 	      parameter values that the OpenID Provider supports.
 	      These values are described in
 	      Section 2.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	    </t>
 
-	    <t hangText="claim_types_supported">
+	    <t hangText="claim_types_supported">OPTIONAL.
 	      JSON array containing a list of the claim types
 	      that the OpenID Provider supports.
 	      These claim types are described in
 	      Section 2.6 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	      If not specified, the implementation supports
+	      only <spanx style="verb">normal</spanx> claims.
 	    </t>
 
-	    <t hangText="claims_supported">
+	    <t hangText="claims_supported">RECOMMENDED.
 	      JSON array containing a list of the Claim Names of the Claims
 	      that the OpenID Provider may be able to supply values for.
 	      Note that for privacy or other reasons, this may not be an exhaustive list.
 	    </t>
 
-	    <t hangText="service_documentation">
+	    <t hangText="service_documentation">OPTIONAL.
 	      URL of a page containing human-readable information that
 	      developers might want or need to know when using the OpenID Provider.
 	      In particular, if the OpenID Provider does not support dynamic client registration,
@@ -1229,6 +1231,9 @@ Host: example.com]]></artwork>
 	  </t>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
+	  </t>
+	  <t>
+	    Fixed #628 - Defined REQUIRED, RECOMMENDED, and OPTIONAL discovery elements.
 	  </t>
         </list>
       </t>
