@@ -962,9 +962,8 @@
 	        Access Token hash value.
 
                 If the ID Token is issued from the Authorization endpoint with an 
-                <spanx style="verb">access_token</spanx>
-          in response to a request using a <spanx style="verb">response_type</spanx> value
-          of <spanx style="verb">token id_token</spanx>, this is REQUIRED.
+                <spanx style="verb">access_token</spanx>, this is REQUIRED.
+                This is OPTIONAL if the ID Token is issued from the Token Endpoint.
 
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">access_token</spanx> 
@@ -978,9 +977,9 @@
                 <t hangText="c_hash">OPTIONAL.
 		Code hash value.
                 If the ID Token is issued from the Authorization endpoint with a 
-                <spanx style="verb">code</spanx>
-          in response to a request specifying a <spanx style="verb">response_type</spanx> value
-          of <spanx style="verb">code id_token</spanx>, this is REQUIRED.
+                <spanx style="verb">code</spanx>, this is REQUIRED.
+                This is OPTIONAL if the ID Token is issued from the Token Endpoint.
+                
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">code</spanx> 
                 with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
@@ -4315,7 +4314,9 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #702 - Consent is for claims - not scopes.
 	  </t>
-
+      <t>
+	    Re #648 - Another attempt to make the wording for at_hash and c_hash clearer.
+	  </t>
         </list></t>
 	  
       <t>-14
