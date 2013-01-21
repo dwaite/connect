@@ -665,6 +665,24 @@ Pragma: no-cache
               desired date/time. See <xref target="RFC3339">RFC 3339</xref>
               for details regarding date/times in general and UTC in
               particular.</t>
+              
+              <t hangText="auth_time">OPTIONAL.
+		  Time when the End-User authentication occurred,
+		  specified as the number of seconds from 1970-01-01T0:0:0Z as
+		  measured in UTC.
+		  If the 
+		  <xref target="req.obj.id_token">id_token</xref> member of the 
+		  <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
+		  contains the Claim request
+		  <spanx style="verb">auth_time</spanx> with a parameter of 
+		  <spanx style="verb">{"essential": true}</spanx>,
+		  then this Claim is REQUIRED.
+		  (The <spanx style="verb">auth_time</spanx>
+		  Claim semantically
+		  corresponds to the OpenID 2.0
+		  <xref target="OpenID.PAPE">PAPE</xref> 
+		  <spanx style="verb">auth_time</spanx> response
+		  parameter.)</t>
 
             </list></t>
 
@@ -1595,6 +1613,7 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
 	  </t>
+	  <t>Added auth_time definition to id_token schema </t>
       </list></t>
 	   
       <t>-22
