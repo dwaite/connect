@@ -366,10 +366,10 @@
           <t><list style="hanging">
               <t hangText="nonce">Random, unique string value used
               to mitigate replay attacks.
-	      Use of the nonce is REQUIRED for all requests, unless 
-	      a <spanx style="verb">response_type</spanx> value of
-	      <spanx style="verb">code</spanx> 
-	      is used, in which case it is OPTIONAL.</t>
+	      Use of the nonce is REQUIRED for all requests where a <spanx style="verb">id_token</spanx>
+	      is returned directly from the Authorization Endpoint.  
+	      It is OPTIONAL if the <spanx style="verb">id_token</spanx> is returned from the 
+	      Token Endpoint.</t>
 
             <t hangText="display">OPTIONAL.
 	      ASCII string value that specifies
@@ -927,10 +927,11 @@
           MUST include a <spanx style="verb">nonce</spanx> Claim in the
           <xref target="id_token">ID Token</xref> with the Claim value
           being the nonce value sent in the Authorization Request.
-          Use of the nonce is REQUIRED for all requests, unless 
-	  a <spanx style="verb">response_type</spanx> value of
-	  <spanx style="verb">code</spanx> 
-		is used, in which case it is OPTIONAL.</t>
+          Use of the nonce is REQUIRED for all requests where a <spanx style="verb">id_token</spanx>
+	      is returned directly from the Authorization Endpoint.  
+	      It is OPTIONAL if the <spanx style="verb">id_token</spanx> is returned from the 
+	      Token Endpoint.
+          </t>
 
                 <t hangText="auth_time">OPTIONAL.
 		  Time when the End-User authentication occurred,
@@ -4314,6 +4315,7 @@ Representation of dates and times</title>
 	    Re #648 - Another attempt to make the wording for at_hash and c_hash clearer.
 	  </t>
 	  <t> Fixing up scopes section to make clear that claims requested by the scopes are voluntary</t>
+	  <t> Another rewording of nonce for sidekick number 2.<t>
         </list></t>
 	  
       <t>-14
