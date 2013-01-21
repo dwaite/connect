@@ -333,19 +333,11 @@
 	    type supported by the Authorization Server.</t>
 
 	    <t hangText="scope" >
-	      Space delimited, case sensitive list of
-	    ASCII OAuth 2.0 scope values. 
-	    The value <spanx style="verb">openid</spanx> is REQUIRED. The values
-	    <spanx style="verb">profile</spanx>,
-	    <spanx style="verb">email</spanx>,
-	    <spanx style="verb">address</spanx>,
-	    and <spanx style="verb">phone</spanx>,
-	    specify an additive list of voluntary Claims
-	    being requested from the UserInfo Endpoint.  
+	      Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.   
 	    If scopes requesting claims from the UserInfo Endpoint are requested by the client,
-	    it MUST also request a access token for the UserInfo Endpoint.  Other scopes my define returning
-	    information from other Endpoints.
-	    Scopes and claims they request are defined in <xref target="scopes">Sec 2.4</xref>
+	    it MUST also request a access token for the UserInfo Endpoint.  
+	    Other scopes my define returning information from other Endpoints.
+	    Scopes and claims they request are defined in <xref target="scopes"></xref>
 	    </t>
 	    
 	  </list></t>
@@ -768,7 +760,7 @@
                   Note that even if the claims are not available because 
                   the user did not authorize their release or they are not present,
                   the Authorization Server MUST NOT generate an error when
-		  essential claims are not returned.
+		          essential claims are not returned.
                 </t>
                 <t>
                   The Client may request additional Claims on voluntary basis
@@ -1387,10 +1379,14 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
 	    can be used to request that specific sets of information
-	    be made available from the UserInfo Endpoint,
-        and to request an ID Token.
+	    be made available from the UserInfo Endpoint.
         OAuth 2.0 allows additional scope values to be specified, as extensions.
         This specification describes only the scope values used by OpenID Connect.</t>
+        
+        <t>Claims requested by the following scopes are treated by Authorization servers as voluntary.</t>
+        <t>Claims may be requested as essential by using the 
+        <xref target="claims_member">&quot;claims&quot; member in the &quot;userinfo&quot; and &quot;id_token&quot; members</xref>
+         of the request_object.</t>
 
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
         <t>
@@ -4317,6 +4313,7 @@ Representation of dates and times</title>
       <t>
 	    Re #648 - Another attempt to make the wording for at_hash and c_hash clearer.
 	  </t>
+	  <t> Fixing up scopes section to make clear that claims requested by the scopes are voluntary</t>
         </list></t>
 	  
       <t>-14
