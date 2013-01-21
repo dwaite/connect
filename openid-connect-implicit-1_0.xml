@@ -186,27 +186,29 @@
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
-	can be used to request that specific sets of information
-	be made available from the UserInfo Endpoint,
-        and to request an ID Token.
+	    can be used to request that specific sets of information
+	    be made available from the UserInfo Endpoint.
         OAuth 2.0 allows additional scope values to be specified, as extensions.
         This specification describes only the scope values used by OpenID Connect.</t>
+        
+        <t>Claims requested by the following scopes are treated by Authorization servers as voluntary.</t>
+        <t>Claims may be requested as essential by using the 
+        <xref target="OpenID.Messages">request_object</xref>.</t>
 
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
-
         <t>
-	  <list style="hanging">
-	    <t hangText="openid">REQUIRED. Informs the Authorization
+          <list style="hanging">
+            <t hangText="openid">REQUIRED. Informs the Authorization
 	    Server that the Client is making an OpenID Connect request. If the
 	    <spanx style="verb">openid</spanx> scope value is not present,
 	    the request MUST NOT be treated as an OpenID Connect request.
 	    </t>
 
-	    <t hangText="profile">OPTIONAL. This scope value
+            <t hangText="profile">OPTIONAL. This scope value 
 	    requests that access to the End-User's default <xref
 	    target="ClaimTable">profile Claims</xref> at the
 	    UserInfo Endpoint be granted by the issued Access Token.
-	    These claims are:
+	    These Claims are:
 
 	    <spanx style="verb">name</spanx>,
 	    <spanx style="verb">family_name</spanx>,
@@ -223,25 +225,33 @@
 	    <spanx style="verb">locale</spanx>, and
 	    <spanx style="verb">updated_time</spanx>.</t>
 
-	    <t hangText="email">OPTIONAL. This scope value requests that access to
-	    the <spanx style="verb">email</spanx> and 
+            <t hangText="email">OPTIONAL. This scope value requests that access to
+	    the <spanx style="verb">email</spanx> and
 	    <spanx style="verb">email_verified</spanx> Claims at the
 	    UserInfo Endpoint be granted by the issued Access Token.</t>
 
-	    <t hangText="address">OPTIONAL. This scope value requests that access to
+            <t hangText="address">OPTIONAL. This scope value requests that access to
 	    the <spanx style="verb">address</spanx> Claim at the
 	    UserInfo Endpoint be granted by the issued Access Token.</t>
 
-	    <t hangText="phone">OPTIONAL. This scope value requests that access to 
-	    the <spanx style="verb">phone_number</spanx> Claim at the 
+            <t hangText="phone">OPTIONAL. This scope value requests that access to
+	    the <spanx style="verb">phone_number</spanx> Claim at the
 	    UserInfo Endpoint be granted by the issued Access Token.</t>
 
-	  </list>
-	</t>
+	    <t hangText="offline_access">OPTIONAL. This scope value requests
+	    that an OAuth 2.0 Refresh Token be issued that can be used to
+	    obtain an access token that grants access the End-User's
+	    UserInfo endpoint even when the user is not present (not logged in).
+	    This scope requires the use of the 
+	    <xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref>, 
+	    and the Token Endpoint.</t>
+
+          </list>
+        </t>
 
         <t>Multiple scope values MAY be used by creating a space delimited, case
         sensitive list of ASCII scope values.</t>
-        
+	
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
         information requested by Clients.
@@ -250,13 +260,13 @@
         UserInfo Endpoint.</t>
 
         <t>
-	  <figure>
+          <figure>
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             Request.</preamble>
 
             <artwork><![CDATA[scope=openid profile email phone]]></artwork>
           </figure>
-	</t>
+        </t>
       </section>
 
       <section title="Implicit Flow">
@@ -1995,6 +2005,7 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
 	  </t>
+	  <t>Updated Scopes description.</t>
         </list>
       </t>
 
