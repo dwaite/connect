@@ -178,11 +178,14 @@
         access privileges are requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
-	can be used to request that specific sets of information
-	be made available from the UserInfo Endpoint,
-        and to request an ID Token.
+	    can be used to request that specific sets of information
+	    be made available from the UserInfo Endpoint.
         OAuth 2.0 allows additional scope values to be specified, as extensions.
         This specification describes only the scope values used by OpenID Connect.</t>
+        
+        <t>Claims requested by the following scopes are treated by Authorization servers as voluntary.</t>
+        <t>Claims may be requested as essential by using the 
+        <xref target="OpenID.Messages">request_object</xref>.</t>
 
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
         <t>
@@ -197,7 +200,7 @@
 	    requests that access to the End-User's default <xref
 	    target="ClaimTable">profile Claims</xref> at the
 	    UserInfo Endpoint be granted by the issued Access Token.
-	    These claims are:
+	    These Claims are:
 
 	    <spanx style="verb">name</spanx>,
 	    <spanx style="verb">family_name</spanx>,
@@ -1354,6 +1357,41 @@ Representation of dates and times</title>
         <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
 		type="HTML"/>
       </reference>
+      
+      <reference anchor="OpenID.Messages">
+        <front>
+          <title>OpenID Connect Messages 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+	    <organization abbrev="Salesforce">Salesforce</organization>
+	  </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="27" month="December" year="2012" />
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
+                type="HTML" />
+      </reference>
 
       <reference anchor="OpenID.Discovery">
         <front>
@@ -1584,6 +1622,7 @@ Representation of dates and times</title>
 	    Fixed #689 - added caution about unrecognized audiences.
 	  </t>
 	  <t>Fixed #693 Added login_hint</t>
+	  <t>Updated scopes text.</t>
          </list></t>
 
       <t>-21
