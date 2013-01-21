@@ -362,13 +362,6 @@
                   The <spanx style="verb">acr</spanx> claim in the 
                   request object overrides this default value.</t>
 
-            <t hangText="javascript_origin_uris">OPTIONAL. 
-            Space-delimited list of JavaScript origin URIs consisting of a Scheme, Host, and
-            OPTIONAL Port. Client JavaScript from the registered URIs are authorized to communicate
-            with Authorization Server JavaScript in 
-            <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
-            </t>
-             
              <t hangText="initiate_login_uri">OPTIONAL. 
             URI using the https: scheme that the authorization server can call
 	    to initiate a login at the client.
@@ -376,6 +369,12 @@
 	    The client MUST understand the 
             <spanx style="verb">login_hint</spanx> and <spanx style="verb">iss</spanx> parameters and 
             SHOULD support the <spanx style="verb">target_link_uri</spanx> parameter.
+            </t>
+
+	    <t hangText="post_logout_redirect_url">OPTIONAL.
+	      URL supplied by the RP to request that the user be redirected to this location
+	      after a logout has been performed, as specified in
+	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
             </t>
 
           </list></t>
@@ -1064,6 +1063,9 @@ Cache-Control: no-store
 	  </t>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
+	  </t>
+	  <t>
+	    Deleted <spanx style="verb">javascript_origin_uris</spanx>, which is no longer present in Session.
 	  </t>
         </list>
       </t>

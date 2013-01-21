@@ -109,7 +109,7 @@
       <t>The OP endpoints defined in this specification are as follows:</t>
 
       <t><list style="hanging">
-          <t hangText="check_session_iframe_url">
+          <t hangText="check_session_iframe">
 	    URL of an OP iframe that supports cross-origin communications
 	    for session state information with the RP client,
 	    using the HTML 5 postMessage API.
@@ -119,7 +119,7 @@
 	    uses postMessage to post back the login status of the user at the OP.
 	  </t>
 
-          <t hangText="end_session_endpoint_url">
+          <t hangText="end_session_endpoint">
 	    URL at the OP that an RP can redirect the user to to log out at the OP.
 	  </t>
         </list></t>
@@ -171,7 +171,7 @@
 
       <section title="OP iframe">
         <t>The RP typically loads an invisible OP iframe in the page from the OP's
-        <spanx style='verb'>check_session_iframe_url</spanx>.</t>
+        <spanx style='verb'>check_session_iframe</spanx>.</t>
 
         <t>The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
         address it later.</t>
@@ -237,10 +237,12 @@ function receiveMessage(e){ // e has client_id and session_state
 	  The OP browser state is typically going to be stored in a
 	  cookie or HTML5 local storage.  It is origin bound to the
 	  authorization server.  It captures meaningful events such as
-	  logins, logouts, change of user, etc.  Thus the OP should
+	  logins, logouts, change of user,
+	  change of authorization status for Clients being used by the end-user,
+	  etc.  Thus, the OP should
 	  update the value of the browser state in response to such
 	  meaningful events. As a result, the next call to
-	  check_session_state after such an event will return the
+	  check_session() after such an event will return the
 	  value <spanx style='verb'>changed</spanx>.
 	  It is recommended that the OP do not update
 	  the browser state too frequently in the absence of
@@ -266,14 +268,14 @@ function receiveMessage(e){ // e has client_id and session_state
 	      (login, logout, session add).
 	    </t>
 	    <t>
-	      The authorization status of the client changes.
+	      The authorization status of Clients being used by the end-user changes.
 	    </t>
 	  </list>
 	</t>
 	<t>
 	  In addition, the browser state used to verify the session state
 	  should change with such events.
-	  Calls to check_session_state will return <spanx style='verb'>changed</spanx>
+	  Calls to check_session() will return <spanx style='verb'>changed</spanx>
 	  against earlier versions of session state after such events.
 	  It is recommended that the browser state should not vary too
 	  frequently in the absence of such events to minimize network
@@ -619,6 +621,13 @@ function receiveMessage(e)
 	  </t>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
+	  </t>
+	  <t>
+	    Naming consistency changes.  Renamed
+	    <spanx style="verb">check_session_iframe_url</spanx> to
+	    <spanx style="verb">check_session_iframe</spanx> and
+	    <spanx style="verb">end_session_endpoint_url</spanx> back to
+	    <spanx style="verb">end_session_endpoint</spanx>.
 	  </t>
         </list></t>
 
