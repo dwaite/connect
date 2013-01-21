@@ -332,70 +332,22 @@
 	    <t>The Client may request any OAuth 2.0 registered response
 	    type supported by the Authorization Server.</t>
 
-	    <t hangText="scope">
+	    <t hangText="scope" >
 	      Space delimited, case sensitive list of
-	    ASCII OAuth 2.0 scope values. The values
+	    ASCII OAuth 2.0 scope values. 
+	    The value <spanx style="verb">openid</spanx> is REQUIRED. The values
 	    <spanx style="verb">profile</spanx>,
 	    <spanx style="verb">email</spanx>,
 	    <spanx style="verb">address</spanx>,
 	    and <spanx style="verb">phone</spanx>,
 	    specify an additive list of voluntary Claims
-	    being requested from the UserInfo Endpoint.  If any of the following optional scopes, 
-	    are requested by the client,
+	    being requested from the UserInfo Endpoint.  
+	    If scopes requesting claims from the UserInfo Endpoint are requested by the client,
 	    it MUST also request a access token for the UserInfo Endpoint.  Other scopes my define returning
-	    information from other Endpoints.  
-	    The following scope values are defined:
-
-	    <list style="hanging">
-	      <t hangText="openid">REQUIRED. Informs the Authorization
-	      Server that the Client is making an OpenID Connect request. If the
-	      <spanx style="verb">openid</spanx> scope value is not present,
-	      the request MUST NOT be treated as an OpenID Connect request.
-	      This scope dosen't request any claims from the UserInfo Endpoint, so may be used 
-	      without requesting an access token.
-	      </t>
-
-	      <t hangText="profile">OPTIONAL. This scope value
-	      requests that access to the End-User's default <xref
-	      target="ClaimTable">profile Claims</xref> at the
-	      UserInfo Endpoint be granted by the issued Access
-	      Token.  These claims are:
-	      <spanx style="verb">name</spanx>,
-	      <spanx style="verb">family_name</spanx>,
-	      <spanx style="verb">given_name</spanx>,
-	      <spanx style="verb">middle_name</spanx>,
-	      <spanx style="verb">nickname</spanx>,
-	      <spanx style="verb">preferred_username</spanx>,	      
-	      <spanx style="verb">profile</spanx>,
-	      <spanx style="verb">picture</spanx>,
-	      <spanx style="verb">website</spanx>,
-	      <spanx style="verb">gender</spanx>,
-	      <spanx style="verb">birthdate</spanx>,
-	      <spanx style="verb">zoneinfo</spanx>,
-	      <spanx style="verb">locale</spanx>, and
-	      <spanx style="verb">updated_time</spanx>.</t>
-
-	      <t hangText="email">OPTIONAL. This scope value requests that access to
-	      the <spanx style="verb">email</spanx> and 
-	      <spanx style="verb">email_verified</spanx> Claims at the UserInfo
-	      Endpoint be granted by the issued Access Token.</t>
-
-	      <t hangText="address">OPTIONAL. This scope value requests that access to
-	      <spanx style="verb">address</spanx> Claim at the
-	      UserInfo Endpoint be granted by the issued Access Token.</t>
-
-	      <t hangText="phone">OPTIONAL. This scope value requests that access to 
-	      the <spanx style="verb">phone_number</spanx> Claim at the 
-	      UserInfo Endpoint be granted by the issued Access Token.</t>
-
-	      <t hangText="offline_access">OPTIONAL. This scope value requests
-	      that an OAuth 2.0 Refresh Token be issued that can be used to
-	      obtain an access token that grants access the End-User's
-	      UserInfo endpoint even when the user is not present (not logged in).
-	      See <xref target="OfflineAccess"/> for more information
-	      about offline access.</t>
-
-	    </list></t>
+	    information from other Endpoints.
+	    Scopes and claims they request are defined in <xref target="scopes">Sec 2.4</xref>
+	    </t>
+	    
 	  </list></t>
 
           <t>Other REQUIRED OAuth 2.0 parameters in the request include:</t>
@@ -464,8 +416,8 @@
                 MUST NOT display any authentication or consent
                 user interface pages. An error is returned if the End-User 
                 is not already authenticated or the Client does not have 
-                pre-configured consent for the requested
-                <spanx style="verb">scopes</spanx>. This can be used as a
+                pre-configured consent for all requested <xref
+	            target="scopes">scopes</xref>. This can be used as a
                 method to check for existing authentication and/or consent.</t>
 
                 <t hangText="login">The Authorization Server MUST prompt the
@@ -1376,7 +1328,6 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         </section>
       </section>
 
-
       <section anchor="userinfo_ep" title="UserInfo Endpoint">
         <t>The UserInfo Endpoint is a Protected Resource that
         returns Claims about the authenticated End-User. Claims are
@@ -1429,6 +1380,90 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           </list></t>
     	</section>
     </section>
+    
+      <section title="OpenID Connect Scopes" anchor="scopes">
+        <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of 
+        <xref target="RFC6749">OAuth 2.0</xref> to specify what
+        access privileges are requested for Access Tokens. The scopes associated
+        with Access Tokens determine what resources will be available when they are 
+        used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
+	    can be used to request that specific sets of information
+	    be made available from the UserInfo Endpoint,
+        and to request an ID Token.
+        OAuth 2.0 allows additional scope values to be specified, as extensions.
+        This specification describes only the scope values used by OpenID Connect.</t>
+
+        <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
+        <t>
+          <list style="hanging">
+            <t hangText="openid">REQUIRED. Informs the Authorization
+	    Server that the Client is making an OpenID Connect request. If the
+	    <spanx style="verb">openid</spanx> scope value is not present,
+	    the request MUST NOT be treated as an OpenID Connect request.
+	    </t>
+
+            <t hangText="profile">OPTIONAL. This scope value 
+	    requests that access to the End-User's default <xref
+	    target="ClaimTable">profile Claims</xref> at the
+	    UserInfo Endpoint be granted by the issued Access Token.
+	    These claims are:
+
+	    <spanx style="verb">name</spanx>,
+	    <spanx style="verb">family_name</spanx>,
+	    <spanx style="verb">given_name</spanx>,
+	    <spanx style="verb">middle_name</spanx>,
+	    <spanx style="verb">nickname</spanx>,
+	    <spanx style="verb">preferred_username</spanx>,
+	    <spanx style="verb">profile</spanx>,
+	    <spanx style="verb">picture</spanx>,
+	    <spanx style="verb">website</spanx>,
+	    <spanx style="verb">gender</spanx>,
+	    <spanx style="verb">birthdate</spanx>,
+	    <spanx style="verb">zoneinfo</spanx>,
+	    <spanx style="verb">locale</spanx>, and
+	    <spanx style="verb">updated_time</spanx>.</t>
+
+            <t hangText="email">OPTIONAL. This scope value requests that access to
+	    the <spanx style="verb">email</spanx> and
+	    <spanx style="verb">email_verified</spanx> Claims at the
+	    UserInfo Endpoint be granted by the issued Access Token.</t>
+
+            <t hangText="address">OPTIONAL. This scope value requests that access to
+	    the <spanx style="verb">address</spanx> Claim at the
+	    UserInfo Endpoint be granted by the issued Access Token.</t>
+
+            <t hangText="phone">OPTIONAL. This scope value requests that access to
+	    the <spanx style="verb">phone_number</spanx> Claim at the
+	    UserInfo Endpoint be granted by the issued Access Token.</t>
+
+	    <t hangText="offline_access">OPTIONAL. This scope value requests
+	    that an OAuth 2.0 Refresh Token be issued that can be used to
+	    obtain an access token that grants access the End-User's
+	    UserInfo endpoint even when the user is not present (not logged in).</t>
+
+          </list>
+        </t>
+
+        <t>Multiple scope values MAY be used by creating a space delimited, case
+        sensitive list of ASCII scope values.</t>
+	
+        <t>In some cases, the End-User will be given the option to
+        have the OpenID Provider decline to provide some or all
+        information requested by Clients.
+        To increase new account activation, a Client may elect to
+        only request a subset of the information available from the
+        UserInfo Endpoint.</t>
+
+        <t>
+          <figure>
+            <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
+            Request.</preamble>
+
+            <artwork><![CDATA[scope=openid profile email phone]]></artwork>
+          </figure>
+        </t>
+      </section>
+      
 
     <section anchor="StandardClaims" title="Standard Claims">
       <t>This specification defines a set of standard claims.
@@ -4274,6 +4309,7 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #700 - Incomplete specification names.
 	  </t>
+	  <t> Re #702 make scopes a reference to the scopes section and fix grammar.</t>
         </list></t>
 	  
       <t>-14
