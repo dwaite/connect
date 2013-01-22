@@ -1552,10 +1552,10 @@ WWW-Authenticate: Bearer realm="example.com",
       </section>
     </section>
 
-    <section anchor="self_issued" title="Self-Issued Identity Provider">
+    <section anchor="self_issued" title="Self-Issued OpenID Provider">
       <t>There is a special issuer "https://self-issued.me" that indicates
       a user is using a personal OP that issues self-signed ID Tokens.</t>
-      <section anchor="self_issued.discovery" title="Self-Issued Identity Provider Discovery">
+      <section anchor="self_issued.discovery" title="Self-Issued OpenID Provider Discovery">
         <t>
           If the input identifier contains the domain self-issued.me, dynamic discovery is not performed. 
           The following static configuration values are used.
@@ -1587,9 +1587,9 @@ WWW-Authenticate: Bearer realm="example.com",
           need any special treatment for discovery of the self-issued OP. 
         </t>
       </section>
-      <section anchor="self_issued.registration" title="Client Registration to Self-Issued Identity Provider">
+      <section anchor="self_issued.registration" title="Client Registration to Self-Issued OpenID Provider">
         <t>
-          When using a Self-Issued OP, the Client is deemed to have 
+          When using a self-issued OP, the Client is deemed to have 
           registered with the OP and obtained following Client Registration Response.  
         </t>
         <t><list style="hanging">
@@ -1603,11 +1603,11 @@ WWW-Authenticate: Bearer realm="example.com",
         <t>Note: The OpenID Foundation may consider hosting the (stateless) endpoint
           <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
           that returns the response above so that the Client would not need to 
-          perform any special processing for registration of a Self-Issued OP.
+          perform any special processing for registration of a self-issued OP.
         </t>
       </section>
 
-      <section anchor="self_issued.request" title="Self-Issued Identity Provider Request">
+      <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
         <t>The Client sends the Authorization Request to the Authorization
            Endpoint with the following REQUIRED parameters. </t>
         <t><list style="hanging">
@@ -1654,10 +1654,10 @@ WWW-Authenticate: Bearer realm="example.com",
               the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
               (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
               using the key that the server is capable of decrypting. 
-               For a Self-Issued id_token the 
+	      For a self-issued ID Token, the 
 	      <spanx style="verb">sub</spanx> (subject)
-	      of the id_token 
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+	      of the ID Token
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
 	      
         </list></t>
         <t>
@@ -1678,8 +1678,8 @@ Location: openid://
 &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj]]></artwork>
         </figure> 
       </section>
-      <section anchor="self_issued.response" title="Self-Issued Identity Provider Response">
-        <t>Self-Issued Identity Provider Response is the same as the normal implicit flow 
+      <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
+        <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
           response apart from the fact that the <spanx style="verb">iss</spanx> claim value is 
           <spanx style="verb">https://self-issued.me</spanx> and all claims are 
           returned in the ID Token. Since it is an implicit flow 

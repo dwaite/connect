@@ -332,12 +332,12 @@
 	    <t>The Client may request any OAuth 2.0 registered response
 	    type supported by the Authorization Server.</t>
 
-	    <t hangText="scope" >
+	    <t hangText="scope">
 	      Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.   
-	    If scopes requesting claims from the UserInfo Endpoint are requested by the client,
+	    If scopes requesting claims from the UserInfo Endpoint are requested by the Client,
 	    it MUST also request an Access Token for the UserInfo Endpoint.  
 	    Other scopes may define returning information from other Endpoints.
-	    Scopes and claims they request are defined in <xref target="scopes">.</xref>
+	    See <xref target="scopes"/> for the scope values defined by this specification.
 	    </t>
 	    
 	  </list></t>
@@ -366,9 +366,9 @@
           <t><list style="hanging">
               <t hangText="nonce">Random, unique string value used
               to mitigate replay attacks.
-	      Use of the nonce is REQUIRED for all requests where a <spanx style="verb">id_token</spanx>
+	      Use of the nonce is REQUIRED for all requests where an ID Token
 	      is returned directly from the Authorization Endpoint.  
-	      It is OPTIONAL if the <spanx style="verb">id_token</spanx> is returned from the 
+	      It is OPTIONAL if the ID Token is returned from the 
 	      Token Endpoint.</t>
 
             <t hangText="display">OPTIONAL.
@@ -436,10 +436,11 @@
               <t hangText="request">OPTIONAL.
 	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value. 
 	      The <xref target="OpenID_Request_Object">OpenID Request Object</xref> may be
-	      encrypted in a JWE by the client.  For a Self-Issued id_token the 
+	      encrypted in a JWE by the client.
+	      For a self-issued ID Token, the 
 	      <spanx style="verb">sub</spanx> (subject)
-	      of the id_token 
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+	      of the ID Token
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
 	      
               <t hangText="request_uri">OPTIONAL.
 	      URL that references an
@@ -460,10 +461,10 @@
               the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
               (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
               using the key that the server is capable of decrypting. 
-               For a Self-Issued id_token the 
+	      For a self-issued ID Token, the
 	      <spanx style="verb">sub</spanx> (subject)
-	      of the id_token 
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
+	      of the ID Token
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
               
               <t hangText="login_hint">OPTIONAL.
 	      Hint to the authorization service 
@@ -927,9 +928,9 @@
           MUST include a <spanx style="verb">nonce</spanx> Claim in the
           <xref target="id_token">ID Token</xref> with the Claim value
           being the nonce value sent in the Authorization Request.
-          Use of the nonce is REQUIRED for all requests where a <spanx style="verb">id_token</spanx>
+          Use of the nonce is REQUIRED for all requests where an ID Token
 	      is returned directly from the Authorization Endpoint.  
-	      It is OPTIONAL if the <spanx style="verb">id_token</spanx> is returned from the 
+	      It is OPTIONAL if the ID Token is returned from the 
 	      Token Endpoint.
           </t>
 
@@ -1385,9 +1386,9 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         This specification describes only the scope values used by OpenID Connect.</t>
         
         <t>Claims requested by the following scopes are treated by Authorization servers as voluntary.</t>
-        <t>Claims may be requested as essential by using the 
-        <xref target="claims_member">&quot;Claims&quot; member in the &quot;userinfo&quot; and &quot;id_token&quot; members</xref>
-         of the request_object.</t>
+        <t>Claims can be requested as essential by using the 
+        <xref target="claims_member">&quot;claims&quot; member in the &quot;userinfo&quot; and &quot;id_token&quot; members</xref>
+         of the <xref target="OpenID_Request_Object">OpenID Request Object</xref>.</t>
 
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
         <t>
@@ -4253,7 +4254,7 @@ Representation of dates and times</title>
  <t>-15
         <list style="symbols">
 	  <t>
-	    Fixed #671 - Sec 2.1.1 added test to require client to request a access token for 
+	    Fixed #671 - Sec 2.1.1 added test to require client to request an access token for 
 	    the UserInfo Endpoint if requesting the default scopes.
 	  </t>
 	  <t>
@@ -4311,11 +4312,10 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #702 - Consent is for claims - not scopes.
 	  </t>
-      <t>
+	  <t>
 	    Re #648 - Another attempt to make the wording for at_hash and c_hash clearer.
 	  </t>
-	  <t> Fixing up scopes section to make clear that claims requested by the scopes are voluntary</t>
-	  <t> Another rewording of nonce for sidekick number 2.<t>
+	  <t>Fixed up scopes section to make clear that claims requested by the scopes are voluntary.</t>
         </list></t>
 	  
       <t>-14
