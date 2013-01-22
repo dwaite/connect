@@ -61,23 +61,12 @@
     <section title="Introduction">
       <t>In order for an OpenID Client to utilize OpenID Connect services for
       a user, the Client needs to know where the OpenID Provider is. OpenID
-      Connect uses <xref target="SWD">Simple Web Discovery</xref> to locate
+      Connect uses <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> to locate
       the OpenID Provider for an End-User.</t>
 
       <t>Once an OpenID Provider is identified, the endpoint and other
       configuration information for that OP is retrieved from a well-known
       location as a JSON document.</t>
-
-      <t>
-	Note:  This specification will likely be modified to use the
-	<xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> protocol
-	instead of <xref target="SWD">Simple Web Discovery</xref>
-	once the WebFinger draft is stable.
-	OpenID Connect implementers are encouraged to experiment with
-	implementing OpenID Provider discovery with WebFinger,
-	as described in Section 3.2 of WebFinger, and to provide feedback
-	based upon their experiences with the WebFinger specification.
-      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -101,11 +90,19 @@
 	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	This specification also defines the following terms:
 	  <list style="hanging">
-	    <t hangText="Principal">Entity that is the target of a request
-	    in Simple Web Discovery.</t>
 
-	    <t hangText="Identifier">String that uniquely characterize an entity in a specific environment with defined boundary conditions in which entities exist and interact</t>
-      <t>Note: this document defines various kinds of Identifiers, designed for use in different contexts. Examples includes https URLs and email addresses.</t>
+	    <t hangText="Resource">
+	      Entity that is the target of a request in WebFinger.
+	    </t>
+	    <t hangText="Identifier">
+	      String that uniquely characterizes an entity in a specific environment
+	      with defined boundary conditions in which entities exist and interact.
+	    </t>
+	    <t>
+	      Note: this document defines various kinds of Identifiers, designed for use in different contexts.
+	      Examples includes https URLs and e-mail addresses.
+	    </t>
+
 	  </list></t>
       </section>
     </section>
@@ -119,36 +116,39 @@
       discovery request:</t>
 
       <t><list style="hanging">
-          <t hangText="Principal">Identifier of the target End-User who is the
-          subject of the discovery request</t>
+          <t hangText="Resource">
+	    Identifier of the target End-User that is the
+	    subject of the discovery request.
+	  </t>
 
-          <t hangText="Host">Server where a Simple Web Discovery service is
-          hosted</t>
+          <t hangText="Host">
+	    Server where a WebFinger service is hosted.
+	  </t>
 
-          <t hangText="Service">URI identifying the type of service whose
-          location is requested</t>
+          <t hangText="Rel">
+	    URI identifying the type of service whose location is requested.
+	  </t>
         </list></t>
 
-      <t>OpenID Connect uses the following discoverable service in
-      <xref target="SWD">Simple Web Discovery</xref>:</t>
+      <t>OpenID Connect uses the following discoverable
+      <spanx style="verb">rel</spanx> value in
+      <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>:</t>
 
       <texttable align="center" style="all">
-        <ttcol width="">Service Type</ttcol>
-
+        <ttcol width="">Rel Type</ttcol>
         <ttcol>URI</ttcol>
 
         <c>OpenID Connect Issuer</c>
-
         <c>http://openid.net/specs/connect/1.0/issuer</c>
       </texttable>
 
       <t>To start discovery of OpenID endpoints, the End-User supplies an
       Identifier to the Client or Relying Party. The Client applies the
-      normalization rules to the Identifier to extract the principal and host.
+      normalization rules to the Identifier to extract the resource and host.
       Then it makes a HTTPS request to the host's
-      <xref target="SWD">Simple Web Discovery</xref>
-      endpoint with the <spanx style="verb">principal</spanx> and <spanx
-      style="verb">service</spanx> parameters to obtain the location of the
+      <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>
+      endpoint with the <spanx style="verb">resource</spanx> and <spanx
+      style="verb">rel</spanx> parameters to obtain the location of the
       requested service.
       The Client MUST perform a TLS/SSL server certificate check, per
       <xref target="RFC6125">RFC 6125</xref>.
@@ -158,19 +158,20 @@
       This includes URI scheme, HOST, and OPTIONALLY, port.</t>
 
       <section title="Identifier Normalization">
-        <t>The purpose of normalization is to extract a normalized principal
-        and host from the user input Identifier. This is then used as input to SWD to
+        <t>The purpose of normalization is to extract a normalized resource
+        and host from the user input Identifier.
+	This is then used as input to WebFinger to
         discover the <spanx style="verb">issuer</spanx>.</t>
 
         <t>
-          The user input Identifier SHOULD be URL or URI relative reference 
+          The user input Identifier SHOULD be a URL or URI relative reference 
           defined in <xref target="RFC3986">RFC 3986</xref>. 
           The user input Identifier MUST 
-          include the authority component to be supported by this specification.  
+          include the authority component.  
         </t>
         <t>
-          Note: URI relative reference includes a string that looks like 
-          an email address in the form of <spanx style="verb">userinfo@host</spanx>. 
+          Note: A URI relative reference includes a string that looks like 
+          an e-mail address in the form of <spanx style="verb">userinfo@host</spanx>. 
           This is a valid authority component of a URI
           but excludes various possible extra strings allowed in 
           <spanx style="verb">addr-spec</spanx> syntax of 
@@ -210,9 +211,10 @@
 
           <t>Note: The user input Identifier may be in the form 
             of <spanx style="verb">username@host</spanx>. 
-            For the user, it is an email. However, it is also 
+            For the user, this would normally be perceived as being an e-mail address.
+	    However, it is also 
             a valid authority section of a URI, and this specification 
-            treats it so as to exclude various
+            treats it such as to exclude various
             extra strings allowed in <spanx style="verb">addr-spec</spanx> of 
             <xref target="RFC5322">RFC 5322</xref>. 
           </t>
@@ -248,8 +250,9 @@
             </list>
           </t>
           <t>
-            The <xref target="SWD">SWD</xref> principal in this case is the resulting URL, and 
-            the <xref target="SWD">SWD</xref> host is the authority component. 
+            The <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> resource
+	    in this case is the resulting URL, and 
+            the WebFinger host is the authority component. 
           </t>
           <t>
             Note: Since the definition of <spanx style="verb">authority</spanx> 
@@ -265,35 +268,37 @@
       <section title="Non-Normative Examples">
         <section title="User input that looks like an E-Mail Address">
           <t>To find the <spanx style="verb">issuer</spanx> for the given user input
-          in the form of an e-mail address, <spanx style="verb">joe@example.com</spanx>, the SWD
-          parameters are as follows:</t>
+          in the form of an e-mail address <spanx style="verb">joe@example.com</spanx>,
+	  the WebFinger parameters are as follows:</t>
 
           <texttable>
-            <ttcol>SWD Parameter</ttcol>
-
+            <ttcol>WebFinger Parameter</ttcol>
             <ttcol>Value</ttcol>
 
-            <c>principal</c>
-
-            <c>joe@example.com</c>
+            <c>resource</c>
+            <c>acct:joe@example.com</c>
 
             <c>host</c>
-
             <c>example.com</c>
 
-            <c>service</c>
-
+            <c>rel</c>
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
+	  <t>
+	    Note that in this case, the <spanx style="verb">acct:</spanx> scheme
+	    <xref target="I-D.ietf-appsawg-acct-uri"/> is prepended to the Identifier.
+	  </t>
+
           <t><figure>
-	    <preamble>Following the SWD specification, the Client would make the
+	    <preamble>Following the WebFinger specification, the Client would make the
 	    following request to get the discovery information
 	    (with line wraps for display purposes only):</preamble>
 
               <artwork><![CDATA[
-GET /.well-known/simple-web-discovery?principal=joe%40example.com
-  &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+GET /.well-known/webfinger
+  ?resource=acct%3Ajoe%40example.com
+  &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
   HTTP/1.1
 Host: example.com
 
@@ -301,42 +306,46 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
- "locations":["https://server.example.com"]
-}]]></artwork>
+  "subject": "acct:joe@example.com",
+  "links":
+  [
+    {
+      "rel": "http://openid.net/specs/connect/1.0/issuer",
+      "href": "https://server.example.com"
+    }
+  ]
+}
+]]></artwork>
             </figure></t>
         </section>
 
         <section title="URL">
           <t>To find the <spanx style="verb">issuer</spanx> for the given URL,
-          <spanx style="verb">https://example.com/joe</spanx>, the SWD
+          <spanx style="verb">https://example.com/joe</spanx>, the WebFinger
           parameters are as follows:</t>
 
           <texttable>
-            <ttcol>SWD Parameter</ttcol>
-
+            <ttcol>WebFinger Parameter</ttcol>
             <ttcol>Value</ttcol>
 
-            <c>principal</c>
-
+            <c>resource</c>
             <c>https://example.com/joe</c>
 
             <c>host</c>
-
             <c>example.com</c>
 
-            <c>service</c>
-
+            <c>rel</c>
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
           <t><figure>
-	    <preamble>Following the SWD specification, the Client would make the
+	    <preamble>Following the WebFinger specification, the Client would make the
 	    following request to get the discovery information
 	    (with line wraps for display purposes only):</preamble>
 
-              <artwork><![CDATA[GET /.well-known/simple-web-discovery
-    ?principal=https%3A%2F%2Fexample.com%2Fjoe
-    &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+              <artwork><![CDATA[GET /.well-known/webfinger
+    ?resource=https%3A%2F%2Fexample.com%2Fjoe
+    &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
     HTTP/1.1
 Host: example.com
 
@@ -344,8 +353,16 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
- "locations":["https://server.example.com"]
-}]]></artwork>
+  "subject": "https://example.com/joe",
+  "links":
+  [
+    {
+      "rel": "http://openid.net/specs/connect/1.0/issuer",
+      "href": "https://server.example.com"
+    }
+  ]
+}
+]]></artwork>
             </figure></t>
         </section>
 
@@ -357,36 +374,32 @@ Content-Type: application/json
           </t>
 
           <t>To find the <spanx style="verb">issuer</spanx> for the given
-          hostname, <spanx style="verb">example.com:8080</spanx>, the SWD
+          hostname, <spanx style="verb">example.com:8080</spanx>, the WebFinger
           parameters are as follows:</t>
 
           <texttable>
-            <ttcol>SWD Parameter</ttcol>
-
+            <ttcol>WebFinger Parameter</ttcol>
             <ttcol>Value</ttcol>
 
-            <c>principal</c>
-
+            <c>resource</c>
             <c>https://example.com:8080/</c>
 
             <c>host</c>
-
             <c>example.com:8080</c>
 
-            <c>service</c>
-
+            <c>rel</c>
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
 
           <t><figure>
-	    <preamble>Following the SWD specification, the Client would make the
+	    <preamble>Following the WebFinger specification, the Client would make the
 	    following request to get the discovery information
 	    (with line wraps for display purposes only):</preamble>
 
               <artwork><![CDATA[
-GET /.well-known/simple-web-discovery
-  ?principal=https%3A%2F%2Fexample.com%3A8080%2F
-  &service=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+GET /.well-known/webfinger
+  ?resource=https%3A%2F%2Fexample.com%3A8080%2F
+  &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
   HTTP/1.1
 Host: example.com:8080
 
@@ -394,7 +407,14 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 {
- "locations":["https://server.example.com"]
+  "subject": "https://example.com:8080/",
+  "links":
+  [
+    {
+      "rel": "http://openid.net/specs/connect/1.0/issuer",
+      "href": "https://server.example.com"
+    }
+  ]
 }
 ]]></artwork>
             </figure></t>
@@ -421,7 +441,7 @@ Content-Type: application/json
       when it contains no path component. <spanx style="verb">openid-configuration</spanx>
       MUST point to a JSON document compliant with this specification.</t>
 
-      <t>OpenID Providers MUST support receiving SWD requests via TLS 1.2
+      <t>OpenID Providers MUST support receiving WebFinger requests via TLS 1.2
       <xref target="RFC5246">RFC 5246</xref> and/or TLS 1.0
       <xref target='RFC2246' /> and MAY support other
       transport layer security mechanisms of equivalent security.</t>
@@ -438,10 +458,11 @@ Content-Type: application/json
         if the issuer contains no path component.</t>
 
         <t><figure>
-            <artwork><![CDATA[GET /.well-known/openid-configuration HTTP/1.1
-Host: example.com]]></artwork>
+            <artwork><![CDATA[
+GET /.well-known/openid-configuration HTTP/1.1
+Host: example.com
+]]></artwork>
           </figure></t>
-
             
       <t>If the <spanx
         style="verb">issuer</spanx> value contains a path component, any terminating 
@@ -453,8 +474,10 @@ Host: example.com]]></artwork>
         style="verb">https://example.com/issuer1</spanx></t>
         
         <t><figure>
-            <artwork><![CDATA[GET /issuer1/.well-known/openid-configuration HTTP/1.1
-Host: example.com]]></artwork>
+            <artwork><![CDATA[
+GET /issuer1/.well-known/openid-configuration HTTP/1.1
+Host: example.com
+]]></artwork>
           </figure></t>
           
        <t>Path components are allowed to support multiple issuers per host.
@@ -751,7 +774,8 @@ Host: example.com]]></artwork>
     "email", "email_verified", "locale", "zoneinfo"],
  "service_documentation":
    "http://server.example.com/connect/service_documentation.html"
- }]]></artwork>
+ }
+]]></artwork>
           </figure></t>
       </section>
 
@@ -867,6 +891,9 @@ Host: example.com]]></artwork>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
 
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-webfinger-08.xml' ?>
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-acct-uri-01.xml' ?>
+
       <reference anchor="USA15">
         <front>
           <title>Unicode Normalization Forms</title>
@@ -956,26 +983,6 @@ Host: example.com]]></artwork>
         </front>
 
         <format target="http://openid.net/specs/openid-connect-session-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="SWD">
-        <front>
-          <title>Simple Web Discovery</title>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Yaron Goland" initials="Y.Y." surname="Goland">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <date day="5" month="November" year="2012" />
-        </front>
-
-	<seriesInfo value="draft-jones-simple-web-discovery" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-jones-simple-web-discovery"
                 type="HTML" />
       </reference>
       
@@ -1106,7 +1113,6 @@ Host: example.com]]></artwork>
     </references>
 
     <references title="Informative References">
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-webfinger-08.xml' ?>
 
       <reference anchor="XRI_Syntax_2.0">
         <front>
@@ -1252,8 +1258,12 @@ Host: example.com]]></artwork>
 	    <spanx style="verb">end_session_endpoint</spanx>.
 	  </t>
 	  <t>
-	    Reference and provide note to implementers about
+	    Fixed #705 - Switched from using Simple Web Discovery to
 	    <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>.
+	    This also means that Identifiers using e-mail address syntax
+	    are prefixed by the <spanx style="verb">acct:</spanx> scheme
+	    when passed as <spanx style="verb">resource</spanx> parameters
+	    to WebFinger.
 	  </t>
         </list>
       </t>
