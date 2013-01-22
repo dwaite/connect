@@ -1493,7 +1493,7 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
         </figure>
       </section>
 
-      <section anchor="id_res" title="UserInfo Response">
+      <section anchor="UserInfoResponse" title="UserInfo Response">
         <t>The <spanx style="verb">sub</spanx> (subject) Claim in the UserInfo Endpoint response MUST exactly match the 
         <spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
         
@@ -1502,7 +1502,9 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
         target="OpenID.Messages">OpenID Messages 1.0</xref> in the HTTP response
         body. The content-type of the HTTP response MUST be set to <spanx
         style="verb">application/json</spanx> if the response body is a text
-        JSON structure. If the JSON response is
+        JSON structure;
+	the response body SHOULD be encoded using UTF-8.
+	If the JSON response is
         signed or encrypted, then the
         content-type MUST be set to <spanx style="verb">application/jwt</spanx>.</t>
 
@@ -2400,6 +2402,9 @@ scope=openid&response_type=code
 	  </t>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
+	  </t>
+	  <t>
+	    Fixed #655 - Specify UTF-8 as encoding scheme whenever necessary.
 	  </t>
         </list></t>
 

@@ -551,7 +551,7 @@ code=SplxlOBeZQQYbYS6WxSbIA
               <artwork><![CDATA[POST /token HTTP/1.1
 Host: server.example.com
 Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
-Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+Content-Type: application/x-www-form-urlencoded
 
 grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb]]></artwork>
@@ -560,6 +560,11 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 
           <section anchor="token_ok" title="Client receives tokens">
 
+	    <t>
+	       The Client receives a response with the following parameters
+	       as described in Section 4.1.4 of <xref target="RFC6749">OAuth 2.0</xref>.
+	       The response should be encoded using UTF-8.
+	    </t>
             <t>
               <list style="hanging">
                 <t hangText="access_token">REQUIRED.
@@ -593,7 +598,7 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 	      (with line wraps after the second line for the display purposes only):</preamble>
               <artwork><![CDATA[
 HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
+Content-Type: application/json
 Cache-Control: no-store
 Pragma: no-cache
 {
@@ -796,10 +801,11 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
           </figure>
         </section>
 
-        <section anchor="id_res" title="UserInfo Response">
+        <section anchor="UserInfoResponse" title="UserInfo Response">
           <t>
 	    If the requested schema is <spanx style="verb">openid</spanx>, 
-	    the UserInfo claims must be returned as the members of a JSON object.
+	    the UserInfo Claims MUST be returned as the members of a JSON object.
+	    The response body SHOULD be encoded using UTF-8.
 	    The Claims defined below can be returned, as can additional
 	    Claims (not specified below).
 	  </t>
@@ -1602,6 +1608,9 @@ Representation of dates and times</title>
 	    Fixed #698 - Inconsistent use of articles.
 	  </t>
 	  <t>Added auth_time definition to ID Token schema.</t>
+	  <t>
+	    Fixed #655 - Specify UTF-8 as encoding scheme whenever necessary.
+	  </t>
       </list></t>
 	   
       <t>-22
