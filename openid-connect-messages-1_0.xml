@@ -2819,7 +2819,7 @@ Tokens and URL locations where the Claims may be retrieved:
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
-      <t><xref target="OAuth.Threat">OAuth 2.0 Threat Model and 
+      <t><xref target="RFC6819">OAuth 2.0 Threat Model and 
       Security Considerations</xref> provides an extensive list of threats and controls 
 	    that applies to this standard as well. 
       <xref target="ISO29115">ITU-T X.1254 | ISO/IEC 29115</xref> 
@@ -2831,7 +2831,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	  <section anchor="request_disclosure" title="Request Disclosure">
 	  <t>If appropriate measures are not taken, a request may be disclosed to 
 	  an attacker posing security and privacy threat.</t>
-	  <t>In addition to what is stated in Section 5.1.1 of <xref target="OAuth.Threat" />, 
+	  <t>In addition to what is stated in Section 5.1.1 of <xref target="RFC6819" />, 
 	  this standard provides a way to provide the confidentiality of the request 
       end to end through the 
 	  use of <spanx style="verb">request</spanx> or <spanx style="verb">request_uri</spanx>
@@ -2844,7 +2844,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	  <t>A malicious Server may masquerade as the legitimate server 
 	  using various means. To detect such an attack, the Client needs to authenticate 
 	  the server. </t>
-	  <t>In addition to what is stated in Section 5.1.2 of <xref target="OAuth.Threat" />, 
+	  <t>In addition to what is stated in Section 5.1.2 of <xref target="RFC6819" />, 
 	  this standard provides a way to authenticate the Server through either the 
 	  use of Signed or Encrypted JWTs 
 	  with an appropriate key and cipher.</t> 
@@ -3546,6 +3546,7 @@ Tokens and URL locations where the Claims may be retrieved:
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6711"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6819"?>
 
       <reference anchor="USA15">
         <front>
@@ -3621,31 +3622,6 @@ Tokens and URL locations where the Claims may be retrieved:
         </front>
 
         <format target="http://openid.net/specs/openid-connect-registration-1_0.html"
-                type="HTML" />
-      </reference>
-
-      <reference anchor="OAuth.Threat">
-        <front>
-          <title>OAuth 2.0 Threat Model and Security Considerations</title>
-
-          <author fullname="Torsten Lodderstedt" initials="T." role="editor"
-                  surname="Lodderstedt">
-            <organization abbrev="DT">Deutsche Telekom AG</organization>
-          </author>
-
-          <author fullname="Mark McGloin" initials="M." surname="McGloin">
-            <organization abbrev="IBM">IBM</organization>
-          </author>
-
-          <author fullname="Phil Hunt" initials="P." surname="Hunt">
-            <organization abbrev="Oracle">Oracle Corporation</organization>
-          </author>
-
-          <date day="6" month="October" year="2012" />
-        </front>
-
-	<seriesInfo value="draft-ietf-oauth-v2-threatmodel" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel"
                 type="HTML" />
       </reference>
 
@@ -4254,15 +4230,15 @@ Representation of dates and times</title>
  <t>-15
         <list style="symbols">
 	  <t>
-	    Fixed #671 - Sec 2.1.1 added test to require client to request an access token for 
+	    Fixed #671 - Section 2.1.1 added test to require client to request an access token for 
 	    the UserInfo Endpoint if requesting the default scopes.
 	  </t>
 	  <t>
-	    Fixed  #637 removed requirement for hash of at_token and code to be SHA2 in
-	    Sec 2.1.2.1 and Sec 5.2
+	    Fixed #637 - Removed requirement for hash of at_token and code to be SHA2 in
+	    Section 2.1.2.1 and Section 5.2.
 	    </t>
 	    <t>
-	      Fixes #620 - Update Sec 2.1.2 and Sec 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
+	      Fixes #620 - Update Section 2.1.2 and Section 2.2.3 to allow for other token types, but make bearer mandatory to support for clients.
 	  </t>
 	  <t> Fixes #684 Removed error response in redirect to client if the redirect_uri is wrong to align with OAuth.</t>
 	  <t>
@@ -4283,7 +4259,7 @@ Representation of dates and times</title>
 	    Use "OpenID Connect" as the "Related protocol extension" value in
 	    OAuth Extensions Error registry entries.
 	  </t>
-	  <t> Fixed #657 Sec 2.1.1 Specify the sub is used as the kid if the request object or id_token_hint is encrypted</t>
+	  <t> Fixed #657 - Section 2.1.1 Specify the sub is used as the kid if the request object or id_token_hint is encrypted.</t>
 	  <t>
 	    Added Implementation Considerations section on
 	    Mandatory to Implement (MTI) features, per issue #604.
@@ -4293,6 +4269,7 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #648 - Specific response types now used in place of "implicit flow" and "code flow".
+	    The wording for at_hash and c_hash is now clearer.
 	  </t>
 	  <t>
 	    Fixed #698 - Inconsistent use of articles.
@@ -4307,15 +4284,15 @@ Representation of dates and times</title>
 	    Fixed #700 - Incomplete specification names.
 	  </t>
 
-	  <t> Re #702 make scopes a reference to the scopes section.</t>
+	  <t>Fixed #702 - Make scopes a reference to the scopes section.</t>
 
 	  <t>
 	    Fixed #702 - Consent is for claims - not scopes.
 	  </t>
+	  <t>Fixed up Scopes section to make it clear that claims requested by the scopes are voluntary.</t>
 	  <t>
-	    Re #648 - Another attempt to make the wording for at_hash and c_hash clearer.
+	    OAuth Threat Model is now RFC 6819.
 	  </t>
-	  <t>Fixed up scopes section to make clear that claims requested by the scopes are voluntary.</t>
         </list></t>
 	  
       <t>-14
