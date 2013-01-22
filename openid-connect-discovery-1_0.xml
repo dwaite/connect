@@ -94,6 +94,9 @@
 	    <t hangText="Resource">
 	      Entity that is the target of a request in WebFinger.
 	    </t>
+	    <t hangText="Host">
+	      Server where a WebFinger service is hosted.
+	    </t>
 	    <t hangText="Identifier">
 	      String that uniquely characterizes an entity in a specific environment
 	      with defined boundary conditions in which entities exist and interact.
@@ -144,8 +147,8 @@
 
       <t>To start discovery of OpenID endpoints, the End-User supplies an
       Identifier to the Client or Relying Party. The Client applies the
-      normalization rules to the Identifier to extract the resource and host.
-      Then it makes a HTTPS request to the host's
+      normalization rules to the Identifier to determine the Resource and Host.
+      Then it makes a HTTPS request to the Host's
       <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>
       endpoint with the <spanx style="verb">resource</spanx> and <spanx
       style="verb">rel</spanx> parameters to obtain the location of the
@@ -154,14 +157,14 @@
       <xref target="RFC6125">RFC 6125</xref>.
       </t>
 
-      <t>What MUST be returned in the response is the <spanx style="verb">issuer</spanx>.
+      <t>What MUST be returned in the response is the Issuer.
       This includes URI scheme, HOST, and OPTIONALLY, port.</t>
 
       <section title="Identifier Normalization">
-        <t>The purpose of normalization is to extract a normalized resource
-        and host from the user input Identifier.
+        <t>The purpose of normalization is to determine a normalized Resource
+        and Host from the user input Identifier.
 	This is then used as input to WebFinger to
-        discover the <spanx style="verb">issuer</spanx>.</t>
+        discover the Issuer.</t>
 
         <t>
           The user input Identifier SHOULD be a URL or URI relative reference 
@@ -250,9 +253,9 @@
             </list>
           </t>
           <t>
-            The <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> resource
+            The <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> Resource
 	    in this case is the resulting URL, and 
-            the WebFinger host is the authority component. 
+            the WebFinger Host is the authority component. 
           </t>
           <t>
             Note: Since the definition of <spanx style="verb">authority</spanx> 
@@ -267,7 +270,7 @@
 
       <section title="Non-Normative Examples">
         <section title="User input that looks like an E-Mail Address">
-          <t>To find the <spanx style="verb">issuer</spanx> for the given user input
+          <t>To find the Issuer for the given user input
           in the form of an e-mail address <spanx style="verb">joe@example.com</spanx>,
 	  the WebFinger parameters are as follows:</t>
 
@@ -320,7 +323,7 @@ Content-Type: application/json
         </section>
 
         <section title="URL">
-          <t>To find the <spanx style="verb">issuer</spanx> for the given URL,
+          <t>To find the Issuer for the given URL,
           <spanx style="verb">https://example.com/joe</spanx>, the WebFinger
           parameters are as follows:</t>
 
@@ -373,7 +376,7 @@ Content-Type: application/json
             then it is assumed as the authority component of the URL. 
           </t>
 
-          <t>To find the <spanx style="verb">issuer</spanx> for the given
+          <t>To find the Issuer for the given
           hostname, <spanx style="verb">example.com:8080</spanx>, the WebFinger
           parameters are as follows:</t>
 
@@ -427,17 +430,17 @@ Content-Type: application/json
       <t>This step is optional. The OpenID Provider endpoints and
       configuration information may be obtained out-of-band.</t>
 
-      <t>Using the <spanx style="verb">issuer</spanx> discovered in <xref
+      <t>Using the Issuer discovered in <xref
       target="ProviderDisc"></xref> or through direct configuration, the OpenID
       Provider's configuration can be retrieved.</t>
 
       <t>OpenID Providers MUST make a JSON document available at the path formed by 
       concatenating the string 
       <spanx style="verb">/.well-known/openid-configuration</spanx> to the 
-      <spanx style="verb">issuer</spanx>.
+      Issuer.
       The syntax and semantics of <spanx
       style="verb">.well-known</spanx> are defined in <xref
-      target="RFC5785">RFC 5785</xref> and apply to <spanx style="verb">issuer</spanx>
+      target="RFC5785">RFC 5785</xref> and apply to the Issuer value
       when it contains no path component. <spanx style="verb">openid-configuration</spanx>
       MUST point to a JSON document compliant with this specification.</t>
 
@@ -453,9 +456,9 @@ Content-Type: application/json
 	<xref target="RFC6125">RFC 6125</xref>.
 	</t>
 
-        <t>The Client would make the following request to the <spanx
-        style="verb">issuer</spanx> to get the Configuration information,
-        if the issuer contains no path component.</t>
+        <t>The Client would make the following request to the 
+        Issuer to get the Configuration information,
+        if the Issuer contains no path component.</t>
 
         <t><figure>
             <artwork><![CDATA[
@@ -464,13 +467,13 @@ Host: example.com
 ]]></artwork>
           </figure></t>
             
-      <t>If the <spanx
-        style="verb">issuer</spanx> value contains a path component, any terminating 
+      <t>If the 
+        Issuer value contains a path component, any terminating 
         <spanx style="verb">/</spanx> MUST be removed before appending 
         <spanx style="verb">/.well-known/openid-configuration</spanx>.
-        The Client would make the following request to the <spanx
-        style="verb">issuer</spanx> to get the Configuration information,
-        if the <spanx style="verb">issuer</spanx> string were <spanx
+        The Client would make the following request to the
+        Issuer to get the Configuration information,
+        if the Issuer string were <spanx
         style="verb">https://example.com/issuer1</spanx></t>
         
         <t><figure>
@@ -513,7 +516,7 @@ Host: example.com
 
 	    <t hangText="issuer">REQUIRED.
 	      URL using the https: scheme with no query or fragment component that the OP asserts as its
-	      Issuer Identifier
+	      Issuer identifier
 	    </t>
 
 	    <t hangText="authorization_endpoint">OPTIONAL.
@@ -780,11 +783,11 @@ Host: example.com
       </section>
 
       <section title="Provider Configuration Validation">
-        <t>If the configuration response contains the <spanx style="verb">issuer</spanx>
-        element, the value MUST exactly match the <spanx style="verb">issuer</spanx>
+        <t>If the configuration response contains the Issuer
+        element, the value MUST exactly match the Issuer
         for the URL that was directly used to retrieve the configuration.
         Since the discovery process allows for multiple levels of
-	redirection, this <spanx style="verb">issuer</spanx>
+	redirection, this Issuer
         URL may be different from the one originally used to begin the
         discovery process.</t>
       </section>
