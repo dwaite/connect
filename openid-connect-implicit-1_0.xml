@@ -1353,12 +1353,12 @@
             the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
 	    <spanx style="verb">user_jwk</spanx> claim.
-	    When the <spanx style="verb">alg</spanx> value is
-	    <spanx style="verb">RS256</spanx>, the key values
-	    <spanx style="verb">mod</spanx> and 
-            <spanx style="verb">exp</spanx> are concatenated in that order.
-	    When the <spanx style="verb">alg</spanx> value is
-	    <spanx style="verb">ES256</spanx>, the key values
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">RSA</spanx>, the key values
+	    <spanx style="verb">n</spanx> and 
+            <spanx style="verb">e</spanx> are concatenated in that order.
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">EC</spanx>, the key values
 	    <spanx style="verb">crv</spanx>,
 	    <spanx style="verb">x</spanx> and 
             <spanx style="verb">y</spanx> are concatenated in that order.
@@ -1406,12 +1406,12 @@
             the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
 	    <spanx style="verb">user_jwk</spanx> claim.
-	    When the <spanx style="verb">alg</spanx> value is
-	    <spanx style="verb">RS256</spanx>, the key values
-	    <spanx style="verb">mod</spanx> and 
-            <spanx style="verb">exp</spanx> are concatenated in that order.
-	    When the <spanx style="verb">alg</spanx> value is
-	    <spanx style="verb">ES256</spanx>, the key values
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">RSA</spanx>, the key values
+	    <spanx style="verb">n</spanx> and 
+            <spanx style="verb">e</spanx> are concatenated in that order.
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">EC</spanx>, the key values
 	    <spanx style="verb">crv</spanx>,
 	    <spanx style="verb">x</spanx> and 
             <spanx style="verb">y</spanx> are concatenated in that order.
@@ -1451,7 +1451,7 @@
    "exp": 1311281970,
    "iat": 1311280970,
    "user_jwk": {
-     "alg":"RSA",
+     "kty":"RSA",
      "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
      4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
      tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
@@ -2114,6 +2114,9 @@ Representation of dates and times</title>
 	    computation, changed the text "the concatenation of the key values" to
 	    "the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values".
+	  </t>
+	  <t>
+	    Tracked JWK parameter name changes alg -> kty, mod -> n, exp -> e.
 	  </t>
         </list>
       </t>
