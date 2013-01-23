@@ -1440,44 +1440,61 @@ Location: openid://
       </section>
     </section>
 
-    <section anchor="qss" title="Query String Serialization">
-      <t>In order to serialize the parameters using the query string
-      serialization, the Client constructs the string by adding the
-      parameters and values to the query component using the <spanx
-      style="verb">application/x-www-form-urlencoded</spanx> format as
-      defined by <xref target="W3C.REC-html401-19991224"/>.</t>
+    <section anchor="Serializations" title="Serializations">
+      <t>
+	A request message MAY be serialized using one of the following methods:
+        <list style="numbers">
+	  <t>Query String Serialization</t>
+	  <t>Form Serialization</t>
+        </list>
+      </t>
 
-      <figure>
-        <preamble>Following is a non-normative example of such
-        serialization:</preamble>
+      <section anchor="qss" title="Query String Serialization">
 
-        <artwork><![CDATA[GET /authorize?scope=openid&response_type=code
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
-Host: server.example.com]]></artwork>
-      </figure>
-    </section>
+	<t>In order to serialize the parameters using the query string
+	serialization, the Client constructs the string by adding the
+	parameters and values to the query component using the <spanx
+	style="verb">application/x-www-form-urlencoded</spanx> format as
+	defined by <xref target="W3C.REC-html401-19991224"/>.
+	Query string serialization is typically used in HTTP GET requests.</t>
 
-    <section anchor="form_serialization" title="Form Serialization">
+	<figure>
+	  <preamble>Following is a non-normative example of such
+	  serialization:</preamble>
 
-      <t>Parameters and their values are form serialized by adding the 
-      parameter names and values to the entity body of the HTTP request using
-      the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
-      as defined by <xref target="W3C.REC-html401-19991224"/>. Form
-      serialization is typically used in HTTP POST requests.</t>
+        <artwork><![CDATA[
+  GET /authorize?scope=openid&response_type=code
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
+  Host: server.example.com
+]]></artwork>
+	</figure>
+      </section>
 
-      <figure>
-	<preamble>Following is a non-normative example of such
-	serialization:</preamble>
+      <section anchor="form_serialization" title="Form Serialization">
 
-	<artwork><![CDATA[POST /authorize HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
+	<t>Parameters and their values are form serialized by adding the 
+	parameter names and values to the entity body of the HTTP request using
+	the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
+	as defined by <xref target="W3C.REC-html401-19991224"/>.
+	Form serialization is typically used in HTTP POST requests.</t>
 
-scope=openid&response_type=code
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb]]></artwork>
-      </figure>
+	<figure>
+	  <preamble>Following is a non-normative example of such
+	  serialization:</preamble>
+
+	  <artwork><![CDATA[
+  POST /authorize HTTP/1.1
+  Host: server.example.com
+  Content-Type: application/x-www-form-urlencoded
+
+  scope=openid&response_type=code
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+]]></artwork>
+	</figure>
+      </section>
+
     </section>
 
     <section anchor="stringops" title="String Operations">
