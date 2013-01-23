@@ -1160,8 +1160,8 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
             <figure>
               <preamble>Public Key Information used to verify the ID Token</preamble>
               <artwork><![CDATA[
-  The following is the RSA public key information that can be used
-  to verify the ID Token signatures in the above examples.
+  The following is the RSA public key information that can be used to
+  validate the ID Token signatures in the above examples.
   The values are an array of hexadecimal digits in big endian format.
                 
   modulus: 
@@ -1733,7 +1733,7 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
             <spanx style="verb">https://self-issued.me</spanx>.
 	  </t>
 	  <t>
-	    A <spanx style="verb">user_jwk</spanx> Claim is present, with its value being
+	    A <spanx style="verb">sub_jwk</spanx> Claim is present, with its value being
 	    the public key value used to check the signature of the ID Token.
 	  </t>
 	  <t>
@@ -1741,7 +1741,7 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 	    value is the base64url encoded SHA-256 hash of 
             the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
-	    <spanx style="verb">user_jwk</spanx> claim.
+	    <spanx style="verb">sub_jwk</spanx> claim.
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">RSA</spanx>, the key values
 	    <spanx style="verb">n</spanx> and 
@@ -1781,7 +1781,7 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
             The Client MUST validate the signature of the ID Token according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
-            using the key in the <spanx style="verb">user_jwk</spanx> claim;
+            using the key in the <spanx style="verb">sub_jwk</spanx> claim;
 	    the key is in JWK format.
           </t>
           <t>
@@ -1794,7 +1794,7 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 	    value is the base64url encoded SHA-256 hash of 
             the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
-	    <spanx style="verb">user_jwk</spanx> claim.
+	    <spanx style="verb">sub_jwk</spanx> claim.
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">RSA</spanx>, the key values
 	    <spanx style="verb">n</spanx> and 
@@ -1838,7 +1838,7 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
    "nonce": "n-0S6_WzA2Mj",
    "exp": 1311281970,
    "iat": 1311280970,
-   "user_jwk": {
+   "sub_jwk": {
      "kty":"RSA",
      "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
      4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
@@ -2485,8 +2485,14 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 	    the base64url encoded key values".
 	  </t>
 	  <t>
+	    Renamed the <spanx style="verb">user_jwk</spanx> Claim to
+	    <spanx style="verb">sub_jwk</spanx>, paralleling the change from
+	    <spanx style="verb">user_id</spanx> to <spanx style="verb">sub</spanx>.
+	  </t>
+	  <t>
 	    Tracked JWK parameter name changes alg -> kty, mod -> n, exp -> e.
 	  </t>
+	  
         </list></t>
 
       <t>-15
