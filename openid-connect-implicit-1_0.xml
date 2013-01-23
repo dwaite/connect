@@ -238,13 +238,11 @@
 	    the <spanx style="verb">phone_number</spanx> Claim at the
 	    UserInfo Endpoint be granted by the issued Access Token.</t>
 
-	    <t hangText="offline_access">OPTIONAL. This scope value requests
-	    that an OAuth 2.0 Refresh Token be issued that can be used to
-	    obtain an access token that grants access the End-User's
-	    UserInfo endpoint even when the user is not present (not logged in).
-	    This scope requires the use of the 
-	    <xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref>, 
-	    and the Token Endpoint.</t>
+	    <t hangText="offline_access">This scope value MAY NOT be used with the
+	    OpenID Connect Implicit Client Profile 1.0.
+	    See the
+	    <xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref>
+	    for its usage in that profile.</t>
 
           </list>
         </t>
@@ -724,6 +722,16 @@ req.send(postBody);]]></artwork>
                 <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
           with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
+	      <t hangText="user_jwk">OPTIONAL.
+	        Public key value used to check the signature of an ID Token
+		issued by a self-issued OpenID Provider,
+		as specified in <xref target="self_issued"/>.
+		The key is in JWK format.
+		Use of the <spanx style="verb">user_jwk</spanx> Claim
+		is REQUIRED when the OP is a self-issued OP and
+		is NOT RECOMMENDED when the OP is not self-issued.
+	      </t>
+
             </list></t>
 
 	    <t>The JWT MAY contain other Claims
@@ -1174,7 +1182,6 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
       </section>
     </section>
 
-
     <section anchor="self_issued" title="Self-Issued OpenID Provider">
       <t>There is a special issuer "https://self-issued.me" that indicates
       a user is using a personal OP that issues self-signed ID Tokens.</t>
@@ -1267,22 +1274,22 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
            <t hangText="id_token_hint">OPTIONAL.
 	     <xref target="id_token">ID Token</xref>
               passed to the Authorization Server as a hint about the user's current or past
-              authenticated session with the client. This SHOULD be present if 
+              authenticated session with the Client. This SHOULD be present if 
               <spanx style="verb">prompt=none</spanx> is sent. 
               The value is a <xref target="JWS">JWS</xref> encoded 
-              ID token as signed by the issuer, 
+              ID Token as signed by the Issuer,
               the <xref target="JWS">JWS</xref> may be <xref target="JWE">JWE</xref> encrypted by 
-              the public key of the issuer for 
-              additional confidentiality. If the <spanx style="verb">id_token</spanx> 
+              the public key of the Issuer for 
+              additional confidentiality. If the ID Token
               received by the RP was encrypted, 
-              the Client MUST decrypt the signed <spanx style="verb">id_token</spanx> 
-              (<xref target="JWS">JWS</xref>). The Client MAY re-encrypt 
+              the Client MUST decrypt the signed ID Token.
+	      The Client MAY re-encrypt 
               using the key that the server is capable of decrypting. 
 	      For a self-issued ID Token, the 
 	      <spanx style="verb">sub</spanx> (subject)
 	      of the ID Token
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
-	      
+
         </list></t>
         <t>
           Other parameters MAY be sent. 
@@ -1305,14 +1312,41 @@ Location: openid://
 
       <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
         <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
-          response apart from the fact that the <spanx style="verb">iss</spanx> claim value is 
-          <spanx style="verb">https://self-issued.me</spanx> and all claims are 
-          returned in the ID Token.  Since it is an implicit flow 
+          response with the following refinements.  Since it is an implicit flow 
           response, the response parameters will be returned in a fragment.
         </t>
+        <t><list style="numbers">
+          <t>
+	    The <spanx style="verb">iss</spanx> (issuer) Claim value is 
+            <spanx style="verb">https://self-issued.me</spanx>.
+	  </t>
+	  <t>
+	    A <spanx style="verb">user_jwk</spanx> Claim is present, with its value being
+	    the public key value used to check the signature of the ID Token.
+	  </t>
+	  <t>
+	    The <spanx style="verb">sub</spanx> (subject) Claim
+	    value is the base64url encoded SHA-256 hash of 
+            the concatenation of the key values in the
+	    <spanx style="verb">user_jwk</spanx> claim.
+	    When the <spanx style="verb">alg</spanx> value is
+	    <spanx style="verb">RS256</spanx>, the key values
+	    <spanx style="verb">mod</spanx> and 
+            <spanx style="verb">exp</spanx> are concatenated in that order.
+	    When the <spanx style="verb">alg</spanx> value is
+	    <spanx style="verb">ES256</spanx>, the key values
+	    <spanx style="verb">crv</spanx>,
+	    <spanx style="verb">x</spanx> and 
+            <spanx style="verb">y</spanx> are concatenated in that order.
+	  </t>
+	  <t>
+	    No Access Token is returned for accessing a UserInfo endpoint,
+	    so all claims returned must be in the ID Token.
+	  </t>
+	</list></t>
       </section>
 
-      <section anchor="self_issued.validation" title="Self-Issued Identity ID Token Validation">
+      <section anchor="self_issued.validation" title="Self-Issued ID Token Validation">
         <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
 
@@ -1343,7 +1377,7 @@ Location: openid://
 	    It may also be <spanx style="verb">ES256</spanx>.
           </t>
           <t>
-            The Client MUST validate that the <spanx style="verb">sub</spanx> (subject)
+            The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
 	    value is the base64url encoded SHA-256 hash of 
             the concatenation of the key values in the
 	    <spanx style="verb">user_jwk</spanx> claim.
@@ -1376,8 +1410,7 @@ Location: openid://
             Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
             The precise method for detecting replay attacks is Client specific.
           </t>
-          
-          
+
         </list></t>
         <figure>
             <preamble>The following is a non-normative example of a base64url decoded 
@@ -2023,6 +2056,13 @@ Representation of dates and times</title>
 	  <t>Added auth_time definition to ID Token schema.</t>
 	  <t>
 	    Fixed #655 - Specify UTF-8 as encoding scheme whenever necessary.
+	  </t>
+	  <t>
+	    Defined the <spanx style="verb">user_jwk</spanx> claim.
+	  </t>
+	  <t>
+	    Clarified that the <spanx style="verb">offline_access</spanx> scope value
+	    MAY NOT be used with the Implicit Client Profile.
 	  </t>
         </list>
       </t>

@@ -984,6 +984,17 @@
                 <spanx style="verb">HS512</spanx>, hash <spanx style="verb">code</spanx>
           with SHA-512, then take the left-most 256 bits and base64url encode them.</t>
 
+		<t hangText="user_jwk">OPTIONAL.
+		  Public key value used to check the signature of an ID Token
+		  issued by a self-issued OpenID Provider,
+		  as specified in Section 5 of
+		  <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>.
+		  The key is in JWK format.
+		  Use of the <spanx style="verb">user_jwk</spanx> Claim
+		  is REQUIRED when the OP is a self-issued OP and
+		  is NOT RECOMMENDED when the OP is not self-issued.
+		</t>
+
               </list></t>
 
             <t>ID Tokens MUST be signed using <xref
@@ -3400,6 +3411,19 @@ Tokens and URL locations where the Claims may be retrieved:
 	      </t>
 	    </list>
 	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">user_jwk</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="id_token"/> of this document
+	      </t>
+	    </list>
+	  </t>
 	</section>
 	<?rfc subcompact="no"?>
       </section>
@@ -4292,6 +4316,9 @@ Representation of dates and times</title>
 	  <t>Fixed up Scopes section to make it clear that claims requested by the scopes are voluntary.</t>
 	  <t>
 	    OAuth Threat Model is now RFC 6819.
+	  </t>
+	  <t>
+	    Defined and registered the <spanx style="verb">user_jwk</spanx> claim.
 	  </t>
         </list></t>
 	  
