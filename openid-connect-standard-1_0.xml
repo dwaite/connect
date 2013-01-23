@@ -1737,7 +1737,8 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) Claim
 	    value is the base64url encoded SHA-256 hash of 
-            the concatenation of the key values in the
+            the concatenation of the bytes of the UTF-8 representations of
+	    the base64url encoded key values in the
 	    <spanx style="verb">user_jwk</spanx> claim.
 	    When the <spanx style="verb">alg</spanx> value is
 	    <spanx style="verb">RS256</spanx>, the key values
@@ -1789,7 +1790,8 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
           <t>
             The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
 	    value is the base64url encoded SHA-256 hash of 
-            the concatenation of the key values in the
+            the concatenation of the bytes of the UTF-8 representations of
+	    the base64url encoded key values in the
 	    <spanx style="verb">user_jwk</spanx> claim.
 	    When the <spanx style="verb">alg</spanx> value is
 	    <spanx style="verb">RS256</spanx>, the key values
@@ -2471,6 +2473,12 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 	  </t>
 	  <t>
 	    Fixed #655 - Specify UTF-8 as encoding scheme whenever necessary.
+	  </t>
+	  <t>
+	    To remove ambiguity in the self-issued <spanx style="verb">sub</spanx>
+	    computation, changed the text "the concatenation of the key values" to
+	    "the concatenation of the bytes of the UTF-8 representations of
+	    the base64url encoded key values".
 	  </t>
         </list></t>
 
