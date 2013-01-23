@@ -5,7 +5,7 @@
 <rfc category="exp" docName="openid-connect-standard-1_0" ipr="trust200902">
 
   <?rfc toc="yes" ?>
-  <?rfc tocdepth="4" ?>
+  <?rfc tocdepth="5" ?>
   <?rfc symrefs="yes" ?>
   <?rfc sortrefs="yes"?>
   <?rfc strict="yes" ?>
@@ -174,7 +174,7 @@
         that cannot.</t>
 
         <section anchor="retrieving_code_token" 
-                 title="How to Get an Authorization Code, Access Token, and ID Token">
+                 title="How to Get Authorization Code, Access Token, and ID Token">
           <t>In this specification, the Client sends authorization request 
           to the Authorization Endpoint through the User Agent to obtain the 
           Access Token and ID Token. It MAY obtain them from the Authorization 
@@ -279,7 +279,7 @@
         <xref target="form_serialization">form serialization</xref>.</t>
 
         <section anchor="AuthParams"
-                 title="Client Prepares an Authorization Request">
+                 title="Client Prepares Authorization Request">
           <t>The Client prepares an Authorization Request to the Authorization
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be HTTPS.
@@ -420,7 +420,7 @@ response_type=code%20id_token
               </figure></t>
 
             <section anchor="norm_req"
-                     title="Client sends a request to the Authorization Server">
+                     title="Client Sends Request to Authorization Server">
               <t>Having constructed the Authorization Request, the Client sends it
               to the HTTPS End-User Authorization Endpoint. This
               MAY happen via HTTPS redirect, hyperlinking, or any other means
@@ -625,7 +625,7 @@ UqtHmoXVGisQ
               </figure></t>
 
             <section anchor="request_req"
-                     title="Client Sends a Request to the Authorization Server">
+                     title="Client Sends Request to Authorization Server">
               <t>Having constructed the Authorization Request, the Client sends
               it to the HTTPS Authorization Endpoint. This
               MAY happen via HTTPS redirect, hyperlinking, or any other means
@@ -726,7 +726,7 @@ isQ]]></artwork>
                      title="Client Generates the URL of the Request File">
               <t>The Client then stores the Request File either locally or remotely.
                This is the Request URI, <spanx style="verb">"request_uri"</spanx>. 
-               The URI MAY be appended with the base64url encoded SHA-256 [FIPS180-2] hash of the file 
+               The URI MAY be appended with the base64url encoded SHA-256 hash of the file 
                after "#" so that the Authorization Server can detect whether the file 
                has changed. </t>
 
@@ -751,7 +751,7 @@ isQ]]></artwork>
             </section>
 
             <section anchor="art_req"
-                     title="Client Sends a Request to Authorization Server via HTTPS Redirect">
+                     title="Client Sends Request to Authorization Server via HTTPS Redirect">
               <t>The Client sends the Authorization Request to the Authorization
               Endpoint.</t>
 
@@ -799,7 +799,7 @@ Host: client.example.org]]></artwork>
 	  Section 5.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 	</section>
 
-        <section title="Authorization Server Authenticates the End-User">
+        <section title="Authorization Server Authenticates End-User">
 
           <t>The Authorization Server validates the request to ensure all
           required parameters are present and valid. If the request is valid,
@@ -833,7 +833,7 @@ Host: client.example.org]]></artwork>
           </list></t>
         </section>
 
-        <section title="Authorization Server Obtains the End-User Consent/Authorization">
+        <section title="Authorization Server Obtains End-User Consent/Authorization">
 
           <t>Once the End-User is authenticated, the Authorization Server MUST
           obtain an authorization decision. This MAY be done by presenting the
@@ -864,7 +864,7 @@ Host: client.example.org]]></artwork>
           </list></t>
         </section>
 
-        <section title="Authorization Server Sends the End-User Back to the Client"
+        <section title="Authorization Server Sends End-User Back to Client"
 		 anchor="art_res">
 
           <t>Once the authorization is determined, the Authorization Server
@@ -950,7 +950,7 @@ ID Token JSON object:
   "nonce": "n-0S6_WzA2Mj",
   "exp": 1311281970,
   "iat": 1311280970,
-  "at_hash": "77QmUPtjPfzWtF2AnpK9RWpXrWlrecdbLUyJDIb7S6Q"
+  "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
 }
 
 ]]></artwork>

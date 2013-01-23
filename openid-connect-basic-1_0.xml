@@ -5,7 +5,7 @@
 <rfc category="exp" docName="openid-connect-basic-1_0" ipr="trust200902">
 
   <?rfc toc="yes" ?>
-  <?rfc tocdepth="4" ?>
+  <?rfc tocdepth="5" ?>
   <?rfc symrefs="yes" ?>
   <?rfc sortrefs="yes"?>
   <?rfc strict="no" ?>
@@ -279,7 +279,7 @@
           </list>
         </t>
 
-        <section anchor="rf_prep" title="Client Prepares an Authorization Request">
+        <section anchor="rf_prep" title="Client Prepares Authorization Request">
           <t>When the Client wishes to access a Protected Resource, and the
           End-User Authorization has not yet been obtained, the Client
           prepares an Authorization Request to the Authorization Endpoint.</t>
@@ -436,7 +436,7 @@ response_type=code
         </section>
 
         <section anchor="code_req"
-		 title="Client sends a request to the Authorization Server">
+		 title="Client Sends Request to Authorization Server">
           <t>Having constructed the Authorization Request, the Client sends it
           to the Authorization Endpoint. This MAY happen via HTTPS redirect, 
           hyperlinking, or any other secure means of directing the User-Agent 
@@ -456,7 +456,7 @@ response_type=code
           </figure>
         </section>
 
-        <section title="Authorization Server Authenticates the End-User">
+        <section title="Authorization Server Authenticates End-User">
 
           <t>The authorization server authenticates the resource owner
           to make sure that the consent is obtained from the right
@@ -464,7 +464,7 @@ response_type=code
           performed is out of scope of this specification. </t>
         </section>
 
-        <section title="Authorization Server Obtains the End-User Consent/Authorization">
+        <section title="Authorization Server Obtains End-User Consent/Authorization">
 
           <t>The Authorization Server obtains an authorization decision,
 	  for the requested Claims. This can done by presenting the End-User
@@ -480,7 +480,7 @@ response_type=code
         </section>
 
         <section anchor="code_res"
-		 title="Authorization Server Sends the End-User Back to the Client">
+		 title="Authorization Server Sends End-User Back to Client">
 
           <t>Once the authorization is determined, the Authorization Server
 	  returns a successful response or an error response.</t>
@@ -534,12 +534,12 @@ code=SplxlOBeZQQYbYS6WxSbIA
         </section>
 
         <section anchor="obtaining_tokens"
-		 title="Client obtains ID Token and Access Token">
+		 title="Client Obtains ID Token and Access Token">
 
           <t>Once <spanx style="verb">code</spanx> is obtained, the Client
 	  requests the tokens at the Token Endpoint in the following manner:</t>
 
-          <section anchor="token_request" title="Client sends the code">
+          <section anchor="token_request" title="Client Sends Code">
 
             <t>The Client makes a request to the token endpoint as described in 
 	    Section 4.1.3 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
@@ -558,7 +558,7 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
             </figure>
           </section>
 
-          <section anchor="token_ok" title="Client receives tokens">
+          <section anchor="token_ok" title="Client Receives Tokens">
 
 	    <t>
 	       The Client receives a response with the following parameters
@@ -689,7 +689,7 @@ Pragma: no-cache
 
             <artwork><![CDATA[
 {
- "iss": "https://client.example.com",
+ "iss": "https://server.example.com",
  "sub": "24400320",
  "aud": "s6BhdRkqt3",
  "exp": 1311281970,
@@ -697,54 +697,53 @@ Pragma: no-cache
 }]]></artwork>
         </figure>
         
-        </section>
-        
-      <section anchor="id.token.validation" title="ID Token Validation">
+	<section anchor="id.token.validation" title="ID Token Validation">
 
-	<t>The client MUST validate the ID Token in the Token Endpoint Response.  To do this,
-	the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
-	period (".") characters, take the second segment, and base64url decode it to 
-	obtain a JSON object containing the ID Token claims, which MUST be validated 
-	as follows:</t>
+	  <t>The client MUST validate the ID Token in the Token Endpoint Response.  To do this,
+	  the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
+	  period (".") characters, take the second segment, and base64url decode it to 
+	  obtain a JSON object containing the ID Token claims, which MUST be validated 
+	  as follows:</t>
 
-        <t>
-          <list style="numbers">
+	  <t>
+	    <list style="numbers">
 
-            <t> The Client MUST validate that the <spanx style="verb">iss</spanx> (issuer) Claim
-            is valid for the Token Endpoint that the <spanx style="verb">id_token</spanx>
-            was received from.</t> 
+	      <t> The Client MUST validate that the <spanx style="verb">iss</spanx> (issuer) Claim
+	      is valid for the Token Endpoint that the <spanx style="verb">id_token</spanx>
+	      was received from.</t> 
 
-            <t>
-	      The Client MUST validate that the
-	      <spanx style="verb">aud</spanx> (audience) Claim
-	      contains its <spanx style="verb">client_id</spanx> value
-	      registered at the Issuer identified by the
-	      <spanx style="verb">iss</spanx> (issuer) Claim
-	      as an audience.
-	      The ID Token MUST be rejected if the ID Token does not list
-	      the Client as a valid audience, or if it contains additional audiences not trusted by the client.
-	    </t>
+	      <t>
+		The Client MUST validate that the
+		<spanx style="verb">aud</spanx> (audience) Claim
+		contains its <spanx style="verb">client_id</spanx> value
+		registered at the Issuer identified by the
+		<spanx style="verb">iss</spanx> (issuer) Claim
+		as an audience.
+		The ID Token MUST be rejected if the ID Token does not list
+		the Client as a valid audience, or if it contains additional audiences not trusted by the client.
+	      </t>
 
-            <t>The current time MUST be less than the value of the
-	    <spanx style="verb">exp</spanx> Claim.</t>
+	      <t>The current time MUST be less than the value of the
+	      <spanx style="verb">exp</spanx> Claim.</t>
 
-            <t>The <spanx style="verb">iat</spanx> Claim may be used to reject tokens that
-	    were issued too far away from the current time, limiting the amount of
-	    time that nonces must be stored to prevent attacks.
-	    The acceptable range is Client specific.</t>
+	      <t>The <spanx style="verb">iat</spanx> Claim may be used to reject tokens that
+	      were issued too far away from the current time, limiting the amount of
+	      time that nonces must be stored to prevent attacks.
+	      The acceptable range is Client specific.</t>
 
-            <t>If the <spanx style="verb">acr</spanx> Claim was requested, the
-	    Client SHOULD check that the asserted Claim Value is appropriate.
-	    The meaning and processing of
-	    <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
+	      <t>If the <spanx style="verb">acr</spanx> Claim was requested, the
+	      Client SHOULD check that the asserted Claim Value is appropriate.
+	      The meaning and processing of
+	      <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
 
-            <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the
-	    Client SHOULD check the value
-	    and request re-authentication if it determines too much time has elapsed
-	    since the last user authentication.</t>
+	      <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the
+	      Client SHOULD check the value
+	      and request re-authentication if it determines too much time has elapsed
+	      since the last user authentication.</t>
 
-          </list>
-        </t>
+	    </list>
+	  </t>
+	</section>
       </section>
 
       <section anchor="userinfo" title="UserInfo Endpoint">
