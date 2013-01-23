@@ -79,7 +79,7 @@
 
   <middle>
 
-    <section title="Introduction">
+    <section anchor="Introduction" title="Introduction">
 
       <t>OpenID Connect Implicit Client Profile 1.0 is a profile of the 
       <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specification
@@ -163,7 +163,7 @@
       </section>
     </section>
 
-    <section title="Protocol Flows">
+    <section anchor="ProtocolFlows" title="Protocol Flows">
       <t>Authorization Requests can follow one of two paths; the Implicit Flow
       or the Authorization Code Flow. The Authorization Code Flow is
       suitable for Clients that can securely maintain a Client Secret between
@@ -269,7 +269,7 @@
         </t>
       </section>
 
-      <section title="Implicit Flow">
+      <section anchor="ImplicitFlow" title="Implicit Flow">
         <t>The Implicit Flow consists of the following steps:</t>
         <t>
 	  <list style="numbers">
@@ -471,7 +471,7 @@ response_type=token%20id_token
           </figure>
         </section>
 
-        <section title="Authorization Server Authenticates End-User">
+        <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
           <t>The authorization server authenticates the resource owner
           to make sure that the consent is obtained from the right
@@ -479,7 +479,7 @@ response_type=token%20id_token
           performed is out of scope of this specification. </t>
         </section>
 
-        <section title="Authorization Server Obtains End-User Consent/Authorization">
+        <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
           <t>The Authorization Server obtains an authorization decision,
           for the requested Claims. This can done by presenting the End-User
@@ -855,7 +855,7 @@ req.send(postBody);]]></artwork>
 	The <spanx style="verb">sub</spanx> Claim in the UserInfo Endpoint response MUST exactly match the 
 	<spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
 
-	<section title="UserInfo Request">
+	<section anchor="UserInfoRequest" title="UserInfo Request">
 
 	  <t>Clients MAY send requests with the following parameters to the
 	  UserInfo Endpoint to obtain further information about the End-User. The
@@ -1154,7 +1154,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
           </section>
 	</section>
 
-	<section title="UserInfo Error Response">
+	<section anchor="UserInfoErrorResponse" title="UserInfo Error Response">
 
 	  <t>When an error condition occurs, the UserInfo Endpoint returns
 	  an Error Response as defined in Section 3 of
@@ -1178,6 +1178,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
     <section anchor="self_issued" title="Self-Issued OpenID Provider">
       <t>There is a special issuer "https://self-issued.me" that indicates
       a user is using a personal OP that issues self-signed ID Tokens.</t>
+
       <section anchor="self_issued.discovery" title="Self-Issued OpenID Provider Discovery">
         <t>
           If the input identifier contains the domain self-issued.me, dynamic discovery is not performed. 
@@ -1209,6 +1210,7 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
           need any special treatment for discovery of the self-issued OP. 
         </t>
       </section>
+
       <section anchor="self_issued.registration" title="Client Registration to Self-Issued OpenID Provider">
         <t>
           When using a self-issued OP, the Client is deemed to have 
@@ -1300,6 +1302,7 @@ Location: openid://
 &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj]]></artwork>
         </figure> 
       </section>
+
       <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
         <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
           response apart from the fact that the <spanx style="verb">iss</spanx> claim value is 
@@ -1308,6 +1311,7 @@ Location: openid://
           response, the response parameters will be returned in a fragment.
         </t>
       </section>
+
       <section anchor="self_issued.validation" title="Self-Issued Identity ID Token Validation">
         <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
@@ -1329,9 +1333,9 @@ Location: openid://
 	  <t>
             The Client MUST validate the signature of the ID Token according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
-            <spanx style="verb">alg</spanx> parameter of the JWT header,  
-            using the key in the <spanx style="verb">user_jwk</spanx> claim.
-	    The key is in JWK format.
+            <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
+            using the key in the <spanx style="verb">user_jwk</spanx> claim;
+	    the key is in JWK format.
           </t>
           <t>
             The <spanx style="verb">alg</spanx> value SHOULD be the default of 
@@ -1922,7 +1926,7 @@ Representation of dates and times</title>
 
     </references>
 
-    <section title="Acknowledgements">
+    <section anchor="Acknowledgements" title="Acknowledgements">
       <t>The OpenID Community would like to thank the following people for the
       work they've done in the drafting and editing of this specification.</t>
       <t>
@@ -1953,7 +1957,7 @@ Representation of dates and times</title>
       </t>
     </section>
 
-    <section title="Notices">
+    <section anchor="Notices" title="Notices">
       <t>Copyright (c) 2012 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
@@ -1995,7 +1999,7 @@ Representation of dates and times</title>
       </t>
     </section>
 
-    <section title="Document History">
+    <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-06

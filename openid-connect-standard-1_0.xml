@@ -66,7 +66,7 @@
   </front>
 
   <middle>
-    <section title='Introduction'>
+    <section anchor='Introduction' title='Introduction'>
       <t>This specification describes the binding of the HTTP
       protocol with the endpoints described in <xref
       target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
@@ -104,7 +104,7 @@
       </section>
     </section>
 
-    <section title="Authorization Endpoint">
+    <section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
       <t>The Authorization Endpoint performs authentication services for the
       End-User and requests authorization from the End-User to release
       information to OpenID Connect Relying Party Clients. When an End-User 
@@ -397,7 +397,7 @@
           Clients MAY use the Request File Method to minimize the request
           size.</t>
 
-          <section title="Simple Request Method">
+          <section anchor="SimpleRequestMethod" title="Simple Request Method">
             <t>The Client prepares an Authorization Request to the
             Authorization Endpoint using the appropriate parameters. If using 
             the HTTP "GET" method, the request parameters are serialized using
@@ -771,7 +771,7 @@ Location: https://server.example.com/authorize
               </figure>
             </section>
 
-            <section title="Authorization Server Fetches the Request File">
+            <section anchor="FetchesRequestFile" title="Authorization Server Fetches Request File">
               <t>Upon receipt of the Request, the Authorization Server MUST
               send a GET request to the <spanx style="verb">request_uri</spanx>
               to retrieve the content unless it is already cached and parse it
@@ -793,13 +793,13 @@ Host: client.example.org]]></artwork>
           </section>
         </section>
 
-	<section title="Authorization Server Validates Request Object">
+	<section anchor="ValidatesRequestObject" title="Authorization Server Validates Request Object">
 
           <t>The Authorization Server validates the request according to 
 	  Section 5.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 	</section>
 
-        <section title="Authorization Server Authenticates End-User">
+        <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
           <t>The Authorization Server validates the request to ensure all
           required parameters are present and valid. If the request is valid,
@@ -833,7 +833,7 @@ Host: client.example.org]]></artwork>
           </list></t>
         </section>
 
-        <section title="Authorization Server Obtains End-User Consent/Authorization">
+        <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
           <t>Once the End-User is authenticated, the Authorization Server MUST
           obtain an authorization decision. This MAY be done by presenting the
@@ -1264,12 +1264,12 @@ error=invalid_request
         <c>no-cache</c>
       </texttable>
 
-      <section title="Requesting an Access Token">
+      <section anchor="RequestingAccessToken" title="Requesting Access Token">
         <t>To retrieve an Access Token, a Client MUST have an Authorization
         Code obtained via the method as described in <xref
         target="code_flow">Authorization Code Flow</xref>.</t>
 
-        <section title="Access Token Request">
+        <section anchor="AccessTokenRequest" title="Access Token Request">
           <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
           authenticate to the Token Endpoint using the authentication method
 	  registered for its <spanx style="verb">client_id</spanx>, as documented in
@@ -1325,7 +1325,7 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
           </t>
         </section>
 
-        <section title="Access Token Response">
+        <section anchor="AccessTokenResponse" title="Access Token Response">
           <t>Upon receipt of the Token Request, the Authorization Server MUST
           return either a successful response or an error response that corresponds to
           the received Authorization Code.</t>
@@ -1363,7 +1363,7 @@ tqkqHxKsAXLVyAoVInYkl_NDBkCqYe2KgNJFzfEC8g"
 	  </figure>
 	</section>
 
-	<section title="Access Token Error Response">
+	<section anchor="AccessTokenErrorResponse" title="Access Token Error Response">
 	  <t>If the Token Request is invalid or unauthorized, the
 	  Authorization Server constructs the response by returning the
 	  Token Error Response defined in <xref
@@ -1386,7 +1386,7 @@ Pragma: no-cache
         </section>
       </section>
 
-      <section title="Refreshing an Access Token">
+      <section anchor="RefreshingAccessToken" title="Refreshing Access Token">
          <t>To refresh an Access Token, the Client MUST
           authenticate to the Token Endpoint using the authentication method registered
 	  for its <spanx style="verb">client_id</spanx>, as documented in
@@ -1400,7 +1400,7 @@ Pragma: no-cache
           Token.
         </t>
 
-        <section title="Refresh Token Response">
+        <section anchor="RefreshTokenResponse" title="Refresh Token Response">
           <t>Upon receipt of the Refresh Token Request, the Authorization Server MUST
           return either a successful response or an error response that corresponds to
           the received Refresh Token.</t>
@@ -1440,7 +1440,7 @@ Pragma: no-cache
           </figure>
         </section>
 
-	<section title="Refresh Token Error Response">
+	<section anchor="RefreshTokenErrorResponse" title="Refresh Token Error Response">
 	  <t>If the Refresh Token Request is invalid or unauthorized, the
 	  Authorization Server returns the 
 	  Token Error Response as defined in Section 5.2 of <xref
@@ -1471,7 +1471,7 @@ Pragma: no-cache
       <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> and
       or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
 
-      <section title="UserInfo Request">
+      <section anchor="UserInfoRequest" title="UserInfo Request">
         <t>Client SHOULD send the UserInfo Request defined in
 	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
         either in HTTP GET or POST request.</t>
@@ -1531,7 +1531,7 @@ Content-Type: application/json
         </figure>
       </section>
 
-      <section title="UserInfo Error Response">
+      <section anchor="UserInfoErrorResponse" title="UserInfo Error Response">
   <t>When an error condition occurs, the UserInfo Endpoint returns
   an Error Response as defined in Section 3 of
   the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification
@@ -1557,6 +1557,7 @@ WWW-Authenticate: Bearer realm="example.com",
     <section anchor="self_issued" title="Self-Issued OpenID Provider">
       <t>There is a special issuer "https://self-issued.me" that indicates
       a user is using a personal OP that issues self-signed ID Tokens.</t>
+
       <section anchor="self_issued.discovery" title="Self-Issued OpenID Provider Discovery">
         <t>
           If the input identifier contains the domain self-issued.me, dynamic discovery is not performed. 
@@ -1589,6 +1590,7 @@ WWW-Authenticate: Bearer realm="example.com",
           need any special treatment for discovery of the self-issued OP. 
         </t>
       </section>
+
       <section anchor="self_issued.registration" title="Client Registration to Self-Issued OpenID Provider">
         <t>
           When using a self-issued OP, the Client is deemed to have 
@@ -1680,6 +1682,7 @@ Location: openid://
 &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj]]></artwork>
         </figure> 
       </section>
+
       <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
         <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
           response apart from the fact that the <spanx style="verb">iss</spanx> claim value is 
@@ -1688,6 +1691,7 @@ Location: openid://
           response, the response parameters will be returned in a fragment.
         </t>
       </section>
+
       <section anchor="self_issued.validation" title="Self-Issued Identity ID Token Validation">
         <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
@@ -1709,9 +1713,9 @@ Location: openid://
 	  <t>
             The Client MUST verify the signature of the ID Token according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
-            <spanx style="verb">alg</spanx> parameter of the JWT header,  
-            using the key in the <spanx style="verb">user_jwk</spanx> claim.
-	    The key is in JWK format.
+            <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
+            using the key in the <spanx style="verb">user_jwk</spanx> claim;
+	    the key is in JWK format.
           </t>
           <t>
             The <spanx style="verb">alg</spanx> value SHOULD be the default of 
@@ -1906,7 +1910,7 @@ scope=openid&response_type=code
       <t>In addition, the following list of attack vectors and remedies are
       also considered.</t>
 
-      <section title="Implicit Grant Flow Threats">
+      <section anchor="ImplicitGrantFlowThreats" title="Implicit Grant Flow Threats">
         <t>In the implicit grant flow, the Access Token is returned in the
         fragment part of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
         protected between the OP and the User-Agent, and User-Agent and the
@@ -1946,7 +1950,7 @@ scope=openid&response_type=code
 	  defined in <xref target="RFC6749">RFC 6749</xref>.
 	</t>
 
-	<section title='Registry Contents'>
+	<section anchor='ParametersContents' title='Registry Contents'>
           <t> <?rfc subcompact="yes"?>
 	    <list style="symbols">
               <t>Parameter name: display</t>
@@ -2315,19 +2319,7 @@ scope=openid&response_type=code
 
     </references>
 
-    <section title="Footnotes">
-      <t></t>
-
-      <section title="Example JWT Values">
-        <t>The JWT values used in the non-normative examples of this
-        specification are only place holders for actual JWT values. The
-        examples use "jwt_header.jwt_part2.jwt_part3" as the place holder
-        value. For an example of an actual JWT, refer to the <xref
-        target="JWT">JWT</xref> specification.</t>
-      </section>
-    </section>
-
-    <section title="Acknowledgements">
+    <section anchor="Acknowledgements" title="Acknowledgements">
       <t>The OpenID Community would like to thank the following people for the
       work they've done in the drafting and editing of this specification.</t>
 
@@ -2350,7 +2342,7 @@ scope=openid&response_type=code
         </list></t>
     </section>
 
-    <section title="Notices">
+    <section anchor="Notices" title="Notices">
       <t>Copyright (c) 2012 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
@@ -2392,7 +2384,7 @@ scope=openid&response_type=code
       </t>
     </section>
 
-    <section title="Document History">
+    <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-16

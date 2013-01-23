@@ -75,7 +75,8 @@
   </front>
 
   <middle>
-    <section title='Introduction'>
+    <section anchor='Introduction' title='Introduction'>
+
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 	"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -174,7 +175,7 @@
 	  </list></t>
       </section>
 
-      <section title="Overview">
+      <section anchor="Overview" title="Overview">
 	<t>The OpenID Connect protocol, in abstract, follows the following
 	steps.</t>
 
@@ -205,7 +206,7 @@
       </section>
     </section>
 
-    <section title="Messages">
+    <section anchor="Messages" title="Messages">
       <t>In OpenID Connect protocols, in abstract, the process proceeds by the
       RP interacting with endpoints. There are a number of endpoints
       involved.</t>
@@ -236,7 +237,7 @@
 
         </list></t>
 
-      <section title="Authorization Endpoint">
+      <section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
         <t>The RP sends an Authorization Request to the Authorization
         Endpoint of the OP to obtain either an Authorization Response or an 
         <xref target="id_token">ID Token</xref> or both depending on 
@@ -1081,7 +1082,6 @@
 	      <spanx style="verb">request</spanx> parameter contains an invalid 
 	      OpenID Request Object.</t>
 
-
 	    </list></t>
 	  <t>Errors are returned as defined by the registered OAuth
 	  2.0 <spanx style="verb">response_type</spanx>.</t>
@@ -1251,8 +1251,6 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           Authorization Server and presenting its access grant (in the form of
           an Authorization Code, or Refresh Token).</t>
 
-
-
           <t>In addition to the Client authentication parameters,
           if this is a Refresh Token Request, the Client MUST send the additional parameters 
           specified in Section 6 of <xref target="RFC6749">OAuth 2.0</xref>.
@@ -1313,7 +1311,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           SHOULD ignore unrecognized response parameters.</t>
         </section>
 
-        <section title="Token Error Response">
+        <section anchor="TokenErrorResponse" title="Token Error Response">
           <t>If the token request is invalid or unauthorized, the
           Authorization Server constructs the error response. The parameters
           of the Token Error Response are defined as in Section 5.2 of <xref
@@ -1327,7 +1325,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         represented by a JSON object that contains a collection of
         name and value pairs for the Claims.</t>
 
-        <section title="UserInfo Request">
+        <section anchor="UserInfoRequest" title="UserInfo Request">
           <t>Clients MAY send requests with the following parameters to the
           UserInfo Endpoint to obtain further information about the End-User.</t>
 
@@ -1797,7 +1795,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
         </section>
       </section>
 
-      <section title="Claim Types">
+      <section anchor="ClaimTypes" title="Claim Types">
 	<t>The UserInfo Endpoint MAY return the
 	following three types of Claims:</t>
 
@@ -1816,7 +1814,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
 	<t>Aggregated and Distributed Claims support is OPTIONAL.</t>
 
-	<section title="Normal Claims">
+	<section anchor="NormalClaims" title="Normal Claims">
 	  <t>Normal Claims are represented as members in a JSON object. The
 	  Claim Name is the member name and the Claim Value is the member
 	  value.</t>
@@ -1835,7 +1833,7 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 
 	</section>
 
-	<section title="Aggregated and Distributed Claims">
+	<section anchor="AggregatedDistributedClaims" title="Aggregated and Distributed Claims">
 	  <t>Aggregated and distributed Claims are represented by
 	  using special <spanx style="verb">_claim_names</spanx> and <spanx style="verb">_claim_sources</spanx> members
 	  of the JSON object containing the Claims.</t>
@@ -2330,8 +2328,9 @@ Tokens and URL locations where the Claims may be retrieved:
       </section>
     </section>
 
-    <section title="Validation">
-      <section title="Authorization Request Validation">
+    <section anchor="Validation" title="Validation">
+
+      <section anchor="AuthorizationRequestValidation" title="Authorization Request Validation">
 	<t>Authorization Request Validation consists of two main 
 	  steps: (1) decryption and signature validation of 
 	  the value of <spanx style="verb">request</spanx> or 
@@ -2346,7 +2345,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	for which nested encryption and signing may have been performed
 	in the manner described in <xref target="JWT" />.</t>
 
-         <section title="Encrypted Request Object">
+         <section anchor="EncryptedRequestObject" title="Encrypted Request Object">
           
           <t>If the Authorization Server has advertised JWE encryption algorithms
           in the <spanx style="verb">request_object_encryption_alg_values_supported</spanx> and
@@ -2515,7 +2514,7 @@ Tokens and URL locations where the Claims may be retrieved:
         
       </section>
 
-      <section title="UserInfo Response Validation">
+      <section anchor="UserInfoResponseValidation" title="UserInfo Response Validation">
 
         <t>To validate the UserInfo response, the Client MUST do
         the following:</t>
@@ -2974,7 +2973,7 @@ Tokens and URL locations where the Claims may be retrieved:
         packets.</t>
       </section>
 
-      <section title="Timing Attack">
+      <section anchor="TimingAttack" title="Timing Attack">
         <t>A timing attack is an attack that allows the attacker to 
 		obtain an unnecessary large amount of information through the elapsed time 
 		differences in the code paths taken by successful and unsuccessful decryption operations or
@@ -2986,7 +2985,7 @@ Tokens and URL locations where the Claims may be retrieved:
 		running until all the octets have been processed to avoid this attack.</t>
       </section>
 	  
-	  <section title="Other Crypto Related Attacks">
+	  <section anchor="OtherCryptoAttacks" title="Other Crypto Related Attacks">
 	    <t>There are various crypto related attacks possible depending on the 
 		method used for encryption and signature / integrity checking.
 		Implementers should consult the Security Considerations
@@ -3088,7 +3087,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	  defined in <xref target="JWT"/>.
 	</t>
 
-	<section title='Registry Contents'>
+	<section anchor='ClaimsContents' title='Registry Contents'>
 	  <t> <?rfc subcompact="yes"?>
 	  <list style='symbols'>
 	    <t>
@@ -3414,7 +3413,7 @@ Tokens and URL locations where the Claims may be retrieved:
 	  defined in <xref target="RFC6749">RFC 6749</xref>.
 	</t>
 
-	<section title='Registry Contents'>
+	<section anchor='ErrorContents' title='Registry Contents'>
           <t> <?rfc subcompact="yes"?>
 	    <list style="symbols">
               <t>Error name: invalid_redirect_uri </t>
@@ -4125,7 +4124,7 @@ Representation of dates and times</title>
 
     </references>
 
-    <section title="Acknowledgements">
+    <section anchor="Acknowledgements" title="Acknowledgements">
       <t>As a successor version of OpenID, this specification heavily relies
       on ideas explored in <xref target="OpenID.2.0">OpenID Authentication 2.0</xref>. Please
       refer to Appendix C of OpenID Authentication 2.0 for the full list of
@@ -4183,7 +4182,7 @@ Representation of dates and times</title>
         </list></t>
     </section>
 
-    <section title="Notices">
+    <section anchor="Notices" title="Notices">
       <t>Copyright (c) 2012 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
@@ -4225,7 +4224,7 @@ Representation of dates and times</title>
       </t>
     </section>
 
-    <section title="Document History">
+    <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
  <t>-15

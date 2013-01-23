@@ -58,7 +58,7 @@
   </front>
 
   <middle>
-    <section title="Introduction">
+    <section anchor="Introduction" title="Introduction">
       <t>In order for an OpenID Client to utilize OpenID Connect services for
       a user, the Client needs to know where the OpenID Provider is. OpenID
       Connect uses <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> to locate
@@ -160,7 +160,7 @@
       <t>What MUST be returned in the response is the Issuer.
       This includes URI scheme, HOST, and OPTIONALLY, port.</t>
 
-      <section title="Identifier Normalization">
+      <section anchor="IdentifierNormalization" title="Identifier Normalization">
         <t>The purpose of normalization is to determine a normalized Resource
         and Host from the user input Identifier.
 	This is then used as input to WebFinger to
@@ -188,7 +188,7 @@
 	  target="XRI_Syntax_2.0">XRIs</xref> to also be used.
 	</t>
 
-        <section title="User Input Identifier Types">
+        <section anchor="IdentifierTypes" title="User Input Identifier Types">
           <t>
             A user input Identifier can be categorized into the following 
             types, which require different normalization processes:
@@ -223,7 +223,7 @@
           </t>
         </section>
 
-        <section title="Normalization Steps">
+        <section anchor="NormalizationSteps" title="Normalization Steps">
           <t>
             A string of any other type is interpreted as 
             a URI either the form of 
@@ -268,8 +268,9 @@
         </section>
       </section>
 
-      <section title="Non-Normative Examples">
-        <section title="User Input Using E-Mail Address Syntax">
+      <section anchor="Examples" title="Non-Normative Examples">
+
+        <section anchor="EmailSyntax" title="User Input Using E-Mail Address Syntax">
           <t>To find the Issuer for the given user input
           in the form of an e-mail address <spanx style="verb">joe@example.com</spanx>,
 	  the WebFinger parameters are as follows:</t>
@@ -322,7 +323,7 @@ Content-Type: application/json
             </figure></t>
         </section>
 
-        <section title="URL">
+        <section anchor="URLSyntax" title="User Input Using URL Syntax">
           <t>To find the Issuer for the given URL,
           <spanx style="verb">https://example.com/joe</spanx>, the WebFinger
           parameters are as follows:</t>
@@ -369,7 +370,7 @@ Content-Type: application/json
             </figure></t>
         </section>
 
-        <section anchor="host.port.example" title="Hostname &amp; Port">
+        <section anchor="host.port.example" title="User Input Using Hostname &amp; Port Syntax">
           <t>
             If the user input is in the form of 
             <spanx style="verb">host:port</spanx>, e.g., example.com:8080, 
@@ -449,7 +450,7 @@ Content-Type: application/json
       <xref target='RFC2246' /> and MAY support other
       transport layer security mechanisms of equivalent security.</t>
 
-      <section title="Provider Configuration Request">
+      <section anchor="ProviderConfigurationRequest" title="Provider Configuration Request">
         <t>An OpenID Provider Configuration Document MUST be queried using an HTTPS
         GET request at the previously specified path.
 	The Client MUST perform a TLS/SSL server certificate check, per
@@ -493,7 +494,7 @@ Host: example.com
 
       </section>
 
-      <section title="Provider Configuration Response">
+      <section anchor="ProviderConfigurationResponse" title="Provider Configuration Response">
         <t>The response is a set of Claims about the OpenID Provider's
         configuration, including all necessary endpoints, supported scopes, and
         public key location information.</t>
@@ -782,7 +783,7 @@ Host: example.com
           </figure></t>
       </section>
 
-      <section title="Provider Configuration Validation">
+      <section anchor="ProviderConfigurationValidation" title="Provider Configuration Validation">
         <t>If the configuration response contains the Issuer
         element, the value MUST exactly match the Issuer
         for the URL that was directly used to retrieve the configuration.
@@ -850,6 +851,7 @@ Host: example.com
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
+
       <section anchor="WellKnownRegistry" title="Well-Known URI Registry">
 	<t>
 	  This specification registers the well-known URI defined in
@@ -858,7 +860,7 @@ Host: example.com
 	  defined in <xref target="RFC5785">RFC 5785</xref>.
 	</t>
 
-	<section title='Registry Contents'>
+	<section anchor='WellKnownContents' title='Registry Contents'>
 	  <t> <?rfc subcompact="yes"?>
             <list style='symbols'>
 	      <t>
@@ -1175,7 +1177,7 @@ Host: example.com
         and Kick Willemse.
       </t>
     </section>
-    <section title="Notices">
+    <section anchor="Notices" title="Notices">
       <t>Copyright (c) 2012 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
@@ -1217,7 +1219,7 @@ Host: example.com
       </t>
     </section>
 
-    <section title="Document History">
+    <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-12
