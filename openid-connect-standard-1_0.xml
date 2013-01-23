@@ -319,14 +319,13 @@
 		OAuth 2.0 <spanx style="verb">scope</spanx> value.
 		It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings.
-	      A non-exclusive list of other values that MAY be included are
+	      OPTIONAL scope values of
               <spanx style="verb">profile</spanx>,
 	      <spanx style="verb">email</spanx>,
               <spanx style="verb">address</spanx>,
 	      <spanx style="verb">phone</spanx>,
-	      and <spanx style="verb">offline_access</spanx>.
-              These values specify an additive list of Claims that are returned
-              from the UserInfo Endpoint.</t>
+	      and <spanx style="verb">offline_access</spanx>
+              are also defined.</t>
 
               <t hangText="redirect_uri">Redirection URI to which the response
               will be sent. The Scheme, Host, Path, and Query Parameter segments of this URI MUST 
@@ -1229,7 +1228,7 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 
             <t><figure>
                 <preamble>The following is a non-normative example
-		(with line wraps after the second line for the display purposes only):</preamble>
+		(with line wraps for the display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -1530,7 +1529,10 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
         <t>Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
         return the JSON Serialization of the UserInfo response as in <xref
         target="OpenID.Messages">OpenID Messages 1.0</xref> in the HTTP response
-        body. The content-type of the HTTP response MUST be set to <spanx
+        body unless a
+	different format was specified during registration
+	<xref target="OpenID.Registration"/>.
+	The content-type of the HTTP response MUST be set to <spanx
         style="verb">application/json</spanx> if the response body is a text
         JSON structure;
 	the response body SHOULD be encoded using UTF-8.
@@ -2012,8 +2014,8 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
       the End-User so that the End-User can monitor who accessed his data.</t>
 
       <t>To protect the End-User from a possible correlation among Clients, the
-      use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
-      style="verb">sub</spanx> SHOULD be considered.</t>
+      use of a Pairwise Pseudonymous Identifier (PPID) as the
+      <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">

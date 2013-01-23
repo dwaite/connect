@@ -326,9 +326,11 @@
 		OAuth 2.0 <spanx style="verb">scope</spanx> value.
 		It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings.
-	      OPTIONAL <spanx style="verb">scope</spanx> strings of
-              <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
-              <spanx style="verb">address</spanx>, <spanx style="verb">phone</spanx>,
+	      OPTIONAL scope values of
+              <spanx style="verb">profile</spanx>,
+	      <spanx style="verb">email</spanx>,
+              <spanx style="verb">address</spanx>,
+	      <spanx style="verb">phone</spanx>,
 	      and <spanx style="verb">offline_access</spanx>
 	      are also defined.</t>
 
@@ -496,8 +498,8 @@
 
             <t>If the Resource Owner grants the access request, the
 	    Authorization Server issues a <spanx style="verb">code</spanx> and delivers 
-	    it to the Client by adding the following query parameters to the
-	    query component of the redirection URI using the
+	    it to the Client by adding the following query parameters to the query
+	    component of the redirection URI using the
 	    <spanx style="verb">application/x-www-form-urlencoded</spanx>
 	    format as defined in Section 4.1.2 of
 	    <xref target="RFC6749">OAuth 2.0</xref>.</t>
@@ -520,7 +522,7 @@
 
             <figure>
               <preamble>The following is a non-normative example
-	      (with line wraps after the second line for the display purposes only):</preamble>
+	      (with line wraps for the display purposes only):</preamble>
 
               <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -555,7 +557,7 @@
 
             <figure>
 	      <preamble>The following is a non-normative example of such a token request
-	      (with line wraps after the second line for the display purposes only):</preamble>
+	      (with line wraps for the display purposes only):</preamble>
 
               <artwork><![CDATA[
   POST /token HTTP/1.1
@@ -606,7 +608,7 @@
 
             <figure>
               <preamble>The following is a non-normative example
-	      (with line wraps after the second line for the display purposes only):</preamble>
+	      (with line wraps for the display purposes only):</preamble>
               <artwork><![CDATA[
   HTTP/1.1 200 OK
   Content-Type: application/json
@@ -713,7 +715,7 @@
 	<section anchor="id.token.validation" title="ID Token Validation">
 
 	  <t>The client MUST validate the ID Token in the Token Endpoint Response.  To do this,
-	  the Client MUST first split the <spanx style="verb">id_token</spanx> at the 
+	  the Client can split the <spanx style="verb">id_token</spanx> at the 
 	  period (".") characters, take the second segment, and base64url decode it to 
 	  obtain a JSON object containing the ID Token claims, which MUST be validated 
 	  as follows:</t>
@@ -737,9 +739,10 @@
 	      </t>
 
 	      <t>The current time MUST be less than the value of the
-	      <spanx style="verb">exp</spanx> Claim.</t>
+	      <spanx style="verb">exp</spanx> Claim
+	      (possibly allowing for some small leeway to account for clock skew).</t>
 
-	      <t>The <spanx style="verb">iat</spanx> Claim may be used to reject tokens that
+	      <t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
 	      were issued too far away from the current time, limiting the amount of
 	      time that nonces must be stored to prevent attacks.
 	      The acceptable range is Client specific.</t>
@@ -1369,41 +1372,6 @@ Representation of dates and times</title>
         <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML"/>
       </reference>
 
-      <reference anchor="OpenID.Standard">
-        <front>
-          <title>OpenID Connect Standard 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Ping Identity">Ping Identity</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-            <organization abbrev="Salesforce">Salesforce</organization>
-          </author>
-
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="Illumila">Illumila</organization>
-          </author>
-
-          <date day="22" month="January" year="2013"/>
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
-		type="HTML"/>
-      </reference>
-      
       <reference anchor="OpenID.Messages">
         <front>
           <title>OpenID Connect Messages 1.0</title>
@@ -1437,6 +1405,41 @@ Representation of dates and times</title>
 
         <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
                 type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Standard">
+        <front>
+          <title>OpenID Connect Standard 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+            <organization abbrev="Salesforce">Salesforce</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="22" month="January" year="2013"/>
+        </front>
+
+        <format target="http://openid.net/specs/openid-connect-standard-1_0.html"
+		type="HTML"/>
       </reference>
 
       <reference anchor="OpenID.Discovery">

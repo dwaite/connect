@@ -331,9 +331,12 @@
 		OAuth 2.0 <spanx style="verb">scope</spanx> value.
 		It MUST include <spanx style="verb">openid</spanx>
               as one of the space delimited ASCII strings.
-	      OPTIONAL <spanx style="verb">scope</spanx> strings of
-              <spanx style="verb">profile</spanx>, <spanx style="verb">email</spanx>,
-              <spanx style="verb">address</spanx>, and <spanx style="verb">phone</spanx>
+	      OPTIONAL scope values of
+              <spanx style="verb">profile</spanx>,
+	      <spanx style="verb">email</spanx>,
+              <spanx style="verb">address</spanx>,
+	      <spanx style="verb">phone</spanx>,
+	      and <spanx style="verb">offline_access</spanx>
 	      are also defined.</t>
 
               <t hangText="redirect_uri">Redirection URI to which the response
@@ -518,7 +521,7 @@
 
             <t>In the Implicit Flow, the entire response is returned in the
             fragment component of the redirect URI, as defined in 4.2.2 of
-            <xref target="RFC6749">OAuth 2.0</xref></t>
+            <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
             <t>
 	      <list style="hanging">
@@ -557,7 +560,7 @@
 
             <figure>
               <preamble>The following is a non-normative example
-	      (with line wraps after the second line for the display purposes only):</preamble>
+	      (with line wraps for the display purposes only):</preamble>
 
               <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -1085,7 +1088,7 @@
 	  </figure>
 
 	  <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-	  different format was specified during
+	  different format was specified during registration
 	  <xref target="OpenID.Registration"/>.
 	  The UserInfo Endpoint MUST return a content-type header to indicate
 	  which format is being returned. The following are accepted content
@@ -1608,8 +1611,8 @@
       the End-User so that the End-User can monitor who accessed his data.</t>
 
       <t>To protect the End-User from a possible correlation among Clients, the
-      use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
-      style="verb">sub</spanx> SHOULD be considered.</t>
+      use of a Pairwise Pseudonymous Identifier (PPID) as the
+      <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
