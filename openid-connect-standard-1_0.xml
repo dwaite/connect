@@ -140,7 +140,9 @@
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             parameter in an Authorization Request:</preamble>
 
-            <artwork><![CDATA[scope=openid profile email phone]]></artwork>
+            <artwork><![CDATA[
+  scope=openid profile email phone
+]]></artwork>
           </figure></t>
       </section>
       
@@ -410,13 +412,15 @@
                 Authorization Request URL
 		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=code%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj]]></artwork>
+                <artwork><![CDATA[
+  https://server.example.com/op/authorize?
+    response_type=code%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
+]]></artwork>
               </figure></t>
 
             <section anchor="norm_req"
@@ -430,14 +434,16 @@ response_type=code%20id_token
 		<preamble>Following is a non-normative example using HTTP redirect
 		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?
-response_type=code%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj]]></artwork>
+                <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://server.example.com/authorize?
+    response_type=code%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
+]]></artwork>
               </figure>
             </section>
           </section>
@@ -468,44 +474,47 @@ response_type=code%20id_token
                 <preamble>The following is a non-normative example of an
                 OpenID Request Object before base64url encoding and signing:</preamble>
 
-                <artwork><![CDATA[{
-  "response_type": "code id_token",
-  "client_id": "s6BhdRkqt3",
-  "redirect_uri": "https://client.example.org/cb",
-  "scope": "openid profile",
-  "state": "af0ifjsldkj",
-  "nonce": "n-0S6_WzA2Mj",
-  "userinfo": 
+                <artwork><![CDATA[
+  {
+   "response_type": "code id_token",
+   "client_id": "s6BhdRkqt3",
+   "redirect_uri": "https://client.example.org/cb",
+   "scope": "openid profile",
+   "state": "af0ifjsldkj",
+   "nonce": "n-0S6_WzA2Mj",
+   "userinfo": 
     {
-      "claims": 
-        {
-          "name": {"essential": true},
-          "nickname": null,
-          "email": {"essential": true},
-          "email_verified": {"essential": true},
-          "picture": null
-        }
-    },
-    "id_token": 
+     "claims": 
       {
-        "max_age": 86400,
-        "claims": 
-          {
-            "gender": null,
-            "birthdate": {"essential": true},
-            "acr": {"values": ["2"]}
-          }
+       "name": {"essential": true},
+       "nickname": null,
+       "email": {"essential": true},
+       "email_verified": {"essential": true},
+       "picture": null
       }
-}]]></artwork>
+    },
+   "id_token": 
+    {
+     "max_age": 86400,
+     "claims": 
+      {
+       "gender": null,
+       "birthdate": {"essential": true},
+       "acr": {"values": ["2"]}
+      }
+    }
+  }
+]]></artwork>
               </figure> <figure>
                 <preamble>The following is a non-normative example of
 		an OpenID Request Object before base64url encoding and signing
 		(with line wraps within the values for display purposes only):</preamble>
 
-                <artwork><![CDATA[algorithm = RS256
+                <artwork><![CDATA[
+  Algorithm = RS256
 
-JSON Encoded Header =  {"alg":"RS256"}
-JSON Encoded Payload =
+  JSON Encoded Header = {"alg":"RS256"}
+  JSON Encoded Payload =
     {
       "response_type": "code id_token",
       "client_id": "s6BhdRkqt3",
@@ -536,7 +545,7 @@ JSON Encoded Payload =
           }
     }
     
-OpenID Request Object =
+  OpenID Request Object =
     eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2RlIGlkX3Rv
     a2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgInJlZGlyZWN0X
     3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogICJzY29wZS
@@ -558,33 +567,32 @@ OpenID Request Object =
     odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuohg8FoCLLaw66IN4EVBMcEnncNyHId
     77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2UqtHmoXVGisQ
     
-The following is the RSA public key information that can be used
-to validate the OpenID Request Object signature in the above example.
-The values are an array of hexadecimal digits in big endian format.
+  The following is the RSA public key information that can be used to
+  validate the OpenID Request Object signature in the above example.
+  The values are an array of hexadecimal digits in big endian format.
                 
-modulus: 
-[
-  cb,d2,ea,bf,87,c2,a7,a1,22,fa,ed,be,64,22,aa,f3,
-  76,2f,6c,51,24,e8,93,2c,fe,94,a3,ef,a7,8c,91,d7,
-  56,46,e5,97,d9,a0,4a,18,70,2d,2a,51,39,3f,bf,ef,
-  9f,ff,cf,08,a6,56,78,fb,77,bc,69,01,e9,e3,e0,cc,
-  01,6e,d3,c3,66,29,e9,b0,13,96,d0,23,47,ba,90,80,
-  a1,b6,df,fa,2b,34,f9,39,a6,97,0c,52,3a,a8,22,c9,
-  9a,4e,75,09,ce,15,60,56,b1,82,a7,af,32,77,18,af,
-  36,96,ff,9d,26,67,5c,86,48,52,10,cc,b6,0f,f1,b8,
-  a3,00,71,95,8d,d1,05,81,96,99,10,df,65,b2,7f,c6,
-  75,62,da,26,91,eb,07,74,4e,95,2e,74,13,8e,70,c6,
-  b9,60,f7,13,27,71,56,fc,a8,33,ee,5d,96,ab,be,08,
-  4b,2f,41,f3,3a,e6,11,69,d0,49,56,85,99,a3,00,cd,
-  4e,92,a9,93,64,64,95,9e,d0,68,13,bb,5c,3b,f7,b9,
-  1e,ec,fe,c7,f6,83,e6,c0,8d,26,31,61,41,ac,aa,43,
-  40,f5,bd,f1,55,6e,77,6a,6f,d4,65,9d,ed,65,b1,53,
-  22,1e,79,ec,92,02,58,a1,e5,5a,3e,6e,cd,e2,57,6b 
-]
+  modulus: 
+  [
+    cb,d2,ea,bf,87,c2,a7,a1,22,fa,ed,be,64,22,aa,f3,
+    76,2f,6c,51,24,e8,93,2c,fe,94,a3,ef,a7,8c,91,d7,
+    56,46,e5,97,d9,a0,4a,18,70,2d,2a,51,39,3f,bf,ef,
+    9f,ff,cf,08,a6,56,78,fb,77,bc,69,01,e9,e3,e0,cc,
+    01,6e,d3,c3,66,29,e9,b0,13,96,d0,23,47,ba,90,80,
+    a1,b6,df,fa,2b,34,f9,39,a6,97,0c,52,3a,a8,22,c9,
+    9a,4e,75,09,ce,15,60,56,b1,82,a7,af,32,77,18,af,
+    36,96,ff,9d,26,67,5c,86,48,52,10,cc,b6,0f,f1,b8,
+    a3,00,71,95,8d,d1,05,81,96,99,10,df,65,b2,7f,c6,
+    75,62,da,26,91,eb,07,74,4e,95,2e,74,13,8e,70,c6,
+    b9,60,f7,13,27,71,56,fc,a8,33,ee,5d,96,ab,be,08,
+    4b,2f,41,f3,3a,e6,11,69,d0,49,56,85,99,a3,00,cd,
+    4e,92,a9,93,64,64,95,9e,d0,68,13,bb,5c,3b,f7,b9,
+    1e,ec,fe,c7,f6,83,e6,c0,8d,26,31,61,41,ac,aa,43,
+    40,f5,bd,f1,55,6e,77,6a,6f,d4,65,9d,ed,65,b1,53,
+    22,1e,79,ec,92,02,58,a1,e5,5a,3e,6e,cd,e2,57,6b 
+  ]
 
-exponent: [01,00,01]    
-    
-    ]]></artwork>
+  exponent: [01,00,01]    
+]]></artwork>
               </figure></t>
 
             <t><figure>
@@ -593,34 +601,35 @@ exponent: [01,00,01]
                 (with line wraps within the values for display purposes only):
                 </preamble>
 
-                <artwork><![CDATA[https://server.example.com/authorize?
-response_type=code%02id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&state=af0ifjsldkj
-&nonce=n-0S6_WzA2Mj
-&request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
-RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
-JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
-ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
-pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
-8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
-AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
-tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
-RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
-ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
-AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
-FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
-AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
-RlIjogeyJlc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7In
-ZhbHVlcyI6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnO
-aDULViVR-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_
-HzFmakwYMqrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4
-XK-1p7lG8RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-
-9ly1waEiJMFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuoh
-g8FoCLLaw66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2
-UqtHmoXVGisQ
+                <artwork><![CDATA[
+  https://server.example.com/authorize?
+    response_type=code%02id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &state=af0ifjsldkj
+    &nonce=n-0S6_WzA2Mj
+    &request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
+    RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
+    JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
+    ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
+    pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
+    8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
+    AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
+    tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
+    RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
+    ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
+    AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
+    FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
+    AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
+    RlIjogeyJlc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7In
+    ZhbHVlcyI6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnO
+    aDULViVR-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_
+    HzFmakwYMqrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4
+    XK-1p7lG8RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-
+    9ly1waEiJMFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuoh
+    g8FoCLLaw66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2
+    UqtHmoXVGisQ
 ]]></artwork>
               </figure></t>
 
@@ -635,35 +644,37 @@ UqtHmoXVGisQ
 		<preamble>Following is a non-normative example using HTTP redirect
 		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?
-response_type=code%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&state=af0ifjsldkj
-&nonce=n-0S6_WzA2Mj
-&request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
-RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
-JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
-ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
-pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
-8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
-AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
-tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
-RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
-ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
-AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
-FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
-AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
-RlIjogeyJlc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7In
-ZhbHVlcyI6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnO
-aDULViVR-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_
-HzFmakwYMqrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4
-XK-1p7lG8RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-
-9ly1waEiJMFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuoh
-g8FoCLLaw66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2
-UqtHmoXVGisQ]]></artwork>
+                <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://server.example.com/authorize?
+    response_type=code%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &state=af0ifjsldkj
+    &nonce=n-0S6_WzA2Mj
+    &request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
+    RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
+    JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
+    ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
+    pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
+    8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
+    AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
+    tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
+    RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
+    ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
+    AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
+    FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
+    AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
+    RlIjogeyJlc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7In
+    ZhbHVlcyI6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnO
+    aDULViVR-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_
+    HzFmakwYMqrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4
+    XK-1p7lG8RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-
+    9ly1waEiJMFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuoh
+    g8FoCLLaw66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2
+    UqtHmoXVGisQ
+]]></artwork>
               </figure>
             </section>
           </section>
@@ -699,27 +710,28 @@ UqtHmoXVGisQ]]></artwork>
 		(with line wraps for display purposes only):</preamble>
 
                 <artwork><![CDATA[
-eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2RlIGlkX3R
-va2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgInJlZGlyZWN
-0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogICJzY29
-wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZmpzbGRraiI
-sDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm8iOiANCiA
-gICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgICAgICAibmF
-tZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2tuYW1lIjo
-gbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0
-KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0
-sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCiAgICB9LA0
-KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2FnZSI6IDg
-2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KICAgICAgICA
-gICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYXRlIjogeyJ
-lc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7InZhbHVlcyI
-6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnOaDULViVR-
-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_HzFmakwYM
-qrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4XK-1p7lG8
-RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-9ly1waEiJ
-MFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuohg8FoCLLaw
-66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2UqtHmoXVG
-isQ]]></artwork>
+  eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2RlIGlkX3R
+  va2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgInJlZGlyZWN
+  0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogICJzY29
+  wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZmpzbGRraiI
+  sDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm8iOiANCiA
+  gICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgICAgICAibmF
+  tZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2tuYW1lIjo
+  gbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IHRydWV9LA0
+  KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0
+  sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCiAgICB9LA0
+  KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2FnZSI6IDg
+  2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KICAgICAgICA
+  gICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYXRlIjogeyJ
+  lc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7InZhbHVlcyI
+  6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnOaDULViVR-
+  a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_HzFmakwYM
+  qrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4XK-1p7lG8
+  RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-9ly1waEiJ
+  MFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuohg8FoCLLaw
+  66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2UqtHmoXVG
+  isQ
+]]></artwork>
               </figure></t>
 
             <section anchor="rurl_create"
@@ -743,8 +755,10 @@ isQ]]></artwork>
                 <preamble>Following is a non-normative example
 		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[https://client.example.org/rf.txt
-#V4pDyha4i12w7CrRxcSh9_GK562EW2y8MzxEGhXfdpk]]></artwork>
+                <artwork><![CDATA[
+  https://client.example.org/rf.txt
+    #V4pDyha4i12w7CrRxcSh9_GK562EW2y8MzxEGhXfdpk
+]]></artwork>
               </figure>
 
 
@@ -761,13 +775,15 @@ isQ]]></artwork>
                 <preamble>Following is a non-normative example
 		(with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize
-?response_type=code%20id_token
-&client_id=s6BhdRkqt3
-&request_uri=https%3A%2F%2Fclient.example.org%2Frf.txt
-%23V4pDyha4i12w7CrRxcSh9_GK562EW2y8MzxEGhXfdpk
-&state=af0ifjsldkj&nonce=n-0S6_WzA2Mj&scope=openid]]></artwork>
+                <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://server.example.com/authorize
+    ?response_type=code%20id_token
+    &client_id=s6BhdRkqt3
+    &request_uri=https%3A%2F%2Fclient.example.org%2Frf.txt
+    %23V4pDyha4i12w7CrRxcSh9_GK562EW2y8MzxEGhXfdpk
+    &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj&scope=openid
+]]></artwork>
               </figure>
             </section>
 
@@ -786,8 +802,10 @@ Location: https://server.example.com/authorize
                 <preamble>Following is a non-normative example of this fetch
                 process:</preamble>
 
-                <artwork><![CDATA[GET /rf.txt HTTP/1.1
-Host: client.example.org]]></artwork>
+                <artwork><![CDATA[
+  GET /rf.txt HTTP/1.1
+  Host: client.example.org
+]]></artwork>
               </figure>
             </section>
           </section>
@@ -898,170 +916,169 @@ Host: client.example.org]]></artwork>
             <figure>
               <preamble>Case 1: response_type=code</preamble>
              
-              <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=code
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj
-
+              <artwork><![CDATA[
+  https://server.example.com/op/authorize?
+    response_type=code
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
               
-HTTP/1.1 302 Found
-Location: https://client.example.org/cb?
-code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&state=af0ifjsldkj]]></artwork>
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb?
+    code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+    &state=af0ifjsldkj
+]]></artwork>
             </figure>
 
             <figure>
               <preamble>Case 2: response_type=token id_token</preamble>
-              <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=token%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj
-
+              <artwork><![CDATA[
+  https://server.example.com/op/authorize?
+    response_type=token%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
               
-HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
-&token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
-nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
-iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
-l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
-zExMjgwOTcwLA0KICAgICJhdF9oYXNoIjogIjc3UW1VUHRqUGZ6V3RGMkFucEs5U
-ldwWHJXbHJlY2RiTFV5SkRJYjdTNlEiDQp9.ZP0kFjn7ZOYwga5dbfvvYLlu7DAa
-RRhgE7u88OEfRqmfWCB35mwSso1A255fbvdOPryGda3xy0t2P1gjNxc2cKA8T9Rm
-w0ae6UyLSaA9zROXfpdyRX6wEs_RMdnftBY60B_DCeFJkWQxUG6taXomiVH7Ozyk
-765VX3gRzSoxaJKbD1xo582s0dGmMvkUL4dg7-46eOrOLkQTujUAOnjqCfiqzL1C
-rchYsNZjwNBE8pySRhJTmedm882k0NRZPU1QMLJIVpB9e0Hiuwz1htHm3-XxZ63b
-bzRLG6jsWknphWIFraFrf59Kgmct7jfzBF5IOvfpcdFe9kHVkKX_acts-w
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
+    &token_type=Bearer
+    &id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+    nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+    iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+    l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+    zExMjgwOTcwLA0KICAgICJhdF9oYXNoIjogIjc3UW1VUHRqUGZ6V3RGMkFucEs5U
+    ldwWHJXbHJlY2RiTFV5SkRJYjdTNlEiDQp9.ZP0kFjn7ZOYwga5dbfvvYLlu7DAa
+    RRhgE7u88OEfRqmfWCB35mwSso1A255fbvdOPryGda3xy0t2P1gjNxc2cKA8T9Rm
+    w0ae6UyLSaA9zROXfpdyRX6wEs_RMdnftBY60B_DCeFJkWQxUG6taXomiVH7Ozyk
+    765VX3gRzSoxaJKbD1xo582s0dGmMvkUL4dg7-46eOrOLkQTujUAOnjqCfiqzL1C
+    rchYsNZjwNBE8pySRhJTmedm882k0NRZPU1QMLJIVpB9e0Hiuwz1htHm3-XxZ63b
+    bzRLG6jsWknphWIFraFrf59Kgmct7jfzBF5IOvfpcdFe9kHVkKX_acts-w
 
-Verifying and decoding the ID Token will yield the following 
-ID Token JSON object:
+  Verifying and decoding the ID Token will yield the following 
+  ID Token JSON object:
 
-{
-  "iss": "http://server.example.com",
-  "sub": "248289761001",
-  "aud": "s6BhdRkqt3",
-  "nonce": "n-0S6_WzA2Mj",
-  "exp": 1311281970,
-  "iat": 1311280970,
-  "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
-}
-
+  {
+   "iss": "http://server.example.com",
+   "sub": "248289761001",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
+  }
 ]]></artwork>
             </figure>
 
             <figure>
               <preamble>Case 3: response_type=code id_token</preamble>
-              <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=code%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj
-
+              <artwork><![CDATA[
+  https://server.example.com/op/authorize?
+    response_type=code%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
               
-HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
-nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
-iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
-l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
-zExMjgwOTcwLA0KICAgICJjX2hhc2giOiAiTERrdEtkb1FhazNQazBjblh4Q2x0Q
-mdfckNfM1RLVWI5T0xrNWZLTzl1QSINCn0.D6JxCgpOwlyuK7DPRu5hFOIJRSRDT
-B7TQNRbOw9Vg9WroDi_XNzaqXCFSDH_YqcE-CBhoxD-Iq4eQL4E2jIjil47u7i68
-Nheev7d8AJk4wfRimgpDhQX5K8YyGDWrTs7bhsMTPAPVa9bLIBndDZ2mEdmPcmR9
-mXcwJI3IGF9JOaStYXJXMYWUMCmQARZEKG9JxIYPZNhFsqKe4TYQEmrq2s_HHQwk
-XCGAmLBdptHY-Zx277qtidojQQFXzbD2Ak1ONT5sFjy3yxPnE87pNVtOEST5GJac
-O1O88gmvmjNayu1-f5mr5Uc70QC6DjlKem3cUN5kudAQ4sLvFkUr8gkIQ
-
-Verifying and decoding the ID Token will yield the following 
-ID Token JSON object:
-
-{
-  "iss": "http://server.example.com",
-  "sub": "248289761001",
-  "aud": "s6BhdRkqt3",
-  "nonce": "n-0S6_WzA2Mj",
-  "exp": 1311281970,
-  "iat": 1311280970,
-  "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
-}
-
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+    &id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+    nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+    iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+    l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+    zExMjgwOTcwLA0KICAgICJjX2hhc2giOiAiTERrdEtkb1FhazNQazBjblh4Q2x0Q
+    mdfckNfM1RLVWI5T0xrNWZLTzl1QSINCn0.D6JxCgpOwlyuK7DPRu5hFOIJRSRDT
+    B7TQNRbOw9Vg9WroDi_XNzaqXCFSDH_YqcE-CBhoxD-Iq4eQL4E2jIjil47u7i68
+    Nheev7d8AJk4wfRimgpDhQX5K8YyGDWrTs7bhsMTPAPVa9bLIBndDZ2mEdmPcmR9
+    mXcwJI3IGF9JOaStYXJXMYWUMCmQARZEKG9JxIYPZNhFsqKe4TYQEmrq2s_HHQwk
+    XCGAmLBdptHY-Zx277qtidojQQFXzbD2Ak1ONT5sFjy3yxPnE87pNVtOEST5GJac
+    O1O88gmvmjNayu1-f5mr5Uc70QC6DjlKem3cUN5kudAQ4sLvFkUr8gkIQ
+  
+  Verifying and decoding the ID Token will yield the following 
+  ID Token JSON object:
+  
+  {
+   "iss": "http://server.example.com",
+   "sub": "248289761001",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
+  }
 ]]></artwork>
             </figure>
 
             <figure>
               <preamble>Case 4: response_type=token code</preamble>
-              <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=token%20code
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj
+              <artwork><![CDATA[
+  https://server.example.com/op/authorize?
+    response_type=token%20code
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
 
-
-HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
-&token_type=Bearer
-&state=af0ifjsldkj]]></artwork>
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+    &access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
+    &token_type=Bearer
+    &state=af0ifjsldkj
+]]></artwork>
             </figure>
 
             <figure>
               <preamble>Case 5: response_type=token code id_token</preamble>
-              <artwork><![CDATA[https://server.example.com/op/authorize?
-response_type=token%20code%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj
+              <artwork><![CDATA[
+  https://server.example.com/op/authorize?
+    response_type=token%20code%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
 
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+    &access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
+    &token_type=Bearer
+    &id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+    nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+    iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+    l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+    zExMjgwOTcwLA0KICAgICJhdF9oYXNoIjogIjc3UW1VUHRqUGZ6V3RGMkFucEs5U
+    ldwWHJXbHJlY2RiTFV5SkRJYjdTNlEiDQogICAgImNfaGFzaCI6ICJMRGt0S2RvU
+    WFrM1BrMGNuWHhDbHRCZ19yQ18zVEtVYjlPTGs1ZktPOXVBIg0KfQ.Jw-8W1LKps
+    Go17BltEpLlq1AMhSw3IRBeZrS-P3cXrDebBn09G4DWnjhD2PPze_M3ldkqng3Xk
+    0me_xWlg3VoJlveJ64lQ2oPe_8_0rT1sLM6UOy8-gPtwifxUfvrkpNX9KwqTju6W
+    MfSlDWWxW8Y8GQBMWsG7xqjYANIr84bpQ-5KyHnDdYSEDf9Si7xa3uYsJVrv1M1o
+    jF2tz_sNirH8aCmU1KpJ6nXPLw2uEo5slKp-b0-1AWoBcl0PSJpDJJCdTaXF_e_g
+    Ovd5ko9ymTZ336ZQj630QjtGZ9E4b9C_HOnI15zXQ5mh6cb2VO2r5ckDtqBy0UL-
+    QklkW8BfO9qg
+    &state=af0ifjsldkj
 
-HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&access_token=jHkWEdUXMU1BwAsC4vtUsZwnNvTIxEl0z9K3vx5KF0Y
-&token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
-nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
-iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
-l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
-zExMjgwOTcwLA0KICAgICJhdF9oYXNoIjogIjc3UW1VUHRqUGZ6V3RGMkFucEs5U
-ldwWHJXbHJlY2RiTFV5SkRJYjdTNlEiDQogICAgImNfaGFzaCI6ICJMRGt0S2RvU
-WFrM1BrMGNuWHhDbHRCZ19yQ18zVEtVYjlPTGs1ZktPOXVBIg0KfQ.Jw-8W1LKps
-Go17BltEpLlq1AMhSw3IRBeZrS-P3cXrDebBn09G4DWnjhD2PPze_M3ldkqng3Xk
-0me_xWlg3VoJlveJ64lQ2oPe_8_0rT1sLM6UOy8-gPtwifxUfvrkpNX9KwqTju6W
-MfSlDWWxW8Y8GQBMWsG7xqjYANIr84bpQ-5KyHnDdYSEDf9Si7xa3uYsJVrv1M1o
-jF2tz_sNirH8aCmU1KpJ6nXPLw2uEo5slKp-b0-1AWoBcl0PSJpDJJCdTaXF_e_g
-Ovd5ko9ymTZ336ZQj630QjtGZ9E4b9C_HOnI15zXQ5mh6cb2VO2r5ckDtqBy0UL-
-QklkW8BfO9qg
-&state=af0ifjsldkj
+  Verifying and decoding the ID Token will yield the following 
+  ID Token JSON object:
 
-Verifying and decoding the ID Token will yield the following 
-ID Token JSON object:
-
-{
-  "iss": "http://server.example.com",
-  "sub": "248289761001",
-  "aud": "s6BhdRkqt3",
-  "nonce": "n-0S6_WzA2Mj",
-  "exp": 1311281970,
-  "iat": 1311280970,
-  "at_hash": "77QmUPtjPfzWtF2AnpK9RWpXrWlrecdbLUyJDIb7S6Q",
-  "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
-}
-  
+  {
+   "iss": "http://server.example.com",
+   "sub": "248289761001",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "at_hash": "77QmUPtjPfzWtF2AnpK9RWpXrWlrecdbLUyJDIb7S6Q",
+   "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
+  }
 ]]></artwork>
             </figure>
             
@@ -1074,101 +1091,102 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
             <figure>
               <preamble>Case 6: response_type=code id_token</preamble>
               <artwork><![CDATA[
-https://server.example.com/op/authorize?
-response_type=code%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid
-&request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
-RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
-JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
-ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
-pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
-8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
-AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
-tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
-RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
-ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
-AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
-FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
-AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
-RlIjogeyJlc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7In
-ZhbHVlcyI6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnO
-aDULViVR-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_
-HzFmakwYMqrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4
-XK-1p7lG8RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-
-9ly1waEiJMFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuoh
-g8FoCLLaw66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2
-UqtHmoXVGisQ
-&nonce=n-0S6_WzA2Mj
-&state=af0ifjsldkj
+  https://server.example.com/op/authorize?
+    response_type=code%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid
+    &request=eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2
+    RlIGlkX3Rva2VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgIn
+    JlZGlyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQ
+    ogICJzY29wZSI6ICJvcGVuaWQgcHJvZmlsZSIsDQogICJzdGF0ZSI6ICJhZjBpZm
+    pzbGRraiIsDQogICJub25jZSI6ICJuLTBTNl9XekEyTWoiLA0KICAidXNlcmluZm
+    8iOiANCiAgICB7DQogICAgICAiY2xhaW1zIjogDQogICAgICAgIHsNCiAgICAgIC
+    AgICAibmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICAgICAgIm5pY2
+    tuYW1lIjogbnVsbCwNCiAgICAgICAgICAiZW1haWwiOiB7ImVzc2VudGlhbCI6IH
+    RydWV9LA0KICAgICAgICAgICJlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIj
+    ogdHJ1ZX0sDQogICAgICAgICAgInBpY3R1cmUiOiBudWxsDQogICAgICAgIH0NCi
+    AgICB9LA0KICAgICJpZF90b2tlbiI6IA0KICAgICAgew0KICAgICAgICAibWF4X2
+    FnZSI6IDg2NDAwLA0KICAgICAgICAiY2xhaW1zIjogDQogICAgICAgICAgew0KIC
+    AgICAgICAgICAgImdlbmRlciI6IG51bGwsDQogICAgICAgICAgICAiYmlydGhkYX
+    RlIjogeyJlc3NlbnRpYWwiOiB0cnVlfSwNCiAgICAgICAgICAgICJhY3IiOiB7In
+    ZhbHVlcyI6IFsiMiJdfQ0KICAgICAgICAgIH0NCiAgICAgIH0NCn0.QO_PD7FOnO
+    aDULViVR-a4RmgyZA-wz1p4aKiD8ucktrF2o62PmntJC6vR1Ne_rWXZaybM4ZFN_
+    HzFmakwYMqrp-HBfcegj5-ifvwSOAo-EfQrr88Jd40rrnH-KdkjQQiu5BiE513o4
+    XK-1p7lG8RmbQc3EJwJTimNC4Eijk1wp2D99IndyH9CrOp_M5X15iQjGGF65IWb-
+    9ly1waEiJMFrO2BuDTKpImcjKe9odgtWRyZWs8KhfVwLVkrazhf8E08TEqK8Vuoh
+    g8FoCLLaw66IN4EVBMcEnncNyHId77ZeVOB-KGHJdIo75W7pc68GUc5dg1NXpBF2
+    UqtHmoXVGisQ
+    &nonce=n-0S6_WzA2Mj
+    &state=af0ifjsldkj
 
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
+    &token_type=Bearer
+    &id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
+    nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
+    iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
+    l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
+    zExMjgwOTcwLA0KICAgICJnZW5kZXIiOiAiZmVtYWxlIiwNCiAgICAiYmlydGhkY
+    XRlIjogIjE5ODctMDEtMDEiLA0KICAgICJhY3IiOiAiMiIsDQogICAgImNfaGFza
+    CI6ICJMRGt0S2RvUWFrM1BrMGNuWHhDbHRCZ19yQ18zVEtVYjlPTGs1ZktPOXVBI
+    g0KfQ.zMHXQpGOkWyzZexs490gN4bx16lzSJcL_F_hRq1afrtwgEUX4X976wHv6T
+    WmoYBEsO14DLxNqsuMi-FCISbzCbOOQwyh9OjbojZlHuwc9lZhRUREiBTT00vIYF
+    AT7g4caDuSlWvUZL-K0pCpAtSdqFF7TeOmv1UFcGXSXrw6g9v-WjY6WlkDF8pl37
+    ubHIGNnOJnxwq-zOTic1KTpqRHWnLdrEoaEA4eIMTotBg7HfcoooeCqMVdrDVvwu
+    1hFLxpWtztRiAynT4M8Q4BZeMlFyyFV0sf3nu8ShB7617CtJHSSPryfrm1IvLpFC
+    28V9c5LcaVekf9sQLcDUmdfxJ4DA
+    &state=af0ifjsldkj
 
-HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
-&token_type=Bearer
-&id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL3Nlc
-nZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxMDAxI
-iwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuLTBTN
-l9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiOiAxM
-zExMjgwOTcwLA0KICAgICJnZW5kZXIiOiAiZmVtYWxlIiwNCiAgICAiYmlydGhkY
-XRlIjogIjE5ODctMDEtMDEiLA0KICAgICJhY3IiOiAiMiIsDQogICAgImNfaGFza
-CI6ICJMRGt0S2RvUWFrM1BrMGNuWHhDbHRCZ19yQ18zVEtVYjlPTGs1ZktPOXVBI
-g0KfQ.zMHXQpGOkWyzZexs490gN4bx16lzSJcL_F_hRq1afrtwgEUX4X976wHv6T
-WmoYBEsO14DLxNqsuMi-FCISbzCbOOQwyh9OjbojZlHuwc9lZhRUREiBTT00vIYF
-AT7g4caDuSlWvUZL-K0pCpAtSdqFF7TeOmv1UFcGXSXrw6g9v-WjY6WlkDF8pl37
-ubHIGNnOJnxwq-zOTic1KTpqRHWnLdrEoaEA4eIMTotBg7HfcoooeCqMVdrDVvwu
-1hFLxpWtztRiAynT4M8Q4BZeMlFyyFV0sf3nu8ShB7617CtJHSSPryfrm1IvLpFC
-28V9c5LcaVekf9sQLcDUmdfxJ4DA
-&state=af0ifjsldkj
+  Verifying and decoding the ID Token will yield the following 
+  ID Token JSON object:
 
-Verifying and decoding the ID Token will yield the following 
-ID Token JSON object:
-
-{
-  "iss": "http://server.example.com",
-  "sub": "248289761001",
-  "aud": "s6BhdRkqt3",
-  "nonce": "n-0S6_WzA2Mj",
-  "exp": 1311281970,
-  "iat": 1311280970,
-  "gender": "female",
-  "birthdate": "1987-01-01",
-  "acr": "2",
-  "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
-}  
+  {
+   "iss": "http://server.example.com",
+   "sub": "248289761001",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "gender": "female",
+   "birthdate": "1987-01-01",
+   "acr": "2",
+   "c_hash": "LDktKdoQak3Pk0cnXxCltBg_rC_3TKUb9OLk5fKO9uA"
+  }  
 ]]></artwork>
             </figure>
                         
 
             <figure>
               <preamble>Public Key Information used to verify the ID Token</preamble>
-              <artwork><![CDATA[The following is the RSA public key information that can be used
-to verify the ID Token signatures in the above examples.
-The values are an array of hexadecimal digits in big endian format.
+              <artwork><![CDATA[
+  The following is the RSA public key information that can be used
+  to verify the ID Token signatures in the above examples.
+  The values are an array of hexadecimal digits in big endian format.
                 
-modulus: 
-[
- ce,11,16,4c,12,55,4d,f7,14,7a,a9,cc,cc,e4,05,30,
- 21,15,41,63,b2,39,46,70,3f,c2,eb,05,68,7c,f2,d2,
- ab,67,23,c6,0a,f0,64,4c,3a,7e,13,60,73,c8,73,10,
- 57,8a,4a,e7,55,32,b3,66,0e,c3,32,fd,b1,ee,53,1c,
- 35,8c,75,af,6b,b6,c0,89,55,c8,f5,57,b5,9a,13,bc,
- 0f,82,5f,a4,20,87,56,59,fe,28,da,0e,99,b3,33,b2,
- fc,5a,78,ab,49,c6,dc,e4,ed,0d,10,a4,06,ed,a2,10,
- fd,b5,8f,cd,a9,45,24,6b,90,20,71,9f,36,82,85,f9,
- 40,ec,a6,5b,23,59,ff,ca,12,ad,c7,20,3b,15,d0,38,
- f3,42,da,49,56,72,28,0a,6f,ac,a8,98,86,87,00,09,
- 2c,1f,d3,2e,82,43,ec,24,12,2e,a6,55,74,49,b7,56,
- 81,4b,2c,25,2d,80,34,f2,88,e9,e6,19,19,43,7f,5e,
- 08,cd,a4,d4,47,57,76,16,da,af,df,7c,43,d3,d9,4f,
- 05,c0,d5,c7,ef,b8,64,d9,6c,35,b1,10,a2,e3,30,a5,
- 6e,2a,b4,f5,62,fb,3e,d8,d4,d7,85,90,16,d4,a8,c5,
- 4b,fd,d4,c0,b9,03,93,ec,38,75,53,7e,c7,9b,43,9f
-]
+  modulus: 
+  [
+   ce,11,16,4c,12,55,4d,f7,14,7a,a9,cc,cc,e4,05,30,
+   21,15,41,63,b2,39,46,70,3f,c2,eb,05,68,7c,f2,d2,
+   ab,67,23,c6,0a,f0,64,4c,3a,7e,13,60,73,c8,73,10,
+   57,8a,4a,e7,55,32,b3,66,0e,c3,32,fd,b1,ee,53,1c,
+   35,8c,75,af,6b,b6,c0,89,55,c8,f5,57,b5,9a,13,bc,
+   0f,82,5f,a4,20,87,56,59,fe,28,da,0e,99,b3,33,b2,
+   fc,5a,78,ab,49,c6,dc,e4,ed,0d,10,a4,06,ed,a2,10,
+   fd,b5,8f,cd,a9,45,24,6b,90,20,71,9f,36,82,85,f9,
+   40,ec,a6,5b,23,59,ff,ca,12,ad,c7,20,3b,15,d0,38,
+   f3,42,da,49,56,72,28,0a,6f,ac,a8,98,86,87,00,09,
+   2c,1f,d3,2e,82,43,ec,24,12,2e,a6,55,74,49,b7,56,
+   81,4b,2c,25,2d,80,34,f2,88,e9,e6,19,19,43,7f,5e,
+   08,cd,a4,d4,47,57,76,16,da,af,df,7c,43,d3,d9,4f,
+   05,c0,d5,c7,ef,b8,64,d9,6c,35,b1,10,a2,e3,30,a5,
+   6e,2a,b4,f5,62,fb,3e,d8,d4,d7,85,90,16,d4,a8,c5,
+   4b,fd,d4,c0,b9,03,93,ec,38,75,53,7e,c7,9b,43,9f
+  ]
 
-exponent: [01,00,01]]]></artwork>
+  exponent: [01,00,01]
+]]></artwork>
             </figure>            
 
           </section>
@@ -1213,11 +1231,14 @@ exponent: [01,00,01]]]></artwork>
                 <preamble>The following is a non-normative example
 		(with line wraps after the second line for the display purposes only):</preamble>
 
-                <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.org/cb?
-error=invalid_request
-&error_description=the%20request%20is%20not%20valid%20or%20malformed
-&state=af0ifjsldkj]]></artwork>
+                <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb?
+    error=invalid_request
+    &error_description=
+      the%20request%20is%20not%20valid%20or%20malformed
+    &state=af0ifjsldkj
+]]></artwork>
               </figure></t>
           </section>
         </section>
@@ -1282,13 +1303,15 @@ error=invalid_request
           <figure>
             <preamble>The following is a non-normative example of an Access Token request:</preamble>
 
-            <artwork><![CDATA[POST /token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
-Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+            <artwork><![CDATA[
+  POST /token HTTP/1.1
+  Host: server.example.com
+  Content-Type: application/x-www-form-urlencoded
+  Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
 
-grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb]]></artwork>
+  grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+]]></artwork>
           </figure>
           <t>
             The Authorization Server MUST:
@@ -1339,27 +1362,29 @@ grant_type=authorization_code&code=SplxlOBeZQQYbYS6WxSbIA
 	    <preamble>Following is a non-normative example of a
 	    successful response:</preamble>
 
-	    <artwork><![CDATA[HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-Pragma: no-cache
+	    <artwork><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Cache-Control: no-store
+  Pragma: no-cache
 
-{
- "access_token": "SlAV32hkKG",
- "token_type": "Bearer",
- "refresh_token": "8xLOxBtZp8",
- "expires_in": 3600,
- "id_token": "eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL
-3NlcnZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxM
-DAxIiwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuL
-TBTNl9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiO
-iAxMzExMjgwOTcwDQp9.lsQI_KNHpl58YY24G9tUHXr3Yp7OKYnEaVpRL0KI4szT
-D6GXpZcgxIpkOCcajyDiIv62R9rBWASV191Akk1BM36gUMm8H5s8xyxNdRfBViCa
-xTqHA7X_vV3U-tSWl6McR5qaSJaNQBpg1oGPjZdPG7zWCG-yEJC4-Fbx2FPOS7-h
-5V0k33O5Okd-OoDUKoFPMd6ur5cIwsNyBazcsHdFHqWlCby5nl_HZdW-PHq0gjzy
-JydB5eYIvOfOHYBRVML9fKwdOLM2xVxJsPwvy3BqlVKc593p2WwItIg52ILWrc6A
-tqkqHxKsAXLVyAoVInYkl_NDBkCqYe2KgNJFzfEC8g"
-}]]></artwork>
+  {
+   "access_token": "SlAV32hkKG",
+   "token_type": "Bearer",
+   "refresh_token": "8xLOxBtZp8",
+   "expires_in": 3600,
+   "id_token": "eyJhbGciOiJSUzI1NiJ9.ew0KICAgICJpc3MiOiAiaHR0cDovL
+     3NlcnZlci5leGFtcGxlLmNvbSIsDQogICAgInVzZXJfaWQiOiAiMjQ4Mjg5NzYxM
+     DAxIiwNCiAgICAiYXVkIjogInM2QmhkUmtxdDMiLA0KICAgICJub25jZSI6ICJuL
+     TBTNl9XekEyTWoiLA0KICAgICJleHAiOiAxMzExMjgxOTcwLA0KICAgICJpYXQiO
+     iAxMzExMjgwOTcwDQp9.lsQI_KNHpl58YY24G9tUHXr3Yp7OKYnEaVpRL0KI4szT
+     D6GXpZcgxIpkOCcajyDiIv62R9rBWASV191Akk1BM36gUMm8H5s8xyxNdRfBViCa
+     xTqHA7X_vV3U-tSWl6McR5qaSJaNQBpg1oGPjZdPG7zWCG-yEJC4-Fbx2FPOS7-h
+     5V0k33O5Okd-OoDUKoFPMd6ur5cIwsNyBazcsHdFHqWlCby5nl_HZdW-PHq0gjzy
+     JydB5eYIvOfOHYBRVML9fKwdOLM2xVxJsPwvy3BqlVKc593p2WwItIg52ILWrc6A
+     tqkqHxKsAXLVyAoVInYkl_NDBkCqYe2KgNJFzfEC8g"
+  }
+]]></artwork>
 	  </figure>
 	</section>
 
@@ -1374,14 +1399,16 @@ tqkqHxKsAXLVyAoVInYkl_NDBkCqYe2KgNJFzfEC8g"
 	  <figure>
 	    <preamble>Following is a non-normative example:</preamble>
 
-	    <artwork><![CDATA[HTTP/1.1 400 Bad Request
-Content-Type: application/json
-Cache-Control: no-store
-Pragma: no-cache
+	    <artwork><![CDATA[
+  HTTP/1.1 400 Bad Request
+  Content-Type: application/json
+  Cache-Control: no-store
+  Pragma: no-cache
 
-{
- "error": "invalid_request"
-}]]></artwork>
+  {
+   "error": "invalid_request"
+  }
+]]></artwork>
 	  </figure>
         </section>
       </section>
@@ -1415,28 +1442,29 @@ Pragma: no-cache
             <preamble>Following is a non-normative example of a Refresh
             Token request and response:</preamble>
 
-            <artwork><![CDATA[POST /token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
+            <artwork><![CDATA[
+  POST /token HTTP/1.1
+  Host: server.example.com
+  Content-Type: application/x-www-form-urlencoded
 
-client_id=s6BhdRkqt3
-&client_secret=some_secret12345
-&grant_type=refresh_token
-&refresh_token=8xLOxBtZp8
-&scope=openid%20profile
+  client_id=s6BhdRkqt3
+    &client_secret=some_secret12345
+    &grant_type=refresh_token
+    &refresh_token=8xLOxBtZp8
+    &scope=openid%20profile
 
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Cache-Control: no-store
+  Pragma: no-cache
 
-HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-Pragma: no-cache
-
-{
- "access_token": "TlBN45jURg",
- "token_type": "Bearer",
- "refresh_token": "9yNOxJtZa5",
- "expires_in": 3600
-}]]></artwork>
+  {
+   "access_token": "TlBN45jURg",
+   "token_type": "Bearer",
+   "refresh_token": "9yNOxJtZa5",
+   "expires_in": 3600
+  }
+]]></artwork>
           </figure>
         </section>
 
@@ -1487,9 +1515,11 @@ Pragma: no-cache
         <figure>
           <preamble>The following is a non-normative example:</preamble>
 
-          <artwork><![CDATA[GET /userinfo?schema=openid HTTP/1.1
-Host: server.example.com
-Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork>
+          <artwork><![CDATA[
+  GET /userinfo?schema=openid HTTP/1.1
+  Host: server.example.com
+  Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-s ... _X
+]]></artwork>
         </figure>
       </section>
 
@@ -1517,17 +1547,19 @@ Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ... fQ.8Gj_-sj ... _X]]></artwork
           <preamble>Following is a non-normative example of such
           response:</preamble>
 
-          <artwork><![CDATA[HTTP/1.1 200 OK
-Content-Type: application/json
+          <artwork><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/json
 
-{
- "sub": "248289761001",
- "name": "Jane Doe"
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
+  {
+   "sub": "248289761001",
+   "name": "Jane Doe"
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
         </figure>
       </section>
 
@@ -1546,10 +1578,12 @@ Content-Type: application/json
       <preamble>Following is a non-normative example of an error
       response:</preamble>
 
-      <artwork><![CDATA[HTTP/1.1 401 Unauthorized
-WWW-Authenticate: Bearer realm="example.com",
-                     error="invalid_token",
-                     error_description="The access token expired"]]></artwork>
+      <artwork><![CDATA[
+  HTTP/1.1 401 Unauthorized
+  WWW-Authenticate: Bearer realm="example.com",
+                       error="invalid_token",
+                       error_description="The access token expired"
+]]></artwork>
         </figure>
       </section>
     </section>
@@ -1565,22 +1599,24 @@ WWW-Authenticate: Bearer realm="example.com",
         </t>
         <t>
           <figure>
-            <artwork><![CDATA[{
- "authorization_endpoint":
-   "openid:",
- "issuer":
-   "https://self-issued.me",
- "scopes_supported":
-   ["openid", "profile", "email", "address", "phone"],
- "response_types_supported":
-   ["id_token"],
- "subject_types_supported":
-   ["pairwise"],
- "id_token_signing_alg_values_supported":
-   ["RS256"],
- "request_object_signing_alg_values_supported":
-   ["none", "RS256"]
- }]]>
+            <artwork><![CDATA[
+  {
+   "authorization_endpoint":
+     "openid:",
+   "issuer":
+     "https://self-issued.me",
+   "scopes_supported":
+     ["openid", "profile", "email", "address", "phone"],
+   "response_types_supported":
+     ["id_token"],
+   "subject_types_supported":
+     ["pairwise"],
+   "id_token_signing_alg_values_supported":
+     ["RS256"],
+   "request_object_signing_alg_values_supported":
+     ["none", "RS256"]
+  }
+]]>
             </artwork>
           </figure>
         </t>
@@ -1672,13 +1708,15 @@ WWW-Authenticate: Bearer realm="example.com",
           <preamble>
             Following is a non-normative example (with line wraps for display purposes only):
           </preamble>
-          <artwork><![CDATA[HTTP/1.1 302 Found
-Location: openid://
-?response_type=id_token
-&client_id=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid%20profile
-&policy_url=https%3A%2F%2Fclient.example.org%2Fusage%2F
-&state=af0ifjsldkj&nonce=n-0S6_WzA2Mj]]></artwork>
+          <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: openid://
+    ?response_type=id_token
+    &client_id=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid%20profile
+    &policy_url=https%3A%2F%2Fclient.example.org%2Fusage%2F
+    &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj
+]]></artwork>
         </figure> 
       </section>
 
@@ -1789,23 +1827,25 @@ Location: openid://
 	    (with line wraps for display purposes only):</preamble>
 
             <artwork><![CDATA[
-{
- "iss": "https://self-issued.me",
- "sub": "wBy8QvHbPzUnL0x63h13QqvUYcOur1X0cbQpPVRqX5k",
- "aud": "https://client.example.org/cb",
- "nonce": "n-0S6_WzA2Mj",
- "exp": 1311281970,
- "iat": 1311280970,
- "user_jwk": {"alg":"RSA",
-        "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
-   4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
-   tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
-   QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
-   SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
-   w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
-        "e":"AQAB" 
-        }
-}]]></artwork>
+  {
+   "iss": "https://self-issued.me",
+   "sub": "wBy8QvHbPzUnL0x63h13QqvUYcOur1X0cbQpPVRqX5k",
+   "aud": "https://client.example.org/cb",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "user_jwk": {
+     "alg":"RSA",
+     "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
+     4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
+     tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
+     QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
+     SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
+     w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
+     "e":"AQAB" 
+    }
+  }
+]]></artwork>
         </figure>
 
       </section>

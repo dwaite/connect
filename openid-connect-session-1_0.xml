@@ -211,25 +211,25 @@
         <t>
 	  <figure>
             <artwork><![CDATA[
-window.addEventListener("message", receiveMessage, false);
+  window.addEventListener("message", receiveMessage, false);
 
-function receiveMessage(e){ // e has client_id and session_state
-  // Validate message origin
-  var salt;
-  client_id = message.split(' ')[0];
-  session_state = message.split(' ')[1];
-  salt = session_state.split('.')[1];
-  var opbs = get_op_browser_state();
-  var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' +
-    opbs + [' ' + salt]) [+ "." + salt];
-  if (e.session_state == ss) {
-    stat = 'unchanged';
-  } else {
-    stat = 'changed';
-  }
+  function receiveMessage(e){ // e has client_id and session_state
+    // Validate message origin
+    var salt;
+    client_id = message.split(' ')[0];
+    session_state = message.split(' ')[1];
+    salt = session_state.split('.')[1];
+    var opbs = get_op_browser_state();
+    var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' +
+      opbs + [' ' + salt]) [+ "." + salt];
+    if (e.session_state == ss) {
+      stat = 'unchanged';
+    } else {
+      stat = 'changed';
+    }
 
-  e.source.postMessage(stat, e.origin);
-};
+    e.source.postMessage(stat, e.origin);
+  };
 ]]></artwork>
           </figure>
 	</t>
@@ -314,33 +314,33 @@ function receiveMessage(e){ // e has client_id and session_state
         <t>
 	  <figure>
             <artwork><![CDATA[
-var stat = "unchanged";
-var mes = client_id + " " + session_state;
+  var stat = "unchanged";
+  var mes = client_id + " " + session_state;
 
-function check_session()
-{
-  var targetOrigin  = "http://server.example.com";
-  var win = window.parent.document.getElementById("op").
-              contentWindow;
-  win.postMessage( mes, targetOrigin);
-}
+  function check_session()
+  {
+    var targetOrigin  = "http://server.example.com";
+    var win = window.parent.document.getElementById("op").
+                contentWindow;
+    win.postMessage( mes, targetOrigin);
+  }
 
-function setTimer()
-{
-  check_session();
-  timerID = setInterval("check_session()",3*1000);
-}
+  function setTimer()
+  {
+    check_session();
+    timerID = setInterval("check_session()",3*1000);
+  }
 
-window.addEventListener("message", receiveMessage, false); 
+  window.addEventListener("message", receiveMessage, false); 
 
-function receiveMessage(e)
-{
-  var targetOrigin  = "http://server.example.com";
-  if (e.origin !== targetOrigin ) {return;}
-  stat = e.data;
+  function receiveMessage(e)
+  {
+    var targetOrigin  = "http://server.example.com";
+    if (e.origin !== targetOrigin ) {return;}
+    stat = e.data;
 
-  if stat == "changed" then take the actions below...
-}
+    if stat == "changed" then take the actions below...
+  }
 ]]></artwork>
           </figure>
 	</t>

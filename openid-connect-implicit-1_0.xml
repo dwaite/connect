@@ -262,7 +262,9 @@
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             Request.</preamble>
 
-            <artwork><![CDATA[scope=openid profile email phone]]></artwork>
+            <artwork><![CDATA[
+  scope=openid profile email phone
+]]></artwork>
           </figure>
         </t>
       </section>
@@ -437,13 +439,15 @@
             Authorization Request URL
 	    (with line wraps for display purposes only):</preamble>
 
-            <artwork><![CDATA[https://server.example.com/authorize?
-response_type=token%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid%20profile
-&state=af0ifjsldkj
-&nonce=n-0S6_WzA2Mj]]></artwork>
+            <artwork><![CDATA[
+  https://server.example.com/authorize?
+    response_type=token%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid%20profile
+    &state=af0ifjsldkj
+    &nonce=n-0S6_WzA2Mj
+]]></artwork>
           </figure>
         </section>
 
@@ -458,14 +462,16 @@ response_type=token%20id_token
 	    <preamble>Following is a non-normative example using HTTP redirect
 	    (with line wraps for display purposes only):</preamble>
 
-            <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://server.example.com/authorize?
-response_type=token%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid%20profile
-&state=af0ifjsldkj
-&nonce=n-0S6_WzA2Mj]]></artwork>
+            <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://server.example.com/authorize?
+    response_type=token%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid%20profile
+    &state=af0ifjsldkj
+    &nonce=n-0S6_WzA2Mj
+]]></artwork>
           </figure>
         </section>
 
@@ -553,13 +559,15 @@ response_type=token%20id_token
               <preamble>The following is a non-normative example
 	      (with line wraps after the second line for the display purposes only):</preamble>
 
-              <artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-access_token=SlAV32hkKG
-&token_type=bearer
-&id_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
-&expires_in=3600
-&state=af0ifjsldkj]]></artwork>
+              <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    access_token=SlAV32hkKG
+    &token_type=bearer
+    &id_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
+    &expires_in=3600
+    &state=af0ifjsldkj
+]]></artwork>
             </figure>
           </section>
 
@@ -585,45 +593,47 @@ access_token=SlAV32hkKG
           <figure>
 	    <preamble>Following is a non-normative example of a
 	    Redirect URI response:</preamble>
-	    <artwork><![CDATA[GET /cb HTTP/1.1
-Host: client.example.org
+	    <artwork><![CDATA[
+  GET /cb HTTP/1.1
+  Host: client.example.org
           
-HTTP/1.1 200 OK
-Content-Type: text/html
+  HTTP/1.1 200 OK
+  Content-Type: text/html
 
-<script type="text/javascript">
+  <script type="text/javascript">
 
-// First, parse the query string
-var params = {}, postBody = location.hash.substring(1),
-    regex = /([^&=]+)=([^&]*)/g, m;
-while (m = regex.exec(postBody)) {
-  params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-}
-
-// And send the token over to the server
-var req = new XMLHttpRequest();
-// using POST so query isn't logged
-req.open('POST', 'https://' + window.location.host +
-                 '/catch_response', true);
-req.setRequestHeader('Content-Type',
-                     'application/x-www-form-urlencoded');
-
-req.onreadystatechange = function (e) {
-  if (req.readyState == 4) {
-    if (req.status == 200) {
-// If the response from the POST is 200 OK, redirect the user
-      window.location = 'https://'
-        + window.location.host + '/redirect_after_login'
-    }
-// if the OAuth response is invalid, generate an error message
-    else if (req.status == 400) {
-      alert('There was an error processing the token')
-    } else {
-      alert('Something other than 200 was returned')
-    }
+  // First, parse the query string
+  var params = {}, postBody = location.hash.substring(1),
+      regex = /([^&=]+)=([^&]*)/g, m;
+  while (m = regex.exec(postBody)) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
   }
-};
-req.send(postBody);]]></artwork>
+
+  // And send the token over to the server
+  var req = new XMLHttpRequest();
+  // using POST so query isn't logged
+  req.open('POST', 'https://' + window.location.host +
+                   '/catch_response', true);
+  req.setRequestHeader('Content-Type',
+                       'application/x-www-form-urlencoded');
+
+  req.onreadystatechange = function (e) {
+    if (req.readyState == 4) {
+      if (req.status == 200) {
+  // If the response from the POST is 200 OK, redirect the user
+        window.location = 'https://'
+          + window.location.host + '/redirect_after_login'
+      }
+  // if the OAuth response is invalid, generate an error message
+      else if (req.status == 400) {
+        alert('There was an error processing the token')
+      } else {
+        alert('Something other than 200 was returned')
+      }
+    }
+  };
+  req.send(postBody);
+]]></artwork>
 	  </figure>
          
 	  </section>
@@ -754,15 +764,16 @@ req.send(postBody);]]></artwork>
 	    (with line wraps for display purposes only):</preamble>
 
             <artwork><![CDATA[
-{
- "iss": "https://server.example.com",
- "sub": "24400320",
- "aud": "s6BhdRkqt3",
- "nonce": "n-0S6_WzA2Mj",
- "exp": 1311281970,
- "iat": 1311280970,
- "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
-}]]></artwork>
+  {
+   "iss": "https://server.example.com",
+   "sub": "24400320",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
+  }
+]]></artwork>
         </figure>
         
 	<section anchor="id.token.validation" title="ID Token Validation">
@@ -895,9 +906,11 @@ req.send(postBody);]]></artwork>
 	  <figure>
 	    <preamble>The following is a non-normative example:</preamble>
 
-	    <artwork><![CDATA[GET /userinfo?schema=openid HTTP/1.1
-Host: server.example.com
-Authorization: Bearer SlAV32hkKG]]></artwork>
+	    <artwork><![CDATA[
+  GET /userinfo?schema=openid HTTP/1.1
+  Host: server.example.com
+  Authorization: Bearer SlAV32hkKG
+]]></artwork>
 	  </figure>
 	</section>
 
@@ -1058,15 +1071,17 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
 	    <preamble>Following is a non-normative example of such
 	    a response:</preamble>
 
-	    <artwork><![CDATA[{
- "sub": "248289761001",
- "name": "Jane Doe",
- "given_name": "Jane",
- "family_name": "Doe",
- "preferred_username": "j.doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
+	    <artwork><![CDATA[
+  {
+   "sub": "248289761001",
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "preferred_username": "j.doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
 	  </figure>
 
 	  <t>The UserInfo Endpoint MUST return Claims in JSON format unless a
@@ -1193,22 +1208,24 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
         </t>
         <t>
           <figure>
-            <artwork><![CDATA[{
- "authorization_endpoint":
-   "openid:",
- "issuer":
-   "https://self-issued.me",
- "scopes_supported":
-   ["openid", "profile", "email", "address", "phone"],
- "response_types_supported":
-   ["id_token"],
- "subject_types_supported":
-   ["pairwise"],
- "id_token_signing_alg_values_supported":
-   ["RS256"],
- "request_object_signing_alg_values_supported":
-   ["none", "RS256"]
- }]]>
+            <artwork><![CDATA[
+  {
+   "authorization_endpoint":
+     "openid:",
+   "issuer":
+     "https://self-issued.me",
+   "scopes_supported":
+     ["openid", "profile", "email", "address", "phone"],
+   "response_types_supported":
+     ["id_token"],
+   "subject_types_supported":
+     ["pairwise"],
+   "id_token_signing_alg_values_supported":
+     ["RS256"],
+   "request_object_signing_alg_values_supported":
+     ["none", "RS256"]
+   }
+]]>
             </artwork>
           </figure>
         </t>
@@ -1300,13 +1317,15 @@ Authorization: Bearer SlAV32hkKG]]></artwork>
           <preamble>
             Following is a non-normative example (with line wraps for display purposes only):
           </preamble>
-          <artwork><![CDATA[HTTP/1.1 302 Found
-Location: openid://
-?response_type=id_token
-&client_id=https%3A%2F%2Fclient.example.org%2Fcb
-&scope=openid%20profile
-&policy_url=https%3A%2F%2Fclient.example.org%2Fusage%2F
-&state=af0ifjsldkj&nonce=n-0S6_WzA2Mj]]></artwork>
+          <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: openid://
+    ?response_type=id_token
+    &client_id=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid%20profile
+    &policy_url=https%3A%2F%2Fclient.example.org%2Fusage%2F
+    &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj
+]]></artwork>
         </figure> 
       </section>
 
@@ -1418,23 +1437,25 @@ Location: openid://
 	    (with line wraps for display purposes only):</preamble>
 
             <artwork><![CDATA[
-{
- "iss": "https://self-issued.me",
- "sub": "wBy8QvHbPzUnL0x63h13QqvUYcOur1X0cbQpPVRqX5k",
- "aud": "https://client.example.org/cb",
- "nonce": "n-0S6_WzA2Mj",
- "exp": 1311281970,
- "iat": 1311280970,
- "user_jwk": {"alg":"RSA",
-        "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
-   4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
-   tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
-   QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
-   SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
-   w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
-        "e":"AQAB" 
-        }
-}]]></artwork>
+  {
+   "iss": "https://self-issued.me",
+   "sub": "wBy8QvHbPzUnL0x63h13QqvUYcOur1X0cbQpPVRqX5k",
+   "aud": "https://client.example.org/cb",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "user_jwk": {
+     "alg":"RSA",
+     "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
+     4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
+     tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
+     QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
+     SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
+     w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
+     "e":"AQAB" 
+    }
+  }
+]]></artwork>
         </figure>
 
       </section>
@@ -1467,6 +1488,7 @@ Location: openid://
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
   Host: server.example.com
+
 ]]></artwork>
 	</figure>
       </section>

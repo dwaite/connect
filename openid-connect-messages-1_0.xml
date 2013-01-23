@@ -580,42 +580,44 @@
                 <preamble>An example OpenID Request Object body before
 		base64url encoding and JWS signing is as follows:</preamble>
 
-                <artwork><![CDATA[{
- "response_type": "code id_token",
- "client_id": "s6BhdRkqt3",
- "redirect_uri": "https://client.example.org/cb",
- "scope": "openid profile",
- "state": "af0ifjsldkj",
- "login_hint": "janedoe@example.org",
- "userinfo":
-   {
+                <artwork><![CDATA[
+  {
+   "response_type": "code id_token",
+   "client_id": "s6BhdRkqt3",
+   "redirect_uri": "https://client.example.org/cb",
+   "scope": "openid profile",
+   "state": "af0ifjsldkj",
+   "login_hint": "janedoe@example.org",
+   "userinfo":
+    {
      "claims":
        {
-         "name": {"essential": true},
-         "nickname": null,
-         "email": {"essential": true},
-         "email_verified": {"essential": true},
-         "picture": null
+        "name": {"essential": true},
+        "nickname": null,
+        "email": {"essential": true},
+        "email_verified": {"essential": true},
+        "picture": null
        }
-   },
- "id_token":
-   {
+    },
+   "id_token":
+    {
      "claims":
-       {
-        "auth_time": {"essential": true},
-        "acr": { "values":["2"] }
-       },
+      {
+       "auth_time": {"essential": true},
+       "acr": { "values":["2"] }
+      },
      "max_age": 86400
-   }
- "registration":
-   {
+    }
+   "registration":
+    {
      "redirect_uris": "https://rp.com/authz/callback",
      "logo_url": "https://rp.com/logo.png",
      "jwk_url": "https://rp.com/public_key.jwks",
      "id_token_encrypted_response_alg": "RSA1_5",
      "id_token_encrypted_response_enc": "A128CBC+HS256"
-   }
-}]]></artwork>
+    }
+  }
+]]></artwork>
 </figure></t>
 
             <section anchor="req.obj.userinfo" title="&quot;userinfo&quot; Member">
@@ -686,7 +688,9 @@
                     The Claim Value in the request is an object containing the single element
                     <spanx style="verb">value</spanx>.  
                     <figure>
-                      <artwork><![CDATA[ "sub": {"value":"248289761001"}]]></artwork>
+                      <artwork><![CDATA[
+  "sub": {"value":"248289761001"}
+]]></artwork>
                     </figure>
                   </t>
                   <t hangText="auth_time">OPTIONAL. (Authentication Time):
@@ -709,8 +713,10 @@
                   representing acceptable Authentication Context Class Reference 
                   values appearing in order of preference.
                   <figure>
-                    <artwork><![CDATA[ "acr": {"essential": true,
-        "values":["2","http://id.incommon.org/assurance/bronze"]}]]></artwork>
+                    <artwork><![CDATA[
+  "acr": {"essential": true,
+          "values":["2","http://id.incommon.org/assurance/bronze"]}
+]]></artwork>
                   </figure>
                   </t>
                   
@@ -1015,17 +1021,18 @@
 	    (with line wraps for display purposes only):</preamble>
 
             <artwork><![CDATA[
-{
- "iss": "https://server.example.com",
- "sub": "24400320",
- "aud": "s6BhdRkqt3",
- "nonce": "n-0S6_WzA2Mj",
- "exp": 1311281970,
- "iat": 1311280970,
- "auth_time": 1311280969,
- "acr": "2",
- "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
-}]]></artwork>
+  {
+   "iss": "https://server.example.com",
+   "sub": "24400320",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "auth_time": 1311280969,
+   "acr": "2",
+   "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
+  }
+]]></artwork>
         </figure>
           </section>
 
@@ -1238,17 +1245,18 @@
             For example
 	    (with line wraps for display purposes only):
           </preamble>
-          <artwork>
-<![CDATA[POST /token HTTP/1.1
-Host: server.example.com
-Content-Type: application/x-www-form-urlencoded
+          <artwork><![CDATA[
+  POST /token HTTP/1.1
+  Host: server.example.com
+  Content-Type: application/x-www-form-urlencoded
 
-grant_type=authorization_code&
-code=i1WsRn1uB1&
-client_id=s6BhdRkqt3&
-client_assertion_type=
+  grant_type=authorization_code&
+    code=i1WsRn1uB1&
+    client_id=s6BhdRkqt3&
+    client_assertion_type=
     urn%3Aietf%3Aparams%3Aoauth%3Aclient-assertion-type%3Ajwt-bearer&
-client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
+    client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT
+]]>
           </artwork>
         </figure>
         </t>
@@ -1309,13 +1317,15 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           <figure>
             <preamble>Following is a non-normative example:</preamble>
 
-            <artwork><![CDATA[{
- "access_token": "SlAV32hkKG",
- "token_type": "Bearer",
- "refresh_token": "8xLOxBtZp8",
- "expires_in": 3600,
- "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
-}]]></artwork>
+            <artwork><![CDATA[
+  {
+   "access_token": "SlAV32hkKG",
+   "token_type": "Bearer",
+   "refresh_token": "8xLOxBtZp8",
+   "expires_in": 3600,
+   "id_token": "eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso"
+  }
+]]></artwork>
           </figure>
 
           <t>As in the <xref target="RFC6749">OAuth 2.0</xref>, Clients
@@ -1465,7 +1475,9 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
             Request.</preamble>
 
-            <artwork><![CDATA[scope=openid profile email phone]]></artwork>
+            <artwork><![CDATA[
+  scope=openid profile email phone
+]]></artwork>
           </figure>
         </t>
       </section>
@@ -1644,15 +1656,17 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
           <figure>
           <preamble>The following is a non-normative example of such a
           response:</preamble>
-            <artwork><![CDATA[{
- "sub": "248289761001",
- "name": "Jane Doe",
- "given_name": "Jane",
- "family_name": "Doe",
- "preferred_username": "j.doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
+            <artwork><![CDATA[
+  {
+   "sub": "248289761001",
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "preferred_username": "j.doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
           </figure>
 
           <section title="Address Claim" anchor="address_claim">
@@ -1833,13 +1847,15 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	  <t>The following is a non-normative normal Claims response:</t>
 
 	  <figure>
-	    <artwork><![CDATA[{
- "name": "Jane Doe"
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "picture": "http://example.com/janedoe/me.jpg"
-}]]></artwork>
+	    <artwork><![CDATA[
+  {
+   "name": "Jane Doe"
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
 	  </figure>
 
 	</section>
@@ -1913,83 +1929,90 @@ client_assertion=PHNhbWxwOl...[omitted for brevity]...ZT]]>
 	  Claims:</t>
 
 	  <t><figure>
-	    <artwork><![CDATA[Claims Provider A contains the following Claims for Jane Doe:
-{
- "address": {
-   "street_address": "1234 Hollywood Blvd.",
-   "locality": "Los Angeles",
-   "region": "CA",
-   "postal_code": "90210",
-   "country": "US"},
- "phone_number": "+1 (310) 123-4567"
-}
+	    <artwork><![CDATA[
+  Claims Provider A contains the following Claims for Jane Doe:
+  {
+   "address": {
+     "street_address": "1234 Hollywood Blvd.",
+     "locality": "Los Angeles",
+     "region": "CA",
+     "postal_code": "90210",
+     "country": "US"},
+   "phone_number": "+1 (310) 123-4567"
+  }
 
-Claims Provider A signs the JSON Claims, resulting in a signed JWT:
-jwt_header.jwt_part2.jwt_part3
+  Claims Provider A signs the JSON Claims, resulting in a signed JWT:
+  jwt_header.jwt_part2.jwt_part3
 
-Authorization Server returns Jane Doe's Aggregated Claims from
-Claims Provider A: 
-{
- "name": "Jane Doe",
- "given_name": "Jane",
- "family_name": "Doe",
- "birthdate": "2001-03-23",
- "eye_color": "blue",
- "email": "janedoe@example.com",
- "_claim_names": {
-  "address": "src1",
-  "phone_number": "src1"
- },
- "_claim_sources": {
-  "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"}
- }
-}]]></artwork>
+  Authorization Server returns Jane Doe's Aggregated Claims from
+  Claims Provider A: 
+  {
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "birthdate": "2001-03-23",
+   "eye_color": "blue",
+   "email": "janedoe@example.com",
+   "_claim_names": {
+     "address": "src1",
+     "phone_number": "src1"
+   },
+   "_claim_sources": {
+     "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"}
+   }
+  }
+]]></artwork>
 	  </figure></t>
 
 	  <t>The following is a non-normative response with Distributed
 	  Claims:</t>
 
 	  <t><figure>
-	    <artwork><![CDATA[Claims Provider A (Jane Doe's Bank) contains the following Claims
-for Jane Doe:
-{
- "shipping_address": {
-   "street_address": "1234 Hollywood Blvd.",
-   "locality": "Los Angeles",
-   "region": "CA",
-   "postal_code": "90210",
-   "country": "US"},
- "payment_info": "Some_Card 1234 5678 90123 4562",
- "phone_number": "+1 (310) 123-4567"
-}
+	    <artwork><![CDATA[
+  Claims Provider A (Jane Doe's Bank) contains the following Claims
+  for Jane Doe:
+  {
+   "shipping_address": {
+     "street_address": "1234 Hollywood Blvd.",
+     "locality": "Los Angeles",
+     "region": "CA",
+     "postal_code": "90210",
+     "country": "US"},
+   "payment_info": "Some_Card 1234 5678 90123 4562",
+   "phone_number": "+1 (310) 123-4567"
+  }
 
-A Claims Provider B (Credit Agency) contains the following Claims
-for Jane Doe:
-{
- "credit_score": "650"
-}
+  Claims Provider B (Credit Agency) contains the following Claims
+  for Jane Doe:
+  {
+   "credit_score": "650"
+  }
 
-Authorization Server returns Jane Doe's Claims along with the
-Distributed Claims from Claims Provider A and B by sending the Access
-Tokens and URL locations where the Claims may be retrieved:
-{
- "name": "Jane Doe",
- "given_name": "Jane",
- "family_name": "Doe",
- "email": "janedoe@example.com",
- "birthdate": "2001-03-23",
- "eye_color": "blue",
- "_claim_names": {
-  "payment_info": "src1",
-  "shipping_address": "src1",
-  "credit_score": "src2"
- },
- "_claim_sources": {
-  "src1": {"endpoint": "https://bank.example.com/claimsource"},
-  "src2": {"endpoint": "https://creditagency.example.com/claimshere",
-           "access_token": "ksj3n283dke"}
- }
-}]]></artwork>
+  Authorization Server returns Jane Doe's Claims along with the
+  Distributed Claims from Claims Provider A and Claims Provider B
+  by sending the Access Tokens and URL locations where the Claims
+  may be retrieved:
+  {
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "email": "janedoe@example.com",
+   "birthdate": "2001-03-23",
+   "eye_color": "blue",
+   "_claim_names": {
+     "payment_info": "src1",
+     "shipping_address": "src1",
+     "credit_score": "src2"
+    },
+   "_claim_sources": {
+     "src1": {"endpoint":
+                "https://bank.example.com/claimsource"},
+     "src2": {"endpoint":
+                "https://creditagency.example.com/claimshere",
+              "access_token": "ksj3n283dke"}
+   }
+  }
+]]></artwork>
 	  </figure></t>
 	</section>
       </section>
@@ -2010,11 +2033,13 @@ Tokens and URL locations where the Claims may be retrieved:
           <preamble>Following is a non-normative example of such
           serialization:</preamble>
 
-          <artwork><![CDATA[{
- "access_token":"SlAV32hkKG",
- "expires_in":3600,
- "refresh_token":"8xLOxBtZp8"
-}]]></artwork>
+          <artwork><![CDATA[
+  {
+   "access_token":"SlAV32hkKG",
+   "expires_in":3600,
+   "refresh_token":"8xLOxBtZp8"
+  }
+]]></artwork>
         </figure>
       </section>
     </section>

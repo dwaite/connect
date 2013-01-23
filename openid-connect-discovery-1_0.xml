@@ -300,25 +300,25 @@
 	    (with line wraps for display purposes only):</preamble>
 
               <artwork><![CDATA[
-GET /.well-known/webfinger
-  ?resource=acct%3Ajoe%40example.com
-  &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
-  HTTP/1.1
-Host: example.com
+  GET /.well-known/webfinger
+    ?resource=acct%3Ajoe%40example.com
+    &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
+  Host: example.com
 
-HTTP/1.1 200 OK
-Content-Type: application/json
+  HTTP/1.1 200 OK
+  Content-Type: application/json
 
-{
-  "subject": "acct:joe@example.com",
-  "links":
-  [
-    {
+  {
+   "subject": "acct:joe@example.com",
+   "links":
+    [
+     {
       "rel": "http://openid.net/specs/connect/1.0/issuer",
       "href": "https://server.example.com"
-    }
-  ]
-}
+     }
+    ]
+  }
 ]]></artwork>
             </figure></t>
         </section>
@@ -347,25 +347,26 @@ Content-Type: application/json
 	    following request to get the discovery information
 	    (with line wraps for display purposes only):</preamble>
 
-              <artwork><![CDATA[GET /.well-known/webfinger
+              <artwork><![CDATA[
+  GET /.well-known/webfinger
     ?resource=https%3A%2F%2Fexample.com%2Fjoe
     &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
     HTTP/1.1
-Host: example.com
+  Host: example.com
 
-HTTP/1.1 200 OK
-Content-Type: application/json
+  HTTP/1.1 200 OK
+  Content-Type: application/json
 
-{
-  "subject": "https://example.com/joe",
-  "links":
-  [
-    {
+  {
+   "subject": "https://example.com/joe",
+   "links":
+    [
+     {
       "rel": "http://openid.net/specs/connect/1.0/issuer",
       "href": "https://server.example.com"
-    }
-  ]
-}
+     }
+    ]
+  }
 ]]></artwork>
             </figure></t>
         </section>
@@ -401,25 +402,25 @@ Content-Type: application/json
 	    (with line wraps for display purposes only):</preamble>
 
               <artwork><![CDATA[
-GET /.well-known/webfinger
-  ?resource=https%3A%2F%2Fexample.com%3A8080%2F
-  &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
-  HTTP/1.1
-Host: example.com:8080
+  GET /.well-known/webfinger
+    ?resource=https%3A%2F%2Fexample.com%3A8080%2F
+    &rel=http%3A%2F%2Fopenid.net%2Fspecs%2Fconnect%2F1.0%2Fissuer
+    HTTP/1.1
+  Host: example.com:8080
 
-HTTP/1.1 200 OK
-Content-Type: application/json
+  HTTP/1.1 200 OK
+  Content-Type: application/json
 
-{
-  "subject": "https://example.com:8080/",
-  "links":
-  [
-    {
+  {
+   "subject": "https://example.com:8080/",
+   "links":
+    [
+     {
       "rel": "http://openid.net/specs/connect/1.0/issuer",
       "href": "https://server.example.com"
-    }
-  ]
-}
+     }
+    ]
+  }
 ]]></artwork>
             </figure></t>
         </section>
@@ -463,8 +464,8 @@ Content-Type: application/json
 
         <t><figure>
             <artwork><![CDATA[
-GET /.well-known/openid-configuration HTTP/1.1
-Host: example.com
+  GET /.well-known/openid-configuration HTTP/1.1
+  Host: example.com
 ]]></artwork>
           </figure></t>
             
@@ -479,8 +480,8 @@ Host: example.com
         
         <t><figure>
             <artwork><![CDATA[
-GET /issuer1/.well-known/openid-configuration HTTP/1.1
-Host: example.com
+  GET /issuer1/.well-known/openid-configuration HTTP/1.1
+  Host: example.com
 ]]></artwork>
           </figure></t>
           
@@ -723,62 +724,63 @@ Host: example.com
         <t>Example response:</t>
 
         <t><figure>
-            <artwork><![CDATA[{
- "authorization_endpoint":
-   "https://server.example.com/connect/authorize",
- "issuer":
-   "https://server.example.com",
- "token_endpoint":
-   "https://server.example.com/connect/token",
- "token_endpoint_auth_methods_supported":
-   ["client_secret_basic", "private_key_jwt"],
- "token_endpoint_alg_values_supported":
-   ["RS256", "ES256"],
- "userinfo_endpoint":
-   "https://server.example.com/connect/userinfo",
- "check_session_iframe":
-   "https://server.example.com/connect/check_session",
- "end_session_endpoint":
-   "https://server.example.com/connect/end_session",
- "jwk_url":
-   "https://server.example.com/jwks.json",
- "registration_endpoint":
-   "https://server.example.com/connect/register",
- "scopes_supported":
-   ["openid", "profile", "email", "address",
-    "phone", "offline_access"],
- "response_types_supported":
-   ["code", "code id_token", "id_token", "token id_token"],
- "acr_values_supported":
-   ["1","2","http://id.incommon.org/assurance/bronze"],
- "subject_types_supported":
-   ["public", "pairwise"],
- "userinfo_signing_alg_values_supported":
-   ["RS256", "ES256", "HS256"],
- "userinfo_encryption_alg_values_supported":
-   ["RSA1_5", "A128KW"],
- "userinfo_encryption_enc_values_supported":
-   ["A128CBC+HS256", "A128GCM"],
- "id_token_signing_alg_values_supported":
-   ["RS256", "ES256", "HS256"],
- "id_token_encryption_alg_values_supported":
-   ["RSA1_5", "A128KW"],
- "id_token_encryption_enc_values_supported":
-   ["A128CBC+HS256", "A128GCM"],
- "request_object_signing_alg_values_supported":
-   ["none", "RS256", "ES256"],
- "display_values_supported":
-   ["page", "popup"],
- "claim_types_supported":
-   ["normal", "distributed"],
- "claims_supported":
-   ["sub", "iss", "auth_time", "acr",
-    "name", "given_name", "family_name", "nickname",
-    "profile", "picture", "website",
-    "email", "email_verified", "locale", "zoneinfo"],
- "service_documentation":
-   "http://server.example.com/connect/service_documentation.html"
- }
+            <artwork><![CDATA[
+  {
+   "authorization_endpoint":
+     "https://server.example.com/connect/authorize",
+   "issuer":
+     "https://server.example.com",
+   "token_endpoint":
+     "https://server.example.com/connect/token",
+   "token_endpoint_auth_methods_supported":
+     ["client_secret_basic", "private_key_jwt"],
+   "token_endpoint_alg_values_supported":
+     ["RS256", "ES256"],
+   "userinfo_endpoint":
+     "https://server.example.com/connect/userinfo",
+   "check_session_iframe":
+     "https://server.example.com/connect/check_session",
+   "end_session_endpoint":
+     "https://server.example.com/connect/end_session",
+   "jwk_url":
+     "https://server.example.com/jwks.json",
+   "registration_endpoint":
+     "https://server.example.com/connect/register",
+   "scopes_supported":
+     ["openid", "profile", "email", "address",
+      "phone", "offline_access"],
+   "response_types_supported":
+     ["code", "code id_token", "id_token", "token id_token"],
+   "acr_values_supported":
+     ["1","2","http://id.incommon.org/assurance/bronze"],
+   "subject_types_supported":
+     ["public", "pairwise"],
+   "userinfo_signing_alg_values_supported":
+     ["RS256", "ES256", "HS256"],
+   "userinfo_encryption_alg_values_supported":
+     ["RSA1_5", "A128KW"],
+   "userinfo_encryption_enc_values_supported":
+     ["A128CBC+HS256", "A128GCM"],
+   "id_token_signing_alg_values_supported":
+     ["RS256", "ES256", "HS256"],
+   "id_token_encryption_alg_values_supported":
+     ["RSA1_5", "A128KW"],
+   "id_token_encryption_enc_values_supported":
+     ["A128CBC+HS256", "A128GCM"],
+   "request_object_signing_alg_values_supported":
+     ["none", "RS256", "ES256"],
+   "display_values_supported":
+     ["page", "popup"],
+   "claim_types_supported":
+     ["normal", "distributed"],
+   "claims_supported":
+     ["sub", "iss", "auth_time", "acr",
+      "name", "given_name", "family_name", "nickname",
+      "profile", "picture", "website",
+      "email", "email_verified", "locale", "zoneinfo"],
+   "service_documentation":
+     "http://server.example.com/connect/service_documentation.html"
+  }
 ]]></artwork>
           </figure></t>
       </section>
