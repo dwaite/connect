@@ -851,7 +851,7 @@
             style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
             Claims. </t>
 
-            <t>The following Claims are REQUIRED and OPTIONAL within the ID Token:</t>
+            <t>The following Claims are defined for use within the ID Token:</t>
 
             <t><list style="hanging">
                 <t hangText="iss">REQUIRED.
@@ -917,7 +917,8 @@
                 name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
                 </t>
 
-                <t hangText="nonce">String value used to associate a Client session 
+                <t hangText="nonce">OPTIONAL or REQUIRED.
+		String value used to associate a Client session 
                 with an ID Token, and to mitigate replay attacks. 
                 The value is passed through unmodified from the Authorization Request to the ID Token.
           If present in the <xref target="id_token">ID Token</xref>,
@@ -935,7 +936,7 @@
 	      Token Endpoint.
           </t>
 
-                <t hangText="auth_time">OPTIONAL.
+                <t hangText="auth_time">OPTIONAL or REQUIRED.
 		  Time when the End-User authentication occurred,
 		  specified as the number of seconds from 1970-01-01T0:0:0Z as
 		  measured in UTC.
@@ -953,9 +954,8 @@
 		  <spanx style="verb">auth_time</spanx> response
 		  parameter.)</t>
 
-                <t hangText="at_hash">OPTIONAL. 
+                <t hangText="at_hash">OPTIONAL or REQUIRED. 
 	        Access Token hash value.
-
                 If the ID Token is issued from the Authorization endpoint with an 
                 <spanx style="verb">access_token</spanx>, this is REQUIRED.
                 This is OPTIONAL if the ID Token is issued from the Token Endpoint.
@@ -969,7 +969,7 @@
                 <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
           with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
-                <t hangText="c_hash">OPTIONAL.
+                <t hangText="c_hash">OPTIONAL or REQUIRED.
 		Code hash value.
                 If the ID Token is issued from the Authorization endpoint with a 
                 <spanx style="verb">code</spanx>, this is REQUIRED.
@@ -984,7 +984,7 @@
                 <spanx style="verb">HS512</spanx>, hash <spanx style="verb">code</spanx>
           with SHA-512, then take the left-most 256 bits and base64url encode them.</t>
 
-		<t hangText="sub_jwk">OPTIONAL.
+		<t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
 		  Public key value used to check the signature of an ID Token
 		  issued by a self-issued OpenID Provider,
 		  as specified in Section 5 of
@@ -996,6 +996,9 @@
 		</t>
 
               </list></t>
+
+	    <t>The JWT MAY contain other Claims
+	    that are understood by all parties using it.</t>
 
             <t>ID Tokens MUST be signed using <xref
             target="JWS">JWS</xref> and OPTIONALLY both signed and
@@ -4296,6 +4299,9 @@ Representation of dates and times</title>
         <list style="symbols">
 	  <t>
 	    Fixed #709 - OpenID Request Object - "registration" in non-self-issued case.
+	  </t>
+	  <t>
+	    Fixed #711 - Awkward phrase "The following Claims are REQUIRED and OPTIONAL".
 	  </t>
 	</list>
       </t>

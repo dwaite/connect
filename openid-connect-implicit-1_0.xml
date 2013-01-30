@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Profile 1.0">OpenID Connect Implicit 
-    Client Profile 1.0 - draft 06</title>
+    Client Profile 1.0 - draft 07</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -655,7 +655,7 @@
           style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
           Claims. </t>
 
-          <t>The following Claims are REQUIRED within the ID Token:</t>
+          <t>The following Claims are defined for use within the ID Token:</t>
 
           <t><list style="hanging">
               <t hangText="iss">REQUIRED.
@@ -723,7 +723,7 @@
 	      Use of the nonce is REQUIRED when using the implicit flow
 	      and OPTIONAL when using the code flow.</t>
 	      
-	      <t hangText="at_hash">OPTIONAL.
+	      <t hangText="at_hash">OPTIONAL or REQUIRED.
 	        Access Token hash value.
                 If the ID Token is issued with an <spanx style="verb">access_token</spanx>
           in an implicit flow, this is REQUIRED.
@@ -736,7 +736,7 @@
                 <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
           with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
-	      <t hangText="sub_jwk">OPTIONAL.
+	      <t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
 	        Public key value used to check the signature of an ID Token
 		issued by a self-issued OpenID Provider,
 		as specified in <xref target="self_issued"/>.
@@ -2079,6 +2079,14 @@ Representation of dates and times</title>
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-07
+        <list style="symbols">
+	  <t>
+	    Fixed #711 - Awkward phrase "The following Claims are REQUIRED and OPTIONAL".
+	  </t>
+	</list>
+      </t>
 
       <t>-06
         <list style="symbols">
