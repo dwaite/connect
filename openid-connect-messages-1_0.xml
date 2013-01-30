@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 15</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 16</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -568,12 +568,14 @@
 
                 <t hangText="registration">OPTIONAL.
 		Registration request.
-		Requests the client to be to be registered at the authorization server 
-		for the self-issued case.  The value is
-		a JSON object containing the name/value pairs defined in
+		Requests that the client be be registered at the Authorization Server 
+		for a self-issued OP.  The value is
+		a JSON object containing name/value pairs defined in
 		Section 2.1 of the 
 		<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
 		specification.
+		The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
+		when the OP is not a self-issued OP.
                 </t>
 
               </list><figure>
@@ -607,14 +609,6 @@
        "acr": { "values":["2"] }
       },
      "max_age": 86400
-    }
-   "registration":
-    {
-     "redirect_uris": "https://rp.com/authz/callback",
-     "logo_url": "https://rp.com/logo.png",
-     "jwk_url": "https://rp.com/public_key.jwks",
-     "id_token_encrypted_response_alg": "RSA1_5",
-     "id_token_encrypted_response_enc": "A128CBC+HS256"
     }
   }
 ]]></artwork>
@@ -1099,6 +1093,12 @@
 	      <t hangText="invalid_openid_request_object">The 
 	      <spanx style="verb">request</spanx> parameter contains an invalid 
 	      OpenID Request Object.</t>
+
+	      <t hangText="registration_not_supported">
+		The OP does not support use of the
+		<spanx style="verb">registration</spanx> parameter in
+		an OpenID Request Object.
+	      </t>
 
 	    </list></t>
 	  <t>Errors are returned as defined by the registered OAuth
@@ -4292,7 +4292,15 @@ Representation of dates and times</title>
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
- <t>-15
+      <t>-16
+        <list style="symbols">
+	  <t>
+	    Fixed #709 - OpenID Request Object - "registration" in non-self-issued case.
+	  </t>
+	</list>
+      </t>
+
+      <t>-15
         <list style="symbols">
 	  <t>
 	    Fixed #671 - Section 2.1.1 added test to require client to request an access token for 
