@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 14</title>
+    Dynamic Client Registration 1.0 - draft 15</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -157,6 +157,7 @@
 	    request, this is an Access Token obtained
             out of band to authorize the registrant. 
             If this is a <spanx style="verb">client_update</spanx>
+	    or <spanx style="verb">rotate_secret</spanx>
             request, this is the <spanx style="verb">registration_access_token</spanx> 
             returned in the <spanx style="verb">client_register</spanx> or 
             <spanx style="verb">rotate_secret</spanx> response.
@@ -389,7 +390,8 @@
       requests in order to restrict registration requests
       to only authorized Clients. </t>
       <t>For <spanx style="verb">client_update</spanx>
-      requests the <spanx style="verb">registration_access_token</spanx> is used as the
+      or <spanx style="verb">rotate_secret</spanx>
+      requests, the <spanx style="verb">registration_access_token</spanx> is used as the
       Access Token to restrict update access to only the registered client.</t>
       <t>The Client Registration Endpoint MUST accept Access Tokens as
       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
@@ -482,7 +484,8 @@
             
             <t hangText="registration_access_token">REQUIRED.
 	    Access token used by the 
-            client to perform <spanx style="verb">client_update</spanx> requests.</t>
+            client to perform <spanx style="verb">client_update</spanx>
+	    and <spanx style="verb">rotate_secret</spanx> requests.</t>
 
             <t hangText="expires_at">OPTIONAL.
 	    Time at which the <spanx style="verb">client_secret</spanx> will expire
@@ -554,7 +557,8 @@
             
             <t hangText="registration_access_token">REQUIRED.
 	    Access Token used by the 
-            Client to perform <spanx style="verb">client_update</spanx> requests.</t>
+            Client to perform <spanx style="verb">client_update</spanx>
+	    and <spanx style="verb">rotate_secret</spanx> requests.</t>
 
             <t hangText="expires_at">OPTIONAL.
 	    Number of
@@ -1040,6 +1044,14 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-15
+        <list style="symbols">
+	  <t>
+	    Fixed #708 - Registration access token requirement.
+	  </t>
+        </list>
+      </t>
 
       <t>-14
         <list style="symbols">
