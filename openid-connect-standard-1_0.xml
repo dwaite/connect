@@ -367,8 +367,10 @@
 	      <spanx style="verb">none</spanx>. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
+
               <t hangText="id_token_hint">ID Token
-              passed to the Authorization server as a hint. Refer to <xref
+              passed to the Authorization server as a hint about the End-User
+	      this request is about. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
             </list></t>
@@ -1656,10 +1658,14 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
            <t hangText="id_token_hint">OPTIONAL.
-	     ID Token
-              passed to the Authorization Server as a hint about the user's current or past
-              authenticated session with the Client. This SHOULD be present if 
-              <spanx style="verb">prompt=none</spanx> is sent. 
+		Previously issued <xref target="id_token">ID Token</xref>
+		passed to the Authorization Server as a hint about the End-User's current or past
+		authenticated session with the Client.
+		This SHOULD be present if <spanx style="verb">prompt=none</spanx> is sent.
+		If the End-User identified by the ID Token is logged in or is logged in by the request,
+		then the Authorization Server returns a positive response;
+		otherwise, it SHOULD return a negative response.
+
               The value is a <xref target="JWS">JWS</xref> encoded 
               ID Token as signed by the Issuer,
               the <xref target="JWS">JWS</xref> may be <xref target="JWE">JWE</xref> encrypted by 
@@ -1841,9 +1847,8 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
            Endpoint with the following parameters:</t>
         <t><list style="hanging">
           <t hangText="login_hint">REQUIRED.
-	    Hint to the authorization service 
-            about the login identifier the user may use to authenticate at the authorization 
-              service.
+	    Hint to the Authorization Server
+            about the login identifier the End-User may use to log in (if necessary).
           </t>
           <t hangText="iss">REQUIRED.
 	    Issuer Identifier for the Issuer that the client is to send the authentication request to. 
@@ -2445,6 +2450,9 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
         <list style="symbols">
 	  <t>
 	    Fixed #715 - Delete "profile" from request object example.
+	  </t>
+	  <t>
+	    Fixed #722 - Text on "id_token_hint" needs to be clarified.
 	  </t>
 	</list>
       </t>

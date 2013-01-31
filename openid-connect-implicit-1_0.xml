@@ -432,16 +432,17 @@
 	  with any other value, an
 	  error is returned.
 	  </t>
-	  
-	  <t hangText="login_hint">Hint to the authorization service 
-            about the login identifier the user may use to authenticate at the authorization 
-              service (if necessary). 
-              This hint can be used by an RP if it first asks the user for their email 
-              address (or other identifier) and then wants to pass that value as a hint 
-              to the discovered authorization service. 
-              It is recommended that the hint value match the value used for discovery. 
-              The use of this parameter is up to the OP's discretion.</t>
-	  </list>
+
+	      <t hangText="login_hint">OPTIONAL.
+		Hint to the Authorization Server
+		about the login identifier the End-User may use to log in (if necessary). 
+		This hint can be used by an RP if it first asks the End-User for their e-mail 
+		address (or other identifier) and then wants to pass that value as a hint
+		to the discovered authorization service.
+		It is RECOMMENDED that the hint value match the value used for discovery. 
+		The use of this parameter is left to the OP's discretion.
+	      </t>
+	    </list>
 	  </t>
 
           <figure>
@@ -1301,10 +1302,14 @@
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
            <t hangText="id_token_hint">OPTIONAL.
-	     <xref target="id_token">ID Token</xref>
-              passed to the Authorization Server as a hint about the user's current or past
-              authenticated session with the Client. This SHOULD be present if 
-              <spanx style="verb">prompt=none</spanx> is sent. 
+	     Previously issued <xref target="id_token">ID Token</xref>
+	     passed to the Authorization Server as a hint about the End-User's current or past
+	     authenticated session with the Client.
+	     This SHOULD be present if <spanx style="verb">prompt=none</spanx> is sent.
+	     If the End-User identified by the ID Token is logged in or is logged in by the request,
+	     then the Authorization Server returns a positive response;
+	     otherwise, it SHOULD return a negative response.
+
               The value is a <xref target="JWS">JWS</xref> encoded 
               ID Token as signed by the Issuer,
               the <xref target="JWS">JWS</xref> may be <xref target="JWE">JWE</xref> encrypted by 
@@ -2101,6 +2106,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #716 - Client/server 2119 blurriness.
+	  </t>
+	  <t>
+	    Fixed #722 - Text on "id_token_hint" needs to be clarified.
 	  </t>
 	</list>
       </t>
