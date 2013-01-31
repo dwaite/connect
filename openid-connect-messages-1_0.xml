@@ -456,20 +456,17 @@
 		If the End-User identified by the ID Token is logged in or is logged in by the request,
 		then the Authorization Server returns a positive response;
 		otherwise, it SHOULD return a negative response.
+		<vspace blankLines="1"/>
 
-              The value is a <xref target="JWS">JWS</xref> encoded 
-              ID token as signed by the issuer, 
-              the <xref target="JWS">JWS</xref> may be <xref target="JWE">JWE</xref> encrypted by 
-              the public key of the issuer for 
-              additional confidentiality. If the ID Token
-              received by the RP was encrypted, 
-              the Client MUST decrypt the signed ID Token.
-	      The Client MAY re-encrypt 
-              using the key that the server is capable of decrypting. 
-	      For a self-issued ID Token, the
-	      <spanx style="verb">sub</spanx> (subject)
-	      of the ID Token
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
+		If the ID Token received by the RP is encrypted, the Client MUST
+		decrypt the signed ID Token contained within the encrypted ID Token.
+		The Client MAY re-encrypt the signed ID token to the Authentication Server
+		using a key that enables the server to decrypt the ID Token.
+		<vspace blankLines="1"/>
+
+		For a self-issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
+		signed ID Token MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	      </t>
               
               <t hangText="login_hint">OPTIONAL.
 	        Hint to the Authorization Server
@@ -4324,6 +4321,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #722 - Text on "id_token_hint" needs to be clarified.
+	  </t>
+	  <t>
+	    Fixed #718 - Text on re-encrypting should be clearer.
 	  </t>
 	</list>
       </t>
