@@ -927,12 +927,15 @@
 	    The Claims defined below can be returned, as can additional
 	    Claims (not specified below).
 	  </t>
-
           <t>
             If a Claim is not returned, that Claim Name SHOULD be
             omitted from the JSON object representing the Claims; it
             SHOULD NOT be present with a null or empty string value.
           </t>
+	  <t>
+	    The <spanx style="verb">sub</spanx> (subject) Claim
+	    MUST always be returned in the UserInfo response.
+	  </t>
 
 	  <t>The members MAY be represented in multiple languages and scripts.
 	  To specify the languages and scripts, <xref
@@ -951,9 +954,7 @@
 
 	    <c>sub</c>
 	    <c>string</c>
-            <c>Subject - Identifier for the End-User at the Issuer.
-	    The <spanx style="verb">sub</spanx> (subject) Claim
-	    MUST always be returned in the UserInfo response.</c>
+            <c>Subject - Identifier for the End-User at the Issuer.</c>
 
 	    <c>name</c>
 	    <c>string</c>
@@ -2088,6 +2089,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #712 - "azp" definition clarification.
+	  </t>
+	  <t>
+	    Fixed #713 - Explicitly require "sub" claim to be returned from UserInfo endpoint.
 	  </t>
 	</list>
       </t>

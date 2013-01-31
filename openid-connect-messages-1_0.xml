@@ -1377,14 +1377,18 @@
 	    The Claims defined below can be returned, as can additional
 	    Claims (not specified below).
 	  </t>
+	  <t>
+	    If a Claim is not returned, that Claim Name SHOULD be
+	    omitted from the JSON object representing the Claims; it
+	    SHOULD NOT be present with a null or empty string value.
+	  </t>
+	  <t>
+	    The <spanx style="verb">sub</spanx> (subject) Claim
+	    MUST always be returned in the UserInfo response.
+	  </t>
+	</section>
 
-		  <t>
-		    If a Claim is not returned, that Claim Name SHOULD be
-		    omitted from the JSON object representing the Claims; it
-		    SHOULD NOT be present with a null or empty string value.
-		  </t>
-	 	</section>
-	 	<section anchor="UserInfoError" title="UserInfo Error Response">
+	<section anchor="UserInfoError" title="UserInfo Error Response">
           <t>When an error condition occurs, the UserInfo Endpoint returns
           an Error Response. In addition to the error codes defined in Section 3.1 of
           <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification
@@ -1512,9 +1516,7 @@
 
             <c>sub</c>
             <c>string</c>
-            <c>Subject - Identifier for the End-User at the Issuer.
-	    The <spanx style="verb">sub</spanx> (subject) Claim
-	    MUST always be returned in the UserInfo response.</c>
+            <c>Subject - Identifier for the End-User at the Issuer.</c>
 
             <c>name</c>
             <c>string</c>
@@ -4306,6 +4308,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #712 - "azp" definition clarification.
+	  </t>
+	  <t>
+	    Fixed #713 - Explicitly require "sub" claim to be returned from UserInfo endpoint.
 	  </t>
 	</list>
       </t>
