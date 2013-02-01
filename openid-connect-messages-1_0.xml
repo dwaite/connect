@@ -216,35 +216,30 @@
       <t><list style="numbers">
           <t>Authorization Endpoint: The RP sends a request to the 
           OP at the Authorization Endpoint. The OP 
-          then authenticates the End-User to find out if he is eligible
-          to make the authorization. Then, upon the authorization action of the
+          then authenticates the End-User to find out whether he is eligible
+          to be authenticated. Then, upon the authorization action of the
           End-User, the Authorization Server returns an Authorization Response
-          that includes Authorization Code, <spanx style="verb">code</spanx>.
-          For some Clients, Implicit Grant may be used to obtain <spanx 
-          style="verb">access_token</spanx> without using <spanx 
-          style="verb">code</spanx>. In this case, <spanx
+          that that may include an Authorization Code, <spanx style="verb">code</spanx>.
+          For some Clients, the Implicit Grant may be used to obtain an Access Token
+	  without using an Authorization Code. In this case, <spanx
           style="verb">response_type</spanx> MUST include <spanx
-          style="verb">token</spanx>. When <spanx style="verb">id_token</spanx>
-          was specified in the <spanx style="verb">response_type</spanx>, 
-          then the <spanx style="verb">id_token</spanx> is returned 
-          from this endpoint as well. </t>
+          style="verb">token</spanx> and <spanx style="verb">id_token</spanx>.</t>
 
           <t>Token Endpoint: The Client sends the Access Token Request to the
-          Token Endpoint to obtain an Access Token Response which includes an
-          <spanx style="verb">access_token</spanx>.</t>
+          Token Endpoint to obtain an Access Token Response that includes an
+          Access Token and ID Token.</t>
 
-          <t>UserInfo Endpoint: The <spanx style="verb">access_token</spanx>
-          MAY be sent to the UserInfo Endpoint to obtain Claims about the
-          End-User.</t>
+          <t>UserInfo Endpoint: The Access Token can be sent to the UserInfo Endpoint
+	  to obtain Claims about the End-User.</t>
 
         </list></t>
 
       <section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
-        <t>The RP sends an Authorization Request to the Authorization
-        Endpoint of the OP to obtain either an Authorization Response or an 
-        <xref target="id_token">ID Token</xref> or both depending on 
-        <spanx style="verb">response_type</spanx> and 
-        <spanx style="verb">scope</spanx>.</t>
+        <t>The RP sends an Authorization Request to the Authorization Endpoint
+	of the OP to obtain an Authorization Response,
+	which may contain an <xref target="id_token">ID Token</xref> and Access Token,
+	depending on the <spanx style="verb">response_type</spanx>
+	and <spanx style="verb">scope</spanx> values used.</t>
 
         <section anchor="auth_req" title="Authorization Request">
           <t>
@@ -263,7 +258,7 @@
 	      Authorization Endpoint.
 	    </t>
 
-	    <t>The OAuth 2.0 specification documents two response types:
+	    <t>The OAuth 2.0 specification defines two response types:
 
 	    <list style="hanging">
 	      <t hangText="code">When supplied as the value for the
@@ -272,58 +267,61 @@
 	      defined in the OAuth 2.0 specification. Both successful
 	      and error responses MUST be added as parameters to the
 	      query component of the response.  All tokens are returned
-	      from the Token Endpoint. Authorization Servers MUST support
+	      from the Token Endpoint.
+	      When used by OpenID Connect, an ID Token is also returned
+	      from the Token Endpoint.
+	      Authorization Servers MUST support
 	      this <spanx style="verb">response_type</spanx>.</t>
 
 	      <t hangText="token">When supplied as the value for the
 	      <spanx style="verb">response_type</spanx> parameter, a
 	      successful response MUST include an Access Token as
 	      defined in the OAuth 2.0 specification.  Both successful
-	      and error responses MUST be fragment-encoded.  No ID Token
-	      is provided to the Client.</t>
+	      and error responses MUST be fragment-encoded.
+	      No ID Token is provided to the Client;
+	      therefore, this <spanx style="verb">response_type</spanx>
+	      is not used by OpenID Connect.</t>
 	    </list>
 	    </t>
 
 	    <t>OpenID Connect supports these <xref
-	    target="OAuth.Responses">additional response types</xref> that have
-	    been registered:</t>
+	    target="OAuth.Responses">additional response types</xref>,
+	    which have been registered with IANA:</t>
 	    
 	    <t><list style="hanging">
 	      <t hangText="id_token">When supplied as the value
 	      for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include an ID Token.
-	      Both successful and
-	      error responses SHOULD be fragment-encoded. Authorization
-	      Servers MUST support this <spanx
-	      style="verb">response_type</spanx>.</t>
+	      Both successful and error responses SHOULD be fragment-encoded.
+	      Authorization Servers MUST support this <spanx style="verb">response_type</spanx>.</t>
 	      
 	      <t hangText="id_token token">When supplied as the value
 	      for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include both an
-	      Access Token as well as an ID Token.  Both successful and
-	      error responses SHOULD be fragment-encoded. Authorization
-	      Servers MUST support this <spanx
-	      style="verb">response_type</spanx>.</t>
+	      Access Token and an ID Token.
+	      Both successful and error responses SHOULD be fragment-encoded.
+	      Authorization Servers MUST support this <spanx style="verb">response_type</spanx>.</t>
 
 	      <t hangText="code token">When supplied as the value for
 	      the <spanx style="verb">response_type</spanx> parameter, a
 	      successful response MUST include both an Access Token and
 	      an Authorization Code as defined in the OAuth 2.0
-	      specification. Both successful and error responses SHOULD
-	      be fragment-encoded.</t>
+	      specification.
+	      When used by OpenID Connect, an ID Token is also returned
+	      from the Token Endpoint.
+	      Both successful and error responses SHOULD be fragment-encoded.</t>
 
 	      <t hangText="code id_token">When supplied as the value for
 	      the <spanx style="verb">response_type</spanx> parameter, a
-	      successful response MUST include both an Authorization
-	      Code as well as an ID Token.  Both successful and error
-	      responses SHOULD be fragment-encoded.</t>
+	      successful response MUST include both an Authorization Code
+	      and an ID Token.
+	      Both successful and error responses SHOULD be fragment-encoded.</t>
 
 	      <t hangText="code id_token token">When supplied as the
 	      value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include an
 	      Authorization Code, an ID Token, and an Access Token.
-	      Both successful and error responses SHOULD be
-	      fragment-encoded.</t>
+	      Both successful and error responses SHOULD be fragment-encoded.</t>
 	    </list></t>
 
 	    <t>The Authorization Server MUST support all three of the <spanx
@@ -333,16 +331,17 @@
 	    style="verb">response_type</spanx>.</t>
 	    
 	    <t>The Client may request any OAuth 2.0 registered response
-	    type supported by the Authorization Server.</t>
+	    type supported by the Authorization Server other than
+	    <spanx style="verb">token</spanx> (which provides no ID Token).</t>
 
 	    <t hangText="scope">
-	      Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.   
-	    If scopes requesting claims from the UserInfo Endpoint are requested by the Client,
-	    it MUST also request an Access Token for the UserInfo Endpoint.  
-	    Other scopes may define returning information from other Endpoints.
-	    See <xref target="scopes"/> for the scope values defined by this specification.
+	      Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
+	      If scopes requesting Claims from the UserInfo Endpoint are used by the Client,
+	      it MUST also request an Access Token for the UserInfo Endpoint.  
+	      Other scopes may specify that information be returned from other Endpoints.
+	      See <xref target="scopes"/> for the scope values defined by this specification.
 	    </t>
-	    
+
 	  </list></t>
 
           <t>Other REQUIRED OAuth 2.0 parameters in the request include:</t>
@@ -371,7 +370,7 @@
               to mitigate replay attacks.
 	      Use of the nonce is REQUIRED for all requests where an ID Token
 	      is returned directly from the Authorization Endpoint.  
-	      It is OPTIONAL if the ID Token is returned from the 
+	      It is OPTIONAL when the ID Token is returned from the 
 	      Token Endpoint.</t>
 
             <t hangText="display">OPTIONAL.
@@ -824,10 +823,7 @@
           <t>An Authorization Response is a message returned from the 
             OP's Authorization Endpoint in response to the Authorization Request 
             by the RP. </t>
-          <t>When the <spanx style="verb">response_type</spanx> in the request
-          is <spanx style="verb">token</spanx>, the Authorization
-          Response MUST return the parameters defined in Section 4.2.2 of
-          <xref target="RFC6749">OAuth 2.0</xref>. This specification only
+          <t>This specification only
           describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
           OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
           MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
@@ -840,9 +836,9 @@
 
           <t>When the <spanx style="verb">response_type</spanx>
           includes other values, they must be returned as defined by
-          their registration.  The <spanx style="verb">id_token</spanx> return type is defined in
-          <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type
-          Encoding Practices</xref>.</t>
+          their registration.  The <spanx style="verb">id_token</spanx>
+	  and <spanx style="verb">token id_token</spanx> response types are defined in
+          <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.</t>
 
           <section anchor="id_token" title="ID Token">
             <t>The ID Token is a security token that contains Claims about the
@@ -936,7 +932,7 @@
           being the nonce value sent in the Authorization Request.
           Use of the nonce is REQUIRED for all requests where an ID Token
 	      is returned directly from the Authorization Endpoint.  
-	      It is OPTIONAL if the ID Token is returned from the 
+	      It is OPTIONAL when the ID Token is returned from the 
 	      Token Endpoint.
           </t>
 
@@ -962,7 +958,7 @@
 	        Access Token hash value.
                 If the ID Token is issued from the Authorization endpoint with an 
                 <spanx style="verb">access_token</spanx>, this is REQUIRED.
-                This is OPTIONAL if the ID Token is issued from the Token Endpoint.
+                This is OPTIONAL when the ID Token is issued from the Token Endpoint.
 
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">access_token</spanx> 
@@ -977,7 +973,7 @@
 		Code hash value.
                 If the ID Token is issued from the Authorization endpoint with a 
                 <spanx style="verb">code</spanx>, this is REQUIRED.
-                This is OPTIONAL if the ID Token is issued from the Token Endpoint.
+                This is OPTIONAL when the ID Token is issued from the Token Endpoint.
                 
                 The value is produced by base64url encoding the left-most half of the hash 
                 created by hashing the <spanx style="verb">code</spanx> 
@@ -1116,9 +1112,9 @@
 
       <section anchor="token_ep" title="Token Endpoint">	
         <t>The RP (Client) sends an Access Token Request to the Token 
-        Endpoint to obtain Access Token Response,  
-        which MAY include Access Token, <xref target="token_lifetime">Refresh Token</xref>,
-	<xref target="id_token">ID Token</xref>, and other variables.</t>
+        Endpoint to obtain an Access Token Response,  
+        which MAY include an Access Token, a <xref target="token_lifetime">Refresh Token</xref>,
+	an <xref target="id_token">ID Token</xref>, and other results.</t>
         
         <section anchor="client_authentication" title="Client Authentication">
 
@@ -4329,6 +4325,10 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #738 - Behavior when "openid" scope is omitted.
+	  </t>
+	  <t>
+	    Fixed #714 - Clarified text specifying response_type behaviors, including
+	    prohibiting the use of the "token" response_type, since it returns no ID Token.
 	  </t>
 	</list>
       </t>

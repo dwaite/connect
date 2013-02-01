@@ -120,7 +120,7 @@
       return different information based on the scopes associated with the 
       presented Access Token.
       Clients MUST specify 
-      how the Access Token and ID Token are to be returned using the
+      how the Access Token and ID Token are to be returned by using the
       <spanx style="verb">response_type</spanx>
       parameter in the Authorization Request.
       </t>
@@ -298,15 +298,13 @@
               response type value that determines how the Authorization
               Response is returned to the Client.  As described in
               <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
-              the following registered values are supported:
+              the following registered values are supported by OpenID Connect:
                 <list style="symbols">
                   <t><spanx style="verb">code</spanx></t>
 
                   <t><spanx style="verb">code id_token</spanx></t>
                   
                   <t><spanx style="verb">id_token</spanx></t>
-
-                  <t><spanx style="verb">token</spanx></t>
 
                   <t><spanx style="verb">token id_token</spanx></t>
 
@@ -2456,6 +2454,10 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	  </t>
 	  <t>
 	    Fixed #718 - Text on re-encrypting should be clearer.
+	  </t>
+	  <t>
+	    Fixed #714 - Clarified text specifying response_type behaviors, including
+	    prohibiting the use of the "token" response_type, since it returns no ID Token.
 	  </t>
 	</list>
       </t>
