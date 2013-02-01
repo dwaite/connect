@@ -106,7 +106,7 @@
 
             <t hangText="Authentication Context">
             Information that the Relying Party may require before it makes an 
-            entitlements decision with respect to an authentication response. 
+            entitlement decision with respect to an authentication response. 
             Such context may include, but is not limited to, the actual 
             authentication method used or level of assurance such as 
             <xref target="ISO29115">ISO/IEC 29115</xref> 
@@ -194,7 +194,7 @@
 	    <t>The RP sends a request with the Access Token to the <xref
 	    target="userinfo_ep">UserInfo Endpoint</xref>.</t>
 
-	    <t>UserInfo Endpoint returns the additional End-User information
+	    <t>The UserInfo Endpoint returns the additional End-User information
 	    supported by the Resource Server.</t>
 
 	  </list>
@@ -209,9 +209,7 @@
     </section>
 
     <section anchor="Messages" title="Messages">
-      <t>In OpenID Connect protocols, in abstract, the process proceeds by the
-      RP interacting with endpoints. There are a number of endpoints
-      involved.</t>
+      <t>In OpenID Connect, the RP interacts with these endpoints at the OP:</t>
 
       <t><list style="numbers">
           <t>Authorization Endpoint: The RP sends a request to the 
@@ -248,7 +246,7 @@
             It is an extended <xref target="RFC6749">OAuth 2.0</xref> 
             Authorization Request. 
             Section 4.1.1 and 4.2.1 of <xref target="RFC6749">OAuth 2.0</xref> 
-            defines the OAuth 2.0 Authorization Request parameters. 
+            define the OAuth 2.0 Authorization Request parameters. 
             In this specification, the values to the parameters are defined as follows. 
           </t>
 
@@ -631,7 +629,7 @@
                     If not present, only the UserInfo Claims held by the OP 
                     that are requested by the 
                     <spanx style="verb">scope</spanx> values used are returned. 
-                    For details about this claim, refer to 
+                    For details about this functionality, refer to 
                     <xref target="claims_member"/>.
                   </t>
 
@@ -666,8 +664,8 @@
 	      the Claims requested within it augment the Claim set that
 	      would otherwise be returned in the ID Token.</t>
 
-              <t>Following Claims, in addition to the claims described in 
-                the <xref target="claims_member"/>, 
+              <t>The following Claims, in addition to the claims described in 
+                <xref target="StandardClaims"/>, 
                 MAY be requested in the ID Token by specifying requirements for them in 
                 the <spanx style="verb">claims</spanx> member:
               </t>
@@ -693,11 +691,9 @@
                     Claim containing the time at which the user authenticated
 		    be present in the 
                     <xref target="id_token">ID Token</xref> response.
-                    The Claim Value in the request must be 
-                    <spanx style="verb">{"essential": true}</spanx> to require 
-                    <spanx style="verb">auth_time</spanx> in the response.  
-                    If the Claim Value in the request is <spanx style="verb">null</spanx>
-                    the Authorization Server has the option of not including the claim in the response.
+                    The Claim request must contain
+                    <spanx style="verb">{"essential": true}</spanx> to require that
+		    <spanx style="verb">auth_time</spanx> be present in the response.  
                   </t>
                   
                   <t hangText="acr">OPTIONAL. 
@@ -766,7 +762,7 @@
 		          essential claims are not returned.
                 </t>
                 <t>
-                  The Client may request additional Claims on voluntary basis
+                  The Client can also request Claims on a voluntary basis
                   that it requires to perform other tasks offered to the user.
                 </t>
                 <t>
@@ -779,7 +775,7 @@
                       requested in the default manner. In particular, this is a 
                       voluntary Claim. 
                     </t>
-                    <t hangText="A JSON Object">
+                    <t hangText="JSON Object">
                       Used to provide additional information about the Claim being 
                       requested. This specification defines the following member: 
                     </t>
@@ -1137,15 +1133,17 @@
           
           <t hangText="client_secret_jwt"> 
           Clients that have received a <spanx style='verb'>client_secret</spanx> value 
-          from the Authorization Server, create a JWT using an
-	      HMAC SHA algorithm <xref target="JWA" />, such as HMAC SHA-256. 
-	      The HMAC (Hash-based Message Authentication Code) is calculated using the
-	      value of <spanx style='verb'>client_secret</spanx> as the shared key.
+          from the Authorization Server create a JWT using an
+	  HMAC SHA algorithm, such as HMAC SHA-256. 
+	  The HMAC (Hash-based Message Authentication Code) is calculated using the
+	  value of <spanx style='verb'>client_secret</spanx> as the shared key.
+	  <vspace blankLines="1"/>
 	   
-          The Client Authenticates in accordance with Section 2.2 of <xref
+          The Client authenticates in accordance with Section 2.2 of <xref
           target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
-          <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>. 
-          The JWT MUST contain the following REQUIRED Claims and MAY contain the following OPTIONAL Claims:</t>
+          <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
+          The JWT MUST contain the following REQUIRED Claim values and
+	  MAY contain the following OPTIONAL Claim values:</t>
          
           <t><list style="hanging">
           <t hangText="iss">REQUIRED.
@@ -1183,21 +1181,28 @@
 	  <t>The JWT MAY contain other Claims
 	  that are understood by all parties using it.</t>
 
-          <t>The authentication token MUST be sent as the value of the <spanx
-	      style='verb'>client_assertion</spanx> parameter.</t>
+          <t>The authentication token MUST be sent as the value of the
+	  <xref target="OAuth.Assertions"/>
+	  <spanx style='verb'>client_assertion</spanx> parameter.</t>
 
-          <t>The value of the <spanx style='verb'>client_assertion_type</spanx> parameter
-	  MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".</t>
+          <t>The value of the
+	  <xref target="OAuth.Assertions"/>
+	  <spanx style='verb'>client_assertion_type</spanx> parameter
+	  MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+	  per <xref target="OAuth.JWT"/>.</t>
 
           <t hangText="private_key_jwt">
           Clients that have registered a public key sign a JWT using 
           the RSA algorithm if a RSA key was registered 
           or the ECDSA algorithm if an Elliptic Curve key was registered
 	  (see <xref target="JWA">JWA</xref> for the algorithm identifiers).
-          The Client Authenticates in accordance with Section 2.2 of <xref
+	  <vspace blankLines="1"/>
+
+          The Client authenticates in accordance with Section 2.2 of <xref
           target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
           <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
-          The JWT MUST contain the following REQUIRED Claims and MAY contain the following OPTIONAL Claims:</t>
+          The JWT MUST contain the following REQUIRED Claim values and
+	  MAY contain the following OPTIONAL Claim values:</t>
 
           <t><list style="hanging">
 	    <t hangText="iss">REQUIRED.
@@ -1236,12 +1241,17 @@
 	  <t>The JWT MAY contain other Claims
 	  that are understood by all parties using it.</t>
 
-	  <t>The authentication token MUST be sent as the value of the <spanx
-	      style='verb'>client_assertion</spanx> parameter.</t>
+	  <t>The authentication token MUST be sent as the value of the
+	  <xref target="OAuth.Assertions"/>
+	  <spanx style='verb'>client_assertion</spanx> parameter.</t>
 
-          <t>The value of the <spanx style='verb'>client_assertion_type</spanx> parameter
-	  MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+          <t>The value of the
+	  <xref target="OAuth.Assertions"/>
+	  <spanx style='verb'>client_assertion_type</spanx> parameter
+	  MUST be "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+	  per <xref target="OAuth.JWT"/>.</t>
 
+	  <t>
         <figure>
           <preamble>
             For example
@@ -1460,7 +1470,7 @@
 
 	    <t hangText="offline_access">OPTIONAL. This scope value requests
 	    that an OAuth 2.0 Refresh Token be issued that can be used to
-	    obtain an access token that grants access the End-User's
+	    obtain an Access Token that grants access to the End-User's
 	    UserInfo endpoint even when the user is not present (not logged in).</t>
 
           </list>
@@ -2032,7 +2042,7 @@ may be retrieved:
         <t>The parameters are serialized into a JSON structure by adding each
         parameter at the highest structure level. Parameter names and string
         values are included as JSON strings. Numerical values are included as
-        JSON numbers. Each parameter MAY have JSON Structure as its value.</t>
+        JSON numbers. Each parameter MAY have a JSON structure as its value.</t>
 
         <figure>
           <preamble>Following is a non-normative example of such
@@ -2200,7 +2210,7 @@ may be retrieved:
     <section anchor="sigenc.key" title="Keys">
       
       <t>The Server advertises its supported signing and encryption algorithms
-      in its discovery document. The related elements are:</t>
+      in its discovery document.</t>
       
       <t>The Provider provides its public Keys during Discovery in the following elements:</t>
       <t><list style="hanging">
@@ -2227,7 +2237,7 @@ may be retrieved:
           It MAY also be used by the Client to JWE Encrypt the JWT
           to the Server if <spanx style="verb">x509_encryption_url</spanx>
           is not specified. The certificate referenced SHOULD be valid for its 
-          intended use as specified by <xref target="RFC2459">RFC 2459</xref></t>
+          intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
           
         <t hangText="x509_encryption_url"> 
           URL of the OP's X.509 certificates in PEM format
@@ -2236,7 +2246,7 @@ may be retrieved:
           to the Server. If it is not present, the URL provided by the
           <spanx style="verb">x509_url</spanx> is used instead. 
           The certificate referenced SHOULD be valid for its 
-          intended use as specified by <xref target="RFC2459">RFC 2459</xref></t>
+          intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
 
       </list></t>
       <t>The Client provides its public Keys during Registration, in the following 
@@ -2272,7 +2282,7 @@ may be retrieved:
             X.509 Certificate or Certificate chain, used to encrypt
 	    the <xref target="JWT">JWT</xref> to the Client.
             The certificate referenced SHOULD be valid for its 
-            intended use as specified by <xref target="RFC2459">RFC 2459</xref> </t>
+            intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
       
       </list></t>      
 
@@ -2394,7 +2404,7 @@ may be retrieved:
           Discovery Document, these are used by the Client to encrypt the JWT.</t>
           
           <t>The Authorization Server MUST decode the JWT in accordance with
-          <xref target="JWE">JSON Web Encryption</xref> specification. 
+          the <xref target="JWE">JSON Web Encryption</xref> specification.
 		  The result MAY be either OpenID Request Object or a JWS Signed JWT. 
 		  In the latter case, the signature validation MUST be performed 
 		  as defined in <xref target="signed.req.obj.var">Signed Request Object</xref>. </t>
@@ -2429,8 +2439,8 @@ may be retrieved:
 		  </t>
 		  <t><list style="numbers">
 		  <t>The Authorization Server MUST understand all the parameters 
-		  except for the unsupported Claims. If there are any parameters that 
-		  it does not understand except for the unsupported Claims, it MUST return 
+		  except for any unsupported Claims. If there are any parameters that 
+		  it does not understand except for any unsupported Claims, it MUST return 
 		  an error response.</t>
 		  <t>The Authorization Server MUST validate all the 
 		  OAuth 2.0 variables according to OAuth 2.0.</t>
@@ -2623,7 +2633,7 @@ may be retrieved:
       <t>
 	The <spanx style="verb">offline_access</spanx> scope value requests
 	that an OAuth 2.0 Refresh Token be issued that can be used to
-	obtain an access token that grants access to the End-User's
+	obtain an Access Token that grants access to the End-User's
 	UserInfo endpoint even when the user is not present (not logged in).
 	When offline access is requested, a <spanx style="verb">prompt</spanx>
 	parameter value of <spanx style="verb">consent</spanx> MUST be used.
@@ -2873,14 +2883,15 @@ may be retrieved:
 	  
 	  <section anchor="request_disclosure" title="Request Disclosure">
 	  <t>If appropriate measures are not taken, a request may be disclosed to 
-	  an attacker posing security and privacy threat.</t>
+	  an attacker, posing security and privacy threats.</t>
 	  <t>In addition to what is stated in Section 5.1.1 of <xref target="RFC6819" />, 
 	  this standard provides a way to provide the confidentiality of the request 
       end to end through the 
 	  use of <spanx style="verb">request</spanx> or <spanx style="verb">request_uri</spanx>
 	  parameters, where the content of the <spanx style="verb">request</spanx>
 	  is an encrypted JWT with the appropriate key and cipher.  
-      This works even against a compromised user-agent in the case of indirect request. </t>
+	  This protects even against a compromised user-agent
+	  in the case of indirect request.</t>
 	  </section>
 	   
 	  <section anchor="server_masquerading" title="Server Masquerading">
@@ -2956,12 +2967,12 @@ may be retrieved:
 	  
 	  <section anchor="request_repudation" title="Request Repudiation">
 	    <t>Since it is possible for a 
-		compromised or malicious Client to send request to a wrong party,  
+		compromised or malicious Client to send a request to the wrong party,  
 		a Client that was authenticated 
 		using only a bearer token can repudiate any transaction.
 		</t>
-        <t>To mitigate this threat, the Sever MAY require that the 
-		request to be digitally signed by
+        <t>To mitigate this threat, the Server MAY require that the
+		request be digitally signed by
         the Client using a key that supports non-repudiation. 
 		The Server SHOULD validate
         the digital signature to verify that it was issued by a legitimate
@@ -2982,25 +2993,25 @@ may be retrieved:
 
       <section anchor="token_reuse" title="Token Reuse">
 	<t>An Attacker attempts to use a one-time use token such as
-	an Authorization Code that has
-        been used once with the intended Resource. </t>
-        <t>To mitigate this threat, the token SHOULD include a timestamp 
-		and a short lifetime of 
-        validity. The Relying Party checks the timestamp and lifetime values
+	an Authorization Code that has already
+        been used once with the intended Resource.
+        To mitigate this threat, the token SHOULD include a timestamp 
+	and a short validity lifetime.
+	The Relying Party then checks the timestamp and lifetime values
         to ensure that the token is currently valid.</t>
+
 		<t>Alternatively, the server may record the state of the use of 
 		the token and check the status for each request. </t>
       </section>
 
       <section anchor="auth_code_capture"
                title=" Eavesdropping or Leaking Authorization Codes (Secondary Authenticator Capture)">
-        <t>In addition to the attack patterns described in 4.4.1.1 of OAuth SC, 
-		it can be captured in the User-Agent where the TLS
-        session is terminated if the User-Agent is infested
-        by malware. </t>
-		
-		<t>However, capturing it is not useful as long as the profile
-        uses either Client authentication or the Response encryption.</t>
+        <t>In addition to the attack patterns described in
+	Section 4.4.1.1 of <xref target="RFC6819"/>,
+	an Authorization Code can be captured in the User-Agent where the TLS
+        session is terminated if the User-Agent is infected by malware.
+	However, capturing it is not useful as long as the profile
+        uses either Client authentication or an encrypted response.</t>
       </section>
 
       <section anchor="token_substitution" title="Token Substitution">
@@ -3010,21 +3021,21 @@ may be retrieved:
 		to convince the Token Endpoint 
         that his or her authorization grant corresponds to the grant sent on 
         behalf of the more privileged user. </t>
-        <t>Responses to token requests is bound to the corresponding
+        <t>Responses to token requests are bound to the corresponding
         requests by message order in HTTP, as both token and requests are
         protected by TLS that can detect and disallow malicious reordering of
         packets.</t>
       </section>
 
       <section anchor="TimingAttack" title="Timing Attack">
-        <t>A timing attack is an attack that allows the attacker to 
+        <t>A timing attack allows the attacker to 
 		obtain an unnecessary large amount of information through the elapsed time 
 		differences in the code paths taken by successful and unsuccessful decryption operations or
 		successful and unsuccessful signature validation of a message. 
 		It can be used to reduce the effective key length of the
         cipher used. </t>
 		<t>Implementations should not terminate the validation process 
-		at the instance of the finding error but should continue 
+		at the instant of the finding an error but should continue 
 		running until all the octets have been processed to avoid this attack.</t>
       </section>
 	  
@@ -3084,7 +3095,7 @@ may be retrieved:
 	      integrity protection.
 	    </t>
 	  </section>
-      <section anchor="token_lifetime" title="Refresh Token, and Access Token Lifetime">
+      <section anchor="token_lifetime" title="Lifetimes of Access Tokens and Refresh Tokens">
       <t>Access Token grants are not revocable by the Authorization Server. 
       Access Token grant lifetimes SHOULD be kept to single use or 
       very short lifetimes.</t>
@@ -4204,49 +4215,51 @@ Representation of dates and times</title>
       specification.</t>
 
       <t><list style="empty">
-          <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
-
-          <t>Andreas Akre Solberg (andreas.solberg@uninett.no), UNINET</t>
-
-          <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
+	  <t>Amanda Anganes (aanganes@mitre.org), Mitre</t>
 
           <t>Casper Biering (cb@peercraft.com), Peercraft</t>
 
-          <t>Breno de Medeiros (breno@gmail.com), Google</t>
-
-          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
-
-          <t>David Recordon (dr@fb.com), Facebook</t>
-
-          <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
-
-          <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
-
-          <t>Hideki Nara (hideki.nara@gmail.com), Takt Communications</t>
+          <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
 
           <t>Johnny Bufu (jbufu@janrain.com), Janrain</t>
 
-          <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
-
-          <t>Justin Richer (jricher@mitre.org), Mitre</t>
-
-          <t>Luke Shepard (lshepard@fb.com), Facebook</t>
-
-          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
-
-          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
-
-          <t>Nov Matake (nov@matake.jp), Independent</t>
+          <t>Breno de Medeiros (breno@gmail.com), Google</t>
 
           <t>Pamela Dingle (pdingle@pingidentity.com), Ping Identity</t>
 
-          <t>Paul Tarjan (pt@fb.com), Facebook</t>
+          <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
+
+          <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
 
           <t>Roland Hedberg (roland.hedberg@adm.umu.se), Independent</t>
 
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
 
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+
           <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
+
+          <t>Nov Matake (nov@matake.jp), Independent</t>
+
+          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
+
+          <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
+
+          <t>Hideki Nara (hideki.nara@gmail.com), Takt Communications</t>
+
+          <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
+
+          <t>David Recordon (dr@fb.com), Facebook</t>
+
+          <t>Justin Richer (jricher@mitre.org), Mitre</t>
+
+          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
+
+          <t>Luke Shepard (lshepard@fb.com), Facebook</t>
+
+          <t>Andreas Akre Solberg (andreas.solberg@uninett.no), UNINET</t>
+
+          <t>Paul Tarjan (pt@fb.com), Facebook</t>
 
         </list></t>
     </section>
@@ -4604,7 +4617,7 @@ Representation of dates and times</title>
 	  <t>Added rational for signing then encrypting added to security considerations</t>
 	  <t>Added section about string comparison rules needed</t>
 	  <t>The Authorization Server MUST understand all the request parameters 
-	    except for the unsupported claims.</t>
+	    except for any unsupported claims.</t>
 	  <t>Make openid scope provide user_id from userinfo endpoint</t>
 	  <t>Added explanation of select_account</t>
 	  <t>Check ID Endpoint uses ID Token as Access Token according to Bearer Token spec</t>
