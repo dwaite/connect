@@ -485,8 +485,7 @@
             parameters that MAY differ from the default ones. Implementing
             support for the OpenID Request Object is OPTIONAL. Supporting it
             is necessary for implementations that need to request or provide
-            sets of Claims other than the default <xref
-            target="userinfo_ep">UserInfo</xref>, and ID Token Claim sets.</t>
+            sets of Claims other than the default UserInfo and ID Token Claims sets.</t>
 
             <t>The OpenID Request Object is a
 	    <xref target="JWS">JWS</xref> signed base64url encoded JSON object
@@ -2538,7 +2537,7 @@ may be retrieved:
             
             <t>If a nonce value was sent in the Authorization Request,
 	    a <spanx style="verb">nonce</spanx> Claim MUST be present
-	    and its value of the checked to verify that
+	    and its value checked to verify that
             it is the same value as the one that was sent in the Authorization
             Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
             The precise method for detecting replay attacks is Client specific.</t>
@@ -2566,14 +2565,14 @@ may be retrieved:
         <t><list style="numbers">
             <t>If the Client has provided a 
             <spanx style="verb">userinfo_encrypted_response_alg</spanx>
-            parameter during Registration, decrypt the ID Token
+            parameter during Registration, decrypt the UserInfo response
             using the key pair specified during Registration.</t>
             
             <t>If the response was signed, the Client SHOULD validate the
             signature according to <xref
             target="JWS">JWS</xref>.</t>
 
-            <t>Check that the OP that responded was really the intended OP
+            <t>Check that the OP that responded was the intended OP
             through a TLS/SSL server certificate check, per
 	    <xref target="RFC6125">RFC 6125</xref>.</t>
           </list></t>
