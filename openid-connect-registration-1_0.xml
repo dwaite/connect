@@ -143,14 +143,17 @@
 	    The default if not specified is 
             <spanx style="verb">web</spanx>.  The defined values are
             <spanx style="verb">native</spanx>
-            or <spanx style="verb">web</spanx>. Web clients MUST only register https: Scheme
-            <spanx style="verb">redirect_uris</spanx> that do not use localhost as the hostname.
+            or <spanx style="verb">web</spanx>.
+	    Web clients MUST only register URLs using the <spanx style="verb">https:</spanx> scheme as
+            <spanx style="verb">redirect_uris</spanx>;
+	    they MAY NOT use <spanx style="verb">localhost</spanx> as the hostname.
             Native clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
-            URI schemes or http: scheme URI using localhost as the hostname. Authorization
-            Servers may place additional constraints on Native such as not supporting the token
-            response_type. The Authorization server MUST verify that all the registered 
+            URI schemes or URLs using the <spanx style="verb">http:</spanx> scheme with
+	    <spanx style="verb">localhost</spanx> as the hostname.
+	    Authorization Servers may place additional constraints on Native clients.
+	    The Authorization server MUST verify that all the registered 
             <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
-            This prevents sharing a client_id across different types of clients.</t>
+            This prevents sharing a Client ID across different types of Clients.</t>
 
             <t hangText="access_token">OPTIONAL.
 	    If this is a <spanx style="verb">client_register</spanx>
@@ -255,7 +258,7 @@
             the keys contained in both formats SHOULD be the same.</t>
             
             <t hangText="sector_identifier_url">OPTIONAL.
-	    URL using the https: scheme to be used in
+	    URL using the <spanx style="verb">https:</spanx> scheme to be used in
             calculating Pseudonymous Identifiers by the OP. The URL references a
             file with a single JSON array of <spanx style="verb">redirect_uri</spanx> values.
             Please see <xref target="sector.identifier.url.validation" />.
@@ -369,7 +372,7 @@
                   request object overrides this default value.</t>
 
              <t hangText="initiate_login_uri">OPTIONAL. 
-            URI using the https: scheme that the authorization server can call
+            URI using the <spanx style="verb">https:</spanx> scheme that the authorization server can call
 	    to initiate a login at the client.
             The URI MUST accept requests via both GET and POST.
 	    The client MUST understand the 
@@ -434,10 +437,8 @@
 	  Section 2.4.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
 	  <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
-	  must be a URL using the https: scheme that references
+	  must be a URL using the <spanx style="verb">https:</spanx> scheme that references
 	  a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
-	  The Registration Server MUST perform a TLS/SSL server certificate check, per
-	  <xref target="RFC6125">RFC 6125</xref>.
 	  </t>
 
 	  <t>The values of the registered <spanx style="verb">redirect_uris</spanx>
@@ -523,7 +524,7 @@
    "application_type": "web",
    "redirect_uris":
    "https://client.example.org/callback
-   https://client.example.org/callback2",
+    https://client.example.org/callback2",
    "client_name": "My Example",
    "client_name#ja-Jpan-JP":
      "ワタシ用の例",
@@ -618,7 +619,7 @@
    "application_type": "web",
    "redirect_uris":
    "https://client.example.org/callback
-   https://client.example.org/callback2",
+    https://client.example.org/callback2",
    "client_name": "My Example",
    "client_name#ja-Jpan-JP":
      "ワタシ用の例",
@@ -727,6 +728,16 @@
 
     </section>
 
+    <section anchor="Validation" title="Validation">
+
+      <t>
+	If any of the validation procedures defined in this specification fail, any operations requiring
+	the information that failed to correctly validate MUST be aborted and
+	the information that failed to validate MUST NOT be used.
+      </t>
+
+    </section>
+
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
 	This specification defines features used by both Relying Parties and
@@ -742,15 +753,11 @@
     <section anchor="Security" title="Security Considerations">
       <t>Since requests to the Client Registration Endpoint result in the
       transmission of clear-text credentials (in the HTTP request and
-      response), the server MUST require the use of a transport-layer security
-      mechanism when sending requests to the Registration Endpoint. The server MUST
-      support TLS 1.2 <xref target="RFC5246">RFC 5246</xref> and/or
-      TLS 1.0 <xref target='RFC2246' />
-      and MAY support additional transport-layer mechanisms meeting its security
-      requirements.
-      When using TLS, the Client MUST perform a TLS/SSL server certificate check, per
-      <xref target="RFC6125">RFC 6125</xref>.
+      response),
+      all communiucation with the Registration Endpoint MUST utilize TLS.
+      See <xref target="TLS_requirements"/> for more information on using TLS.
       </t>
+
       <t>Requests to the Registration Endpoint for <spanx style="verb">client_update</spanx> MUST have some rate 
       limiting on failures to prevent the Client secret from being disclosed though
       repeated access attempts.</t>
@@ -776,7 +783,33 @@
       <spanx style="verb">policy_url</spanx>. The Authorization Server should check to see if the
       <spanx style="verb">logo_url</spanx> and <spanx style="verb">policy_url</spanx> have the 
       same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.</t>
-      
+
+      <section anchor="TLS_requirements" title="TLS Requirements">
+	<t>
+	  Implementations MUST support TLS.
+	  Which version(s) ought to be implemented will vary over
+	  time, and depend on the widespread deployment and known
+	  security vulnerabilities at the time of implementation.
+	  At the time of this writing,
+	  TLS version 1.2 <xref target='RFC5246' />
+	  is the most recent version, but has very limited actual
+	  deployment, and might not be readily available in
+	  implementation toolkits.
+	  TLS version 1.0 <xref target='RFC2246' />
+	  is the most widely deployed version, and will give the
+	  broadest interoperability.
+	</t>
+	<t>
+	  To protect against information disclosure and tampering,
+	  confidentiality protection MUST be applied using TLS
+	  with a ciphersuite that provides confidentiality and
+	  integrity protection.
+	</t>
+	<t>
+	  Whenever TLS is used, a TLS server certificate check
+	  MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
+	</t>
+      </section>      
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -1053,6 +1086,14 @@
 	  </t>
 	  <t>
 	    Fixed #735 - Require expires_at value in Client Register response.
+	  </t>
+	  <t>
+	    Added Security Considerations section about TLS version requirements and usage.
+	  </t>
+	  <t>
+	    State that when any validations fail, any operations requiring
+	    the information that failed to correctly validate MUST be aborted and
+	    the information that failed to validate MUST NOT be used.
 	  </t>
         </list>
       </t>

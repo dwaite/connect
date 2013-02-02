@@ -106,7 +106,7 @@
 	    </t>
 	    <t>
 	      Note: this document defines various kinds of Identifiers, designed for use in different contexts.
-	      Examples includes https URLs and e-mail addresses.
+	      Examples include URLs using the <spanx style="verb">https:</spanx> scheme and e-mail addresses.
 	    </t>
 
 	  </list></t>
@@ -151,17 +151,18 @@
       <t>To start discovery of OpenID endpoints, the End-User supplies an
       Identifier to the Client or Relying Party. The Client applies the
       normalization rules to the Identifier to determine the Resource and Host.
-      Then it makes a HTTPS request to the Host's
+      Then it makes an HTTPS GET request to the Host's
       <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>
       endpoint with the <spanx style="verb">resource</spanx> and <spanx
       style="verb">rel</spanx> parameters to obtain the location of the
       requested service.
-      The Client MUST perform a TLS/SSL server certificate check, per
-      <xref target="RFC6125">RFC 6125</xref>.
       </t>
 
-      <t>What MUST be returned in the response is the Issuer.
-      This includes URI scheme, HOST, and OPTIONALLY, port.</t>
+      <t>
+	The Issuer MUST be returned in the response.
+	This includes a URI scheme (which MUST be <spanx style="verb">https:</spanx>),
+	a Host, and OPTIONALLY, a port.
+      </t>
 
       <section anchor="IdentifierNormalization" title="Identifier Normalization">
         <t>The purpose of normalization is to determine a normalized Resource
@@ -245,9 +246,9 @@
                 the string is interpreted as 
                 <spanx style="verb">authority path-abempty [ "?" query ] [ "#" fragment ]</spanx>
                 of <xref target="RFC3986">RFC 3986</xref>. 
-                In this case, the "https" scheme is assumed, 
+                In this case, the <spanx style="verb">https:</spanx> scheme is assumed, 
                 and the normalized URL will be formed by 
-                prefixing "https://" to the string. 
+                prefixing <spanx style="verb">https://</spanx> to the string. 
               </t>
 
               <t>If the resulting URL contains a fragment portion, it MUST be
@@ -449,16 +450,14 @@
       when it contains no path component. <spanx style="verb">openid-configuration</spanx>
       MUST point to a JSON document compliant with this specification.</t>
 
-      <t>OpenID Providers MUST support receiving WebFinger requests via TLS 1.2
-      <xref target="RFC5246">RFC 5246</xref> and/or TLS 1.0
-      <xref target='RFC2246' /> and MAY support other
-      transport layer security mechanisms of equivalent security.</t>
+      <t>
+	OpenID Providers supporting discovery MUST support receiving WebFinger requests via TLS.
+	See <xref target="TLS_requirements"/> for more information on using TLS.
+      </t>
 
       <section anchor="ProviderConfigurationRequest" title="Provider Configuration Request">
         <t>An OpenID Provider Configuration Document MUST be queried using an HTTPS
         GET request at the previously specified path.
-	The Client MUST perform a TLS/SSL server certificate check, per
-	<xref target="RFC6125">RFC 6125</xref>.
 	</t>
 
         <t>The Client would make the following request to the 
@@ -520,23 +519,23 @@
 	    </t>
 
 	    <t hangText="issuer">REQUIRED.
-	      URL using the https: scheme with no query or fragment component that the OP asserts as its
-	      Issuer Identifier
+	      URL using the <spanx style="verb">https:</spanx> scheme with no query or fragment component that the OP asserts as its
+	      Issuer Identifier.
 	    </t>
 
 	    <t hangText="authorization_endpoint">OPTIONAL.
 	      URL of the OP's Authentication and Authorization Endpoint <xref
-	      target="OpenID.Messages"></xref>
+	      target="OpenID.Messages"></xref>.
 	    </t>
 
 	    <t hangText="token_endpoint">OPTIONAL.
 	      URL of the OP's OAuth 2.0 Token Endpoint <xref
-	      target="OpenID.Messages"></xref>
+	      target="OpenID.Messages"></xref>.
 	    </t>
 	    
 	    <t hangText="userinfo_endpoint">RECOMMENDED.
 	      URL of the OP's UserInfo Endpoint <xref
-	      target="OpenID.Messages"></xref>
+	      target="OpenID.Messages"></xref>.
 	    </t>
 
 	    <t hangText="check_session_iframe">OPTIONAL.
@@ -549,18 +548,18 @@
 
 	    <t hangText="end_session_endpoint">OPTIONAL.
 	      URL of the OP's endpoint that initiates the user logout <xref
-	      target="OpenID.Session"></xref>
+	      target="OpenID.Session"></xref>.
 	    </t>
 
 	    <t hangText="jwk_url">OPTIONAL.
 	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
-	      document containing the server's signing key(s)
+	      document containing the server's signing key(s).
 	    </t>
 	    
 	    <t hangText="jwk_encryption_url">OPTIONAL.
 	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
 	      document containing the server's encryption key(s); if not present, its value 
-	      is the same as the URL provided by <spanx style="verb">jwk_url</spanx>
+	      is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.
 	    </t>
 
 	    <t hangText="x509_url">REQUIRED.
@@ -570,12 +569,12 @@
 	    <t hangText="x509_encryption_url">OPTIONAL.
 	      URL of the OP's X.509 certificates in PEM format.
 	      Server's Encryption Key, if not present its value 
-	      is the same as the URL provided by <spanx style="verb">x509_url</spanx>
+	      is the same as the URL provided by <spanx style="verb">x509_url</spanx>.
 	    </t>
 
 	    <t hangText="registration_endpoint">RECOMMENDED.
 	      URL of the OP's Dynamic Client Registration Endpoint <xref
-	      target="OpenID.Registration"></xref>
+	      target="OpenID.Registration"></xref>.
 	    </t>
 
 	    <t hangText="scopes_supported">RECOMMENDED.
@@ -789,6 +788,13 @@
       </section>
 
       <section anchor="ProviderConfigurationValidation" title="Provider Configuration Validation">
+
+	<t>
+	  If any of the validation procedures defined in this specification fail, any operations requiring
+	  the information that failed to correctly validate MUST be aborted and
+	  the information that failed to validate MUST NOT be used.
+	</t>
+
         <t>If the configuration response contains the Issuer
         element, the value MUST exactly match the Issuer
         for the URL that was directly used to retrieve the configuration.
@@ -853,6 +859,33 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>TBD</t>
+
+      <section anchor="TLS_requirements" title="TLS Requirements">
+	<t>
+	  Implementations MUST support TLS.
+	  Which version(s) ought to be implemented will vary over
+	  time, and depend on the widespread deployment and known
+	  security vulnerabilities at the time of implementation.
+	  At the time of this writing,
+	  TLS version 1.2 <xref target='RFC5246' />
+	  is the most recent version, but has very limited actual
+	  deployment, and might not be readily available in
+	  implementation toolkits.
+	  TLS version 1.0 <xref target='RFC2246' />
+	  is the most widely deployed version, and will give the
+	  broadest interoperability.
+	</t>
+	<t>
+	  To protect against information disclosure and tampering,
+	  confidentiality protection MUST be applied using TLS
+	  with a ciphersuite that provides confidentiality and
+	  integrity protection.
+	</t>
+	<t>
+	  Whenever TLS is used, a TLS server certificate check
+	  MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
+	</t>
+      </section>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -1230,6 +1263,16 @@
       <t>-13
         <list style="symbols">
 	  <t>
+	    Added Security Considerations section about TLS version requirements and usage.
+	  </t>
+	  <t>
+	    Removed language about supporting other transport-layer
+	    mechanisms with equivalent security to TLS.
+	  </t>
+	  <t>
+	    State that when any validations fail, any operations requiring
+	    the information that failed to correctly validate MUST be aborted and
+	    the information that failed to validate MUST NOT be used.
 	  </t>
         </list>
       </t>

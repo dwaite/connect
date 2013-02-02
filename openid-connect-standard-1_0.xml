@@ -264,12 +264,10 @@
         End-User Authorization has not yet been obtained, the Client
         prepares an Authorization Request to the Authorization Endpoint.</t>
 
-        <t>Authorization Servers MUST require the use of a transport-layer
-        security mechanism at the Authorization Endpoint. The Authorization 
-        Server MUST support TLS 1.2 <xref target="RFC5246">RFC 5246</xref>
-	and/or TLS 1.0 <xref target='RFC2246' />
-	and MAY support other transport-layer 
-        mechanisms with equivalent security.</t>
+	<t>
+	  Communiucation with the Authorization Endpoint MUST utilize TLS.
+	  See <xref target="TLS_requirements"/> for more information on using TLS.
+	</t>
 
         <t>Authorization Servers MUST support the use of the HTTP "GET" and 
         "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
@@ -286,9 +284,7 @@
                  title="Client Prepares Authorization Request">
           <t>The Client prepares an Authorization Request to the Authorization
           Endpoint with the request parameters using the HTTP "GET" or "POST"
-          method. The scheme used in the Authorization URL MUST be HTTPS.
-	  The Client MUST perform a TLS/SSL server certificate check, per
-	  <xref target="RFC6125">RFC 6125</xref>.
+          method. The scheme used in the Authorization URL MUST be <spanx style="verb">https:</spanx>.
 	  </t>
 
           <t>The required Authorization Request parameters are as follows:</t>
@@ -428,9 +424,7 @@
             <section anchor="norm_req"
                      title="Client Sends Request to Authorization Server">
               <t>Having constructed the Authorization Request, the Client sends it
-              to the HTTPS End-User Authorization Endpoint. This
-              MAY happen via HTTPS redirect, hyperlinking, or any other means
-              of directing the User-Agent to the Authorization Endpoint URL.</t>
+              to the Authorization Endpoint using HTTPS.</t>
 
               <figure>
 		<preamble>Following is a non-normative example using HTTP redirect
@@ -677,9 +671,7 @@ KHlWj5uzeJXaw",
             <t>The Client prepares an Authorization Request using the desired 
             HTTP "GET" or "POST" method. The Client SHOULD use the HTTP "GET"
             method, but MAY use the HTTP "POST" method.
-	    The scheme used in the Authorization URL MUST be HTTPS.
-	    The Client MUST perform a TLS/SSL server certificate check, per
-	    <xref target="RFC6125">RFC 6125</xref>.
+	    The scheme used in the Authorization URL MUST be <spanx style="verb">https:</spanx>.
 	    </t>
 
             <t> The Authorization Request MUST NOT include the 
@@ -687,7 +679,7 @@ KHlWj5uzeJXaw",
             Request MUST include the <spanx style="verb">request_uri</spanx>
             parameter. The contents of the target of the URL must be an
             OpenID Request Object. The scheme used in the 
-            <spanx style="verb">request_uri</spanx> value MUST be HTTPS, 
+            <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https:</spanx>, 
             unless the target OpenID Request Object is signed in a way that is verifiable by the 
             Authorization Server.
             The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
@@ -1231,15 +1223,14 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
       Token Endpoint as described in
       Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
-      <t>Authorization Servers MUST support the use of the HTTP "POST"
+      <t>The Token Endpoint MUST support the use of the HTTP "POST"
       method defined in <xref target="RFC2616">RFC 2616</xref> at the
       Token Endpoint.</t>
 
-      <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2
-      <xref target="RFC5246">RFC 5246</xref> and/or TLS 1.0
-      <xref target='RFC2246' /> and MAY support
-      other transport-layer mechanisms with equivalent security.</t>
+      <t>
+	Communiucation with the Token Endpoint MUST utilize TLS.
+	See <xref target="TLS_requirements"/> for more information on using TLS.
+      </t>
 
       <t>All Token Endpoint responses that contain tokens, secrets, or other
       sensitive information MUST include the following HTTP response header
@@ -1452,39 +1443,41 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
     </section>
 
     <section anchor="userinfo_ep" title="UserInfo Endpoint">
-      <t>To obtain the requested Claims about the End-User, the Client
-      makes a GET or POST request to the UserInfo Endpoint as in <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+      <t>
+	The UserInfo Endpoint is a Protected Resource that
+        returns Claims about the authenticated End-User.
+	To obtain the requested Claims about the End-User, the Client
+	makes a GET or POST request to the UserInfo Endpoint as in
+	Section 2.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+      </t>
+      <t>
+	Communication with the UserInfo Endpoint MUST utilize TLS.
+	See <xref target="TLS_requirements"/> for more information on using TLS.
+      </t>
 
-      <t>Authorization Servers MUST require the use of a transport-layer
-      security mechanism. The Authorization Server MUST support TLS 1.2
-      <xref target="RFC5246">RFC 5246</xref> and/or TLS 1.0
-      <xref target='RFC2246' /> and MAY support
-      other transport-layer mechanisms with equivalent security.</t>
-
-      <t>Authorization Servers MUST support the use of the HTTP "GET" and HTTP
+      <t>The UserInfo Endpoint MUST support the use of the HTTP "GET" and HTTP
       "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
       UserInfo Endpoint. </t>
 
-      <t>Authorization Servers MUST accept Access Tokens as
+      <t>The UserInfo Endpoint MUST accept Access Tokens as
       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
       
-      <t>Authorization Servers SHOULD support the use of 
+      <t>The UserInfo Endpoint SHOULD support the use of 
       <xref target="CORS">Cross Origin Resource Sharing (CORS)</xref> and
       or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
 
       <section anchor="UserInfoRequest" title="UserInfo Request">
         <t>Client SHOULD send the UserInfo Request defined in
 	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
-        either in HTTP GET or POST request.</t>
+        either in an HTTPS GET or HTTPS POST request.</t>
         
         <t>The Access Token obtained
             from an OpenID Connect Authorization Request MUST be sent as a Bearer Token.
             Section 2 of the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
             specification documents the permissible methods of sending the Access Token.</t> 
-            <t>It is RECOMMENDED that the Client use the authorization header method for all 
-            requests using GET.</t>
-            
+            <t>It is RECOMMENDED that the Client use the
+	    <spanx style="verb">Authorization</spanx> header field
+	    method for all requests and that they use the GET method.</t>
             
         <figure>
           <preamble>The following is a non-normative example:</preamble>
@@ -1657,7 +1650,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
            <t hangText="id_token_hint">OPTIONAL.
-	     Previously issued <xref target="id_token">ID Token</xref>
+	     Previously issued ID Token
 	     passed to the Authorization Server as a hint about the End-User's current or past
 	     authenticated session with the Client.
 	     This SHOULD be present if <spanx style="verb">prompt=none</spanx> is sent.
@@ -1736,6 +1729,13 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
       </section>
 
       <section anchor="self_issued.validation" title="Self-Issued ID Token Validation">
+
+	<t>
+	  If any of the validation procedures defined in this specification fail, any operations requiring
+	  the information that failed to correctly validate MUST be aborted and
+	  the information that failed to validate MUST NOT be used.
+	</t>
+
         <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
 
@@ -1837,7 +1837,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 
       <t>The client may optionally <xref
       target="OpenID.Registration">register</xref> an <spanx style="verb">initiate_login_uri</spanx> that
-      can be used by the Authorization Server or other party to initiate login for a user at the Client.</t>
+      can be used by the Authorization Server or other party to initiate a login for an End-User at the Client.</t>
       
       <t>The Authorization Server or Third Party sends the Initiation Request to the Client Initiation
            Endpoint with the following parameters:</t>
@@ -1848,7 +1848,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
           </t>
           <t hangText="iss">REQUIRED.
 	    Issuer Identifier for the Issuer that the client is to send the authentication request to. 
-            The value MUST be a URI using the https: scheme.
+            The value MUST be a URL using the <spanx style="verb">https:</spanx> scheme.
           </t>
           <t hangText="target_link_uri">OPTIONAL.
 	    URI that the client is requested to redirect to after authentication.
@@ -1972,6 +1972,33 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
         RP. The only the place it can be captured is the User-Agent where the
         TLS session is terminated, and is possible if the User-Agent is
         infested by malware.</t>
+      </section>
+
+      <section anchor="TLS_requirements" title="TLS Requirements">
+	<t>
+	  Implementations MUST support TLS.
+	  Which version(s) ought to be implemented will vary over
+	  time, and depend on the widespread deployment and known
+	  security vulnerabilities at the time of implementation.
+	  At the time of this writing,
+	  TLS version 1.2 <xref target='RFC5246' />
+	  is the most recent version, but has very limited actual
+	  deployment, and might not be readily available in
+	  implementation toolkits.
+	  TLS version 1.0 <xref target='RFC2246' />
+	  is the most widely deployed version, and will give the
+	  broadest interoperability.
+	</t>
+	<t>
+	  To protect against information disclosure and tampering,
+	  confidentiality protection MUST be applied using TLS
+	  with a ciphersuite that provides confidentiality and
+	  integrity protection.
+	</t>
+	<t>
+	  Whenever TLS is used, a TLS server certificate check
+	  MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
+	</t>
       </section>
     </section>
 
@@ -2456,6 +2483,18 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	  <t>
 	    Fixed #714 - Clarified text specifying response_type behaviors, including
 	    prohibiting the use of the "token" response_type, since it returns no ID Token.
+	  </t>
+	  <t>
+	    Added Security Considerations section about TLS version requirements and usage.
+	  </t>
+	  <t>
+	    Removed language about supporting other transport-layer
+	    mechanisms with equivalent security to TLS.
+	  </t>
+	  <t>
+	    State that when any validations fail, any operations requiring
+	    the information that failed to correctly validate MUST be aborted and
+	    the information that failed to validate MUST NOT be used.
 	  </t>
 	</list>
       </t>

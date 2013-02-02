@@ -146,7 +146,7 @@
 	    <t hangText="Issuer">Entity that issues a set of Claims.</t>
 
 	    <t hangText="Issuer Identifier">Verifiable identifier for
-	    an Issuer.  An Issuer Identifier is an HTTPS URL that
+	    an Issuer.  An Issuer Identifier is a URL using the <spanx style="verb">https:</spanx> scheme that
 	    contains scheme, host, and OPTIONALLY, port number and path
 	    components.  (No query or fragment components may be present.)</t>
 
@@ -845,7 +845,7 @@
             style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
             Claims. </t>
 
-            <t>The following Claims are defined for use within the ID Token:</t>
+            <t>The following Claims are used within the ID Token:</t>
 
             <t><list style="hanging">
                 <t hangText="iss">REQUIRED.
@@ -1807,7 +1807,7 @@
 	  is provided, the host component of that URL is used as
 	  the Sector Identifier for the pairwise identifier calculation.
 	  The value of the <spanx style="verb">sector_identifier_url</spanx>
-	  must be a HTTPS URL that points to
+	  must be a URL using the <spanx style="verb">https:</spanx> scheme that points to
 	  a JSON file containing an array of
 	  <spanx style="verb">redirect_uri</spanx> values.
 	  The values of the registered <spanx style="verb">redirect_uris</spanx>
@@ -2381,6 +2381,12 @@ may be retrieved:
 
     <section anchor="Validation" title="Validation">
 
+      <t>
+	If any of the validation procedures defined in this specification fail, any operations requiring
+	the information that failed to correctly validate MUST be aborted and
+	the information that failed to validate MUST NOT be used.
+      </t>
+
       <section anchor="AuthorizationRequestValidation" title="Authorization Request Validation">
 	<t>Authorization Request Validation consists of two main 
 	  steps: (1) decryption and signature validation of 
@@ -2583,7 +2589,7 @@ may be retrieved:
             target="JWS">JWS</xref>.</t>
 
             <t>Check that the OP that responded was the intended OP
-            through a TLS/SSL server certificate check, per
+            through a TLS server certificate check, per
 	    <xref target="RFC6125">RFC 6125</xref>.</t>
           </list></t>
       </section>
@@ -2634,7 +2640,7 @@ may be retrieved:
 	The <spanx style="verb">offline_access</spanx> scope value requests
 	that an OAuth 2.0 Refresh Token be issued that can be used to
 	obtain an Access Token that grants access to the End-User's
-	UserInfo endpoint even when the user is not present (not logged in).
+	UserInfo Endpoint even when the user is not present (not logged in).
 	When offline access is requested, a <spanx style="verb">prompt</spanx>
 	parameter value of <spanx style="verb">consent</spanx> MUST be used.
 	The user MUST always explicitly consent to the return of a Refresh Token
@@ -2920,16 +2926,11 @@ may be retrieved:
             Party SHOULD validate the digital signature to verify that it was
             issued by a legitimate OP.</t>
 
-            <t>The token can be sent over a protected channel such as
-            TLS 1.2 <xref target="RFC5246">RFC 5246</xref>
-	    and/or TLS 1.0 <xref target='RFC2246' />. 
-            In order to protect the integrity of the token from
-            malicious attack, the Server MUST be authenticated, per
-			<xref target="RFC6125">RFC 6125</xref>. In this
-            specification, the token is always sent over TLS/SSL protected
-            channel. Note however, that this measure is only applicable 
-			to the third party attacker and is not applicable to the case 
-			where the Client is the attacker. </t>
+            <t>The token can be sent over a protected channel such as TLS.
+	    See <xref target="TLS_requirements"/> for more information on using TLS.
+	    In this specification, the token is always sent over a TLS protected channel.
+	    Note however, that this measure is only a defense against third party attackers
+	    and is not applicable to the case where the Client is the attacker.</t>
           </list></t>
       </section>
 
@@ -2942,7 +2943,8 @@ may be retrieved:
         <t>The server response disclosure can be mitigated in the following two
         ways:
           <list style="numbers">
-            <t>Using the <spanx style="verb">code</spanx> response type. The response is sent over a TLS/SSL protected 
+            <t>Using the <spanx style="verb">code</spanx> response type.
+	    The response is sent over a TLS protected 
             channel, where the Client is authenticated by the
 	    <spanx style="verb">client_id</spanx> and 
             <spanx style="verb">client_secret</spanx>.</t>
@@ -3093,6 +3095,10 @@ may be retrieved:
 	      confidentiality protection MUST be applied using TLS
 	      with a ciphersuite that provides confidentiality and
 	      integrity protection.
+	    </t>
+	    <t>
+	      Whenever TLS is used, a TLS server certificate check
+	      MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
 	    </t>
 	  </section>
       <section anchor="token_lifetime" title="Lifetimes of Access Tokens and Refresh Tokens">
@@ -4341,6 +4347,16 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #714 - Clarified text specifying response_type behaviors, including
 	    prohibiting the use of the "token" response_type, since it returns no ID Token.
+	  </t>
+	  <t>
+	    Added statement "whenever TLS is used, a TLS server certificate check
+	    MUST be performed, per <xref target="RFC6125">RFC 6125</xref>" to
+	    TLS Requirements section in Security Considerations.
+	  </t>
+	  <t>
+	    State that when any validations fail, any operations requiring
+	    the information that failed to correctly validate MUST be aborted and
+	    the information that failed to validate MUST NOT be used.
 	  </t>
 	</list>
       </t>
