@@ -379,13 +379,13 @@
 
 	      <list style="hanging">
               <t hangText="page">The Authorization Server SHOULD display
-              authentication and consent UI consistent with a full user-agent page
+              authentication and consent UI consistent with a full User-Agent page
               view. If the display parameter is not specified this is the
               default display mode.</t>
 
               <t hangText="popup">The Authorization Server SHOULD display
-              authentication and consent UI consistent with a popup user-agent
-              window. The popup user-agent window SHOULD be 450 pixels wide
+              authentication and consent UI consistent with a popup User-Agent
+              window. The popup User-Agent window SHOULD be 450 pixels wide
               and 500 pixels tall.</t>
 
               <t hangText="touch">The Authorization Server SHOULD display
@@ -467,9 +467,7 @@
         <section anchor="implicit_req"
 		 title="Client Sends Request to Authorization Server">
           <t>Having constructed the Authorization Request, the Client sends it
-          to the Authorization Endpoint. This MAY happen via HTTPS redirect, 
-          hyperlinking, or any other secure means of directing the User-Agent 
-          to the URL.</t>
+          to the Authorization Endpoint using HTTPS.</t>
 
           <figure>
 	    <preamble>Following is a non-normative example using HTTP redirect
@@ -490,15 +488,19 @@
 
         <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
-          <t>The authorization server authenticates the resource owner
-          to make sure that the consent is obtained from the right
-          party. The exact method of how the authentication is
-          performed is out of scope of this specification. </t>
+          <t>
+	    The Authorization Server authenticates the resource owner
+	    to make sure that consent is obtained from the right party.
+	    If interaction with the End-User occurs over an HTTP channel,
+	    it MUST use TLS, as specified in <xref target="RFC5246">RFC 5246</xref>
+	    or <xref target="RFC2246"/>.
+	    The exact authentication methods used are out of scope for this specification.
+	  </t>
         </section>
 
         <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
-          <t>The Authorization Server obtains an authorization decision,
+          <t>The Authorization Server obtains an authorization decision
           for the requested Claims. This can done by presenting the End-User
           with a dialogue that allows the End-User to recognize what he is
           consenting to and obtain his consent or by establishing consent via
@@ -596,7 +598,7 @@
           
           <section anchor="implicit_callback" 
                    title="Example Redirect URI response">
-          <t>The client must provide a way for the user agent to parse the fragment encoded
+          <t>The client must provide a way for the User-Agent to parse the fragment encoded
           response and POST it to the web server client for validation.</t>
           <t>The following is an example of a JavaScript file that a Client might host at its
           <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
