@@ -319,7 +319,9 @@
              algorithm <xref target="JWA" /> required for the ID Token issued to this
 	     <spanx style="verb">client_id</spanx>.
 	     The valid values are listed in
-	     Section 3.1 of <xref target="JWA">JWA</xref>.
+	     Section 3.1 of <xref target="JWA">JWA</xref>,
+	     with the exception of <spanx style="verb">none</spanx>,
+	     which MAY NOT be used as the ID Token <spanx style="verb">alg</spanx> value.
 	     The default if not specified is <spanx style="verb">RS256</spanx>.
 	     The public key for validating the signature is provided by retrieving the 
 	     document from the
@@ -529,6 +531,8 @@
 	value received in the registration request and the addition of
 	a <spanx style="verb">client_id</spanx> parameter, which MUST contain the
 	<spanx style="verb">client_id</spanx> value received in the registration request.
+	The presence of the <spanx style="verb">client_id</spanx> syntactically
+	distinguishes client update requests from client registration requests.
 	All Client Metadata values, other than the Client ID and
 	Registration Access Token are replaced by this operation.
 	</t>
@@ -566,7 +570,7 @@
         </figure>
       </section>
 
-      <section anchor="ClientUpdateResponse" title="Client Update Operation Response">
+      <section anchor="ClientUpdateResponse" title="Client Update Response">
        <t>Upon successful update, the Client Registration Endpoint returns
         the Client ID, along with all current registered metadata about this
         client, including any fields provisioned by the Authorization Server
@@ -634,10 +638,6 @@
       <t>
 	<list style="hanging">
           <t hangText="invalid_client_id">Value of <spanx style="verb">client_id</spanx> is invalid.</t>
-          
-          <t hangText="invalid_client_secret"><spanx style="verb">client_secret</spanx>
-	  provided for accessing the registered client is not valid for the
-	  provided <spanx style="verb">client_id</spanx>.</t>
 
           <t hangText="invalid_redirect_uri">Value of one or more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
 
@@ -767,10 +767,6 @@
       all communiucation with the Registration Endpoint MUST utilize TLS.
       See <xref target="TLS_requirements"/> for more information on using TLS.
       </t>
-
-      <t>Requests to the Registration Endpoint for <spanx style="verb">client_update</spanx> MUST have some rate 
-      limiting on failures to prevent the Client secret from being disclosed though
-      repeated access attempts.</t>
 
       <t>
         A rogue RP might use the logo for the legitimate RP, which it
@@ -1038,7 +1034,32 @@
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
-      <t></t>
+
+      <t>The OpenID Community would like to thank the following
+      people for the work they have done in the drafting and editing of this
+      specification.</t>
+
+      <t><list style="empty">
+
+	  <t>Amanda Anganes (aanganes@mitre.org), Mitre</t>
+
+          <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
+
+	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
+
+	  <t>Vladimir Dzhuvinov (vladimir@nimbusds.com), NimbusDS</t>
+
+          <t>Roland Hedberg (roland.hedberg@adm.umu.se), Independent</t>
+
+          <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
+
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+
+          <t>Justin Richer (jricher@mitre.org), Mitre</t>
+
+          <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
+
+        </list></t>
     </section>
 
     <section anchor="Notices" title="Notices">
@@ -1122,6 +1143,9 @@
 	  </t>
 	  <t>
 	    Added client update example.
+	  </t>
+	  <t>
+	   Fixed #727 - Deleted invalid_client_secret error.
 	  </t>
 
         </list>
