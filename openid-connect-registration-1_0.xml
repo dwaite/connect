@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 16</title>
+    Dynamic Client Registration 1.0 - draft 15</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -38,7 +38,7 @@
       </address>
     </author>
 
-    <date day="30" month="January" year="2013" />
+    <date day="5" month="February" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -93,46 +93,56 @@
 	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
 	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	It defines no additional terms.</t>
+	</t>
+
+	<t>This specification defines the following additional terms:</t>
+
+	<t><list style="hanging">
+          <t hangText="Client Registration Endpoint">
+	    OAuth 2.0 Protected Resource through which a Client can request
+	    a new registration and manage the metadata associated with it.
+	  </t>
+
+          <t hangText="Registration Access Token">
+	    OAuth 2.0 Bearer Token issued by the Authorization Server
+	    through the Client Registration Endpoint that is used by the Client
+	    to authenticate itself during update operations.
+	  </t>
+        </list></t>
       </section>
     </section>
 
-    <section anchor="ClientRegistrationEndpoint" title="Client Registration Endpoint">
-      <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that returns registration information for
-      the Client to configure itself for the OpenID Provider.
+    <section anchor="ClientRegistration" title="Client Registration">
+      <t>The Client Registration Endpoint is an
+      OAuth 2.0 Protected Resource through which a Client can request
+      a new registration and manage the metadata associated with it.
       The OpenID Provider may require an Access Token that is
       provisioned out-of-band (in a manner that is out of scope for
       this specification) in order to restrict registration requests
       to only authorized Clients.</t>
 
       <t>In order to support open registration, the Client
-      Registration Endpoint SHOULD accept requests without OAuth 2.0
+      Registration Endpoint SHOULD accept registration requests without OAuth 2.0
       Access Tokens.
       If an Access Token is required for Client registration, the Client Registration Endpoint
       MUST be able to accept Access Tokens in the manner described in the
       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
       specification.</t>
 
-      <section anchor="ClientRegistration" title="Client Registration and Client Update Request">
-        <t>Client Update Requests replace all previous parameters set for a 
-        <spanx style="verb">client_id</spanx>.</t>
-        <t>Clients MUST send requests encoded as a POST with the following
-        parameters added to the HTTP request entity-body using
-        "application/x-www-form-urlencoded" format:</t>
+      <section anchor="ClientRegistrationRequest" title="Client Registration Request">
+        <t>To register a new client to the Authorization Server, the client
+        sends HTTP POST messages to the Client Registration Endpoint with the
+        parameters described below, which is called Client Metadata. 
+        They are encoded in the entity body as UTF-8 strings
+        using the <spanx style="verb">application/x-www-form-urlencoded</spanx>
+        format. The Authorization Server assigns this client a unique Client
+        Identifier, optionally assigns a Client Secret, and associates the
+        metadata given in the request with the issued Client Identifier. The
+        Authorization Server MAY provision default values for any items
+        omitted in the Client Metadata.</t>
 
         <t><list style="hanging">
-            
-            <t hangText="operation">REQUIRED.
-	    Registration operation being performed.
-	    Values are <spanx style="verb">client_register</spanx>
-            (for new registrations), <spanx style="verb">rotate_secret</spanx> 
-            to request rotation of the <spanx style="verb">client_secret</spanx>, and
-            <spanx style="verb">client_update</spanx> (for updating parameters of an existing
-            <spanx style="verb">client_id</spanx>). If <spanx style="verb">rotate_secret</spanx> is used
-            no optional parameters other than <spanx style="verb">access_token</spanx> 
-            may be included in the request.
-            </t>
-            
+
             <t hangText="redirect_uris">REQUIRED.
             Space-delimited list of redirect URIs.
             One of the URL MUST match the Scheme, Host, and Path segments of the 
@@ -155,15 +165,9 @@
             <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
             This prevents sharing a Client ID across different types of Clients.</t>
 
-            <t hangText="access_token">OPTIONAL.
-	    If this is a <spanx style="verb">client_register</spanx>
-	    request, this is an Access Token obtained
+            <t hangText="access_token">OPTIONAL. 
+            Access Token obtained
             out of band to authorize the registrant. 
-            If this is a <spanx style="verb">client_update</spanx>
-	    or <spanx style="verb">rotate_secret</spanx>
-            request, this is the <spanx style="verb">registration_access_token</spanx> 
-            returned in the <spanx style="verb">client_register</spanx> or 
-            <spanx style="verb">rotate_secret</spanx> response.
             This parameter
             MUST NOT be sent if the Access Token is sent in the HTTP
             Authorization header as described in Section 7.1 of <xref
@@ -386,19 +390,11 @@
 	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
             </t>
 
-          </list></t>
+          </list>
+	  For example, a client could send the
+	  following registration request to the Client Registration
+	  Endpoint:</t>
 
-      <t>The Client Registration Endpoint is an OAuth 2.0 Protected Resource that 
-      may require an Access Token for <spanx style="verb">client_register</spanx> 
-      requests in order to restrict registration requests
-      to only authorized Clients. </t>
-      <t>For <spanx style="verb">client_update</spanx>
-      or <spanx style="verb">rotate_secret</spanx>
-      requests, the <spanx style="verb">registration_access_token</spanx> is used as the
-      Access Token to restrict update access to only the registered client.</t>
-      <t>The Client Registration Endpoint MUST accept Access Tokens as
-      <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
-          
           <t><figure>
 	    <preamble>Following is a non-normative example request
 	    (with line wraps for display purposes only):</preamble>
@@ -409,13 +405,12 @@
   Host: server.example.com
   Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ...
 
-  operation=client_register
-    &application_type=web
+  application_type=web
     &redirect_uris=https://client.example.org/callback
       %20https://client.example.org/callback2
     &client_name=My%20Example%20
     &client_name%23ja-Jpan-JP=
-      ワタシ用の例
+      %E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E5%90%8D
     &logo_url=https://client.example.org/logo.png
     &subject_type=pairwise
     &sector_identifier_url=
@@ -425,88 +420,63 @@
     &userinfo_encrypted_response_alg=RSA1_5
     &userinfo_encrypted_response_enc=A128CBC+HS256
 ]]></artwork></figure></t>
-
-	<section anchor="sector.identifier.url.validation" title="&quot;sector_identifier_url&quot; Validation">
-	  <t>Providers who use pairwise <spanx style="verb">sub</spanx> (subject) values SHOULD support this element.</t>
-	  <t>It provides a way for a group of websites under a single administrative control
-	  to have consistent pairwise <spanx style="verb">sub</spanx> values independent of the individual domain names.
-	  It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
-	  reregister all of their users.</t>
-
-	  <t>This is further described in
-	  Section 2.4.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
-
-	  <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
-	  must be a URL using the <spanx style="verb">https:</spanx> scheme that references
-	  a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
-	  </t>
-
-	  <t>The values of the registered <spanx style="verb">redirect_uris</spanx>
-	  must be included in the elements of the array,
-	  or registration MUST fail.</t>
-
-	  <t><figure>
-	    <artwork><![CDATA[
-  GET /connect/sector_identifier.js HTTP/1.1
-  Accept: application/json
-  Host: client.example.org
-
-  HTTP/1.1 200 OK
-  Content-Type: application/json
-  Cache-Control: no-store
-  Pragma: no-cache
-
-  [ "https://client.example.org/callback",
-    "https://client.example.org/callback2",
-    "https://client.other_company.example.net/callback" ]
-]]></artwork>
-	  </figure></t>
-	</section>
       </section>
 
       <section anchor="ClientRegistrationResponse" title="Client Registration Response">
-        <t>The response is returned as a JSON object with all the parameters
-        as top level elements.</t>
-        
-        <section anchor="ClientRegisterResponse" title="Client Register Operation Response">
-          <t>If the value of <spanx style="verb">operation</spanx> in the request was 
-          <spanx style="verb">client_register</spanx> then return the following. </t>
-          <t><list style="hanging">
-            <t hangText="client_id">REQUIRED.
-	    Unique Client
-            identifier.</t>
+        <t>Upon successful registration, the Client Registration Endpoint
+        returns the newly-created Client Identifier and, if applicable, a
+        Client Secret, along with all registered metadata about this client,
+        including any fields provisioned by the Authorization Server itself.
+        The Authorization Server MAY reject or replace any of the client's
+        requested field values and substitute them with suitable values. If
+        this happens, the Authorization Server MUST include these fields in
+        the response to the client.</t>
 
-            <t hangText="client_secret">REQUIRED.
-	    Client secret. This
-            MUST be unique for each <spanx style="verb">client_id</spanx>. 
-            This value is used by confidential clients. It is not required for
-            clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of 
-            <spanx style="verb">private_key_jwt</spanx>.</t>
-            
-            <t hangText="registration_access_token">REQUIRED.
-	    Access token used by the 
-            client to perform <spanx style="verb">client_update</spanx>
-	    and <spanx style="verb">rotate_secret</spanx> requests.</t>
+        <t>
+	  The response also contains a Registration Access Token that is
+	  used by the client to perform subsequent operations upon
+	  the resulting client registration.
+	</t>
 
-            <t hangText="expires_at">OPTIONAL.
-	    Time at which the <spanx style="verb">client_secret</spanx> will expire
-	    or <spanx style="verb">0</spanx> if it will not expire.
+        <t>All of the response items are returned as a <xref
+        target="RFC4627">JSON document</xref> with the following fields as
+        top-level members of the root JSON object.</t>
+
+        <t>
+	  <list style="hanging">
+            <t hangText="client_id"><vspace/>REQUIRED. Unique Client identifier.
+	    It MUST NOT be currently valid for any other registered
+            Client.</t>
+
+            <t hangText="client_secret"><vspace/>OPTIONAL. Client secret.
+            This MUST be unique for each <spanx style="verb">client_id</spanx>.
+            This value is used by confidential clients to authenticate to the
+            Token Endpoint as described in OAuth 2.0 Section 2.3.1.
+	    It is not required for
+	    clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
+	    <spanx style="verb">private_key_jwt</spanx>.</t>
+
+            <t hangText="registration_access_token"><vspace/>REQUIRED.
+	    Access Token that is
+	    used by the client to perform subsequent operations upon
+	    the resulting client registration.</t>
+
+            <t hangText="issued_at"><vspace/>OPTIONAL.
+	    Time when the Client Identifier was issued.
+	    The timestamp value MUST be a positive integer.
 	    The time is represented as the number of
-            seconds from 1970-01-01T0:0:0Z as measured in UTC.
-	    See <xref target="RFC3339">RFC 3339</xref>
-            for details regarding date/times in general and UTC in particular.</t>
+	    seconds since 1970-01-01T0:0:0Z as measured in UTC.</t>
+
+            <t hangText="expires_at"><vspace/>OPTIONAL.
+	    Time at which the <spanx style="verb">client_secret</spanx> will expire
+	    or 0 if it will not expire.
+	    The time is represented as the number of
+	    seconds since 1970-01-01T0:0:0Z as measured in UTC.</t>
           </list></t>
 
-        <t>Additionally, the server MUST include all registered metadata about a client as described in 
-           <xref target="ClientRegistration"/>,
-	   including any fields that the server has provisioned on the client's behalf.
-        </t>
-
         <t><figure>
-	  <preamble>Following is a non-normative example response
-(line breaks are for display purposes only):</preamble>
-
-            <artwork><![CDATA[
+          <preamble>Following is a non-normative example response:</preamble>
+	  <artwork><![CDATA[
   HTTP/1.1 200 OK
   Content-Type: application/json
   Cache-Control: no-store
@@ -527,7 +497,7 @@
     https://client.example.org/callback2",
    "client_name": "My Example",
    "client_name#ja-Jpan-JP":
-     "ワタシ用の例",
+     "クライアント名",
    "logo_url": "https://client.example.org/logo.png",
    "subject_type": "pairwise",
    "sector_identifier_url":
@@ -537,36 +507,79 @@
    "userinfo_encrypted_response_enc": "A128CBC+HS256"
   }
 ]]></artwork>
-          </figure></t>
+        </figure>
+	</t>
+      </section>
+    </section>
+
+    <section anchor="ClientUpdate" title="Client Update">
+      <t>This operation updates a previously-registered client with new
+      metadata at the Authorization Server.</t>
+
+      <section anchor="ClientUpdateRequest" title="Client Update Request">
+        <t>The request is sent to the Registration Endpoint
+	with the parameters described in Client Metadata
+        encoded in the entity body using the
+	<spanx style="verb">application/x-www-form-urlencoded</spanx>
+        format.</t>
+
+        <t>Parameters sent with this request are the same as for the registration 
+        request except for the <spanx style="verb">access_token</spanx>, 
+        which MUST be the <spanx style="verb">registration_access_token</spanx>
+	value received in the registration request and the addition of
+	a <spanx style="verb">client_id</spanx> parameter, which MUST contain the
+	<spanx style="verb">client_id</spanx> value received in the registration request.
+	All Client Metadata values, other than the Client ID and
+	Registration Access Token are replaced by this operation.
+	</t>
+
+        <t>For example, a client could send the following request to the
+        Client Registration Endpoint to update the client registration in the
+        above example:</t>
+
+        <figure>
+          <preamble>Following is a non-normative example request (with line
+          wraps for display purposes only):</preamble>
+
+          <artwork><![CDATA[
+  POST /connect/register HTTP/1.1
+  Content-Type: application/x-www-form-urlencoded
+  Host: server.example.com
+  Authorization: Bearer this.is.an.access.token.value.ffx83
+
+  client_id=s6BhdRkqt3
+    &application_type=web
+    &redirect_uris=https://client.example.org/callback
+      %20https://client.example.org/alt
+    &client_name=My%20New%20Example%20
+    &client_name%23ja-Jpan-JP=
+      %E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E5%90%8D
+    &logo_url=https://client.example.org/newlogo.png
+    &subject_type=pairwise
+    &sector_identifier_url=
+      https://othercompany.com/file_of_redirect_uris.json
+    &token_endpoint_auth_method=client_secret_basic
+    &jwk_url=https://client.example.org/my_rsa_public_key.jwk
+    &userinfo_encrypted_response_alg=RSA1_5
+    &userinfo_encrypted_response_enc=A128CBC+HS256
+]]></artwork>
+        </figure>
       </section>
 
-        <section anchor="RotateSecretResponse" title="Rotate Secret Operation Response">
-          <t>If the value of <spanx style="verb">operation</spanx> in the request was 
-          <spanx style="verb">rotate_secret</spanx> then return the following. </t>
-          <t><list style="hanging">
-            <t hangText="client_id">REQUIRED.
-	    Unique Client
-            identifier.</t>
+      <section anchor="ClientUpdateResponse" title="Client Update Operation Response">
+       <t>Upon successful update, the Client Registration Endpoint returns
+        the Client ID, along with all current registered metadata about this
+        client, including any fields provisioned by the Authorization Server
+        itself. The Authorization Server MAY reject or replace any of the
+        client's requested field values and substitute them suitable values.
+        If this happens, the Authorization Server MUST include these fields in
+        the response to the client.</t>
 
-            <t hangText="client_secret">OPTIONAL.
-	    Client secret. This
-            MUST be unique for each <spanx style="verb">client_id</spanx>. 
-            This value is used by confidential clients. It is not required for
-            Clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
-            <spanx style="verb">private_key_jwt</spanx>.</t>
-            
-            <t hangText="registration_access_token">REQUIRED.
-	    Access Token used by the 
-            Client to perform <spanx style="verb">client_update</spanx>
-	    and <spanx style="verb">rotate_secret</spanx> requests.</t>
+        <t>The Authorization Server MUST NOT include the Client Secret or
+        Request Access Token in this response.</t>
 
-            <t hangText="expires_at">OPTIONAL.
-	    Number of
-            seconds from 1970-01-01T0:0:0Z as measured in UTC at which the 
-            <spanx style="verb">client_secret</spanx> will expire or <spanx style="verb">0</spanx> if
-            it will not expire. See <xref target="RFC3339">RFC 3339</xref>
-            for details regarding date/times in general and UTC in particular.</t>
-          </list></t>
+        <t>These fields are returned in a <xref target="RFC4627">JSON
+        Document</xref> as top-level members of the root JSON object.</t>
 
         <t><figure>
 	  <preamble>Following is a non-normative example response:</preamble>
@@ -578,52 +591,16 @@
 
   {
    "client_id": "s6BhdRkqt3",
-   "client_secret":
-     "cf136dc3c1fd9153029bb9c6cc9ecead
-      918bad9887fce6c93f31185e5885805d",
-   "registration_access_token":
-     "this.is.an.access.token.value.ffx83",
-   "expires_at":2893276800
-  }
-]]></artwork>
-          </figure></t>
-      </section>
-      <section anchor="ClientUpdateResponse" title="Client Update Operation Response">
-        <t>If the value of <spanx style="verb">operation</spanx> in the request was 
-        <spanx style="verb">client_update</spanx>. </t>
-        <t><list style="hanging">
-            <t hangText="client_id">REQUIRED.
-	    Unique Client
-            identifier.</t>
-            
-          </list></t>
-
-        <t>Additionally, the server MUST include all registered metadata about a client as described in 
-           <xref target="ClientRegistration"/>,
-	   including any fields that the server has provisioned on the client's behalf.
-        </t>
-
-        <t><figure>
-	  <preamble>Following is a non-normative example response
-            (line breaks are for display purposes only):</preamble>
-
-            <artwork><![CDATA[
-  HTTP/1.1 200 OK
-  Content-Type: application/json
-  Cache-Control: no-store
-
-  {
-   "client_id": "s6BhdRkqt3"
    "token_endpoint_auth_method":
      "client_secret_basic",
    "application_type": "web",
    "redirect_uris":
    "https://client.example.org/callback
-    https://client.example.org/callback2",
-   "client_name": "My Example",
+    https://client.example.org/alt",
+   "client_name": "My New Example",
    "client_name#ja-Jpan-JP":
-     "ワタシ用の例",
-   "logo_url": "https://client.example.org/logo.png",
+     "クライアント名",
+   "logo_url": "https://client.example.org/newlogo.png",
    "subject_type": "pairwise",
    "sector_identifier_url":
      "https://othercompany.com/file_of_redirect_uris.json",
@@ -634,58 +611,91 @@
 ]]></artwork>
           </figure></t>
       </section>
-      
-      </section>
+    </section>
 
-      <section anchor="ErrorResponse" title="Client Registration Error Response">
+    <section anchor="ErrorResponse" title="Client Registration Endpoint Error Response">
       <t>When an OAuth error condition occurs, the Client Registration Endpoint returns
       an Error Response as defined in Section 3 of
       the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.</t>
       
       <t>When a registration error condition occurs, the Client Registration Endpoint returns
       a HTTP 400 status code including a JSON object describing the error in the response body.</t>
+
       <t>The JSON object contains two members:</t>
+
       <t><list style="hanging">
        <t hangText="error_code">Error code.</t>
+
        <t hangText="error_description">Additional text description of the error for debugging.</t>
       </list></t>
       
-      <t>This specification defines the
-      following error codes:</t>
+      <t>This specification defines the following error codes:</t>
 
-          <t><list style="hanging">
-          
-          <t hangText="invalid_operation">Value of <spanx style="verb">operation</spanx> is invalid or not supported.</t>
-          
+      <t>
+	<list style="hanging">
           <t hangText="invalid_client_id">Value of <spanx style="verb">client_id</spanx> is invalid.</t>
           
-          <t hangText="invalid_client_secret"><spanx style="verb">client_secret</spanx> provided for a 
-            <spanx style="verb">client_update</spanx> or 
-            <spanx style="verb">rotate_secret</spanx> is not valid for the provided 
-            <spanx style="verb">client_id</spanx>.</t>
+          <t hangText="invalid_client_secret"><spanx style="verb">client_secret</spanx>
+	  provided for accessing the registered client is not valid for the
+	  provided <spanx style="verb">client_id</spanx>.</t>
 
           <t hangText="invalid_redirect_uri">Value of one or more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
 
-            <t hangText="invalid_configuration_parameter">Value of one of the configuration parameters is invalid.</t>
-	       </list></t>
-	        
+	  <t hangText="invalid_configuration_parameter">Value of one of the configuration parameters is invalid.</t>
+        </list></t>
 
-	<t><figure>
+      <t>
+	<figure>
 	  <preamble>Following is a non-normative example of an error response:</preamble>
 
-	    <artwork><![CDATA[
+	  <artwork><![CDATA[
   HTTP/1.1 400 Bad Request
   Content-Type: application/json
   Cache-Control: no-store
    
   {
-   "error_code": "invalid_operation",
-   "error_description": "The value of the operation parameter must be
-      one of client_register, rotate_secret or client_update."
+   "error_code": "invalid_client_id",
+   "error_description": "The value of the client_id parameter is invalid."
   }
 ]]></artwork>
-	</figure></t>
-      </section>
+      </figure></t>
+    </section>
+
+    <section anchor="sector.identifier.url.validation" title="&quot;sector_identifier_url&quot; Validation">
+      <t>Providers who use pairwise <spanx style="verb">sub</spanx> (subject) values SHOULD support this element.</t>
+      <t>It provides a way for a group of websites under a single administrative control
+      to have consistent pairwise <spanx style="verb">sub</spanx> values independent of the individual domain names.
+      It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
+      reregister all of their users.</t>
+
+      <t>This is further described in
+      Section 2.4.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+
+      <t>The value of the <spanx style="verb">sector_identifier_url</spanx>
+      must be a URL using the <spanx style="verb">https:</spanx> scheme that references
+      a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
+      </t>
+
+      <t>The values of the registered <spanx style="verb">redirect_uris</spanx>
+      must be included in the elements of the array,
+      or registration MUST fail.</t>
+
+      <t><figure>
+	<artwork><![CDATA[
+  GET /connect/sector_identifier.js HTTP/1.1
+  Accept: application/json
+  Host: client.example.org
+
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Cache-Control: no-store
+  Pragma: no-cache
+
+  [ "https://client.example.org/callback",
+    "https://client.example.org/callback2",
+    "https://client.other_company.example.net/callback" ]
+]]></artwork>
+      </figure></t>
     </section>
 
     <section anchor="stringops" title="String Operations">
@@ -822,7 +832,7 @@
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
@@ -1076,8 +1086,11 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-      <t>-16
+      <t>-15
         <list style="symbols">
+	  <t>
+	    Fixed #708 - Registration access token requirement.
+	  </t>
 	  <t>
 	    Fixed #734 - Invalid JSON in examples.
 	  </t>
@@ -1095,14 +1108,22 @@
 	    the information that failed to correctly validate MUST be aborted and
 	    the information that failed to validate MUST NOT be used.
 	  </t>
-        </list>
-      </t>
-
-      <t>-15
-        <list style="symbols">
-	  <t>
-	    Fixed #708 - Registration access token requirement.
+          <t>
+	    Fixed #746 - Deleted the <spanx style="verb">operation</spanx> parameter.
 	  </t>
+          <t>
+	    Fixed #745 - Deleted the <spanx style="verb">rotate_secret</spanx> operation.
+	  </t>
+          <t>
+	    Changed the Japanese client name to make it sound more natural.
+	  </t>
+          <t>
+	    Added optional <spanx style="verb">issued_at</spanx> response value.
+	  </t>
+	  <t>
+	    Added client update example.
+	  </t>
+
         </list>
       </t>
 
