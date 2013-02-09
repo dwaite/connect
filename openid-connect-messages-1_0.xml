@@ -239,7 +239,7 @@
 	depending on the <spanx style="verb">response_type</spanx>
 	and <spanx style="verb">scope</spanx> values used.</t>
 
-        <section anchor="auth_req" title="Authorization Request">
+        <section anchor="AuthorizationRequest" title="Authorization Request">
           <t>
             An Authorization Request is a message sent from an RP 
             to the OP's Authorization Endpoint. 
@@ -433,6 +433,27 @@
                 request. If this parameter contains <spanx style="verb">none</spanx>
 		with any other value, an
                 error is returned.</t>
+
+              <t hangText="ui_locales">OPTIONAL.
+	        End-User's preferred languages and scripts for the user interface,
+		represented as a space-separated list of
+		<xref target="RFC5646">BCP47</xref> language tag values,
+		ordered by preference.
+		For instance, the value "fr-CA fr-FR en-CA" represents a preference
+		for French as spoken in Canada, then French as spoken in France,
+		followed by English as spoken in Canada. 
+		An error SHOULD NOT result if some or all of the requested locales
+		are not supported by the OpenID Provider.
+	      </t>
+
+	      <t hangText="claims_locales">OPTIONAL.
+	        End-User's preferred languages and scripts for Claims being returned, 
+		represented as a space-separated list of
+		<xref target="RFC5646">BCP47</xref> language tag values,
+		ordered by preference.
+		An error SHOULD NOT result if some or all of the requested locales
+		are not supported by the OpenID Provider.
+	      </t>
 
               <t hangText="id_token_hint">OPTIONAL.
 		Previously issued <xref target="id_token">ID Token</xref>
@@ -634,14 +655,6 @@
                     <xref target="claims_member"/>.
                   </t>
 
-                  <t hangText="preferred_locales">OPTIONAL.
-		  A list of preferred 
-                  languages and scripts for the entire Claims request, 
-                  represented as a JSON array of <xref
-                  target="RFC5646">BCP47</xref> language tag values,
-		  ordered by preference.
-		  An error SHOULD NOT result if some or all of the requested locales are not
-		  supported by the OpenID Provider.</t>
                 </list>
                 </t>
                  <t>All members of the <spanx style="verb">userinfo</spanx>
@@ -656,8 +669,7 @@
 	      <spanx style="verb">id_token</spanx> (ID Token
               request) member of the OpenID Request Object is similar to that
               of the <spanx style="verb">userinfo</spanx> member.
-	      It MAY include the OPTIONAL <spanx style="verb">claims</spanx> and
-              <spanx style="verb">preferred_locales</spanx> members.
+	      It MAY include the OPTIONAL <spanx style="verb">claims</spanx> member.
 	      The structure of these members is the same as
               that for the <spanx style="verb">userinfo</spanx> member.
 	      If the <spanx style="verb">claims</spanx> member is
@@ -2766,15 +2778,16 @@ may be retrieved:
 	    </t>
 	    <t hangText="Prompt Parameter">
 	      OPs must support the <spanx style="verb">prompt</spanx> parameter,
-	      as defined in <xref target="auth_req"/>, including the specified
+	      as defined in <xref target="AuthorizationRequest"/>, including the specified
 	      user interface behaviors such as <spanx style="verb">none</spanx>
 	      and <spanx style="verb">login</spanx>.
 	    </t>
 	    <t hangText="Preferred Locales">
-	      OPs MUST support requests for preferred languages and scripts via the
-	      <spanx style="verb">preferred_locales</spanx> member of the
-	      OpenID Request Object,
-	      as defined in <xref target="req.obj.userinfo"/>.
+	      OPs MUST support requests for preferred languages and scripts
+	      for the user interface and for claims via the
+	      <spanx style="verb">ui_locales</spanx> and
+	      <spanx style="verb">claims_locales</spanx> request parameters,
+	      as defined in <xref target="AuthorizationRequest"/>.
 	    </t>
 	    <t hangText="Authentication Context Class Reference">
 	      OPs MUST support requests for specific
@@ -2800,7 +2813,7 @@ may be retrieved:
 	      OPs MUST support requests made using an OpenID Request Object
 	      that is retrieved from a Request URI that is provided
       	      with the <spanx style="verb">request_uri</spanx> parameter,
-	      as defined in <xref target="auth_req"/>.
+	      as defined in <xref target="AuthorizationRequest"/>.
 	    </t>
 
 	  </list>
@@ -4363,6 +4376,15 @@ Representation of dates and times</title>
 	    State that when any validations fail, any operations requiring
 	    the information that failed to correctly validate MUST be aborted and
 	    the information that failed to validate MUST NOT be used.
+	  </t>
+	  <t>
+	    Fixed #742 - Added new <spanx style="verb">ui_locales</spanx> parameter.
+	  </t>
+	  <t>
+	    Fixed #743 - Promoted <spanx style="verb">preferred_locales</spanx>
+	    to being a top-level parameter.  Also renamed it to
+	    <spanx style="verb">claims_locales</spanx> to disambiguate it
+	    from the new <spanx style="verb">ui_locales</spanx> parameter.
 	  </t>
 	</list>
       </t>

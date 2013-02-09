@@ -429,6 +429,27 @@
 	    error is returned.
             </t>
 
+	    <t hangText="ui_locales">OPTIONAL.
+	      End-User's preferred languages and scripts for the user interface,
+	      represented as a space-separated list of
+	      <xref target="RFC5646">BCP47</xref> language tag values,
+	      ordered by preference.
+	      For instance, the value "fr-CA fr-FR en-CA" represents a preference
+	      for French as spoken in Canada, then French as spoken in France,
+	      followed by English as spoken in Canada. 
+	      An error SHOULD NOT result if some or all of the requested locales
+	      are not supported by the OpenID Provider.
+	    </t>
+
+	    <t hangText="claims_locales">OPTIONAL.
+	      End-User's preferred languages and scripts for Claims being returned, 
+	      represented as a space-separated list of
+	      <xref target="RFC5646">BCP47</xref> language tag values,
+	      ordered by preference.
+	      An error SHOULD NOT result if some or all of the requested locales
+	      are not supported by the OpenID Provider.
+	    </t>
+
 	    <t hangText="id_token_hint">OPTIONAL.
 	    Previously issued <xref target="id_token">ID Token</xref>
 	    passed to the Authorization Server as a hint about the End-User's current or past
@@ -1748,8 +1769,14 @@ Representation of dates and times</title>
 	    the information that failed to validate MUST NOT be used.
 	  </t>
 	  <t>
-	    Added <spanx style="verb">id_token_hint</spanx> parameter to Basic,
-	    since it SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	    Added <spanx style="verb">id_token_hint</spanx> parameter to Basic, since
+	    it SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	  </t>
+	  <t>
+	    Fixed #742 - Added new <spanx style="verb">ui_locales</spanx> parameter.
+	  </t>
+	  <t>
+	    Fixed #743 - Added <spanx style="verb">claims_locales</spanx> parameter.
 	  </t>
 	</list>
       </t>
