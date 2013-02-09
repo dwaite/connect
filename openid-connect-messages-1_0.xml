@@ -434,6 +434,17 @@
 		with any other value, an
                 error is returned.</t>
 
+	      <t hangText="max_age">OPTIONAL.
+	        Maximum Authentication Age.
+		Specifies that the End-User must be actively authenticated if the
+		End-User was authenticated longer ago than the specified number of seconds.
+		(The <spanx style="verb">max_age</spanx> request parameter corresponds to
+		the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref>
+		<spanx style="verb">max_auth_age</spanx> request parameter.)
+		When <spanx style="verb">max_age</spanx> is used, the ID Token returned
+		MUST include an <spanx style="verb">auth_time</spanx> Claim value.
+	      </t>
+
               <t hangText="ui_locales">OPTIONAL.
 	        End-User's preferred languages and scripts for the user interface,
 		represented as a space-separated list of
@@ -611,6 +622,7 @@
    "scope": "openid",
    "state": "af0ifjsldkj",
    "login_hint": "janedoe@example.org",
+   "max_age": 86400,
    "userinfo":
     {
      "claims":
@@ -628,8 +640,7 @@
       {
        "auth_time": {"essential": true},
        "acr": { "values":["2"] }
-      },
-     "max_age": 86400
+      }
     }
   }
 ]]></artwork>
@@ -685,30 +696,29 @@
 
               <t>
                 <list style="hanging">
-                  <t hangText="sub">OPTIONAL. (Subject Identifier):
-                    The  <spanx style="verb">sub</spanx> (subject) identifier for which an ID Token is being requested.
-                    If the specified user is not currently authenticated to the Authorization 
-                    Server, they may be prompted for authentication, unless the 
-                    <spanx style="verb">prompt</spanx> parameter in the Authorization Request 
-                    is set to <spanx style="verb">none</spanx>. 
-                    The Claim Value in the request is an object containing the single element
-                    <spanx style="verb">value</spanx>.  
+                  <t hangText="sub">OPTIONAL.
+                    Subject identifier for which an ID Token is being requested.
+                    If the specified user is not currently authenticated at the
+		    Authorization Server, they may be prompted for authentication,
+		    unless the <spanx style="verb">prompt</spanx> parameter value in
+		    the Authorization Request is <spanx style="verb">none</spanx>. 
+                    This Claim request contains a <spanx style="verb">value</spanx> member
+		    conveying the requested <spanx style="verb">sub</spanx> Claim value.  
+
                     <figure>
                       <artwork><![CDATA[
   "sub": {"value":"248289761001"}
 ]]></artwork>
                     </figure>
                   </t>
-                  <t hangText="auth_time">OPTIONAL. (Authentication Time):
-                    Requests that the <spanx style="verb">auth_time</spanx> 
-                    Claim containing the time at which the user authenticated
-		    be present in the 
-                    <xref target="id_token">ID Token</xref> response.
-                    The Claim request must contain
-                    <spanx style="verb">{"essential": true}</spanx> to require that
-		    <spanx style="verb">auth_time</spanx> be present in the response.  
+
+                  <t hangText="auth_time">OPTIONAL.
+		    Authentication Time.
+                    Requesting the <spanx style="verb">auth_time</spanx> Claim with
+                    <spanx style="verb">{"essential": true}</spanx> can be used to require
+		    that the authentication time be returned.
                   </t>
-                  
+
                   <t hangText="acr">OPTIONAL. 
                   Authentication Context Class Reference. 
                   Requests that the specified
@@ -724,32 +734,8 @@
                   </figure>
                   </t>
                   
-                </list>In addition to the <spanx style="verb">claims</spanx>
-		member, these additional members are defined within the
-		<spanx style="verb">id_token</spanx> member of the OpenID
-              Request Object:</t>
-
-              <t><list style="hanging">
-                  <t hangText="max_age">OPTIONAL.
-		  Maximum Authentication Age.
-                  Specifies that the End-User must be actively authenticated if
-                  any present authentication is older than the specified
-                  number of seconds. (The <spanx style="verb">max_age</spanx> request parameter
-                  corresponds to the OpenID 2.0
-                  <xref target="OpenID.PAPE">PAPE</xref> <spanx style="verb">max_auth_age</spanx>
-                  request parameter.)</t>
-
-                  
-                </list>It is anticipated that additional 
-                <spanx style="verb">id_token</spanx> parameters
-              MAY be defined to request that additional properties hold for
-              the authentication - for instance, that certain authentication
-              policies be applied (in the same spirit of the OpenID 2.0
-              <xref target="OpenID.PAPE">PAPE</xref> 
-              <spanx style="verb">auth_policies</spanx> values),
-              or that the authentication
-              conform to the policies defined by a specified trust framework.
-              These parameters MAY be defined by extension specifications.</t>
+                </list>
+	      </t>
 
               <t>All members of the <spanx style="verb">id_token</spanx>
 	      object are OPTIONAL. Other
@@ -945,22 +931,19 @@
           </t>
 
                 <t hangText="auth_time">OPTIONAL or REQUIRED.
-		  Time when the End-User authentication occurred,
-		  specified as the number of seconds from 1970-01-01T0:0:0Z as
-		  measured in UTC.
-		  If the 
-		  <spanx style="verb">id_token</spanx> member of the 
+		  Time when the End-User authentication occurred, specified as
+		  the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
+		  When a <spanx style="verb">max_age</spanx> request is made
+		  or when the <spanx style="verb">id_token</spanx> member of the 
 		  <xref target="OpenID_Request_Object">OpenID Request Object</xref> 
 		  contains the Claim request
 		  <spanx style="verb">auth_time</spanx> with a parameter of 
 		  <spanx style="verb">{"essential": true}</spanx>,
 		  then this Claim is REQUIRED.
-		  (The <spanx style="verb">auth_time</spanx>
-		  Claim semantically
-		  corresponds to the OpenID 2.0
-		  <xref target="OpenID.PAPE">PAPE</xref> 
-		  <spanx style="verb">auth_time</spanx> response
-		  parameter.)</t>
+		  (The <spanx style="verb">auth_time</spanx> Claim semantically
+		  corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
+		  <spanx style="verb">auth_time</spanx> response parameter.)
+		</t>
 
                 <t hangText="at_hash">OPTIONAL or REQUIRED. 
 	        Access Token hash value.
@@ -2577,14 +2560,16 @@ may be retrieved:
             The meaning and processing of  
             <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
             
-            <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the 
-            Client SHOULD check the value 
-            and request re-authentication if it determines too much time has elapsed 
-            since the last user authentication.</t>
-            
+            <t>
+	      If the <spanx style="verb">auth_time</spanx> Claim was requested,
+	      either through a specific request for this Claim
+	      or by using the <spanx style="verb">max_age</spanx> parameter,
+	      the Client SHOULD check the <spanx style="verb">auth_time</spanx> Claim
+	      value and request re-authentication if it determines too much time
+	      has elapsed since the last End-User authentication.
+	    </t>
           </list></t>
 
-        
       </section>
 
       <section anchor="UserInfoResponseValidation" title="UserInfo Response Validation">
@@ -2801,13 +2786,12 @@ may be retrieved:
 	    <t hangText="Authentication Time">
 	      OPs MUST support returning the time at which the user authenticated
 	      via the <spanx style="verb">auth_time</spanx> Claim,
-	      as defined in <xref target="req.obj.id_token"/>
-	      and <xref target="id_token"/>.
+	      as defined in <xref target="id_token"/>.
 	    </t>
 	    <t hangText="Maximum Authentication Age">
 	      OPs MUST support enforcing a maximum authentication age
 	      via the <spanx style="verb">max_age</spanx> parameter,
-	      as defined in <xref target="req.obj.id_token"/>.
+	      as defined in <xref target="AuthorizationRequest"/>.
 	    </t>
 	    <t hangText="Request URI">
 	      OPs MUST support requests made using an OpenID Request Object
@@ -4385,6 +4369,10 @@ Representation of dates and times</title>
 	    to being a top-level parameter.  Also renamed it to
 	    <spanx style="verb">claims_locales</spanx> to disambiguate it
 	    from the new <spanx style="verb">ui_locales</spanx> parameter.
+	  </t>
+	  <t>
+	    Fixed #744 - Promoted <spanx style="verb">max_age</spanx>
+	    to being a top-level parameter.
 	  </t>
 	</list>
       </t>

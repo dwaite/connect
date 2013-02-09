@@ -738,11 +738,12 @@
               desired date/time. See <xref target="RFC3339">RFC 3339</xref>
               for details regarding date/times in general and UTC in
               particular.</t>
-              
-              <t hangText="auth_time">OPTIONAL.
-		  Time when the End-User authentication occurred,
-		  specified as the number of seconds from 1970-01-01T0:0:0Z as
-		  measured in UTC.
+
+              <t hangText="auth_time">OPTIONAL or REQUIRED.
+	        Time when the End-User authentication occurred, specified as
+		the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
+		When a <spanx style="verb">max_age</spanx> request is made
+		then this Claim is REQUIRED.
 	      </t>
 
             </list></t>
@@ -812,10 +813,12 @@
 	      The meaning and processing of
 	      <spanx style="verb">acr</spanx> Claim Values is out of scope for this specification.</t>
 
-	      <t>If the <spanx style="verb">auth_time</spanx> Claim was requested, the
-	      Client SHOULD check the value
-	      and request re-authentication if it determines too much time has elapsed
-	      since the last user authentication.</t>
+	      <t>
+		When a <spanx style="verb">max_age</spanx> request is made,
+		the Client SHOULD check the <spanx style="verb">auth_time</spanx> Claim
+		value and request re-authentication if it determines too much time
+		has elapsed since the last End-User authentication.
+	      </t>
 
 	    </list>
 	  </t>
@@ -1777,6 +1780,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #743 - Added <spanx style="verb">claims_locales</spanx> parameter.
+	  </t>
+	  <t>
+	    Fixed #744 - Added <spanx style="verb">max_age</spanx> parameter.
 	  </t>
 	</list>
       </t>
