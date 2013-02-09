@@ -434,25 +434,11 @@
 		with any other value, an
                 error is returned.</t>
 
-              <t hangText="request">OPTIONAL.
-	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value. 
-	      The <xref target="OpenID_Request_Object">OpenID Request Object</xref> may be
-	      encrypted in a JWE by the client.
-	      For a self-issued ID Token, the 
-	      <spanx style="verb">sub</spanx> (subject)
-	      of the ID Token
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
-	      
-              <t hangText="request_uri">OPTIONAL.
-	      URL that references an
-              OpenID Request Object. This is used to pass an OpenID Request
-              Object by reference.</t>
-              
               <t hangText="id_token_hint">OPTIONAL.
 		Previously issued <xref target="id_token">ID Token</xref>
 		passed to the Authorization Server as a hint about the End-User's current or past
 		authenticated session with the Client.
-		This SHOULD be present if <spanx style="verb">prompt=none</spanx> is sent.
+		This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 		If the End-User identified by the ID Token is logged in or is logged in by the request,
 		then the Authorization Server returns a positive response;
 		otherwise, it SHOULD return a negative response.
@@ -467,7 +453,7 @@
 		For a self-issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
 		signed ID Token MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
 	      </t>
-              
+
               <t hangText="login_hint">OPTIONAL.
 	        Hint to the Authorization Server
 		about the login identifier the End-User may use to log in (if necessary). 
@@ -477,7 +463,21 @@
 		It is RECOMMENDED that the hint value match the value used for discovery.
 		The use of this parameter is left to the OP's discretion.
 	      </t>
-            </list></t>
+
+              <t hangText="request">OPTIONAL.
+	      <xref target="OpenID_Request_Object">OpenID Request Object</xref> value. 
+	      The <xref target="OpenID_Request_Object">OpenID Request Object</xref> may be
+	      encrypted in a JWE by the client.
+	      For a self-issued ID Token, the 
+	      <spanx style="verb">sub</spanx> (subject)
+	      of the ID Token
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.</t>
+
+              <t hangText="request_uri">OPTIONAL.
+	      URL that references an
+              OpenID Request Object. This is used to pass an OpenID Request
+              Object by reference.</t>
+	    </list></t>
 
           <section anchor="OpenID_Request_Object" title="OpenID Request Object">
             <t>The OpenID Request Object is used to provide OpenID request

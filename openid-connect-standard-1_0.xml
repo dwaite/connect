@@ -332,31 +332,30 @@
 
             </list></t>
 
-          <t>The request MAY contain the following OPTIONAL and sometimes REQUIRED parameters:</t>
+	  <t>The request MAY contain the following additional parameters:</t>
 
           <t><list style="hanging">
 
-             <t hangText="nonce">String value used to associate a Client session 
+             <t hangText="nonce">REQUIRED or OPTIONAL.
+	     String value used to associate a Client session 
               with an ID Token, and to mitigate replay attacks. 
               The value is passed through unmodified from the Authorization Request to the ID Token.
                Use of the nonce is REQUIRED when using the implicit flow
 	           and OPTIONAL when using the code flow.</t>
 
-              <t hangText="state">Opaque value used to maintain state
+              <t hangText="state">RECOMMENDED.
+	      Opaque value used to maintain state
               between the request and the callback.</t>
 
-               <t hangText="request">OpenID Request Object value.</t>
-
-              <t hangText="request_uri">URL that references an OpenID
-              Request Object.</t>
-
-              <t hangText="display">ASCII string value that specifies
+              <t hangText="display">OPTIONAL.
+	      ASCII string value that specifies
               how the Authorization Server displays the authentication page to
               the End-User. Refer to
 	      Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	      for more information.</t>
 
-              <t hangText="prompt">Space delimited list of ASCII strings
+              <t hangText="prompt">OPTIONAL.
+	      Space delimited list of ASCII strings
 	      that can contain the values
               <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
               <spanx style="verb">select_account</spanx>, and
@@ -370,6 +369,14 @@
 	      this request is about. Refer to <xref
               target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
               more information.</t>
+
+	      <t hangText="request">OPTIONAL.
+	      OpenID Request Object value.</t>
+
+              <t hangText="request_uri">OPTIONAL.
+	      URL that references an OpenID
+              Request Object.</t>
+
             </list></t>
 
           <t>There are three methods to construct and send the request to the 
@@ -1641,19 +1648,12 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
             value at the registration time, so it has to be provided 
             as a part of the authorization request. 
           </t>
-          <t hangText="request">OPTIONAL.
-	      OpenID Request Object value, as defined in
-	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
-	      The OpenID Request Object may be
-	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
-	      of the ID Token
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
            <t hangText="id_token_hint">OPTIONAL.
 	     Previously issued ID Token
 	     passed to the Authorization Server as a hint about the End-User's current or past
 	     authenticated session with the Client.
-	     This SHOULD be present if <spanx style="verb">prompt=none</spanx> is sent.
+	     This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 	     If the End-User identified by the ID Token is logged in or is logged in by the request,
 	     then the Authorization Server returns a positive response;
 	     otherwise, it SHOULD return a negative response.
@@ -1668,6 +1668,14 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	     For a self-issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
 	     signed ID Token MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
 	   </t>
+
+          <t hangText="request">OPTIONAL.
+	      OpenID Request Object value, as defined in
+	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
+	      The OpenID Request Object may be
+	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
+	      of the ID Token
+	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
         </list></t>
         <t>

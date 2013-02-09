@@ -354,6 +354,12 @@
           <t>
             <list style="hanging">
 
+	      <t hangText="nonce">OPTIONAL.
+	      String value used to associate a Client session 
+	      with an ID Token, and to mitigate replay attacks. The value is passed 
+	      through unmodified from the Authorization Request to the ID Token. 
+	      Use of the nonce is OPTIONAL when using the code flow.</t>
+
               <t hangText="state">RECOMMENDED.  Opaque value used
               to maintain state between the request and the callback;
               serves as a protection against XSRF attacks.</t>
@@ -422,12 +428,16 @@
 	    with any other value, an
 	    error is returned.
             </t>
-            
-        <t hangText="nonce">OPTIONAL.
-	String value used to associate a Client session 
-        with an ID Token, and to mitigate replay attacks. The value is passed 
-        through unmodified from the Authorization Request to the ID Token. 
-        Use of the nonce is OPTIONAL when using the code flow.</t>
+
+	    <t hangText="id_token_hint">OPTIONAL.
+	    Previously issued <xref target="id_token">ID Token</xref>
+	    passed to the Authorization Server as a hint about the End-User's current or past
+	    authenticated session with the Client.
+	    This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	    If the End-User identified by the ID Token is logged in or is logged in by the request,
+	    then the Authorization Server returns a positive response;
+	    otherwise, it SHOULD return a negative response.
+	    </t>
 
 	      <t hangText="login_hint">OPTIONAL.
 		Hint to the Authorization Server
@@ -1736,6 +1746,10 @@ Representation of dates and times</title>
 	    State that when any validations fail, any operations requiring
 	    the information that failed to correctly validate MUST be aborted and
 	    the information that failed to validate MUST NOT be used.
+	  </t>
+	  <t>
+	    Added <spanx style="verb">id_token_hint</spanx> parameter to Basic,
+	    since it SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 	  </t>
 	</list>
       </t>

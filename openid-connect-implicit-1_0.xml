@@ -439,6 +439,16 @@
 	  error is returned.
 	  </t>
 
+	  <t hangText="id_token_hint">OPTIONAL.
+	  Previously issued <xref target="id_token">ID Token</xref>
+	  passed to the Authorization Server as a hint about the End-User's current or past
+	  authenticated session with the Client.
+	  This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	  If the End-User identified by the ID Token is logged in or is logged in by the request,
+	  then the Authorization Server returns a positive response;
+	  otherwise, it SHOULD return a negative response.
+	  </t>
+
 	      <t hangText="login_hint">OPTIONAL.
 		Hint to the Authorization Server
 		about the login identifier the End-User may use to log in (if necessary). 
@@ -769,16 +779,11 @@
 	    that are understood by all parties using it.</t>
 
 	    <t>ID Tokens MUST be signed using <xref
-	    target="JWS">JWS</xref> and OPTIONALLY both signed and
-	    encrypted using <xref target="JWS">JWS</xref> and <xref
-	    target="JWE">JWE</xref> respectively, thereby providing
-	    authentication, integrity,
-	    non-repudiation, and optionally, confidentiality.</t>
-
-	    <t>
+	    target="JWS">JWS</xref>.
 	      Clients MUST directly validate the ID Token per 
 	      <xref target="id.token.validation">ID Token Validation</xref>. 
 	    </t>
+
 	<figure>
             <preamble>The following is a non-normative example of a base64url decoded 
             ID Token
@@ -1307,33 +1312,21 @@
             value at the registration time, so it has to be provided 
             as a part of the authorization request. 
           </t>
-          <t hangText="request">OPTIONAL.
-	      OpenID Request Object value, as defined in
-	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
-	      The OpenID Request Object may be
-	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
-	      of the ID Token
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE. </t>
 
            <t hangText="id_token_hint">OPTIONAL.
 	     Previously issued <xref target="id_token">ID Token</xref>
 	     passed to the Authorization Server as a hint about the End-User's current or past
 	     authenticated session with the Client.
-	     This SHOULD be present if <spanx style="verb">prompt=none</spanx> is sent.
+	     This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 	     If the End-User identified by the ID Token is logged in or is logged in by the request,
 	     then the Authorization Server returns a positive response;
 	     otherwise, it SHOULD return a negative response.
-	     <vspace blankLines="1"/>
-
-	     If the ID Token received by the RP is encrypted, the Client MUST
-	     decrypt the signed ID Token contained within the encrypted ID Token.
-	     The Client MAY re-encrypt the signed ID token to the Authentication Server
-	     using a key that enables the server to decrypt the ID Token.
-	     <vspace blankLines="1"/>
-
-	     For a self-issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
-	     signed ID Token MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
 	   </t>
+
+          <t hangText="request">OPTIONAL.
+	      OpenID Request Object value, as defined in
+	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
+	  </t>
 
         </list></t>
         <t>
@@ -1973,29 +1966,6 @@ Representation of dates and times</title>
 	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature" type="HTML" />
       </reference>
 
-      <reference anchor="JWE">
-        <front>
-          <title>JSON Web Encryption (JWE)</title>
-
-	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-	    <organization>Microsoft</organization>
-	  </author>
-
-	  <author fullname="Eric Rescorla" initials="E." surname="Rescorla">
-	    <organization>RTFM, Inc.</organization>
-	  </author>
-
-	  <author fullname="Joe Hildebrand" initials="J." surname="Hildebrand">
-	    <organization>Cisco Systems, Inc.</organization>
-	  </author>
-
-	  <date day="27" month="December" year="2012" />
-        </front>
-
-	<seriesInfo value="draft-ietf-jose-json-web-encryption" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption" type="HTML" />
-      </reference>
-
       <reference anchor="JWA">
         <front>
 	  <title>JSON Web Algorithms (JWA)</title>
@@ -2185,6 +2155,14 @@ Representation of dates and times</title>
 	    State that when any validations fail, any operations requiring
 	    the information that failed to correctly validate MUST be aborted and
 	    the information that failed to validate MUST NOT be used.
+	  </t>
+	  <t>
+	    Added <spanx style="verb">id_token_hint</spanx> parameter to Implicit,
+	    since it SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	  </t>
+	  <t>
+	    Removed vestigal encryption text that had been copied over from Standard,
+	    since encryption is not part of the Implicit profile.
 	  </t>
 	</list>
       </t>
