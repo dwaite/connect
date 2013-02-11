@@ -61,7 +61,7 @@
       REST-like manner.</t>
 
       <t>OpenID Connect Standard 1.0 is an HTTP protocol binding for
-      OpenID Connect Messages 1.0 request and response messages.</t>
+      the OpenID Connect Messages 1.0 request and response messages.</t>
     </abstract>
   </front>
 
@@ -129,7 +129,7 @@
         <t>Clients MUST specify the desired scopes in an Authorization Request to
         obtain an Access Token with the proper permissions.
         The scope names used by OpenID Connect are defined in
-	Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+	Section 2.4 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
         
         <t>The Authorization Server MAY fully or partially ignore the scope values
          requested by the Client based on the Authorization Server policy or
@@ -351,7 +351,7 @@
 	      ASCII string value that specifies
               how the Authorization Server displays the authentication page to
               the End-User. Refer to
-	      Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	      for more information.</t>
 
               <t hangText="prompt">OPTIONAL.
@@ -389,20 +389,27 @@
               <t>Request File Method</t>
           </list></t>
 
-          <t>The Simple Request Method is used in simple cases when default
-          UserInfo and ID Token Claims are desired.</t>
-
-          <t>The Request Parameter Method is used by sending an OpenID Request
-          Object when the Client desires to retrieve a different set of
-          UserInfo and ID Token Claims. The request parameter method also
-          allows requests to be signed or encrypted. </t>
-
-          <t>The Request File Method works similarly to the Request Parameter
-          Method but differs in that it sends an URL as a reference to the
-          OpenID Request Object. It enables large requests to be sent
-          securely and compactly even on User-Agents with limited capabilities.
-          Clients MAY use the Request File Method to minimize the request
-          size.</t>
+          <t>
+	    The Simple Request Method can be used in cases where signed or
+	    encrypted requests are not needed and where the size of the
+	    request does not exceed limits imposed by User-Agents.
+	  </t>
+          <t>
+	    The Request Parameter Method is used when the Client wants or needs to
+	    send a complete OpenID Connect request as a single, self-contained
+	    OpenID Request Object value.
+	    This method enables requests to be signed and optionally encrypted.
+	    Like the Simple Request Method, some requests using this method
+	    may exceed limits imposed by User-Agents.
+	  </t>
+          <t>
+	    The Request File Method works similarly to the Request Parameter
+	    Method but differs in that it sends an URL as a reference to the
+	    OpenID Request Object. It enables large requests to be sent
+	    securely and compactly even on User-Agents with limited capabilities.
+	    Clients MAY use the Request File Method to minimize the request
+	    size.
+	  </t>
 
           <section anchor="SimpleRequestMethod" title="Simple Request Method">
             <t>The Client prepares an Authorization Request to the
@@ -464,54 +471,52 @@
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
             <t>The <spanx style="verb">request</spanx> parameter is
-	      an OpenID Request Object
-              that contains the Authorization Request and also
-              specifies the contents of
-              the responses to be returned from the UserInfo 
-              Endpoint. The OpenID Request Object MAY be signed or signed and encrypted via
+	      an OpenID Request Object containing the complete OpenID Connect request.
+	      The OpenID Request Object MAY be signed or signed and encrypted via
               <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
               respectively, thereby providing authentication, integrity,
               non-repudiation and/or confidentiality.</t>
 
             <t><figure>
-                <preamble>The following is a non-normative example of an
-                OpenID Request Object before base64url encoding and signing:</preamble>
+                <preamble>
+		  The following is a non-normative example of
+		  an OpenID Request Object before base64url encoding and signing:
+		</preamble>
 
                 <artwork><![CDATA[
 {
-  "response_type": "code id_token",
-  "client_id": "s6BhdRkqt3",
-  "redirect_uri": "https://client.example.org/cb",
-  "scope": "openid",
-  "state": "af0ifjsldkj",
-  "nonce": "n-0S6_WzA2Mj",
-  "max_age": 86400,
-  "userinfo": 
+ "response_type": "code id_token",
+ "client_id": "s6BhdRkqt3",
+ "redirect_uri": "https://client.example.org/cb",
+ "scope": "openid",
+ "state": "af0ifjsldkj",
+ "nonce": "n-0S6_WzA2Mj",
+ "max_age": 86400,
+ "claims": 
+  {
+   "userinfo": 
     {
-      "claims": 
-        {
-          "name": {"essential": true},
-          "nickname": null,
-          "email": {"essential": true},
-          "email_verified": {"essential": true},
-          "picture": null
-        }
+     "given_name": {"essential": true},
+     "nickname": null,
+     "email": {"essential": true},
+     "email_verified": {"essential": true},
+     "picture": null
     },
-  "id_token": 
+   "id_token": 
     {
-      "claims": 
-        {
-          "gender": null,
-          "birthdate": {"essential": true},
-          "acr": {"values": ["2"]}
-        }
+     "gender": null,
+     "birthdate": {"essential": true},
+     "acr": {"values": ["2"]}
     }
+  }
 }
 ]]></artwork>
-              </figure> <figure>
-                <preamble>The following is a non-normative example of
-		an OpenID Request Object before base64url encoding and signing
-		(with line wraps within the values for display purposes only):</preamble>
+              </figure>
+	      <figure>
+                <preamble>
+		  The following is a non-normative example of
+		  an OpenID Request Object before base64url encoding and signing:
+		</preamble>
 
                 <artwork><![CDATA[
   Algorithm = RS256
@@ -519,34 +524,31 @@
   JSON Encoded Header = {"alg":"RS256"}
   JSON Encoded Payload =
 {
-  "response_type": "code id_token",
-  "client_id": "s6BhdRkqt3",
-  "redirect_uri": "https://client.example.org/cb",
-  "scope": "openid",
-  "state": "af0ifjsldkj",
-  "nonce": "n-0S6_WzA2Mj",
-  "userinfo": 
+ "response_type": "code id_token",
+ "client_id": "s6BhdRkqt3",
+ "redirect_uri": "https://client.example.org/cb",
+ "scope": "openid",
+ "state": "af0ifjsldkj",
+ "nonce": "n-0S6_WzA2Mj",
+ "claims": 
+  {
+   "userinfo": 
     {
-      "claims": 
-        {
-          "name": {"essential": true},
-          "nickname": null,
-          "email": {"essential": true},
-          "email_verified": {"essential": true},
-          "picture": null
-        }
+     "given_name": {"essential": true},
+     "nickname": null,
+     "email": {"essential": true},
+     "email_verified": {"essential": true},
+     "picture": null
     },
-  "id_token": 
+   "id_token": 
     {
-      "claims": 
-        {
-          "gender": null,
-          "birthdate": {"essential": true},
-          "acr": {"values": ["2"]}
-        }
+     "gender": null,
+     "birthdate": {"essential": true},
+     "acr": {"values": ["2"]}
     }
+  }
 }
-    
+
   OpenID Request Object =
   eyJhbGciOiJSUzI1NiJ9.ew0KICAicmVzcG9uc2VfdHlwZSI6ICJjb2RlIGlkX3Rva2
   VuIiwNCiAgImNsaWVudF9pZCI6ICJzNkJoZFJrcXQzIiwNCiAgInJlZGlyZWN0X3Vya
@@ -877,7 +879,7 @@ IBj34k8gDMceyuKQH1OEXM14qF5umOerELl7p6J6Mwb2BmQ10JvnKQiPUw
             <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Authorization Response 
             as described in
-	    Section 2.1.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> 
+	    Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> 
             to the Client by adding the response parameters to <spanx
             style="verb">redirect_uri</spanx> specified in the Authorization
             Request using the "application/x-www-form-urlencoded" format.</t>
@@ -1168,7 +1170,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
             <t>If the End-User denies the authorization or the user authentication
             fails, the Authorization Server MUST return the error authorization 
             response as defined in
-	    Section 2.1.4 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	    Section 2.1.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	    The Authorization Server returns the Client to
             the redirection URI specified in the Authorization Request
             with the appropriate error parameters. No
@@ -1454,7 +1456,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
         returns Claims about the authenticated End-User.
 	To obtain the requested Claims about the End-User, the Client
 	makes a GET or POST request to the UserInfo Endpoint as in
-	Section 2.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
       </t>
       <t>
 	Communication with the UserInfo Endpoint MUST utilize TLS.
@@ -1670,7 +1672,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 
           <t hangText="request">OPTIONAL.
 	      OpenID Request Object value, as defined in
-	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
+	      Section 2.10 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
 	      The OpenID Request Object may be
 	      encrypted in a JWE by the client.  The <spanx style="verb">sub</spanx> (subject)
 	      of the ID Token
@@ -2506,6 +2508,10 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	  <t>
 	    Fixed #744 - Promoted <spanx style="verb">max_age</spanx>
 	    to being a top-level parameter.
+	  </t>
+	  <t>
+	    Fixed #748 - Promoted <spanx style="verb">claims</spanx> to being a
+	    top-level parameter separate from the OpenID Request Object.
 	  </t>
 	</list>
       </t>
