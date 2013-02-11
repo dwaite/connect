@@ -363,16 +363,20 @@
 	    The <spanx style="verb">auth_time</spanx> claim request
 	    in the request object overrides this setting.</t>
                   
-            <t hangText="default_acr">OPTIONAL.
-	    Default authentication context class reference value. 
-                  String that 
-                  specifies the default value that the Authorization Server must use 
-                  for processing requests from this client.  The 
-                  <spanx style="verb">acr_values_supported</spanx> element of discovery 
-                  contains a list of the supported <spanx style="verb">acr</spanx>
-	              values for this server.
-                  The <spanx style="verb">acr</spanx> claim in the 
-                  request object overrides this default value.</t>
+            <t hangText="default_acr_values">
+	      OPTIONAL.
+	      Default requested Authentication Context Class Reference values. 
+	      Space-separated string that 
+	      specifies the default <spanx style="verb">acr</spanx>
+	      values that the Authorization Server MUST use 
+	      for processing requests from this Client.
+	      The <spanx style="verb">acr_values_supported</spanx> discovery element 
+	      contains a list of the supported <spanx style="verb">acr</spanx>
+	      values supported by this server.
+	      Values specified in the <spanx style="verb">acr_values</spanx> request parameter
+	      or an <spanx style="verb">acr</spanx> Claim request
+	      override these default values.
+	    </t>
 
              <t hangText="initiate_login_uri">OPTIONAL. 
             URI using the <spanx style="verb">https:</spanx> scheme that the authorization server can call
@@ -1148,7 +1152,11 @@
 	    Fixed #744 - Promoted <spanx style="verb">max_age</spanx>
 	    to being a top-level parameter.
 	  </t>
-
+	  <t>
+	    Fixed #765 - Created <spanx style="verb">acr_values</spanx> top-level
+	    request parameter and changed <spanx style="verb">default_acr</spanx>
+	    registration parameter to <spanx style="verb">default_acr_values</spanx>.
+	  </t>
         </list>
       </t>
 

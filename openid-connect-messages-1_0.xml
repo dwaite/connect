@@ -527,6 +527,14 @@
                   The use of this parameter is left to the OP's discretion.
                 </t>
 
+                <t hangText="acr_values">
+                  OPTIONAL.
+                  Requested Authentication Context Class Reference values. 
+		  Space-separated string that specifies the <spanx style="verb">acr</spanx>
+		  values that the Authorization Server MUST use 
+		  for processing requests from this Client.
+                </t>
+
                 <t hangText="registration">
                   OPTIONAL.
                   This parameter requests that the Client
@@ -659,23 +667,17 @@
                 for details regarding date/times in general and UTC in
                 particular.</t>
 
-                <t hangText="acr">OPTIONAL.
-		Authentication Context Class Reference.
-                String specifying an Authentication Context Class Reference value. 
-                The values "1", "2", "3", and "4" map to the
-                <xref target="ISO29115">ISO/IEC 29115</xref> 
-                entity authentication assurance level of the authentication performed. 
-                The value "0" indicates the End-User authentication
-                did not meet the requirements of ISO/IEC 29115 level 1.
-                Authentication using a long-lived browser cookie, for instance, is one 
-                example where the use of "level 0" is appropriate. Authentications with 
-                level 0 should never be used to authorize access to any resource of any 
-                monetary value.  
-                (This corresponds to the OpenID 2.0
-                <xref target="OpenID.PAPE">PAPE</xref> 
-                <spanx style="verb">nist_auth_level</spanx> 0.)
-                An absolute URI or a <xref target="RFC6711">registered 
-                name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
+                <t hangText="auth_time">
+                  OPTIONAL or REQUIRED.
+                  Time when the End-User authentication occurred, specified as
+                  the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
+                  When a <spanx style="verb">max_age</spanx> request is made
+                  or when <spanx style="verb">auth_time</spanx> is requested
+                  as an Essential Claim,
+                  then this Claim is REQUIRED.
+                  (The <spanx style="verb">auth_time</spanx> Claim semantically
+                  corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
+                  <spanx style="verb">auth_time</spanx> response parameter.)
                 </t>
 
                 <t hangText="nonce">OPTIONAL or REQUIRED.
@@ -697,17 +699,23 @@
 	      Token Endpoint.
           </t>
 
-                <t hangText="auth_time">
-                  OPTIONAL or REQUIRED.
-                  Time when the End-User authentication occurred, specified as
-                  the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
-                  When a <spanx style="verb">max_age</spanx> request is made
-                  or when <spanx style="verb">auth_time</spanx> is requested
-                  as an Essential Claim,
-                  then this Claim is REQUIRED.
-                  (The <spanx style="verb">auth_time</spanx> Claim semantically
-                  corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
-                  <spanx style="verb">auth_time</spanx> response parameter.)
+                <t hangText="acr">OPTIONAL.
+		Authentication Context Class Reference.
+                String specifying an Authentication Context Class Reference value. 
+                The values "1", "2", "3", and "4" map to the
+                <xref target="ISO29115">ISO/IEC 29115</xref> 
+                entity authentication assurance level of the authentication performed. 
+                The value "0" indicates the End-User authentication
+                did not meet the requirements of ISO/IEC 29115 level 1.
+                Authentication using a long-lived browser cookie, for instance, is one 
+                example where the use of "level 0" is appropriate. Authentications with 
+                level 0 should never be used to authorize access to any resource of any 
+                monetary value.  
+                (This corresponds to the OpenID 2.0
+                <xref target="OpenID.PAPE">PAPE</xref> 
+                <spanx style="verb">nist_auth_level</spanx> 0.)
+                An absolute URI or a <xref target="RFC6711">registered 
+                name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
                 </t>
 
                 <t hangText="at_hash">OPTIONAL or REQUIRED. 
@@ -2524,24 +2532,28 @@ may be retrieved:
                   even if they have an active session with the Authorization Server. 
                   </t>
                   <t>
-                  If the <spanx style="verb">acr</spanx> Claim is requested
-		  as an essential Claim
-                  in the <spanx style="verb">id_token</spanx> member 
-                  with <spanx style="verb">values</spanx> as a parameter, 
-                  the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
-                  Claim value that matches one of the requested values. 
-                  The Authorization 
-                  server MAY ask the user to re-authenticate with additional factors 
-                  to meet the requirements. If this is an essential Claim and the 
-                  requirement cannot be met, then the Authorization Server MUST return an error.
-                  The Client MAY make this Claim optional by not including "essential": true in the 
-                  <spanx style="verb">acr</spanx> Claim request. 
-                  If the Claim is not essential and the requested value for 
-                  the user cannot be provided, the Authorization server SHOULD return 
-                  the session's current <spanx style="verb">acr</spanx> as
-                  the value of the <spanx style="verb">acr</spanx> Claim. 
-                  If the Claim is not essential, the Authorization server is not required to
-                  provide this Claim in its response.
+		    If the <spanx style="verb">acr</spanx> Claim is requested
+		    as an essential Claim for the ID Tokens
+		    with a <spanx style="verb">values</spanx> parameter requsting
+		    specific Authentication Context Class Reference values, then 
+		    the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
+		    Claim value that matches one of the requested values. 
+		    The Authorization 
+		    server MAY ask the user to re-authenticate with additional factors 
+		    to meet the requirements. If this is an essential Claim and the 
+		    requirement cannot be met, then the Authorization Server MUST return an error.
+		  </t>
+		  <t>
+		    The Client MAY request this Claim as an optional Claim
+		    by using the <spanx style="verb">acr_values</spanx> request parameter
+		    or by not including "essential": true in the individual
+		    <spanx style="verb">acr</spanx> Claim request. 
+		    If the Claim is not essential and the requested value for 
+		    the user cannot be provided, the Authorization server SHOULD return 
+		    the session's current <spanx style="verb">acr</spanx> as
+		    the value of the <spanx style="verb">acr</spanx> Claim. 
+		    If the Claim is not essential, the Authorization server is not required to
+		    provide this Claim in its response.
                   </t>
 		  </list></t>
 		  <t>If the Authorization Server encounters any error, 
@@ -2834,91 +2846,88 @@ may be retrieved:
 	<t>
 	  <list style="hanging">
 
-	    <t hangText="Signing ID Tokens with RSA SHA-256">
-	      OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
-	      (an <spanx style="verb">alg</spanx> value of <spanx style="verb">RS256</spanx>).
-	    </t>
-	    <t hangText="Prompt Parameter">
-	      OPs must support the <spanx style="verb">prompt</spanx> parameter,
-	      as defined in <xref target="AuthorizationRequest"/>, including the specified
-	      user interface behaviors such as <spanx style="verb">none</spanx>
-	      and <spanx style="verb">login</spanx>.
-	    </t>
-	    <t hangText="Preferred Locales">
-	      OPs MUST support requests for preferred languages and scripts
-	      for the user interface and for claims via the
-	      <spanx style="verb">ui_locales</spanx> and
-	      <spanx style="verb">claims_locales</spanx> request parameters,
-	      as defined in <xref target="AuthorizationRequest"/>.
-	    </t>
-	    <t hangText="Authentication Context Class Reference">
-	      OPs MUST support requests for specific
-	      authentication context class reference values
-	      as a non-essential claim, via a request for listed
-	      <spanx style="verb">acr</spanx> Claim values,
-	      as defined in <xref target="IndividualClaimsRequests"/>
-	      and <xref target="req.obj.veri"/>.
-	    </t>
-	    <t hangText="Authentication Time">
-	      OPs MUST support returning the time at which the user authenticated
-	      via the <spanx style="verb">auth_time</spanx> Claim,
-	      as defined in <xref target="id_token"/>.
-	    </t>
-	    <t hangText="Maximum Authentication Age">
-	      OPs MUST support enforcing a maximum authentication age
-	      via the <spanx style="verb">max_age</spanx> parameter,
-	      as defined in <xref target="AuthorizationRequest"/>.
-	    </t>
-	    <t hangText="OpenID Request Object">
-	      OPs MUST support requests made using an OpenID Request Object
-	      with the <spanx style="verb">request</spanx> parameter,
-	      as defined in <xref target="OpenID_Request_Object"/>,
-	      including supporting requests for specific claims to be returned
-	      in the ID Token and from the UserInfo Endpoint.
-	    </t>
-	    <t hangText="Request URI">
-	      OPs MUST support requests made using an OpenID Request Object
-	      that is retrieved from a Request URI that is provided
-      	      with the <spanx style="verb">request_uri</spanx> parameter,
-	      as defined in <xref target="AuthorizationRequest"/>.
-	    </t>
+            <t hangText="Signing ID Tokens with RSA SHA-256">
+              OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
+              (an <spanx style="verb">alg</spanx> value of <spanx style="verb">RS256</spanx>).
+            </t>
+            <t hangText="Prompt Parameter">
+              OPs must support the <spanx style="verb">prompt</spanx> parameter,
+              as defined in <xref target="RequestParameters"/>, including the specified
+              user interface behaviors such as <spanx style="verb">none</spanx>
+              and <spanx style="verb">login</spanx>.
+            </t>
+            <t hangText="Preferred Locales">
+              OPs MUST support requests for preferred languages and scripts
+              for the user interface and for claims via the
+              <spanx style="verb">ui_locales</spanx> and
+              <spanx style="verb">claims_locales</spanx> request parameters,
+              as defined in <xref target="RequestParameters"/>.
+            </t>
+            <t hangText="Authentication Time">
+              OPs MUST support returning the time at which the user authenticated
+              via the <spanx style="verb">auth_time</spanx> Claim,
+              as defined in <xref target="id_token"/>.
+            </t>
+            <t hangText="Maximum Authentication Age">
+              OPs MUST support enforcing a maximum authentication age
+              via the <spanx style="verb">max_age</spanx> parameter,
+              as defined in <xref target="RequestParameters"/>.
+            </t>
+            <t hangText="Authentication Context Class Reference">
+              OPs MUST support requests for specific
+              Authentication Context Class Reference values
+              via the <spanx style="verb">acr_values</spanx> parameter,
+              as defined in <xref target="RequestParameters"/>.
+            </t>
+            <t hangText="OpenID Request Object">
+              OPs MUST support requests made using an OpenID Request Object
+              with the <spanx style="verb">request</spanx> parameter,
+              as defined in <xref target="RequestParameters"/> and
+              <xref target="OpenID_Request_Object"/>.
+            </t>
+            <t hangText="Request URI">
+              OPs MUST support requests made using an OpenID Request Object
+              that is retrieved from a Request URI that is provided
+              with the <spanx style="verb">request_uri</spanx> parameter,
+              as defined in <xref target="RequestParameters"/>.
+            </t>
 
-	  </list>
-	</t>
+          </list>
+        </t>
       </section>
 
       <section anchor="DynamicMTI" title="Mandatory to Implement Features for Dynamic OpenID Providers">
-	<t>
-	  In addition to the features listed above,
-	  OpenID Providers supporting dynamic establishment of relationships with RPs
-	  that they do not have a pre-configured relationship with
-	  MUST also implement the following features defined in this and related specifications.
-	</t>
-	<t>
-	  <list style="hanging">
+        <t>
+          In addition to the features listed above,
+          OpenID Providers supporting dynamic establishment of relationships with RPs
+          that they do not have a pre-configured relationship with
+          MUST also implement the following features defined in this and related specifications.
+        </t>
+        <t>
+          <list style="hanging">
 
-	    <t hangText="Keys in X.509 Format">
-	      These OPs MUST publish their public keys in X.509 format.
-	    </t>
-	    <t hangText="UserInfo Endpoint">
-	      These OPs MUST support the UserInfo Endpoint,
-	      as defined in <xref target="userinfo_ep"/>.
-	      (Supporting the UserInfo Endpoint is strongly RECOMMENDED for all OPs
-	      that are not self-issued OPs.)
-	    </t>
-	    <t hangText="Discovery">
-	      These OPs MUST support feature discovery,
-	      as defined in
-	      <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.
-	    </t>
-	    <t hangText="Dynamic Registration">
-	      These OPs MUST support dynamic client registration,
-	      as defined in
-	      <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
-	    </t>
+            <t hangText="Keys in X.509 Format">
+              These OPs MUST publish their public keys in X.509 format.
+            </t>
+            <t hangText="UserInfo Endpoint">
+              These OPs MUST support the UserInfo Endpoint,
+              as defined in <xref target="userinfo_ep"/>.
+              (Supporting the UserInfo Endpoint is strongly RECOMMENDED for all OPs
+              that are not self-issued OPs.)
+            </t>
+            <t hangText="Discovery">
+              These OPs MUST support feature discovery,
+              as defined in
+              <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.
+            </t>
+            <t hangText="Dynamic Registration">
+              These OPs MUST support dynamic client registration,
+              as defined in
+              <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
+            </t>
 
-	  </list>
-	</t>
+          </list>
+        </t>
       </section>
 
       <section anchor="related" title="Related Specifications">
@@ -4460,6 +4469,11 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #748 - Promoted <spanx style="verb">claims</spanx> to being a
 	    top-level parameter separate from the OpenID Request Object.
+	  </t>
+	  <t>
+	    Fixed #765 - Created <spanx style="verb">acr_values</spanx> top-level
+	    request parameter and changed <spanx style="verb">default_acr</spanx>
+	    registration parameter to <spanx style="verb">default_acr_values</spanx>.
 	  </t>
 	</list>
       </t>

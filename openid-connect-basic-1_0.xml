@@ -476,6 +476,14 @@
 		It is RECOMMENDED that the hint value match the value used for discovery. 
 		The use of this parameter is left to the OP's discretion.
 	      </t>
+
+	      <t hangText="acr_values">
+		OPTIONAL.
+		Requested Authentication Context Class Reference values. 
+		Space-separated string that specifies the <spanx style="verb">acr</spanx>
+		values that the Authorization Server MUST use 
+		for processing requests from this Client.
+	      </t>
             </list>
           </t>
 
@@ -695,8 +703,7 @@
 
           <t>The ID Token is used to manage the authentication event and user
           identifier and is scoped to a particular Client via the <spanx
-          style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          Claims. </t>
+          style="verb">aud</spanx> (audience) Claim.</t>
 
           <t>The following Claims are used within the ID Token:</t>
 
@@ -751,6 +758,22 @@
 		the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
 		When a <spanx style="verb">max_age</spanx> request is made
 		then this Claim is REQUIRED.
+	      </t>
+
+	      <t hangText="acr">OPTIONAL.
+	      Authentication Context Class Reference.
+	      String specifying an Authentication Context Class Reference value. 
+	      The values "1", "2", "3", and "4" map to the
+	      <xref target="ISO29115">ISO/IEC 29115</xref> 
+	      entity authentication assurance level of the authentication performed. 
+	      The value "0" indicates the End-User authentication
+	      did not meet the requirements of ISO/IEC 29115 level 1.
+	      Authentication using a long-lived browser cookie, for instance, is one 
+	      example where the use of "level 0" is appropriate. Authentications with 
+	      level 0 should never be used to authorize access to any resource of any 
+	      monetary value.  
+	      An absolute URI or a <xref target="RFC6711">registered 
+	      name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
 	      </t>
 
             </list></t>
@@ -1484,41 +1507,6 @@ Representation of dates and times</title>
         <format target="http://www.twinsun.com/tz/tz-link.htm" type="HTML"/>
       </reference>
 
-      <reference anchor="OpenID.Messages">
-        <front>
-          <title>OpenID Connect Messages 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Ping Identity">Ping Identity</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-	    <organization abbrev="Salesforce">Salesforce</organization>
-	  </author>
-
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="Illumila">Illumila</organization>
-          </author>
-
-          <date day="30" month="January" year="2013"/>
-        </front>
-
-        <format target="http://openid.net/specs/openid-connect-messages-1_0.html"
-                type="HTML" />
-      </reference>
-
       <reference anchor="OpenID.Standard">
         <front>
           <title>OpenID Connect Standard 1.0</title>
@@ -1790,6 +1778,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #744 - Added <spanx style="verb">max_age</spanx> parameter.
+	  </t>
+	  <t>
+	    Fixed #765 - Added new <spanx style="verb">acr_values</spanx> parameter.
 	  </t>
 	</list>
       </t>
