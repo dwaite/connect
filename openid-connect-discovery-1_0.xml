@@ -728,10 +728,11 @@
         <t><figure>
             <artwork><![CDATA[
   {
-   "authorization_endpoint":
-     "https://server.example.com/connect/authorize",
+   "version": "3.0",
    "issuer":
      "https://server.example.com",
+   "authorization_endpoint":
+     "https://server.example.com/connect/authorize",
    "token_endpoint":
      "https://server.example.com/connect/token",
    "token_endpoint_auth_methods_supported":
@@ -744,6 +745,8 @@
      "https://server.example.com/connect/check_session",
    "end_session_endpoint":
      "https://server.example.com/connect/end_session",
+   "x509_url":
+     "https://server.example.com/certs.x509",
    "jwk_url":
      "https://server.example.com/jwks.json",
    "registration_endpoint":
@@ -1277,6 +1280,12 @@
 	  <t>
 	    Change from Content-Type application/json to application/jrd+json,
 	    tracking the change made in WebFinger.
+	  </t>
+	  <t>
+	    Fixed #768 - Added required <spanx style="verb">version</spanx> value to example response.
+	  </t>
+	  <t>
+	    Fixed #771 - Added required <spanx style="verb">x509_url</spanx> value to example response.
 	  </t>
         </list>
       </t>
