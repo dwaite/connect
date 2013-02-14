@@ -2386,10 +2386,19 @@ may be retrieved:
             The key usage of the respective keys MUST support signature. 
           </t>
           <t hangText="Symmetric Signatures">
-            When using HMAC Signatures, the <spanx style="verb">alg</spanx>
-	    Claim of the JWS header MUST be set to the appropriate algorithm
+            When using HMAC signatures (MAC operations),
+	    the <spanx style="verb">alg</spanx>
+	    Claim of the JWS header MUST be set to an HMAC algorithm,
 	    as defined in <xref target="JWA">JSON Web Algorithms</xref>. 
-	    The client and server MUST establish a shared secret out of band.
+	    The HMAC key is derived from the
+	    <spanx style="verb">client_secret</spanx> value by
+	    applying the hash algorithm specified in the <spanx style="verb">alg</spanx>
+	    parameter of the <xref target="JWS">JWS</xref> header to the
+	    bytes of the UTF-8 representation of
+	    the <spanx style="verb">client_secret</spanx> value.
+	    For instance, if the <spanx style="verb">alg</spanx> is
+            <spanx style="verb">HS256</spanx>, hash the client secret value
+	    with SHA-256 to produce the HMAC key.
           </t>
         </list></t>
       </section>
@@ -2440,11 +2449,16 @@ may be retrieved:
             The key usage of the respective keys MUST support encryption.
           </t>
 	  <t hangText="Symmetric Encryption">
-            Use a left truncated SHA-256 hash of <spanx style="verb">client_secret</spanx> 
-            to KeyWrap a random 
-            <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
-            the signed JWT.  The SHA-256 MUST be left truncated to the appropriate bit length 
-            for the AES KeyWrap algorithm used.
+	    The symmetric encryption key is derived from the
+	    <spanx style="verb">client_secret</spanx> value by
+	    using a left truncated SHA-256 hash of
+	    the concatenation of
+	    bytes of the UTF-8 representation of
+	    the <spanx style="verb">client_secret</spanx>
+	    and the string <spanx style="verb">Encryption</spanx>.
+	    The SHA-256 value MUST be left truncated to the appropriate bit length 
+            for the AES KeyWrap algorithm used,
+	    for instance, to 128 bits for <spanx style="verb">A128KW</spanx>.
           </t>
         </list></t>
       </section>
@@ -3204,6 +3218,16 @@ may be retrieved:
       during Authorization.</t>
       <t>The Authorization Server MUST provide a mechanism for the user to revoke
       Refresh Tokens granted to a Client.</t>
+      </section>
+
+      <section anchor="SymmetricKeyEntropy" title="Symmetric Key Entropy">
+	<t>
+	  In <xref target="sigs"/> and <xref target="enc"/>, keys are derived
+	  from the <spanx style="verb">client_secret</spanx> value.
+	  Thus, when used with symmetric signing or encryption operations,
+	  client secret values must contain sufficient entropy to generate
+	  cryptographically strong keys.
+	</t>
       </section>
     </section>
 
@@ -4474,6 +4498,17 @@ Representation of dates and times</title>
 	    Fixed #765 - Created <spanx style="verb">acr_values</spanx> top-level
 	    request parameter and changed <spanx style="verb">default_acr</spanx>
 	    registration parameter to <spanx style="verb">default_acr_values</spanx>.
+	  </t>
+	  <t>
+	    Fixed #761 - client_secret as the HMAC key.
+	    The symmetric encription key derivation now concatenates the string
+	    "Encryption" to the client secret value before performing the hash operation.
+	  </t>
+	  <t>
+	    Fixed #762 - client_secret to key.
+	    We now use the phrase "bytes of the UTF-8 representation of
+	    the <spanx style="verb">client_secret</spanx> value".
+	    Also added security considerations about symmetric key entropy.
 	  </t>
 	</list>
       </t>
