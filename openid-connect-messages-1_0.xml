@@ -905,8 +905,9 @@
           Clients that have received a <spanx style='verb'>client_secret</spanx> value 
           from the Authorization Server create a JWT using an
 	  HMAC SHA algorithm, such as HMAC SHA-256. 
-	  The HMAC (Hash-based Message Authentication Code) is calculated using the
-	  value of <spanx style='verb'>client_secret</spanx> as the shared key.
+	  The HMAC (Hash-based Message Authentication Code) is calculated using
+	  the bytes of the UTF-8 representation of
+	  the <spanx style='verb'>client_secret</spanx> as the shared key.
 	  </t>
 	  <t>
           The Client authenticates in accordance with Section 2.2 of <xref
@@ -2386,19 +2387,15 @@ may be retrieved:
             The key usage of the respective keys MUST support signature. 
           </t>
           <t hangText="Symmetric Signatures">
-            When using HMAC signatures (MAC operations),
+            When using MAC-based signatures,
 	    the <spanx style="verb">alg</spanx>
-	    Claim of the JWS header MUST be set to an HMAC algorithm,
+	    Claim of the JWS header MUST be set to a MAC algorithm,
 	    as defined in <xref target="JWA">JSON Web Algorithms</xref>. 
-	    The HMAC key is derived from the
-	    <spanx style="verb">client_secret</spanx> value by
-	    applying the hash algorithm specified in the <spanx style="verb">alg</spanx>
-	    parameter of the <xref target="JWS">JWS</xref> header to the
-	    bytes of the UTF-8 representation of
+	    The MAC key used is
+	    the bytes of the UTF-8 representation of
 	    the <spanx style="verb">client_secret</spanx> value.
-	    For instance, if the <spanx style="verb">alg</spanx> is
-            <spanx style="verb">HS256</spanx>, hash the client secret value
-	    with SHA-256 to produce the HMAC key.
+	    See <xref target="SymmetricKeyEntropy"/> for a discussion of
+	    entropy requirements for <spanx style="verb">client_secret</spanx> values.
           </t>
         </list></t>
       </section>
@@ -2452,10 +2449,8 @@ may be retrieved:
 	    The symmetric encryption key is derived from the
 	    <spanx style="verb">client_secret</spanx> value by
 	    using a left truncated SHA-256 hash of
-	    the concatenation of
-	    bytes of the UTF-8 representation of
-	    the <spanx style="verb">client_secret</spanx>
-	    and the string <spanx style="verb">Encryption</spanx>.
+	    the bytes of the UTF-8 representation of
+	    the <spanx style="verb">client_secret</spanx>.
 	    The SHA-256 value MUST be left truncated to the appropriate bit length 
             for the AES KeyWrap algorithm used,
 	    for instance, to 128 bits for <spanx style="verb">A128KW</spanx>.
@@ -2621,10 +2616,11 @@ may be retrieved:
             
             <t>If the <spanx style="verb">alg</spanx> parameter of the JWT header is a MAC based algorithm such as 
             <spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
-	        or <spanx style="verb">HS512</spanx>,
-	        the <spanx style="verb">client_secret</spanx> for the 
+	    or <spanx style="verb">HS512</spanx>,
+	    the bytes of the UTF-8 representation of
+	    the <spanx style="verb">client_secret</spanx> corresponding to the 
             <spanx style="verb">client_id</spanx> contained in the 
-            <spanx style="verb">aud</spanx> (audience) Claim is used as the key
+            <spanx style="verb">aud</spanx> (audience) Claim are used as the key
 	    to validate the signature. Multiple audiences are not supported for MAC based algorithms.</t> 
             
             <t>For other Signing algorithms, the Client must use the signing key provided
@@ -3225,8 +3221,16 @@ may be retrieved:
 	  In <xref target="sigs"/> and <xref target="enc"/>, keys are derived
 	  from the <spanx style="verb">client_secret</spanx> value.
 	  Thus, when used with symmetric signing or encryption operations,
-	  client secret values must contain sufficient entropy to generate
-	  cryptographically strong keys.
+	  <spanx style="verb">client_secret</spanx> values MUST contain
+	  sufficient entropy to generate cryptographically strong keys.
+	  Also, <spanx style="verb">client_secret</spanx> values MUST also contain
+	  at least the minimum of number of bytes required for MAC keys for the
+	  particular algorithm used.
+	  So for instace, for <spanx style="verb">HS256</spanx>, the
+	  <spanx style="verb">client_secret</spanx> value MUST contain
+	  at least 8 bytes (and almost certainly SHOULD contain more,
+	  since <spanx style="verb">client_secret</spanx> values are
+	  likely to use a restricted alphabet.
 	</t>
       </section>
     </section>
@@ -4500,13 +4504,8 @@ Representation of dates and times</title>
 	    registration parameter to <spanx style="verb">default_acr_values</spanx>.
 	  </t>
 	  <t>
-	    Fixed #761 - client_secret as the HMAC key.
-	    The symmetric encription key derivation now concatenates the string
-	    "Encryption" to the client secret value before performing the hash operation.
-	  </t>
-	  <t>
-	    Fixed #762 - client_secret to key.
-	    We now use the phrase "bytes of the UTF-8 representation of
+	    Fixed #761 - client_secret as the HMAC key and #762 - client_secret to key.
+	    We now use the phrase "the bytes of the UTF-8 representation of
 	    the <spanx style="verb">client_secret</spanx> value".
 	    Also added security considerations about symmetric key entropy.
 	  </t>
