@@ -157,8 +157,8 @@
 	  authorization header must be bearer tokens <xref target="RFC6750"/>.</t>
 
 	  <t hangText="contacts">OPTIONAL.
-	  Array of email addresses for people responsible for this Client.
-	  This is used by some providers to enable a web UI to modify the 
+	  Array of e-mail addresses of people responsible for this Client.
+	  This may be used by some providers to enable a Web user interface to modify the 
 	  Client information.</t>
 
 	  <t hangText="client_name">OPTIONAL.
@@ -424,6 +424,7 @@
             <artwork><![CDATA[
   POST /connect/register HTTP/1.1
   Content-Type: application/json
+  Accept: application/json
   Host: server.example.com
   Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ ...
 
@@ -445,8 +446,8 @@
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
    "contacts": 
-     ["ve7jtb@example.com", 
-      "user2@example.com"]
+     ["ve7jtb@example.org", 
+      "mary@example.org"]
   }
 ]]></artwork></figure></t>
       </section>
@@ -543,8 +544,8 @@
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
    "contacts": 
-     ["ve7jtb@example.com", 
-      "user2@example.com"]
+     ["ve7jtb@example.org", 
+      "mary@example.org"]
   }
 ]]></artwork>
         </figure>
@@ -572,9 +573,14 @@
 
 	<t>
 	  <list style="hanging">
-	    <t hangText="invalid_redirect_uri">Value of one or more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
+	    <t hangText="invalid_redirect_uri">The value of one or
+	    more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
 
-	    <t hangText="invalid_configuration_parameter">Value of one of the configuration parameters is invalid.</t>
+            <t hangText="invalid_client_metadata"><vspace/>The value of one of
+            the <xref target="client-metadata">client metadata</xref> fields
+            is invalid and the server has rejected this request. Note that an
+            Authorization server MAY choose to substitute a valid value for
+            any requested parameter of a client's metadata.</t>
 	</list></t>
 
 	<t>
@@ -684,10 +690,10 @@
       <section anchor="ReadError" title="Client Read Error Response">
 	
 	<t>When a read error condition occurs, the Client Registration Access Endpoint returns
-	a HTTP 403 Forbidden status code.  This indicates that the access_token is invalid or the client record requested 
-	is invalid or non existent. Note that for security reasons to inhibit brute force attacks endpoints MUST not return 
+	a HTTP 403 Forbidden status code.  This indicates that the Access Token
+	is invalid or the Client record requested is invalid or non-existent.
+	Note that for security reasons, to inhibit brute force attacks, endpoints MUST NOT return 
 	404 Not Found error codes.</t>
-
 	
 	<t>
 	  <figure>
@@ -1232,6 +1238,10 @@
 	  </t>
 	  <t>
 	    Fixed #775 Made redirects_uri, contacts, and default_acr_values arrays to match the examples.
+	  </t>
+	  <t>
+	    Changed <spanx style="verb">invalid_configuration_parameter</spanx> error to
+	    <spanx style="verb">invalid_client_metadata</spanx> to match the OAuth Registration spec.
 	  </t>
         </list>
       </t>
