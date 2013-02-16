@@ -722,6 +722,19 @@
 	      then information on how to register clients should be provided in this documentation.
 	    </t>
 
+	    <t hangText="claims_locales_supported">OPTIONAL.
+              Languages and scripts supported for values in Claims being returned, 
+              represented as a JSON array of
+	      <xref target="RFC5646">BCP47</xref> language tag values.
+	      Not all languages and scripts may be supported for all Claim values.
+	    </t>
+
+	    <t hangText="ui_locales_supported">OPTIONAL.
+              Languages and scripts supported for the user interface, 
+              represented as a JSON array of
+	      <xref target="RFC5646">BCP47</xref> language tag values.
+	    </t>
+
           </list>
 	</t>
 
@@ -786,7 +799,9 @@
       "profile", "picture", "website",
       "email", "email_verified", "locale", "zoneinfo"],
    "service_documentation":
-     "http://server.example.com/connect/service_documentation.html"
+     "http://server.example.com/connect/service_documentation.html",
+   "ui_locales_supported":
+     ["en-US", "en-GB", "en-CA", "fr-FR", "fr-CA"]
   }
 ]]></artwork>
           </figure></t>
@@ -1292,6 +1307,10 @@
 	  </t>
 	  <t>
 	    Fixed #769 - Added Claim Type identifiers and definition.
+	  </t>
+	  <t>
+	    Fixed #770 - Added <spanx style="verb">claims_locales_supported</spanx>
+	    and <spanx style="verb">ui_locales_supported</spanx>.
 	  </t>
         </list>
       </t>
