@@ -1364,8 +1364,13 @@
 
             <c>birthdate</c>
             <c>string</c>
-            <c>End-User's birthday, represented as an <xref
-            target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> format. The year MAY be <spanx style="verb">9999</spanx>, indicating that it is omitted. To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that depending on the underlying platform's date related function, providing just year may result in varying month and day, so the implementers should take this factor into account to correctly process the dates. </c>
+            <c>End-User's birthday, represented as an
+            <xref target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx>
+            format. The year MAY be <spanx style="verb">0000</spanx>, indicating that it is omitted.
+            To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that
+            depending on the underlying platform's date related function, providing just year may
+            result in varying month and day, so the implementers should take this factor into account
+            to correctly process the dates. </c>
 
             <c>zoneinfo</c>
             <c>string</c>
@@ -1736,7 +1741,7 @@ Claims Provider A:
    "name": "Jane Doe",
    "given_name": "Jane",
    "family_name": "Doe",
-   "birthdate": "9999-03-22",
+   "birthdate": "0000-03-22",
    "eye_color": "blue",
    "email": "janedoe@example.com",
    "_claim_names": {
@@ -1783,7 +1788,7 @@ may be retrieved:
    "given_name": "Jane",
    "family_name": "Doe",
    "email": "janedoe@example.com",
-   "birthdate": "9999-03-22",
+   "birthdate": "0000-03-22",
    "eye_color": "blue",
    "_claim_names": {
      "payment_info": "src1",
@@ -4340,54 +4345,32 @@ Representation of dates and times</title>
       specification.</t>
 
       <t><list style="empty">
+	  <t>Naveen Agarwal (naa@google.com), Google</t>
 	  <t>Amanda Anganes (aanganes@mitre.org), Mitre</t>
-
           <t>Casper Biering (cb@peercraft.com), Peercraft</t>
-
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
-
           <t>Johnny Bufu (jbufu@janrain.com), Janrain</t>
-
+          <t>Tim Bray (tbray@textuality.com), Google</t>
 	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
-
           <t>Breno de Medeiros (breno@gmail.com), Google</t>
-
           <t>Pamela Dingle (pdingle@pingidentity.com), Ping Identity</t>
-
 	  <t>Vladimir Dzhuvinov (vladimir@nimbusds.com), NimbusDS</t>
-
           <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
-
           <t>Roland Hedberg (roland.hedberg@adm.umu.se), Independent</t>
-
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
-
           <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
-
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
-
           <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
-
           <t>Nov Matake (nov@matake.jp), Independent</t>
-
           <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
-
           <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
-
           <t>Hideki Nara (hideki.nara@gmail.com), Takt Communications</t>
-
           <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
-
           <t>David Recordon (dr@fb.com), Facebook</t>
-
           <t>Justin Richer (jricher@mitre.org), Mitre</t>
-
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
-
           <t>Luke Shepard (lshepard@fb.com), Facebook</t>
-
           <t>Andreas Akre Solberg (andreas.solberg@uninett.no), UNINET</t>
-
           <t>Paul Tarjan (pt@fb.com), Facebook</t>
 
         </list></t>
@@ -4508,6 +4491,10 @@ Representation of dates and times</title>
 	    We now use the phrase "the bytes of the UTF-8 representation of
 	    the <spanx style="verb">client_secret</spanx> value".
 	    Also added security considerations about symmetric key entropy.
+	  </t>
+	  <t>
+	    Fixed #597 - Changed representation of omitted year in <spanx style="verb">birthdate</spanx>
+	    from <spanx style="verb">9999</spanx> to <spanx style="verb">0000</spanx>.
 	  </t>
 	</list>
       </t>
