@@ -125,7 +125,8 @@
 	<list style="hanging">
 
 	  <t hangText="redirect_uris">REQUIRED.
-	  Space-delimited list of redirect URIs.
+	  Array of redirect URIs for use in the Authorization Code and
+      Implicit grant types.
 	  One of the URL MUST match the Scheme, Host, and Path segments of the 
 	  <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
 
@@ -156,8 +157,7 @@
 	  authorization header must be bearer tokens <xref target="RFC6750"/>.</t>
 
 	  <t hangText="contacts">OPTIONAL.
-	  Space delimited list of e-mail
-	  addresses for people allowed to administer the information for this Client.
+	  Array of email addresses for people responsible for this Client.
 	  This is used by some providers to enable a web UI to modify the 
 	  Client information.</t>
 
@@ -347,7 +347,7 @@
 	  <t hangText="default_acr_values">
 	    OPTIONAL.
 	    Default requested Authentication Context Class Reference values. 
-	    Space-separated string that 
+	    Array of strings that 
 	    specifies the default <spanx style="verb">acr</spanx>
 	    values that the Authorization Server MUST use 
 	    for processing requests from this Client.
@@ -443,7 +443,10 @@
    "x509_url": "https://client.example.org/certs.x509",
    "jwk_url": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
-   "userinfo_encrypted_response_enc": "A128CBC+HS256"
+   "userinfo_encrypted_response_enc": "A128CBC+HS256",
+   "contacts": 
+     ["ve7jtb@example.com", 
+      "user2@example.com"]
   }
 ]]></artwork></figure></t>
       </section>
@@ -521,7 +524,7 @@
    "registration_access_token":
      "this.is.an.access.token.value.ffx83",
    "registration_access_url":
-     "https://server.example.com/connect/register",
+     "https://server.example.com/connect/register?client_id=s6BhdRkqt3",
    "token_endpoint_auth_method":
      "client_secret_basic",
    "application_type": "web",
@@ -538,7 +541,10 @@
    "x509_url": "https://client.example.org/certs.x509",
    "jwk_url": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
-   "userinfo_encrypted_response_enc": "A128CBC+HS256"
+   "userinfo_encrypted_response_enc": "A128CBC+HS256",
+   "contacts": 
+     ["ve7jtb@example.com", 
+      "user2@example.com"]
   }
 ]]></artwork>
         </figure>
@@ -650,6 +656,8 @@
    "client_secret":
      "OylyaC56ijpAQ7G5ZZGL7MMQ6Ap6mEeuhSTFVps2N4Q",
    "expires_at": 17514165600,
+   "registration_access_url":
+     "https://server.example.com/connect/register?client_id=s6BhdRkqt3",
    "token_endpoint_auth_method":
      "client_secret_basic",
    "application_type": "web",
@@ -674,28 +682,13 @@
       </section>
 
       <section anchor="ReadError" title="Client Read Error Response">
-	<t>
-	  Errors are returned from Client Read requests in the same manner
-	  as registration error responses, per <xref target="RegistrationError"/>. 
-	</t>
-	<t>When a read error condition occurs, the Client Registration Access Endpoint returns
-	a HTTP 400 status code including a JSON object describing the error in the response body.</t>
-
-	<t>The JSON object contains two members:</t>
-
-	<t><list style="hanging">
-	  <t hangText="error_code">Error code.</t>
-
-	  <t hangText="error_description">Additional text description of the error for debugging.</t>
-	</list></t>
 	
-	<t>This specification defines the following error codes:</t>
+	<t>When a read error condition occurs, the Client Registration Access Endpoint returns
+	a HTTP 403 Forbidden status code.  This indicates that the access_token is invalid or the client record requested 
+	is invalid or non existent. Note that for security reasons to inhibit brute force attacks endpoints MUST not return 
+	404 Not Found error codes.</t>
 
-	<t>
-	  <list style="hanging">
-	    <t hangText="invalid_client_id">Value of <spanx style="verb">client_id</spanx> is invalid.</t>
-	</list></t>
-
+	
 	<t>
 	  <figure>
 	    <preamble>
@@ -703,14 +696,10 @@
 	    </preamble>
 
 	    <artwork><![CDATA[
-  HTTP/1.1 400 Bad Request
+  HTTP/1.1 403 Forbidden
   Content-Type: application/json
   Cache-Control: no-store
    
-  {
-   "error_code": "invalid_client_id",
-   "error_description": "The value of the client_id parameter is invalid."
-  }
 ]]></artwork>
 	  </figure>
 	</t>
@@ -1230,6 +1219,19 @@
 	  </t>
 	  <t>
 	     Fixed #774 - moved invalid client_id from 3.3 to 4.3 and fixed example.
+	  </t>
+	  <t>
+	    Fixed #774 - removed invalid client_id and made GET return 403 Forbidden.
+	  </t>
+	  <t>
+	    Fixed missing registration_access_url in GET example response.
+	  </t>
+	  <t>
+	    Fixed #776 removed client adding client_id query paramater but make the examples include it 
+	    as part of the registration_access_url.
+	  </t>
+	  <t>
+	    Fixed #775 Made redirects_uri, contacts, and default_acr_values arrays to match the examples.
 	  </t>
         </list>
       </t>
