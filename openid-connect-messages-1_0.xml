@@ -163,7 +163,7 @@
             Endpoint, and UserInfo Endpoint.</t>
 
             <t hangText="OpenID Request Object">
-	      JWT that holds a complete set of OpenID Connect
+	      JWT that holds a set of OpenID Connect
 	      request parameters as its Claims.
 	    </t>
 
@@ -558,17 +558,20 @@
                 <t hangText="request">
                   OPTIONAL.
 		  This parameter enables
-		  complete OpenID Connect requests to be passed in a single,
+		  OpenID Connect requests to be passed in a single,
 		  self-contined parameter and to be signed and optionally encrypted.
+		  The parameter value is an OpenID Request Object.
 		  It represents the request as JWT whose claims are the request parameters
 		  above, as specified in <xref target="RequestObject"/>.
+		</t>
+		<t>
 		  When the <spanx style="verb">request</spanx> parameter is used,
-		  the OpenID Connect request values used are those contained in the JWT,
-		  rather than those passed using the OAuth 2.0 request syntax.
-		  Any parameters passed using the OAuth 2.0 request syntax
-		  SHOULD be ignored.
-		  However, the <spanx style="verb">scope</spanx> passed using
-		  the OAuth 2.0 request syntax MUST contain the
+		  the OpenID Connect request parameter values contained in the JWT
+		  supersede those passed using the OAuth 2.0 request syntax.
+		  Even if a <spanx style="verb">scope</spanx> parameter
+		  is present in the OpenID Request Object,
+		  a <spanx style="verb">scope</spanx> parameter MUST always be passed using
+		  the OAuth 2.0 request syntax containing the
 		  <spanx style="verb">openid</spanx> scope value to indicate to the
 		  underlying OAuth 2.0 logic that this is an OpenID Connect request.
                 </t>
@@ -583,7 +586,7 @@
 		  from which a JWT containing the request parmeters is retrieved.
 		  This parameter is used identically to the
 		  <spanx style="verb">request</spanx> parameter, other than that
-		  the JWT is retrieved from the specified URL,
+		  the OpenID Request Object is retrieved from the specified URL,
 		  rather than passed by value.
                 </t>
 		<t>
@@ -2049,7 +2052,7 @@ may be retrieved:
 
 	<t>
 	  The <spanx style="verb">request</spanx> parameter
-	  enables complete OpenID Connect requests to be passed in a single,
+	  enables OpenID Connect requests to be passed in a single,
 	  self-contined parameter and to be signed and optionally encrypted.
 	  It represents the request as JWT whose claims are the request parameters
 	  specified in <xref target="RequestParameters"/>.
@@ -2057,12 +2060,21 @@ may be retrieved:
 	</t>
 	<t>
 	  When the <spanx style="verb">request</spanx> parameter is used,
-	  the OpenID Connect request values used are those contained in the JWT,
-	  rather than those passed using the OAuth 2.0 request syntax.
-	  Any parameters passed using the OAuth 2.0 request syntax
-	  SHOULD be ignored.
-	  However, the <spanx style="verb">scope</spanx> passed using
-	  the OAuth 2.0 request syntax MUST contain the
+	  the OpenID Connect request parameter values contained in the JWT
+	  supersede those passed using the OAuth 2.0 request syntax.
+	  However, some parameters MAY be passed using the OAuth 2.0 request syntax
+	  even when an OpenID Request Object is used;
+	  this would typically be done to enable a cached,
+	  pre-signed (and possibly pre-encrypted) OpenID Request Object value
+	  to be used containing the fixed request parameters, while parameters that
+	  may vary with each request, such as <spanx style="verb">state</spanx> and
+	  <spanx style="verb">nonce</spanx>, are passed as OAuth 2.0 parameters.
+	</t>
+	<t>
+	  Even if a <spanx style="verb">scope</spanx> parameter
+	  is present in the OpenID Request Object,
+	  a <spanx style="verb">scope</spanx> parameter MUST always be passed using
+	  the OAuth 2.0 request syntax containing the
 	  <spanx style="verb">openid</spanx> scope value to indicate to the
 	  underlying OAuth 2.0 logic that this is an OpenID Connect request.
 	</t>
@@ -4524,6 +4536,17 @@ Representation of dates and times</title>
 	    registration parameter to pre-register
 	    <spanx style="verb">request_uri</spanx> values.
 	    Also clarified that Request File contents may be cached.
+	  </t>
+	  <t>
+	    Fixed #748 - Changed OpenID Request Object processing rules so that
+	    the Request Object parameters are combined with those passed as
+	    OAuth 2.0 parameters, with the Request Object parameters taking precedence.
+	    This enables fixed parameters to be passed in pre-signed, possibly
+	    pre-encrypted, and cached Request Objects, with parameters that will
+	    vary per request like <spanx style="verb">state</spanx> and
+	    <spanx style="verb">nonce</spanx> being passed as OAuth 2.0 parameters.
+	    This is particularly important now that
+	    <spanx style="verb">request_uri</spanx> values can be pre-registered.
 	  </t>
 	</list>
       </t>
