@@ -2435,6 +2435,10 @@ may be retrieved:
 	    entropy requirements for <spanx style="verb">client_secret</spanx> values.
           </t>
         </list></t>
+	<t>
+	  See <xref target="NeedForSignedRequests"/> for Security Considerations
+	  about the need for signed requests.
+	</t>
       </section>
 
       <section anchor="enc" title="Encryption">
@@ -2493,6 +2497,10 @@ may be retrieved:
 	    for instance, to 128 bits for <spanx style="verb">A128KW</spanx>.
           </t>
         </list></t>
+	<t>
+	  See <xref target="NeedForEncryptedRequests"/> for Security Considerations
+	  about the need for encrypted requests.
+	</t>
       </section>
     </section>
 
@@ -3190,7 +3198,7 @@ may be retrieved:
 		</t>
 	  </section>
 		
-	  <section anchor="signing_order" title="Signing and Encryption order">
+	  <section anchor="signing_order" title="Signing and Encryption Order">
 	    <t>Signatures over encrypted text are not considered valid
 	    in many jurisdictions.
 	    Therefore, for integrity and non-repudiation,
@@ -3268,6 +3276,28 @@ may be retrieved:
 	  at least 8 bytes (and almost certainly SHOULD contain more,
 	  since <spanx style="verb">client_secret</spanx> values are
 	  likely to use a restricted alphabet.
+	</t>
+      </section>
+
+      <section anchor="NeedForSignedRequests" title="Need for Signed Requests">
+	<t>
+	  In some situations, Clients may need to use signed requests to ensure that
+	  the desired request parameters are delivered to the OP without having
+	  been tampered with.  For instance, the <spanx style="verb">max_age</spanx>
+	  and <spanx style="verb">acr_values</spanx> provide more assurance about
+	  the nature of the authentication performed when delivered in signed requests.
+	</t>
+      </section>
+
+      <section anchor="NeedForEncryptedRequests" title="Need for Encrypted Requests">
+	<t>
+	  In some situations, knowing the contents of an OpenID Connect request may,
+	  in and of itself, reveal sensitive information about the End-User.
+	  For instance, knowing that the Client is requesting a particular claim or
+	  that it is requesting that a particular authentication method be used
+	  may reveal sensitive information about the End-User.
+	  OpenID Connect enables requests to be encrypted to the OpenID Provider
+	  to prevent such potentially sensitive information from being revealed.
 	</t>
       </section>
     </section>
@@ -4547,6 +4577,10 @@ Representation of dates and times</title>
 	    <spanx style="verb">nonce</spanx> being passed as OAuth 2.0 parameters.
 	    This is particularly important now that
 	    <spanx style="verb">request_uri</spanx> values can be pre-registered.
+	  </t>
+	  <t>
+	    Fixed #765 - Added Security Considerations about the need for signed
+	    and encrypted requests.
 	  </t>
 	</list>
       </t>
