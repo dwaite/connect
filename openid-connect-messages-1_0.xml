@@ -188,7 +188,7 @@
             about the End-User represented by that Access Token.</t>
 
             <t hangText="Voluntary Claim">
-              Claim specified by the Client as being useful but not essential
+              Claim specified by the Client as being useful but not Essential
               for the specific task requested by the End-User.
             </t>
 
@@ -1938,9 +1938,9 @@ may be retrieved:
                 <list style="hanging">
                   <t hangText="essential">
 		    OPTIONAL.
-		    Indicates whether the claim being requested is an essential claim.
+		    Indicates whether the Claim being requested is an Essential Claim.
 		    If the value is <spanx style="verb">true</spanx>, 
-		    this indicates that the claim is an essential claim.
+		    this indicates that the claim is an Essential Claim.
 		    For instance, the Claim request:
 
 		    <figure>
@@ -1949,7 +1949,7 @@ may be retrieved:
 ]]></artwork>
 		    </figure>
 
-		    can be used to specify that it is essential to return an
+		    can be used to specify that it is Essential to return an
 		    <spanx style="verb">auth_time</spanx> Claim value.
 		  </t>
 		  <t>
@@ -1995,7 +1995,7 @@ may be retrieved:
 ]]></artwork>
 		    </figure>
 
-		    specifies that it is essential that the <spanx style="verb">acr</spanx>
+		    specifies that it is Essential that the <spanx style="verb">acr</spanx>
 		    Claim be returned with either the value <spanx style="verb">2</spanx>
 		    or <spanx style="verb">http://id.incommon.org/assurance/bronze</spanx>.
 		  </t>
@@ -2587,26 +2587,27 @@ may be retrieved:
                   </t>
                   <t>
 		    If the <spanx style="verb">acr</spanx> Claim is requested
-		    as an essential Claim for the ID Tokens
+		    as an Essential Claim for the ID Token
 		    with a <spanx style="verb">values</spanx> parameter requsting
 		    specific Authentication Context Class Reference values, then 
 		    the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
 		    Claim value that matches one of the requested values. 
 		    The Authorization 
 		    server MAY ask the user to re-authenticate with additional factors 
-		    to meet the requirements. If this is an essential Claim and the 
-		    requirement cannot be met, then the Authorization Server MUST return an error.
+		    to meet this requirement. If this is an Essential Claim and the 
+		    requirement cannot be met, then the Authorization Server MUST
+		    treat that outcome as a failed authentication attempt.
 		  </t>
 		  <t>
 		    The Client MAY request this Claim as an optional Claim
 		    by using the <spanx style="verb">acr_values</spanx> request parameter
 		    or by not including "essential": true in the individual
 		    <spanx style="verb">acr</spanx> Claim request. 
-		    If the Claim is not essential and the requested value for 
+		    If the Claim is not Essential and the requested value for 
 		    the user cannot be provided, the Authorization server SHOULD return 
 		    the session's current <spanx style="verb">acr</spanx> as
 		    the value of the <spanx style="verb">acr</spanx> Claim. 
-		    If the Claim is not essential, the Authorization server is not required to
+		    If the Claim is not Essential, the Authorization server is not required to
 		    provide this Claim in its response.
                   </t>
 		  </list></t>
@@ -4581,6 +4582,11 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #765 - Added Security Considerations about the need for signed
 	    and encrypted requests.
+	  </t>
+	  <t>
+	    Fixed #763 - OPs MUST treat the inability to return an Essential
+	    requested <spanx style="verb">acr</spanx> Claim value as
+	    a failed authentication attempt.
 	  </t>
 	</list>
       </t>
