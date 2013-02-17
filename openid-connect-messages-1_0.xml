@@ -585,8 +585,23 @@
 		  <spanx style="verb">request</spanx> parameter, other than that
 		  the JWT is retrieved from the specified URL,
 		  rather than passed by value.
-		  the 
                 </t>
+		<t>
+		  Servers MAY cache the contents of the files referenced by request URIs.
+		  If the contents of the Request File could ever change,
+		  the URI SHOULD include the base64url encoded SHA-256 hash of the
+		  referenced file contents as the fragment component of the URI.
+		  If the fragment value used for a URI changes, that signals the server
+		  that any cached value for that URI with the old fragment value
+		  is no longer valid.
+		</t>
+		<t>
+		  Note that Clients MAY pre-register
+		  <spanx style="verb">"request_uri"</spanx> values using the
+		  <spanx style="verb">"request_uris"</spanx> parameter defined in
+		  Section 2 of the <xref target="OpenID.Registration">OpenID Connect
+		  Dynamic Client Registration 1.0</xref> specification.
+		</t>
               </list>
             </t>
 
@@ -4503,6 +4518,12 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #769 - Added Claim Type identifiers and definition.
+	  </t>
+	  <t>
+	    Fixed #773 - Added <spanx style="verb">request_uris</spanx>
+	    registration parameter to pre-register
+	    <spanx style="verb">request_uri</spanx> values.
+	    Also clarified that Request File contents may be cached.
 	  </t>
 	</list>
       </t>

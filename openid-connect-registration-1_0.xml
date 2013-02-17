@@ -374,6 +374,19 @@
 	  <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
 	  </t>
 
+	  <t hangText="request_uris">
+	    OPTIONAL.
+	    Array of <spanx style="verb">request_uri</spanx> values that are
+	    pre-registered by the Client for use at the Authorization Server.
+	    Servers MAY cache the contents of the files referenced by these URIs and not
+	    retrieve them at the time they are used in a request.
+	    If the contents of the request file could ever change,
+	    these URI values SHOULD include the base64url encoded SHA-256 hash value of
+	    the file contents referenced by the URI as the value of the URI fragment.
+	    If the framgment value used for a URI changes, that signals the server
+	    that its cached value for that URI with the old fragment value
+	    is no longer valid.
+	  </t>
 	</list>
       </t>
     </section>
@@ -418,7 +431,8 @@
 
           <t><figure>
 	    <preamble>
-	      The following is a non-normative example request:
+	      The following is a non-normative example request
+	      (with line breaks within values for display purposes only):
 	    </preamble>
           
             <artwork><![CDATA[
@@ -445,9 +459,10 @@
    "jwk_url": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
-   "contacts": 
-     ["ve7jtb@example.org", 
-      "mary@example.org"]
+   "contacts": ["ve7jtb@example.org", "mary@example.org"],
+   "request_uris":
+     ["https://client.example.org/rf.txt
+       #qpXaRLh_n93TTR9F252ValdatUQvQiJi5BDub2BeznA"]
   }
 ]]></artwork></figure></t>
       </section>
@@ -510,7 +525,8 @@
 
         <t><figure>
           <preamble>
-	    The following is a non-normative example response:
+	    The following is a non-normative example response
+	    (with line breaks within values for display purposes only):
 	  </preamble>
 	  <artwork><![CDATA[
   HTTP/1.1 200 OK
@@ -544,9 +560,10 @@
    "jwk_url": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
-   "contacts": 
-     ["ve7jtb@example.org", 
-      "mary@example.org"]
+   "contacts": ["ve7jtb@example.org", "mary@example.org"],
+   "request_uris":
+     ["https://client.example.org/rf.txt
+       #qpXaRLh_n93TTR9F252ValdatUQvQiJi5BDub2BeznA"]
   }
 ]]></artwork>
         </figure>
@@ -651,7 +668,8 @@
 
         <figure>
           <preamble>
-	    The following is a non-normative example response:
+	    The following is a non-normative example response
+	    (with line breaks within values for display purposes only):
 	  </preamble>
 
           <artwork><![CDATA[
@@ -682,7 +700,11 @@
    "x509_url": "https://client.example.org/certs.x509",
    "jwk_url": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
-   "userinfo_encrypted_response_enc": "A128CBC+HS256"
+   "userinfo_encrypted_response_enc": "A128CBC+HS256",
+   "contacts": ["ve7jtb@example.org", "mary@example.org"],
+   "request_uris":
+     ["https://client.example.org/rf.txt
+       #qpXaRLh_n93TTR9F252ValdatUQvQiJi5BDub2BeznA"]
   }
 ]]></artwork>
         </figure>
@@ -1227,28 +1249,35 @@
 	    value can be returned by a read operation.
 	  </t>
 	  <t>
-	     Fixed #774 - moved invalid client_id from 3.3 to 4.3 and fixed example.
+	    Fixed #774 - Moved invalid client_id from 3.3 to 4.3 and fixed example.
 	  </t>
 	  <t>
-	    Fixed #774 - removed invalid client_id and made GET return 403 Forbidden.
+	    Fixed #774 - Removed invalid client_id and made GET return 403 Forbidden.
 	  </t>
 	  <t>
 	    Fixed missing registration_access_url in GET example response.
 	  </t>
 	  <t>
-	    Fixed #776 removed client adding client_id query paramater but make the examples include it 
-	    as part of the registration_access_url.
+	    Fixed #776 - Removed client adding client_id query parameter but make
+	    the examples include it as part of the registration_access_url.
 	  </t>
 	  <t>
-	    Fixed #775 Made redirects_uri, contacts, and default_acr_values arrays to match the examples.
+	    Fixed #775 - Made redirects_uri, contacts, and default_acr_values arrays to match the examples.
 	  </t>
 	  <t>
 	    Changed <spanx style="verb">invalid_configuration_parameter</spanx> error to
 	    <spanx style="verb">invalid_client_metadata</spanx> to match the OAuth Registration spec.
 	  </t>
 	  <t>
-	     Fixed #777 added   Pragma: no-cache to the example responses that were missing it.
-	   </t>
+	    Fixed #777 - Added <spanx style="verb">Pragma: no-cache</spanx>
+	    to the example responses that were missing it.
+	  </t>
+	  <t>
+	    Fixed #773 - Added <spanx style="verb">request_uris</spanx>
+	    registration parameter to pre-register
+	    <spanx style="verb">request_uri</spanx> values.
+	    Also clarified that Request File contents may be cached.
+	  </t>
         </list>
       </t>
 

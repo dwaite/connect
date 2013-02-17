@@ -723,11 +723,24 @@ IBj34k8gDMceyuKQH1OEXM14qF5umOerELl7p6J6Mwb2BmQ10JvnKQiPUw
 
             <section anchor="rurl_create"
                      title="Client Generates the URL of the Request File">
-              <t>The Client then stores the Request File either locally or remotely.
-               This is the Request URI, <spanx style="verb">"request_uri"</spanx>. 
-               The URI MAY be appended with the base64url encoded SHA-256 hash of the file 
-               after "#" so that the Authorization Server can detect whether the file 
-               has changed. </t>
+              <t>
+		The Client stores the Request File either locally or remotely.
+		This is the Request URI, <spanx style="verb">"request_uri"</spanx>.
+		Servers MAY cache the contents of the files referenced by request URIs.
+		If the contents of the Request File could ever change,
+		the URI SHOULD include the base64url encoded SHA-256 hash of the
+		referenced file contents as the fragment component of the URI.
+		If the fragment value used for a URI changes, that signals the server
+		that any cached value for that URI with the old fragment value
+		is no longer valid.
+	      </t>
+	      <t>
+		Note that Clients MAY pre-register
+		<spanx style="verb">"request_uri"</spanx> values using the
+		<spanx style="verb">"request_uris"</spanx> parameter defined in
+		Section 2 of the <xref target="OpenID.Registration">OpenID Connect
+		Dynamic Client Registration 1.0</xref> specification.
+	      </t>
 
               <t>It should be noted that if the Request File includes user's attribute 
               values, it MUST NOT be revealed to anybody but the Authorization Server. 
@@ -2511,6 +2524,12 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 	  <t>
 	    Fixed #597 - Changed representation of omitted year in <spanx style="verb">birthdate</spanx>
 	    from <spanx style="verb">9999</spanx> to <spanx style="verb">0000</spanx>.
+	  </t>
+	  <t>
+	    Fixed #773 - Added <spanx style="verb">request_uris</spanx>
+	    registration parameter to pre-register
+	    <spanx style="verb">request_uri</spanx> values.
+	    Also clarified that Request File contents may be cached.
 	  </t>
 	</list>
       </t>
