@@ -2044,8 +2044,80 @@ may be retrieved:
 	  <spanx style="verb">registration</spanx> member.
 	</t>
 	<t>
-	  TBD - Say what values should be used here, per issue #739.
-	</t>
+	   The following Claims are used within the registration member:
+	   </t>
+	            <list style="hanging">
+                <t hangText="redirect_uris">
+                OPTIONAL.
+	            Array of redirect URIs for use in the Authorization Code and
+                Implicit grant types.
+	            One of the URL MUST match the Scheme, Host, and Path segments of the 
+	            <spanx style="verb">redirect_uri</spanx> in the authorization request.
+	            The default if not specified is the value of the <spanx style="verb">redirect_uri</spanx>
+	            query paramater in the request.
+	            </t>
+
+                <t hangText="jwk_encryption_url">
+                OPTIONAL.
+	            URL for the Client's
+	            JSON Web Key Set <xref target="JWK"/> document
+	            containing key(s) that are used to encrypt
+	            the ID Token and User Info Endpoint Responses to the Client.
+	            If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
+	            and <spanx style="verb">x509_encryption_url</spanx>,
+	            the keys contained in both formats SHOULD be the same.
+	            </t>
+	            
+	            <t hangText="id_token_encrypted_response_alg">
+	            OPTIONAL.
+	            JWE <spanx style="verb">alg</spanx>
+	            algorithm <xref target="JWA" /> required for encrypting the ID Token issued to this 
+	            <spanx style="verb">client_id</spanx>. The valid values are listed in
+	            Section 4.1 of <xref target="JWA">JWA</xref>.
+	            If this is requested the response will be signed then encrypted. 
+	            The default if not specified is no encryption.
+	            </t>
+	  
+	            <t hangText="id_token_encrypted_response_enc">
+	            OPTIONAL.
+	            JWE <spanx style="verb">enc</spanx>
+	            algorithm <xref target="JWA" /> required for symmetric encryption of the ID Token
+	            issued to this <spanx style="verb">client_id</spanx>. 
+	            The valid values are listed in
+	            Section 4.2 of <xref target="JWA">JWA</xref>.
+	            If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
+	            the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
+	            If this is requested in combination with signing the response 
+	            will be signed then encrypted. If this is specified the response will be 
+	            <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.
+	            </t>
+
+                <t hangText="policy_url">
+                OPTIONAL.
+                URL location that the Relying 
+                Party Client provides to the End-User to read about the how the
+                profile data will be used. The OpenID Provider SHOULD display this
+	            URL to the End-User if it is given.
+	            </t>
+
+	           <t hangText="tos_url">
+	           OPTIONAL.
+	           URL location that the Relying 
+	           Party Client provides to the End-User to read about
+	           the Relying Party's terms of service.
+	           The OpenID Provider SHOULD display this
+	           URL to the End-User if it is given.
+	           </t>
+	           
+	           <t hangText="logo_url">
+	           OPTIONAL.
+	           URL that references a logo for the 
+	            Client application.
+	            </t>
+	            
+                  </list>
+                    
+                
       </section>
 
       <section anchor="RequestObject" title="OpenID Request Object">
@@ -4587,6 +4659,9 @@ Representation of dates and times</title>
 	    Fixed #763 - OPs MUST treat the inability to return an Essential
 	    requested <spanx style="verb">acr</spanx> Claim value as
 	    a failed authentication attempt.
+	  </t>
+	  <t>
+	     Re #739 add claims for self_issued registration.
 	  </t>
 	</list>
       </t>
