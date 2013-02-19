@@ -1388,7 +1388,7 @@
       
        <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
         <t>The Client sends the Authorization Request to the Authorization
-           Endpoint with the following REQUIRED parameters. </t>
+           Endpoint with the following parameters. </t>
         <t><list style="hanging">
           <t hangText="response_type">
             REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
@@ -1396,46 +1396,35 @@
           <t hangText="client_id">
             REQUIRED. <spanx style="verb">redirect_uri</spanx> 
             of the client. Note that since it is same as the 
-            <spanx style="verb">redirect_uri</spanx>, <spanx style="verb">redirect_uri</spanx> 
+            <spanx style="verb">redirect_uri</spanx>,
+	    <spanx style="verb">redirect_uri</spanx> 
             is not required to be sent in the request. 
           </t>
           <t hangText="scope">
             REQUIRED. <spanx style="verb">scope</spanx> parameter value,
             as defined in <xref target="scopes"/>.
           </t>
-          <t hangText="policy_url">
-            REQUIRED. URL of a page that the Client provides to the 
-            End-User to read describing the how the attributes received will be used. 
-            The OP SHOULD display this URL to the End-User. 
-            Unlike the standard OP case, a self-issued OP cannot receive this 
-            value at the registration time, so it has to be provided 
-            as a part of the authorization request. 
-          </t>
-
-           <t hangText="id_token_hint">OPTIONAL.
-	     Previously issued <xref target="id_token">ID Token</xref>
-	     passed to the Authorization Server as a hint about the End-User's current or past
-	     authenticated session with the Client.
-	     This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
-	     If the End-User identified by the ID Token is logged in or is logged in by the request,
-	     then the Authorization Server returns a positive response;
-	     otherwise, it SHOULD return a negative response.
-	   </t>
-
-          <t hangText="request">
+	  <t hangText="id_token_hint">
 	    OPTIONAL.
-	    OpenID Request Object value, as defined in
-	    Section 2.10 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. 
+	    Previously issued <xref target="id_token">ID Token</xref>
+	    passed to the Authorization Server as a hint about the End-User's
+	    current or past authenticated session with the Client.
+	    This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	    If the End-User identified by the ID Token is logged in or is logged in by the
+	    request, then the Authorization Server returns a positive response;
+	    otherwise, it SHOULD return a negative response.
 	  </t>
-         <t hangText="registration">
-                  OPTIONAL.
-                  This parameter requests that the Client
-                  be be registered at the Authorization Server for a self-issued OP,
-                  as specified in <xref target="RegistrationRequest"/>.
-                  The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-                  when the OP is not a self-issued OP.
+	  <t hangText="registration">
+	    OPTIONAL.
+	    This parameter is used by the Client to provide information about itself
+	    to a self-issued OP that would normally be provided to an OP during
+	    dynamic client registration,
+	    as specified in <xref target="RegistrationRequest"/>.
+	    The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
+	    when the OP is not a self-issued OP.
             </t>
-        </list></t>
+	  </list>
+	</t>
         <t>
           Other parameters MAY be sent. 
           Note that all claims are returned in the ID Token.
@@ -1451,7 +1440,6 @@
     ?response_type=id_token
     &client_id=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid%20profile
-    &policy_url=https%3A%2F%2Fclient.example.org%2Fusage%2F
     &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj
 ]]></artwork>
         </figure> 
@@ -2327,7 +2315,12 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #739 - Added registration parameter and members of registration object.
-	    </t>
+	  </t>
+	  <t>
+	    Deleted top-level <spanx style="verb">policy_url</spanx> parameter from the
+	    self-issued case, since it is already a
+	    <spanx style="verb">registration</spanx> parameter member.
+	  </t>
 	</list>
       </t>
 
