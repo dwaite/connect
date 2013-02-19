@@ -722,7 +722,8 @@
 	      Token Endpoint.
           </t>
 
-                <t hangText="acr">OPTIONAL.
+                <t hangText="acr">
+		  OPTIONAL.
 		Authentication Context Class Reference.
                 String specifying an Authentication Context Class Reference value. 
                 The values "1", "2", "3", and "4" map to the
@@ -741,7 +742,8 @@
                 name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
                 </t>
 
-                <t hangText="at_hash">OPTIONAL or REQUIRED. 
+                <t hangText="at_hash">
+		  OPTIONAL or REQUIRED. 
 	        Access Token hash value.
                 If the ID Token is issued from the Authorization endpoint with an 
                 <spanx style="verb">access_token</spanx>, this is REQUIRED.
@@ -756,7 +758,8 @@
                 <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
           with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
-                <t hangText="c_hash">OPTIONAL or REQUIRED.
+                <t hangText="c_hash">
+		  OPTIONAL or REQUIRED.
 		Code hash value.
                 If the ID Token is issued from the Authorization endpoint with a 
                 <spanx style="verb">code</spanx>, this is REQUIRED.
@@ -771,7 +774,8 @@
                 <spanx style="verb">HS512</spanx>, hash <spanx style="verb">code</spanx>
           with SHA-512, then take the left-most 256 bits and base64url encode them.</t>
 
-		<t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
+		<t hangText="sub_jwk">
+		  NOT RECOMMENDED or REQUIRED.
 		  Public key value used to check the signature of an ID Token
 		  issued by a self-issued OpenID Provider,
 		  as specified in Section 5 of
@@ -2026,98 +2030,99 @@ may be retrieved:
       </section>
 
       <section anchor="RegistrationRequest" title="Self-Issued Registration Request">
-	<t>
-	  The <spanx style="verb">registration</spanx> parameter
-	  requests that the Client be be registered at the Authorization Server 
-	  for a self-issued OP.
-	  The value is a JSON object containing name/value pairs defined in
-	  Section 2.1 of the 
-	  <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-	  specification.
-	</t>
-	<t>
-	  The <spanx style="verb">registration</spanx> parameter value is represented
-	  in an OAuth 2.0 request as UTF-8 encoded JSON
-	  (which ends up being form-urlencoded when passed as an OAuth parameter).
-	  When used in an OpenID Request Object, per <xref target="RequestObject"/>,
-	  the JSON is used as the value of the
-	  <spanx style="verb">registration</spanx> member.
-	</t>
-	<t>
-	   The following Claims are used within the registration member:
-	   </t>
-	            <list style="hanging">
-                <t hangText="redirect_uris">
-                OPTIONAL.
-	            Array of redirect URIs for use in the Authorization Code and
-                Implicit grant types.
-	            One of the URL MUST match the Scheme, Host, and Path segments of the 
-	            <spanx style="verb">redirect_uri</spanx> in the authorization request.
-	            The default if not specified is the value of the <spanx style="verb">redirect_uri</spanx>
-	            query paramater in the request.
-	            </t>
+        <t>
+          The <spanx style="verb">registration</spanx> parameter
+          requests that the Client be be registered at the Authorization Server 
+          for a self-issued OP.
+          The value is a JSON object containing name/value pairs defined in
+          Section 2.1 of the 
+          <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+          specification.
+        </t>
+        <t>
+          The <spanx style="verb">registration</spanx> parameter value is represented
+          in an OAuth 2.0 request as UTF-8 encoded JSON
+          (which ends up being form-urlencoded when passed as an OAuth parameter).
+          When used in an OpenID Request Object, per <xref target="RequestObject"/>,
+          the JSON is used as the value of the
+          <spanx style="verb">registration</spanx> member.
+        </t>
+        <t>
+           The following members are used within the <spanx style="verb">registration</spanx> parameter:
+        </t>
+        <t>
+          <list style="hanging">
+            <t hangText="redirect_uris">
+              OPTIONAL.
+              Array of redirect URIs for use in the Authorization Code and
+              Implicit grant types.
+              One of the URL MUST match the Scheme, Host, and Path segments of the 
+              <spanx style="verb">redirect_uri</spanx> in the authorization request.
+              The default if not specified is the value of the <spanx style="verb">redirect_uri</spanx>
+              query parameter in the request.
+            </t>
 
-                <t hangText="jwk_encryption_url">
-                OPTIONAL.
-	            URL for the Client's
-	            JSON Web Key Set <xref target="JWK"/> document
-	            containing key(s) that are used to encrypt
-	            the ID Token and User Info Endpoint Responses to the Client.
-	            If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
-	            and <spanx style="verb">x509_encryption_url</spanx>,
-	            the keys contained in both formats SHOULD be the same.
-	            </t>
-	            
-	            <t hangText="id_token_encrypted_response_alg">
-	            OPTIONAL.
-	            JWE <spanx style="verb">alg</spanx>
-	            algorithm <xref target="JWA" /> required for encrypting the ID Token issued to this 
-	            <spanx style="verb">client_id</spanx>. The valid values are listed in
-	            Section 4.1 of <xref target="JWA">JWA</xref>.
-	            If this is requested the response will be signed then encrypted. 
-	            The default if not specified is no encryption.
-	            </t>
-	  
-	            <t hangText="id_token_encrypted_response_enc">
-	            OPTIONAL.
-	            JWE <spanx style="verb">enc</spanx>
-	            algorithm <xref target="JWA" /> required for symmetric encryption of the ID Token
-	            issued to this <spanx style="verb">client_id</spanx>. 
-	            The valid values are listed in
-	            Section 4.2 of <xref target="JWA">JWA</xref>.
-	            If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
-	            the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
-	            If this is requested in combination with signing the response 
-	            will be signed then encrypted. If this is specified the response will be 
-	            <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.
-	            </t>
+            <t hangText="jwk_encryption_url">
+              OPTIONAL.
+              URL for the Client's
+              JSON Web Key Set <xref target="JWK"/> document
+              containing key(s) that are used to encrypt
+              the ID Token and User Info Endpoint Responses to the Client.
+              If the Client registers both <spanx style="verb">jwk_encryption_url</spanx>
+              and <spanx style="verb">x509_encryption_url</spanx>,
+              the keys contained in both formats SHOULD be the same.
+            </t>
 
-                <t hangText="policy_url">
-                OPTIONAL.
-                URL location that the Relying 
-                Party Client provides to the End-User to read about the how the
-                profile data will be used. The OpenID Provider SHOULD display this
-	            URL to the End-User if it is given.
-	            </t>
+            <t hangText="id_token_encrypted_response_alg">
+              OPTIONAL.
+              JWE <spanx style="verb">alg</spanx>
+              algorithm <xref target="JWA" /> required for encrypting the ID Token issued to this 
+              <spanx style="verb">client_id</spanx>. The valid values are listed in
+              Section 4.1 of <xref target="JWA">JWA</xref>.
+              If this is requested the response will be signed then encrypted. 
+              The default if not specified is no encryption.
+            </t>
 
-	           <t hangText="tos_url">
-	           OPTIONAL.
-	           URL location that the Relying 
-	           Party Client provides to the End-User to read about
-	           the Relying Party's terms of service.
-	           The OpenID Provider SHOULD display this
-	           URL to the End-User if it is given.
-	           </t>
-	           
-	           <t hangText="logo_url">
-	           OPTIONAL.
-	           URL that references a logo for the 
-	            Client application.
-	            </t>
-	            
-                  </list>
-                    
-                
+            <t hangText="id_token_encrypted_response_enc">
+              OPTIONAL.
+              JWE <spanx style="verb">enc</spanx>
+              algorithm <xref target="JWA" /> required for symmetric encryption of the ID Token
+              issued to this <spanx style="verb">client_id</spanx>. 
+              The valid values are listed in
+              Section 4.2 of <xref target="JWA">JWA</xref>.
+              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
+              the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
+              If this is requested in combination with signing the response 
+              will be signed then encrypted. If this is specified the response will be 
+              <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.
+            </t>
+
+            <t hangText="policy_url">
+              OPTIONAL.
+              URL location that the Relying 
+              Party Client provides to the End-User to read about the how the
+              profile data will be used. The OpenID Provider SHOULD display this
+              URL to the End-User if it is given.
+            </t>
+
+            <t hangText="tos_url">
+              OPTIONAL.
+              URL location that the Relying 
+              Party Client provides to the End-User to read about
+              the Relying Party's terms of service.
+              The OpenID Provider SHOULD display this
+              URL to the End-User if it is given.
+            </t>
+
+            <t hangText="logo_url">
+              OPTIONAL.
+              URL that references a logo for the 
+              Client application.
+            </t>
+
+          </list>
+        </t>
+
       </section>
 
       <section anchor="RequestObject" title="OpenID Request Object">
