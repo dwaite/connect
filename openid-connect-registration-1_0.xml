@@ -403,6 +403,8 @@
       <t>In order to support open registration, the Client
       Registration Endpoint SHOULD accept registration requests without OAuth 2.0
       Access Tokens.
+      These requests MAY be rate-limited or otherwise limited to prevent
+      a denial-of-service attack on the Client Registration Endpoint.
       If an Access Token is required for Client registration, the Client Registration Endpoint
       MUST be able to accept Access Tokens in the manner described in the
       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
@@ -1106,7 +1108,7 @@
     </references>
 
     <references title="Informative References">
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-dyn-reg-04.xml' ?>
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-oauth-dyn-reg-06.xml' ?>
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1221,7 +1223,7 @@
 	    Added client update example.
 	  </t>
 	  <t>
-	   Fixed #727 - Deleted invalid_client_secret error.
+	    Fixed #727 - Deleted invalid_client_secret error.
 	  </t>
 	  <t>
 	    Fixed #744 - Promoted <spanx style="verb">max_age</spanx>
@@ -1277,6 +1279,9 @@
 	    registration parameter to pre-register
 	    <spanx style="verb">request_uri</spanx> values.
 	    Also clarified that Request File contents may be cached.
+	  </t>
+	  <t>
+	    Fixed #758 - State the registration requests can be rate-limited to prevent a DoS attack.
 	  </t>
         </list>
       </t>
