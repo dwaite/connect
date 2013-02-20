@@ -96,7 +96,7 @@
         Secret", "Protected Resource", "Resource Owner", "Resource Server",
         and "Token Endpoint" defined by <xref target="RFC6749">OAuth
         2.0</xref>, and the terms defined by <xref
-        target="OpenID.Messages">OpenID Connect Messages 1.0</xref>. </t>
+        target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 	<t>
 	  This specification also defines the following term:
 	  <list style="hanging">
@@ -433,7 +433,36 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This document makes no requests of IANA.</t>
+
+      <section anchor="oauth_params" title="OAuth Parameters Registry">
+
+	<t>
+	  This specification registers the following parameters
+	  in the IANA
+	  OAuth Parameters registry
+	  defined in <xref target="RFC6749">RFC 6749</xref>.
+	</t>
+
+	<section anchor='ParametersContents' title='Registry Contents'>
+          <t> <?rfc subcompact="yes"?>
+	    <list style="symbols">
+              <t>Parameter name: session_state</t>
+
+              <t>Parameter usage location: Authorization Response, Access Token
+              Response</t>
+
+              <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+              <t>Specification document(s): <xref target="CreatingUpdatingSessions"/> of this document</t>
+
+              <t>Related information: None</t>
+            </list>
+	  </t>
+
+	</section>
+	<?rfc subcompact="no"?>
+
+      </section>
     </section>
 
   </middle>
@@ -629,6 +658,9 @@
 	    State that when any validations fail, any operations requiring
 	    the information that failed to correctly validate MUST be aborted and
 	    the information that failed to validate MUST NOT be used.
+	  </t>
+	  <t>
+	    Fixed #779 - Parameters missing from IANA Considerations.
 	  </t>
         </list></t>
 
