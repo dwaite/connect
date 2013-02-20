@@ -1167,8 +1167,8 @@
           <t>
 	    If the requested schema is <spanx style="verb">openid</spanx>, 
 	    the UserInfo Claims MUST be returned as the members of a JSON object.
-	    The Claims defined below can be returned, as can additional
-	    Claims (not specified below).
+	    The Claims defined in <xref target="StandardClaims"/> can be returned,
+	    as can additional Claims not specified there.
 	  </t>
 	  <t>
 	    If a Claim is not returned, that Claim Name SHOULD be
@@ -1182,10 +1182,14 @@
 	</section>
 
 	<section anchor="UserInfoError" title="UserInfo Error Response">
+
+
           <t>When an error condition occurs, the UserInfo Endpoint returns
-          an Error Response. In addition to the error codes defined in Section 3.1 of
-          <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification
-          defines the following error codes:</t>
+	  an Error Response as defined in Section 3 of
+	  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
+          In addition to the error codes defined in Section 3.1 of <xref
+	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification defines the
+	  following error codes:</t>
 
           <t><list style="hanging">
             <t hangText="invalid_schema">The requested schema is invalid or
@@ -1283,22 +1287,12 @@
           </figure>
         </t>
       </section>
-      
 
-    <section anchor="StandardClaims" title="Standard Claims">
-      <t>This specification defines a set of standard claims.
-      They can be requested to be returned either in the
-      UserInfo response or in the ID Token. 
-      </t>
-
-          <t>The members MAY be represented in multiple languages and scripts.
-          To specify the languages and scripts, <xref
-          target="RFC5646">BCP47</xref> language tags MUST be added to each
-          member names delimited by a <spanx style="verb">#</spanx>, e.g.,
-          <spanx style="verb">family_name#ja-Kana-JP</spanx> for expressing
-          Family Name in Katakana in Japanese, which is commonly used to index
-          and represent the phonetics of the Kanji representation of the same
-          represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.</t>
+      <section anchor="StandardClaims" title="Standard Claims">
+	<t>This specification defines a set of standard Claims.
+	They can be requested to be returned either in the
+	UserInfo response or in the ID Token.
+	</t>
 
           <texttable anchor="ClaimTable" title="Reserved Member Definitions">
             <ttcol align="left">Member</ttcol>
@@ -1521,6 +1515,25 @@
 	      </list>
 	    </t>
           </section>
+
+	  <section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
+	    <t>
+	      Claims MAY be represented in multiple languages and scripts.
+	      To specify the languages and scripts, <xref
+	      target="RFC5646">BCP47</xref> language tags are added to
+	      member names, delimited by a <spanx style="verb">#</spanx>.  For example,
+	      <spanx style="verb">family_name#ja-Kana-JP</spanx> expresses the
+	      Family Name in Katakana in Japanese, which is commonly used to index
+	      and represent the phonetics of the Kanji representation of the same
+	      represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+	    </t>
+	    <t>
+	      A <spanx style="verb">claims_locales</spanx> request can be used to
+	      specify the preferred langauges and scripts to use for the returned Claims.
+	      <xref target="IndividualClaimsLanguages"/> describes how to request
+	      that specific Claims use particular languages and scripts.
+	    </t>
+	  </section>
 
 	  <section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
@@ -2000,17 +2013,22 @@ may be retrieved:
 	  </t>
 	</section>
 
-	<section anchor="ClaimsLanguages" title="Claims Languages and Scripts">
+	<section anchor="IndividualClaimsLanguages" title="Languages and Scripts for Individual Claims">
           <t>
-            The Claims MAY be represented in multiple languages and scripts. 
-            To specify languages and scripts for the Claim request, 
-            <xref target="RFC5646">BCP47</xref> language tags delimited by a "#" 
-            MUST be added to each requested Claim Name for which a particular 
-            language and script is requested. For example, the Claim 
-            <spanx style="verb">family_name#ja-Kana-JP</spanx> is used for 
-            expressing Family Name in Katakana in Japanese, which is commonly used to 
-            index and represent the phonetics of the Kanji representation of the same 
-            value represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+	    As described in <xref target="ClaimsLanguagesAndScripts"/>,
+            Claims MAY be represented in multiple languages and scripts.
+	    Within a request for individual Claims, requested languages and scripts
+	    for particular Claims may be requested by including Claim Names
+	    that contain <spanx style="verb">#</spanx>-separated
+	    <xref target="RFC5646">BCP47</xref> language tags
+	    in the Claims request, using the Claim Name syntax specified in
+	    <xref target="ClaimsLanguagesAndScripts"/>.
+	    For example, a Family Name in Katakana in Japanese
+	    can be requested using the Claim Name
+            <spanx style="verb">family_name#ja-Kana-JP</spanx>
+	    and a Kanji representation of the Family Name in Japanese
+	    can be requested using the Claim Name
+	    <spanx style="verb">family_name#ja-Hani-JP</spanx>.
           </t>
 	</section>
 
