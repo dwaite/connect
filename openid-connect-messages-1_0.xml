@@ -579,8 +579,8 @@
 
                 <t hangText="request_uri">
                   OPTIONAL.
-		  This parameter enables OpenID Connect requests to be passed
-		  by reference, rather than by value.
+		  This parameter enables
+		  OpenID Connect requests to be passed by reference, rather than by value.
 		  The <spanx style="verb">request_uri</spanx> value is a URL
 		  using the <spanx style="verb">https:</spanx> scheme
 		  referencing a location
@@ -589,23 +589,9 @@
 		  <spanx style="verb">request</spanx> parameter, other than that
 		  the OpenID Request Object is retrieved from the specified URL,
 		  rather than passed by value.
+		  See <xref target="RequestUriParameter"/> for more information on using the
+		  <spanx style="verb">request_uri</spanx> parameter.
                 </t>
-		<t>
-		  Servers MAY cache the contents of the files referenced by request URIs.
-		  If the contents of the Request File could ever change,
-		  the URI SHOULD include the base64url encoded SHA-256 hash of the
-		  referenced file contents as the fragment component of the URI.
-		  If the fragment value used for a URI changes, that signals the server
-		  that any cached value for that URI with the old fragment value
-		  is no longer valid.
-		</t>
-		<t>
-		  Note that Clients MAY pre-register
-		  <spanx style="verb">"request_uri"</spanx> values using the
-		  <spanx style="verb">"request_uris"</spanx> parameter defined in
-		  Section 2 of the <xref target="OpenID.Registration">OpenID Connect
-		  Dynamic Client Registration 1.0</xref> specification.
-		</t>
               </list>
             </t>
 
@@ -2160,6 +2146,87 @@ may be retrieved:
           </figure></t>
 
       </section>
+
+      <section anchor="RequestUriParameter" title="Using the &quot;request_uri&quot; Parameter">
+	<t>
+	  The <spanx style="verb">"request_uri"</spanx> parameter enables
+	  OpenID Connect requests to be passed by reference, rather than by value.
+	  This parameter is used identically to the
+	  <spanx style="verb">request</spanx> parameter, other than that
+	  the OpenID Request Object is retrieved from the specified URL,
+	  rather than passed by value.
+	</t>
+	<t>
+	  When the <spanx style="verb">request_uri</spanx> parameter is used,
+	  the OpenID Connect request parameter values contained in the referenced JWT
+	  supersede those passed using the OAuth 2.0 request syntax.
+	  However, some parameters MAY be passed using the OAuth 2.0 request syntax
+	  even when a <spanx style="verb">request_uri</spanx> is used;
+	  this would typically be done to enable a cached,
+	  pre-signed (and possibly pre-encrypted) OpenID Request Object value
+	  to be used containing the fixed request parameters, while parameters that
+	  may vary with each request, such as <spanx style="verb">state</spanx> and
+	  <spanx style="verb">nonce</spanx>, are passed as OAuth 2.0 parameters.
+	</t>
+	<t>
+	  Even if a <spanx style="verb">scope</spanx> parameter
+	  is present in the referenced OpenID Request Object,
+	  a <spanx style="verb">scope</spanx> parameter MUST always be passed using
+	  the OAuth 2.0 request syntax containing the
+	  <spanx style="verb">openid</spanx> scope value to indicate to the
+	  underlying OAuth 2.0 logic that this is an OpenID Connect request.
+	</t>
+	<t>
+	  Servers MAY cache the contents of the resources referenced by request URIs.
+	  If the contents of the referenced resource could ever change,
+	  the URI SHOULD include the base64url encoded SHA-256 hash of the
+	  referenced resource contents as the fragment component of the URI.
+	  If the fragment value used for a URI changes, that signals the server
+	  that any cached value for that URI with the old fragment value
+	  is no longer valid.
+	</t>
+	<t>
+	  Note that Clients MAY pre-register
+	  <spanx style="verb">"request_uri"</spanx> values using the
+	  <spanx style="verb">"request_uris"</spanx> parameter defined in
+	  Section 2 of the <xref target="OpenID.Registration">OpenID Connect
+	  Dynamic Client Registration 1.0</xref> specification.
+	</t>
+
+	<section anchor="RequestUriRationale" title="&quot;request_uri&quot; Rationale">
+	  <t>
+	    There are several reasons that one might choose to use the
+	    <spanx style="verb">request_uri</spanx> parameter:
+	  </t>
+	  <t>
+	    <list style="numbers">
+	      <t>
+		The set of request parameters can become large, and may exceed browser
+		URI size limitations.  Passing the request parameters by reference
+		can solve this problem.
+	      </t>
+	      <t>
+		Passing a <spanx style="verb">request_uri</spanx> value, rather than
+		a complete request by value, may reduce request latancy.
+	      </t>
+	      <t>
+		Most requests for claims from an RP are constant.
+		The <spanx style="verb">request_uri</spanx> is a way of creating
+		and sometimes also signing and encrypting a constant set of
+		request parameters in advance.
+		(The <spanx style="verb">request_uri</spanx> value becomes an "artifact"
+		representing a particular fixed set of request parameters.)
+	      </t>
+	      <t>
+		Pre-registering a fixed set of request parameters at registration time
+		enables OPs to cache and pre-validate the request parameters at
+		registration time, meaning they need not be retrieved at request time.
+	      </t>
+	    </list>
+	  </t>
+	</section>
+      </section>
+
     </section>
 
     <section anchor="Serializations" title="Serializations">
@@ -4797,7 +4864,7 @@ Representation of dates and times</title>
 	    Fixed #773 - Added <spanx style="verb">request_uris</spanx>
 	    registration parameter to pre-register
 	    <spanx style="verb">request_uri</spanx> values.
-	    Also clarified that Request File contents may be cached.
+	    Also clarified that the referenced resource contents may be cached.
 	  </t>
 	  <t>
 	    Fixed #748 - Changed OpenID Request Object processing rules so that
@@ -4824,6 +4891,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #779 - Parameters missing from IANA Considerations.
+	  </t>
+	  <t>
+	    Fixed #760 - Added rationale for <spanx style="verb">request_uri</spanx> usage.
 	  </t>
 	</list>
       </t>
