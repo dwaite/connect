@@ -3,6 +3,7 @@
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
 <rfc category="exp" docName="openid-connect-mesages-1_0" ipr="trust200902">
+
   <?rfc toc="yes" ?>
   <?rfc tocdepth="5" ?>
   <?rfc symrefs="yes" ?>
@@ -181,6 +182,10 @@
               Application requiring Claims from an OpenID Provider. 
               It is an extended OAuth 2.0 client. 
             </t>
+
+	    <t hangText="Self-Issued OpenID Provider">
+	      Personal OpenID Provider that issues self-signed ID Tokens.
+	    </t>
 
             <t hangText="UserInfo Endpoint">Protected Resource that, when
             presented with an Access Token by the Client, returns Claims
@@ -531,7 +536,7 @@
                   using a key that enables the server to decrypt the ID Token.
 		</t>
 		<t>
-                  For a self-issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
+                  For a Self-Issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
                   signed ID Token MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
                 </t>
 
@@ -563,11 +568,11 @@
                 <t hangText="registration">
                   OPTIONAL.
 		  This parameter is used by the Client to provide information about itself
-		  to a self-issued OP that would normally be provided to an OP during
+		  to a Self-Issued OP that would normally be provided to an OP during
 		  dynamic client registration,
 		  as specified in <xref target="RegistrationRequest"/>.
 		  The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-		  when the OP is not a self-issued OP.
+		  when the OP is not a Self-Issued OP.
                 </t>
 
                 <t hangText="request">
@@ -778,13 +783,13 @@
 		<t hangText="sub_jwk">
 		  NOT RECOMMENDED or REQUIRED.
 		  Public key value used to check the signature of an ID Token
-		  issued by a self-issued OpenID Provider,
+		  issued by a Self-Issued OpenID Provider,
 		  as specified in Section 5 of
 		  <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>.
 		  The key is in JWK format.
 		  Use of the <spanx style="verb">sub_jwk</spanx> Claim
-		  is REQUIRED when the OP is a self-issued OP and
-		  is NOT RECOMMENDED when the OP is not self-issued.
+		  is REQUIRED when the OP is a Self-Issued OP and
+		  is NOT RECOMMENDED when the OP is not Self-Issued.
 		</t>
 
               </list></t>
@@ -2051,13 +2056,13 @@ may be retrieved:
       <section anchor="RegistrationRequest" title="Self-Issued Registration Request">
         <t>
           The <spanx style="verb">registration</spanx> parameter
-	  is used by the Client to provide information about itself to a self-issued OP
+	  is used by the Client to provide information about itself to a Self-Issued OP
 	  that would normally be provided to an OP during dynamic client registration.
           The value is a JSON object containing name/value pairs defined in
           Section 2.1 of the 
           <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
           specification.
-	  None of this information is required by self-issued OPs, and so
+	  None of this information is required by Self-Issued OPs, and so
 	  use of this parameter is OPTIONAL.
         </t>
         <t>
@@ -2070,7 +2075,7 @@ may be retrieved:
         </t>
         <t>
            The Registration parameters that would typically be used in requests
-	   to self-issued OPs are
+	   to Self-Issued OPs are
 	   <spanx style="verb">policy_url</spanx>,
 	   <spanx style="verb">tos_url</spanx>, and
 	   <spanx style="verb">logo_url</spanx>.
@@ -2936,15 +2941,17 @@ may be retrieved:
 
     <section anchor="self_issued" title="Self-Issued OpenID Provider">
       <t>
-	There is a special issuer "https://self-issued.me" that indicates
-	a user is using a personal OP that issues self-signed ID Tokens.
+	OpenID Connect supports Self-Issued OpenID Providers -
+	personal OPs that issue self-signed ID Tokens.
+	Self-Issued OPs use the special Issuer Identifier
+	<spanx style="verb">https://self-issued.me</spanx>.
       </t>
       <t>
 	TBD - This section needs to be populated by moving the relevant portions of
-	the self-issued text in Standard here.
+	the Self-Issued text in Standard here.
       </t>
       <t>
-	For a self-issued ID Token, the 
+	For a Self-Issued ID Token, the 
 	<spanx style="verb">sub</spanx> (subject)
 	of the ID Token
 	MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
@@ -3088,7 +3095,7 @@ may be retrieved:
               These OPs MUST support the UserInfo Endpoint,
               as defined in <xref target="userinfo_ep"/>.
               (Supporting the UserInfo Endpoint is strongly RECOMMENDED for all OPs
-              that are not self-issued OPs.)
+              that are not Self-Issued OPs.)
             </t>
             <t hangText="Discovery">
               These OPs MUST support feature discovery,
@@ -4817,7 +4824,7 @@ Representation of dates and times</title>
       <t>-16
         <list style="symbols">
 	  <t>
-	    Fixed #709 - OpenID Request Object - "registration" in non-self-issued case.
+	    Fixed #709 - OpenID Request Object - "registration" in non-Self-Issued case.
 	  </t>
 	  <t>
 	    Fixed #711 - Awkward phrase "The following Claims are REQUIRED and OPTIONAL".
@@ -4919,7 +4926,7 @@ Representation of dates and times</title>
 	    a failed authentication attempt.
 	  </t>
 	  <t>
-	    Fixed #739 - Added values for self-issued registration.
+	    Fixed #739 - Added values for Self-Issued registration.
 	  </t>
 	  <t>
 	    Fixed #779 - Parameters missing from IANA Considerations.

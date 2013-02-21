@@ -161,6 +161,11 @@
             <t hangText="Issuer Identifier">
 	      URL using the <spanx style="verb">https:</spanx> scheme that acts as a verifiable identifier for an Issuer.
             </t>
+
+	    <t hangText="Self-Issued OpenID Provider">
+	      Personal OpenID Provider that issues self-signed ID Tokens.
+	    </t>
+
             <t hangText="UserInfo Endpoint">
               Protected resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
@@ -452,10 +457,10 @@
 		<t hangText="registration">
                   OPTIONAL.
                   This parameter requests that the Client
-                  be be registered at the Authorization Server for a self-issued OP,
-                  as specified in <xref target="RegistrationRequest"/>.
+                  be be registered at the Authorization Server for a Self-Issued OP,
+                  as specified in <xref target="SelfIssuedRegistrationRequest"/>.
                   The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-                  when the OP is not a self-issued OP.
+                  when the OP is not a Self-Issued OP.
 		</t>
 	      </list>
 	    </t>
@@ -766,12 +771,12 @@
 
 	      <t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
 	        Public key value used to check the signature of an ID Token
-		issued by a self-issued OpenID Provider,
+		issued by a Self-Issued OpenID Provider,
 		as specified in <xref target="self_issued"/>.
 		The key is in JWK  <xref target="JWK"/> format.
 		Use of the <spanx style="verb">sub_jwk</spanx> Claim
-		is REQUIRED when the OP is a self-issued OP and
-		is NOT RECOMMENDED when the OP is not self-issued.
+		is REQUIRED when the OP is a Self-Issued OP and
+		is NOT RECOMMENDED when the OP is not Self-Issued.
 	      </t>
 
             </list></t>
@@ -1079,7 +1084,7 @@
       <section anchor="StandardClaims" title="Standard Claims">
 	<t>This profile defines a set of standard Claims.
 	They are returned by normal OPs in the UserInfo response
-	and are returned by self-issued OPs in the ID Token.
+	and are returned by Self-Issued OPs in the ID Token.
 	</t>
 
 	<texttable anchor="ClaimTable" title="Reserved Member Definitions">
@@ -1340,13 +1345,18 @@
     </section>
 
     <section anchor="self_issued" title="Self-Issued OpenID Provider">
-      <t>There is a special issuer "https://self-issued.me" that indicates
-      a user is using a personal OP that issues self-signed ID Tokens.</t>
+      <t>
+	OpenID Connect supports Self-Issued OpenID Providers -
+	personal OPs that issue self-signed ID Tokens.
+	Self-Issued OPs use the special Issuer Identifier
+	<spanx style="verb">https://self-issued.me</spanx>.
+      </t>
 
       <section anchor="self_issued.discovery" title="Self-Issued OpenID Provider Discovery">
         <t>
-          If the input identifier contains the domain self-issued.me, dynamic discovery is not performed. 
-          The following static configuration values are used.
+          If the input identifier for the discovery process
+	  contains the domain self-issued.me, dynamic discovery is not performed. 
+          Instead, then the following static configuration values are used:
         </t>
         <t>
           <figure>
@@ -1373,48 +1383,14 @@
         </t>
         <t>Note: The OpenID Foundation may consider hosting a site https://self-issued.me/ 
           that returns the above static configuration file so that the client would not 
-          need any special treatment for discovery of the self-issued OP. 
+          need any special treatment for discovery of the Self-Issued OP. 
         </t>
       </section>
 
-      <section anchor="RegistrationRequest" title="Self-Issued Registration Request">
+
+      <section anchor="self_issued.registration" title="Default Registration with Self-Issued OpenID Provider">
         <t>
-          The <spanx style="verb">registration</spanx> parameter
-	  is used by the Client to provide information about itself to a self-issued OP
-	  that would normally be provided to an OP during dynamic client registration.
-          The value is a JSON object containing name/value pairs defined in
-          Section 2.1 of the 
-          <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-          specification.
-	  None of this information is required by self-issued OPs, and so
-	  use of this parameter is OPTIONAL.
-        </t>
-        <t>
-          The <spanx style="verb">registration</spanx> parameter value is represented
-          in an OAuth 2.0 request as UTF-8 encoded JSON
-          (which ends up being form-urlencoded when passed as an OAuth parameter).
-        </t>
-        <t>
-           The Registration parameters that would typically be used in requests
-	   to self-issued OPs are
-	   <spanx style="verb">policy_url</spanx>,
-	   <spanx style="verb">tos_url</spanx>, and
-	   <spanx style="verb">logo_url</spanx>.
-	   If the Client uses more than one redirect URI, the
-   	   <spanx style="verb">redirect_uris</spanx>
-	   would be used to register them.
-	   Finally, if the client is requesting encrypted responses, it would use
-	   the parameters
-	   <spanx style="verb">jwk_encryption_url</spanx> and/or
-	   <spanx style="verb">x509_encryption_url</spanx> and
-	   <spanx style="verb">id_token_encrypted_response_alg</spanx> and
-	   <spanx style="verb">id_token_encrypted_response_enc</spanx>.
-        </t>
-      </section>
-      
-      <section anchor="self_issued.registration" title="Client Registration to Self-Issued OpenID Provider">
-        <t>
-          When using a self-issued OP, the Client is deemed to have 
+          When using a Self-Issued OP, the Client is deemed to have 
           registered with the OP and obtained following Client Registration Response.  
         </t>
         <t><list style="hanging">
@@ -1428,13 +1404,49 @@
         <t>Note: The OpenID Foundation may consider hosting the (stateless) endpoint
           <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
           that returns the response above so that the Client would not need to 
-          perform any special processing for registration of a self-issued OP.
+          perform any special processing for registration of a Self-Issued OP.
         </t>
       </section>
-      
-       <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
+
+      <section anchor="SelfIssuedRegistrationRequest"
+	       title="Providing Registration Information to Self-Issued OpenID Provider">
+        <t>
+          The <spanx style="verb">registration</spanx> request parameter
+	  can be used by the Client to provide information about itself to a Self-Issued OP
+	  that would normally be provided to an OP during dynamic client registration.
+          The value is a JSON object containing name/value pairs defined in
+          Section 2.1 of the 
+          <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+          specification.
+	  None of this information is required by Self-Issued OPs,
+	  so the use of this parameter is OPTIONAL.
+        </t>
+        <t>
+          The <spanx style="verb">registration</spanx> parameter value is represented
+          in an OAuth 2.0 request as UTF-8 encoded JSON
+          (which ends up being form-urlencoded when passed as an OAuth parameter).
+        </t>
+        <t>
+	  The Registration parameters that would typically be used in requests
+	  to Self-Issued OPs are
+	  <spanx style="verb">policy_url</spanx>,
+	  <spanx style="verb">tos_url</spanx>, and
+	  <spanx style="verb">logo_url</spanx>.
+	  If the Client uses more than one redirect URI, the
+	  <spanx style="verb">redirect_uris</spanx>
+	  parameter would be used to register them.
+	  Finally, if the client is requesting encrypted responses, it would use
+	  the parameters
+	  <spanx style="verb">jwk_encryption_url</spanx> and/or
+	  <spanx style="verb">x509_encryption_url</spanx> and
+	  <spanx style="verb">id_token_encrypted_response_alg</spanx> and
+	  <spanx style="verb">id_token_encrypted_response_enc</spanx>.
+        </t>
+      </section>
+
+      <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
         <t>The Client sends the Authorization Request to the Authorization
-           Endpoint with the following parameters. </t>
+           Endpoint with the following parameters:</t>
         <t><list style="hanging">
           <t hangText="response_type">
             REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
@@ -1463,11 +1475,11 @@
 	  <t hangText="registration">
 	    OPTIONAL.
 	    This parameter is used by the Client to provide information about itself
-	    to a self-issued OP that would normally be provided to an OP during
+	    to a Self-Issued OP that would normally be provided to an OP during
 	    dynamic client registration,
-	    as specified in <xref target="RegistrationRequest"/>.
+	    as specified in <xref target="SelfIssuedRegistrationRequest"/>.
 	    The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-	    when the OP is not a self-issued OP.
+	    when the OP is not a Self-Issued OP.
             </t>
 	  </list>
 	</t>
@@ -1542,7 +1554,7 @@
           <t>
             The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.  
             If <spanx style="verb">iss</spanx> contains a different value, 
-            the ID Token is not self-issued, and instead
+            the ID Token is not Self-Issued, and instead
 	    it MUST be validated according to
 	    <xref target="id.token.validation"/>.
           </t>
@@ -1603,7 +1615,7 @@
         </list></t>
         <figure>
             <preamble>The following is a non-normative example of a base64url decoded 
-            self-issued ID Token
+            Self-Issued ID Token
 	    (with line wraps for display purposes only):</preamble>
 
             <artwork><![CDATA[
@@ -2367,12 +2379,12 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Deleted top-level <spanx style="verb">policy_url</spanx> parameter from the
-	    self-issued case, since it is already a
+	    Self-Issued case, since it is already a
 	    <spanx style="verb">registration</spanx> parameter member.
 	  </t>
 	  <t>
 	    Fixed #778 - Added <spanx style="verb">registration</spanx> parameter
-	    to self-issued request example.
+	    to Self-Issued request example.
 	  </t>
 	</list>
       </t>
