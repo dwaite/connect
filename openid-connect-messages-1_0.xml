@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="19" month="February" year="2013" />
+    <date day="21" month="February" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1606,7 +1606,7 @@
 	  by any party other than the OpenID Provider.</t>
 
 	  <t>Providers who use pairwise <spanx style="verb">sub</spanx> values SHOULD 
-	  support the <spanx style="verb">sector_identifier_url</spanx> in 
+	  support the <spanx style="verb">sector_identifier_uri</spanx> in 
 	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>.
 	  It provides a way for a group of websites under common administrative 
 	  control to have consistent pairwise <spanx style="verb">sub</spanx> 
@@ -1616,19 +1616,19 @@
 	  reregister all of their users.</t>
 	  
 	  <t>If the Client has not provided a value for
-	  <spanx style="verb">sector_identifier_url</spanx> in 
+	  <spanx style="verb">sector_identifier_uri</spanx> in 
 	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>,
 	  the Sector Identifier
 	  used for pairwise identifier calculation is the host component 
 	  of the registered <spanx style="verb">redirect_uri</spanx>.
 	  If there are multiple hostnames in the registered
 	  <spanx style="verb">redirect_uris</spanx>, the Client MUST register a 
-	  <spanx style="verb">sector_identifier_url</spanx>.</t>
+	  <spanx style="verb">sector_identifier_uri</spanx>.</t>
 
-	  <t>When a <spanx style="verb">sector_identifier_url</spanx>
+	  <t>When a <spanx style="verb">sector_identifier_uri</spanx>
 	  is provided, the host component of that URL is used as
 	  the Sector Identifier for the pairwise identifier calculation.
-	  The value of the <spanx style="verb">sector_identifier_url</spanx>
+	  The value of the <spanx style="verb">sector_identifier_uri</spanx>
 	  must be a URL using the <spanx style="verb">https:</spanx> scheme that points to
 	  a JSON file containing an array of
 	  <spanx style="verb">redirect_uri</spanx> values.
@@ -2076,16 +2076,16 @@ may be retrieved:
         <t>
            The Registration parameters that would typically be used in requests
 	   to Self-Issued OPs are
-	   <spanx style="verb">policy_url</spanx>,
-	   <spanx style="verb">tos_url</spanx>, and
-	   <spanx style="verb">logo_url</spanx>.
+	   <spanx style="verb">policy_uri</spanx>,
+	   <spanx style="verb">tos_uri</spanx>, and
+	   <spanx style="verb">logo_uri</spanx>.
 	   If the Client uses more than one redirect URI, the
    	   <spanx style="verb">redirect_uris</spanx>
 	   would be used to register them.
 	   Finally, if the client is requesting encrypted responses, it would use
 	   the parameters
-	   <spanx style="verb">jwk_encryption_url</spanx> and/or
-	   <spanx style="verb">x509_encryption_url</spanx> and
+	   <spanx style="verb">jwk_encryption_uri</spanx> and/or
+	   <spanx style="verb">x509_encryption_uri</spanx> and
 	   <spanx style="verb">id_token_encrypted_response_alg</spanx> and
 	   <spanx style="verb">id_token_encrypted_response_enc</spanx>.
         </t>
@@ -2420,8 +2420,8 @@ may be retrieved:
              The default if not specified is <spanx style="verb">RS256</spanx>.
 	         The public key for validating the signature is provided by retrieving the 
 	         document from the
-	         <spanx style="verb">jwk_url</spanx> element or the 
-	         <spanx style="verb">x509_url</spanx> element from discovery.</t>
+	         <spanx style="verb">jwk_uri</spanx> element or the 
+	         <spanx style="verb">x509_uri</spanx> element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
              JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
@@ -2446,37 +2446,37 @@ may be retrieved:
       
       <t>The Provider provides its public Keys during Discovery in the following elements:</t>
       <t><list style="hanging">
-        <t hangText="jwk_url">
+        <t hangText="jwk_uri">
           URL of the OP's JSON Web Key Set <xref target="JWK"/> document
 	  that contains the Server's signing key(s)
           that are used for signing the JWT. 
           It MAY also be used by the Client to encrypt the JWT
-          to the Server if <spanx style="verb">x509_encryption_url</spanx> or 
-          <spanx style="verb">jwk_encryption_url</spanx> is not specified, 
+          to the Server if <spanx style="verb">x509_encryption_uri</spanx> or 
+          <spanx style="verb">jwk_encryption_uri</spanx> is not specified, 
           but this is discouraged. A separate encryption key 
           SHOULD be used.</t>
           
-        <t hangText="jwk_encryption_url">          
+        <t hangText="jwk_encryption_uri">          
           URL of the OP's JSON Web Key Set <xref target="JWK"/> document
 	  that contains the Server's encryption key(s)
           that are used by the Client to encrypt the JWT to the Server. 
           If it is not present, its value 
-          is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.</t>
+          is the same as the URL provided by <spanx style="verb">jwk_uri</spanx>.</t>
 
-        <t hangText="x509_url">
+        <t hangText="x509_uri">
           URL of the OP's X.509 certificates in PEM format 
           that are used by the Server for Signing the JWT. 
           It MAY also be used by the Client to JWE Encrypt the JWT
-          to the Server if <spanx style="verb">x509_encryption_url</spanx>
+          to the Server if <spanx style="verb">x509_encryption_uri</spanx>
           is not specified. The certificate referenced SHOULD be valid for its 
           intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
           
-        <t hangText="x509_encryption_url"> 
+        <t hangText="x509_encryption_uri"> 
           URL of the OP's X.509 certificates in PEM format
           that contains the Server's encryption key
           that is used by the Client to encrypt the JWT 
           to the Server. If it is not present, the URL provided by the
-          <spanx style="verb">x509_url</spanx> is used instead. 
+          <spanx style="verb">x509_uri</spanx> is used instead. 
           The certificate referenced SHOULD be valid for its 
           intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
 
@@ -2484,32 +2484,32 @@ may be retrieved:
       <t>The Client provides its public Keys during Registration, in the following 
       elements:</t>
       <t><list style="hanging">      
-            <t hangText="jwk_url">OPTIONAL.
+            <t hangText="jwk_uri">OPTIONAL.
 	    URL for the Client's
 	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
 	    that are used for 
             signing the Request Objects.
-            If <spanx style="verb">jwk_encryption_url</spanx> is not 
+            If <spanx style="verb">jwk_encryption_uri</spanx> is not 
             provided, it is also used by the Server 
             to encrypt the <xref target="JWT">JWT</xref> to the Client.</t>
 
-            <t hangText="jwk_encryption_url">OPTIONAL.
+            <t hangText="jwk_encryption_uri">OPTIONAL.
 	    URL for the Client's
 	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
             used by the Server to encrypt the response objects to the Client.</t>
 
-            <t hangText="x509_url">OPTIONAL.
+            <t hangText="x509_uri">OPTIONAL.
 	    URL for the Client's PEM encoded X.509
             Certificate or Certificate chain. 
             It is used by the Client for
             signing the Request Objects.
-            If <spanx style="verb">x509_encryption_url</spanx> is not 
+            If <spanx style="verb">x509_encryption_uri</spanx> is not 
             present, it is also used to encrypt
 	    the <xref target="JWT">JWT</xref> to the Client. 
             The certificate referenced SHOULD be valid for its 
             intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
             
-            <t hangText="x509_encryption_url">OPTIONAL.
+            <t hangText="x509_encryption_uri">OPTIONAL.
 	    URL for the Client's PEM encoded 
             X.509 Certificate or Certificate chain, used to encrypt
 	    the <xref target="JWT">JWT</xref> to the Client.
@@ -2578,9 +2578,9 @@ may be retrieved:
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
             The 
-            <spanx style="verb">jwk_encryption_url</spanx> 
+            <spanx style="verb">jwk_encryption_uri</spanx> 
             or 
-            <spanx style="verb">x509_encryption_url</spanx> 
+            <spanx style="verb">x509_encryption_uri</spanx> 
             link MUST be used if provided.
             If there are multiple keys in the referenced JWK document, the
             <spanx style="verb">kid</spanx> MUST be specified in the JWE header. 
@@ -2597,9 +2597,9 @@ may be retrieved:
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
             The 
-            <spanx style="verb">jwk_encryption_url</spanx> 
+            <spanx style="verb">jwk_encryption_uri</spanx> 
             or 
-            <spanx style="verb">x509_encryption_url</spanx> 
+            <spanx style="verb">x509_encryption_uri</spanx> 
             link MUST be used if provided.
             If there are multiple keys in the referenced JWK document, the
             <spanx style="verb">kid</spanx> MUST be specified in the JWE header. 
@@ -4934,6 +4934,9 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #760 - Added rationale for <spanx style="verb">request_uri</spanx> usage.
 	  </t>
+	  <t>
+	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
+	  </t>
 	</list>
       </t>
 
@@ -5038,8 +5041,8 @@ Representation of dates and times</title>
 	    Fixed #690 - Inconsistent language in requirement of id_token response_type.
 	  </t>
 	  <t>
-	    Clarified that <spanx style="verb">jwk_url</spanx> and
-	    <spanx style="verb">jwk_encryption_url</spanx> refer to
+	    Clarified that <spanx style="verb">jwk_uri</spanx> and
+	    <spanx style="verb">jwk_encryption_uri</spanx> refer to
 	    documents containing JWK Sets - not single JWK keys.
 	  </t>
 	  <t>
@@ -5089,7 +5092,7 @@ Representation of dates and times</title>
         <t>Added <spanx style="verb">preferred_username</spanx> claim
 	under <spanx style="verb">profile</spanx> scope</t>
         <t>Added section on claim stability</t>
-        <t>Changed <spanx style="verb">request_url</spanx> to
+        <t>Changed <spanx style="verb">request_uri</spanx> to
 	<spanx style="verb">request_uri</spanx> in Section 2.1.2.1</t>
         </list></t>
 
@@ -5156,7 +5159,7 @@ Representation of dates and times</title>
       <t>Fixed Sec 2.2.1 to refer to client_secret value rather than Client Password</t>
       <t>Fixed Sec 4.2, 4.3, 4.4 to replace requirement for using x.509 keyuse extension</t>
       <t>Added reference to RFC2459</t>
-      <t>Fixed Sec 2.1.1.1.1 added rational for sector_identifier_url from registration</t>
+      <t>Fixed Sec 2.1.1.1.1 added rationale for sector_identifier_url from registration</t>
       <t>Fixed Sec 2.1.1.1.1 added examples of other ways to generate PPID</t>
       <t>Added iat as a required claim in ID Tokens</t>
       <t>Enumerated claims requested by the "profile" scope value</t>

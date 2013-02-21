@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="19" month="February" year="2013" />
+    <date day="21" month="February" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -551,25 +551,25 @@
 	      target="OpenID.Session"></xref>.
 	    </t>
 
-	    <t hangText="jwk_url">OPTIONAL.
+	    <t hangText="jwk_uri">OPTIONAL.
 	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
 	      document containing the server's signing key(s).
 	    </t>
 	    
-	    <t hangText="jwk_encryption_url">OPTIONAL.
+	    <t hangText="jwk_encryption_uri">OPTIONAL.
 	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
 	      document containing the server's encryption key(s); if not present, its value 
-	      is the same as the URL provided by <spanx style="verb">jwk_url</spanx>.
+	      is the same as the URL provided by <spanx style="verb">jwk_uri</spanx>.
 	    </t>
 
-	    <t hangText="x509_url">REQUIRED.
+	    <t hangText="x509_uri">REQUIRED.
 	      URL of the OP's X.509 certificates in PEM format.
 	    </t>
 	    
-	    <t hangText="x509_encryption_url">OPTIONAL.
+	    <t hangText="x509_encryption_uri">OPTIONAL.
 	      URL of the OP's X.509 certificates in PEM format.
 	      Server's Encryption Key, if not present its value 
-	      is the same as the URL provided by <spanx style="verb">x509_url</spanx>.
+	      is the same as the URL provided by <spanx style="verb">x509_uri</spanx>.
 	    </t>
 
 	    <t hangText="registration_endpoint">RECOMMENDED.
@@ -743,7 +743,7 @@
 	      Pre-registration is REQUIRED when the value is <spanx style="verb">true</spanx>.
 	    </t>
 
-	    <t hangText="op_policy_url">
+	    <t hangText="op_policy_uri">
 	      OPTIONAL.
 	      URL that the OpenID Provider provides to the person registering
 	      the Client to read about the OP's requirements on how
@@ -752,7 +752,7 @@
 	      URL to the person registering the Client if it is given.
 	    </t>
 
-	    <t hangText="op_tos_url">
+	    <t hangText="op_tos_uri">
 	      OPTIONAL.
 	      URL that the OpenID Provider provides to the person registering
 	      the Client to read about OpenID Provider's terms of service.
@@ -785,9 +785,9 @@
      "https://server.example.com/connect/check_session",
    "end_session_endpoint":
      "https://server.example.com/connect/end_session",
-   "x509_url":
+   "x509_uri":
      "https://server.example.com/certs.x509",
-   "jwk_url":
+   "jwk_uri":
      "https://server.example.com/jwks.json",
    "registration_endpoint":
      "https://server.example.com/connect/register",
@@ -1345,6 +1345,9 @@
 	  <t>
 	    Fixed #772 - Added <spanx style="verb">op_policy_url</spanx>
 	    and <spanx style="verb">op_tos_url</spanx>.
+	  </t>
+	  <t>
+	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
 	  </t>
         </list>
       </t>
