@@ -206,7 +206,7 @@
           </list>
         </t>
 
-        <section anchor="rf_prep" title="Client Prepares Authorization Request">
+        <section anchor="AuthorizationRequest" title="Client Prepares Authorization Request">
           <t>When the Client wishes to access a Protected Resource and the
           End-User Authorization has not yet been obtained, the Client
           prepares an Authorization Request to the Authorization Endpoint.</t>
@@ -229,185 +229,6 @@
           <spanx style="verb">application/x-www-form-urlencoded</spanx> format
           as defined by <xref target="W3C.REC-html401-19991224"/>.</t>
 
-          <t>This profile further constrains the following request
-          parameters:</t>
-          <t>
-            <list style="hanging">
-              <t hangText="response_type">
-                This value MUST be <spanx style="verb">code</spanx>.
-		This requests that both an Access Token and an ID Token be returned
-		from the Token Endpoint in exchange to <spanx style="verb">code</spanx>. 
-              </t>
-            </list>
-          </t>
-
-          <t>Other REQUIRED parameters in the request include the
-          following:</t>
-
-          <t>
-            <list style="hanging">
-
-              <t hangText="client_id">OAuth 2.0 Client Identifier.</t>
-
-              <t hangText="scope">
-		OAuth 2.0 <spanx style="verb">scope</spanx> value.
-		It MUST include <spanx style="verb">openid</spanx>
-              as one of the space delimited ASCII strings.
-	      OPTIONAL scope values of
-              <spanx style="verb">profile</spanx>,
-	      <spanx style="verb">email</spanx>,
-              <spanx style="verb">address</spanx>,
-	      <spanx style="verb">phone</spanx>,
-	      and <spanx style="verb">offline_access</spanx>
-	      are also defined.
-	      See <xref target="scopes"/> for more about the scope values defined by this specification.
-	      </t>
-
-              <t hangText="redirect_uri">Redirection URI to which the response
-              will be sent. This MUST be pre-registered with the provider.</t>
-            </list>
-          </t>
-
-          <t>The request MAY contain the following additional parameters:</t>
-
-          <t>
-            <list style="hanging">
-
-	      <t hangText="nonce">OPTIONAL.
-	      String value used to associate a Client session 
-	      with an ID Token, and to mitigate replay attacks. The value is passed 
-	      through unmodified from the Authorization Request to the ID Token. 
-	      Use of the nonce is OPTIONAL when using the code flow.</t>
-
-              <t hangText="state">RECOMMENDED.  Opaque value used
-              to maintain state between the request and the callback;
-              serves as a protection against XSRF attacks.</t>
-
-              <t hangText="display">OPTIONAL.
-	      ASCII string value that specifies
-              how the Authorization Server displays the authentication and
-              consent user interface pages to the End-User. The following values
-              are supported:
-
-              <list style="hanging">
-                <t hangText="page">The Authorization Server SHOULD display
-		authentication and consent UI consistent with a full User-Agent page
-		view. If the display parameter is not specified this is the
-		default display mode.</t>
-
-                <t hangText="popup">The Authorization Server SHOULD display
-		authentication and consent UI consistent with a popup User-Agent
-		window. The popup User-Agent window SHOULD be 450 pixels wide
-		and 500 pixels tall.</t>
-
-                <t hangText="touch">The Authorization Server SHOULD display
-		authentication and consent UI consistent with a device that
-		leverages a touch interface. The Authorization Server MAY attempt
-		to detect the touch device and further customize the interface.</t>
-
-                <t hangText="wap">The Authorization Server SHOULD display
-		authentication and consent UI consistent with a "feature phone"
-		type display.</t>
-              </list>
-            </t>
-
-            <t hangText="prompt">OPTIONAL.
-	    Space delimited, case sensitive list of
-	    ASCII string values that specifies whether the Authorization Server prompts
-	    the End-User for reauthentication and consent. The possible values
-	    are:
-
-	    <list style="hanging">
-	      <t hangText="none">The Authorization Server
-	      MUST NOT display any authentication or consent
-	      user interface pages. An error is returned if the End-User 
-	      is not already authenticated or the Client does not have 
-	      pre-configured consent for the requested
-	      Claims. This can be used as a
-	      method to check for existing authentication and/or consent.</t>
-
-	      <t hangText="login">The Authorization Server MUST prompt the
-	      End-User for reauthentication.</t>
-
-	      <t hangText="consent">The Authorization Server MUST prompt
-	      the End-User for consent before returning information to the
-	      Client.</t>
-
-	      <t hangText="select_account">The Authorization Server MUST
-	      prompt the End-User to select a user account.  This allows 
-	      a user who has multiple accounts at the Authorization Server
-	      to select amongst the multiple accounts that they may have 
-	      current sessions for.</t>
-	    </list>
-
-	    The <spanx style="verb">prompt</spanx> parameter
-	    can be used by the Client to make sure that the End-User is
-	    still present for the current session or to bring attention to the
-	    request. If this parameter contains <spanx style="verb">none</spanx>
-	    with any other value, an
-	    error is returned.
-            </t>
-
-	    <t hangText="max_age">
-	      OPTIONAL.
-	      Maximum Authentication Age.
-	      Specifies that the End-User must be actively authenticated if the
-	      End-User was authenticated longer ago than the specified number of seconds.
-	      When <spanx style="verb">max_age</spanx> is used, the ID Token returned
-	      MUST include an <spanx style="verb">auth_time</spanx> Claim value.
-	    </t>
-
-	    <t hangText="ui_locales">OPTIONAL.
-	      End-User's preferred languages and scripts for the user interface,
-	      represented as a space-separated list of
-	      <xref target="RFC5646">BCP47</xref> language tag values,
-	      ordered by preference.
-	      For instance, the value "fr-CA fr-FR en-CA" represents a preference
-	      for French as spoken in Canada, then French as spoken in France,
-	      followed by English as spoken in Canada. 
-	      An error SHOULD NOT result if some or all of the requested locales
-	      are not supported by the OpenID Provider.
-	    </t>
-
-	    <t hangText="claims_locales">OPTIONAL.
-	      End-User's preferred languages and scripts for Claims being returned, 
-	      represented as a space-separated list of
-	      <xref target="RFC5646">BCP47</xref> language tag values,
-	      ordered by preference.
-	      An error SHOULD NOT result if some or all of the requested locales
-	      are not supported by the OpenID Provider.
-	    </t>
-
-	    <t hangText="id_token_hint">OPTIONAL.
-	    Previously issued <xref target="id_token">ID Token</xref>
-	    passed to the Authorization Server as a hint about the End-User's current or past
-	    authenticated session with the Client.
-	    This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
-	    If the End-User identified by the ID Token is logged in or is logged in by the request,
-	    then the Authorization Server returns a positive response;
-	    otherwise, it SHOULD return a negative response.
-	    </t>
-
-	      <t hangText="login_hint">OPTIONAL.
-		Hint to the Authorization Server
-		about the login identifier the End-User may use to log in (if necessary). 
-		This hint can be used by an RP if it first asks the End-User for their e-mail 
-		address (or other identifier) and then wants to pass that value as a hint
-		to the discovered authorization service.
-		It is RECOMMENDED that the hint value match the value used for discovery. 
-		The use of this parameter is left to the OP's discretion.
-	      </t>
-
-	      <t hangText="acr_values">
-		OPTIONAL.
-		Requested Authentication Context Class Reference values. 
-		Space-separated string that specifies the <spanx style="verb">acr</spanx>
-		values that the Authorization Server MUST use 
-		for processing requests from this Client.
-	      </t>
-            </list>
-          </t>
-
           <figure>
             <preamble>The following is a non-normative example of an
             Authorization Request URL
@@ -422,6 +243,203 @@
     &state=af0ifjsldkj
 ]]></artwork>
           </figure>
+
+          <section anchor="RequestParameters" title="Request Parameters">
+
+            <t>
+              This profile of
+	      OpenID Connect uses the following OAuth 2.0 request parameters:
+	    </t>
+	    <t>
+	      <list style="hanging">
+		<t hangText="response_type">
+		  REQUIRED.
+		  This value MUST be <spanx style="verb">code</spanx>.
+		  This requests that both an Access Token and an ID Token be returned
+		  from the Token Endpoint in exchange to <spanx style="verb">code</spanx>. 
+		</t>
+
+		<t hangText="client_id">
+		  REQUIRED.
+		  OAuth 2.0 Client Identifier.
+		</t>
+
+		<t hangText="scope">
+                  REQUIRED.
+		  Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
+		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
+		  OPTIONAL scope values of
+		  <spanx style="verb">profile</spanx>,
+		  <spanx style="verb">email</spanx>,
+		  <spanx style="verb">address</spanx>,
+		  <spanx style="verb">phone</spanx>,
+		  and <spanx style="verb">offline_access</spanx>
+		  are also defined.
+		  See <xref target="scopes"/> for more about the scope values defined by this specification.
+		</t>
+
+		<t hangText="redirect_uri">
+                  REQUIRED.
+		  Redirection URI to which the response will be sent.
+		  This MUST be pre-registered with the OpenID Provider.
+		</t>
+
+		<t hangText="state">
+		  RECOMMENDED.
+		  Opaque value used
+		  to maintain state between the request and the callback;
+		  serves as a protection against XSRF attacks.
+		</t>
+
+              </list>
+            </t>
+
+            <t>
+	      This specification also defines the following request parameters:
+	    </t>
+
+            <t>
+              <list style="hanging">
+
+		<t hangText="nonce">
+		  OPTIONAL.
+		  String value used to associate a Client session 
+		  with an ID Token, and to mitigate replay attacks. The value is passed 
+		  through unmodified from the Authorization Request to the ID Token. 
+		  Use of the nonce is OPTIONAL when using the code flow.
+		</t>
+
+		<t hangText="display">
+		  OPTIONAL.
+		  ASCII string value that specifies
+		  how the Authorization Server displays the authentication and
+		  consent user interface pages to the End-User.
+		  The defined values are:
+
+		  <list style="hanging">
+		    <t hangText="page">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a full User-Agent page
+		    view. If the display parameter is not specified this is the
+		    default display mode.</t>
+
+		    <t hangText="popup">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a popup User-Agent
+		    window. The popup User-Agent window SHOULD be 450 pixels wide
+		    and 500 pixels tall.</t>
+
+		    <t hangText="touch">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a device that
+		    leverages a touch interface. The Authorization Server MAY attempt
+		    to detect the touch device and further customize the interface.</t>
+
+		    <t hangText="wap">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a "feature phone"
+		    type display.</t>
+		  </list>
+		</t>
+
+		<t hangText="prompt">
+		  OPTIONAL.
+		  Space delimited, case sensitive list of
+		  ASCII string values that specifies whether the Authorization Server prompts
+		  the End-User for reauthentication and consent.
+		  The defined values are:
+
+		  <list style="hanging">
+		    <t hangText="none">The Authorization Server
+		    MUST NOT display any authentication or consent
+		    user interface pages. An error is returned if the End-User 
+		    is not already authenticated or the Client does not have 
+		    pre-configured consent for the requested
+		    Claims. This can be used as a
+		    method to check for existing authentication and/or consent.</t>
+
+		    <t hangText="login">The Authorization Server MUST prompt the
+		    End-User for reauthentication.</t>
+
+		    <t hangText="consent">The Authorization Server MUST prompt
+		    the End-User for consent before returning information to the
+		    Client.</t>
+
+		    <t hangText="select_account">The Authorization Server MUST
+		    prompt the End-User to select a user account.  This allows 
+		    a user who has multiple accounts at the Authorization Server
+		    to select amongst the multiple accounts that they may have 
+		    current sessions for.</t>
+		  </list>
+
+		  The <spanx style="verb">prompt</spanx> parameter
+		  can be used by the Client to make sure that the End-User is
+		  still present for the current session or to bring attention to the
+		  request. If this parameter contains <spanx style="verb">none</spanx>
+		  with any other value, an
+		  error is returned.
+		</t>
+
+		<t hangText="max_age">
+		  OPTIONAL.
+		  Maximum Authentication Age.
+		  Specifies that the End-User must be actively authenticated if the
+		  End-User was authenticated longer ago than the specified number of seconds.
+		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
+		  MUST include an <spanx style="verb">auth_time</spanx> Claim value.
+		</t>
+
+		<t hangText="ui_locales">
+		  OPTIONAL.
+		  End-User's preferred languages and scripts for the user interface,
+		  represented as a space-separated list of
+		  <xref target="RFC5646">BCP47</xref> language tag values,
+		  ordered by preference.
+		  For instance, the value "fr-CA fr-FR en-CA" represents a preference
+		  for French as spoken in Canada, then French as spoken in France,
+		  followed by English as spoken in Canada. 
+		  An error SHOULD NOT result if some or all of the requested locales
+		  are not supported by the OpenID Provider.
+		</t>
+
+		<t hangText="claims_locales">
+		  OPTIONAL.
+		  End-User's preferred languages and scripts for Claims being returned, 
+		  represented as a space-separated list of
+		  <xref target="RFC5646">BCP47</xref> language tag values,
+		  ordered by preference.
+		  An error SHOULD NOT result if some or all of the requested locales
+		  are not supported by the OpenID Provider.
+		</t>
+
+		<t hangText="id_token_hint">
+		  OPTIONAL.
+		  Previously issued <xref target="id_token">ID Token</xref>
+		  passed to the Authorization Server as a hint about the End-User's current or past
+		  authenticated session with the Client.
+		  This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+		  If the End-User identified by the ID Token is logged in or is logged in by the request,
+		  then the Authorization Server returns a positive response;
+		  otherwise, it SHOULD return a negative response.
+		</t>
+
+		<t hangText="login_hint">
+		  OPTIONAL.
+		  Hint to the Authorization Server
+		  about the login identifier the End-User may use to log in (if necessary). 
+		  This hint can be used by an RP if it first asks the End-User for their e-mail 
+		  address (or other identifier) and then wants to pass that value as a hint
+		  to the discovered authorization service.
+		  It is RECOMMENDED that the hint value match the value used for discovery. 
+		  The use of this parameter is left to the OP's discretion.
+		</t>
+
+		<t hangText="acr_values">
+		  OPTIONAL.
+		  Requested Authentication Context Class Reference values. 
+		  Space-separated string that specifies the <spanx style="verb">acr</spanx>
+		  values that the Authorization Server MUST use 
+		  for processing requests from this Client.
+		</t>
+	      </list>
+	    </t>
+	  </section>
         </section>
 
         <section anchor="code_req"
@@ -489,17 +507,20 @@
 
             <t>
               <list style="hanging">
-                <t hangText="code">REQUIRED.
-		OAuth 2.0 authorization code.</t>
+                <t hangText="code">
+		  REQUIRED.
+		  OAuth 2.0 authorization code.
+		</t>
 		
                 <t hangText="state">
 		  OAuth 2.0 state value.
 		  REQUIRED if the
-		<spanx style="verb">state</spanx> parameter is present in the
-                client Authorization Request. Clients MUST verify that the 
-                <spanx style="verb">state</spanx> value is equal to the exact 
-                value of <spanx style="verb">state</spanx> parameter in the 
-                Authorization Request.</t>
+		  <spanx style="verb">state</spanx> parameter is present in the
+		  client Authorization Request. Clients MUST verify that the 
+		  <spanx style="verb">state</spanx> value is equal to the exact 
+		  value of <spanx style="verb">state</spanx> parameter in the 
+		  Authorization Request.
+		</t>
               </list>
             </t>
 
@@ -868,11 +889,10 @@
         </section>
       </section>
 
-
-      <section title="OpenID Connect Scope Values" anchor="scopes">
+      <section title="Scope Values" anchor="scopes">
         <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of 
         <xref target="RFC6749">OAuth 2.0</xref> to specify what
-        access privileges are requested for Access Tokens. The scopes associated
+        access privileges are being requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
 	    can be used to request that specific sets of information

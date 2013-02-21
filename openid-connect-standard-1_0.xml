@@ -125,29 +125,6 @@
       parameter in the Authorization Request.
       </t>
 
-      <section title="OpenID Connect Scope Values" anchor="scopes">
-        <t>Clients MUST specify the desired scopes in an Authorization Request to
-        obtain an Access Token with the proper permissions.
-        The scope names used by OpenID Connect are defined in
-	Section 2.4 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
-        
-        <t>The Authorization Server MAY fully or partially ignore the scope values
-         requested by the Client based on the Authorization Server policy or
-         the End-User's instructions.
-        A Client may elect to
-        only request a subset of the information available from the
-        UserInfo Endpoint.</t>
-
-        <t><figure>
-            <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
-            parameter in an Authorization Request:</preamble>
-
-            <artwork><![CDATA[
-  scope=openid profile email phone
-]]></artwork>
-          </figure></t>
-      </section>
-      
       <section anchor="protocol_flows" title="Protocol Flows">
 
         <t>Authorization Requests follow two main paths to obtain Access Tokens
@@ -280,113 +257,205 @@
         method, the request parameters are serialized using 
         <xref target="form_serialization">form serialization</xref>.</t>
 
-        <section anchor="AuthParams"
+        <section anchor="AuthorizationRequest"
                  title="Client Prepares Authorization Request">
           <t>The Client prepares an Authorization Request to the Authorization
           Endpoint with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be <spanx style="verb">https:</spanx>.
 	  </t>
 
-          <t>The required Authorization Request parameters are as follows:</t>
+          <section anchor="RequestParameters" title="Request Parameters">
 
-          <t><list style="hanging">
-              <t hangText="response_type">OAuth 2.0 registered
-              response type value that determines how the Authorization
-              Response is returned to the Client.  As described in
-              <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
-              the following registered values are supported by OpenID Connect:
-                <list style="symbols">
-                  <t><spanx style="verb">code</spanx></t>
+            <t>
+              OpenID Connect uses the following OAuth 2.0 request parameters:
+	    </t>
+	    <t>
+	      <list style="hanging">
+		<t hangText="response_type">
+		  REQUIRED.
+		  OAuth 2.0 registered
+		  response type value that determines how the Authorization
+		  Response is returned to the Client.  As described in
+		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
+		  the following registered values are supported by OpenID Connect:
+		  <list style="symbols">
+		    <t><spanx style="verb">code</spanx></t>
 
-                  <t><spanx style="verb">code id_token</spanx></t>
-                  
-                  <t><spanx style="verb">id_token</spanx></t>
+		    <t><spanx style="verb">code id_token</spanx></t>
+		    
+		    <t><spanx style="verb">id_token</spanx></t>
 
-                  <t><spanx style="verb">token id_token</spanx></t>
+		    <t><spanx style="verb">token id_token</spanx></t>
 
-                  <t><spanx style="verb">code token</spanx></t>
+		    <t><spanx style="verb">code token</spanx></t>
 
-                  <t><spanx style="verb">code token id_token</spanx></t>
-                </list></t>
+		    <t><spanx style="verb">code token id_token</spanx></t>
+		  </list>
+		</t>
 
-              <t hangText="client_id">OAuth 2.0 Client identifier.</t>
+                <t hangText="client_id">
+                  REQUIRED.
+                  OAuth 2.0 Client Identifier.
+                </t>
 
-              <t hangText="scope">
-		OAuth 2.0 <spanx style="verb">scope</spanx> value.
-		It MUST include <spanx style="verb">openid</spanx>
-              as one of the space delimited ASCII strings.
-	      OPTIONAL scope values of
-              <spanx style="verb">profile</spanx>,
-	      <spanx style="verb">email</spanx>,
-              <spanx style="verb">address</spanx>,
-	      <spanx style="verb">phone</spanx>,
-	      and <spanx style="verb">offline_access</spanx>
-              are also defined.</t>
+		<t hangText="scope">
+                  REQUIRED.
+		  Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
+		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
+		  OPTIONAL scope values of
+		  <spanx style="verb">profile</spanx>,
+		  <spanx style="verb">email</spanx>,
+		  <spanx style="verb">address</spanx>,
+		  <spanx style="verb">phone</spanx>,
+		  and <spanx style="verb">offline_access</spanx>
+		  are also defined.
+		  Section 2.4 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+		  defines the OpenID Connect scope values.
+		</t>
 
-              <t hangText="redirect_uri">Redirection URI to which the response
-              will be sent. The Scheme, Host, Path, and Query Parameter segments of this URI MUST 
-              match one of the <spanx style="verb">redirect_uris</spanx> registered 
-              for the <spanx style="verb">client_id</spanx> in the <xref
-	      target="OpenID.Registration">OpenID Connect Dynamic Client 
-	      Registration 1.0</xref> specification.</t>
+		<t hangText="redirect_uri">
+                  REQUIRED.
+		  Redirection URI to which the response
+		  will be sent. The Scheme, Host, Path, and Query Parameter segments of this URI MUST 
+		  match one of the <spanx style="verb">redirect_uris</spanx> registered 
+		  for the <spanx style="verb">client_id</spanx> in the <xref
+		  target="OpenID.Registration">OpenID Connect Dynamic Client 
+		  Registration 1.0</xref> specification.
+		</t>
 
-            </list></t>
+		<t hangText="state">
+		  RECOMMENDED.
+		  Opaque value used to maintain state
+		  between the request and the callback.
+		</t>
 
-	  <t>The request MAY contain the following additional parameters:</t>
+              </list>
+            </t>
 
-          <t><list style="hanging">
+            <t>
+	      This specification also uses the following request parameters.
+	      Refer to <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+	      for more information about these parameters.
+	    </t>
 
-             <t hangText="nonce">REQUIRED or OPTIONAL.
-	     String value used to associate a Client session 
-              with an ID Token, and to mitigate replay attacks. 
-              The value is passed through unmodified from the Authorization Request to the ID Token.
-               Use of the nonce is REQUIRED when using the implicit flow
-	           and OPTIONAL when using the code flow.</t>
+            <t>
+              <list style="hanging">
 
-              <t hangText="state">RECOMMENDED.
-	      Opaque value used to maintain state
-              between the request and the callback.</t>
+		<t hangText="nonce">
+		  REQUIRED or OPTIONAL.
+		  String value used to associate a Client session 
+		  with an ID Token, and to mitigate replay attacks. 
+		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  Use of the nonce is REQUIRED when using the implicit flow
+		  and OPTIONAL when using the code flow.
+		</t>
 
-              <t hangText="display">OPTIONAL.
-	      ASCII string value that specifies
-              how the Authorization Server displays the authentication page to
-              the End-User. Refer to
-	      Section 2.1.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
-	      for more information.</t>
+		<t hangText="display">
+		  OPTIONAL.
+		  ASCII string value that specifies
+                  how the Authorization Server displays the authentication and
+                  consent user interface pages to the End-User.
+		  The defined values are:
+		  <spanx style="verb">page</spanx>,
+		  <spanx style="verb">popup</spanx>,
+		  <spanx style="verb">touch</spanx>, and
+		  <spanx style="verb">wap</spanx>.
+		</t>
 
-              <t hangText="prompt">OPTIONAL.
-	      Space delimited list of ASCII strings
-	      that can contain the values
-              <spanx style="verb">login</spanx>, <spanx style="verb">consent</spanx>,
-              <spanx style="verb">select_account</spanx>, and
-	      <spanx style="verb">none</spanx>. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
-              more information.</t>
+		<t hangText="prompt">
+		  OPTIONAL.
+		  Space delimited, case sensitive
+                  list of ASCII string values that specifies whether the Authorization
+                  Server prompts the End-User for reauthentication and consent.
+		  The defined values are:
+		  <spanx style="verb">none</spanx>,
+		  <spanx style="verb">login</spanx>,
+		  <spanx style="verb">consent</spanx>, and
+		  <spanx style="verb">select_account</spanx>.
+		</t>
 
-              <t hangText="id_token_hint">OPTIONAL.
-		Previously issued ID Token
-              passed to the Authorization server as a hint about the End-User
-	      this request is about. Refer to <xref
-              target="OpenID.Messages">OpenID Connect Messages 1.0</xref> for
-              more information.</t>
+                <t hangText="max_age">
+                  OPTIONAL.
+                  Maximum Authentication Age.
+                  Specifies that the End-User must be actively authenticated if the
+                  End-User was authenticated longer ago than the specified number of seconds.
+                </t>
 
-	      <t hangText="request">OPTIONAL.
-	      OpenID Request Object value.</t>
+                <t hangText="ui_locales">
+                  OPTIONAL.
+                  End-User's preferred languages and scripts for the user interface,
+                  represented as a space-separated list of
+                  <xref target="RFC5646">BCP47</xref> language tag values,
+                  ordered by preference.
+                </t>
 
-              <t hangText="request_uri">OPTIONAL.
-	      URL that references an OpenID
-              Request Object.</t>
+                <t hangText="claims_locales">
+                  OPTIONAL.
+                  End-User's preferred languages and scripts for Claims being returned, 
+                  represented as a space-separated list of
+                  <xref target="RFC5646">BCP47</xref> language tag values,
+                  ordered by preference.
+                </t>
 
-            </list></t>
+		<t hangText="id_token_hint">
+		  OPTIONAL.
+		  Previously issued ID Token
+		  passed to the Authorization server as a hint about the End-User
+		  this request is about.
+		</t>
+
+                <t hangText="login_hint">
+                  OPTIONAL.
+                  Hint to the Authorization Server
+                  about the login identifier the End-User may use to log in (if necessary). 
+                </t>
+
+                <t hangText="acr_values">
+                  OPTIONAL.
+                  Requested Authentication Context Class Reference values. 
+		  Space-separated string that specifies the <spanx style="verb">acr</spanx>
+		  values that the Authorization Server MUST use 
+		  for processing requests from this Client.
+                </t>
+
+                <t hangText="claims">
+                  OPTIONAL.
+                  This parameter is used to request that specific Claims be returned.
+                  The value is a JSON object listing the requested claims.
+                </t>
+
+                <t hangText="registration">
+                  OPTIONAL.
+		  This parameter is used by the Client to provide information about itself
+		  to a self-issued OP that would normally be provided to an OP during
+		  dynamic client registration.
+                </t>
+
+		<t hangText="request">
+		  OPTIONAL.
+		  OpenID Request Object value.
+		</t>
+
+		<t hangText="request_uri">
+		  OPTIONAL.
+		  URL that references an OpenID Request Object.
+		</t>
+
+	      </list>
+	    </t>
+	  </section>
+	</section>
+
+	<section anchor="RequestMethods" title="Request Methods">
 
           <t>There are three methods to construct and send the request to the 
           Authorization Endpoint: 
           <list style="letters">
-              <t>Simple Request Method</t>
+	    <t>Simple Request Method</t>
 
-              <t>Request Parameter Method</t>
+	    <t>Request Parameter Method</t>
 
-              <t>Request File Method</t>
+	    <t>Request File Method</t>
           </list></t>
 
           <t>
@@ -420,11 +489,11 @@
             <xref target="form_serialization">form serialization</xref>.</t>
 
             <t><figure>
-                <preamble>The following is a non-normative example of an
-                Authorization Request URL
-		(with line wraps for display purposes only):</preamble>
+	      <preamble>The following is a non-normative example of an
+	      Authorization Request URL
+	      (with line wraps for display purposes only):</preamble>
 
-                <artwork><![CDATA[
+	      <artwork><![CDATA[
   https://server.example.com/op/authorize?
     response_type=code%20id_token
     &client_id=s6BhdRkqt3
@@ -433,7 +502,7 @@
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
 ]]></artwork>
-              </figure></t>
+	    </figure></t>
 
             <section anchor="norm_req"
                      title="Client Sends Request to Authorization Server">
@@ -466,7 +535,7 @@
 
             <t>The Authorization Request MUST include the 
             <spanx style="verb">request</spanx> parameter defined in <xref
-            target="AuthParams" />.
+            target="RequestParameters" />.
 	    The Authorization Request MUST NOT include the 
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
@@ -1647,8 +1716,10 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
             is not required to be sent in the request. 
           </t>
           <t hangText="scope">
-            REQUIRED. <spanx style="verb">scope</spanx> parameter value,
-            as defined in <xref target="scopes"/>.
+            REQUIRED.
+	    <spanx style="verb">scope</spanx> parameter value,
+            as defined in
+	    Section 2.4 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
           </t>
 	  <t hangText="id_token_hint">
 	    OPTIONAL.
@@ -2055,6 +2126,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>

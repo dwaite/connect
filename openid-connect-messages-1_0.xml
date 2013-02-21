@@ -272,9 +272,11 @@
 
             <t>
               OpenID Connect uses the following OAuth 2.0 request parameters:
-
+	    </t>
+	    <t>
               <list style="hanging">
                 <t hangText="response_type">
+		  REQUIRED.
                   Value that controls the parameters returned in the response from the
                   Authorization Endpoint.
                 </t>
@@ -358,22 +360,31 @@
                 type supported by the Authorization Server other than
                 <spanx style="verb">token</spanx> (which provides no ID Token).</t>
 
-                <t hangText="scope">
-                  Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
-		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
-                  If scopes requesting Claims from the UserInfo Endpoint are used by the Client,
-                  it MUST also request an Access Token for the UserInfo Endpoint.
-                  See <xref target="scopes"/> for the scope values defined by this specification.
-                </t>
-
                 <t hangText="client_id">
                   REQUIRED.
                   OAuth 2.0 Client Identifier.
                 </t>
 
+                <t hangText="scope">
+                  REQUIRED.
+                  Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
+		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
+		  OPTIONAL scope values of
+		  <spanx style="verb">profile</spanx>,
+		  <spanx style="verb">email</spanx>,
+		  <spanx style="verb">address</spanx>,
+		  <spanx style="verb">phone</spanx>,
+		  and <spanx style="verb">offline_access</spanx>
+		  are also defined.
+                  If scopes requesting Claims from the UserInfo Endpoint are used by the Client,
+                  it MUST also request an Access Token for the UserInfo Endpoint.
+		  See <xref target="scopes"/> for more about the scope values defined by this specification.
+                </t>
+
                 <t hangText="redirect_uri">
                   REQUIRED.
                   Redirection URI to which the response will be sent.
+		  This MUST be pre-registered with the OpenID Provider.
                 </t>
 
                 <t hangText="state">
@@ -382,10 +393,13 @@
                   to maintain state between the request and the callback;
                   it can serve as a protection against XSRF attacks, among
                 other uses.</t>
+
               </list>
             </t>
 
-            <t>The request MAY also contain the following parameters:</t>
+            <t>
+	      This specification also defines the following request parameters:
+	    </t>
 
             <t>
               <list style="hanging">
@@ -404,6 +418,7 @@
                   ASCII string value that specifies
                   how the Authorization Server displays the authentication and
                   consent user interface pages to the End-User.
+		  The defined values are:
 
                   <list style="hanging">
                     <t hangText="page">The Authorization Server SHOULD display
@@ -431,8 +446,8 @@
                   OPTIONAL.
                   Space delimited, case sensitive
                   list of ASCII string values that specifies whether the Authorization
-                  Server prompts the End-User for reauthentication and consent. The
-                  possible values are:
+                  Server prompts the End-User for reauthentication and consent.
+		  The defined values are:
 
                   <list style="hanging">
                     <t hangText="none">The Authorization Server
@@ -1196,12 +1211,12 @@
             unsupported.</t>
           </list></t>
     	</section>
-    </section>
-    
-      <section title="OpenID Connect Scope Values" anchor="scopes">
+      </section>
+
+      <section title="Scope Values" anchor="scopes">
         <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of 
         <xref target="RFC6749">OAuth 2.0</xref> to specify what
-        access privileges are requested for Access Tokens. The scopes associated
+        access privileges are being requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
 	    can be used to request that specific sets of information
