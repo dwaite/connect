@@ -2434,90 +2434,125 @@ may be retrieved:
              If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
              the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
              </t>
-      </list></t>
-    </section>
+        </list></t>
+      </section>
 
-    <section anchor="sigenc.key" title="Keys">
+      <section anchor="sigenc.key" title="Keys">
 
-      <t>The Provider can provide its public Keys during Discovery and the Client can do so
-        during Registration using the <spanx style="verb">jwk_uri</spanx> element.
-        The <spanx style="verb">jwk_uri</spanx> is a URI of a JSON Web Key Set <xref target="JWK"/>, which is
-        a document that contains the entity's signing key(s) as well as key(s) that another entity can use to
-        encrypt content to it.
-      </t>
+        <t>
+          The OpenID Provider provides its public keys during Discovery
+          using the following element:
+          <list style="hanging">
+            <t hangText="jwk_uri">
+              REQUIRED.
+              URL of the OP's JSON Web Key Set <xref target="JWK"/> document
+              that contains the Server's signing key(s)
+              that are used for signing responses to the Client.
+              The JWK Set MAY also contain the Server's encryption key(s)
+              that are used by the Client to encrypt requests to the Server.
+            </t>
+          </list>
+        </t>
+        <t>
+          Likewise, the Client can provide its public keys during Registration
+          using the following element:
+          <list style="hanging">
+            <t hangText="jwk_uri">
+              OPTIONAL.
+              URL for the Client's JSON Web Key Set <xref target="JWK"/> document
+              containing key(s) that are used for signing requests to the OP.
+              The JWK Set MAY also contain the Client's encryption keys(s)
+              that are used by the OP to encrypt the responses to the Client.
+            </t>
+          </list>
+        </t>
 
-      <t>In addition to the Key Types defined in <xref target="JWA">JSON Web Algorithms</xref>
-      the <spanx style="verb">jwk_uri</spanx> JWK Set can also contain a <spanx style="verb">PKIX</spanx>
-      Key Type, which is a key type used to enable a JWK to contain a chain of PKIX certificates
-      (note the PKIX Key Type is derived from the <xref target="JWK.PKIX">JSON Web Key (JWK) for PKIX Certificates</xref>
-      draft, which is an early work in progress).
-      The PKIX Key Type defines the following JWK parameters:</t>
-      <t><list style="hanging">
-        <t hangText="kty">REQUIRED. The value of the <spanx style="verb">kty</spanx> parameter MUST be
-        <spanx style="verb">PKIX</spanx>.</t>
-        <t hangText="x5c">REQUIRED. Contains a chain of one or more PKIX certificates <xref target="RFC5280"/>.
-        The certificate chain is represented as a JSON array of certificate value strings. Each string in the array
-        is a DER <xref target="ITU.X690.1994"/> PKIX certificate encoded as base64 <xref target="RFC4648"/>
-        (note: not base64url). The array MUST have at least one value, which MUST be the PKIX certificate of the actor
-        (e.g., the singer of a <xref target="JWS"/>, or a recipient of a <xref target="JWE"/>).
-        Each additional value of the array (if any) MUST be the PKIX certificate that certifies the
-        previous certificate.</t></list>
-      </t>
-      <t>
-        The PKIX key type enables the same key to be represented as an X.509 certificate as well as a simple JWK
-        formatted bare key in the same document. When the same key is published in both formats, the values of the
-        <spanx style="verb">kid</spanx> (Key ID), <spanx style="verb">use</spanx> (Key Use) and
-        <spanx style="verb">alg</spanx> (Algorithm) parameters MUST be the same for both.
-      </t>
-      <t>
-        When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
-        value is REQUIRED for all keys in the <spanx style="verb">jwk_uri</spanx> to indicate each key's intended usage.
-        Although some algorithms allow the same key pair to be used for both signatures and encryption, doing so is
-        highly discouraged as it is less secure.
-      </t>
-      <t>
-        <figure>
-         <preamble>The following is a non-normative example of a <spanx style="verb">jwk_uri</spanx> document
-           with one RSA signing key represented in both <spanx style="verb">RSA</spanx> and
-           <spanx style="verb">PKIX</spanx> key types:</preamble>
-
-                  <artwork><![CDATA[
-{"keys":[
- {"kty":"RSA",
-  "use":"sig",
-  "kid":"1b94c",
-  "n":"vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08PLbK_PdiVGKPrqzmDIsL
-       I7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Qu2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7i
-       I7w0LK9orSMhBEwwZDCxTWq4aYWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy
-       1wgzjYQDwHMTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMvVfJb6
-       jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ",
-  "e":"AQAB"},
- {"kty":"PKIX",
-  "use":"sig",
-  "kid":"1b94c",
-  "x5c":
-   ["MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJBgNVBAYTAlVTMQswCQYD
-     VQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcw
-     FQYDVQQDEw5CcmlhbiBDYW1wYmVsbDAeFw0xMzAyMjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIx
-     CzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5n
-     IElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDCCASIwDQYJKoZIhvcNAQEB
-     BQADggEPADCCAQoCggEBAL64zn8/QnHYMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9if6amFtP
-     Dy2yvz3YlRij66s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+IiZhtELto/A7Fck9Ws6SQv
-     zRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quGmFgHIXPLfnpnfajr1rVTAwtgV5LEZ4Ie
-     l+W1GC8ugMhyr4/p1MtcIM42EA8BzE6ZQqC7VPqPvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWam
-     T3cEvqqPpnjL1XyW+oyVVkaZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG
-     9w0BAQUFAAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL+9gGlqCz5iWL
-     OgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1zFo+Owb1zxtp3PehFdfQJ610CDLEa
-     S9V9Rqp17hCyybEpOGVwe8fnk+fbEL2Bo3UPGrpsHzUoaGpDftmWssZkhpBJKVMJyf/RuP2SmmaI
-     zmnw9JiSlYhzo4tpzd5rFXhjRbg4zW9C+2qok+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTqgawR
-     +N5MDtdPTEQ0XfIBc2cJEUyMTY5MPvACWpkA6SdS4xSvdXK3IVfOWA=="]}
-]}
-        ]]></artwork>
-                  </figure>
-      </t>
-
-     </section>
-      
+        <section anchor="PKIXKeyType" title="PKIX Key Type">
+          <t>
+            In addition to the Key Types defined in <xref target="JWA">JSON Web Algorithms</xref>
+            the <spanx style="verb">jwk_uri</spanx> JWK Set can also contain a <spanx style="verb">PKIX</spanx>
+            Key Type, which is a key type used to enable a JWK to contain a chain of PKIX certificates.
+	  </t>
+	  <t>
+            [[ Note:  The PKIX Key Type is derived from the
+	    <xref target="JWK.PKIX">JSON Web Key (JWK) for PKIX Certificates</xref>
+            specification, which is an early work in progress.
+	    In the future, should this functionality be incorporated into
+	    a JOSE working group specification,
+	    it would then no longer be replicated in this document. ]]
+	  </t>
+	  <t>
+            The PKIX Key Type defines the following JWK parameters:
+          </t>
+          <t><list style="hanging">
+            <t hangText="kty">REQUIRED. The value of the <spanx style="verb">kty</spanx> parameter MUST be
+            <spanx style="verb">PKIX</spanx>.</t>
+            <t hangText="x5c">REQUIRED. Contains a chain of one or more PKIX certificates <xref target="RFC5280"/>.
+            The certificate chain is represented as a JSON array of certificate value strings. Each string in the array
+            is a DER <xref target="ITU.X690.1994"/> PKIX certificate encoded as base64 <xref target="RFC4648"/>
+            (note: not base64url). The array MUST have at least one value, which MUST be the PKIX certificate of the actor
+            (e.g., the singer of a <xref target="JWS"/>, or a recipient of a <xref target="JWE"/>).
+            Each additional value of the array (if any) MUST be the PKIX certificate that certifies the
+            previous certificate.</t></list>
+          </t>
+          <t>
+            The PKIX key type enables the same key to be represented as an X.509 certificate as well as a simple JWK
+            formatted bare key in the same document. When the same key is published in both formats, the values of the
+            <spanx style="verb">kid</spanx> (Key ID), <spanx style="verb">use</spanx> (Key Use) and
+            <spanx style="verb">alg</spanx> (Algorithm) parameters MUST be the same for both.
+          </t>
+          <t>
+            When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
+            value is REQUIRED for all keys in the <spanx style="verb">jwk_uri</spanx> to indicate each key's intended usage.
+            Although some algorithms allow the same key pair to be used for both signatures and encryption, doing so is
+            highly discouraged as it is less secure.
+          </t>
+          <t>
+            <figure>
+              <preamble>The following is a non-normative example of a <spanx style="verb">jwk_uri</spanx> document
+              with one RSA signing key represented in both <spanx style="verb">RSA</spanx> and
+              <spanx style="verb">PKIX</spanx> key types:</preamble>
+              <artwork><![CDATA[
+  {"keys":[
+   {"kty":"RSA",
+    "use":"sig",
+    "kid":"1b94c",
+    "n":"vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08
+    PLbK_PdiVGKPrqzmDIsLI7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Q
+    u2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7iI7w0LK9orSMhBEwwZDCxTWq4a
+    YWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy1wgzjYQDwH
+    MTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMv
+    VfJb6jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ",
+    "e":"AQAB"},
+   {"kty":"PKIX",
+    "use":"sig",
+    "kid":"1b94c",
+    "x5c":
+     ["MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJB
+     gNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYD
+     VQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1
+     wYmVsbDAeFw0xMzAyMjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIxCzAJBg
+     NVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDV
+     QQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1w
+     YmVsbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL64zn8/QnH
+     YMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9if6amFtPDy2yvz3YlRij66
+     s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+IiZhtELto/A7Fck9Ws6
+     SQvzRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quGmFgHIXPLfnpn
+     fajr1rVTAwtgV5LEZ4Iel+W1GC8ugMhyr4/p1MtcIM42EA8BzE6ZQqC7VPq
+     PvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWamT3cEvqqPpnjL1XyW+oyVVk
+     aZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG9w0BA
+     QUFAAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL
+     +9gGlqCz5iWLOgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1
+     zFo+Owb1zxtp3PehFdfQJ610CDLEaS9V9Rqp17hCyybEpOGVwe8fnk+fbEL
+     2Bo3UPGrpsHzUoaGpDftmWssZkhpBJKVMJyf/RuP2SmmaIzmnw9JiSlYhzo
+     4tpzd5rFXhjRbg4zW9C+2qok+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTq
+     gawR+N5MDtdPTEQ0XfIBc2cJEUyMTY5MPvACWpkA6SdS4xSvdXK3IVfOWA=="]}
+  ]}
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+      </section>
 
       <section anchor="sigs" title="Signing">
         <t>The signing party MUST select a signature algorithm 
@@ -4143,7 +4178,6 @@ may be retrieved:
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2459"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
@@ -4855,11 +4889,6 @@ Representation of dates and times</title>
 
       <t>-16
         <list style="symbols">
-    <t>
-      Added the PKIX JWK key type (+example) for X.509 certs and consolidated the x509_uri, x509_encryption_uri and
-      jwk_encryption_uri into the jwk_uri. Also provided some suggested guidance about how to do key rotation with
-      asymmetric keys and the jwk_uri for both signing and encryption.
-    </t>
 	  <t>
 	    Fixed #709 - OpenID Request Object - "registration" in non-Self-Issued case.
 	  </t>
@@ -4973,6 +5002,17 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
+	  </t>
+	  <t>
+	    Fixed #703 - Added the PKIX JWK key type (and example)
+	    for X.509 certificates and consolidated the
+	    <spanx style="verb">x509_uri</spanx>,
+	    <spanx style="verb">x509_encryption_uri</spanx>, and
+	    <spanx style="verb">jwk_encryption_uri</spanx> parameters into
+	    a combined <spanx style="verb">jwk_uri</spanx> parameter.
+	    Also Fixed #704 - Provided suggested guidance about how to do key rotation of
+	    asymmetric keys for both signing and encryption
+	    using <spanx style="verb">jwk_uri</spanx>.
 	  </t>
 	</list>
       </t>
