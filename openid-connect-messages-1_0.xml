@@ -2990,17 +2990,322 @@ may be retrieved:
 	Self-Issued OPs use the special Issuer Identifier
 	<spanx style="verb">https://self-issued.me</spanx>.
       </t>
-      <t>
-	TBD - This section needs to be populated by moving the relevant portions of
-	the Self-Issued text in Standard here.
-      </t>
-      <t>
-	For a Self-Issued ID Token, the 
-	<spanx style="verb">sub</spanx> (subject)
-	of the ID Token
-	MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
-      </t>
 
+      <section anchor="self_issued.discovery" title="Self-Issued OpenID Provider Discovery">
+        <t>
+          If the input identifier for the discovery process
+	  contains the domain self-issued.me, dynamic discovery is not performed. 
+          Instead, then the following static configuration values are used:
+        </t>
+        <t>
+          <figure>
+            <artwork><![CDATA[
+  {
+   "authorization_endpoint":
+     "openid:",
+   "issuer":
+     "https://self-issued.me",
+   "scopes_supported":
+     ["openid", "profile", "email", "address", "phone"],
+   "response_types_supported":
+     ["id_token"],
+   "subject_types_supported":
+     ["pairwise"],
+   "id_token_signing_alg_values_supported":
+     ["RS256"],
+   "request_object_signing_alg_values_supported":
+     ["none", "RS256"]
+  }
+]]>
+            </artwork>
+          </figure>
+        </t>
+        <t>Note: The OpenID Foundation may consider hosting a site https://self-issued.me/ 
+          that returns the above static configuration file so that the client would not 
+          need any special treatment for discovery of the Self-Issued OP. 
+        </t>
+      </section>
+
+      <section anchor="self_issued.registration" title="Self-Issued OpenID Provider Registration">
+        <t>
+          When using a Self-Issued OP, the Client is deemed to have 
+          registered with the OP and obtained following Client Registration Response.  
+        </t>
+        <t>
+	  <list style="hanging">
+	    <t hangText="client_id">
+	      <spanx style="verb">redirect_uri</spanx> value of the Client. 
+	    </t>
+	    <t hangText="expires_at">
+	      0.
+	    </t>
+	  </list>
+	</t>
+        <t>
+	  Note: The OpenID Foundation may consider hosting the (stateless) endpoint
+          <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
+          that returns the response above so that the Client would not need to 
+          perform any special processing for registration of a Self-Issued OP.
+        </t>
+
+	<section anchor="SelfIssuedRegistrationRequest"
+		 title="Providing Additional Registration Information">
+	  <t>
+	    The <spanx style="verb">registration</spanx> request parameter
+	    can be used by the Client to provide information about itself to a Self-Issued OP
+	    that would normally be provided to an OP during dynamic client registration.
+	    The value is a JSON object containing name/value pairs defined in
+	    Section 2.1 of the 
+	    <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+	    specification.
+	    None of this information is required by Self-Issued OPs,
+	    so the use of this parameter is OPTIONAL.
+	  </t>
+	  <t>
+	    The <spanx style="verb">registration</spanx> parameter value is represented
+	    in an OAuth 2.0 request as UTF-8 encoded JSON
+	    (which ends up being form-urlencoded when passed as an OAuth parameter).
+	  </t>
+	  <t>
+	    The Registration parameters that would typically be used in requests
+	    to Self-Issued OPs are
+	    <spanx style="verb">policy_uri</spanx>,
+	    <spanx style="verb">tos_uri</spanx>, and
+	    <spanx style="verb">logo_uri</spanx>.
+	    If the Client uses more than one redirect URI, the
+	    <spanx style="verb">redirect_uris</spanx>
+	    parameter would be used to register them.
+	    Finally, if the client is requesting encrypted responses, it would use
+	    the parameters
+	    <spanx style="verb">jwk_encryption_uri</spanx> and/or
+	    <spanx style="verb">x509_encryption_uri</spanx> and
+	    <spanx style="verb">id_token_encrypted_response_alg</spanx> and
+	    <spanx style="verb">id_token_encrypted_response_enc</spanx>.
+	  </t>
+	</section>
+      </section>
+
+      <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
+        <t>The Client sends the Authorization Request to the Authorization
+           Endpoint with the following parameters:</t>
+        <t><list style="hanging">
+          <t hangText="response_type">
+            REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
+          </t>
+          <t hangText="client_id">
+            REQUIRED. <spanx style="verb">redirect_uri</spanx> 
+            of the client. Note that since it is same as the 
+            <spanx style="verb">redirect_uri</spanx>,
+	    <spanx style="verb">redirect_uri</spanx> 
+            is not required to be sent in the request. 
+          </t>
+          <t hangText="scope">
+            REQUIRED.
+	    <spanx style="verb">scope</spanx> parameter value,
+            as specified in <xref target="scopes"/>.
+          </t>
+	  <t hangText="id_token_hint">
+	    OPTIONAL.
+	    Previously issued ID Token
+	    passed to the Authorization Server as a hint about the End-User's
+	    current or past authenticated session with the Client.
+	    This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
+	    If the End-User identified by the ID Token is logged in or is logged in by the
+	    request, then the Authorization Server returns a positive response;
+	    otherwise, it SHOULD return a negative response.
+	  </t>
+	  <t>
+	    If the ID Token received by the RP is encrypted, the Client MUST
+	    decrypt the signed ID Token contained within the encrypted ID Token.
+	    The Client MAY re-encrypt the signed ID token to the Authentication Server
+	    using a key that enables the server to decrypt the ID Token.
+	    In this case, the <spanx style="verb">sub</spanx> (subject)
+	    of the signed ID Token MUST be sent as the
+	    <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	  </t>
+	  <t hangText="claims">
+	    OPTIONAL.
+	    This parameter is used to request that specific Claims be returned.
+	    The value is a JSON object, as specified in <xref target="ClaimsRequest"/>.
+	  </t>
+	  <t hangText="registration">
+	    OPTIONAL.
+	    This parameter is used by the Client to provide information about itself
+	    to a Self-Issued OP that would normally be provided to an OP during
+	    dynamic client registration,
+	    as specified in <xref target="RegistrationRequest"/>.
+	  </t>
+          <t hangText="request">
+	    OPTIONAL.
+	    OpenID Request Object value, as specified in <xref target="RequestObject"/>.
+	    The OpenID Request Object may be encrypted in a JWE by the Client.
+	    In this case, the <spanx style="verb">sub</spanx> (subject) of
+	    a previously issued ID Token for this Client
+	    MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	  </t>
+	  </list>
+	</t>
+        <t>
+          Other parameters MAY be sent. 
+          Note that all claims are returned in the ID Token.
+        </t>
+        <t>The entire URL MUST NOT exceed 2048 bytes.</t>
+        <figure>
+          <preamble>
+            Following is a non-normative example (with line wraps for display purposes only):
+          </preamble>
+          <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: openid://
+    ?response_type=id_token
+    &client_id=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid%20profile
+    &state=af0ifjsldkj
+    &nonce=n-0S6_WzA2Mj
+    registration=&%7B%22logo_uri%22%3A%22https%3A%2F%2F
+      client.example.org%2Flogo.png%22%7D
+]]></artwork>
+        </figure> 
+      </section>
+
+      <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
+        <t>The Self-Issued OpenID Provider response is the same as the normal implicit flow 
+          response with the following refinements.  Since it is an implicit flow 
+          response, the response parameters will be returned in a fragment.
+        </t>
+        <t><list style="numbers">
+          <t>
+	    The <spanx style="verb">iss</spanx> (issuer) Claim value is 
+            <spanx style="verb">https://self-issued.me</spanx>.
+	  </t>
+	  <t>
+	    A <spanx style="verb">sub_jwk</spanx> Claim is present, with its value being
+	    the public key value used to check the signature of the ID Token.
+	  </t>
+	  <t>
+	    The <spanx style="verb">sub</spanx> (subject) Claim
+	    value is the base64url encoded SHA-256 hash of 
+            the concatenation of the bytes of the UTF-8 representations of
+	    the base64url encoded key values in the
+	    <spanx style="verb">sub_jwk</spanx> claim.
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">RSA</spanx>, the key values
+	    <spanx style="verb">n</spanx> and 
+            <spanx style="verb">e</spanx> are concatenated in that order.
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">EC</spanx>, the key values
+	    <spanx style="verb">crv</spanx>,
+	    <spanx style="verb">x</spanx> and 
+            <spanx style="verb">y</spanx> are concatenated in that order.
+	  </t>
+	  <t>
+	    No Access Token is returned for accessing a UserInfo endpoint,
+	    so all claims returned must be in the ID Token.
+	  </t>
+	</list></t>
+      </section>
+
+      <section anchor="self_issued.validation" title="Self-Issued ID Token Validation">
+
+	<t>
+	  If any of the validation procedures defined in this specification fail, any operations requiring
+	  the information that failed to correctly validate MUST be aborted and
+	  the information that failed to validate MUST NOT be used.
+	</t>
+
+        <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
+        MUST do the following:</t>
+
+        <t><list style="numbers">
+          <t>
+            The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.  
+            If <spanx style="verb">iss</spanx> contains a different value, 
+            the ID Token is not Self-Issued, and instead 
+            it MUST be validated according to
+	    <xref target="id.token.validation"/>.
+          </t>
+          <t>
+            The Client MUST validate that the 
+            <spanx style="verb">aud</spanx> (audience) Claim
+	    contains the value of the <spanx style="verb">redirect_uri</spanx>
+            that the client sent in the authentication request as an audience. 
+	  </t>
+	  <t>
+            The Client MUST validate the signature of the ID Token according to
+            <xref target="JWS">JWS</xref> using the algorithm specified in the 
+            <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
+            using the key in the <spanx style="verb">sub_jwk</spanx> claim;
+	    the key is in JWK format.
+          </t>
+          <t>
+            The <spanx style="verb">alg</spanx> value SHOULD be the default of 
+            <spanx style="verb">RS256</spanx>.
+	    It may also be <spanx style="verb">ES256</spanx>.
+          </t>
+          <t>
+            The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
+	    value is the base64url encoded SHA-256 hash of 
+            the concatenation of the bytes of the UTF-8 representations of
+	    the base64url encoded key values in the
+	    <spanx style="verb">sub_jwk</spanx> claim.
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">RSA</spanx>, the key values
+	    <spanx style="verb">n</spanx> and 
+            <spanx style="verb">e</spanx> are concatenated in that order.
+	    When the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">EC</spanx>, the key values
+	    <spanx style="verb">crv</spanx>,
+	    <spanx style="verb">x</spanx> and 
+            <spanx style="verb">y</spanx> are concatenated in that order.
+          </t>
+          <t>
+            The current time MUST be less than the value of the 
+            <spanx style="verb">exp</spanx> Claim
+	    (possibly allowing for some small leeway to account for clock skew).
+          </t>
+          <t>
+            The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that 
+            were issued too far away from the current time, limiting the amount of
+            time that nonces must be stored to prevent attacks. 
+            The acceptable range is Client specific.
+          </t>
+          <t>
+            If a nonce value was sent in the Authorization Request, 
+            a <spanx style="verb">nonce</spanx> Claim MUST be present 
+            and its value of the checked to verify that
+            it is the same value as the one that was sent in the Authorization
+            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
+            The precise method for detecting replay attacks is Client specific.
+          </t>
+        </list></t>
+        <figure>
+            <preamble>The following is a non-normative example of a base64url decoded 
+            Self-Issued ID Token
+	    (with line wraps for display purposes only):</preamble>
+
+            <artwork><![CDATA[
+  {
+   "iss": "https://self-issued.me",
+   "sub": "wBy8QvHbPzUnL0x63h13QqvUYcOur1X0cbQpPVRqX5k",
+   "aud": "https://client.example.org/cb",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "sub_jwk": {
+     "kty":"RSA",
+     "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx
+     4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMs
+     tn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2
+     QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbI
+     SD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqb
+     w0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
+     "e":"AQAB" 
+    }
+  }
+]]></artwork>
+        </figure>
+
+      </section>
     </section>
 
     <section anchor="stringops" title="String Operations">
@@ -5015,6 +5320,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Made UserInfo Endpoint MTI to support for all OPs that issue Access Tokens.
+	  </t>
+	  <t>
+	    Fixed #719 - Moved message defintions for Self-Issued OPs to the Messages spec.
 	  </t>
 	</list>
       </t>

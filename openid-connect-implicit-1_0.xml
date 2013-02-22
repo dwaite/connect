@@ -830,7 +830,7 @@
 		<spanx style="verb">iss</spanx> (issuer) Claim
 		as an audience.
 		The ID Token MUST be rejected if the ID Token does not list
-		the Client as a valid audience, or if it contains additional audiences not trusted by the client.
+		the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
 	      </t>
 
 	      <t>The Client MUST validate the signature of the ID Token according to
@@ -1387,61 +1387,63 @@
         </t>
       </section>
 
-
-      <section anchor="self_issued.registration" title="Default Registration with Self-Issued OpenID Provider">
+      <section anchor="self_issued.registration" title="Self-Issued OpenID Provider Registration">
         <t>
           When using a Self-Issued OP, the Client is deemed to have 
           registered with the OP and obtained following Client Registration Response.  
         </t>
-        <t><list style="hanging">
-          <t hangText="client_id">
-            <spanx style="verb">redirect_uri</spanx> of the Client. 
-          </t>
-          <t hangText="expires_at">
-            0.
-          </t>
-        </list></t>
-        <t>Note: The OpenID Foundation may consider hosting the (stateless) endpoint
-          <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
-          that returns the response above so that the Client would not need to 
-          perform any special processing for registration of a Self-Issued OP.
+        <t>
+	  <list style="hanging">
+	    <t hangText="client_id">
+	      <spanx style="verb">redirect_uri</spanx> value of the Client. 
+	    </t>
+	    <t hangText="expires_at">
+	      0.
+	    </t>
+	  </list>
+	</t>
+        <t>
+	  Note: The OpenID Foundation may consider hosting the (stateless) endpoint
+	  <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
+	  that returns the response above so that the Client would not need to 
+	  perform any special processing for registration of a Self-Issued OP.
         </t>
-      </section>
 
-      <section anchor="SelfIssuedRegistrationRequest"
-	       title="Providing Registration Information to Self-Issued OpenID Provider">
-        <t>
-          The <spanx style="verb">registration</spanx> request parameter
-	  can be used by the Client to provide information about itself to a Self-Issued OP
-	  that would normally be provided to an OP during dynamic client registration.
-          The value is a JSON object containing name/value pairs defined in
-          Section 2.1 of the 
-          <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-          specification.
-	  None of this information is required by Self-Issued OPs,
-	  so the use of this parameter is OPTIONAL.
-        </t>
-        <t>
-          The <spanx style="verb">registration</spanx> parameter value is represented
-          in an OAuth 2.0 request as UTF-8 encoded JSON
-          (which ends up being form-urlencoded when passed as an OAuth parameter).
-        </t>
-        <t>
-	  The Registration parameters that would typically be used in requests
-	  to Self-Issued OPs are
-	  <spanx style="verb">policy_uri</spanx>,
-	  <spanx style="verb">tos_uri</spanx>, and
-	  <spanx style="verb">logo_uri</spanx>.
-	  If the Client uses more than one redirect URI, the
-	  <spanx style="verb">redirect_uris</spanx>
-	  parameter would be used to register them.
-	  Finally, if the client is requesting encrypted responses, it would use
-	  the parameters
-	  <spanx style="verb">jwk_encryption_uri</spanx> and/or
-	  <spanx style="verb">x509_encryption_uri</spanx> and
-	  <spanx style="verb">id_token_encrypted_response_alg</spanx> and
-	  <spanx style="verb">id_token_encrypted_response_enc</spanx>.
-        </t>
+	<section anchor="SelfIssuedRegistrationRequest"
+		 title="Providing Additional Registration Information">
+	  <t>
+	    The <spanx style="verb">registration</spanx> request parameter
+	    can be used by the Client to provide information about itself to a Self-Issued OP
+	    that would normally be provided to an OP during dynamic client registration.
+	    The value is a JSON object containing name/value pairs defined in
+	    Section 2.1 of the 
+	    <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+	    specification.
+	    None of this information is required by Self-Issued OPs,
+	    so the use of this parameter is OPTIONAL.
+	  </t>
+	  <t>
+	    The <spanx style="verb">registration</spanx> parameter value is represented
+	    in an OAuth 2.0 request as UTF-8 encoded JSON
+	    (which ends up being form-urlencoded when passed as an OAuth parameter).
+	  </t>
+	  <t>
+	    The Registration parameters that would typically be used in requests
+	    to Self-Issued OPs are
+	    <spanx style="verb">policy_uri</spanx>,
+	    <spanx style="verb">tos_uri</spanx>, and
+	    <spanx style="verb">logo_uri</spanx>.
+	    If the Client uses more than one redirect URI, the
+	    <spanx style="verb">redirect_uris</spanx>
+	    parameter would be used to register them.
+	    Finally, if the client is requesting encrypted responses, it would use
+	    the parameters
+	    <spanx style="verb">jwk_encryption_uri</spanx> and/or
+	    <spanx style="verb">x509_encryption_uri</spanx> and
+	    <spanx style="verb">id_token_encrypted_response_alg</spanx> and
+	    <spanx style="verb">id_token_encrypted_response_enc</spanx>.
+	  </t>
+	</section>
       </section>
 
       <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
