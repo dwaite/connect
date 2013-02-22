@@ -2672,13 +2672,15 @@ may be retrieved:
             needs to first select the most appropriate key from those provided at the
             <spanx style="verb">jwk_uri</spanx>. To rotate keys, the decrypting party can publish new keys
             at the <spanx style="verb">jwk_uri</spanx> and remove from the document those that are being decommissioned.
-            The <spanx style="verb">jwk_uri</spanx> should indicate some caching semantics
-            (appropriate to the scheme in use)
-            that allow the encrypting party to safely cache the key set and not have to re-retrieve
+            The <spanx style="verb">jwk_uri</spanx> should send a <spanx style="verb">Cache-Control</spanx>
+            header in the response that includes a <spanx style="verb">max-age</spanx> directive,
+            as defined in <xref target="RFC2616">RFC 2616</xref>,
+            which allows the encrypting party to safely cache the key set and not have to re-retrieve
             the document for every encryption event. The decrypting party should remove decommissioned keys
             from the <spanx style="verb">jwk_uri</spanx> document but retain them internally for some reasonable
-            period of time (coordinated with the cache duration) to facilitate a smooth transition between keys
-            by allowing the encrypting party some time to obtain the new keys.</t>
+            period of time, coordinated with the cache duration, to facilitate a smooth transition between keys
+            by allowing the encrypting party some time to obtain the new keys. The cache duration should also
+            be coordinated with the issuance of new signing keys as described in <xref target="rotate.sig.keys"/>.</t>
         </section>
 
       </section>
@@ -4494,6 +4496,7 @@ may be retrieved:
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
