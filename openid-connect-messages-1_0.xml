@@ -380,8 +380,10 @@
 		  <spanx style="verb">phone</spanx>,
 		  and <spanx style="verb">offline_access</spanx>
 		  are also defined.
-                  If scopes requesting Claims from the UserInfo Endpoint are used by the Client,
-                  it MUST also request an Access Token for the UserInfo Endpoint.
+		  When scope values requesting Claims from the UserInfo Endpoint are used,
+		  the request MUST also use a <spanx style="verb">response_type</spanx>
+		  value that results in an Access Token being returned
+		  to use at the UserInfo Endpoint.
 		  See <xref target="scopes"/> for more about the scope values defined by this specification.
                 </t>
 
@@ -1891,6 +1893,12 @@ may be retrieved:
 	      <spanx style="verb">scope</spanx> values.
 	      If not present, the Claims being requested from the UserInfo Endpoint
 	      are only those requested using  <spanx style="verb">scope</spanx> values.
+	    </t>
+	    <t>
+	      When the <spanx style="verb">userinfo</spanx> member is used,
+	      the request MUST also use a <spanx style="verb">response_type</spanx>
+	      value that results in an Access Token being returned
+	      to use at the UserInfo Endpoint.
 	    </t>
 
 	    <t hangText="id_token">
@@ -5323,6 +5331,10 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #719 - Moved message defintions for Self-Issued OPs to the Messages spec.
+	  </t>
+	  <t>
+	    Fixed #671 - Specified that an Access Token must be requested when
+	    Claims are requested from the UserInfo endpoint.
 	  </t>
 	</list>
       </t>
