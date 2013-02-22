@@ -100,13 +100,22 @@
 	<t><list style="hanging">
           <t hangText="Client Registration Endpoint">
 	    OAuth 2.0 Protected Resource through which a Client can request
-	    a new registration and manage the metadata associated with it.
+	    a new registration.
+	  </t>
+
+	  <t hangText="Client Configuration Endpoint">
+	    The OAuth 2.0 Endpoint through
+	    which a specific Client can manage its registration information,
+	    provided by the Authorization Server to the Client. This URL for
+	    this endpoint is communicated to the Client by the Authorization
+	    Server in the Client Registration Response.
 	  </t>
 
           <t hangText="Registration Access Token">
 	    OAuth 2.0 Bearer Token issued by the Authorization Server
 	    through the Client Registration Endpoint that is used by the Client
 	    to authenticate itself during update operations.
+	    This token is associated with a particular Client.
 	  </t>
         </list></t>
       </section>
@@ -513,7 +522,7 @@
 	    used by the client to perform subsequent operations upon
 	    the resulting client registration.</t>
 
-            <t hangText="registration_access_uri"><vspace/>REQUIRED.
+            <t hangText="registration_client_uri"><vspace/>REQUIRED.
 	    Location where the Access Token can be used to perform subsequent
 	    operations upon the resulting client registration.</t>
 
@@ -548,7 +557,7 @@
    "expires_at": 1577858400,
    "registration_access_token":
      "this.is.an.access.token.value.ffx83",
-   "registration_access_uri":
+   "registration_client_uri":
      "https://server.example.com/connect/register?client_id=s6BhdRkqt3",
    "token_endpoint_auth_method":
      "client_secret_basic",
@@ -638,7 +647,7 @@
       <section anchor="ReadRequest" title="Client Read Request">
         <t>To read the current configuration of the Client on the
         Authorization Server, the Client makes an HTTP GET request to the
-        Client Registration Access Endpoint with the Registration Access Token,
+        Client Configuration Endpoint with the Registration Access Token,
 	passing the <spanx style="verb">client_id</spanx> value as a query parameter.</t>
 
         <figure>
@@ -667,7 +676,7 @@
 
         <t>The Authorization Server need not include the
 	<spanx style="verb">registration_access_token</spanx> or
-	<spanx style="verb">registration_access_uri</spanx>
+	<spanx style="verb">registration_client_uri</spanx>
         value in this response unless they have been updated.</t>
 
         <t>The response is a <xref target="RFC4627">JSON Document</xref> with
@@ -689,7 +698,7 @@
    "client_secret":
      "OylyaC56ijpAQ7G5ZZGL7MMQ6Ap6mEeuhSTFVps2N4Q",
    "expires_at": 17514165600,
-   "registration_access_uri":
+   "registration_client_uri":
      "https://server.example.com/connect/register?client_id=s6BhdRkqt3",
    "token_endpoint_auth_method":
      "client_secret_basic",
@@ -720,7 +729,7 @@
 
       <section anchor="ReadError" title="Client Read Error Response">
 	
-	<t>When a read error condition occurs, the Client Registration Access Endpoint returns
+	<t>When a read error condition occurs, the Client Configuration Endpoint returns
 	a HTTP 403 Forbidden status code.  This indicates that the Access Token
 	is invalid or the Client record requested is invalid or non-existent.
 	Note that for security reasons, to inhibit brute force attacks, endpoints MUST NOT return 
@@ -1290,6 +1299,10 @@
 	  </t>
 	  <t>
 	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
+	  </t>
+	  <t>
+	    Fixed #783 - Changed <spanx style="verb">registration_access_url</spanx>
+	    to <spanx style="verb">registered_client_uri</spanx>.
 	  </t>
         </list>
       </t>
