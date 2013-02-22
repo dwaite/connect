@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="21" month="February" year="2013" />
+    <date day="22" month="February" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -2425,13 +2425,13 @@ may be retrieved:
              JWS signature algorithm <xref target="JWA" /> required 
              for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
              The default if not specified is <spanx style="verb">RS256</spanx>.
-	         The public key for validating the signature is provided by retrieving the 
-	         document from the
-	         <spanx style="verb">jwk_uri</spanx> element from discovery.</t>
+             The public key for validating the signature is provided by retrieving the 
+             document from the
+             <spanx style="verb">jwk_uri</spanx> element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
              JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
-	     required for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
+             required for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
              If this is requested, the response MUST be signed then encrypted. 
              The default if not specified is no encryption.</t>
              
@@ -2515,14 +2515,15 @@ may be retrieved:
           </t>
           <t>
             When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
-            value is REQUIRED for all keys in the <spanx style="verb">jwk_uri</spanx> to indicate each key's intended usage.
+            value is REQUIRED for all keys in the JWK Set at the
+	    <spanx style="verb">jwk_uri</spanx> to indicate each key's intended usage.
             Although some algorithms allow the same key pair to be used for both signatures and encryption, doing so is
-            highly discouraged as it is less secure.
+            NOT RECOMMENDED, as it is less secure.
           </t>
           <t>
             <figure>
               <preamble>The following is a non-normative example of a <spanx style="verb">jwk_uri</spanx> document
-              with one RSA signing key represented in both <spanx style="verb">RSA</spanx> and
+              with one RSA signing key represented using both the <spanx style="verb">RSA</spanx> and
               <spanx style="verb">PKIX</spanx> key types:</preamble>
               <artwork><![CDATA[
   {"keys":[
@@ -2580,9 +2581,9 @@ may be retrieved:
             The private key MUST be the one associated with the 
             Public Signing Key provided in
             <xref target="sigenc.key"/>.
-            If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWS header.
-            The key usage of the respective keys MUST support signature. 
+            If there are multiple keys in the referenced JWK document, a
+            <spanx style="verb">kid</spanx> value MUST be provided in the JWS header.
+            The key usage of the respective keys MUST support signature.
           </t>
           <t hangText="Symmetric Signatures">
             When using MAC-based signatures,
@@ -2602,14 +2603,16 @@ may be retrieved:
 	</t>
         <section anchor="rotate.sig.keys" title="Rotation of Asymmetric Signing Keys">
           <t>Rotation of signing keys can be accomplished with the following approach. The signer publishes
-            its keys at the jwk_uri and includes the <spanx style="verb">kid</spanx> of the
+            its keys in a JWK Set at the <spanx style="verb">jwk_uri</spanx> location
+	    and includes the <spanx style="verb">kid</spanx> of the
             signing key in the JWS header of each message
-            to indicate to the verifier which key is to be used to validate the signature. Keys can be rolled
-            by periodically adding new keys to the <spanx style="verb">jwk_uri</spanx>
+            to indicate to the verifier which key is to be used to validate the signature. Keys can be rolled over
+            by periodically adding new keys to the JWK Set at <spanx style="verb">jwk_uri</spanx>.
             The signer can begin using a new key at its
-            discretion and signals the change to the verifier by the <spanx style="verb">kid</spanx> header.
-            The verifier knows to go back to the jwk_uri re-get the keys when it sees an unfamiliar
-            <spanx style="verb">kid</spanx> value. The key set document at the <spanx style="verb">jwk_uri</spanx>
+            discretion and signals the change to the verifier using the <spanx style="verb">kid</spanx> value.
+            The verifier knows to go back to the <spanx style="verb">jwk_uri</spanx>
+	    to re-retrieve the keys when it sees an unfamiliar
+            <spanx style="verb">kid</spanx> value. The JWK Set document at the <spanx style="verb">jwk_uri</spanx>
             should retain recently decommissioned signing keys for a reasonable period of time to facilitate a
             smooth transition.
           </t>
@@ -2629,20 +2632,20 @@ may be retrieved:
 	  <t hangText="Asymmetric Encryption RSA">
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
-            If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWE header.
+            If there are multiple keys in the referenced JWK document, a
+            <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
             <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
-            The key usage of the respective keys MUST include encryption. 
+            The key usage of the respective keys MUST include encryption.
           </t>
           <t hangText="Asymmetric Encryption Elliptic Curve">
             Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
             element of the JWE header. 
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
-            If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWE header.
+            If there are multiple keys in the referenced JWK document, a
+            <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
             Use the ECDH-ES algorithm to KeyWrap a random 
             <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
@@ -2669,15 +2672,15 @@ may be retrieved:
             the encrypting party starts the process and thus cannot rely on a change in kid as a signal
             to know that keys need to change. The encrypting party still uses the kid header in the JWE
             to tell the decrypting party which private key to use to decrypt, however, the encrypting party
-            needs to first select the most appropriate key from those provided at the
+            needs to first select the most appropriate key from those provided in the JWK Set at
             <spanx style="verb">jwk_uri</spanx>. To rotate keys, the decrypting party can publish new keys
-            at the <spanx style="verb">jwk_uri</spanx> and remove from the document those that are being decommissioned.
-            The <spanx style="verb">jwk_uri</spanx> should send a <spanx style="verb">Cache-Control</spanx>
-            header in the response that includes a <spanx style="verb">max-age</spanx> directive,
+            at <spanx style="verb">jwk_uri</spanx> and remove from the JWK Set those that are being decommissioned.
+            The <spanx style="verb">jwk_uri</spanx> should include a <spanx style="verb">Cache-Control</spanx>
+            header in the response that contains a <spanx style="verb">max-age</spanx> directive,
             as defined in <xref target="RFC2616">RFC 2616</xref>,
-            which allows the encrypting party to safely cache the key set and not have to re-retrieve
+            which allows the encrypting party to safely cache the JWK Set and not have to re-retrieve
             the document for every encryption event. The decrypting party should remove decommissioned keys
-            from the <spanx style="verb">jwk_uri</spanx> document but retain them internally for some reasonable
+            from the JWK Set at <spanx style="verb">jwk_uri</spanx> but retain them internally for some reasonable
             period of time, coordinated with the cache duration, to facilitate a smooth transition between keys
             by allowing the encrypting party some time to obtain the new keys. The cache duration should also
             be coordinated with the issuance of new signing keys as described in <xref target="rotate.sig.keys"/>.</t>
