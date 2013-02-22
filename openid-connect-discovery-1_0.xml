@@ -552,24 +552,11 @@
 	    </t>
 
 	    <t hangText="jwk_uri">OPTIONAL.
-	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
-	      document containing the server's signing key(s).
-	    </t>
-	    
-	    <t hangText="jwk_encryption_uri">OPTIONAL.
-	      URL of the OP's JSON Web Key Set <xref target="JWK"/>
-	      document containing the server's encryption key(s); if not present, its value 
-	      is the same as the URL provided by <spanx style="verb">jwk_uri</spanx>.
-	    </t>
-
-	    <t hangText="x509_uri">REQUIRED.
-	      URL of the OP's X.509 certificates in PEM format.
-	    </t>
-	    
-	    <t hangText="x509_encryption_uri">OPTIONAL.
-	      URL of the OP's X.509 certificates in PEM format.
-	      Server's Encryption Key, if not present its value 
-	      is the same as the URL provided by <spanx style="verb">x509_uri</spanx>.
+        URL of the OP's JSON Web Key Set <xref target="JWK"/> document
+        that contains the Server's signing key(s)
+        that are used for signing responses to the Client.
+        The JWK Set MAY also contain the Server's encryption key(s)
+        that are used by the Client to encrypt requests to the Server.
 	    </t>
 
 	    <t hangText="registration_endpoint">RECOMMENDED.
@@ -785,8 +772,6 @@
      "https://server.example.com/connect/check_session",
    "end_session_endpoint":
      "https://server.example.com/connect/end_session",
-   "x509_uri":
-     "https://server.example.com/certs.x509",
    "jwk_uri":
      "https://server.example.com/jwks.json",
    "registration_endpoint":
@@ -1349,6 +1334,14 @@
 	  <t>
 	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
 	  </t>
+    <t>
+      Fixed #703 - Added the PKIX JWK key type
+      for X.509 certificates and consolidated the
+      <spanx style="verb">x509_uri</spanx>,
+      <spanx style="verb">x509_encryption_uri</spanx>, and
+      <spanx style="verb">jwk_encryption_uri</spanx> parameters into
+      a combined <spanx style="verb">jwk_uri</spanx> parameter.
+     </t>
         </list>
       </t>
 

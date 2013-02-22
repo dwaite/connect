@@ -209,48 +209,11 @@
 	  URL to the End-User if it is given.</t>
 
 	  <t hangText="jwk_uri">OPTIONAL.
-	  URL for the Client's
-	  JSON Web Key Set <xref target="JWK"/> document
-	  containing key(s) that are used for
-	  signing Token Endpoint Requests and OpenID Request Objects.
-	  If <spanx style="verb">jwk_encryption_uri</spanx> is not 
-	  provided it is also used to encrypt
-	  the ID Token and User Info Endpoint Responses to the Client.
-	  If the Client registers both <spanx style="verb">x509_uri</spanx>
-	  and <spanx style="verb">jwk_uri</spanx>,
-	  the keys contained in both formats SHOULD be the same.</t>
+    URL for the Client's JSON Web Key Set <xref target="JWK"/> document
+    containing key(s) that are used for signing requests to the OP.
+    The JWK Set MAY also contain the Client's encryption keys(s)
+    that are used by the OP to encrypt the responses to the Client.</t>
 
-	  <t hangText="jwk_encryption_uri">OPTIONAL.
-	  URL for the Client's
-	  JSON Web Key Set <xref target="JWK"/> document
-	  containing key(s) that are used to encrypt
-	  the ID Token and User Info Endpoint Responses to the Client.
-	  If the Client registers both <spanx style="verb">jwk_encryption_uri</spanx>
-	  and <spanx style="verb">x509_encryption_uri</spanx>,
-	  the keys contained in both formats SHOULD be the same.</t>
-
-	  <t hangText="x509_uri">OPTIONAL.
-	  URL for the Client's PEM encoded X.509
-	  Certificate or Certificate chain
-	  that is used for
-	  signing Token Endpoint Requests and OpenID Request Objects.
-	  If <spanx style="verb">x509_encryption_uri</spanx> is not 
-	  provided, <spanx style="verb">x509_uri</spanx>
-	  it is also used to encrypt
-	  the ID Token and User Info Endpoint Responses to the Client.
-	  If the Client registers both <spanx style="verb">x509_uri</spanx>
-	  and <spanx style="verb">jwk_uri</spanx>,
-	  the keys contained in both formats SHOULD be the same.</t>
-	  
-	  <t hangText="x509_encryption_uri">OPTIONAL.
-	  URL for the Client's PEM encoded X.509
-	  Certificate or Certificate chain
-	  that is used to encrypt
-	  the ID Token and User Info Endpoint Responses to the Client. 
-	  If the Client registers both <spanx style="verb">jwk_encryption_uri</spanx>
-	  and <spanx style="verb">x509_encryption_uri</spanx>,
-	  the keys contained in both formats SHOULD be the same.</t>
-	  
 	  <t hangText="sector_identifier_uri">OPTIONAL.
 	  URL using the <spanx style="verb">https:</spanx> scheme to be used in
 	  calculating Pseudonymous Identifiers by the OP. The URL references a
@@ -315,8 +278,7 @@
 	  The default if not specified is <spanx style="verb">RS256</spanx>.
 	  The public key for validating the signature is provided by retrieving the 
 	  document from the
-	  <spanx style="verb">jwk_uri</spanx> element or the <spanx style="verb">x509_uri</spanx>
-	  element from discovery.</t>
+	  <spanx style="verb">jwk_uri</spanx> element from discovery.</t>
 	  
 	  <t hangText="id_token_encrypted_response_alg">OPTIONAL.
 	  JWE <spanx style="verb">alg</spanx>
@@ -471,7 +433,6 @@
    "sector_identifier_uri":
      "https://othercompany.com/file_of_redirect_uris.json",
    "token_endpoint_auth_method": "client_secret_basic",
-   "x509_uri": "https://client.example.org/certs.x509",
    "jwk_uri": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
@@ -572,7 +533,6 @@
    "subject_type": "pairwise",
    "sector_identifier_uri":
      "https://othercompany.com/file_of_redirect_uris.json",
-   "x509_uri": "https://client.example.org/certs.x509",
    "jwk_uri": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
@@ -713,7 +673,6 @@
    "subject_type": "pairwise",
    "sector_identifier_uri":
      "https://othercompany.com/file_of_redirect_uris.json",
-   "x509_uri": "https://client.example.org/certs.x509",
    "jwk_uri": "https://client.example.org/my_rsa_public_key.jwk",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
@@ -1304,6 +1263,14 @@
 	    Fixed #783 - Changed <spanx style="verb">registration_access_url</spanx>
 	    to <spanx style="verb">registered_client_uri</spanx>.
 	  </t>
+    <t>
+      Fixed #703 - Added the PKIX JWK key type
+      for X.509 certificates and consolidated the
+      <spanx style="verb">x509_uri</spanx>,
+      <spanx style="verb">x509_encryption_uri</spanx>, and
+      <spanx style="verb">jwk_encryption_uri</spanx> parameters into
+      a combined <spanx style="verb">jwk_uri</spanx> parameter.
+     </t>
         </list>
       </t>
 
