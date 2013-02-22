@@ -3076,6 +3076,11 @@ may be retrieved:
               OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
               (an <spanx style="verb">alg</spanx> value of <spanx style="verb">RS256</spanx>).
             </t>
+            <t hangText="UserInfo Endpoint">
+              All OPs that issue Access Tokens MUST support the UserInfo Endpoint,
+              as defined in <xref target="userinfo_ep"/>.
+              (Self-Issued OPs do not issue Access Tokens.)
+            </t>
             <t hangText="Prompt Parameter">
               OPs must support the <spanx style="verb">prompt</spanx> parameter,
               as defined in <xref target="RequestParameters"/>, including the specified
@@ -3134,12 +3139,6 @@ may be retrieved:
 
             <t hangText="Keys in X.509 Format">
               These OPs MUST publish their public keys in X.509 format.
-            </t>
-            <t hangText="UserInfo Endpoint">
-              These OPs MUST support the UserInfo Endpoint,
-              as defined in <xref target="userinfo_ep"/>.
-              (Supporting the UserInfo Endpoint is strongly RECOMMENDED for all OPs
-              that are not Self-Issued OPs.)
             </t>
             <t hangText="Discovery">
               These OPs MUST support feature discovery,
@@ -5013,6 +5012,9 @@ Representation of dates and times</title>
 	    Also Fixed #704 - Provided suggested guidance about how to do key rotation of
 	    asymmetric keys for both signing and encryption
 	    using <spanx style="verb">jwk_uri</spanx>.
+	  </t>
+	  <t>
+	    Made UserInfo Endpoint MTI to support for all OPs that issue Access Tokens.
 	  </t>
 	</list>
       </t>
