@@ -810,7 +810,7 @@
             </t>
             
 	    <figure>
-            <preamble>The following is a non-normative example of a base64url decoded 
+            <preamble>The following is a non-normative example of a base64url decoded
             ID Token
 	    (with line wraps for display purposes only):</preamble>
 
@@ -2084,8 +2084,7 @@ may be retrieved:
 	   would be used to register them.
 	   Finally, if the client is requesting encrypted responses, it would use
 	   the parameters
-	   <spanx style="verb">jwk_encryption_uri</spanx> and/or
-	   <spanx style="verb">x509_encryption_uri</spanx> and
+	   <spanx style="verb">jwk_uri</spanx> and
 	   <spanx style="verb">id_token_encrypted_response_alg</spanx> and
 	   <spanx style="verb">id_token_encrypted_response_enc</spanx>.
         </t>
@@ -2420,8 +2419,7 @@ may be retrieved:
              The default if not specified is <spanx style="verb">RS256</spanx>.
 	         The public key for validating the signature is provided by retrieving the 
 	         document from the
-	         <spanx style="verb">jwk_uri</spanx> element or the 
-	         <spanx style="verb">x509_uri</spanx> element from discovery.</t>
+	         <spanx style="verb">jwk_uri</spanx> element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
              JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
@@ -2440,91 +2438,85 @@ may be retrieved:
     </section>
 
     <section anchor="sigenc.key" title="Keys">
-      
-      <t>The Server advertises its supported signing and encryption algorithms
-      in its discovery document.</t>
-      
-      <t>The Provider provides its public Keys during Discovery in the following elements:</t>
+
+      <t>The Provider can provide its public Keys during Discovery and the Client can do so
+        during Registration using the <spanx style="verb">jwk_uri</spanx> element.
+        The <spanx style="verb">jwk_uri</spanx> is a URI of a JSON Web Key Set <xref target="JWK"/>, which is
+        a document that contains the entity's signing key(s) as well as key(s) that another entity can use to
+        encrypt content to it.
+      </t>
+
+      <t>In addition to the Key Types defined in <xref target="JWA">JSON Web Algorithms</xref>
+      the <spanx style="verb">jwk_uri</spanx> JWK Set can also contain a <spanx style="verb">PKIX</spanx>
+      Key Type, which is a key type used to enable a JWK to contain a chain of PKIX certificates
+      (note the PKIX Key Type is derived from the <xref target="JWK.PKIX">JSON Web Key (JWK) for PKIX Certificates</xref>
+      draft, which is an early work in progress).
+      The PKIX Key Type defines the following JWK parameters:</t>
       <t><list style="hanging">
-        <t hangText="jwk_uri">
-          URL of the OP's JSON Web Key Set <xref target="JWK"/> document
-	  that contains the Server's signing key(s)
-          that are used for signing the JWT. 
-          It MAY also be used by the Client to encrypt the JWT
-          to the Server if <spanx style="verb">x509_encryption_uri</spanx> or 
-          <spanx style="verb">jwk_encryption_uri</spanx> is not specified, 
-          but this is discouraged. A separate encryption key 
-          SHOULD be used.</t>
-          
-        <t hangText="jwk_encryption_uri">          
-          URL of the OP's JSON Web Key Set <xref target="JWK"/> document
-	  that contains the Server's encryption key(s)
-          that are used by the Client to encrypt the JWT to the Server. 
-          If it is not present, its value 
-          is the same as the URL provided by <spanx style="verb">jwk_uri</spanx>.</t>
+        <t hangText="kty">REQUIRED. The value of the <spanx style="verb">kty</spanx> parameter MUST be
+        <spanx style="verb">PKIX</spanx>.</t>
+        <t hangText="x5c">REQUIRED. Contains a chain of one or more PKIX certificates <xref target="RFC5280"/>.
+        The certificate chain is represented as a JSON array of certificate value strings. Each string in the array
+        is a DER <xref target="ITU.X690.1994"/> PKIX certificate encoded as base64 <xref target="RFC4648"/>
+        (note: not base64url). The array MUST have at least one value, which MUST be the PKIX certificate of the actor
+        (e.g., the singer of a <xref target="JWS"/>, or a recipient of a <xref target="JWE"/>).
+        Each additional value of the array (if any) MUST be the PKIX certificate that certifies the
+        previous certificate.</t></list>
+      </t>
+      <t>
+        The PKIX key type enables the same key to be represented as an X.509 certificate as well as a simple JWK
+        formatted bare key in the same document. When the same key is published in both formats, the values of the
+        <spanx style="verb">kid</spanx> (Key ID), <spanx style="verb">use</spanx> (Key Use) and
+        <spanx style="verb">alg</spanx> (Algorithm) parameters MUST be the same for both.
+      </t>
+      <t>
+        When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
+        value is REQUIRED for all keys in the <spanx style="verb">jwk_uri</spanx> to indicate each key's intended usage.
+        Although some algorithms allow the same key pair to be used for both signatures and encryption, doing so is
+        highly discouraged as it is less secure.
+      </t>
+      <t>
+        <figure>
+         <preamble>The following is a non-normative example of a <spanx style="verb">jwk_uri</spanx> document
+           with one RSA signing key represented in both <spanx style="verb">RSA</spanx> and
+           <spanx style="verb">PKIX</spanx> key types:</preamble>
 
-        <t hangText="x509_uri">
-          URL of the OP's X.509 certificates in PEM format 
-          that are used by the Server for Signing the JWT. 
-          It MAY also be used by the Client to JWE Encrypt the JWT
-          to the Server if <spanx style="verb">x509_encryption_uri</spanx>
-          is not specified. The certificate referenced SHOULD be valid for its 
-          intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
-          
-        <t hangText="x509_encryption_uri"> 
-          URL of the OP's X.509 certificates in PEM format
-          that contains the Server's encryption key
-          that is used by the Client to encrypt the JWT 
-          to the Server. If it is not present, the URL provided by the
-          <spanx style="verb">x509_uri</spanx> is used instead. 
-          The certificate referenced SHOULD be valid for its 
-          intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
+                  <artwork><![CDATA[
+{"keys":[
+ {"kty":"RSA",
+  "use":"sig",
+  "kid":"1b94c",
+  "n":"vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08PLbK_PdiVGKPrqzmDIsL
+       I7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Qu2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7i
+       I7w0LK9orSMhBEwwZDCxTWq4aYWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy
+       1wgzjYQDwHMTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMvVfJb6
+       jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ",
+  "e":"AQAB"},
+ {"kty":"PKIX",
+  "use":"sig",
+  "kid":"1b94c",
+  "x5c":
+   ["MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJBgNVBAYTAlVTMQswCQYD
+     VQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcw
+     FQYDVQQDEw5CcmlhbiBDYW1wYmVsbDAeFw0xMzAyMjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIx
+     CzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5n
+     IElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDCCASIwDQYJKoZIhvcNAQEB
+     BQADggEPADCCAQoCggEBAL64zn8/QnHYMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9if6amFtP
+     Dy2yvz3YlRij66s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+IiZhtELto/A7Fck9Ws6SQv
+     zRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quGmFgHIXPLfnpnfajr1rVTAwtgV5LEZ4Ie
+     l+W1GC8ugMhyr4/p1MtcIM42EA8BzE6ZQqC7VPqPvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWam
+     T3cEvqqPpnjL1XyW+oyVVkaZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG
+     9w0BAQUFAAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL+9gGlqCz5iWL
+     OgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1zFo+Owb1zxtp3PehFdfQJ610CDLEa
+     S9V9Rqp17hCyybEpOGVwe8fnk+fbEL2Bo3UPGrpsHzUoaGpDftmWssZkhpBJKVMJyf/RuP2SmmaI
+     zmnw9JiSlYhzo4tpzd5rFXhjRbg4zW9C+2qok+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTqgawR
+     +N5MDtdPTEQ0XfIBc2cJEUyMTY5MPvACWpkA6SdS4xSvdXK3IVfOWA=="]}
+]}
+        ]]></artwork>
+                  </figure>
+      </t>
 
-      </list></t>
-      <t>The Client provides its public Keys during Registration, in the following 
-      elements:</t>
-      <t><list style="hanging">      
-            <t hangText="jwk_uri">OPTIONAL.
-	    URL for the Client's
-	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
-	    that are used for 
-            signing the Request Objects.
-            If <spanx style="verb">jwk_encryption_uri</spanx> is not 
-            provided, it is also used by the Server 
-            to encrypt the <xref target="JWT">JWT</xref> to the Client.</t>
-
-            <t hangText="jwk_encryption_uri">OPTIONAL.
-	    URL for the Client's
-	    JSON Web Key Set <xref target="JWK"/> document containing key(s)
-            used by the Server to encrypt the response objects to the Client.</t>
-
-            <t hangText="x509_uri">OPTIONAL.
-	    URL for the Client's PEM encoded X.509
-            Certificate or Certificate chain. 
-            It is used by the Client for
-            signing the Request Objects.
-            If <spanx style="verb">x509_encryption_uri</spanx> is not 
-            present, it is also used to encrypt
-	    the <xref target="JWT">JWT</xref> to the Client. 
-            The certificate referenced SHOULD be valid for its 
-            intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
-            
-            <t hangText="x509_encryption_uri">OPTIONAL.
-	    URL for the Client's PEM encoded 
-            X.509 Certificate or Certificate chain, used to encrypt
-	    the <xref target="JWT">JWT</xref> to the Client.
-            The certificate referenced SHOULD be valid for its 
-            intended use as specified by <xref target="RFC2459">RFC 2459</xref>.</t>
-      
-      </list></t>      
-
-         <t>If keys are specified in both X.509 and JWK formats,
-	 they SHOULD be the same keys.</t>
-
-         <t>Algorithms like Elliptic Curve signing and key agreement require separate keys for 
-         signing and encryption for security.  For RSA, a single key MAY be used for both,
-         but it is good practice to separate them.</t>
-       </section>  
+     </section>
       
 
       <section anchor="sigs" title="Signing">
@@ -2540,11 +2532,9 @@ may be retrieved:
              as defined in <xref target="JWA">JSON Web Algorithms</xref>.
             The private key MUST be the one associated with the 
             Public Signing Key provided in
-            <xref target="sigenc.key"></xref>. 
+            <xref target="sigenc.key"/>.
             If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWS header. 
-            If there are multiple certificates at the referenced certificate location,
-	    then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.
+            <spanx style="verb">kid</spanx> MUST be specified in the JWS header.
             The key usage of the respective keys MUST support signature. 
           </t>
           <t hangText="Symmetric Signatures">
@@ -2563,6 +2553,21 @@ may be retrieved:
 	  See <xref target="NeedForSignedRequests"/> for Security Considerations
 	  about the need for signed requests.
 	</t>
+        <section anchor="rotate.sig.keys" title="Rotation of Asymmetric Signing Keys">
+          <t>Rotation of signing keys can be accomplished with the following approach. The signer publishes
+            its keys at the jwk_uri and includes the <spanx style="verb">kid</spanx> of the
+            signing key in the JWS header of each message
+            to indicate to the verifier which key is to be used to validate the signature. Keys can be rolled
+            by periodically adding new keys to the <spanx style="verb">jwk_uri</spanx>
+            The signer can begin using a new key at its
+            discretion and signals the change to the verifier by the <spanx style="verb">kid</spanx> header.
+            The verifier knows to go back to the jwk_uri re-get the keys when it sees an unfamiliar
+            <spanx style="verb">kid</spanx> value. The key set document at the <spanx style="verb">jwk_uri</spanx>
+            should retain recently decommissioned signing keys for a reasonable period of time to facilitate a
+            smooth transition.
+          </t>
+        </section>
+
       </section>
 
       <section anchor="enc" title="Encryption">
@@ -2577,15 +2582,8 @@ may be retrieved:
 	  <t hangText="Asymmetric Encryption RSA">
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
-            The 
-            <spanx style="verb">jwk_encryption_uri</spanx> 
-            or 
-            <spanx style="verb">x509_encryption_uri</spanx> 
-            link MUST be used if provided.
             If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWE header. 
-            If there are multiple certificates at the referenced certificate location,
-	        then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.
+            <spanx style="verb">kid</spanx> MUST be specified in the JWE header.
             Use the supported RSA KeyWrap algorithm to KeyWrap a random 
             <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
@@ -2596,15 +2594,8 @@ may be retrieved:
             element of the JWE header. 
             Use the link registered/discovered in <xref target="sigenc.key"></xref>
             to retrieve the relevant key.
-            The 
-            <spanx style="verb">jwk_encryption_uri</spanx> 
-            or 
-            <spanx style="verb">x509_encryption_uri</spanx> 
-            link MUST be used if provided.
             If there are multiple keys in the referenced JWK document, the
-            <spanx style="verb">kid</spanx> MUST be specified in the JWE header. 
-            If there are multiple certificates at the referenced certificate location,
-            then <spanx style="verb">x5t</spanx> MUST be specified in the JWS header.  
+            <spanx style="verb">kid</spanx> MUST be specified in the JWE header.
             Use the ECDH-ES algorithm to KeyWrap a random 
             <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
             the signed JWT.
@@ -2625,6 +2616,24 @@ may be retrieved:
 	  See <xref target="NeedForEncryptedRequests"/> for Security Considerations
 	  about the need for encrypted requests.
 	</t>
+
+        <section anchor="rotate.enc.keys" title="Rotation of Asymmetric Encryption Keys">
+          <t>Rotating encryption keys is necessarily a different process than for signing keys because
+            the encrypting party starts the process and thus cannot rely on a change in kid as a signal
+            to know that keys need to change. The encrypting party still uses the kid header in the JWE
+            to tell the decrypting party which private key to use to decrypt, however, the encrypting party
+            needs to first select the most appropriate key from those provided at the
+            <spanx style="verb">jwk_uri</spanx>. To rotate keys, the decrypting party can publish new keys
+            at the <spanx style="verb">jwk_uri</spanx> and remove from the document those that are being decommissioned.
+            The <spanx style="verb">jwk_uri</spanx> should indicate some caching semantics
+            (appropriate to the scheme in use)
+            that allow the encrypting party to safely cache the key set and not have to re-retrieve
+            the document for every encryption event. The decrypting party should remove decommissioned keys
+            from the <spanx style="verb">jwk_uri</spanx> document but retain them internally for some reasonable
+            period of time (coordinated with the cache duration) to facilitate a smooth transition between keys
+            by allowing the encrypting party some time to obtain the new keys.</t>
+        </section>
+
       </section>
     </section>
 
@@ -4138,12 +4147,16 @@ may be retrieved:
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml/reference.RFC.4648'?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5280"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6711"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6819"?>
+
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml2/_reference.ITU.X690.1994.xml' ?>
 
       <reference anchor="USA15">
         <front>
@@ -4732,6 +4745,25 @@ Representation of dates and times</title>
                 type="HTML" />
       </reference>
 
+      <reference anchor="JWK.PKIX">
+        <front>
+          <title>JSON Web Key (JWK) for PKIX Certificates (work in progress)</title>
+
+          <author initials="M." surname="Miller" fullname="Matthew Miller">
+            <organization>Cisco Systems, Inc.</organization>
+            <address><email>mamille2@cisco.com</email></address>
+          </author>
+          <author initials="B." surname="Campbell" fullname="Brian Campbell">
+            <organization>Ping Identity Corp.</organization>
+            <address><email>brian.d.campbell@gmail.com</email></address>
+          </author>
+
+          <date day="12" month="February" year="2013"/>
+        </front>
+
+        <format target="http://tools.ietf.org/id/draft-miller-jose-pkix-key-00.html" type="HTML"/>
+      </reference>
+
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -4823,6 +4855,11 @@ Representation of dates and times</title>
 
       <t>-16
         <list style="symbols">
+    <t>
+      Added the PKIX JWK key type (+example) for X.509 certs and consolidated the x509_uri, x509_encryption_uri and
+      jwk_encryption_uri into the jwk_uri. Also provided some suggested guidance about how to do key rotation with
+      asymmetric keys and the jwk_uri for both signing and encryption.
+    </t>
 	  <t>
 	    Fixed #709 - OpenID Request Object - "registration" in non-Self-Issued case.
 	  </t>
