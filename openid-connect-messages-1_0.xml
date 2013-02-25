@@ -238,20 +238,21 @@
       <t><list style="numbers">
           <t>Authorization Endpoint: The RP sends a request to the 
           OP at the Authorization Endpoint. The OP 
-          then authenticates the End-User to find out whether he is eligible
-          to be authenticated. Then, upon the authorization action of the
-          End-User, the Authorization Server returns an Authorization Response
-          that that may include an Authorization Code, <spanx style="verb">code</spanx>.
-          For some Clients, the Implicit Grant may be used to obtain an Access Token
-	  without using an Authorization Code. In this case, <spanx
-          style="verb">response_type</spanx> MUST include <spanx
+          then authenticates the End-User to determine whether he is eligible
+          to be authenticated. Then, after potential authorization actions by the
+          End-User, the Authorization Server returns an Authorization Response,
+          which can include an Authorization Code value.
+          For some Clients, the Implicit Grant will be used to obtain an Access Token
+	  without using an Authorization Code. In this case,
+	  the <spanx style="verb">response_type</spanx> parameter value MUST include <spanx
           style="verb">token</spanx> and <spanx style="verb">id_token</spanx>.</t>
 
-          <t>Token Endpoint: The Client sends the Access Token Request to the
+          <t>Token Endpoint: The Client sends an Access Token Request
+	  containing the Authorization Code to the
           Token Endpoint to obtain an Access Token Response that includes an
-          Access Token and ID Token.</t>
+          Access Token and an ID Token.</t>
 
-          <t>UserInfo Endpoint: The Access Token can be sent to the UserInfo Endpoint
+          <t>UserInfo Endpoint: The Client sends the Access Token to the UserInfo Endpoint
 	  to obtain Claims about the End-User.</t>
 
         </list></t>
@@ -260,8 +261,7 @@
         <t>The RP sends an Authorization Request to the Authorization Endpoint
         of the OP to obtain an Authorization Response,
         which may contain an <xref target="id_token">ID Token</xref> and Access Token,
-        depending on the <spanx style="verb">response_type</spanx>
-        and <spanx style="verb">scope</spanx> values used.</t>
+        depending on the <spanx style="verb">response_type</spanx> value used.</t>
 
         <section anchor="AuthorizationRequest" title="Authorization Request">
           <t>
@@ -5345,6 +5345,9 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #671 - Specified that an Access Token must be requested when
 	    Claims are requested from the UserInfo endpoint.
+	  </t>
+	  <t>
+	    Fixed #717 - Parameters and values should be distinguished more clearly.
 	  </t>
 	</list>
       </t>
