@@ -208,7 +208,7 @@
 	  The OpenID Provider SHOULD display this
 	  URL to the End-User if it is given.</t>
 
-	  <t hangText="jwk_uri">OPTIONAL.
+	  <t hangText="jwks_uri">OPTIONAL.
     URL for the Client's JSON Web Key Set <xref target="JWK"/> document
     containing key(s) that are used for signing requests to the OP.
     The JWK Set MAY also contain the Client's encryption keys(s)
@@ -281,7 +281,7 @@
 	  The default if not specified is <spanx style="verb">RS256</spanx>.
 	  The public key for validating the signature is provided by retrieving the 
 	  JWK Set referenced by the
-	  <spanx style="verb">jwk_uri</spanx> element from Discovery.</t>
+	  <spanx style="verb">jwks_uri</spanx> element from Discovery.</t>
 	  
 	  <t hangText="id_token_encrypted_response_alg">OPTIONAL.
 	  JWE <spanx style="verb">alg</spanx>
@@ -437,7 +437,7 @@
    "sector_identifier_uri":
      "https://othercompany.com/file_of_redirect_uris.json",
    "token_endpoint_auth_method": "client_secret_basic",
-   "jwk_uri": "https://client.example.org/my_rsa_public_key.jwk",
+   "jwks_uri": "https://client.example.org/my_rsa_public_key.jwks",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
    "contacts": ["ve7jtb@example.org", "mary@example.org"],
@@ -537,7 +537,7 @@
    "subject_type": "pairwise",
    "sector_identifier_uri":
      "https://othercompany.com/file_of_redirect_uris.json",
-   "jwk_uri": "https://client.example.org/my_rsa_public_key.jwk",
+   "jwks_uri": "https://client.example.org/my_rsa_public_key.jwks",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
    "contacts": ["ve7jtb@example.org", "mary@example.org"],
@@ -677,7 +677,7 @@
    "subject_type": "pairwise",
    "sector_identifier_uri":
      "https://othercompany.com/file_of_redirect_uris.json",
-   "jwk_uri": "https://client.example.org/my_rsa_public_key.jwk",
+   "jwks_uri": "https://client.example.org/my_rsa_public_key.jwks",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
    "contacts": ["ve7jtb@example.org", "mary@example.org"],
@@ -1274,6 +1274,10 @@
 	    <spanx style="verb">x509_encryption_uri</spanx>, and
 	    <spanx style="verb">jwk_encryption_uri</spanx> parameters into
 	    a combined <spanx style="verb">jwk_uri</spanx> parameter.
+	  </t>
+	  <t>
+	    Fixed #786 - Changed the name of <spanx style="verb">jwk_uri</spanx>
+	    to <spanx style="verb">jwks_uri</spanx>.
 	  </t>
         </list>
       </t>

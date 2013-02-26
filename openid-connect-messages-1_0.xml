@@ -2092,7 +2092,7 @@ may be retrieved:
 	   would be used to register them.
 	   Finally, if the client is requesting encrypted responses, it would use
 	   the parameters
-	   <spanx style="verb">jwk_uri</spanx> and
+	   <spanx style="verb">jwks_uri</spanx> and
 	   <spanx style="verb">id_token_encrypted_response_alg</spanx> and
 	   <spanx style="verb">id_token_encrypted_response_enc</spanx>.
         </t>
@@ -2427,7 +2427,7 @@ may be retrieved:
              The default if not specified is <spanx style="verb">RS256</spanx>.
              The public key for validating the signature is provided by retrieving the 
              document from the
-             <spanx style="verb">jwk_uri</spanx> element from discovery.</t>
+             <spanx style="verb">jwks_uri</spanx> element from discovery.</t>
              
              <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
              JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
@@ -2451,7 +2451,7 @@ may be retrieved:
           The OpenID Provider provides its public keys during Discovery
           using the following element:
           <list style="hanging">
-            <t hangText="jwk_uri">
+            <t hangText="jwks_uri">
               REQUIRED.
               URL of the OP's JSON Web Key Set <xref target="JWK"/> document
               that contains the Server's signing key(s)
@@ -2467,7 +2467,7 @@ may be retrieved:
           Likewise, the Client can provide its public keys during Registration
           using the following element:
           <list style="hanging">
-            <t hangText="jwk_uri">
+            <t hangText="jwks_uri">
               OPTIONAL.
               URL for the Client's JSON Web Key Set <xref target="JWK"/> document
               containing key(s) that are used for signing requests to the OP.
@@ -2482,7 +2482,7 @@ may be retrieved:
         <section anchor="PKIXKeyType" title="PKIX Key Type">
           <t>
             In addition to the Key Types defined in <xref target="JWA">JSON Web Algorithms</xref>
-            the <spanx style="verb">jwk_uri</spanx> JWK Set can also contain a <spanx style="verb">PKIX</spanx>
+            the <spanx style="verb">jwks_uri</spanx> JWK Set can also contain a <spanx style="verb">PKIX</spanx>
             Key Type, which is a key type used to enable a JWK to contain a chain of PKIX certificates.
 	  </t>
 	  <t>
@@ -2516,13 +2516,13 @@ may be retrieved:
           <t>
             When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
             value is REQUIRED for all keys in the JWK Set at the
-	    <spanx style="verb">jwk_uri</spanx> to indicate each key's intended usage.
+	    <spanx style="verb">jwks_uri</spanx> to indicate each key's intended usage.
             Although some algorithms allow the same key pair to be used for both signatures and encryption, doing so is
             NOT RECOMMENDED, as it is less secure.
           </t>
           <t>
             <figure>
-              <preamble>The following is a non-normative example of a <spanx style="verb">jwk_uri</spanx> document
+              <preamble>The following is a non-normative example of a <spanx style="verb">jwks_uri</spanx> document
               with one RSA signing key represented using both the <spanx style="verb">RSA</spanx> and
               <spanx style="verb">PKIX</spanx> key types:</preamble>
               <artwork><![CDATA[
@@ -2603,16 +2603,16 @@ may be retrieved:
 	</t>
         <section anchor="rotate.sig.keys" title="Rotation of Asymmetric Signing Keys">
           <t>Rotation of signing keys can be accomplished with the following approach. The signer publishes
-            its keys in a JWK Set at the <spanx style="verb">jwk_uri</spanx> location
+            its keys in a JWK Set at the <spanx style="verb">jwks_uri</spanx> location
 	    and includes the <spanx style="verb">kid</spanx> of the
             signing key in the JWS header of each message
             to indicate to the verifier which key is to be used to validate the signature. Keys can be rolled over
-            by periodically adding new keys to the JWK Set at <spanx style="verb">jwk_uri</spanx>.
+            by periodically adding new keys to the JWK Set at <spanx style="verb">jwks_uri</spanx>.
             The signer can begin using a new key at its
             discretion and signals the change to the verifier using the <spanx style="verb">kid</spanx> value.
-            The verifier knows to go back to the <spanx style="verb">jwk_uri</spanx>
+            The verifier knows to go back to the <spanx style="verb">jwks_uri</spanx>
 	    to re-retrieve the keys when it sees an unfamiliar
-            <spanx style="verb">kid</spanx> value. The JWK Set document at the <spanx style="verb">jwk_uri</spanx>
+            <spanx style="verb">kid</spanx> value. The JWK Set document at the <spanx style="verb">jwks_uri</spanx>
             should retain recently decommissioned signing keys for a reasonable period of time to facilitate a
             smooth transition.
           </t>
@@ -2673,14 +2673,14 @@ may be retrieved:
             to know that keys need to change. The encrypting party still uses the kid header in the JWE
             to tell the decrypting party which private key to use to decrypt, however, the encrypting party
             needs to first select the most appropriate key from those provided in the JWK Set at
-            <spanx style="verb">jwk_uri</spanx>. To rotate keys, the decrypting party can publish new keys
-            at <spanx style="verb">jwk_uri</spanx> and remove from the JWK Set those that are being decommissioned.
-            The <spanx style="verb">jwk_uri</spanx> should include a <spanx style="verb">Cache-Control</spanx>
+            <spanx style="verb">jwks_uri</spanx>. To rotate keys, the decrypting party can publish new keys
+            at <spanx style="verb">jwks_uri</spanx> and remove from the JWK Set those that are being decommissioned.
+            The <spanx style="verb">jwks_uri</spanx> should include a <spanx style="verb">Cache-Control</spanx>
             header in the response that contains a <spanx style="verb">max-age</spanx> directive,
             as defined in <xref target="RFC2616">RFC 2616</xref>,
             which allows the encrypting party to safely cache the JWK Set and not have to re-retrieve
             the document for every encryption event. The decrypting party should remove decommissioned keys
-            from the JWK Set at <spanx style="verb">jwk_uri</spanx> but retain them internally for some reasonable
+            from the JWK Set at <spanx style="verb">jwks_uri</spanx> but retain them internally for some reasonable
             period of time, coordinated with the cache duration, to facilitate a smooth transition between keys
             by allowing the encrypting party some time to obtain the new keys. The cache duration should also
             be coordinated with the issuance of new signing keys as described in <xref target="rotate.sig.keys"/>.</t>
@@ -5348,6 +5348,10 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #717 - Parameters and values should be distinguished more clearly.
+	  </t>
+	  <t>
+	    Fixed #786 - Changed the name of <spanx style="verb">jwk_uri</spanx>
+	    to <spanx style="verb">jwks_uri</spanx>.
 	  </t>
 	</list>
       </t>
