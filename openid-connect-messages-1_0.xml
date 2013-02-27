@@ -392,6 +392,13 @@
                   REQUIRED.
                   Redirection URI to which the response will be sent.
 		  This MUST be pre-registered with the OpenID Provider.
+		  When using the OAuth implicit grant type, the redirection URI
+		  MUST NOT use the <spanx style="verb">http</spanx> scheme
+		  unless the Client is a native application, in which case it MAY
+		  use the <spanx style="verb">http:</spanx> scheme with
+		  <spanx style="verb">localhost</spanx> as the hostname.
+		  When using the OAuth code grant type, the redirection URI
+		  MAY use the <spanx style="verb">http</spanx> scheme.
                 </t>
 
                 <t hangText="state">
@@ -2090,7 +2097,7 @@ may be retrieved:
 	   <spanx style="verb">logo_uri</spanx>.
 	   If the Client uses more than one redirect URI, the
    	   <spanx style="verb">redirect_uris</spanx>
-	   would be used to register them.
+	   parameter would be used to register them.
 	   Finally, if the client is requesting encrypted responses, it would use
 	   the parameters
 	   <spanx style="verb">jwks_uri</spanx> and
@@ -3109,11 +3116,14 @@ may be retrieved:
             REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
           </t>
           <t hangText="client_id">
-            REQUIRED. <spanx style="verb">redirect_uri</spanx> 
-            of the client. Note that since it is same as the 
-            <spanx style="verb">redirect_uri</spanx>,
-	    <spanx style="verb">redirect_uri</spanx> 
-            is not required to be sent in the request. 
+            REQUIRED.
+	    Client ID value for the Client, which in this case contains the
+	    <spanx style="verb">redirect_uri</spanx> value of the Client.
+	    Since the Client's
+            <spanx style="verb">redirect_uri</spanx> URI value is communicated
+	    as the Client ID,
+	    a <spanx style="verb">redirect_uri</spanx> parameter
+            is NOT REQUIRED to also be included in the request.
           </t>
           <t hangText="scope">
             REQUIRED.
@@ -3250,7 +3260,7 @@ may be retrieved:
             The Client MUST validate that the 
             <spanx style="verb">aud</spanx> (audience) Claim
 	    contains the value of the <spanx style="verb">redirect_uri</spanx>
-            that the client sent in the authentication request as an audience. 
+            that the Client sent in the authentication request as an audience. 
 	  </t>
 	  <t>
             The Client MUST validate the signature of the ID Token according to
@@ -5359,6 +5369,10 @@ Representation of dates and times</title>
 	  <t>
 	    Fixed #786 - Changed the name of <spanx style="verb">jwk_uri</spanx>
 	    to <spanx style="verb">jwks_uri</spanx>.
+	  </t>
+	  <t>
+	    Clarified when the <spanx style="verb">http</spanx> scheme can and can not
+	    be used in <spanx style="verb">redirect_uri</spanx> values.
 	  </t>
 	</list>
       </t>

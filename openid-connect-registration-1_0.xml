@@ -133,29 +133,6 @@
 
 	<list style="hanging">
 
-	  <t hangText="redirect_uris">REQUIRED.
-	  Array of redirect URIs for use in the Authorization Code and
-      Implicit grant types.
-	  One of the URL MUST match the Scheme, Host, and Path segments of the 
-	  <spanx style="verb">redirect_uri</spanx> in the authorization request.</t>
-
-	  <t hangText="application_type">OPTIONAL.
-	  Kind of the application.
-	  The default if not specified is 
-	  <spanx style="verb">web</spanx>.  The defined values are
-	  <spanx style="verb">native</spanx>
-	  or <spanx style="verb">web</spanx>.
-	  Web clients MUST only register URLs using the <spanx style="verb">https:</spanx> scheme as
-	  <spanx style="verb">redirect_uris</spanx>;
-	  they MAY NOT use <spanx style="verb">localhost</spanx> as the hostname.
-	  Native clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
-	  URI schemes or URLs using the <spanx style="verb">http:</spanx> scheme with
-	  <spanx style="verb">localhost</spanx> as the hostname.
-	  Authorization Servers may place additional constraints on Native clients.
-	  The Authorization server MUST verify that all the registered 
-	  <spanx style="verb">redirect_uris</spanx> conform to the constraints.  
-	  This prevents sharing a Client ID across different types of Clients.</t>
-
 	  <t hangText="access_token">OPTIONAL. 
 	  Access Token obtained
 	  out of band to authorize the registrant. 
@@ -164,6 +141,39 @@
 	  Authorization header as described in Section 7.1 of <xref
 	  target="RFC6749">OAuth 2.0</xref>. Access Tokens sent in the
 	  authorization header must be bearer tokens <xref target="RFC6750"/>.</t>
+
+	  <t hangText="redirect_uris">REQUIRED.
+	  Array of redirect URIs values used in the Authorization Code and
+	  Implicit grant types.
+	  One of the these registered redirect URI values MUST match the Scheme, Host,
+	  and Path segments of the <spanx style="verb">redirect_uri</spanx> parameter
+	  value used in each authorization request.</t>
+
+	  <t hangText="response_types">
+	    OPTIONAL.
+	    JSON array containing a list of the OAuth 2.0 
+	    <spanx style="verb">response_type</spanx> values that this
+	    Client uses. If omitted, the default is that the Client uses only the
+	    <spanx style="verb">code</spanx> response type.
+	  </t>
+
+	  <t hangText="application_type">OPTIONAL.
+	  Kind of the application.
+	  The default if not specified is 
+	  <spanx style="verb">web</spanx>.  The defined values are
+	  <spanx style="verb">native</spanx>
+	  or <spanx style="verb">web</spanx>.
+	  Web clients using the OAuth implicit grant type
+	  MUST only register URLs using the <spanx style="verb">https:</spanx> scheme as
+	  <spanx style="verb">redirect_uris</spanx>;
+	  they MAY NOT use <spanx style="verb">localhost</spanx> as the hostname.
+	  Native clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
+	  URI schemes or URLs using the <spanx style="verb">http:</spanx> scheme with
+	  <spanx style="verb">localhost</spanx> as the hostname.
+	  Authorization Servers may place additional constraints on Native Clients.
+	  The Authorization server MUST verify that all the registered 
+	  <spanx style="verb">redirect_uris</spanx> conform to these constraints.  
+	  This prevents sharing a Client ID across different types of Clients.</t>
 
 	  <t hangText="contacts">OPTIONAL.
 	  Array of e-mail addresses of people responsible for this Client.
@@ -1278,6 +1288,9 @@
 	  <t>
 	    Fixed #786 - Changed the name of <spanx style="verb">jwk_uri</spanx>
 	    to <spanx style="verb">jwks_uri</spanx>.
+	  </t>
+	  <t>
+	    Added the <spanx style="verb">response_types</spanx> registration parameter.
 	  </t>
         </list>
       </t>
