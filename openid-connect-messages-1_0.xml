@@ -3093,12 +3093,10 @@ may be retrieved:
 	    If the Client uses more than one redirect URI, the
 	    <spanx style="verb">redirect_uris</spanx>
 	    parameter would be used to register them.
-	    Finally, if the client is requesting encrypted responses, it would use
-	    the parameters
-	    <spanx style="verb">jwk_encryption_uri</spanx> and/or
-	    <spanx style="verb">x509_encryption_uri</spanx> and
+	    Finally, if the Client is requesting encrypted responses, it would use the
+	    <spanx style="verb">jwks_uri</spanx>,
 	    <spanx style="verb">id_token_encrypted_response_alg</spanx> and
-	    <spanx style="verb">id_token_encrypted_response_enc</spanx>.
+	    <spanx style="verb">id_token_encrypted_response_enc</spanx> parameters.
 	  </t>
 	</section>
       </section>
@@ -3140,6 +3138,9 @@ may be retrieved:
 	    In this case, the <spanx style="verb">sub</spanx> (subject)
 	    of the signed ID Token MUST be sent as the
 	    <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	    Encrypting content to Self-Issued OPs is currently only supported when
+	    the OP's JWK key type is <spanx style="verb">RSA</spanx> and the encryption
+	    algorithm used is <spanx style="verb">RSA1_5</spanx>.
 	  </t>
 	  <t hangText="claims">
 	    OPTIONAL.
@@ -3160,6 +3161,9 @@ may be retrieved:
 	    In this case, the <spanx style="verb">sub</spanx> (subject) of
 	    a previously issued ID Token for this Client
 	    MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	    Encrypting content to Self-Issued OPs is currently only supported when
+	    the OP's JWK key type is <spanx style="verb">RSA</spanx> and the encryption
+	    algorithm used is <spanx style="verb">RSA1_5</spanx>.
 	  </t>
 	  </list>
 	</t>
