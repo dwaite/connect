@@ -140,7 +140,7 @@
             </t>
 
             <t hangText="ID Token">Token that contains Claims about the authentication event. 
-            It may contain other claims. </t>
+            It may contain other Claims. </t>
 
             <t hangText="Issuer">Entity that issues a set of Claims.</t>
 
@@ -788,7 +788,8 @@
 		  Public key value used to check the signature of an ID Token
 		  issued by a Self-Issued OpenID Provider,
 		  as specified in <xref target="self_issued"/>.
-		  The key is in JWK format.
+		  The key is a bare key in JWK format
+		  (not an X.509 certificate value).
 		  Use of the <spanx style="verb">sub_jwk</spanx> Claim
 		  is REQUIRED when the OP is a Self-Issued OP and
 		  is NOT RECOMMENDED when the OP is not Self-Issued.
@@ -3252,7 +3253,8 @@ may be retrieved:
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
             using the key in the <spanx style="verb">sub_jwk</spanx> claim;
-	    the key is in JWK format.
+	    the key is a bare key in JWK format
+	    (not an X.509 certificate value).
           </t>
           <t>
             The <spanx style="verb">alg</spanx> value SHOULD be the default of 
@@ -3460,7 +3462,8 @@ may be retrieved:
           <list style="hanging">
 
             <t hangText="Keys in X.509 Format">
-              These OPs MUST publish their public keys in X.509 format.
+              These OPs MUST publish their public keys in X.509 format
+	      using the PKIX Key Type defined in <xref target="PKIXKeyType"/>.
             </t>
             <t hangText="Discovery">
               These OPs MUST support feature discovery,
