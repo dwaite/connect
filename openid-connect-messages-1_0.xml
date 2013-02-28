@@ -392,13 +392,16 @@
                   REQUIRED.
                   Redirection URI to which the response will be sent.
 		  This MUST be pre-registered with the OpenID Provider.
-		  When using the OAuth implicit grant type, the redirection URI
+		  If the Client uses the OAuth implicit grant type, the redirection URI
 		  MUST NOT use the <spanx style="verb">http</spanx> scheme
 		  unless the Client is a native application, in which case it MAY
 		  use the <spanx style="verb">http:</spanx> scheme with
 		  <spanx style="verb">localhost</spanx> as the hostname.
-		  When using the OAuth code grant type, the redirection URI
-		  MAY use the <spanx style="verb">http</spanx> scheme.
+		  If the Client only uses the OAuth code grant type, the redirection URI
+		  MAY use the <spanx style="verb">http</spanx> scheme,
+		  provided that the Client Type is
+		  <spanx style="verb">confidential</spanx>,
+		  as defined in Section 2.1 of OAuth 2.0.
                 </t>
 
                 <t hangText="state">
