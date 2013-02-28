@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="22" month="February" year="2013" />
+    <date day="28" month="February" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -909,8 +909,12 @@
 
 	      <t hangText="registration_not_supported">
 		The OP does not support use of the
-		<spanx style="verb">registration</spanx> parameter in
-		an OpenID Request Object.
+		<spanx style="verb">registration</spanx> parameter.
+	      </t>
+
+	      <t hangText="request_not_supported">
+		The OP does not support use of the
+		<spanx style="verb">request</spanx> parameter.
 	      </t>
 
 	    </list></t>
@@ -1878,7 +1882,7 @@ may be retrieved:
 	<t>
 	  Support for the <spanx style="verb">claims</spanx> parameter is OPTIONAL.
 	  Should an OP not support this parameter and an RP uses it,
-	  the OP should return a set of claims to the RP that it believes would
+	  the OP SHOULD return a set of claims to the RP that it believes would
 	  be useful to the RP and the End-User using whatever heuristics it
 	  believes are appropriate.
 	</t>
@@ -2118,6 +2122,12 @@ may be retrieved:
 	  It represents the request as JWT whose claims are the request parameters
 	  specified in <xref target="RequestParameters"/>.
 	  This JWT is called an OpenID Request Object.
+	</t>
+	<t>
+	  Support for the <spanx style="verb">request</spanx> parameter is OPTIONAL.
+	  Should an OP not support this parameter and an RP uses it,
+	  the OP MUST return the <spanx style="verb">request_not_supported</spanx>
+	  error.
 	</t>
 	<t>
 	  When the <spanx style="verb">request</spanx> parameter is used,
@@ -3403,7 +3413,8 @@ may be retrieved:
 	the first for all OPs and the second for "Dynamic" OpenID Providers.
       </t>
 
-      <section anchor="ServerMTI" title="Mandatory to Implement Features for All OpenID Providers">
+      <section anchor="ServerMTI"
+	       title="Mandatory to Implement Features for All OpenID Providers">
 	<t>
 	  All OpenID Providers MUST implement the following features defined in this specification.
 	  This list augments the set of features that are already listed elsewhere
@@ -3428,12 +3439,20 @@ may be retrieved:
               user interface behaviors such as <spanx style="verb">none</spanx>
               and <spanx style="verb">login</spanx>.
             </t>
+             <t hangText="Display Parameter">
+              OPs must support the <spanx style="verb">display</spanx> parameter,
+              as defined in <xref target="RequestParameters"/>.
+	      (Note that the minimum level of support required for this parameter is
+	      simply to have its use not result in an error.)
+            </t>
             <t hangText="Preferred Locales">
               OPs MUST support requests for preferred languages and scripts
               for the user interface and for claims via the
               <spanx style="verb">ui_locales</spanx> and
               <spanx style="verb">claims_locales</spanx> request parameters,
               as defined in <xref target="RequestParameters"/>.
+	      (Note that the minimum level of support required for these parameters is
+	      simply to have their use not result in errors.)
             </t>
             <t hangText="Authentication Time">
               OPs MUST support returning the time at which the user authenticated
@@ -3450,25 +3469,16 @@ may be retrieved:
               Authentication Context Class Reference values
               via the <spanx style="verb">acr_values</spanx> parameter,
               as defined in <xref target="RequestParameters"/>.
-            </t>
-            <t hangText="OpenID Request Object">
-              OPs MUST support requests made using an OpenID Request Object
-              with the <spanx style="verb">request</spanx> parameter,
-              as defined in <xref target="RequestParameters"/> and
-              <xref target="RequestObject"/>.
-            </t>
-            <t hangText="Request URI">
-              OPs MUST support requests made using an OpenID Request Object
-              that is retrieved from a Request URI that is provided
-              with the <spanx style="verb">request_uri</spanx> parameter,
-              as defined in <xref target="RequestParameters"/>.
+	      (Note that the minimum level of support required for this parameter is
+	      simply to have its use not result in an error.)
             </t>
 
           </list>
         </t>
       </section>
 
-      <section anchor="DynamicMTI" title="Mandatory to Implement Features for Dynamic OpenID Providers">
+      <section anchor="DynamicMTI"
+	       title="Mandatory to Implement Features for Dynamic OpenID Providers">
         <t>
           In addition to the features listed above,
           OpenID Providers supporting dynamic establishment of relationships with RPs
@@ -3478,10 +3488,6 @@ may be retrieved:
         <t>
           <list style="hanging">
 
-            <t hangText="Keys in X.509 Format">
-              These OPs MUST publish their public keys in X.509 format
-	      using the PKIX Key Type defined in <xref target="PKIXKeyType"/>.
-            </t>
             <t hangText="Discovery">
               These OPs MUST support feature discovery,
               as defined in
@@ -3491,6 +3497,16 @@ may be retrieved:
               These OPs MUST support dynamic client registration,
               as defined in
               <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
+            </t>
+            <t hangText="Keys in X.509 Format">
+              These OPs MUST publish their public keys in X.509 format
+	      using the PKIX Key Type defined in <xref target="PKIXKeyType"/>.
+            </t>
+            <t hangText="Request URI">
+              These OPs MUST support requests made using an OpenID Request Object
+              that is retrieved from a Request URI that is provided
+              with the <spanx style="verb">request_uri</spanx> parameter,
+              as defined in <xref target="RequestParameters"/>.
             </t>
 
           </list>
@@ -5376,6 +5392,10 @@ Representation of dates and times</title>
 	  <t>
 	    Clarified when the <spanx style="verb">http</spanx> scheme can and can not
 	    be used in <spanx style="verb">redirect_uri</spanx> values.
+	  </t>
+	  <t>
+	    Fixed #748 - Defined MTI features for OPs.
+	    Also added <spanx style="verb">request_not_supported</spanx> error code.
 	  </t>
 	</list>
       </t>
