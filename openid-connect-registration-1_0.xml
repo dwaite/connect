@@ -155,6 +155,44 @@
 	    <spanx style="verb">response_type</spanx> values that this
 	    Client uses. If omitted, the default is that the Client uses only the
 	    <spanx style="verb">code</spanx> response type.
+	    <vspace blankLines="0"/>
+	    [[ EDITOR'S NOTE: We may remove this parameter if it is determined
+	    that the <spanx style="verb">grant_types</spanx> parameter is sufficient. ]]
+	  </t>
+
+          <t hangText="grant_types">
+	    OPTIONAL.
+	    Array of grant types that a Client is declaring that it will
+	    restrict itself to using.
+	    The grant type values used by OpenID Connect are:
+	    <list style="symbols">
+	      <t><spanx style="verb">authorization_code</spanx>: The
+	      Authorization Code Grant described in OAuth 2.0 Section 4.1.</t>
+
+	      <t><spanx style="verb">implicit</spanx>: The Implicit Grant
+	      described in OAuth 2.0 Section 4.2.</t>
+
+	      <t><spanx style="verb">refresh_token</spanx>: The Refresh Token
+	      Grant described in OAuth 2.0 Section 6.</t>
+
+	      <t>
+		<spanx style='verb'>urn:ietf:params:oauth:grant-type:jwt-bearer</spanx>:
+		The JWT Bearer grant type defined in
+		<xref target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref>.
+	      </t>
+            </list>
+
+	    If the Client uses any <spanx style="verb">response_type</spanx> values
+	    including <spanx style="verb">code</spanx>, this means that the
+	    <spanx style="verb">authorization_code</spanx> grant type
+	    is in the set being used by the Client.
+	    If the Client uses any <spanx style="verb">response_type</spanx> values
+	    including <spanx style="verb">token</spanx> or
+	    <spanx style="verb">id_token</spanx>, this means that the
+	    <spanx style="verb">implicit</spanx> grant type
+	    is in the set being used by the Client.
+	    If omitted, the default is that the Client will use only the
+	    <spanx style="verb">authorization_code</spanx> grant type.
 	  </t>
 
 	  <t hangText="application_type">OPTIONAL.
@@ -1092,6 +1130,30 @@
 	<seriesInfo value="draft-ietf-jose-json-web-key" name="Internet-Draft"/>
 	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key" type="HTML" />
       </reference>
+        
+      <reference anchor="OAuth.JWT">
+        <front>
+	    <title abbrev="OAuth JWT Bearer Token Profiles">JSON Web Token (JWT) Bearer Token Profiles for OAuth 2.0</title>
+
+	    <author fullname="Michael B. Jones" surname="Jones" initials="M.B."> <!-- role="editor" -->
+	      <organization>Microsoft</organization>
+	    </author>
+
+	    <author fullname="Brian Campbell" initials="B." surname="Campbell">
+	      <organization abbrev="Ping Identity">Ping Identity Corp.</organization>
+	    </author>
+
+	    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+	      <organization>Salesforce</organization>
+	    </author>
+
+	    <date day="27" month="December" year="2012"/>
+	  </front>
+	  <seriesInfo value="draft-ietf-oauth-jwt-bearer" name="Internet-Draft"/>
+	  <format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer"
+		    type="HTML" />
+      </reference>
+
     </references>
 
     <references title="Informative References">
@@ -1291,6 +1353,9 @@
 	  </t>
 	  <t>
 	    Added the <spanx style="verb">response_types</spanx> registration parameter.
+	  </t>
+ 	  <t>
+	    Added the <spanx style="verb">grant_types</spanx> registration parameter.
 	  </t>
         </list>
       </t>
