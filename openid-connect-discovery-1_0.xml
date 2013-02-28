@@ -503,7 +503,22 @@
 	  <spanx style="verb">response_type</spanx> values that this
 	  server supports. The server MUST support the <spanx style="verb">code</spanx>,
 	  <spanx style="verb">id_token</spanx>, and the <spanx style="verb">token id_token</spanx>
-	  <spanx style="verb">response_type</spanx>.
+	  response type values.
+	  </t>
+
+	  <t hangText="grant_types_supported">
+	    OPTIONAL.
+	    JSON array containing a list of the OAuth 2.0 
+	    grant type values that this
+	    server supports. The server MUST support the
+	    <spanx style="verb">authorization_code</spanx> and
+	    <spanx style="verb">implicit</spanx> grant type values
+	    and MAY support the
+	    <spanx style='verb'>urn:ietf:params:oauth:grant-type:jwt-bearer</spanx>
+	    grant type defined in
+	    <xref target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref>.
+	    If omitted, the default value is
+	    <spanx style="verb">["authorization_code", "implicit"]</spanx>.
 	  </t>
 
 	  <t hangText="acr_values_supported">OPTIONAL.
@@ -1360,6 +1375,9 @@
 	  </t>
 	  <t>
 	    Moved OP metadata list to its own section.
+	  </t>
+	  <t>
+	    Added <spanx style="verb">grant_types_supported</spanx>.
 	  </t>
         </list>
       </t>
