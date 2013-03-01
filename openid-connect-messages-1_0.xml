@@ -215,7 +215,7 @@
 	    and a few other variables.</t>
 		
 	    <t>The RP sends a request with the Access Token to the <xref
-	    target="userinfo_ep">UserInfo Endpoint</xref>.</t>
+	    target="userinfo">UserInfo Endpoint</xref>.</t>
 
 	    <t>The UserInfo Endpoint returns the additional End-User information
 	    supported by the Resource Server.</t>
@@ -381,10 +381,6 @@
 		  <spanx style="verb">phone</spanx>,
 		  and <spanx style="verb">offline_access</spanx>
 		  are also defined.
-		  When scope values requesting Claims from the UserInfo Endpoint are used,
-		  the request MUST also use a <spanx style="verb">response_type</spanx>
-		  value that results in an Access Token being returned
-		  to use at the UserInfo Endpoint.
 		  See <xref target="scopes"/> for more about the scope values defined by this specification.
                 </t>
 
@@ -1173,15 +1169,21 @@
         </section>
       </section>
 
-      <section anchor="userinfo_ep" title="UserInfo Endpoint">
-        <t>The UserInfo Endpoint is a Protected Resource that
+      <section anchor="userinfo" title="UserInfo Endpoint">
+
+        <t>The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
         returns Claims about the authenticated End-User. Claims are
         represented by a JSON object that contains a collection of
         name and value pairs for the Claims.</t>
 
         <section anchor="UserInfoRequest" title="UserInfo Request">
-          <t>Clients MAY send requests with the following parameters to the
-          UserInfo Endpoint to obtain further information about the End-User.</t>
+          <t>Clients send requests with the following parameters to the
+          UserInfo Endpoint to obtain further information about the End-User.
+	  The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
+	  Protected Resource that complies with the <xref
+	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification. As such,
+	  the Access Token SHOULD be sent using the
+	  <spanx style="verb">Authorization</spanx> header field.</t>
 
           <t><list style="hanging">
             <t hangText="access_token">REQUIRED.
@@ -1215,6 +1217,15 @@
 	    The <spanx style="verb">sub</spanx> (subject) Claim
 	    MUST always be returned in the UserInfo response.
 	  </t>
+	  <t>
+	    NOTE: The UserInfo Endpoint response is not guaranteed to be about the
+	    End-User identified by the <spanx style="verb">sub</spanx> (subject)
+	    element of the ID Token.
+	    The <spanx style="verb">sub</spanx> Claim in the UserInfo Endpoint response
+	    MUST be verified to exactly match the
+	    <spanx style="verb">sub</spanx> Claim in the ID Token
+	    before using additional UserInfo Endpoint Claims.
+	  </t>
 	</section>
 
 	<section anchor="UserInfoError" title="UserInfo Error Response">
@@ -1240,8 +1251,8 @@
         access privileges are being requested for Access Tokens. The scopes associated
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
-	    can be used to request that specific sets of information
-	    be made available from the UserInfo Endpoint.
+	can be used to request that specific sets of information
+	be made available as Claim values.
         OAuth 2.0 allows additional scope values to be specified, as extensions.
         This specification describes only the scope values used by OpenID Connect.</t>
         
@@ -1260,9 +1271,8 @@
 	    </t>
 
             <t hangText="profile">OPTIONAL. This scope value 
-	    requests that access to the End-User's default <xref
-	    target="ClaimTable">profile Claims</xref> at the
-	    UserInfo Endpoint be granted by the issued Access Token.
+	    requests access to the End-User's default <xref
+	    target="ClaimTable">profile Claims</xref>.
 	    These Claims are:
 
 	    <spanx style="verb">name</spanx>,
@@ -1280,18 +1290,15 @@
 	    <spanx style="verb">locale</spanx>, and
 	    <spanx style="verb">updated_time</spanx>.</t>
 
-            <t hangText="email">OPTIONAL. This scope value requests that access to
+            <t hangText="email">OPTIONAL. This scope value requests access to
 	    the <spanx style="verb">email</spanx> and
-	    <spanx style="verb">email_verified</spanx> Claims at the
-	    UserInfo Endpoint be granted by the issued Access Token.</t>
+	    <spanx style="verb">email_verified</spanx> Claims.</t>
 
-            <t hangText="address">OPTIONAL. This scope value requests that access to
-	    the <spanx style="verb">address</spanx> Claim at the
-	    UserInfo Endpoint be granted by the issued Access Token.</t>
+            <t hangText="address">OPTIONAL. This scope value requests access to
+	    the <spanx style="verb">address</spanx> Claim.</t>
 
-            <t hangText="phone">OPTIONAL. This scope value requests that access to
-	    the <spanx style="verb">phone_number</spanx> Claim at the
-	    UserInfo Endpoint be granted by the issued Access Token.</t>
+            <t hangText="phone">OPTIONAL. This scope value requests access to
+	    the <spanx style="verb">phone_number</spanx> Claim.</t>
 
 	    <t hangText="offline_access">OPTIONAL. This scope value requests
 	    that an OAuth 2.0 Refresh Token be issued that can be used to
@@ -1303,7 +1310,22 @@
 
         <t>Multiple scope values MAY be used by creating a space delimited, case
         sensitive list of ASCII scope values.</t>
-	
+
+	<t>
+	  The Claims requested by the
+	  <spanx style="verb">profile</spanx>,
+	  <spanx style="verb">email</spanx>,
+	  <spanx style="verb">address</spanx>, and
+	  <spanx style="verb">phone</spanx> scope values
+	  are returned from the UserInfo Endpoint,
+	  as described in <xref target="UserInfoResponse"/>,
+	  when a <spanx style="verb">response_type</spanx> value is used
+	  that results in an Access Token being issued.
+	  However, when the <spanx style="verb">response_type</spanx> value used is
+	  <spanx style="verb">id_token</spanx> (which issues no Access Token),
+	  the resulting Claims are returned in the ID Token.
+	</t>
+
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
         information requested by Clients.
@@ -1912,7 +1934,7 @@ may be retrieved:
 	    <t>
 	      When the <spanx style="verb">userinfo</spanx> member is used,
 	      the request MUST also use a <spanx style="verb">response_type</spanx>
-	      value that results in an Access Token being returned
+	      value that results in an Access Token being issued
 	      to use at the UserInfo Endpoint.
 	    </t>
 
@@ -3430,7 +3452,7 @@ may be retrieved:
             </t>
             <t hangText="UserInfo Endpoint">
               All OPs that issue Access Tokens MUST support the UserInfo Endpoint,
-              as defined in <xref target="userinfo_ep"/>.
+              as defined in <xref target="userinfo"/>.
               (Self-Issued OPs do not issue Access Tokens.)
             </t>
             <t hangText="Prompt Parameter">
@@ -5399,6 +5421,11 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #784 - Required publication of public keys as bare keys.
+	  </t>
+	  <t>
+	    Fixed #785 - Enabled scope values to be used to request Claims
+	    when using the <spanx style="verb">response_type</spanx> value
+	    <spanx style="verb">id_token</spanx> (for which no Access Token is issued).
 	  </t>
 	</list>
       </t>
