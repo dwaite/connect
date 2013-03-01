@@ -393,7 +393,9 @@
 		  unless the Client is a native application, in which case it MAY
 		  use the <spanx style="verb">http:</spanx> scheme with
 		  <spanx style="verb">localhost</spanx> as the hostname.
-		  If the Client only uses the OAuth code grant type, the redirection URI
+		  If the Client only uses
+		  the OAuth <spanx style="verb">authorization_code</spanx> grant type,
+		  the redirection URI
 		  MAY use the <spanx style="verb">http</spanx> scheme,
 		  provided that the Client Type is
 		  <spanx style="verb">confidential</spanx>,
@@ -1129,7 +1131,7 @@
 
           <t>In addition to the OAuth 2.0 response parameters, the following
           parameters MUST be included in the response if the 
-          <spanx style="verb">grant_type</spanx> is 
+          <spanx style="verb">grant_type</spanx> value is 
           <spanx style="verb">authorization_code</spanx>
           and the Authorization Request <spanx style="verb">scope</spanx> parameter 
           contained <spanx style="verb">openid</spanx>:</t>
@@ -1139,9 +1141,12 @@
             authenticated session.</t>
           </list></t>
 
-          <t>Note that <spanx style="verb">id_token</spanx> MUST NOT be 
-          returned if the <spanx style="verb">grant_type</spanx> is not 
-          <spanx style="verb">authorization_code</spanx>. </t>
+          <t>
+	    An <spanx style="verb">id_token</spanx> MUST be 
+	    returned when the <spanx style="verb">grant_type</spanx> value is
+	    <spanx style="verb">authorization_code</spanx>
+	    and MAY be returned when other grant types are used.
+	  </t>
 
           <figure>
             <preamble>Following is a non-normative example:</preamble>
@@ -3560,12 +3565,13 @@ may be retrieved:
           <t><xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> -
           Protocol binding for a subset of the OpenID Connect Messages
           that is intended for use by basic
-	  web-based Relying Parties using the OAuth code grant type.</t>
+	  Web-based Relying Parties using the
+	  OAuth <spanx style="verb">authorization_code</spanx> grant type.</t>
 
           <t><xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref> -
           Protocol binding for a subset of the OpenID Connect Messages
           that is intended for use by basic
-	  web-based Relying Parties using the OAuth implicit grant type.</t>
+	  Web-based Relying Parties using the OAuth implicit grant type.</t>
 
           <t><xref target="OpenID.Session">OpenID Connect Session Management
           1.0</xref> - Session management for OpenID Connect sessions</t>
@@ -5426,6 +5432,11 @@ Representation of dates and times</title>
 	    Fixed #785 - Enabled scope values to be used to request Claims
 	    when using the <spanx style="verb">response_type</spanx> value
 	    <spanx style="verb">id_token</spanx> (for which no Access Token is issued).
+	  </t>
+	  <t>
+	    Fixed #787 - Don't prohibit returning an ID Token from the Token Endpoint
+	    when grant types other than <spanx style="verb">authorization_code</spanx>
+	    are used.
 	  </t>
 	</list>
       </t>
