@@ -38,7 +38,7 @@
       </address>
     </author>
 
-    <date day="22" month="February" year="2013" />
+    <date day="28" month="February" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -151,20 +151,19 @@
 
 	  <t hangText="response_types">
 	    OPTIONAL.
-	    JSON array containing a list of the OAuth 2.0 
-	    <spanx style="verb">response_type</spanx> values that this
-	    Client uses. If omitted, the default is that the Client uses only the
+	    JSON array containing a list of the OAuth 2.0
+	    <spanx style="verb">response_type</spanx> values that
+	    the Client is declaring that it will restrict itself to using.
+	    If omitted, the default is that the Client will use only the
 	    <spanx style="verb">code</spanx> response type.
-	    <vspace blankLines="0"/>
-	    [[ EDITOR'S NOTE: We may remove this parameter if it is determined
-	    that the <spanx style="verb">grant_types</spanx> parameter is sufficient. ]]
 	  </t>
 
           <t hangText="grant_types">
 	    OPTIONAL.
-	    Array of grant types that a Client is declaring that it will
-	    restrict itself to using.
+	    JSON array containing a list of the OAuth 2.0 grant types that
+	    the Client is declaring that it will restrict itself to using.
 	    The grant type values used by OpenID Connect are:
+
 	    <list style="symbols">
 	      <t><spanx style="verb">authorization_code</spanx>: The
 	      Authorization Code Grant described in OAuth 2.0 Section 4.1.</t>
@@ -182,15 +181,43 @@
 	      </t>
             </list>
 
-	    If the Client uses any <spanx style="verb">response_type</spanx> values
-	    including <spanx style="verb">code</spanx>, this means that the
-	    <spanx style="verb">authorization_code</spanx> grant type
-	    is in the set being used by the Client.
-	    If the Client uses any <spanx style="verb">response_type</spanx> values
-	    including <spanx style="verb">token</spanx> or
-	    <spanx style="verb">id_token</spanx>, this means that the
-	    <spanx style="verb">implicit</spanx> grant type
-	    is in the set being used by the Client.
+	    The following table lists the correspondence between
+	    <spanx style="verb">response_type</spanx> values that the Client will use and
+	    <spanx style="verb">grant_type</spanx> values that MUST be included
+	    in the registered <spanx style="verb">grant_types</spanx> list:
+
+	    <list style="symbols">
+
+	      <t>
+		<spanx style="verb">code</spanx>:
+		<spanx style="verb">authorization_code</spanx>
+	      </t>
+	      <t>
+		<spanx style="verb">id_token</spanx>:
+		<spanx style="verb">implicit</spanx>
+	      </t>
+	      <t>
+		<spanx style="verb">token id_token</spanx>:
+		<spanx style="verb">implicit</spanx>
+	      </t>
+	      <t>
+		<spanx style="verb">code id_token</spanx>:
+		<spanx style="verb">authorization_code</spanx>,
+		<spanx style="verb">implicit</spanx>
+	      </t>
+	      <t>
+		<spanx style="verb">code token</spanx>:
+		<spanx style="verb">authorization_code</spanx>,
+		<spanx style="verb">implicit</spanx>
+	      </t>
+	      <t>
+		<spanx style="verb">code token id_token</spanx>:
+		<spanx style="verb">authorization_code</spanx>,
+		<spanx style="verb">implicit</spanx>
+	      </t>
+
+	    </list>
+
 	    If omitted, the default is that the Client will use only the
 	    <spanx style="verb">authorization_code</spanx> grant type.
 	  </t>
@@ -1356,6 +1383,11 @@
 	  </t>
  	  <t>
 	    Added the <spanx style="verb">grant_types</spanx> registration parameter.
+	  </t>
+	  <t>
+	    Added table documenting correspondence between
+	    <spanx style="verb">response_type</spanx> values used and
+	    <spanx style="verb">grant_type</spanx> values used.
 	  </t>
         </list>
       </t>
