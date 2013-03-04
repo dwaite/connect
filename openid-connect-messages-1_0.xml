@@ -1889,7 +1889,7 @@
 	  Claim Name is the member name and the Claim Value is the member
 	  value.</t>
 
-	  <t>The following is a non-normative normal Claims response:</t>
+	  <t>The following is a non-normative response containing normal Claims:</t>
 
 	  <figure>
 	    <artwork><![CDATA[
@@ -1907,75 +1907,88 @@
 
 	<section anchor="AggregatedDistributedClaims" title="Aggregated and Distributed Claims">
 	  <t>Aggregated and distributed Claims are represented by
-	  using special <spanx style="verb">_claim_names</spanx> and <spanx style="verb">_claim_sources</spanx> members
+	  using special <spanx style="verb">_claim_names</spanx> and
+	  <spanx style="verb">_claim_sources</spanx> members
 	  of the JSON object containing the Claims.</t>
 
 	  <t>
 	    <list style="hanging">
-	      <t hangText="_claim_names">JSON object whose member
-	      names are the Claim Names for the Aggregated and Distributed
-	      Claims. The member values are references to the member names
-	      in the <spanx style="verb">_claim_sources</spanx> member from which
-	      the actual Claim Values can be retrieved.</t>
+	      <t hangText="_claim_names">
+		JSON object whose member
+		names are the Claim Names for the Aggregated and Distributed
+		Claims. The member values are references to the member names
+		in the <spanx style="verb">_claim_sources</spanx> member from which
+		the actual Claim Values can be retrieved.
+	      </t>
 
-	      <t hangText="_claim_sources">JSON object whose
-	      member names are referenced by the member values of the
-	      <spanx style="verb">_claim_names</spanx> member. The member values
-	      contain sets of Aggregated Claims or reference locations for
-	      Distributed Claims. The member values can have one of the
-	      following formats depending on whether it is providing
-	      Aggregated or Distributed Claims:
-
-	      <list style="hanging">
-
-		<t hangText="Aggregated Claims">JSON object that MUST
-		contain the <spanx style="verb">JWT</spanx> member whose value is a <xref
-		target="JWT">JWT</xref> that MUST contain all the Claims
-		in the <spanx style="verb">_claim_names</spanx> object that references the
-		corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
-		be present if they are understood by both parties.
+	      <t hangText="_claim_sources">
+		JSON object whose
+		member names are referenced by the member values of the
+		<spanx style="verb">_claim_names</spanx> member. The member values
+		contain sets of Aggregated Claims or reference locations for
+		Distributed Claims. The member values can have one of the
+		following formats depending on whether it is providing
+		Aggregated or Distributed Claims:
 
 		<list style="hanging">
-		  <t hangText="JWT">REQUIRED.
-		  JWT value containing claim values.</t>
+
+		  <t hangText="Aggregated Claims">JSON object that MUST
+		  contain the <spanx style="verb">JWT</spanx> member whose value is a <xref
+		  target="JWT">JWT</xref> that MUST contain all the Claims
+		  in the <spanx style="verb">_claim_names</spanx> object that references the
+		  corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
+		  be present if they are understood by both parties.
+
+		  <list style="hanging">
+		    <t hangText="JWT">REQUIRED.
+		    JWT value containing claim values.</t>
+		  </list>
+		  </t>
+
+		  <t hangText="Distributed Claims">
+		    JSON object that
+		    contains the following members and values:
+
+		    <list style="hanging">
+		      <t hangText="endpoint">REQUIRED.
+		      OAuth 2.0 resource endpoint from which the associated
+		      Claim can be retrieved. The endpoint URL MUST return
+		      the Claim as a JWT.</t>
+
+		      <t hangText="access_token">OPTIONAL.
+		      Access Token
+		      enabling retrieval of the Claims from the endpoint URL
+		      by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
+		      protocol. Claims SHOULD be requested using
+		      the Authorization Request header field and Claims
+		      Sources MUST support this method. If the Access Token
+		      is not available, Clients MAY need to retrieve the
+		      Access Token out of band or use an a priori Access
+		      Token that was negotiated between the Claim Source and
+		      Client, or the Claim Source MAY reauthenticate the
+		      End-User and/or reauthorize the Client.</t>
+
+		    </list>
+		  </t>
 		</list>
-		</t>
+	      </t>
+	    </list>
+	  </t>
 
-		<t hangText="Distributed Claims">
-		  JSON object that
-		  contains the following members and values:
+	  <section anchor="AggregatedExample" title="Example of Aggregated Claims">
 
-		<list style="hanging">
-		  <t hangText="endpoint">REQUIRED.
-		  OAuth 2.0 resource endpoint from which the associated
-		  Claim can be retrieved. The endpoint URL MUST return
-		  the Claim as a JWT.</t>
-
-		  <t hangText="access_token">OPTIONAL.
-		  Access Token
-		  enabling retrieval of the Claims from the endpoint URL
-		  by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
-		  protocol. Claims SHOULD be requested using
-		  the Authorization Request header field and Claims
-		  Sources MUST support this method. If the Access Token
-		  is not available, Clients MAY need to retrieve the
-		  Access Token out of band or use an a priori Access
-		  Token that was negotiated between the Claim Source and
-		  Client, or the Claim Source MAY reauthenticate the
-		  End-User and/or reauthorize the Client.</t>
-
-		</list></t>
-	      </list>
-	      Other members MAY be present, if understood by both
-	      parties.</t>
-	  </list></t>
-
-	  <t>The following is a non-normative response with Aggregated
-	  Claims:</t>
-
-	  <t><figure>
-	    <artwork><![CDATA[
-Claims Provider A contains the following Claims for Jane Doe:
+	    <t>
+	      In this non-normative example, Claims from Claims Provider A
+	      are combined with other Claims held by the OpenID provider, with the
+	      Claims from Claims Provider A being returned as Aggregated Claims.
+	    </t>
+	    <t>
+	      <figure>
+		<preamble>
+		  In this example, these claims about Jane Doe have been issued by
+		  Claims Provider A:
+		</preamble>
+		<artwork><![CDATA[
   {
    "address": {
      "street_address": "1234 Hollywood Blvd.",
@@ -1985,12 +1998,23 @@ Claims Provider A contains the following Claims for Jane Doe:
      "country": "US"},
    "phone_number": "+1 (310) 123-4567"
   }
+]]></artwork>
+	      </figure>
+	    </t>
 
-Claims Provider A signs the JSON Claims, resulting in a signed JWT:
-jwt_header.jwt_part2.jwt_part3
-
-Authorization Server returns Jane Doe's Aggregated Claims from
-Claims Provider A: 
+	    <t>
+	      Claims Provider A signs the JSON Claims, representing them in a signed JWT:
+	      jwt_header.jwt_part2.jwt_part3.
+	      It is this JWT that is used by the OpenID Provider.
+	    </t>
+	    <t>
+	      <figure>
+		<preamble>
+		  In this example, this JWT containing Jane Doe's Aggregated Claims
+		  from Claims Provider A is combined with other normal claims,
+		  and returned as the following set of claims:
+		</preamble>
+		<artwork><![CDATA[
   {
    "name": "Jane Doe",
    "given_name": "Jane",
@@ -2007,15 +2031,26 @@ Claims Provider A:
    }
   }
 ]]></artwork>
-	  </figure></t>
+	      </figure>
+	    </t>
 
-	  <t>The following is a non-normative response with Distributed
-	  Claims:</t>
+	  </section>
 
-	  <t><figure>
-	    <artwork><![CDATA[
-Claims Provider A (Jane Doe's Bank) contains the following Claims
-for Jane Doe:
+	  <section anchor="DistributedExample" title="Example of Distributed Claims">
+
+	    <t>
+	      In this non-normative example, the OpenID Provider combines
+	      normal claims that it holds with references to claims held by
+	      two different Claims Providers, B and C, incorporating references
+	      to some of the claims held by B and C as Distributed Claims.
+	    </t>
+	    <t>
+	      <figure>
+		<preamble>
+		  In this example, these claims about Jane Doe are held by
+		  Claims Provider B (Jane Doe's bank):
+		</preamble>
+		<artwork><![CDATA[
   {
    "shipping_address": {
      "street_address": "1234 Hollywood Blvd.",
@@ -2023,20 +2058,36 @@ for Jane Doe:
      "region": "CA",
      "postal_code": "90210",
      "country": "US"},
-   "payment_info": "Some_Card 1234 5678 90123 4562",
+   "payment_info": "Some_Card 1234 5678 9012 3456",
    "phone_number": "+1 (310) 123-4567"
   }
+]]></artwork>
+	      </figure>
+	    </t>
 
-Claims Provider B (Credit Agency) contains the following Claims
-for Jane Doe:
+	    <t>
+	      <figure>
+		<preamble>
+		  Also in this example, this claim about Jane Doe is held by
+		  Claims Provider C (a credit agency):
+		</preamble>
+		<artwork><![CDATA[
   {
-   "credit_score": "650"
+   "credit_score": 650
   }
+]]></artwork>
+	      </figure>
+	    </t>
 
-Authorization Server returns Jane Doe's Claims along with the
-Distributed Claims from Claims Provider A and Claims Provider B
-by sending the Access Tokens and URL locations where the Claims
-may be retrieved:
+	    <t>
+	      <figure>
+		<preamble>
+		  The OpenID Provider returns Jane Doe's Claims along with references
+		  to the Distributed Claims from Claims Provider B and Claims Provider C
+		  by sending the Access Tokens and URLs of locations from which the	
+		  Distributed Claims can be retrieved:
+		</preamble>
+		<artwork><![CDATA[
   {
    "name": "Jane Doe",
    "given_name": "Jane",
@@ -2058,7 +2109,10 @@ may be retrieved:
    }
   }
 ]]></artwork>
-	  </figure></t>
+	      </figure>
+	    </t>
+	  </section>
+
 	</section>
       </section>
 

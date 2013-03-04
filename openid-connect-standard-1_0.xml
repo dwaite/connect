@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="22" month="February" year="2013" />
+    <date day="3" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -491,7 +491,7 @@
             <t><figure>
 	      <preamble>The following is a non-normative example of an
 	      Authorization Request URL
-	      (with line wraps for display purposes only):</preamble>
+	      (with line wraps within the values for display purposes only):</preamble>
 
 	      <artwork><![CDATA[
   https://server.example.com/op/authorize?
@@ -511,7 +511,7 @@
 
               <figure>
 		<preamble>Following is a non-normative example using HTTP redirect
-		(with line wraps for display purposes only):</preamble>
+		(with line wraps within the values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -585,43 +585,12 @@
               </figure>
 	      <figure>
                 <preamble>
-		  The following is a non-normative example of
-		  an OpenID Request Object before base64url encoding and signing:
+		  Signing it with the <spanx style="verb">RS256</spanx> algorithm
+		  results in this OpenID Request Object value
+		  (with line breaks for display purposes only):
 		</preamble>
 
                 <artwork><![CDATA[
-  Algorithm = RS256
-
-  JSON Encoded Header = {"alg":"RS256"}
-  JSON Encoded Payload =
-{
- "response_type": "code id_token",
- "client_id": "s6BhdRkqt3",
- "redirect_uri": "https://client.example.org/cb",
- "scope": "openid",
- "state": "af0ifjsldkj",
- "nonce": "n-0S6_WzA2Mj",
- "max_age": 86400,
- "claims": 
-  {
-   "userinfo": 
-    {
-     "given_name": {"essential": true},
-     "nickname": null,
-     "email": {"essential": true},
-     "email_verified": {"essential": true},
-     "picture": null
-    },
-   "id_token": 
-    {
-     "gender": null,
-     "birthdate": {"essential": true},
-     "acr": {"values": ["2"]}
-    }
-  }
-}
-
-  OpenID Request Object =
   eyJhbGciOiJSUzI1NiJ9.ew0KICJyZXNwb25zZV90eXBlIjogImNvZGUgaWRfdG9rZW
   4iLA0KICJjbGllbnRfaWQiOiAiczZCaGRSa3F0MyIsDQogInJlZGlyZWN0X3VyaSI6I
   CJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogInNjb3BlIjogIm9wZW5p
@@ -639,30 +608,35 @@
   q9JBCEzzaLRzjevYEPMaoLAOjb8LPuYOYTBqshRMUxy4Z380-FJ2Lc7VSfSu6HcB2nL
   SjiKrrfI35xkRJsaSSmjasMYeDZarYCl7r4o17rFclk5KacYMYgAs-JYFkwab6Dd56Z
   rAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ    
+]]></artwork>
+              </figure>
+	      <figure>
+                <preamble>
+		  The following is the RSA public key in JWK foramt that can be used to
+		  validate the OpenID Request Object signature in the above example
+		  (with line breaks for display purposes only):
+		</preamble>
 
-  The following is the RSA public key in JWK foramt that can be used to
-  validate the OpenID Request Object signature in the above example.
-                
-{"keys":[
-          {
-           "kty":"RSA",
-           "n":"y9Lqv4fCp6Ei-u2-ZCKq83YvbFEk6JMs_pSj76eMkddWRuWX2aBKG
+                <artwork><![CDATA[
+{
+ "kty":"RSA",
+ "n":"y9Lqv4fCp6Ei-u2-ZCKq83YvbFEk6JMs_pSj76eMkddWRuWX2aBKG
 HAtKlE5P7_vn__PCKZWePt3vGkB6ePgzAFu08NmKemwE5bQI0e6kIChtt_6KzT5OaaXDF
 I6qCLJmk51Cc4VYFaxgqevMncYrzaW_50mZ1yGSFIQzLYP8bijAHGVjdEFgZaZEN9lsn_
 GdWLaJpHrB3ROlS50E45wxrlg9xMncVb8qDPuXZarvghLL0HzOuYRadBJVoWZowDNTpKp
 k2RklZ7QaBO7XDv3uR7s_sf2g-bAjSYxYUGsqkNA9b3xVW53am_UZZ3tZbFTIh557JICW
 KHlWj5uzeJXaw",
-           "e":"AQAB"
-          }
-        ]
+ "e":"AQAB"
 }
- 
 ]]></artwork>
-              </figure></t>
+              </figure>
+	    </t>
 
-            <t><figure>
+            <t>
+	      <figure>
                 <preamble>The following is a non-normative example of an
-                Authorization Request with the OpenID Request Method
+                Authorization Request using the <spanx style='verb'>request</spanx>
+		parameter
                 (with line wraps within the values for display purposes only):
                 </preamble>
 
@@ -702,7 +676,7 @@ KHlWj5uzeJXaw",
 
               <figure>
 		<preamble>Following is a non-normative example using HTTP redirect
-		(with line wraps for display purposes only):</preamble>
+		(with line wraps within the values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -761,8 +735,9 @@ KHlWj5uzeJXaw",
             </t>
 
             <t><figure>
-                <preamble>Following is a non-normative example of a Request File
-		(with line wraps for display purposes only):</preamble>
+                <preamble>Following is a non-normative example of
+		the contents of a Request File
+		(with line wraps within the values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
 eyJhbGciOiJSUzI1NiJ9.ew0KICJyZXNwb25zZV90eXBlIjogImNvZGUgaWRfdG9rZ
@@ -840,7 +815,7 @@ As-JYFkwab6Dd56ZrAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
 
               <figure>
                 <preamble>Following is a non-normative example
-		(with line wraps for display purposes only):</preamble>
+		(with line wraps within the values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -976,9 +951,8 @@ As-JYFkwab6Dd56ZrAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
             <t>
               The following are non-normative examples of requests with 
               differing <spanx style="verb">response_type</spanx> values and their responses 
-              (with line wraps for display purposes only):
+              (with line wraps within the values for display purposes only):
             </t>
-
 
             <figure>
               <preamble>Case 1: response_type=code</preamble>
@@ -1025,10 +999,14 @@ As-JYFkwab6Dd56ZrAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
     Ivv_cxTzxIXsSxcYlh3d9hnu0wdxPZOGjT0_nNZJxvdIwDD4cAT_LE5Ae447qB90
     ZF89Nmb0Oj2b1GdGVQEIr8-FXrHlyD827f0N_hLYPdZ73YK6p10qY9oRtMimg
     &state=af0ifjsldkj
-    
-  Verifying and decoding the ID Token will yield the following 
-  ID Token JSON object:
+]]></artwork>
+            </figure>
 
+            <figure>
+              <preamble>
+		Verifying and decoding the ID Token will yield the following Claims:
+	      </preamble>
+              <artwork><![CDATA[
 {
  "iss": "http://server.example.com",
  "sub": "248289761001",
@@ -1066,10 +1044,14 @@ As-JYFkwab6Dd56ZrAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
     Efu664dJkdXMLEnsPUeQQLjMhLH7qpZk2ry0nRx0sS1mRwOM_Q0Xmps0vOkNn284
     pMUpmWEAjqklWITgtVYXOzF4ilbmZK6ONpFyKCpnSkAYtTEuqz-m7MoLCD_A
     &state=af0ifjsldkj
-  
-  Verifying and decoding the ID Token will yield the following 
-  ID Token JSON object:
+]]></artwork>
+            </figure>
 
+            <figure>
+              <preamble>
+		Verifying and decoding the ID Token will yield the following Claims:
+	      </preamble>
+              <artwork><![CDATA[
 {
  "iss": "http://server.example.com",
  "sub": "248289761001",
@@ -1130,10 +1112,14 @@ As-JYFkwab6Dd56ZrAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
     N8ysk68fctbFAga1p8rE3cfBOX7Acn4p9QSNpUx0i_x4WHktyKDvH_hLdUw91Fql
     _UOgMP_9h8TYdkAjcq8n1tFzaO7kVaazlZ5SM32J7OSDgNSA
     &state=af0ifjsldkj
+]]></artwork>
+            </figure>
 
-  Verifying and decoding the ID Token will yield the following 
-  ID Token JSON object:
-
+            <figure>
+              <preamble>
+		Verifying and decoding the ID Token will yield the following Claims:
+	      </preamble>
+              <artwork><![CDATA[
 {
  "iss": "http://server.example.com",
  "sub": "248289761001",
@@ -1148,9 +1134,11 @@ As-JYFkwab6Dd56ZrAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
             </figure>
             
             <t>
-This following example makes a request with an OpenID Request Object 
-containing custom ID Token return Claims. The sample OpenID Request Object is 
-described in the <xref target="req_param_method">Request Parameter Section</xref>
+	      This following example makes a request using a
+	      <spanx style='verb'>request</spanx> parameter value
+	      requesting that specific claims be returned in the ID Token.
+	      The sample OpenID Request Object used is described in
+	      <xref target="req_param_method"/>.
             </t>
 
             <figure>
@@ -1199,10 +1187,14 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
     ezFyj6tZhfeVcWoEsCwzbDts4pPQVcDHFq2dSnq1ZuhX1svDYnV-TRUW9ri7V9ik
     K7TBhtqtk7e5cIWSPw
     &state=af0ifjsldkj
+]]></artwork>
+            </figure>
 
-  Verifying and decoding the ID Token will yield the following 
-  ID Token JSON object:
-
+            <figure>
+              <preamble>
+		Verifying and decoding the ID Token will yield the following Claims:
+	      </preamble>
+              <artwork><![CDATA[
 {
  "iss": "http://server.example.com",
  "sub": "248289761001",
@@ -1217,26 +1209,24 @@ described in the <xref target="req_param_method">Request Parameter Section</xref
 }
 ]]></artwork>
             </figure>
-                        
 
             <figure>
-              <preamble>Public Key Information used to verify the ID Token</preamble>
-              <artwork><![CDATA[
-  The following is the RSA public key in JWK format that can be used to
-  validate the ID Token signatures in the above examples.
-                
-{"keys":[
-          {
-           "kty":"RSA",
-           "n":"zhEWTBJVTfcUeqnMzOQFMCEVQWOyOUZwP8LrBWh88tKrZyPGCvBkT
+                <preamble>
+		  The following is the RSA public key in JWK foramt that can be used to
+		  validate the OpenID Request Object signature in the above examples
+		  (with line breaks for display purposes only):
+		</preamble>
+
+                <artwork><![CDATA[
+{
+ "kty":"RSA",
+ "n":"zhEWTBJVTfcUeqnMzOQFMCEVQWOyOUZwP8LrBWh88tKrZyPGCvBkT
 Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 6ZszOy_Fp4q0nG3OTtDRCkBu2iEP21j82pRSRrkCBxnzaChflA7KZbI1n_yhKtxyA7FdA
 480LaSVZyKApvrKiYhocACSwf0y6CQ-wkEi6mVXRJt1aBSywlLYA08ojp5hkZQ39eCM2k
 1EdXdhbar998Q9PZTwXA1cfvuGTZbDWxEKLjMKVuKrT1Yvs-2NTXhZAW1KjFS_3UwLkDk
 -w4dVN-x5tDnw",
-           "e":"AQAB"
-          }
-        ]
+ "e":"AQAB"
 }
 ]]></artwork>
             </figure>            
@@ -1281,7 +1271,7 @@ Dp-E2BzyHMQV4pK51Uys2YOwzL9se5THDWMda9rtsCJVcj1V7WaE7wPgl-kIIdWWf4o2g
 
             <t><figure>
                 <preamble>The following is a non-normative example
-		(with line wraps for the display purposes only):</preamble>
+		(with line wraps within the values for the display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
