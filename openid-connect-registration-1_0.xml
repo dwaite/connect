@@ -297,6 +297,8 @@
 	  calculating Pseudonymous Identifiers by the OP. The URL references a
 	  file with a single JSON array of <spanx style="verb">redirect_uri</spanx> values.
 	  Please see <xref target="sector.identifier.url.validation" />.
+	  Providers that use pairwise <spanx style="verb">sub</spanx> (subject) values
+	  SHOULD provide a <spanx style="verb">sector_identifier_uri</spanx>.
 	  </t>
 	  
 	  <t hangText="subject_type">OPTIONAL.
@@ -510,7 +512,7 @@
    "logo_uri": "https://client.example.org/logo.png",
    "subject_type": "pairwise",
    "sector_identifier_uri":
-     "https://othercompany.com/file_of_redirect_uris.json",
+     "https://other.example.net/file_of_redirect_uris.json",
    "token_endpoint_auth_method": "client_secret_basic",
    "jwks_uri": "https://client.example.org/my_rsa_public_key.jwks",
    "userinfo_encrypted_response_alg": "RSA1_5",
@@ -611,7 +613,7 @@
    "logo_uri": "https://client.example.org/logo.png",
    "subject_type": "pairwise",
    "sector_identifier_uri":
-     "https://othercompany.com/file_of_redirect_uris.json",
+     "https://other.example.net/file_of_redirect_uris.json",
    "jwks_uri": "https://client.example.org/my_rsa_public_key.jwks",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
@@ -751,7 +753,7 @@
    "logo_uri": "https://client.example.org/logo.png",
    "subject_type": "pairwise",
    "sector_identifier_uri":
-     "https://othercompany.com/file_of_redirect_uris.json",
+     "https://other.example.net/file_of_redirect_uris.json",
    "jwks_uri": "https://client.example.org/my_rsa_public_key.jwks",
    "userinfo_encrypted_response_alg": "RSA1_5",
    "userinfo_encrypted_response_enc": "A128CBC+HS256",
@@ -784,7 +786,6 @@
   Content-Type: application/json
   Cache-Control: no-store
   Pragma: no-cache
-   
 ]]></artwork>
 	  </figure>
 	</t>
@@ -792,27 +793,31 @@
     </section>
 
     <section anchor="sector.identifier.url.validation" title="&quot;sector_identifier_uri&quot; Validation">
-      <t>Providers who use pairwise <spanx style="verb">sub</spanx> (subject) values SHOULD support this element.</t>
-      <t>It provides a way for a group of websites under a single administrative control
-      to have consistent pairwise <spanx style="verb">sub</spanx> values independent of the individual domain names.
-      It also provides a way for Clients to change <spanx style="verb">redirect_uri</spanx> domains without having to 
-      reregister all of their users.</t>
+      <t>The sector identifier list provides a way for a group of Web sites under
+      single administrative control
+      to have consistent pairwise <spanx style="verb">sub</spanx> values,
+      independent of their domain names, as described in
+      Section 2.6.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+      It also provides a way for Clients to change
+      <spanx style="verb">redirect_uri</spanx> domains without having to 
+      re-register all of their users.</t>
 
-      <t>This is further described in
-      Section 2.4.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
-
-      <t>The value of the <spanx style="verb">sector_identifier_uri</spanx>
-      must be a URL using the <spanx style="verb">https:</spanx> scheme that references
-      a JSON file containing an array containing <spanx style="verb">redirect_uri</spanx> values.
+      <t>
+	The value of the <spanx style="verb">sector_identifier_uri</spanx>
+	must be a URL using the <spanx style="verb">https:</spanx> scheme that references
+	a JSON file containing an array of <spanx style="verb">redirect_uri</spanx> values.
+	The values registered in <spanx style="verb">redirect_uris</spanx>
+	MUST be included in the elements of the array,
+	or registration MUST fail.
       </t>
 
-      <t>The values of the registered <spanx style="verb">redirect_uris</spanx>
-      must be included in the elements of the array,
-      or registration MUST fail.</t>
-
       <t><figure>
+	<preamble>
+	  The following is a non-normative example request to and reply from
+	  a <spanx style="verb">sector_identifier_uri</spanx>.
+	</preamble>
 	<artwork><![CDATA[
-  GET /connect/sector_identifier.js HTTP/1.1
+  GET https://other.example.net/file_of_redirect_uris.json HTTP/1.1
   Accept: application/json
   Host: client.example.org
 
