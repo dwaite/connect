@@ -845,15 +845,16 @@
 
         <section anchor="AuthError" title="Authorization Error Response">
           <t>If the End-User denies the access request or if the request
-          fails, the OP (Authorization Server) informs the RP (Client) by returning
-          parameters defined in sections 4.1.2.1 and 4.2.2.1 of <xref
-          target="RFC6749">OAuth 2.0</xref>.</t>
+          fails, the OP (Authorization Server) informs the RP (Client)
+	  by using the Error Response parameters defined in
+	  Sections 4.1.2.1 or 4.2.2.1 of <xref target="RFC6749">OAuth 2.0</xref>,
+	  according to the <spanx style="verb">response_type</spanx> used.</t>
 
 	  <t>In addition to the error codes defined in Sections 4.1.2.1 and 4.2.2.1 of
-	  <xref target="RFC6749">OAuth 2.0</xref>, this specification
-	  defines the following error codes:</t>
+	  OAuth 2.0, this specification also defines the following error codes:</t>
 
-	  <t><list style="hanging">
+	  <t>
+	    <list style="hanging">
 
 	      <t hangText="interaction_required">The Authorization Server
 	      requires End-User interaction of some form to proceed.
@@ -915,10 +916,8 @@
 		<spanx style="verb">request</spanx> parameter.
 	      </t>
 
-	    </list></t>
-	  <t>Errors are returned as defined by the registered OAuth
-	  2.0 <spanx style="verb">response_type</spanx>.</t>
-
+	    </list>
+	  </t>
         </section>
       </section>
 
