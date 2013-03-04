@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="22" month="February" year="2013" />
+    <date day="3" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -605,8 +605,8 @@
 	  <spanx style="verb">client_secret_jwt</spanx>, and
 	  <spanx style="verb">private_key_jwt</spanx>, as described in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	  Other authentication methods may be defined by extensions. If unspecified or
-	  omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
+	  Other authentication methods may be defined by extensions.
+	  If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
 	  the HTTP Basic Authentication Scheme as specified in
 	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
 	  </t>
@@ -662,6 +662,22 @@
 	  Languages and scripts supported for the user interface, 
 	  represented as a JSON array of
 	  <xref target="RFC5646">BCP47</xref> language tag values.
+	  </t>
+
+	  <t hangText="request_parameter_supported">
+	    OPTIONAL.
+	    Boolean value specifying whether the OP supports use of the
+	    <spanx style="verb">request</spanx> parameter,
+	    with <spanx style="verb">true</spanx> indicating support.
+	    If omitted, the default value is <spanx style="verb">false</spanx>.
+	  </t>
+
+	  <t hangText="request_uri_parameter_supported">
+	    OPTIONAL.
+	    Boolean value specifying whether the OP supports use of the
+	    <spanx style="verb">request_uri</spanx> parameter,
+	    with <spanx style="verb">true</spanx> indicating support.
+	    If omitted, the default value is <spanx style="verb">true</spanx>.
 	  </t>
 
 	  <t hangText="require_request_uri_registration">
@@ -1403,6 +1419,11 @@
 	  <t>
 	    Added the <spanx style="verb">grant_types_supported</spanx>
 	    discovery parameter.
+	  </t>
+ 	  <t>
+	    Added the <spanx style="verb">request_parameter_supported</spanx>
+	    and <spanx style="verb">request_uri_parameter_supported</spanx>
+	    discovery parameters.
 	  </t>
         </list>
       </t>
