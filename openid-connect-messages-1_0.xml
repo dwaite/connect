@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="28" month="February" year="2013" />
+    <date day="3" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1624,279 +1624,6 @@
 
       </section>
 
-      <section anchor="idtype" title="Subject Identifier Types">
-	<t>Provider's Discovery documents SHOULD list their supported identifier types in the 
-	<spanx style="verb">subject_types_supported</spanx> element.
-	If there is more than one type listed in the array, the Client MAY elect to
-	provide its preferred identifier type using the
-	<spanx style="verb">subject_type</spanx> parameter during registration.
-	The types supported by this specification are:</t>
-	
-	<t><list style="hanging">
-	  <t hangText="public">
-	    This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
-	  the provider has no <spanx style="verb">subject_types_supported</spanx> element in its discovery document.</t>
-	  <t hangText="pairwise">
-	    This provides a different <spanx style="verb">sub</spanx> value to each Client, to prevent
-	  correlation of the user's activities by Clients without the user's permission.</t>
-	</list></t>
-
-	<section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
-
-	  <t>The OpenID Provider MUST calculate a unique
-	  <spanx style="verb">sub</spanx> (subject) value for each
-	  Sector Identifier.  The subject value MUST NOT be reversible
-	  by any party other than the OpenID Provider.</t>
-
-	  <t>Providers who use pairwise <spanx style="verb">sub</spanx> values SHOULD 
-	  support the <spanx style="verb">sector_identifier_uri</spanx> in 
-	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>.
-	  It provides a way for a group of websites under common administrative 
-	  control to have consistent pairwise <spanx style="verb">sub</spanx> 
-	  values independent of the individual domain names.
-	  It also provides a way for Clients to change 
-	  <spanx style="verb">redirect_uri</spanx> domains without having to 
-	  reregister all of their users.</t>
-	  
-	  <t>If the Client has not provided a value for
-	  <spanx style="verb">sector_identifier_uri</spanx> in 
-	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>,
-	  the Sector Identifier
-	  used for pairwise identifier calculation is the host component 
-	  of the registered <spanx style="verb">redirect_uri</spanx>.
-	  If there are multiple hostnames in the registered
-	  <spanx style="verb">redirect_uris</spanx>, the Client MUST register a 
-	  <spanx style="verb">sector_identifier_uri</spanx>.</t>
-
-	  <t>When a <spanx style="verb">sector_identifier_uri</spanx>
-	  is provided, the host component of that URL is used as
-	  the Sector Identifier for the pairwise identifier calculation.
-	  The value of the <spanx style="verb">sector_identifier_uri</spanx>
-	  must be a URL using the <spanx style="verb">https:</spanx> scheme that points to
-	  a JSON file containing an array of
-	  <spanx style="verb">redirect_uri</spanx> values.
-	  The values of the registered <spanx style="verb">redirect_uris</spanx>
-	  must be included in the elements of the array,
-	  or the registration MUST fail.</t>
-
-	  <t>A number of algorithms MAY be used by OpenID Providers to
-	  calculate the pairwise identifier.  This specification
-	  includes three examples.</t>
-
-	  <t>1.  The Sector Identifier can be concatenated with a local account ID and a salt 
-	  value that is kept secret by the Provider. The concatenated string is then 
-	  hashed by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).</t>
-
-	  <t>2.  The Sector Identifier can be concatenated with a local account ID and a salt 
-	  value that is kept secret by the Provider. The concatenated string is then 
-	  encrypted by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).</t>
-	  
-	  <t>3.  The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
-	  Sector Identifier and local account ID.  This is stored in a table and 
-	  the value looked up each time.</t>
-	  
-        </section>
-      </section>
-
-      <section anchor="ClaimTypes" title="Claim Types">
-	<t>The UserInfo Endpoint MAY return the
-	following three types of Claims:</t>
-
-	<t><list style="hanging">
-	  <t hangText="Normal Claims">Claims that are directly asserted by
-	  the OpenID Provider.</t>
-
-	  <t hangText="Aggregated Claims">Claims that are asserted by a
-	  Claims Provider other than the OpenID Provider but are returned
-	  by OpenID Provider.</t>
-
-	  <t hangText="Distributed Claims">Claims that are asserted by a
-	  Claims Provider other than the OpenID Provider but are returned
-	  as references by the OpenID Provider.</t>
-	</list>The UserInfo endpoint MUST support normal Claims.</t>
-
-	<t>Aggregated and Distributed Claims support is OPTIONAL.</t>
-
-	<section anchor="NormalClaims" title="Normal Claims">
-	  <t>Normal Claims are represented as members in a JSON object. The
-	  Claim Name is the member name and the Claim Value is the member
-	  value.</t>
-
-	  <t>The following is a non-normative normal Claims response:</t>
-
-	  <figure>
-	    <artwork><![CDATA[
-  {
-   "name": "Jane Doe"
-   "given_name": "Jane",
-   "family_name": "Doe",
-   "email": "janedoe@example.com",
-   "picture": "http://example.com/janedoe/me.jpg"
-  }
-]]></artwork>
-	  </figure>
-
-	</section>
-
-	<section anchor="AggregatedDistributedClaims" title="Aggregated and Distributed Claims">
-	  <t>Aggregated and distributed Claims are represented by
-	  using special <spanx style="verb">_claim_names</spanx> and <spanx style="verb">_claim_sources</spanx> members
-	  of the JSON object containing the Claims.</t>
-
-	  <t>
-	    <list style="hanging">
-	      <t hangText="_claim_names">JSON object whose member
-	      names are the Claim Names for the Aggregated and Distributed
-	      Claims. The member values are references to the member names
-	      in the <spanx style="verb">_claim_sources</spanx> member from which
-	      the actual Claim Values can be retrieved.</t>
-
-	      <t hangText="_claim_sources">JSON object whose
-	      member names are referenced by the member values of the
-	      <spanx style="verb">_claim_names</spanx> member. The member values
-	      contain sets of Aggregated Claims or reference locations for
-	      Distributed Claims. The member values can have one of the
-	      following formats depending on whether it is providing
-	      Aggregated or Distributed Claims:
-
-	      <list style="hanging">
-
-		<t hangText="Aggregated Claims">JSON object that MUST
-		contain the <spanx style="verb">JWT</spanx> member whose value is a <xref
-		target="JWT">JWT</xref> that MUST contain all the Claims
-		in the <spanx style="verb">_claim_names</spanx> object that references the
-		corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
-		be present if they are understood by both parties.
-
-		<list style="hanging">
-		  <t hangText="JWT">REQUIRED.
-		  JWT value containing claim values.</t>
-		</list>
-		</t>
-
-		<t hangText="Distributed Claims">
-		  JSON object that
-		  contains the following members and values:
-
-		<list style="hanging">
-		  <t hangText="endpoint">REQUIRED.
-		  OAuth 2.0 resource endpoint from which the associated
-		  Claim can be retrieved. The endpoint URL MUST return
-		  the Claim as a JWT.</t>
-
-		  <t hangText="access_token">OPTIONAL.
-		  Access Token
-		  enabling retrieval of the Claims from the endpoint URL
-		  by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
-		  protocol. Claims SHOULD be requested using
-		  the Authorization Request header field and Claims
-		  Sources MUST support this method. If the Access Token
-		  is not available, Clients MAY need to retrieve the
-		  Access Token out of band or use an a priori Access
-		  Token that was negotiated between the Claim Source and
-		  Client, or the Claim Source MAY reauthenticate the
-		  End-User and/or reauthorize the Client.</t>
-
-		</list></t>
-	      </list>
-	      Other members MAY be present, if understood by both
-	      parties.</t>
-	  </list></t>
-
-	  <t>The following is a non-normative response with Aggregated
-	  Claims:</t>
-
-	  <t><figure>
-	    <artwork><![CDATA[
-Claims Provider A contains the following Claims for Jane Doe:
-  {
-   "address": {
-     "street_address": "1234 Hollywood Blvd.",
-     "locality": "Los Angeles",
-     "region": "CA",
-     "postal_code": "90210",
-     "country": "US"},
-   "phone_number": "+1 (310) 123-4567"
-  }
-
-Claims Provider A signs the JSON Claims, resulting in a signed JWT:
-jwt_header.jwt_part2.jwt_part3
-
-Authorization Server returns Jane Doe's Aggregated Claims from
-Claims Provider A: 
-  {
-   "name": "Jane Doe",
-   "given_name": "Jane",
-   "family_name": "Doe",
-   "birthdate": "0000-03-22",
-   "eye_color": "blue",
-   "email": "janedoe@example.com",
-   "_claim_names": {
-     "address": "src1",
-     "phone_number": "src1"
-   },
-   "_claim_sources": {
-     "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"}
-   }
-  }
-]]></artwork>
-	  </figure></t>
-
-	  <t>The following is a non-normative response with Distributed
-	  Claims:</t>
-
-	  <t><figure>
-	    <artwork><![CDATA[
-Claims Provider A (Jane Doe's Bank) contains the following Claims
-for Jane Doe:
-  {
-   "shipping_address": {
-     "street_address": "1234 Hollywood Blvd.",
-     "locality": "Los Angeles",
-     "region": "CA",
-     "postal_code": "90210",
-     "country": "US"},
-   "payment_info": "Some_Card 1234 5678 90123 4562",
-   "phone_number": "+1 (310) 123-4567"
-  }
-
-Claims Provider B (Credit Agency) contains the following Claims
-for Jane Doe:
-  {
-   "credit_score": "650"
-  }
-
-Authorization Server returns Jane Doe's Claims along with the
-Distributed Claims from Claims Provider A and Claims Provider B
-by sending the Access Tokens and URL locations where the Claims
-may be retrieved:
-  {
-   "name": "Jane Doe",
-   "given_name": "Jane",
-   "family_name": "Doe",
-   "email": "janedoe@example.com",
-   "birthdate": "0000-03-22",
-   "eye_color": "blue",
-   "_claim_names": {
-     "payment_info": "src1",
-     "shipping_address": "src1",
-     "credit_score": "src2"
-    },
-   "_claim_sources": {
-     "src1": {"endpoint":
-                "https://bank.example.com/claimsource"},
-     "src2": {"endpoint":
-                "https://creditagency.example.com/claimshere",
-              "access_token": "ksj3n283dke"}
-   }
-  }
-]]></artwork>
-	  </figure></t>
-	</section>
-      </section>
-
       <section anchor="ClaimsRequest" title="Claims Request">
 	<t>
 	  The <spanx style="verb">claims</spanx> parameter requests that specific Claims
@@ -2100,6 +1827,279 @@ may be retrieved:
           </t>
 	</section>
 
+      </section>
+
+      <section anchor="ClaimTypes" title="Claim Types">
+	<t>The UserInfo Endpoint MAY return the
+	following three types of Claims:</t>
+
+	<t><list style="hanging">
+	  <t hangText="Normal Claims">Claims that are directly asserted by
+	  the OpenID Provider.</t>
+
+	  <t hangText="Aggregated Claims">Claims that are asserted by a
+	  Claims Provider other than the OpenID Provider but are returned
+	  by OpenID Provider.</t>
+
+	  <t hangText="Distributed Claims">Claims that are asserted by a
+	  Claims Provider other than the OpenID Provider but are returned
+	  as references by the OpenID Provider.</t>
+	</list>The UserInfo endpoint MUST support normal Claims.</t>
+
+	<t>Aggregated and Distributed Claims support is OPTIONAL.</t>
+
+	<section anchor="NormalClaims" title="Normal Claims">
+	  <t>Normal Claims are represented as members in a JSON object. The
+	  Claim Name is the member name and the Claim Value is the member
+	  value.</t>
+
+	  <t>The following is a non-normative normal Claims response:</t>
+
+	  <figure>
+	    <artwork><![CDATA[
+  {
+   "name": "Jane Doe"
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
+	  </figure>
+
+	</section>
+
+	<section anchor="AggregatedDistributedClaims" title="Aggregated and Distributed Claims">
+	  <t>Aggregated and distributed Claims are represented by
+	  using special <spanx style="verb">_claim_names</spanx> and <spanx style="verb">_claim_sources</spanx> members
+	  of the JSON object containing the Claims.</t>
+
+	  <t>
+	    <list style="hanging">
+	      <t hangText="_claim_names">JSON object whose member
+	      names are the Claim Names for the Aggregated and Distributed
+	      Claims. The member values are references to the member names
+	      in the <spanx style="verb">_claim_sources</spanx> member from which
+	      the actual Claim Values can be retrieved.</t>
+
+	      <t hangText="_claim_sources">JSON object whose
+	      member names are referenced by the member values of the
+	      <spanx style="verb">_claim_names</spanx> member. The member values
+	      contain sets of Aggregated Claims or reference locations for
+	      Distributed Claims. The member values can have one of the
+	      following formats depending on whether it is providing
+	      Aggregated or Distributed Claims:
+
+	      <list style="hanging">
+
+		<t hangText="Aggregated Claims">JSON object that MUST
+		contain the <spanx style="verb">JWT</spanx> member whose value is a <xref
+		target="JWT">JWT</xref> that MUST contain all the Claims
+		in the <spanx style="verb">_claim_names</spanx> object that references the
+		corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
+		be present if they are understood by both parties.
+
+		<list style="hanging">
+		  <t hangText="JWT">REQUIRED.
+		  JWT value containing claim values.</t>
+		</list>
+		</t>
+
+		<t hangText="Distributed Claims">
+		  JSON object that
+		  contains the following members and values:
+
+		<list style="hanging">
+		  <t hangText="endpoint">REQUIRED.
+		  OAuth 2.0 resource endpoint from which the associated
+		  Claim can be retrieved. The endpoint URL MUST return
+		  the Claim as a JWT.</t>
+
+		  <t hangText="access_token">OPTIONAL.
+		  Access Token
+		  enabling retrieval of the Claims from the endpoint URL
+		  by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
+		  protocol. Claims SHOULD be requested using
+		  the Authorization Request header field and Claims
+		  Sources MUST support this method. If the Access Token
+		  is not available, Clients MAY need to retrieve the
+		  Access Token out of band or use an a priori Access
+		  Token that was negotiated between the Claim Source and
+		  Client, or the Claim Source MAY reauthenticate the
+		  End-User and/or reauthorize the Client.</t>
+
+		</list></t>
+	      </list>
+	      Other members MAY be present, if understood by both
+	      parties.</t>
+	  </list></t>
+
+	  <t>The following is a non-normative response with Aggregated
+	  Claims:</t>
+
+	  <t><figure>
+	    <artwork><![CDATA[
+Claims Provider A contains the following Claims for Jane Doe:
+  {
+   "address": {
+     "street_address": "1234 Hollywood Blvd.",
+     "locality": "Los Angeles",
+     "region": "CA",
+     "postal_code": "90210",
+     "country": "US"},
+   "phone_number": "+1 (310) 123-4567"
+  }
+
+Claims Provider A signs the JSON Claims, resulting in a signed JWT:
+jwt_header.jwt_part2.jwt_part3
+
+Authorization Server returns Jane Doe's Aggregated Claims from
+Claims Provider A: 
+  {
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "birthdate": "0000-03-22",
+   "eye_color": "blue",
+   "email": "janedoe@example.com",
+   "_claim_names": {
+     "address": "src1",
+     "phone_number": "src1"
+   },
+   "_claim_sources": {
+     "src1": {"JWT": "jwt_header.jwt_part2.jwt_part3"}
+   }
+  }
+]]></artwork>
+	  </figure></t>
+
+	  <t>The following is a non-normative response with Distributed
+	  Claims:</t>
+
+	  <t><figure>
+	    <artwork><![CDATA[
+Claims Provider A (Jane Doe's Bank) contains the following Claims
+for Jane Doe:
+  {
+   "shipping_address": {
+     "street_address": "1234 Hollywood Blvd.",
+     "locality": "Los Angeles",
+     "region": "CA",
+     "postal_code": "90210",
+     "country": "US"},
+   "payment_info": "Some_Card 1234 5678 90123 4562",
+   "phone_number": "+1 (310) 123-4567"
+  }
+
+Claims Provider B (Credit Agency) contains the following Claims
+for Jane Doe:
+  {
+   "credit_score": "650"
+  }
+
+Authorization Server returns Jane Doe's Claims along with the
+Distributed Claims from Claims Provider A and Claims Provider B
+by sending the Access Tokens and URL locations where the Claims
+may be retrieved:
+  {
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "email": "janedoe@example.com",
+   "birthdate": "0000-03-22",
+   "eye_color": "blue",
+   "_claim_names": {
+     "payment_info": "src1",
+     "shipping_address": "src1",
+     "credit_score": "src2"
+    },
+   "_claim_sources": {
+     "src1": {"endpoint":
+                "https://bank.example.com/claimsource"},
+     "src2": {"endpoint":
+                "https://creditagency.example.com/claimshere",
+              "access_token": "ksj3n283dke"}
+   }
+  }
+]]></artwork>
+	  </figure></t>
+	</section>
+      </section>
+
+      <section anchor="idtype" title="Subject Identifier Types">
+	<t>Provider's Discovery documents SHOULD list their supported identifier types in the 
+	<spanx style="verb">subject_types_supported</spanx> element.
+	If there is more than one type listed in the array, the Client MAY elect to
+	provide its preferred identifier type using the
+	<spanx style="verb">subject_type</spanx> parameter during registration.
+	The types supported by this specification are:</t>
+	
+	<t><list style="hanging">
+	  <t hangText="public">
+	    This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
+	  the provider has no <spanx style="verb">subject_types_supported</spanx> element in its discovery document.</t>
+	  <t hangText="pairwise">
+	    This provides a different <spanx style="verb">sub</spanx> value to each Client, to prevent
+	  correlation of the user's activities by Clients without the user's permission.</t>
+	</list></t>
+
+	<section anchor="idtype.pairwise.alg" title="Pairwise Identifier Algorithm">
+
+	  <t>The OpenID Provider MUST calculate a unique
+	  <spanx style="verb">sub</spanx> (subject) value for each
+	  Sector Identifier.  The subject value MUST NOT be reversible
+	  by any party other than the OpenID Provider.</t>
+
+	  <t>Providers who use pairwise <spanx style="verb">sub</spanx> values SHOULD 
+	  support the <spanx style="verb">sector_identifier_uri</spanx> in 
+	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>.
+	  It provides a way for a group of websites under common administrative 
+	  control to have consistent pairwise <spanx style="verb">sub</spanx> 
+	  values independent of the individual domain names.
+	  It also provides a way for Clients to change 
+	  <spanx style="verb">redirect_uri</spanx> domains without having to 
+	  reregister all of their users.</t>
+	  
+	  <t>If the Client has not provided a value for
+	  <spanx style="verb">sector_identifier_uri</spanx> in 
+	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>,
+	  the Sector Identifier
+	  used for pairwise identifier calculation is the host component 
+	  of the registered <spanx style="verb">redirect_uri</spanx>.
+	  If there are multiple hostnames in the registered
+	  <spanx style="verb">redirect_uris</spanx>, the Client MUST register a 
+	  <spanx style="verb">sector_identifier_uri</spanx>.</t>
+
+	  <t>When a <spanx style="verb">sector_identifier_uri</spanx>
+	  is provided, the host component of that URL is used as
+	  the Sector Identifier for the pairwise identifier calculation.
+	  The value of the <spanx style="verb">sector_identifier_uri</spanx>
+	  must be a URL using the <spanx style="verb">https:</spanx> scheme that points to
+	  a JSON file containing an array of
+	  <spanx style="verb">redirect_uri</spanx> values.
+	  The values of the registered <spanx style="verb">redirect_uris</spanx>
+	  must be included in the elements of the array,
+	  or the registration MUST fail.</t>
+
+	  <t>A number of algorithms MAY be used by OpenID Providers to
+	  calculate the pairwise identifier.  This specification
+	  includes three examples.</t>
+
+	  <t>1.  The Sector Identifier can be concatenated with a local account ID and a salt 
+	  value that is kept secret by the Provider. The concatenated string is then 
+	  hashed by an appropriate algorithm.</t>
+	  <t>Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).</t>
+
+	  <t>2.  The Sector Identifier can be concatenated with a local account ID and a salt 
+	  value that is kept secret by the Provider. The concatenated string is then 
+	  encrypted by an appropriate algorithm.</t>
+	  <t>Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).</t>
+	  
+	  <t>3.  The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
+	  Sector Identifier and local account ID.  This is stored in a table and 
+	  the value looked up each time.</t>
+	  
+        </section>
       </section>
 
       <section anchor="RegistrationRequest" title="Self-Issued Registration Request">
