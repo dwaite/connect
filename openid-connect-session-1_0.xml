@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="21" month="February" year="2013" />
+    <date day="3" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -189,8 +189,8 @@
 
 	<t>
 	  The OP iframe MUST enforce that the caller has the same
-	  origin as its parent frame. It MUST reject the postMessage
-	  request from other source origin.
+	  origin as its parent frame. It MUST reject postMessage
+	  requests from any other source origin.
 	</t>
         <t>
 	  The postMessage from the RP iframe delivers the
@@ -306,7 +306,7 @@
 
       <section anchor="RPiframe" title="RP iframe">
         <t>The RP also loads an invisible iframe from itself in the same page.
-        This iframe MUST know the id of the OP iframe so that it can
+        This iframe MUST know the ID of the OP iframe so that it can
         postMessage to the OP iframe.</t>
 
         <t>RP iframe polls OP iframe with postMessage with certain interval
@@ -429,7 +429,12 @@
     </section>
 
     <section anchor="Security" title="Security Considerations">
-      <t>TBD</t>
+	<t>
+	  The OP iframe MUST enforce that the caller has the same
+	  origin as its parent frame. It MUST reject postMessage
+	  requests from any other source origin,
+	  to prevent cross-site scripting attacks.
+	</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
