@@ -664,6 +664,14 @@
 	  <xref target="RFC5646">BCP47</xref> language tag values.
 	  </t>
 
+	  <t hangText="claims_parameter_supported">
+	    OPTIONAL.
+	    Boolean value specifying whether the OP supports use of the
+	    <spanx style="verb">claims</spanx> parameter,
+	    with <spanx style="verb">true</spanx> indicating support.
+	    If omitted, the default value is <spanx style="verb">false</spanx>.
+	  </t>
+
 	  <t hangText="request_parameter_supported">
 	    OPTIONAL.
 	    Boolean value specifying whether the OP supports use of the
@@ -848,7 +856,10 @@
      ["sub", "iss", "auth_time", "acr",
       "name", "given_name", "family_name", "nickname",
       "profile", "picture", "website",
-      "email", "email_verified", "locale", "zoneinfo"],
+      "email", "email_verified", "locale", "zoneinfo",
+      "http://example.info/claims/groups"],
+   "claims_parameter_supported":
+     true,
    "service_documentation":
      "http://server.example.com/connect/service_documentation.html",
    "ui_locales_supported":
@@ -1421,7 +1432,8 @@
 	    discovery parameter.
 	  </t>
  	  <t>
-	    Added the <spanx style="verb">request_parameter_supported</spanx>
+	    Added the <spanx style="verb">claims_parameter_supported</spanx>,
+	    <spanx style="verb">request_parameter_supported</spanx>,
 	    and <spanx style="verb">request_uri_parameter_supported</spanx>
 	    discovery parameters.
 	  </t>

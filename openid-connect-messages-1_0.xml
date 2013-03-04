@@ -1638,6 +1638,8 @@
 	  the OP SHOULD return a set of claims to the RP that it believes would
 	  be useful to the RP and the End-User using whatever heuristics it
 	  believes are appropriate.
+	  The <spanx style="verb">claims_parameter_supported</spanx>
+	  Discovery result indicates whether the OP supports this parameter.
 	</t>
 	<t>
 	  The <spanx style="verb">claims</spanx> parameter value is represented
@@ -1647,7 +1649,6 @@
 	  the JSON is used as the value of the
 	  <spanx style="verb">claims</spanx> member.
 	</t>
-
         <t>
 	  The top-level members of the Claims request JSON object are:
 
@@ -1696,7 +1697,8 @@
      "nickname": null,
      "email": {"essential": true},
      "email_verified": {"essential": true},
-     "picture": null
+     "picture": null,
+     "http://example.info/claims/groups": null
     },
    "id_token":
     {
@@ -1706,6 +1708,14 @@
   }
 ]]></artwork>
           </figure>
+	  Note that a Claim that is not in the standard set defined in
+	  <xref target="StandardClaims"/>, the (example)
+	  <spanx style="verb">http://example.info/claims/groups</spanx> Claim,
+	  is being requested.
+	  Using the <spanx style="verb">claims</spanx> parameter is the only
+	  way to request claims outside the standard set.
+	  It is also the only way to request specific combinations of the
+	  standard claims that can not be specified using scope values.
 	</t>
 	<section anchor="IndividualClaimsRequests" title="Individual Claims Requests">
 	  <t>
@@ -1805,6 +1815,32 @@
 		and if so, SHOULD be understood by both parties.
               </t>
 	    </list>
+	  </t>
+	  <t>
+	    Note that when the <spanx style="verb">claims</spanx> request parameter
+	    is supported, the scope values that request claims, as defined in
+	    <xref target="scopes"/>, are effectively shorthand methods for
+	    requesting sets of individual claims.
+	    For example, using the scope value <spanx style="verb">openid email</spanx>
+	    and a <spanx style="verb">response_type</spanx> that returns an Access Token
+	    is equivalent to using the scope value <spanx style="verb">openid</spanx>
+	    and the following request for individual claims.
+
+	    <figure>
+	      <preamble>
+		Equivalent of using the <spanx style="verb">email</spanx> scope value:
+	      </preamble>
+
+	      <artwork><![CDATA[
+  {
+   "userinfo":
+    {
+     "email": null,
+     "email_verified": null
+    }
+  }
+]]></artwork>
+	    </figure>
 	  </t>
 	</section>
 
@@ -2151,6 +2187,8 @@ may be retrieved:
 	</t>
 	<t>
 	  Support for the <spanx style="verb">request</spanx> parameter is OPTIONAL.
+	  The <spanx style="verb">request_parameter_supported</spanx>
+	  Discovery result indicates whether the OP supports this parameter.
 	  Should an OP not support this parameter and an RP uses it,
 	  the OP MUST return the <spanx style="verb">request_not_supported</spanx>
 	  error.
@@ -2246,6 +2284,10 @@ may be retrieved:
 	  <spanx style="verb">request</spanx> parameter, other than that
 	  the OpenID Request Object is retrieved from the specified URL,
 	  rather than passed by value.
+	</t>
+	<t>
+	  The <spanx style="verb">request_uri_parameter_supported</spanx>
+	  Discovery result indicates whether the OP supports this parameter.
 	</t>
 	<t>
 	  When the <spanx style="verb">request_uri</spanx> parameter is used,
@@ -5436,6 +5478,11 @@ Representation of dates and times</title>
 	    Fixed #787 - Don't prohibit returning an ID Token from the Token Endpoint
 	    when grant types other than <spanx style="verb">authorization_code</spanx>
 	    are used.
+	  </t>
+	  <t>
+	    Fixed #710 - Gave an example of how requesting Claims with scope values
+	    is equivalent to requesting them with the
+	    <spanx style="verb">claims</spanx> request parameter.
 	  </t>
 	</list>
       </t>
