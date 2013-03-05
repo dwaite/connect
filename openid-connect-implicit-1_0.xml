@@ -555,8 +555,8 @@
 		another <spanx style="verb">token_type</spanx> value that the Client 
                 has negotiated with the Authorization Server.
                 Clients implementing this profile MUST support the <xref
-	            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
-	            This profile only describes the use of bearer tokens.</t>
+		target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
+		This profile only describes the use of bearer tokens.</t>
 
                 <t hangText="id_token">REQUIRED.
 		ID Token.</t>
@@ -564,10 +564,10 @@
                 <t hangText="state">
 		  OAuth 2.0 state value.
 		  REQUIRED if the 
-                <spanx style="verb">state</spanx> parameter is present in the
-                client Authorization Request. Clients MUST verify that the 
-                <spanx style="verb">state</spanx> value is equal to the exact 
-                value of <spanx style="verb">state</spanx> parameter in the 
+		  <spanx style="verb">state</spanx> parameter is present in the
+		  client Authorization Request. Clients MUST verify that the 
+		  <spanx style="verb">state</spanx> value is equal to the exact 
+		  value of <spanx style="verb">state</spanx> parameter in the 
                 Authorization Request.</t>
 
                 <t hangText="expires_in">OPTIONAL.
@@ -607,18 +607,18 @@
           
           <section anchor="implicit_callback" 
                    title="Example Redirect URI response">
-          <t>The client must provide a way for the User-Agent to parse the fragment encoded
-          response and POST it to the web server client for validation.</t>
+	    <t>The client must provide a way for the User-Agent to parse the fragment encoded
+	    response and POST it to the web server client for validation.</t>
 
-          <t>The following is an example of a JavaScript file that a Client might host at its
-          <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
-          the Authorization Server.  The fragment is parsed and then sent by POST to a URI 
-          that will validate the information received.</t>
+	    <t>The following is an example of a JavaScript file that a Client might host at its
+	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
+	    the Authorization Server.  The fragment is parsed and then sent by POST to a URI 
+	    that will validate the information received.</t>
 
-          <figure>
-	    <preamble>Following is a non-normative example of a
-	    Redirect URI response:</preamble>
-	    <artwork><![CDATA[
+	    <figure>
+	      <preamble>Following is a non-normative example of a
+	      Redirect URI response:</preamble>
+	      <artwork><![CDATA[
   GET /cb HTTP/1.1
   Host: client.example.org
           
@@ -659,97 +659,99 @@
   };
   req.send(postBody);
 ]]></artwork>
-	  </figure>
-         
+	    </figure>
+	    
 	  </section>
         </section>
         
       </section>
 
       <section anchor="id_token" title="ID Token">
-          <t>The ID Token is a security token that contains Claims about the
-          authentication event and other requested Claims.  
-          The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
+	<t>The ID Token is a security token that contains Claims about the
+	authentication event and other requested Claims.  
+	The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
 
-          <t>The ID Token is used to manage the authentication event and user
-          identifier and is scoped to a particular Client via the <spanx
-          style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-          Claims.</t>
+	<t>The ID Token is used to manage the authentication event and user
+	identifier and is scoped to a particular Client via the <spanx
+	style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
+	Claims.</t>
 
-          <t>The following Claims are used within the ID Token:</t>
+	<t>The following Claims are used within the ID Token:</t>
 
-          <t><list style="hanging">
-              <t hangText="iss">REQUIRED.
-	      Issuer Identifier for the Issuer
-              of the response.</t>
+	<t>
+	  <list style="hanging">
+	    <t hangText="iss">REQUIRED.
+	    Issuer Identifier for the Issuer
+	    of the response.</t>
 
-              <t hangText="sub">REQUIRED.
-	      Subject identifier. A locally unique and never
-              reassigned identifier within the Issuer for the End-User, 
-              which is intended to be
-              consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
-              or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-              It MUST NOT exceed 255 ASCII characters in length.</t>
+	    <t hangText="sub">REQUIRED.
+	    Subject identifier. A locally unique and never
+	    reassigned identifier within the Issuer for the End-User, 
+	    which is intended to be
+	    consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
+	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+	    It MUST NOT exceed 255 ASCII characters in length.</t>
 
-              <t hangText="aud">REQUIRED.
-	      Audience
-              that this ID Token is intended for. It MUST contain the
-	      OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
+	    <t hangText="aud">REQUIRED.
+	    Audience
+	    that this ID Token is intended for. It MUST contain the
+	    OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
 
-              <t hangText="azp">
-		OPTIONAL.
-		Authorized Party.
-		This member identifies an OAuth 2.0 Client authorized to use this
-		ID Token as an OAuth access token.
-		It MUST contain the <spanx style="verb">client_id</spanx>
-		of the Authorized Party.
-		This Claim is only needed when the party requesting the ID Token
-		is different than the audience of the ID Token.
-	      </t>
+	    <t hangText="azp">
+	      OPTIONAL.
+	      Authorized Party.
+	      This member identifies an OAuth 2.0 Client authorized to use this
+	      ID Token as an OAuth access token.
+	      It MUST contain the <spanx style="verb">client_id</spanx>
+	      of the Authorized Party.
+	      This Claim is only needed when the party requesting the ID Token
+	      is different than the audience of the ID Token.
+	    </t>
 
-              <t hangText="exp">REQUIRED.
-              Expiration time on or after which the ID Token MUST NOT be
-              accepted for processing. The processing of this parameter
-              requires that the current date/time MUST be before the
-              expiration date/time listed in the value. Implementers MAY
-              provide for some small leeway, usually no more than a few
-              minutes, to account for clock skew. The value is the number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
-              
-              <t hangText="iat">REQUIRED.
-	      Time at which the JWT was issued. 
-              The value is the number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
+	    <t hangText="exp">REQUIRED.
+	    Expiration time on or after which the ID Token MUST NOT be
+	    accepted for processing. The processing of this parameter
+	    requires that the current date/time MUST be before the
+	    expiration date/time listed in the value. Implementers MAY
+	    provide for some small leeway, usually no more than a few
+	    minutes, to account for clock skew. The value is the number of
+	    seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+	    desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+	    for details regarding date/times in general and UTC in
+	    particular.</t>
+	    
+	    <t hangText="iat">REQUIRED.
+	    Time at which the JWT was issued. 
+	    The value is the number of
+	    seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+	    desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+	    for details regarding date/times in general and UTC in
+	    particular.</t>
 
-              <t hangText="auth_time">OPTIONAL or REQUIRED.
-	        Time when the End-User authentication occurred, specified as
-		the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
-		When a <spanx style="verb">max_age</spanx> request is made
-		then this Claim is REQUIRED.
-	      </t>
+	    <t hangText="auth_time">OPTIONAL or REQUIRED.
+	    Time when the End-User authentication occurred, specified as
+	    the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
+	    When a <spanx style="verb">max_age</spanx> request is made
+	    then this Claim is REQUIRED.
+	    </t>
 
-	      <t hangText="nonce">REQUIRED.
-	      String value used to associate a Client session 
-              with an ID Token, and to mitigate replay attacks. 
-              The value is passed through unmodified from the Authorization Request to the ID Token.
-	      The client MUST verify that
-              the <spanx style="verb">nonce</spanx> Claim value is equal to
-              the value of the <spanx style="verb">nonce</spanx>
-              parameter sent in the Authorization Request.
-	      If present in the Authorization Request, Authorization Servers
-	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
-	      <xref target="id_token">ID Token</xref> with the Claim value
-	      being the nonce value sent in the Authorization Request.
-	      Use of the nonce is REQUIRED when using the implicit flow
-	      and OPTIONAL when using the code flow.</t>
+	    <t hangText="nonce">REQUIRED.
+	    String value used to associate a Client session 
+	    with an ID Token, and to mitigate replay attacks. 
+	    The value is passed through unmodified from the Authorization Request to the ID Token.
+	    The client MUST verify that
+	    the <spanx style="verb">nonce</spanx> Claim value is equal to
+	    the value of the <spanx style="verb">nonce</spanx>
+	    parameter sent in the Authorization Request.
+	    If present in the Authorization Request, Authorization Servers
+	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
+	    <xref target="id_token">ID Token</xref> with the Claim value
+	    being the nonce value sent in the Authorization Request.
+	    Use of the nonce is REQUIRED when using the implicit flow
+	    and OPTIONAL when using the code flow.</t>
 
-	      <t hangText="acr">OPTIONAL.
+	    <t hangText="acr">
+	      OPTIONAL.
 	      Authentication Context Class Reference.
 	      String specifying an Authentication Context Class Reference value
 	      that identifies the Authentication Context Class that the
@@ -763,49 +765,50 @@
 	      monetary value.  
 	      An absolute URI or a <xref target="RFC6711">registered 
 	      name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
-	      </t>
-	      
-	      <t hangText="at_hash">OPTIONAL or REQUIRED.
-	        Access Token hash value.
-                If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-          in an implicit flow, this is REQUIRED.
-                The value is produced by base64url encoding the left-most half of the hash 
-                created by hashing the <spanx style="verb">access_token</spanx> 
-                with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-                <spanx style="verb">alg</spanx>
-                parameter in the <xref target="JWS">JWS</xref> header.
-          For instance, if the <spanx style="verb">alg</spanx> is
-                <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
-          with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+	    </t>
+	    
+	    <t hangText="at_hash">OPTIONAL or REQUIRED.
+	    Access Token hash value.
+	    If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+	    in an implicit flow, this is REQUIRED.
+	    The value is produced by base64url encoding the left-most half of the hash 
+	    created by hashing the <spanx style="verb">access_token</spanx> 
+	    with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
+	    <spanx style="verb">alg</spanx>
+	    parameter in the <xref target="JWS">JWS</xref> header.
+	    For instance, if the <spanx style="verb">alg</spanx> is
+	    <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
+	    with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
 
-	      <t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
-	        Public key value used to check the signature of an ID Token
-		issued by a Self-Issued OpenID Provider,
-		as specified in <xref target="self_issued"/>.
-		The key is a bare key in JWK  <xref target="JWK"/> format
-		(not an X.509 certificate value).
-		Use of the <spanx style="verb">sub_jwk</spanx> Claim
-		is REQUIRED when the OP is a Self-Issued OP and
-		is NOT RECOMMENDED when the OP is not Self-Issued.
-	      </t>
-
-            </list></t>
-
-	    <t>The JWT MAY contain other Claims
-	    that are understood by all parties using it.</t>
-
-	    <t>ID Tokens MUST be signed using <xref
-	    target="JWS">JWS</xref>.
-	      Clients MUST directly validate the ID Token per 
-	      <xref target="id.token.validation">ID Token Validation</xref>. 
+	    <t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
+	    Public key value used to check the signature of an ID Token
+	    issued by a Self-Issued OpenID Provider,
+	    as specified in <xref target="self_issued"/>.
+	    The key is a bare key in JWK  <xref target="JWK"/> format
+	    (not an X.509 certificate value).
+	    Use of the <spanx style="verb">sub_jwk</spanx> Claim
+	    is REQUIRED when the OP is a Self-Issued OP and
+	    is NOT RECOMMENDED when the OP is not Self-Issued.
 	    </t>
 
-	<figure>
-            <preamble>The following is a non-normative example of a base64url decoded 
-            ID Token
-	    (with line wraps for display purposes only):</preamble>
+	  </list>
+	</t>
 
-            <artwork><![CDATA[
+	<t>The JWT MAY contain other Claims
+	that are understood by all parties using it.</t>
+
+	<t>ID Tokens MUST be signed using <xref
+	target="JWS">JWS</xref>.
+	Clients MUST directly validate the ID Token per 
+	<xref target="id.token.validation">ID Token Validation</xref>. 
+	</t>
+
+	<figure>
+	  <preamble>The following is a non-normative example of a base64url decoded 
+	  ID Token
+	  (with line wraps for display purposes only):</preamble>
+
+	  <artwork><![CDATA[
   {
    "iss": "https://server.example.com",
    "sub": "24400320",
@@ -816,15 +819,15 @@
    "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
   }
 ]]></artwork>
-        </figure>
+	</figure>
         
 	<section anchor="id.token.validation" title="ID Token Validation">
 
-	<t>
-	  If any of the validation procedures defined in this specification fail, any operations requiring
-	  the information that failed to correctly validate MUST be aborted and
-	  the information that failed to validate MUST NOT be used.
-	</t>
+	  <t>
+	    If any of the validation procedures defined in this specification fail, any operations requiring
+	    the information that failed to correctly validate MUST be aborted and
+	    the information that failed to validate MUST NOT be used.
+	  </t>
 	  
 	  <t>To validate the ID Token in the Authorization Response,
 	  the Client MUST do the following:</t>
@@ -887,7 +890,7 @@
 	    </list>
 	  </t>
 	</section>
- 
+	
 	<section anchor="access.token.validation" title="Access Token Validation">
 	  <t>To validate an Access Token issued with an ID Token in 
 	  the implicit flow, the client SHOULD do the following:</t>
@@ -1241,16 +1244,16 @@
 	  a response:</preamble>
 
 	  <artwork><![CDATA[
-	  {
-	  "sub": "248289761001",
-	  "name": "Jane Doe",
-	  "given_name": "Jane",
-	  "family_name": "Doe",
-	  "preferred_username": "j.doe",
-	  "email": "janedoe@example.com",
-	  "picture": "http://example.com/janedoe/me.jpg"
-	  }
-	  ]]></artwork>
+  {
+   "sub": "248289761001",
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "preferred_username": "j.doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
 	</figure>
 
 	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
@@ -1399,13 +1402,12 @@
    "request_object_signing_alg_values_supported":
      ["none", "RS256"]
    }
-]]>
-            </artwork>
+]]></artwork>
           </figure>
         </t>
         <t>Note: The OpenID Foundation may consider hosting a site https://self-issued.me/ 
-          that returns the above static configuration file so that the client would not 
-          need any special treatment for discovery of the Self-Issued OP. 
+	that returns the above static configuration file so that the client would not 
+	need any special treatment for discovery of the Self-Issued OP. 
         </t>
       </section>
 
@@ -1464,7 +1466,7 @@
 
       <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
         <t>The Client sends the Authorization Request to the Authorization
-           Endpoint with the following parameters:</t>
+	Endpoint with the following parameters:</t>
         <t><list style="hanging">
           <t hangText="response_type">
             REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
@@ -1501,8 +1503,8 @@
 	    as specified in <xref target="SelfIssuedRegistrationRequest"/>.
 	    The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
 	    when the OP is not a Self-Issued OP.
-            </t>
-	  </list>
+	  </t>
+	</list>
 	</t>
         <t>
           Other parameters MAY be sent. 
@@ -1526,13 +1528,11 @@
 ]]></artwork>
         </figure> 
       </section>
-      
-
 
       <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
         <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
-          response with the following refinements.  Since it is an implicit flow 
-          response, the response parameters will be returned in a fragment.
+	response with the following refinements.  Since it is an implicit flow 
+	response, the response parameters will be returned in a fragment.
         </t>
         <t><list style="numbers">
           <t>
@@ -1636,11 +1636,11 @@
 
         </list></t>
         <figure>
-            <preamble>The following is a non-normative example of a base64url decoded 
-            Self-Issued ID Token
-	    (with line wraps for display purposes only):</preamble>
+	  <preamble>The following is a non-normative example of a base64url decoded 
+	  Self-Issued ID Token
+	  (with line wraps for display purposes only):</preamble>
 
-            <artwork><![CDATA[
+	  <artwork><![CDATA[
   {
    "iss": "https://self-issued.me",
    "sub": "wBy8QvHbPzUnL0x63h13QqvUYcOur1X0cbQpPVRqX5k",
@@ -1687,7 +1687,7 @@
 	  <preamble>Following is a non-normative example of such
 	  serialization:</preamble>
 
-        <artwork><![CDATA[
+	  <artwork><![CDATA[
   GET /authorize?scope=openid
     &response_type=token%20id_token
     &client_id=s6BhdRkqt3
@@ -1956,7 +1956,7 @@
       <reference anchor="ISO8601-2004">
         <front>
           <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -
-Representation of dates and times</title>
+	  Representation of dates and times</title>
 
           <author fullname="International Organization for Standardization"
                   initials="" surname="">
@@ -2197,25 +2197,25 @@ Representation of dates and times</title>
 
       <reference anchor="OAuth.Responses">
         <front>
-           <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
+	  <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
 
-           <author fullname="Breno" initials="B." surname="de Medeiros">
-             <organization abbrev="Google">Google</organization>
-           </author>
+	  <author fullname="Breno" initials="B." surname="de Medeiros">
+	    <organization abbrev="Google">Google</organization>
+	  </author>
 
-           <author fullname="Marius" initials="M." surname="Scurtescu">
-             <organization abbrev="Google">Google</organization>
-           </author>
+	  <author fullname="Marius" initials="M." surname="Scurtescu">
+	    <organization abbrev="Google">Google</organization>
+	  </author>
 
-           <author fullname="Paul" initials="P." surname="Tarjan">
-             <organization abbrev="Facebook"> Facebook</organization>
-           </author>
+	  <author fullname="Paul" initials="P." surname="Tarjan">
+	    <organization abbrev="Facebook"> Facebook</organization>
+	  </author>
 
-           <date day="19" month="November" year="2012"></date>
+	  <date day="19" month="November" year="2012"></date>
         </front>
 
         <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
-              type="HTML" />
+		type="HTML" />
       </reference>
 
     </references>
@@ -2230,7 +2230,7 @@ Representation of dates and times</title>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-           <organization abbrev="Ping Identity">Ping Identity</organization>
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">

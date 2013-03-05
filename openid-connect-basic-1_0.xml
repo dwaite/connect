@@ -603,9 +603,9 @@
           <section anchor="token_ok" title="Client Receives Tokens">
 
 	    <t>
-	       The Client receives a response with the following parameters
-	       as described in Section 4.1.4 of <xref target="RFC6749">OAuth 2.0</xref>.
-	       The response should be encoded using UTF-8.
+	      The Client receives a response with the following parameters
+	      as described in Section 4.1.4 of <xref target="RFC6749">OAuth 2.0</xref>.
+	      The response should be encoded using UTF-8.
 	    </t>
             <t>
               <list style="hanging">
@@ -619,8 +619,8 @@
 		another <spanx style="verb">token_type</spanx> value that the Client 
                 has negotiated with the Authorization Server.
                 Clients implementing this profile MUST support the <xref
-	            target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
-	            This profile only describes the use of bearer tokens.</t>
+		target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
+		This profile only describes the use of bearer tokens.</t>
 
                 <t hangText="id_token">REQUIRED.
 		ID Token.</t>
@@ -659,73 +659,75 @@
       </section>
 
       <section anchor="id_token" title="ID Token">
-          <t>The ID Token is a security token that contains Claims about the
-          authentication event and other requested Claims.  
-          The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
+	<t>The ID Token is a security token that contains Claims about the
+	authentication event and other requested Claims.  
+	The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
 
-          <t>The ID Token is used to manage the authentication event and user
-          identifier and is scoped to a particular Client via the <spanx
-          style="verb">aud</spanx> (audience) Claim.</t>
+	<t>The ID Token is used to manage the authentication event and user
+	identifier and is scoped to a particular Client via the <spanx
+	style="verb">aud</spanx> (audience) Claim.</t>
 
-          <t>The following Claims are used within the ID Token:</t>
+	<t>The following Claims are used within the ID Token:</t>
 
-          <t><list style="hanging">
-              <t hangText="iss">REQUIRED.
-	      Issuer Identifier for the Issuer
-              of the response.</t>
+	<t>
+	  <list style="hanging">
+	    <t hangText="iss">REQUIRED.
+	    Issuer Identifier for the Issuer
+	    of the response.</t>
 
-              <t hangText="sub">REQUIRED.
-	      Subject identifier.  A locally unique and never
-              reassigned identifier within the Issuer for the End-User, 
-              which is intended to be
-              consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
-              or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-              It MUST NOT exceed 255 ASCII characters in length.</t>
+	    <t hangText="sub">REQUIRED.
+	    Subject identifier.  A locally unique and never
+	    reassigned identifier within the Issuer for the End-User, 
+	    which is intended to be
+	    consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
+	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+	    It MUST NOT exceed 255 ASCII characters in length.</t>
 
-              <t hangText="aud">REQUIRED.
-	      Audience
-              that this ID Token is intended for. It MUST contain the
-	      OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
+	    <t hangText="aud">REQUIRED.
+	    Audience
+	    that this ID Token is intended for. It MUST contain the
+	    OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
 
-              <t hangText="azp">
-		OPTIONAL.
-		Authorized Party.
-		This member identifies an OAuth 2.0 Client authorized to use this
-		ID Token as an OAuth access token.
-		It MUST contain the <spanx style="verb">client_id</spanx>
-		of the Authorized Party.
-		This Claim is only needed when the party requesting the ID Token
-		is different than the audience of the ID Token.
-	      </t>
+	    <t hangText="azp">
+	      OPTIONAL.
+	      Authorized Party.
+	      This member identifies an OAuth 2.0 Client authorized to use this
+	      ID Token as an OAuth access token.
+	      It MUST contain the <spanx style="verb">client_id</spanx>
+	      of the Authorized Party.
+	      This Claim is only needed when the party requesting the ID Token
+	      is different than the audience of the ID Token.
+	    </t>
 
-              <t hangText="exp">REQUIRED.
-              Expiration time on or after which the ID Token MUST NOT be
-              accepted for processing. The processing of this parameter
-              requires that the current date/time MUST be before the
-              expiration date/time listed in the value. Implementers MAY
-              provide for some small leeway, usually no more than a few
-              minutes, to account for clock skew. The value is the number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
-              
-              <t hangText="iat">REQUIRED.
-	      Time at which the JWT was issued. 
-              The value is the number of
-              seconds from 1970-01-01T0:0:0Z as measured in UTC until the
-              desired date/time. See <xref target="RFC3339">RFC 3339</xref>
-              for details regarding date/times in general and UTC in
-              particular.</t>
+	    <t hangText="exp">REQUIRED.
+	    Expiration time on or after which the ID Token MUST NOT be
+	    accepted for processing. The processing of this parameter
+	    requires that the current date/time MUST be before the
+	    expiration date/time listed in the value. Implementers MAY
+	    provide for some small leeway, usually no more than a few
+	    minutes, to account for clock skew. The value is the number of
+	    seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+	    desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+	    for details regarding date/times in general and UTC in
+	    particular.</t>
+	    
+	    <t hangText="iat">REQUIRED.
+	    Time at which the JWT was issued. 
+	    The value is the number of
+	    seconds from 1970-01-01T0:0:0Z as measured in UTC until the
+	    desired date/time. See <xref target="RFC3339">RFC 3339</xref>
+	    for details regarding date/times in general and UTC in
+	    particular.</t>
 
-              <t hangText="auth_time">OPTIONAL or REQUIRED.
-	        Time when the End-User authentication occurred, specified as
-		the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
-		When a <spanx style="verb">max_age</spanx> request is made
-		then this Claim is REQUIRED.
-	      </t>
+	    <t hangText="auth_time">OPTIONAL or REQUIRED.
+	    Time when the End-User authentication occurred, specified as
+	    the number of seconds since 1970-01-01T0:0:0Z as measured in UTC.
+	    When a <spanx style="verb">max_age</spanx> request is made
+	    then this Claim is REQUIRED.
+	    </t>
 
-	      <t hangText="acr">OPTIONAL.
+	    <t hangText="acr">
+	      OPTIONAL.
 	      Authentication Context Class Reference.
 	      String specifying an Authentication Context Class Reference value
 	      that identifies the Authentication Context Class that the
@@ -739,19 +741,20 @@
 	      monetary value.  
 	      An absolute URI or a <xref target="RFC6711">registered 
 	      name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
-	      </t>
+	    </t>
 
-            </list></t>
+	  </list>
+	</t>
 
-	    <t>The JWT MAY contain other Claims
-	    that are understood by all parties using it.</t>
+	<t>The JWT MAY contain other Claims
+	that are understood by all parties using it.</t>
 
-        	<figure>
-            <preamble>The following is a non-normative example of a base64url decoded 
-            ID Token
-	    (with line wraps for display purposes only):</preamble>
+	<figure>
+	  <preamble>The following is a non-normative example of a base64url decoded 
+	  ID Token
+	  (with line wraps for display purposes only):</preamble>
 
-            <artwork><![CDATA[
+	  <artwork><![CDATA[
   {
    "iss": "https://server.example.com",
    "sub": "24400320",
@@ -760,7 +763,7 @@
    "iat": 1311280970
   }
 ]]></artwork>
-        </figure>
+	</figure>
         
 	<section anchor="id.token.validation" title="ID Token Validation">
 
@@ -1151,16 +1154,16 @@
 	  a response:</preamble>
 
 	  <artwork><![CDATA[
-	  {
-	  "sub": "248289761001",
-	  "name": "Jane Doe",
-	  "given_name": "Jane",
-	  "family_name": "Doe",
-	  "preferred_username": "j.doe",
-	  "email": "janedoe@example.com",
-	  "picture": "http://example.com/janedoe/me.jpg"
-	  }
-	  ]]></artwork>
+  {
+   "sub": "248289761001",
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
+   "preferred_username": "j.doe",
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
+  }
+]]></artwork>
 	</figure>
 
 	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
@@ -1566,7 +1569,7 @@
       <reference anchor="ISO8601-2004">
         <front>
           <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -
-Representation of dates and times</title>
+	  Representation of dates and times</title>
 
           <author fullname="International Organization for Standardization"
                   initials="" surname="">
@@ -1729,7 +1732,7 @@ Representation of dates and times</title>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-           <organization abbrev="Ping Identity">Ping Identity</organization>
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -1803,34 +1806,34 @@ Representation of dates and times</title>
 	Final Specifications based on such documents, provided that attribution 
 	be made to the OIDF as the source of the material, but that such attribution 
 	does not indicate an endorsement by the OIDF.
-     </t>
-     <t>
-       The technology described in this specification was 
-       made available from contributions from various sources, 
-       including members of the OpenID Foundation and others.  
-       Although the OpenID Foundation has taken steps to help ensure 
-       that the technology is available for distribution, it takes 
-       no position regarding the validity or scope of any intellectual 
-       property or other rights that might be claimed to pertain to 
-       the implementation or use of the technology described in 
-       this specification or the extent to which any license under 
-       such rights might or might not be available; neither does it 
-       represent that it has made any independent effort to identify 
-       any such rights.  The OpenID Foundation and the contributors 
-       to this specification make no (and hereby expressly disclaim any) 
-       warranties (express, implied, or otherwise), including implied 
-       warranties of merchantability, non-infringement, fitness for 
-       a particular purpose, or title, related to this specification, 
-       and the entire risk as to implementing this specification is 
-       assumed by the implementer.  The OpenID Intellectual 
-       Property Rights policy requires contributors to offer 
-       a patent promise not to assert certain patent claims against 
-       other contributors and against implementers.  The OpenID Foundation invites 
-       any interested party to bring to its attention any copyrights, 
-       patents, patent applications, or other proprietary rights 
-       that may cover technology that may be required to practice 
-       this specification.
-     </t>
+      </t>
+      <t>
+	The technology described in this specification was 
+	made available from contributions from various sources, 
+	including members of the OpenID Foundation and others.  
+	Although the OpenID Foundation has taken steps to help ensure 
+	that the technology is available for distribution, it takes 
+	no position regarding the validity or scope of any intellectual 
+	property or other rights that might be claimed to pertain to 
+	the implementation or use of the technology described in 
+	this specification or the extent to which any license under 
+	such rights might or might not be available; neither does it 
+	represent that it has made any independent effort to identify 
+	any such rights.  The OpenID Foundation and the contributors 
+	to this specification make no (and hereby expressly disclaim any) 
+	warranties (express, implied, or otherwise), including implied 
+	warranties of merchantability, non-infringement, fitness for 
+	a particular purpose, or title, related to this specification, 
+	and the entire risk as to implementing this specification is 
+	assumed by the implementer.  The OpenID Intellectual 
+	Property Rights policy requires contributors to offer 
+	a patent promise not to assert certain patent claims against 
+	other contributors and against implementers.  The OpenID Foundation invites 
+	any interested party to bring to its attention any copyrights, 
+	patents, patent applications, or other proprietary rights 
+	that may cover technology that may be required to practice 
+	this specification.
+      </t>
     </section>
 
     <section anchor="History" title="Document History">
