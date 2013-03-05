@@ -750,6 +750,19 @@
 	    Use of the nonce is REQUIRED when using the implicit flow
 	    and OPTIONAL when using the code flow.</t>
 
+	    <t hangText="at_hash">OPTIONAL or REQUIRED.
+	    Access Token hash value.
+	    If the ID Token is issued with an <spanx style="verb">access_token</spanx>
+	    in an implicit flow, this is REQUIRED.
+	    The value is produced by base64url encoding the left-most half of the hash 
+	    created by hashing the <spanx style="verb">access_token</spanx> 
+	    with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
+	    <spanx style="verb">alg</spanx>
+	    parameter in the <xref target="JWS">JWS</xref> header.
+	    For instance, if the <spanx style="verb">alg</spanx> is
+	    <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
+	    with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+
 	    <t hangText="acr">
 	      OPTIONAL.
 	      Authentication Context Class Reference.
@@ -766,19 +779,18 @@
 	      An absolute URI or a <xref target="RFC6711">registered 
 	      name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
 	    </t>
-	    
-	    <t hangText="at_hash">OPTIONAL or REQUIRED.
-	    Access Token hash value.
-	    If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-	    in an implicit flow, this is REQUIRED.
-	    The value is produced by base64url encoding the left-most half of the hash 
-	    created by hashing the <spanx style="verb">access_token</spanx> 
-	    with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-	    <spanx style="verb">alg</spanx>
-	    parameter in the <xref target="JWS">JWS</xref> header.
-	    For instance, if the <spanx style="verb">alg</spanx> is
-	    <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
-	    with SHA-256, then take the left-most 128 bits and base64url encode them.</t>
+
+	    <t hangText="amr">
+	      OPTIONAL.
+	      Authentication Methods References.
+	      JSON array of strings that are identifiers for authentication methods
+	      used in the authentication.
+	      For instance, values might indicate that both password and OTP
+	      authentication methods were used.
+	      The definition of particular values to be used in the
+	      <spanx style="verb">amr</spanx> Claim
+	      is beyond the scope of this specification.
+	    </t>
 
 	    <t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
 	    Public key value used to check the signature of an ID Token
@@ -1422,7 +1434,7 @@
 	      <spanx style="verb">redirect_uri</spanx> value of the Client. 
 	    </t>
 	    <t hangText="expires_at">
-	      0.
+	      0
 	    </t>
 	  </list>
 	</t>
@@ -2432,6 +2444,10 @@
 	  </t>
 	  <t>
 	    Use legal <spanx style="verb">acr</spanx> values in examples.
+	  </t>
+	  <t>
+	    Fixed #789 - Added <spanx style="verb">amr</spanx>
+	    (authentication methods references) Claim.
 	  </t>
 	</list>
       </t>

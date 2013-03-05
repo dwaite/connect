@@ -752,26 +752,6 @@
 		  Token Endpoint.
 		</t>
 
-                <t hangText="acr">
-		  OPTIONAL.
-		  Authentication Context Class Reference.
-		  String specifying an Authentication Context Class Reference value
-		  that identifies the Authentication Context Class that the
-		  authentication performed satisfied.
-		  The value "0" indicates the End-User authentication
-		  did not meet the requirements of
-		  <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
-		  Authentication using a long-lived browser cookie, for instance, is one 
-		  example where the use of "level 0" is appropriate. Authentications with 
-		  level 0 should never be used to authorize access to any resource of any 
-		  monetary value.  
-		  (This corresponds to the OpenID 2.0
-		  <xref target="OpenID.PAPE">PAPE</xref> 
-		  <spanx style="verb">nist_auth_level</spanx> 0.)
-		  An absolute URI or a <xref target="RFC6711">registered 
-		  name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
-                </t>
-
                 <t hangText="at_hash">
 		  OPTIONAL or REQUIRED. 
 		  Access Token hash value.
@@ -805,6 +785,38 @@
 		  <spanx style="verb">HS512</spanx>, hash <spanx style="verb">code</spanx>
 		  with SHA-512, then take the left-most 256 bits and base64url encode them.
 		</t>
+
+                <t hangText="acr">
+		  OPTIONAL.
+		  Authentication Context Class Reference.
+		  String specifying an Authentication Context Class Reference value
+		  that identifies the Authentication Context Class that the
+		  authentication performed satisfied.
+		  The value "0" indicates the End-User authentication
+		  did not meet the requirements of
+		  <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
+		  Authentication using a long-lived browser cookie, for instance, is one 
+		  example where the use of "level 0" is appropriate. Authentications with 
+		  level 0 should never be used to authorize access to any resource of any 
+		  monetary value.  
+		  (This corresponds to the OpenID 2.0
+		  <xref target="OpenID.PAPE">PAPE</xref> 
+		  <spanx style="verb">nist_auth_level</spanx> 0.)
+		  An absolute URI or a <xref target="RFC6711">registered 
+		  name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
+                </t>
+
+                <t hangText="amr">
+		  OPTIONAL.
+		  Authentication Methods References.
+		  JSON array of strings that are identifiers for authentication methods
+		  used in the authentication.
+		  For instance, values might indicate that both password and OTP
+		  authentication methods were used.
+		  The definition of particular values to be used in the
+		  <spanx style="verb">amr</spanx> Claim
+		  is beyond the scope of this specification.
+                </t>
 
 		<t hangText="sub_jwk">
 		  NOT RECOMMENDED or REQUIRED.
@@ -3210,7 +3222,7 @@
 	      <spanx style="verb">redirect_uri</spanx> value of the Client. 
 	    </t>
 	    <t hangText="expires_at">
-	      0.
+	      0
 	    </t>
 	  </list>
 	</t>
@@ -4248,19 +4260,6 @@
 	  <t>
 	    <list style='symbols'>
 	      <t>
-		Claim Name: <spanx style="verb">acr</spanx>
-	      </t>
-	      <t>
-		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	      </t>
-	      <t>
-		Specification Document(s): <xref target="id_token"/> of this document
-	      </t>
-	    </list>
-	  </t>
-	  <t>
-	    <list style='symbols'>
-	      <t>
 		Claim Name: <spanx style="verb">nonce</spanx>
 	      </t>
 	      <t>
@@ -4301,6 +4300,32 @@
 	    <list style='symbols'>
 	      <t>
 		Claim Name: <spanx style="verb">c_hash</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="id_token"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">acr</spanx>
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="id_token"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Claim Name: <spanx style="verb">amr</spanx>
 	      </t>
 	      <t>
 		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
@@ -5561,6 +5586,10 @@
 	  </t>
 	  <t>
 	    Use legal <spanx style="verb">acr</spanx> values in examples.
+	  </t>
+	  <t>
+	    Fixed #789 - Added <spanx style="verb">amr</spanx>
+	    (authentication methods references) Claim.
 	  </t>
 	</list>
       </t>
