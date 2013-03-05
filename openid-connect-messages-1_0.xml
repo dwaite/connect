@@ -2922,49 +2922,52 @@
 	  Using this Authorization Request Message, the Authorization Server performs 
 	  the following steps of the request validation: 
 	  </t>
-	  <t><list style="numbers">
-	    <t>The Authorization Server MUST understand all the parameters 
-	    except for any unsupported Claims. If there are any parameters that 
-	    it does not understand except for any unsupported Claims, it MUST return 
-	    an error response.</t>
-	    <t>The Authorization Server MUST validate all the 
-	    OAuth 2.0 variables according to OAuth 2.0.</t>
-	    <t>The Authorization Server MUST verify that all the required parameters 
-	    are present.</t>
-	    <t>If the <spanx style="verb">sub</spanx> (subject) Claim
-	    as a member of <spanx style="verb">id_token</spanx> element
-	    is requested with a specific value, 
-	    the Authorization Server MUST only send a positive response if that user 
-	    has an active session with the Authorization Server. The Authorization 
-	    server MUST not reply with an ID Token or Access Token for a different user, 
-	    even if they have an active session with the Authorization Server. 
-	    </t>
-	    <t>
-	      If the <spanx style="verb">acr</spanx> Claim is requested
-	      as an Essential Claim for the ID Token
-	      with a <spanx style="verb">values</spanx> parameter requsting
-	      specific Authentication Context Class Reference values, then 
-	      the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
-	      Claim value that matches one of the requested values. 
-	      The Authorization 
-	      server MAY ask the user to re-authenticate with additional factors 
-	      to meet this requirement. If this is an Essential Claim and the 
-	      requirement cannot be met, then the Authorization Server MUST
-	      treat that outcome as a failed authentication attempt.
-	    </t>
-	    <t>
-	      The Client MAY request this Claim as an optional Claim
-	      by using the <spanx style="verb">acr_values</spanx> request parameter
-	      or by not including "essential": true in the individual
-	      <spanx style="verb">acr</spanx> Claim request. 
-	      If the Claim is not Essential and the requested value for 
-	      the user cannot be provided, the Authorization server SHOULD return 
-	      the session's current <spanx style="verb">acr</spanx> as
-	      the value of the <spanx style="verb">acr</spanx> Claim. 
-	      If the Claim is not Essential, the Authorization server is not required to
-	      provide this Claim in its response.
-	    </t>
-	  </list></t>
+	  <t>
+	    <list style="numbers">
+	      <t>
+		The Authorization Server MUST validate all the 
+		OAuth 2.0 parameters according to the OAuth 2.0 specification.
+	      </t>
+	      <t>
+		The Authorization Server MUST verify that all the required parameters 
+		are present.
+	      </t>
+	      <t>
+		If the <spanx style="verb">sub</spanx> (subject) Claim
+		as a member of <spanx style="verb">id_token</spanx> element
+		is requested with a specific value, 
+		the Authorization Server MUST only send a positive response if that user 
+		has an active session with the Authorization Server. The Authorization 
+		server MUST not reply with an ID Token or Access Token for a different user, 
+		even if they have an active session with the Authorization Server. 
+	      </t>
+	      <t>
+		If the <spanx style="verb">acr</spanx> Claim is requested
+		as an Essential Claim for the ID Token
+		with a <spanx style="verb">values</spanx> parameter requsting
+		specific Authentication Context Class Reference values, then 
+		the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
+		Claim value that matches one of the requested values. 
+		The Authorization 
+		server MAY ask the user to re-authenticate with additional factors 
+		to meet this requirement. If this is an Essential Claim and the 
+		requirement cannot be met, then the Authorization Server MUST
+		treat that outcome as a failed authentication attempt.
+	      </t>
+	      <t>
+		The Client MAY request this Claim as an optional Claim
+		by using the <spanx style="verb">acr_values</spanx> request parameter
+		or by not including "essential": true in the individual
+		<spanx style="verb">acr</spanx> Claim request. 
+		If the Claim is not Essential and the requested value for 
+		the user cannot be provided, the Authorization server SHOULD return 
+		the session's current <spanx style="verb">acr</spanx> as
+		the value of the <spanx style="verb">acr</spanx> Claim. 
+		If the Claim is not Essential, the Authorization server is not required to
+		provide this Claim in its response.
+	      </t>
+	    </list>
+	  </t>
 	  <t>If the Authorization Server encounters any error, 
 	  it MUST return the error response.</t>
 
@@ -5590,6 +5593,10 @@
 	  <t>
 	    Fixed #789 - Added <spanx style="verb">amr</spanx>
 	    (authentication methods references) Claim.
+	  </t>
+	  <t>
+	    Fixed #790 - Removed "MUST understand" text about request parameters,
+	    since OAuth requires that unrecognized parameters MUST be ignored.
 	  </t>
 	</list>
       </t>
