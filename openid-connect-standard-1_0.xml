@@ -96,7 +96,7 @@
 	  This specification also defines the following terms:
 	  <list style="hanging">
 	    <t hangText="Request File">Document whose contents
-	    is an OpenID Request Object representing a set of Authorization Request
+	    is a Request Object representing a set of Authorization Request
 	    parameters.</t>
 
 	    <t hangText="Request File URI">URL that references a Request File.
@@ -433,12 +433,12 @@
 
 		<t hangText="request">
 		  OPTIONAL.
-		  OpenID Request Object value.
+		  Request Object value.
 		</t>
 
 		<t hangText="request_uri">
 		  OPTIONAL.
-		  URL that references an OpenID Request Object.
+		  URL that references a resource containing a Request Object value.
 		</t>
 
 	      </list>
@@ -466,15 +466,15 @@
           <t>
 	    The Request Parameter Method is used when the Client wants or needs to
 	    send an OpenID Connect request as a single, self-contained
-	    OpenID Request Object value.
+	    Request Object value.
 	    This method enables requests to be signed and optionally encrypted.
 	    Like the Simple Request Method, some requests using this method
 	    may exceed limits imposed by User-Agents.
 	  </t>
           <t>
 	    The Request File Method works similarly to the Request Parameter
-	    Method but differs in that it sends an URL as a reference to the
-	    OpenID Request Object. It enables large requests to be sent
+	    Method but differs in that it sends a URL as a reference to the
+	    Request Object. It enables large requests to be sent
 	    securely and compactly even on User-Agents with limited capabilities.
 	    Clients MAY use the Request File Method to minimize the request
 	    size.
@@ -540,18 +540,18 @@
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
             <t>The <spanx style="verb">request</spanx> parameter is
-	      an OpenID Request Object represented as a
+	      a Request Object represented as a
 	      <xref target="JWT">JWT</xref> containing
 	      a set of OpenID Connect request parameters.
-	      The OpenID Request Object MAY be signed or signed and encrypted via
+	      The Request Object MAY be signed or signed and encrypted via
               <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
               respectively, thereby providing authentication, integrity,
               non-repudiation and/or confidentiality.</t>
 
             <t><figure>
                 <preamble>
-		  The following is a non-normative example of
-		  an OpenID Request Object before base64url encoding and signing:
+		  The following is a non-normative example of the Claims in
+		  a Request Object before base64url encoding and signing:
 		</preamble>
 
                 <artwork><![CDATA[
@@ -586,7 +586,7 @@
 	      <figure>
                 <preamble>
 		  Signing it with the <spanx style="verb">RS256</spanx> algorithm
-		  results in this OpenID Request Object value
+		  results in this Request Object value
 		  (with line breaks for display purposes only):
 		</preamble>
 
@@ -613,7 +613,7 @@
 	      <figure>
                 <preamble>
 		  The following is the RSA public key in JWK foramt that can be used to
-		  validate the OpenID Request Object signature in the above example
+		  validate the Request Object signature in the above example
 		  (with line breaks for display purposes only):
 		</preamble>
 
@@ -712,8 +712,8 @@
 
           <section title="Request File Method" anchor="Request_File_Method">
             <t>The Request File Method differs from the other methods in that
-            it uses a Request File that contains an
-            OpenID Request Object. It then sends the Request File URL as
+            it uses a Request File that contains a Request Object.
+	    It then sends the Request File URL as
             part of the Authorization Request.</t>
 
             <t>The Client prepares an Authorization Request using the desired 
@@ -725,10 +725,11 @@
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization
             Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter. The contents of the target of the URL must be an
-            OpenID Request Object. The scheme used in the 
+            parameter.
+	    The contents of the resource referenced by the URL must be a Request Object.
+	    The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https:</spanx>, 
-            unless the target OpenID Request Object is signed in a way that is verifiable by the 
+            unless the target Request Object is signed in a way that is verifiable by the 
             Authorization Server.
             The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
             Authorization Server, and SHOULD be reachable by the Client.
@@ -1137,7 +1138,7 @@
 	      This following example makes a request using a
 	      <spanx style='verb'>request</spanx> parameter value
 	      requesting that specific claims be returned in the ID Token.
-	      The sample OpenID Request Object used is described in
+	      The sample Request Object used is described in
 	      <xref target="req_param_method"/>.
             </t>
 
@@ -1213,7 +1214,7 @@
             <figure>
                 <preamble>
 		  The following is the RSA public key in JWK foramt that can be used to
-		  validate the OpenID Request Object signature in the above examples
+		  validate the Request Object signature in the above examples
 		  (with line breaks for display purposes only):
 		</preamble>
 
@@ -2248,6 +2249,9 @@
 	  </t>
 	  <t>
 	    Fixed #719 - Moved message defintions for Self-Issued OPs to the Messages spec.
+	  </t>
+	  <t>
+	    Fixed #788 - Renamed "OpenID Request Object" to "Request Object".
 	  </t>
 	</list>
       </t>

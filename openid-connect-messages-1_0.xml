@@ -162,9 +162,8 @@
             <t hangText="OP Endpoints">Authorization Endpoint, Token
             Endpoint, and UserInfo Endpoint.</t>
 
-            <t hangText="OpenID Request Object">
-	      JWT that holds a set of OpenID Connect
-	      request parameters as its Claims.
+            <t hangText="Request Object">
+	      JWT that contains a set of request parameters as its Claims.
 	    </t>
 
             <t hangText="Personally Identifiable Information (PII)">
@@ -591,7 +590,7 @@
 		  This parameter enables
 		  OpenID Connect requests to be passed in a single,
 		  self-contined parameter and to be signed and optionally encrypted.
-		  The parameter value is an OpenID Request Object.
+		  The parameter value is a Request Object.
 		  It represents the request as JWT whose claims are the request parameters
 		  above, as specified in <xref target="RequestObject"/>.
 		</t>
@@ -600,7 +599,7 @@
 		  the OpenID Connect request parameter values contained in the JWT
 		  supersede those passed using the OAuth 2.0 request syntax.
 		  Even if a <spanx style="verb">scope</spanx> parameter
-		  is present in the OpenID Request Object,
+		  is present in the Request Object,
 		  a <spanx style="verb">scope</spanx> parameter MUST always be passed using
 		  the OAuth 2.0 request syntax containing the
 		  <spanx style="verb">openid</spanx> scope value to indicate to the
@@ -613,11 +612,11 @@
 		  OpenID Connect requests to be passed by reference, rather than by value.
 		  The <spanx style="verb">request_uri</spanx> value is a URL
 		  using the <spanx style="verb">https:</spanx> scheme
-		  referencing a location
-		  from which a JWT containing the request parmeters is retrieved.
+		  referencing a resource containing a Request Object value,
+		  which is a JWT containing the request parmeters.
 		  This parameter is used identically to the
 		  <spanx style="verb">request</spanx> parameter, other than that
-		  the OpenID Request Object is retrieved from the specified URL,
+		  the Request Object is retrieved from the specified URL,
 		  rather than passed by value.
 		  See <xref target="RequestUriParameter"/> for more information on using the
 		  <spanx style="verb">request_uri</spanx> parameter.
@@ -907,9 +906,9 @@
 	      <spanx style="verb">request_uri</spanx> in
 	      the Authorization Request returns an error or contains invalid data.</t>
 
-	      <t hangText="invalid_openid_request_object">The 
+	      <t hangText="invalid_request_object">The 
 	      <spanx style="verb">request</spanx> parameter contains an invalid 
-	      OpenID Request Object.</t>
+	      Request Object.</t>
 
 	      <t hangText="registration_not_supported">
 		The OP does not support use of the
@@ -1650,7 +1649,7 @@
 	  The <spanx style="verb">claims</spanx> parameter value is represented
 	  in an OAuth 2.0 request as UTF-8 encoded JSON
 	  (which ends up being form-urlencoded when passed as an OAuth parameter).
-	  When used in an OpenID Request Object, per <xref target="RequestObject"/>,
+	  When used in a Request Object, per <xref target="RequestObject"/>,
 	  the JSON is used as the value of the
 	  <spanx style="verb">claims</spanx> member.
 	</t>
@@ -2213,7 +2212,7 @@
           The <spanx style="verb">registration</spanx> parameter value is represented
           in an OAuth 2.0 request as UTF-8 encoded JSON
           (which ends up being form-urlencoded when passed as an OAuth parameter).
-          When used in an OpenID Request Object, per <xref target="RequestObject"/>,
+          When used in a Request Object, per <xref target="RequestObject"/>,
           the JSON is used as the value of the
           <spanx style="verb">registration</spanx> member.
         </t>
@@ -2234,7 +2233,7 @@
         </t>
       </section>
 
-      <section anchor="RequestObject" title="OpenID Request Object">
+      <section anchor="RequestObject" title="Request Object">
 
 	<t>
 	  The <spanx style="verb">request</spanx> parameter
@@ -2242,7 +2241,7 @@
 	  self-contined parameter and to be signed and optionally encrypted.
 	  It represents the request as JWT whose claims are the request parameters
 	  specified in <xref target="RequestParameters"/>.
-	  This JWT is called an OpenID Request Object.
+	  This JWT is called a Request Object.
 	</t>
 	<t>
 	  Support for the <spanx style="verb">request</spanx> parameter is OPTIONAL.
@@ -2257,51 +2256,46 @@
 	  the OpenID Connect request parameter values contained in the JWT
 	  supersede those passed using the OAuth 2.0 request syntax.
 	  However, some parameters MAY be passed using the OAuth 2.0 request syntax
-	  even when an OpenID Request Object is used;
+	  even when a Request Object is used;
 	  this would typically be done to enable a cached,
-	  pre-signed (and possibly pre-encrypted) OpenID Request Object value
+	  pre-signed (and possibly pre-encrypted) Request Object value
 	  to be used containing the fixed request parameters, while parameters that
 	  may vary with each request, such as <spanx style="verb">state</spanx> and
 	  <spanx style="verb">nonce</spanx>, are passed as OAuth 2.0 parameters.
 	</t>
 	<t>
 	  Even if a <spanx style="verb">scope</spanx> parameter
-	  is present in the OpenID Request Object,
+	  is present in the Request Object,
 	  a <spanx style="verb">scope</spanx> parameter MUST always be passed using
 	  the OAuth 2.0 request syntax containing the
 	  <spanx style="verb">openid</spanx> scope value to indicate to the
 	  underlying OAuth 2.0 logic that this is an OpenID Connect request.
 	</t>
         <t>
-	  The OpenID Request Object JWT is a
-	  <xref target="JWS">JWS</xref> signed base64url encoded JSON object
-	  that is passed as the value of the "<spanx style="verb">request</spanx>"
-	  parameter in the Authorization Request.
-	  The OpenID Request Object MAY also be encrypted using
-	  <xref target="JWE">JWE</xref>
-	  after signing, with nesting performed in the same manner as
-	  specified for JWTs <xref target="JWT"/>.
-	</t>
-        <t>
-	  The OpenID Request Object MAY be signed or unsigned (plaintext).
+	  The Request Object MAY be signed or unsigned (plaintext).
 	  When it is plaintext, this is indicated by use of the
 	  <spanx style="verb">none</spanx> algorithm <xref target="JWA" />
-	  in the JWS header.  If signed, the OpenID Request Object
+	  in the JWS header.  If signed, the Request Object
 	  SHOULD contain the Claims
 	  <spanx style="verb">iss</spanx> (issuer)
 	  and <spanx style="verb">aud</spanx> (audience) as members,
-	  with their semantics being the same as defined in the
+	  with their semantics being as defined in the
 	  <xref target="JWT">JWT</xref> specification.
         </t>
         <t>
+	  The Request Object MAY also be encrypted using <xref target="JWE">JWE</xref>,
+	  with nested signing and encryption
+	  performed as described in the JWT <xref target="JWT"/> specification.
+	</t>
+        <t>
           <spanx style="verb">request</spanx> and
           <spanx style="verb">request_uri</spanx> parameters
-          MUST NOT be included in the OpenID Request Object.
+          MUST NOT be included in Request Objects.
         </t>
 
 	<t>
 	  <figure>
-          <preamble>An example OpenID Request Object body before
+          <preamble>An example set of Request Object Claims before
           base64url encoding and JWS signing is as follows:</preamble>
 
           <artwork><![CDATA[
@@ -2341,7 +2335,7 @@
 	  OpenID Connect requests to be passed by reference, rather than by value.
 	  This parameter is used identically to the
 	  <spanx style="verb">request</spanx> parameter, other than that
-	  the OpenID Request Object is retrieved from the specified URL,
+	  the Request Object is retrieved from the resource at the specified URL,
 	  rather than passed by value.
 	</t>
 	<t>
@@ -2355,14 +2349,14 @@
 	  However, some parameters MAY be passed using the OAuth 2.0 request syntax
 	  even when a <spanx style="verb">request_uri</spanx> is used;
 	  this would typically be done to enable a cached,
-	  pre-signed (and possibly pre-encrypted) OpenID Request Object value
+	  pre-signed (and possibly pre-encrypted) Request Object value
 	  to be used containing the fixed request parameters, while parameters that
 	  may vary with each request, such as <spanx style="verb">state</spanx> and
 	  <spanx style="verb">nonce</spanx>, are passed as OAuth 2.0 parameters.
 	</t>
 	<t>
 	  Even if a <spanx style="verb">scope</spanx> parameter
-	  is present in the referenced OpenID Request Object,
+	  is present in the referenced Request Object,
 	  a <spanx style="verb">scope</spanx> parameter MUST always be passed using
 	  the OAuth 2.0 request syntax containing the
 	  <spanx style="verb">openid</spanx> scope value to indicate to the
@@ -2450,12 +2444,12 @@
       <t>Depending on the transport through which the messages are sent, the
       integrity of the message may not be guaranteed and the originator of the
       message may not be authenticated. To mitigate these risks, 
-      the OpenID Request Object, token request, ID Token, and UserInfo response
+      the Request Object, token request, ID Token, and UserInfo response
       MAY utilize <xref target="JWS">JSON Web Signature
       (JWS)</xref> to sign the contents.</t>
 
       <t>To achieve message confidentiality, 
-      the OpenID Request Object, token request, ID Token, and UserInfo response
+      the Request Object, token request, ID Token, and UserInfo response
       MAY use
       <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the
       content.</t>
@@ -2514,20 +2508,20 @@
 	    JSON array containing a list of the JWS signing algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for 
-            the <xref target="RequestObject">OpenID Request Object</xref>.
+            the <xref target="RequestObject">Request Object</xref>.
 	    Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.</t>
 
           <t hangText="request_object_encryption_alg_values_supported">
 	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for 
-            the <xref target="RequestObject">OpenID Request Object</xref>.</t>
+            the <xref target="RequestObject">Request Object</xref>.</t>
 
           <t hangText="request_object_encryption_enc_values_supported">
 	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">enc</spanx> values)
 	    supported by the Authorization Server for 
-            the <xref target="RequestObject">OpenID Request Object</xref>.</t>
+            the <xref target="RequestObject">Request Object</xref>.</t>
 
 	  <t hangText="token_endpoint_auth_signing_alg_values_supported">
 	    JSON array containing a list of the JWS signing algorithms
@@ -2543,8 +2537,8 @@
       using the following Registration parameters:</t>
       <t><list style="hanging">
              <t hangText="request_object_signing_alg">OPTIONAL.
-             JWS signature algorithm <xref target="JWA" /> required for OpenID Request Objects
-             by the Authorization Server. All OpenID Request Objects from
+             JWS signature algorithm <xref target="JWA" /> required for Request Objects
+             by the Authorization Server. All Request Objects from
              this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
              Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
               
@@ -2851,14 +2845,14 @@
 	  the value of <spanx style="verb">request</spanx> or 
 	  the content of <spanx style="verb">request_uri</spanx>,  
 	  and (2) parameter validation.
-          If an OpenID Request Object was sent in the <spanx 
+          If a Request Object was sent in the <spanx 
           style="verb">request</spanx> parameter or by reference in the
           <spanx style="verb">request_uri</spanx> parameter, the 
           Request Object MUST validate as 
 		  <xref target="JWS">JWS</xref> or <xref target="JWE">JWE</xref> 
 		  encoded objects,
 	for which nested encryption and signing may have been performed
-	in the manner described in <xref target="JWT" />.</t>
+	in the manner described in the <xref target="JWT">JWT</xref> specification.</t>
 
          <section anchor="EncryptedRequestObject" title="Encrypted Request Object">
           
@@ -2867,11 +2861,13 @@
 	  <spanx style="verb">request_object_encryption_enc_values_supported</spanx> elements of its 
           Discovery Document, these are used by the Client to encrypt the JWT.</t>
           
-          <t>The Authorization Server MUST decode the JWT in accordance with
-          the <xref target="JWE">JSON Web Encryption</xref> specification.
-		  The result MAY be either OpenID Request Object or a JWS Signed JWT. 
-		  In the latter case, the signature validation MUST be performed 
-		  as defined in <xref target="signed.req.obj.var">Signed Request Object</xref>. </t>
+          <t>
+	    The Authorization Server MUST decode the JWT in accordance with
+	    the <xref target="JWE">JSON Web Encryption</xref> specification.
+	    The result MAY be either a signed or unsigned (plaintext) Request Object. 
+	    In the former case, signature validation MUST be performed 
+	    as defined in <xref target="signed.req.obj.var"/>.
+	  </t>
           
           <t>The Authorization Server MUST return the error if there is a decryption error.</t>
          </section>
@@ -2893,11 +2889,11 @@
 	 </section>
 	 <section anchor="req.obj.veri" title="Parameter Validation">
 		  <t>The Authorization Server MUST construct the Authorization Request Message 
-		  from the OpenID Request Object 
+		  from the Request Object 
 		  and the OAuth 2.0 Authorization Request parameters.
 		  If the same parameter exists both in 
-		  the OpenID Request Object and the OAuth Authorization Request parameters,
-		  the parameter values MUST exactly match.
+		  the Request Object and the OAuth Authorization Request parameters,
+		  the parameter in the Request Object is used.
 		  Using this Authorization Request Message, the Authorization Server performs 
 		  the following steps of the request validation: 
 		  </t>
@@ -3306,8 +3302,8 @@
 	  </t>
           <t hangText="request">
 	    OPTIONAL.
-	    OpenID Request Object value, as specified in <xref target="RequestObject"/>.
-	    The OpenID Request Object may be encrypted in a JWE by the Client.
+	    Request Object value, as specified in <xref target="RequestObject"/>.
+	    The Request Object may be encrypted in a JWE by the Client.
 	    In this case, the <spanx style="verb">sub</spanx> (subject) of
 	    a previously issued ID Token for this Client
 	    MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
@@ -3630,7 +3626,7 @@
 	      rather than in in X.509 format.
             </t>
             <t hangText="Request URI">
-              These OPs MUST support requests made using an OpenID Request Object
+              These OPs MUST support requests made using a Request Object
               that is retrieved from a Request URI that is provided
               with the <spanx style="verb">request_uri</spanx> parameter,
               as defined in <xref target="RequestParameters"/>.
@@ -4626,7 +4622,7 @@
 	  
           <t>
 	    <list style="symbols">
-              <t>Error name: <spanx style="verb">invalid_openid_request_object</spanx></t>
+              <t>Error name: <spanx style="verb">invalid_request_object</spanx></t>
 
               <t>Error usage location: Authorization Endpoint</t>
 
@@ -5547,6 +5543,9 @@ Representation of dates and times</title>
 	    Stated that the <spanx style="verb">azp</spanx> Claim
 	    is only needed when the party requesting the ID Token
 	    is different than the audience of the ID Token.
+	  </t>
+	  <t>
+	    Fixed #788 - Renamed "OpenID Request Object" to "Request Object".
 	  </t>
 	</list>
       </t>
