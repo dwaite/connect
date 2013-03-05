@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="28" month="February" year="2013" />
+    <date day="4" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -687,13 +687,16 @@
               that this ID Token is intended for. It MUST contain the
 	      OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
 
-              <t hangText="azp">OPTIONAL.
-	      Authorized Party.
-	      This member identifies an OAuth 2.0 client authorized to use this
-	      ID Token as an OAuth access token.
-	      This Claim is only needed when the Authorized Party is different than the
-	      Client that requested the ID Token. It MUST contain the
-	      <spanx style="verb">client_id</spanx> of the authorized party.</t>
+              <t hangText="azp">
+		OPTIONAL.
+		Authorized Party.
+		This member identifies an OAuth 2.0 Client authorized to use this
+		ID Token as an OAuth access token.
+		It MUST contain the <spanx style="verb">client_id</spanx>
+		of the Authorized Party.
+		This Claim is only needed when the party requesting the ID Token
+		is different than the audience of the ID Token.
+	      </t>
 
               <t hangText="exp">REQUIRED.
               Expiration time on or after which the ID Token MUST NOT be
@@ -1892,6 +1895,11 @@ Representation of dates and times</title>
 	  <t>
 	    Clarified when the <spanx style="verb">http</spanx> scheme can and can not
 	    be used in <spanx style="verb">redirect_uri</spanx> values.
+	  </t>
+	  <t>
+	    Stated that the <spanx style="verb">azp</spanx> Claim
+	    is only needed when the party requesting the ID Token
+	    is different than the audience of the ID Token.
 	  </t>
 	</list>
       </t>
