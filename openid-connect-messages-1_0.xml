@@ -746,12 +746,12 @@
                 <t hangText="acr">
 		  OPTIONAL.
 		Authentication Context Class Reference.
-                String specifying an Authentication Context Class Reference value. 
-                The values "1", "2", "3", and "4" map to the
-                <xref target="ISO29115">ISO/IEC 29115</xref> 
-                entity authentication assurance level of the authentication performed. 
-                The value "0" indicates the End-User authentication
-                did not meet the requirements of ISO/IEC 29115 level 1.
+		String specifying an Authentication Context Class Reference value
+		that identifies the Authentication Context Class that the
+		authentication performed satisfied.
+		The value "0" indicates the End-User authentication
+		did not meet the requirements of
+		<xref target="ISO29115">ISO/IEC 29115</xref> level 1.
                 Authentication using a long-lived browser cookie, for instance, is one 
                 example where the use of "level 0" is appropriate. Authentications with 
                 level 0 should never be used to authorize access to any resource of any 
@@ -838,7 +838,7 @@
    "exp": 1311281970,
    "iat": 1311280970,
    "auth_time": 1311280969,
-   "acr": "2",
+   "acr": "urn:mace:incommon:iap:silver",
    "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
   }
 ]]></artwork>
@@ -1707,7 +1707,7 @@
    "id_token":
     {
      "auth_time": {"essential": true},
-     "acr": {"values": ["2"] }
+     "acr": {"values": ["urn:mace:incommon:iap:silver"] }
     }
   }
 ]]></artwork>
@@ -1804,13 +1804,15 @@
 		    <figure>
 		      <artwork><![CDATA[
   "acr": {"essential": true,
-          "values": ["2", "http://id.incommon.org/assurance/bronze"]}
+          "values": ["urn:mace:incommon:iap:silver",
+                     "urn:mace:incommon:iap:bronze"]}
 ]]></artwork>
 		    </figure>
 
 		    specifies that it is Essential that the <spanx style="verb">acr</spanx>
-		    Claim be returned with either the value <spanx style="verb">2</spanx>
-		    or <spanx style="verb">http://id.incommon.org/assurance/bronze</spanx>.
+		    Claim be returned with either the value
+		    <spanx style="verb">urn:mace:incommon:iap:silver</spanx> or
+		    <spanx style="verb">urn:mace:incommon:iap:bronze</spanx>.
 		  </t>
                 </list>
 
@@ -2320,7 +2322,7 @@
      "id_token":
       {
        "auth_time": {"essential": true},
-       "acr": { "values":["2"] }
+       "acr": { "values":["urn:mace:incommon:iap:silver"] }
       }
     }
   }
@@ -5546,6 +5548,9 @@ Representation of dates and times</title>
 	  </t>
 	  <t>
 	    Fixed #788 - Renamed "OpenID Request Object" to "Request Object".
+	  </t>
+	  <t>
+	    Use legal <spanx style="verb">acr</spanx> values in examples.
 	  </t>
 	</list>
       </t>
