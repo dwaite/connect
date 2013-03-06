@@ -1172,6 +1172,20 @@
 	    <spanx style="verb">authorization_code</spanx>
 	    and MAY be returned when other grant types are used.
 	  </t>
+	  <t>
+	    If an ID Token is returned as a result of a token refresh request,
+	    the following requirements apply:
+	    its <spanx style="verb">iat</spanx> Claim MUST represent
+	    the time that the new ID Token is issued;
+	    if the ID Token contains an <spanx style="verb">auth_time</spanx> Claim,
+	    its value MUST represent the time of the original authentication - not
+	    the time that the new ID token is issued;
+	    if the ID Token contains an <spanx style="verb">azp</spanx> Claim,
+	    its value MUST be the same as the <spanx style="verb">azp</spanx> Claim
+	    in the ID Token issued when the original authentication occurred;
+	    otherwise, the same rules apply as apply when issuing an ID Token
+	    at the time of the original authentication.
+	  </t>
 
 	  <figure>
 	    <preamble>Following is a non-normative example:</preamble>
@@ -3932,12 +3946,15 @@
 	very short lifetimes.</t>
 	<t>If access to the User Info Endpoint or other protected resources is required,
 	a Refresh Token should be used. The Client may then exchange the Refresh Token at
-	the Token Endpoint for a fresh short lived Access Token that can be used to 
+	the Token Endpoint for a fresh short-lived Access Token that can be used to 
 	access the resource.</t>
-	<t>The Authorization Server SHOULD clearly identify long term grants to the User
-	during Authorization.</t>
-	<t>The Authorization Server MUST provide a mechanism for the user to revoke
-	Refresh Tokens granted to a Client.</t>
+
+	<t>
+	  The Authorization Server SHOULD clearly identify long-term grants to the User
+	  during Authorization.
+	  The Authorization Server SHOULD provide a mechanism for the user to revoke
+	  Refresh Tokens granted to a Client.
+	</t>
       </section>
 
       <section anchor="SymmetricKeyEntropy" title="Symmetric Key Entropy">
@@ -5597,6 +5614,10 @@
 	  <t>
 	    Fixed #790 - Removed "MUST understand" text about request parameters,
 	    since OAuth requires that unrecognized parameters MUST be ignored.
+	  </t>
+	  <t>
+	    Added requirements for ID Tokens returned as a result of
+	    a token refresh request.
 	  </t>
 	</list>
       </t>
