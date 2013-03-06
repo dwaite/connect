@@ -159,8 +159,8 @@
               in an ID Token and/or a UserInfo Endpoint response. 
             </t>
 
-            <t hangText="OP Endpoints">Authorization Endpoint, Token
-            Endpoint, and UserInfo Endpoint.</t>
+            <t hangText="OP Endpoints">Authorization Endpoint, Token Endpoint,
+	    and UserInfo Endpoint.</t>
 
             <t hangText="Request Object">
 	      JWT that contains a set of request parameters as its Claims.
@@ -695,7 +695,7 @@
 		  OPTIONAL.
 		  Authorized Party.
 		  This member identifies an OAuth 2.0 Client authorized to use this
-		  ID Token as an OAuth access token.
+		  ID Token as an OAuth Access Token.
 		  It MUST contain the <spanx style="verb">client_id</spanx>
 		  of the Authorized Party.
 		  This Claim is only needed when the party requesting the ID Token
@@ -955,8 +955,8 @@
       </section>
 
       <section anchor="token_ep" title="Token Endpoint">	
-	<t>The RP (Client) sends an Access Token Request to the Token 
-	Endpoint to obtain an Access Token Response,  
+	<t>The RP (Client) sends an Access Token Request to the Token Endpoint
+	to obtain an Access Token Response,
 	which MAY include an Access Token, a <xref target="token_lifetime">Refresh Token</xref>,
 	an <xref target="id_token">ID Token</xref>, and other results.</t>
 
@@ -1147,8 +1147,8 @@
 	</section>
 
 	<section anchor="access_token_response" title="Access Token Response">
-	  <t>After receiving and validating a valid and authorized Access Token
-	  Request from the Client, the Authorization Server returns a successful
+	  <t>After receiving and validating a valid and authorized Access Token Request
+	  from the Client, the Authorization Server returns a successful
 	  response that includes an Access Token and an ID Token.  The
 	  parameters in the successful response are defined in Section 4.1.4
 	  of <xref target="RFC6749">OAuth 2.0</xref>.</t>
@@ -1216,7 +1216,7 @@
 	</section>
 
 	<section anchor="TokenErrorResponse" title="Access Token Error Response">
-	  <t>If the token request is invalid or unauthorized, the
+	  <t>If the Token Request is invalid or unauthorized, the
 	  Authorization Server constructs the error response. The parameters
 	  of the Token Error Response are defined as in Section 5.2 of <xref
 	  target="RFC6749">OAuth 2.0</xref>.</t>
@@ -2020,8 +2020,8 @@
 		      the Authorization Request header field and Claims
 		      Sources MUST support this method. If the Access Token
 		      is not available, Clients MAY need to retrieve the
-		      Access Token out of band or use an a priori Access
-		      Token that was negotiated between the Claim Source and
+		      Access Token out of band or use an a priori Access Token
+		      that was negotiated between the Claim Source and
 		      Client, or the Claim Source MAY reauthenticate the
 		      End-User and/or reauthorize the Client.</t>
 
@@ -2511,12 +2511,12 @@
       <t>Depending on the transport through which the messages are sent, the
       integrity of the message may not be guaranteed and the originator of the
       message may not be authenticated. To mitigate these risks, 
-      the Request Object, token request, ID Token, and UserInfo response
+      the Request Object, Token Request, ID Token, and UserInfo response
       MAY utilize <xref target="JWS">JSON Web Signature
       (JWS)</xref> to sign the contents.</t>
 
       <t>To achieve message confidentiality, 
-      the Request Object, token request, ID Token, and UserInfo response
+      the Request Object, Token Request, ID Token, and UserInfo response
       MAY use
       <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the
       content.</t>
@@ -3852,10 +3852,10 @@
       </section>
 
       <section anchor="access_token_redirect" title="Access Token Redirect">
-	<t>An Attacker uses the access token generated for one resource to 
+	<t>An Attacker uses the Access Token generated for one resource to 
 	obtain access to a second resource.
 	</t>
-	<t>To mitigate this threat, the access token should be audience 
+	<t>To mitigate this threat, the Access Token should be audience 
 	and scope restricted. One way of implementing it is to include
 	the identifier of the resource for whom it was generated as audience. 
 	The resource verifies that
@@ -3893,7 +3893,7 @@
 	to convince the Token Endpoint 
 	that his or her authorization grant corresponds to the grant sent on 
 	behalf of the more privileged user. </t>
-	<t>Responses to token requests are bound to the corresponding
+	<t>Responses to Token Requests are bound to the corresponding
 	requests by message order in HTTP, as both token and requests are
 	protected by TLS that can detect and disallow malicious reordering of
 	packets.</t>
@@ -4599,8 +4599,8 @@
 	    <list style="symbols">
 	      <t>Parameter name: <spanx style="verb">id_token</spanx></t>
 
-	      <t>Parameter usage location: Authorization Response, Access Token
-	      Response</t>
+	      <t>Parameter usage location: Authorization Response,
+	      Access Token Response</t>
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
