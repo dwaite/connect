@@ -67,13 +67,20 @@
       obtain basic profile information about the End-User in an interoperable and 
       REST-like manner.</t>
 
-      <t>OpenID Connect Implicit Client Profile 1.0 is a profile of the 
-      OpenID Connect Standard 1.0 specification
-      that is designed to be easy to read and implement for basic
-      Web-based Relying Parties using the OAuth implicit grant type.
-      OpenID Providers should consult the Standard specification.
-      This profile omits implementation and security
-      considerations for OpenID Providers.</t>
+      <t>
+	OpenID Connect Implicit Client Profile 1.0 is a profile of the
+	OpenID Connect Messages 1.0 and 
+	OpenID Connect Standard 1.0 specifications
+	that is designed to be easy to read and implement for basic
+	Web-based Relying Parties using the OAuth implicit grant type.
+	This specification intentionally duplicates content from the Messages and Standard
+	specifications to provide a self-contained implementation profile for basic
+	Web-based Relying Parties using the OAuth implicit grant type.
+      </t>
+      <t>
+	OpenID Providers and non Web-based applications
+	should instead consult the Messages and Standard specifications.
+      </t>
     </abstract>
   </front>
 
@@ -81,19 +88,27 @@
 
     <section anchor="Introduction" title="Introduction">
 
-      <t>OpenID Connect Implicit Client Profile 1.0 is a profile of the 
-      <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specification
-      that is designed to be easy to read and implement for basic
-      Web-based Relying Parties using the OAuth implicit grant type.
-      See the
-      <xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref>
-      specification for a related profile for basic
-      Web-based Relying Parties using the
-      OAuth <spanx style="verb">authorization_code</spanx> grant type.
-      OpenID Providers and non Web-based applications
-      should consult the Standard specification.
-      This profile omits implementation and security
-      considerations for OpenID Providers.</t>
+      <t>
+	OpenID Connect Implicit Client Profile 1.0 is a profile of the 
+	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> and
+	<xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specifications
+	that is designed to be easy to read and implement for basic
+	Web-based Relying Parties using the OAuth implicit grant type.
+	This specification intentionally duplicates content from the Messages and Standard
+	specifications to provide a self-contained implementation profile for basic
+	Web-based Relying Parties using the OAuth implicit grant type.
+      </t>
+      <t>
+	See the
+	<xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref>
+	specification for a related profile for basic
+	Web-based Relying Parties using the
+	OAuth <spanx style="verb">authorization_code</spanx> grant type.
+	OpenID Providers and non Web-based applications
+	should instead consult the Messages and Standard specifications.
+	This profile omits implementation and security
+	considerations for OpenID Providers and non Web-based applications.
+      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -190,13 +205,10 @@
       themselves and the Authorization Server whereas, the Implicit Flow is
       suitable for Clients that cannot.</t>
 
-      <t>This specification only documents Clients using
-      the Implicit Flow.
-      OpenID Providers MUST support both flows.
-      Clients wanting to use the Authorization Code Flow
-      and OpenID Providers should consult the
-      <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
-      specification.</t>
+      <t>
+	This specification only provides information that is sufficient for
+	basic Clients using the Implicit Flow.
+      </t>
 
       <section anchor="ImplicitFlow" title="Implicit Flow">
         <t>The Implicit Flow consists of the following steps:</t>
@@ -867,7 +879,7 @@
 	      
 	      <t>The <spanx style="verb">alg</spanx> value SHOULD be <spanx style="verb">RS256</spanx>.
 	      Validation of tokens using other signing algorithms is described in the
-	      <xref target="OpenID.Messages">OpenID Connect Messages</xref>
+	      <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	      specification.</t>
 	      
 	      <t>The Client MUST use the signing key provided
@@ -1821,9 +1833,10 @@
 
     <section anchor="security_considerations" title="Security Considerations">
 
-      <t>For security considerations other than those listed below, refer to the
-      <xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
-      specification.
+      <t>
+	For security considerations other than those listed below, refer to the
+	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> and
+	<xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specifications.
       </t>
 
       <section anchor="TLS_requirements" title="TLS Requirements">
