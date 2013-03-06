@@ -1652,37 +1652,49 @@
     </section>
 
     <section anchor="client_Initiate_login" title="Initiating Login at Client from Third Party">
-      <t>In some cases the login flow may start at the Authorization Server or other party via a stored link.
-      The target resource at the Client may also be a deep link rather than a default landing page.</t>
-
-      <t>The client may optionally <xref
-      target="OpenID.Registration">register</xref> an <spanx style="verb">initiate_login_uri</spanx> that
-      can be used by the Authorization Server or other party to initiate a login for an End-User at the Client.</t>
-      
-      <t>The Authorization Server or Third Party sends the Initiation Request to the
-      Client Initiation Endpoint with the following parameters:</t>
-        <t><list style="hanging">
+      <t>
+	In some cases, the login flow may start at the Authorization Server
+	or another party by contacting the Client via a stored link.
+	The target resource at the Client may be a deep link,
+	rather than a default landing page.
+      </t>
+      <t>
+	The Client may optionally <xref target="OpenID.Registration">register</xref>
+	an <spanx style="verb">initiate_login_uri</spanx> that
+	can be used by the Authorization Server
+	or another party to initiate a login for an End-User at the Client.
+      </t>
+      <t>
+	The Authorization Server or a third party sends a
+	Login Initiation Request to the
+	Client Initiation URI with the following parameters:
+      </t>
+      <t>
+	<list style="hanging">
           <t hangText="login_hint">REQUIRED.
 	    Hint to the Authorization Server
             about the login identifier the End-User may use to log in (if necessary).
           </t>
           <t hangText="iss">REQUIRED.
-	    Issuer Identifier for the Issuer that the client is to send the authentication request to. 
-            The value MUST be a URL using the <spanx style="verb">https:</spanx> scheme.
+	    Issuer Identifier for the Issuer that the Client is to send
+	    the authentication request to. 
+            Its value MUST be a URL using the <spanx style="verb">https:</spanx> scheme.
           </t>
           <t hangText="target_link_uri">OPTIONAL.
-	    URI that the client is requested to redirect to after authentication.
-	    Clients MUST verify the value of  the
+	    URI that the Client is requested to redirect to after authentication.
+	    Clients MUST verify the value of the
             <spanx style="verb">target_link_uri</spanx> to prevent being used as
 	    an open redirector to external sites.
           </t>
-          
-        </list></t>
-        
-        <t>Other parameters MAY be sent, if defined by extensions.  Parameters not understood MUST be ignored by the Client.</t>
-        
-        <t>Clients SHOULD employ frame busting and other techniques to prevent
-	users from being logged in by third party sites without their knowledge.</t>
+
+        </list>
+      </t>
+      
+      <t>Other parameters MAY be sent, if defined by extensions.
+      Parameters not understood MUST be ignored by the Client.</t>
+      
+      <t>Clients SHOULD employ frame busting and other techniques to prevent
+      users from being logged in by third party sites without their knowledge.</t>
       
     </section>
 
