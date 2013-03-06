@@ -760,7 +760,7 @@
                 <t hangText="at_hash">
 		  OPTIONAL or REQUIRED. 
 		  Access Token hash value.
-		  If the ID Token is issued from the Authorization endpoint with an 
+		  If the ID Token is issued from the Authorization Endpoint with an 
 		  <spanx style="verb">access_token</spanx>, this is REQUIRED.
 		  This is OPTIONAL when the ID Token is issued from the Token Endpoint.
 
@@ -777,7 +777,7 @@
                 <t hangText="c_hash">
 		  OPTIONAL or REQUIRED.
 		  Code hash value.
-		  If the ID Token is issued from the Authorization endpoint with a 
+		  If the ID Token is issued from the Authorization Endpoint with a 
 		  <spanx style="verb">code</spanx>, this is REQUIRED.
 		  This is OPTIONAL when the ID Token is issued from the Token Endpoint.
 		  
@@ -1239,7 +1239,7 @@
 	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
 	    The Access Token SHOULD be sent using the
 	    <spanx style="verb">Authorization</spanx> header field.
-	    The following parameters are defined for use in UserInfo requests:
+	    The following parameters are defined for use in UserInfo Requests:
 	  </t>
 
 	  <t>
@@ -1274,7 +1274,7 @@
 	  </t>
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) Claim
-	    MUST always be returned in the UserInfo response.
+	    MUST always be returned in the UserInfo Response.
 	  </t>
 	  <t>
 	    NOTE: The UserInfo Endpoint response is not guaranteed to be about the
@@ -1361,7 +1361,7 @@
 	    <t hangText="offline_access">OPTIONAL. This scope value requests
 	    that an OAuth 2.0 Refresh Token be issued that can be used to
 	    obtain an Access Token that grants access to the End-User's
-	    UserInfo endpoint even when the user is not present (not logged in).</t>
+	    UserInfo Endpoint even when the user is not present (not logged in).</t>
 
 	  </list>
 	</t>
@@ -1407,7 +1407,7 @@
       <section anchor="StandardClaims" title="Standard Claims">
 	<t>This specification defines a set of standard Claims.
 	They can be requested to be returned either in the
-	UserInfo response or in the ID Token.
+	UserInfo Response or in the ID Token.
 	</t>
 
 	<texttable anchor="ClaimTable" title="Reserved Member Definitions">
@@ -1681,7 +1681,7 @@
       <section anchor="ClaimsRequest" title="Claims Request">
 	<t>
 	  The <spanx style="verb">claims</spanx> parameter requests that specific Claims
-	  be returned from the UserInfo endpoint and/or in the ID Token.
+	  be returned from the UserInfo Endpoint and/or in the ID Token.
 	  It is represented as a JSON object containing lists of claims being requested
 	  from these locations.
 	  Properties of the Claims being requested may also be specified.
@@ -1937,7 +1937,7 @@
 	  <t hangText="Distributed Claims">Claims that are asserted by a
 	  Claims Provider other than the OpenID Provider but are returned
 	  as references by the OpenID Provider.</t>
-	</list>The UserInfo endpoint MUST support normal Claims.</t>
+	</list>The UserInfo Endpoint MUST support normal Claims.</t>
 
 	<t>Aggregated and Distributed Claims support is OPTIONAL.</t>
 
@@ -2511,12 +2511,12 @@
       <t>Depending on the transport through which the messages are sent, the
       integrity of the message may not be guaranteed and the originator of the
       message may not be authenticated. To mitigate these risks, 
-      the Request Object, Token Request, ID Token, and UserInfo response
+      the Request Object, Token Request, ID Token, and UserInfo Response
       MAY utilize <xref target="JWS">JSON Web Signature
       (JWS)</xref> to sign the contents.</t>
 
       <t>To achieve message confidentiality, 
-      the Request Object, Token Request, ID Token, and UserInfo response
+      the Request Object, Token Request, ID Token, and UserInfo Response
       MAY use
       <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the
       content.</t>
@@ -2610,13 +2610,13 @@
 	  Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
 
 	  <t hangText="userinfo_signed_response_alg">OPTIONAL.
-	  JWS signature algorithm <xref target="JWA" /> required for UserInfo responses. 
+	  JWS signature algorithm <xref target="JWA" /> required for UserInfo Responses. 
 	  If this is specified the response will be 
 	  <xref target="JWT">JWT</xref> serialized.</t>
 
 	  <t hangText="userinfo_encrypted_response_alg">OPTIONAL.  
 	  JWE <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> required for UserInfo responses.
+	  algorithm <xref target="JWA" /> required for UserInfo Responses.
 	  If this is requested in 
 	  combination with signing, the response 
 	  MUST be <xref target="signing_order">signed first then encrypted</xref>.
@@ -2625,7 +2625,7 @@
 
 	  <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
 	  JWE <spanx style="verb">enc</spanx>
-	  algorithm <xref target="JWA" /> required for UserInfo responses.
+	  algorithm <xref target="JWA" /> required for UserInfo Responses.
 	  If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
 	  the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
 	  </t>
@@ -3043,7 +3043,7 @@
 	  the client SHOULD verify 
 	  the identity of the presenter.  The authorized presenter of the token is
 	  identified by an <spanx style="verb">azp</spanx> claim in the token.  
-	  The <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>, a direct connection to the token endpoint or other extension 
+	  The <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>, a direct connection to the Token Endpoint or other extension 
 	  may be used to identify the presenter.</t>
 
 	  <t>If the <spanx style="verb">id_token</spanx> is received via direct
@@ -3109,13 +3109,13 @@
 
       <section anchor="UserInfoResponseValidation" title="UserInfo Response Validation">
 
-	<t>To validate the UserInfo response, the Client MUST do
+	<t>To validate the UserInfo Response, the Client MUST do
 	the following:</t>
 
 	<t><list style="numbers">
 	  <t>If the Client has provided a 
 	  <spanx style="verb">userinfo_encrypted_response_alg</spanx>
-	  parameter during Registration, decrypt the UserInfo response
+	  parameter during Registration, decrypt the UserInfo Response
 	  using the key pair specified during Registration.</t>
 
 	  <t>If the response was signed, the Client SHOULD validate the
@@ -3129,7 +3129,7 @@
       </section>
 
       <section anchor="access.token.validation" title="Access Token Validation">
-	<t>To validate an Access Token issued from the Authorization endpoint with an ID Token in 
+	<t>To validate an Access Token issued from the Authorization Endpoint with an ID Token in 
 	response to a request containing a <spanx style="verb">response_type</spanx> of
 	<spanx style="verb">token id_token</spanx> or <spanx style="verb">code token id_token</spanx>, 
 	the client SHOULD do the following:</t>
@@ -3149,7 +3149,7 @@
       </section>
 
       <section anchor="code.validation" title="Code Validation">
-	<t>To validate a <spanx style="verb">code</spanx> issued from the Authorization endpoint with an ID Token in 
+	<t>To validate a <spanx style="verb">code</spanx> issued from the Authorization Endpoint with an ID Token in 
 	response to a request containing a <spanx style="verb">response_type</spanx> of
 	<spanx style="verb">code id_token</spanx> or <spanx style="verb">code token id_token</spanx>, the client SHOULD do the following:</t>
 
@@ -3438,7 +3438,7 @@
 	    <spanx style="verb">y</spanx> are concatenated in that order.
 	  </t>
 	  <t>
-	    No Access Token is returned for accessing a UserInfo endpoint,
+	    No Access Token is returned for accessing a UserInfo Endpoint,
 	    so all claims returned must be in the ID Token.
 	  </t>
 	</list></t>
@@ -3975,7 +3975,7 @@
 	<t>Access Token grants are not revocable by the Authorization Server. 
 	Access Token grant lifetimes SHOULD be kept to single use or 
 	very short lifetimes.</t>
-	<t>If access to the User Info Endpoint or other protected resources is required,
+	<t>If access to the UserInfo Endpoint or other protected resources is required,
 	a Refresh Token should be used. The Client may then exchange the Refresh Token at
 	the Token Endpoint for a fresh short-lived Access Token that can be used to 
 	access the resource.</t>
@@ -4030,8 +4030,8 @@
     </section>
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
-      <t>The UserInfo response typically contains Personally Identifiable
-      Information. As such, End-User consent for the release of the information
+      <t>The UserInfo Response typically contains Personally Identifiable
+      Information (PII). As such, End-User consent for the release of the information
       for the specified purpose SHOULD be obtained at or prior to the
       authorization time in accordance with relevant regulations. The purpose
       of use is typically registered in association with the <spanx

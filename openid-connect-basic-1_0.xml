@@ -802,7 +802,7 @@
 	    the information that failed to validate MUST NOT be used.
 	  </t>
 
-	  <t>The client MUST validate the ID Token in the Token Endpoint Response.  To do this,
+	  <t>The client MUST validate the ID Token in the Token Response.  To do this,
 	  the Client can split the <spanx style="verb">id_token</spanx> at the 
 	  period (".") characters, take the second segment, and base64url decode it to 
 	  obtain a JSON object containing the ID Token claims, which MUST be validated 
@@ -874,7 +874,7 @@
 	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
 	    The Access Token SHOULD be sent using the
 	    <spanx style="verb">Authorization</spanx> header field.
-	    The following parameters are defined for use in UserInfo requests:
+	    The following parameters are defined for use in UserInfo Requests:
 	  </t>
 
           <t>
@@ -898,7 +898,7 @@
 
           <figure>
             <preamble>
-	      The following is a non-normative example of a UserInfo request:
+	      The following is a non-normative example of a UserInfo Request:
 	    </preamble>
 
             <artwork><![CDATA[
@@ -924,7 +924,7 @@
           </t>
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) Claim
-	    MUST always be returned in the UserInfo response.
+	    MUST always be returned in the UserInfo Response.
 	  </t>
 	  <t>
 	    NOTE: The UserInfo Endpoint response is not guaranteed to be about the
@@ -1013,7 +1013,7 @@
 	    <t hangText="offline_access">OPTIONAL. This scope value requests
 	    that an OAuth 2.0 Refresh Token be issued that can be used to
 	    obtain an Access Token that grants access to the End-User's
-	    UserInfo endpoint even when the user is not present (not logged in).</t>
+	    UserInfo Endpoint even when the user is not present (not logged in).</t>
 
           </list>
         </t>
@@ -1053,7 +1053,7 @@
 
       <section anchor="StandardClaims" title="Standard Claims">
 	<t>This profile defines a set of standard Claims.
-	They are returned in the UserInfo response.
+	They are returned in the UserInfo Response.
 	</t>
 
 	<texttable anchor="ClaimTable" title="Reserved Member Definitions">
@@ -1484,8 +1484,8 @@
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
 
-      <t>The UserInfo response typically contains Personally Identifiable
-      Information. As such, End-User consent for the release of the information
+      <t>The UserInfo Response typically contains Personally Identifiable
+      Information (PII). As such, End-User consent for the release of the information
       for the specified purpose SHOULD be obtained at or prior to the
       authorization time in accordance with relevant regulations. The purpose
       of use is typically registered in association with the <spanx
