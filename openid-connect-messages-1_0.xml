@@ -179,7 +179,7 @@
 
             <t hangText="Relying Party (RP)">
               Application requiring Claims from an OpenID Provider. 
-              It is an extended OAuth 2.0 client. 
+              It is an extended OAuth 2.0 Client. 
             </t>
 
 	    <t hangText="Self-Issued OpenID Provider">
@@ -589,7 +589,7 @@
                   OPTIONAL.
 		  This parameter is used by the Client to provide information about itself
 		  to a Self-Issued OP that would normally be provided to an OP during
-		  dynamic client registration,
+		  Dynamic Client Registration,
 		  as specified in <xref target="RegistrationRequest"/>.
 		  The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
 		  when the OP is not a Self-Issued OP.
@@ -601,7 +601,7 @@
 		  OpenID Connect requests to be passed in a single,
 		  self-contined parameter and to be signed and optionally encrypted.
 		  The parameter value is a Request Object.
-		  It represents the request as JWT whose claims are the request parameters
+		  It represents the request as JWT whose Claims are the request parameters
 		  above, as specified in <xref target="RequestObject"/>.
 		</t>
 		<t>
@@ -646,7 +646,7 @@
           describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
           OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
           MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
-          has been negotiated with the client.</t>
+          has been negotiated with the Client.</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
           is <spanx style="verb">code</spanx>, the Authorization Response
@@ -743,7 +743,7 @@
 		  with an ID Token, and to mitigate replay attacks. 
 		  The value is passed through unmodified from the Authorization Request to the ID Token.
 		  If present in the <xref target="id_token">ID Token</xref>,
-		  clients MUST verify that
+		  Clients MUST verify that
 		  the <spanx style="verb">nonce</spanx> Claim value is equal to
 		  the value of the <spanx style="verb">nonce</spanx>
 		  parameter sent in the Authorization Request.
@@ -978,7 +978,7 @@
 		Clients that have received a <spanx style='verb'>client_secret</spanx> value 
 		from the Authorization Server, authenticate with the Authorization Server
 		in accordance with Section 3.2.1 of <xref
-		target="RFC6749">OAuth 2.0</xref> by including the client credentials in the request body. </t>
+		target="RFC6749">OAuth 2.0</xref> by including the Client Credentials in the request body. </t>
 
 		<t hangText="client_secret_jwt"> 
 		  Clients that have received a <spanx style='verb'>client_secret</spanx> value 
@@ -1157,9 +1157,9 @@
 	  describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
 	  OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
 	  MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
-	  has been negotiated with the client. Servers SHOULD support 
+	  has been negotiated with the Client. Servers SHOULD support 
 	  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> for interoperability.
-	  For security reasons Servers may only allow clients to register specific 
+	  For security reasons Servers may only allow Clients to register specific 
 	  <spanx style="verb">token_type</spanx>. Clients MUST support 
 	  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> and MAY support other
 	  <spanx style="verb">token_type</spanx>. </t>
@@ -1546,7 +1546,7 @@
 	<spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
 
 	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-	different format was specified during registration
+	different format was specified during Registration
 	<xref target="OpenID.Registration"/>.
 	The UserInfo Endpoint MAY return Claims in
 	JWT format, which can be signed and/or encrypted.
@@ -1653,22 +1653,22 @@
 
       <section anchor="claim.stability" title="Claim Stability and Uniqueness">
 
-	<t>The <spanx style="verb">sub</spanx> (subject) claim is the only claim that a client
+	<t>The <spanx style="verb">sub</spanx> (subject) Claim is the only Claim that a Client
 	can rely upon to be stable, since the <spanx style="verb">sub</spanx>
-	claim MUST be locally unique and never reassigned within the Issuer
+	Claim MUST be locally unique and never reassigned within the Issuer
 	for a particular End-User, as described in <xref target="id_token"></xref>.</t>
 
 	<t>Therefore, the only guaranteed unique identifier for a given End-User is a 
 	combination of the Issuer's identifier and the <spanx style="verb">sub</spanx>
-	claim; other fields such as <spanx style="verb">preferred_username</spanx>
+	Claim; other fields such as <spanx style="verb">preferred_username</spanx>
 	and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
 	for a given End-User.</t>
 
-	<t>All other claims carry no such guarantees across different issuers in terms of
+	<t>All other Claims carry no such guarantees across different issuers in terms of
 	stability over time or uniqueness across users, and Issuers are permitted to
 	apply local restrictions and policies. For instance, an Issuer MAY re-use a 
 	given <spanx style="verb">preferred_username</spanx> or 
-	<spanx style="verb">email</spanx> address claim across different
+	<spanx style="verb">email</spanx> address Claim across different
 	End-Users at different points in time, and the claimed 
 	<spanx style="verb">preferred_username</spanx> or 
 	<spanx style="verb">email</spanx> address for a given End-User MAY change 
@@ -1682,14 +1682,14 @@
 	<t>
 	  The <spanx style="verb">claims</spanx> parameter requests that specific Claims
 	  be returned from the UserInfo Endpoint and/or in the ID Token.
-	  It is represented as a JSON object containing lists of claims being requested
+	  It is represented as a JSON object containing lists of Claims being requested
 	  from these locations.
 	  Properties of the Claims being requested may also be specified.
 	</t>
 	<t>
 	  Support for the <spanx style="verb">claims</spanx> parameter is OPTIONAL.
 	  Should an OP not support this parameter and an RP uses it,
-	  the OP SHOULD return a set of claims to the RP that it believes would
+	  the OP SHOULD return a set of Claims to the RP that it believes would
 	  be useful to the RP and the End-User using whatever heuristics it
 	  believes are appropriate.
 	  The <spanx style="verb">claims_parameter_supported</spanx>
@@ -1712,7 +1712,7 @@
 	      Requests that the listed individual Claims be returned
 	      from the UserInfo Endpoint.
 	      If present, the listed Claims are being requested to be added to
-	      any claims that may have also been requested using
+	      any Claims that may have also been requested using
 	      <spanx style="verb">scope</spanx> values.
 	      If not present, the Claims being requested from the UserInfo Endpoint
 	      are only those requested using  <spanx style="verb">scope</spanx> values.
@@ -1767,9 +1767,9 @@
 	  <spanx style="verb">http://example.info/claims/groups</spanx> Claim,
 	  is being requested.
 	  Using the <spanx style="verb">claims</spanx> parameter is the only
-	  way to request claims outside the standard set.
+	  way to request Claims outside the standard set.
 	  It is also the only way to request specific combinations of the
-	  standard claims that can not be specified using scope values.
+	  standard Claims that can not be specified using scope values.
 	</t>
 
 	<section anchor="IndividualClaimsRequests" title="Individual Claims Requests">
@@ -1804,7 +1804,7 @@
 		    OPTIONAL.
 		    Indicates whether the Claim being requested is an Essential Claim.
 		    If the value is <spanx style="verb">true</spanx>, 
-		    this indicates that the claim is an Essential Claim.
+		    this indicates that the Claim is an Essential Claim.
 		    For instance, the Claim request:
 
 		    <figure>
@@ -1829,7 +1829,7 @@
 		    Note that even if the Claims are not available because 
 		    the End-User did not authorize their release or they are not present,
 		    the Authorization Server MUST NOT generate an error when
-		    claims are not returned, whether they are Essential or Voluntary.
+		    Claims are not returned, whether they are Essential or Voluntary.
 		  </t>
 
 		  <t hangText="value">
@@ -1875,13 +1875,13 @@
 	  </t>
 	  <t>
 	    Note that when the <spanx style="verb">claims</spanx> request parameter
-	    is supported, the scope values that request claims, as defined in
+	    is supported, the scope values that request Claims, as defined in
 	    <xref target="scopes"/>, are effectively shorthand methods for
-	    requesting sets of individual claims.
+	    requesting sets of individual Claims.
 	    For example, using the scope value <spanx style="verb">openid email</spanx>
 	    and a <spanx style="verb">response_type</spanx> that returns an Access Token
 	    is equivalent to using the scope value <spanx style="verb">openid</spanx>
-	    and the following request for individual claims.
+	    and the following request for individual Claims.
 
 	    <figure>
 	      <preamble>
@@ -1998,7 +1998,7 @@
 
 		  <list style="hanging">
 		    <t hangText="JWT">REQUIRED.
-		    JWT value containing claim values.</t>
+		    JWT containing Claim values.</t>
 		  </list>
 		  </t>
 
@@ -2042,7 +2042,7 @@
 	    <t>
 	      <figure>
 		<preamble>
-		  In this example, these claims about Jane Doe have been issued by
+		  In this example, these Claims about Jane Doe have been issued by
 		  Claims Provider A:
 		</preamble>
 		<artwork><![CDATA[
@@ -2068,8 +2068,8 @@
 	      <figure>
 		<preamble>
 		  In this example, this JWT containing Jane Doe's Aggregated Claims
-		  from Claims Provider A is combined with other normal claims,
-		  and returned as the following set of claims:
+		  from Claims Provider A is combined with other normal Claims,
+		  and returned as the following set of Claims:
 		</preamble>
 		<artwork><![CDATA[
   {
@@ -2097,14 +2097,14 @@
 
 	    <t>
 	      In this non-normative example, the OpenID Provider combines
-	      normal claims that it holds with references to claims held by
+	      normal Claims that it holds with references to Claims held by
 	      two different Claims Providers, B and C, incorporating references
-	      to some of the claims held by B and C as Distributed Claims.
+	      to some of the Claims held by B and C as Distributed Claims.
 	    </t>
 	    <t>
 	      <figure>
 		<preamble>
-		  In this example, these claims about Jane Doe are held by
+		  In this example, these Claims about Jane Doe are held by
 		  Claims Provider B (Jane Doe's bank):
 		</preamble>
 		<artwork><![CDATA[
@@ -2125,7 +2125,7 @@
 	    <t>
 	      <figure>
 		<preamble>
-		  Also in this example, this claim about Jane Doe is held by
+		  Also in this example, this Claim about Jane Doe is held by
 		  Claims Provider C (a credit agency):
 		</preamble>
 		<artwork><![CDATA[
@@ -2178,7 +2178,7 @@
 	<spanx style="verb">subject_types_supported</spanx> element.
 	If there is more than one type listed in the array, the Client MAY elect to
 	provide its preferred identifier type using the
-	<spanx style="verb">subject_type</spanx> parameter during registration.
+	<spanx style="verb">subject_type</spanx> parameter during Registration.
 	The types supported by this specification are:</t>
 
 	<t><list style="hanging">
@@ -2266,7 +2266,7 @@
 	<t>
 	  The <spanx style="verb">registration</spanx> parameter
 	  is used by the Client to provide information about itself to a Self-Issued OP
-	  that would normally be provided to an OP during dynamic client registration.
+	  that would normally be provided to an OP during Dynamic Client Registration.
 	  The value is a JSON object containing name/value pairs defined in
 	  Section 2.1 of the 
 	  <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
@@ -2291,7 +2291,7 @@
 	  If the Client uses more than one redirect URI, the
 	  <spanx style="verb">redirect_uris</spanx>
 	  parameter would be used to register them.
-	  Finally, if the client is requesting encrypted responses, it would use
+	  Finally, if the Client is requesting encrypted responses, it would use
 	  the parameters
 	  <spanx style="verb">jwks_uri</spanx> and
 	  <spanx style="verb">id_token_encrypted_response_alg</spanx> and
@@ -2305,7 +2305,7 @@
 	  The <spanx style="verb">request</spanx> parameter
 	  enables OpenID Connect requests to be passed in a single,
 	  self-contined parameter and to be signed and optionally encrypted.
-	  It represents the request as JWT whose claims are the request parameters
+	  It represents the request as JWT whose Claims are the request parameters
 	  specified in <xref target="RequestParameters"/>.
 	  This JWT is called a Request Object.
 	</t>
@@ -2463,7 +2463,7 @@
 		a complete request by value, may reduce request latancy.
 	      </t>
 	      <t>
-		Most requests for claims from an RP are constant.
+		Most requests for Claims from an RP are constant.
 		The <spanx style="verb">request_uri</spanx> is a way of creating
 		and sometimes also signing and encrypting a constant set of
 		request parameters in advance.
@@ -2539,37 +2539,37 @@
 	    JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
 	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
 	    supported by the UserInfo Endpoint
-	  to encode the claims in a JWT <xref target="JWT" />.</t>
+	  to encode the Claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="userinfo_encryption_alg_values_supported">
 	    JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
 	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
 	    supported by the UserInfo Endpoint
-	  to encode the claims in a JWT <xref target="JWT" />.</t>
+	  to encode the Claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="userinfo_encryption_enc_values_supported">
 	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
 	    supported by the UserInfo Endpoint
-	  to encode the claims in a JWT <xref target="JWT" />.</t>
+	  to encode the Claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="id_token_signing_alg_values_supported">
 	    JSON array containing a list of the JWS signing algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for the ID Token
-	  to encode the claims in a JWT <xref target="JWT" />.</t>
+	  to encode the Claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="id_token_encryption_alg_values_supported">
 	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">alg</spanx> values)
 	    supported by the Authorization Server for the ID Token
-	  to encode the claims in a JWT <xref target="JWT" />.</t>
+	  to encode the Claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="id_token_encryption_enc_values_supported">
 	    JSON array containing a list of the JWE encryption algorithms
 	    (<spanx style="verb">enc</spanx> values)
 	    supported by the Authorization Server for the ID Token
-	  to encode the claims in a JWT <xref target="JWT" />.</t>
+	  to encode the Claims in a JWT <xref target="JWT" />.</t>
 
 	  <t hangText="request_object_signing_alg_values_supported">
 	    JSON array containing a list of the JWS signing algorithms
@@ -3035,19 +3035,19 @@
 	    <spanx style="verb">iss</spanx> (issuer) Claim
 	    as an audience. The <spanx style="verb">aud</spanx> (audience) Claim may contain an array with more than one element.
 	    The ID Token MUST be rejected if the ID Token does not list
-	    the Client as a valid audience, or if it contains additional audiences not trusted by the client.
+	    the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
 	  </t>
 
 	  <t>If the token contains multiple audiences or contains
-	  an <spanx style="verb">azp</spanx> (authorized presenter) claim,
-	  the client SHOULD verify 
+	  an <spanx style="verb">azp</spanx> (authorized presenter) Claim,
+	  the Client SHOULD verify 
 	  the identity of the presenter.  The authorized presenter of the token is
-	  identified by an <spanx style="verb">azp</spanx> claim in the token.  
+	  identified by an <spanx style="verb">azp</spanx> Claim in the token.  
 	  The <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>, a direct connection to the Token Endpoint or other extension 
 	  may be used to identify the presenter.</t>
 
 	  <t>If the <spanx style="verb">id_token</spanx> is received via direct
-	  communication between the client and the Token Endpoint, the TLS server 
+	  communication between the Client and the Token Endpoint, the TLS server 
 	  validation MAY be used to validate the issuer in place of 
 	  checking the token signature.
 	  The Client MUST validate the signature of all other ID Tokens according to
@@ -3132,7 +3132,7 @@
 	<t>To validate an Access Token issued from the Authorization Endpoint with an ID Token in 
 	response to a request containing a <spanx style="verb">response_type</spanx> of
 	<spanx style="verb">token id_token</spanx> or <spanx style="verb">code token id_token</spanx>, 
-	the client SHOULD do the following:</t>
+	the Client SHOULD do the following:</t>
 
 	<t><list style="numbers">
 	  <t>Hash the <spanx style="verb">access_token</spanx> 
@@ -3151,7 +3151,7 @@
       <section anchor="code.validation" title="Code Validation">
 	<t>To validate a <spanx style="verb">code</spanx> issued from the Authorization Endpoint with an ID Token in 
 	response to a request containing a <spanx style="verb">response_type</spanx> of
-	<spanx style="verb">code id_token</spanx> or <spanx style="verb">code token id_token</spanx>, the client SHOULD do the following:</t>
+	<spanx style="verb">code id_token</spanx> or <spanx style="verb">code token id_token</spanx>, the Client SHOULD do the following:</t>
 
 	<t><list style="numbers">
 	  <t>Hash the <spanx style="verb">code</spanx> 
@@ -3194,16 +3194,16 @@
 	  </t>
 	  <t>
 	    MUST ignore the <spanx style="verb">offline_access</spanx> request
-	    if the client is not requesting a <spanx style="verb">response_type</spanx> of
+	    if the Client is not requesting a <spanx style="verb">response_type</spanx> of
 	    <spanx style="verb">code</spanx> or <spanx style="verb">code id_token</spanx>.
 	  </t>
 	  <t>
-	    MUST explicitly receive user consent for all clients when
+	    MUST explicitly receive user consent for all Clients when
 	    the registered <spanx style="verb">application_type</spanx>
 	    is <spanx style="verb">web</spanx>,
 	  </t>
 	  <t>
-	    SHOULD explicitly receive user consent for all clients when
+	    SHOULD explicitly receive user consent for all Clients when
 	    the registered <spanx style="verb">application_type</spanx>
 	    is <spanx style="verb">native</spanx>.
 	  </t>
@@ -3253,7 +3253,7 @@
 	  </figure>
 	</t>
 	<t>Note: The OpenID Foundation may consider hosting a site https://self-issued.me/ 
-	that returns the above static configuration file so that the client would not 
+	that returns the above static configuration file so that the Client would not 
 	need any special treatment for discovery of the Self-Issued OP. 
 	</t>
       </section>
@@ -3285,7 +3285,7 @@
 	  <t>
 	    The <spanx style="verb">registration</spanx> request parameter
 	    can be used by the Client to provide information about itself to a Self-Issued OP
-	    that would normally be provided to an OP during dynamic client registration.
+	    that would normally be provided to an OP during Dynamic Client Registration.
 	    The value is a JSON object containing name/value pairs defined in
 	    Section 2.1 of the 
 	    <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
@@ -3368,7 +3368,7 @@
 	    OPTIONAL.
 	    This parameter is used by the Client to provide information about itself
 	    to a Self-Issued OP that would normally be provided to an OP during
-	    dynamic client registration,
+	    Dynamic Client Registration,
 	    as specified in <xref target="RegistrationRequest"/>.
 	  </t>
 	  <t hangText="request">
@@ -3386,7 +3386,7 @@
 	</t>
 	<t>
 	  Other parameters MAY be sent. 
-	  Note that all claims are returned in the ID Token.
+	  Note that all Claims are returned in the ID Token.
 	</t>
 	<t>The entire URL MUST NOT exceed 2048 bytes.</t>
 	<figure>
@@ -3426,7 +3426,7 @@
 	    value is the base64url encoded SHA-256 hash of 
 	    the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
-	    <spanx style="verb">sub_jwk</spanx> claim.
+	    <spanx style="verb">sub_jwk</spanx> Claim.
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">RSA</spanx>, the key values
 	    <spanx style="verb">n</spanx> and 
@@ -3439,7 +3439,7 @@
 	  </t>
 	  <t>
 	    No Access Token is returned for accessing a UserInfo Endpoint,
-	    so all claims returned must be in the ID Token.
+	    so all Claims returned must be in the ID Token.
 	  </t>
 	</list></t>
       </section>
@@ -3473,7 +3473,7 @@
 	    The Client MUST validate the signature of the ID Token according to
 	    <xref target="JWS">JWS</xref> using the algorithm specified in the 
 	    <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
-	    using the key in the <spanx style="verb">sub_jwk</spanx> claim;
+	    using the key in the <spanx style="verb">sub_jwk</spanx> Claim;
 	    the key is a bare key in JWK format
 	    (not an X.509 certificate value).
 	  </t>
@@ -3487,7 +3487,7 @@
 	    value is the base64url encoded SHA-256 hash of 
 	    the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
-	    <spanx style="verb">sub_jwk</spanx> claim.
+	    <spanx style="verb">sub_jwk</spanx> Claim.
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">RSA</spanx>, the key values
 	    <spanx style="verb">n</spanx> and 
@@ -3642,7 +3642,7 @@
 	    </t>
 	    <t hangText="Preferred Locales">
 	      OPs MUST support requests for preferred languages and scripts
-	      for the user interface and for claims via the
+	      for the user interface and for Claims via the
 	      <spanx style="verb">ui_locales</spanx> and
 	      <spanx style="verb">claims_locales</spanx> request parameters,
 	      as defined in <xref target="RequestParameters"/>.
@@ -3684,12 +3684,12 @@
 	  <list style="hanging">
 
 	    <t hangText="Discovery">
-	      These OPs MUST support feature discovery,
+	      These OPs MUST support Discovery,
 	      as defined in
 	      <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.
 	    </t>
 	    <t hangText="Dynamic Registration">
-	      These OPs MUST support dynamic client registration,
+	      These OPs MUST support Dynamic Client Registration,
 	      as defined in
 	      <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
 	    </t>
@@ -3927,7 +3927,7 @@
 	in many jurisdictions.
 	Therefore, for integrity and non-repudiation,
 	this specification requires signing 
-	the plain text JSON claims.</t>
+	the plain text JSON Claims.</t>
       </section>
 
       <section anchor="issuer_identifier" title="Issuer Identifier">
@@ -4020,7 +4020,7 @@
 	<t>
 	  In some situations, knowing the contents of an OpenID Connect request may,
 	  in and of itself, reveal sensitive information about the End-User.
-	  For instance, knowing that the Client is requesting a particular claim or
+	  For instance, knowing that the Client is requesting a particular Claim or
 	  that it is requesting that a particular authentication method be used
 	  may reveal sensitive information about the End-User.
 	  OpenID Connect enables requests to be encrypted to the OpenID Provider

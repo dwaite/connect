@@ -580,7 +580,7 @@
 		  OAuth 2.0 state value.
 		  REQUIRED if the 
 		  <spanx style="verb">state</spanx> parameter is present in the
-		  client Authorization Request. Clients MUST verify that the 
+		  Client Authorization Request. Clients MUST verify that the 
 		  <spanx style="verb">state</spanx> value is equal to the exact 
 		  value of <spanx style="verb">state</spanx> parameter in the 
                 Authorization Request.</t>
@@ -622,8 +622,8 @@
           
           <section anchor="implicit_callback" 
                    title="Example Redirect URI response">
-	    <t>The client must provide a way for the User-Agent to parse the fragment encoded
-	    response and POST it to the web server client for validation.</t>
+	    <t>The Client must provide a way for the User-Agent to parse the fragment encoded
+	    response and POST it to the Web Server Client for validation.</t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
 	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
@@ -754,7 +754,7 @@
 	    String value used to associate a Client session 
 	    with an ID Token, and to mitigate replay attacks. 
 	    The value is passed through unmodified from the Authorization Request to the ID Token.
-	    The client MUST verify that
+	    The Client MUST verify that
 	    the <spanx style="verb">nonce</spanx> Claim value is equal to
 	    the value of the <spanx style="verb">nonce</spanx>
 	    parameter sent in the Authorization Request.
@@ -921,7 +921,7 @@
 	
 	<section anchor="access.token.validation" title="Access Token Validation">
 	  <t>To validate an Access Token issued with an ID Token in 
-	  the implicit flow, the client SHOULD do the following:</t>
+	  the implicit flow, the Client SHOULD do the following:</t>
 
 	  <t><list style="numbers">
             <t>Hash the <spanx style="verb">access_token</spanx> 
@@ -1290,7 +1290,7 @@
 	</figure>
 
 	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-	different format was specified during registration
+	different format was specified during Registration
 	<xref target="OpenID.Registration"/>.
 	The UserInfo Endpoint MUST return a content-type header to indicate
 	which format is being returned. The following are accepted content
@@ -1375,22 +1375,22 @@
 
 	<section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
-	  <t>The <spanx style="verb">sub</spanx> (subject) claim is the only claim that a client
+	  <t>The <spanx style="verb">sub</spanx> (subject) Claim is the only Claim that a Client
 	  can rely upon to be stable, since the <spanx style="verb">sub</spanx>
-	  claim MUST be locally unique and never reassigned within the Issuer
+	  Claim MUST be locally unique and never reassigned within the Issuer
 	  for a particular End-User, as described in <xref target="id_token"></xref>.</t>
           
 	  <t>Therefore, the only guaranteed unique identifier for a given End-User is a 
 	  combination of the Issuer's identifier and the <spanx style="verb">sub</spanx>
-	  claim; other fields such as <spanx style="verb">preferred_username</spanx>
+	  Claim; other fields such as <spanx style="verb">preferred_username</spanx>
 	  and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
 	  for a given End-User.</t>
 	  
-	  <t>All other claims carry no such guarantees across different issuers in terms of
+	  <t>All other Claims carry no such guarantees across different issuers in terms of
 	  stability over time or uniqueness across users, and Issuers are permitted to
 	  apply local restrictions and policies. For instance, an Issuer MAY re-use a 
 	  given <spanx style="verb">preferred_username</spanx> or 
-	  <spanx style="verb">email</spanx> address claim across different
+	  <spanx style="verb">email</spanx> address Claim across different
 	  End-Users at different points in time, and the claimed 
 	  <spanx style="verb">preferred_username</spanx> or 
 	  <spanx style="verb">email</spanx> address for a given End-User MAY change 
@@ -1439,7 +1439,7 @@
           </figure>
         </t>
         <t>Note: The OpenID Foundation may consider hosting a site https://self-issued.me/ 
-	that returns the above static configuration file so that the client would not 
+	that returns the above static configuration file so that the Client would not 
 	need any special treatment for discovery of the Self-Issued OP. 
         </t>
       </section>
@@ -1471,7 +1471,7 @@
 	  <t>
 	    The <spanx style="verb">registration</spanx> request parameter
 	    can be used by the Client to provide information about itself to a Self-Issued OP
-	    that would normally be provided to an OP during dynamic client registration.
+	    that would normally be provided to an OP during Dynamic Client Registration.
 	    The value is a JSON object containing name/value pairs defined in
 	    Section 2.1 of the 
 	    <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
@@ -1532,7 +1532,7 @@
 	    OPTIONAL.
 	    This parameter is used by the Client to provide information about itself
 	    to a Self-Issued OP that would normally be provided to an OP during
-	    dynamic client registration,
+	    Dynamic Client Registration,
 	    as specified in <xref target="SelfIssuedRegistrationRequest"/>.
 	    The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
 	    when the OP is not a Self-Issued OP.
@@ -1541,7 +1541,7 @@
 	</t>
         <t>
           Other parameters MAY be sent. 
-          Note that all claims are returned in the ID Token.
+          Note that all Claims are returned in the ID Token.
         </t>
         <t>The entire URL MUST NOT exceed 2048 bytes.</t>
         <figure>
@@ -1581,7 +1581,7 @@
 	    value is the base64url encoded SHA-256 hash of 
             the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
-	    <spanx style="verb">sub_jwk</spanx> claim.
+	    <spanx style="verb">sub_jwk</spanx> Claim.
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">RSA</spanx>, the key values
 	    <spanx style="verb">n</spanx> and 
@@ -1594,7 +1594,7 @@
 	  </t>
 	  <t>
 	    No Access Token is returned for accessing a UserInfo Endpoint,
-	    so all claims returned must be in the ID Token.
+	    so all Claims returned must be in the ID Token.
 	  </t>
 	</list></t>
       </section>
@@ -1622,7 +1622,7 @@
             The Client MUST validate the signature of the ID Token according to
             <xref target="JWS">JWS</xref> using the algorithm specified in the 
             <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
-            using the key in the <spanx style="verb">sub_jwk</spanx> claim;
+            using the key in the <spanx style="verb">sub_jwk</spanx> Claim;
 	    the key is a bare key in JWK <xref target="JWK"/> format
 	    (not an X.509 certificate value).
           </t>
@@ -1636,7 +1636,7 @@
 	    value is the base64url encoded SHA-256 hash of 
             the concatenation of the bytes of the UTF-8 representations of
 	    the base64url encoded key values in the
-	    <spanx style="verb">sub_jwk</spanx> claim.
+	    <spanx style="verb">sub_jwk</spanx> Claim.
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">RSA</spanx>, the key values
 	    <spanx style="verb">n</spanx> and 

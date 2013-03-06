@@ -542,7 +542,7 @@
 		  OAuth 2.0 state value.
 		  REQUIRED if the
 		  <spanx style="verb">state</spanx> parameter is present in the
-		  client Authorization Request. Clients MUST verify that the 
+		  Client Authorization Request. Clients MUST verify that the 
 		  <spanx style="verb">state</spanx> value is equal to the exact 
 		  value of <spanx style="verb">state</spanx> parameter in the 
 		  Authorization Request.
@@ -590,7 +590,7 @@
 	      <xref target="form_serialization">form serialization</xref> as described in 
 	      Section 4.1.3 of <xref target="RFC6749">OAuth 2.0</xref>.
 	      The Client authenticates itself by communicating its form-urlencoded
-	      client credentials in an Authorization header using the HTTP Basic method,
+	      Client Credentials in an Authorization header using the HTTP Basic method,
 	      as described in 2.3.1 of OAuth 2.0.
 	      (This method is the one identified by using the
 	      <spanx style="verb">client_secret_basic</spanx> authentication method value
@@ -802,10 +802,10 @@
 	    the information that failed to validate MUST NOT be used.
 	  </t>
 
-	  <t>The client MUST validate the ID Token in the Token Response.  To do this,
+	  <t>The Client MUST validate the ID Token in the Token Response.  To do this,
 	  the Client can split the <spanx style="verb">id_token</spanx> at the 
 	  period (".") characters, take the second segment, and base64url decode it to 
-	  obtain a JSON object containing the ID Token claims, which MUST be validated 
+	  obtain a JSON object containing the ID Token Claims, which MUST be validated 
 	  as follows:</t>
 
 	  <t>
@@ -1201,7 +1201,7 @@
 	</figure>
 
 	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-	different format was specified during registration
+	different format was specified during Registration
 	<xref target="OpenID.Registration"/>.
 	The UserInfo Endpoint MUST return a content-type header to indicate
 	which format is being returned. The following are accepted content
@@ -1286,22 +1286,22 @@
 
 	<section anchor="claim.stability" title="Claim Stability and Uniqueness">
           
-	  <t>The <spanx style="verb">sub</spanx> (subject) claim is the only claim that a client
+	  <t>The <spanx style="verb">sub</spanx> (subject) Claim is the only Claim that a Client
 	  can rely upon to be stable, since the <spanx style="verb">sub</spanx>
-	  claim MUST be locally unique and never reassigned within the Issuer
+	  Claim MUST be locally unique and never reassigned within the Issuer
 	  for a particular End-User, as described in <xref target="id_token"></xref>.</t>
           
 	  <t>Therefore, the only guaranteed unique identifier for a given End-User is a 
 	  combination of the Issuer's identifier and the <spanx style="verb">sub</spanx>
-	  claim; other fields such as <spanx style="verb">preferred_username</spanx>
+	  Claim; other fields such as <spanx style="verb">preferred_username</spanx>
 	  and <spanx style="verb">email</spanx> MUST NOT be used as unique identifiers 
 	  for a given End-User.</t>
 	  
-	  <t>All other claims carry no such guarantees across different issuers in terms of
+	  <t>All other Claims carry no such guarantees across different issuers in terms of
 	  stability over time or uniqueness across users, and Issuers are permitted to
 	  apply local restrictions and policies. For instance, an Issuer MAY re-use a 
 	  given <spanx style="verb">preferred_username</spanx> or 
-	  <spanx style="verb">email</spanx> address claim across different
+	  <spanx style="verb">email</spanx> address Claim across different
 	  End-Users at different points in time, and the claimed 
 	  <spanx style="verb">preferred_username</spanx> or 
 	  <spanx style="verb">email</spanx> address for a given End-User MAY change 
