@@ -374,8 +374,8 @@
 
 		<t hangText="prompt">
 		  OPTIONAL.
-		  Space delimited, case sensitive list of
-		  ASCII string values that specifies whether the Authorization Server prompts
+		  Space delimited, case sensitive list of ASCII string values
+		  that specifies whether the Authorization Server prompts
 		  the End-User for reauthentication and consent.
 		  The defined values are:
 
@@ -615,7 +615,7 @@
 
             <t>If the End-User denies the authorization or the End-User authentication
             fails, the Authorization Server MUST return the error
-            authorization response as defined in 4.2.2.1 of 
+            Authorization Response as defined in 4.2.2.1 of 
             <xref target="RFC6749">OAuth 2.0</xref>. No other parameters 
             SHOULD be returned.</t>
           </section>
@@ -898,8 +898,9 @@
 	      
 	      <t>The value of the <spanx style="verb">nonce</spanx>
 	      Claim MUST be checked to verify that
-	      it is the same value as the one that was sent in the Authorization
-	      Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
+	      it is the same value as the one that was sent in the Authorization Request.
+	      The Client SHOULD check the <spanx style="verb">nonce</spanx> value
+	      for replay attacks.
 	      The precise method for detecting replay attacks is Client specific.</t>
 	      
 	      <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
@@ -1053,15 +1054,15 @@
         This specification describes only the scope values used by OpenID Connect.</t>
         
         <t>
-	  Claims requested by the following scopes are treated by Authorization servers
+	  Claims requested by the following scopes are treated by Authorization Servers
 	  as Voluntary Claims.
 	</t>
 
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
         <t>
           <list style="hanging">
-            <t hangText="openid">REQUIRED. Informs the Authorization
-	    Server that the Client is making an OpenID Connect request. If the
+            <t hangText="openid">REQUIRED. Informs the Authorization Server
+	    that the Client is making an OpenID Connect request. If the
 	    <spanx style="verb">openid</spanx> scope value is not present,
 	    the behavior is entirely unspecified.
 	    </t>
@@ -1497,8 +1498,8 @@
       </section>
 
       <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
-        <t>The Client sends the Authorization Request to the Authorization
-	Endpoint with the following parameters:</t>
+        <t>The Client sends the Authorization Request to the Authorization Endpoint
+	with the following parameters:</t>
         <t><list style="hanging">
           <t hangText="response_type">
             REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
@@ -1661,8 +1662,9 @@
             If a nonce value was sent in the Authorization Request, 
             a <spanx style="verb">nonce</spanx> Claim MUST be present 
             and its value of the checked to verify that
-            it is the same value as the one that was sent in the Authorization
-            Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
+            it is the same value as the one that was sent in the Authorization Request.
+	    The Client SHOULD check the <spanx style="verb">nonce</spanx> value
+	    for replay attacks.
             The precise method for detecting replay attacks is Client specific.
           </t>
 

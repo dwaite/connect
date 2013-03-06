@@ -146,8 +146,8 @@
 	out how to obtain an ID Token and validate it. 
 	When the OP supports session management, it MUST also return the Session State
 	as an additional <spanx style="verb">session_state</spanx> parameter
-	in the authorization response.
-	An OpenID Connect authorization response is specified in Section 2.1.2 of
+	in the Authorization Response.
+	An OpenID Connect Authorization Response is specified in Section 2.1.2 of
 	OpenID Connect Messages 1.0.
       </t>
 
@@ -247,7 +247,7 @@
 	<t>
 	  The OP browser state is typically going to be stored in a
 	  cookie or HTML5 local storage.  It is origin bound to the
-	  authorization server.  It captures meaningful events such as
+	  Authorization Server.  It captures meaningful events such as
 	  logins, logouts, change of user,
 	  change of authorization status for Clients being used by the end-user,
 	  etc.  Thus, the OP should
@@ -262,14 +262,14 @@
 	</t>
 	<t>
 	  The computation of the session state returned in response to
-	  unsuccessful authorization requests should, in addition to
+	  unsuccessful Authorization Requests should, in addition to
 	  the browser state, incorporate sufficient randomness in the
 	  form of a salt so as to prevent identification of a user
 	  across successive calls to the OP authentication endpoint.
 	</t>
 	<t>
 	  In the case of an authorized client (successful
-	  authorization response), the OP should change the value of
+	  Authorization Response), the OP should change the value of
 	  the session state returned to the client under one of the
 	  following events:
 
@@ -294,13 +294,13 @@
 	  notifications.
 	</t>
 	<t>
-	  In the case of an unsuccessful authorization request, the
+	  In the case of an unsuccessful Authorization Request, the
 	  value of the session state returned should vary with each
 	  request. However, the browser session state need not change
 	  unless a meaningful event happens. In particular, many
 	  values of session state can be simultaneously valid, for
 	  instance by the introduction of random salt in the session
-	  states issued in response to unsuccessful authorization requests.
+	  states issued in response to unsuccessful Authorization Requests.
 	</t>
       </section>
 

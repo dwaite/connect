@@ -156,10 +156,10 @@
 
         <section anchor="retrieving_code_token" 
                  title="How to Get Authorization Code, Access Token, and ID Token">
-          <t>In this specification, the Client sends authorization request 
+          <t>In this specification, the Client sends the Authorization Request 
           to the Authorization Endpoint through the User-Agent to obtain the 
-          Access Token and ID Token. It MAY obtain them from the Authorization 
-          Endpoint or from Token Endpoint utilizing the <spanx style="verb">
+          Access Token and ID Token. It can obtain them from the Authorization Endpoint
+	  or from Token Endpoint utilizing the <spanx style="verb">
           code</spanx> that it obtained from the Authorization Endpoint. 
           The latter is called <xref target="code_flow">Code Flow</xref> 
           and the former is called <xref target="implicit_flow">Implicit Flow
@@ -259,8 +259,8 @@
 
         <section anchor="AuthorizationRequest"
                  title="Client Prepares Authorization Request">
-          <t>The Client prepares an Authorization Request to the Authorization
-          Endpoint with the request parameters using the HTTP "GET" or "POST"
+          <t>The Client prepares an Authorization Request to the Authorization Endpoint
+	  with the request parameters using the HTTP "GET" or "POST"
           method. The scheme used in the Authorization URL MUST be <spanx style="verb">https:</spanx>.
 	  </t>
 
@@ -274,8 +274,8 @@
 		<t hangText="response_type">
 		  REQUIRED.
 		  OAuth 2.0 registered
-		  response type value that determines how the Authorization
-		  Response is returned to the Client.  As described in
+		  response type value that determines how the Authorization Response
+		  is returned to the Client.  As described in
 		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
 		  the following registered values are supported by OpenID Connect:
 		  <list style="symbols">
@@ -364,9 +364,9 @@
 
 		<t hangText="prompt">
 		  OPTIONAL.
-		  Space delimited, case sensitive
-                  list of ASCII string values that specifies whether the Authorization
-                  Server prompts the End-User for reauthentication and consent.
+		  Space delimited, case sensitive list of ASCII string values
+		  that specifies whether the Authorization Server prompts
+		  the End-User for reauthentication and consent.
 		  The defined values are:
 		  <spanx style="verb">none</spanx>,
 		  <spanx style="verb">login</spanx>,
@@ -400,7 +400,7 @@
 		<t hangText="id_token_hint">
 		  OPTIONAL.
 		  Previously issued ID Token
-		  passed to the Authorization server as a hint about the End-User
+		  passed to the Authorization Server as a hint about the End-User
 		  this request is about.
 		</t>
 
@@ -723,9 +723,8 @@
 	    </t>
 
             <t> The Authorization Request MUST NOT include the 
-            <spanx style="verb">request</spanx> parameter. The Authorization
-            Request MUST include the <spanx style="verb">request_uri</spanx>
-            parameter.
+            <spanx style="verb">request</spanx> parameter. The Authorization Request
+	    MUST include the <spanx style="verb">request_uri</spanx> parameter.
 	    The contents of the resource referenced by the URL must be a Request Object.
 	    The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https:</spanx>, 
@@ -809,8 +808,8 @@
 
             <section anchor="art_req"
                      title="Client Sends Request to Authorization Server via HTTPS Redirect">
-              <t>The Client sends the Authorization Request to the Authorization
-              Endpoint.</t>
+              <t>The Client sends the Authorization Request to the
+	      Authorization Endpoint.</t>
 
               <t>The entire URL MUST NOT exceed 512 bytes.</t>
 
@@ -874,8 +873,8 @@
           <t>The Authorization Server MUST attempt to authenticate the 
           End-User in the following cases:
           <list style="symbols">
-                <t>The End-User is not already authenticated by the Authorization
-                Server.</t>
+                <t>The End-User is not already authenticated by the
+		Authorization Server.</t>
 
                 <t>The Authorization Request contains the <spanx 
                 style="verb">prompt</spanx> parameter with the value
@@ -906,7 +905,7 @@
           from the End-User in the following cases:
           <list style="symbols">
                 <t>The End-User has not pre-authorized the Client for the
-                authorization request.</t>
+                Authorization Request.</t>
 
                 <t>The Authorization Request contains the <spanx 
                 style="verb">prompt</spanx> parameter with the value
@@ -937,8 +936,8 @@
             as described in
 	    Section 2.1.2 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> 
             to the Client by adding the response parameters to <spanx
-            style="verb">redirect_uri</spanx> specified in the Authorization
-            Request using the "application/x-www-form-urlencoded" format.</t>
+            style="verb">redirect_uri</spanx> specified in the Authorization Request
+	    using the "application/x-www-form-urlencoded" format.</t>
 
             <t>
               Note that if the <spanx style="verb">response_type</spanx> parameter in the 
@@ -1237,8 +1236,8 @@
           <section anchor="authz_error"
                    title="End-User Denies Authorization or Invalid Request">
             <t>If the End-User denies the authorization or the user authentication
-            fails, the Authorization Server MUST return the error authorization 
-            response as defined in
+            fails, the Authorization Server MUST return the
+	    Authorization Error Response as defined in
 	    Section 2.1.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	    The Authorization Server returns the Client to
             the redirection URI specified in the Authorization Request
@@ -1328,8 +1327,8 @@
       </texttable>
 
       <section anchor="RequestingAccessToken" title="Requesting Access Token">
-        <t>To retrieve an Access Token, a Client MUST have an Authorization
-        Code obtained via the method as described in <xref
+        <t>To retrieve an Access Token, a Client MUST have an Authorization Code
+	obtained via the method as described in <xref
         target="code_flow">Authorization Code Flow</xref>.</t>
 
         <section anchor="AccessTokenRequest" title="Access Token Request">

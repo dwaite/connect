@@ -465,9 +465,9 @@
 
                 <t hangText="prompt">
                   OPTIONAL.
-                  Space delimited, case sensitive
-                  list of ASCII string values that specifies whether the Authorization
-                  Server prompts the End-User for reauthentication and consent.
+                  Space delimited, case sensitive list of ASCII string values
+		  that specifies whether the Authorization Server prompts
+		  the End-User for reauthentication and consent.
 		  The defined values are:
 
                   <list style="hanging">
@@ -649,8 +649,8 @@
           has been negotiated with the client.</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
-          is <spanx style="verb">code</spanx>, the Authorization
-          Response MUST return the parameters defined in Section 4.1.2 of
+          is <spanx style="verb">code</spanx>, the Authorization Response
+	  MUST return the parameters defined in Section 4.1.2 of
           <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
           <t>When the <spanx style="verb">response_type</spanx>
@@ -1004,13 +1004,16 @@
 		  Subject.
 		  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-		  <t hangText="aud">REQUIRED.
-		  Audience.
-		  Value that identifies the
-		  Authorization Server as an intended audience.  The Authorization
-		  Server MUST verify that it is an intended audience for the
-		  token.  The Audience SHOULD be the URL of the Authorization
-		  Server's Token Endpoint.</t>
+		  <t hangText="aud">
+		    REQUIRED.
+		    Audience.
+		    The <spanx style="verb">aud</spanx> (audience) Claim.
+		    Value that identifies the Authorization Server as an intended audience.
+		    The Authorization Server MUST verify that it is an intended audience
+		    for the token.
+		    The Audience SHOULD be the URL of the
+		    Authorization Server's Token Endpoint.
+		  </t>
 
 		  <t hangText="jti">REQUIRED.
 		  JWT ID.
@@ -1063,14 +1066,16 @@
 		  Subject.
 		  This MUST contain the <spanx style="verb">client_id</spanx> of the OAuth Client.</t>
 
-		  <t hangText="aud">REQUIRED.
-		  Audience.
-		  The <spanx style="verb">aud</spanx> (audience) Claim.
-		  A value that identifies the
-		  Authorization Server as an intended audience.  The Authorization
-		  Server MUST verify that it is an intended audience for the
-		  token.  The Audience SHOULD be the URL of the Authorization
-		  Server's Token Endpoint.</t>
+		  <t hangText="aud">
+		    REQUIRED.
+		    Audience.
+		    The <spanx style="verb">aud</spanx> (audience) Claim.
+		    Value that identifies the Authorization Server as an intended audience.
+		    The Authorization Server MUST verify that it is an intended audience
+		    for the token.
+		    The Audience SHOULD be the URL of the
+		    Authorization Server's Token Endpoint.
+		  </t>
 
 		  <t hangText="jti">REQUIRED.
 		  JWT ID.
@@ -1128,14 +1133,14 @@
 
 	<section anchor="access_token_request" title="Access Token Request">
 	  <t>The Client obtains an Access Token by authenticating with the
-	  Authorization Server and presenting its access grant (in the form of
-	  an Authorization Code, or Refresh Token).</t>
+	  Authorization Server and presenting its Authorization Grant (in the form of
+	  an Authorization Code or Refresh Token).</t>
 
 	  <t>In addition to the Client authentication parameters,
 	  if this is a Refresh Token Request, the Client MUST send the additional parameters 
 	  specified in Section 6 of <xref target="RFC6749">OAuth 2.0</xref>.
 	  Otherwise the Client
-	  MUST send the request parameter for the Access Token Endpoint as
+	  MUST send the request parameters as
 	  specified in Section 4.1.3 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
 	  <t></t>
@@ -1310,15 +1315,15 @@
 	This specification describes only the scope values used by OpenID Connect.</t>
 
 	<t>
-	  Claims requested by the following scopes are treated by Authorization servers
+	  Claims requested by the following scopes are treated by Authorization Servers
 	  as Voluntary Claims.
 	</t>
 
 	<t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
 	<t>
 	  <list style="hanging">
-	    <t hangText="openid">REQUIRED. Informs the Authorization
-	    Server that the Client is making an OpenID Connect request. If the
+	    <t hangText="openid">REQUIRED. Informs the Authorization Server
+	    that the Client is making an OpenID Connect request. If the
 	    <spanx style="verb">openid</spanx> scope value is not present,
 	    the behavior is entirely unspecified.
 	    </t>
@@ -2946,8 +2951,8 @@
 	  and algorithm, in accordance with the 
 	  <xref target="JWS">JSON Web Signature</xref> specification.</t>
 
-	  <t>The Authorization Server MUST return the error authorization 
-	  response if there is a signature validation error.</t>
+	  <t>The Authorization Server MUST return the Authorization Error Response
+	  if there is a signature validation error.</t>
 	</section>
 	<section anchor="req.obj.veri" title="Parameter Validation">
 	  <t>The Authorization Server MUST construct the Authorization Request Message 
@@ -2974,8 +2979,9 @@
 		as a member of <spanx style="verb">id_token</spanx> element
 		is requested with a specific value, 
 		the Authorization Server MUST only send a positive response if that user 
-		has an active session with the Authorization Server. The Authorization 
-		server MUST not reply with an ID Token or Access Token for a different user, 
+		has an active session with the Authorization Server.
+		The Authorization Server MUST not reply with an ID Token or
+		Access Token for a different user, 
 		even if they have an active session with the Authorization Server. 
 	      </t>
 	      <t>
@@ -2985,8 +2991,8 @@
 		specific Authentication Context Class Reference values, then 
 		the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
 		Claim value that matches one of the requested values. 
-		The Authorization 
-		server MAY ask the user to re-authenticate with additional factors 
+		The Authorization Server MAY ask the user to re-authenticate
+		with additional factors 
 		to meet this requirement. If this is an Essential Claim and the 
 		requirement cannot be met, then the Authorization Server MUST
 		treat that outcome as a failed authentication attempt.
@@ -2997,10 +3003,10 @@
 		or by not including "essential": true in the individual
 		<spanx style="verb">acr</spanx> Claim request. 
 		If the Claim is not Essential and the requested value for 
-		the user cannot be provided, the Authorization server SHOULD return 
+		the user cannot be provided, the Authorization Server SHOULD return 
 		the session's current <spanx style="verb">acr</spanx> as
 		the value of the <spanx style="verb">acr</spanx> Claim. 
-		If the Claim is not Essential, the Authorization server is not required to
+		If the Claim is not Essential, the Authorization Server is not required to
 		provide this Claim in its response.
 	      </t>
 	    </list>
@@ -3079,8 +3085,9 @@
 	  <t>If a nonce value was sent in the Authorization Request,
 	  a <spanx style="verb">nonce</spanx> Claim MUST be present
 	  and its value checked to verify that
-	  it is the same value as the one that was sent in the Authorization
-	  Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
+	  it is the same value as the one that was sent in the Authorization Request.
+	  The Client SHOULD check the <spanx style="verb">nonce</spanx> value
+	  for replay attacks.
 	  The precise method for detecting replay attacks is Client specific.</t>
 
 	  <t>If the <spanx style="verb">acr</spanx> Claim was requested, the 
@@ -3309,8 +3316,8 @@
       </section>
 
       <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
-	<t>The Client sends the Authorization Request to the Authorization
-	Endpoint with the following parameters:</t>
+	<t>The Client sends the Authorization Request to the Authorization Endpoint
+	with the following parameters:</t>
 	<t><list style="hanging">
 	  <t hangText="response_type">
 	    REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
@@ -3506,8 +3513,9 @@
 	    If a nonce value was sent in the Authorization Request, 
 	    a <spanx style="verb">nonce</spanx> Claim MUST be present 
 	    and its value of the checked to verify that
-	    it is the same value as the one that was sent in the Authorization
-	    Request. The Client SHOULD check the <spanx style="verb">nonce</spanx> value for replay attacks.
+	    it is the same value as the one that was sent in the Authorization Request.
+	    The Client SHOULD check the <spanx style="verb">nonce</spanx> value
+	    for replay attacks.
 	    The precise method for detecting replay attacks is Client specific.
 	  </t>
 	</list></t>
