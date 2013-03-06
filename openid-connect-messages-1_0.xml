@@ -2218,23 +2218,36 @@
 	  must be included in the elements of the array,
 	  or the registration MUST fail.</t>
 
-	  <t>A number of algorithms MAY be used by OpenID Providers to
-	  calculate the pairwise identifier.  This specification
-	  includes three examples.</t>
+	  <t>
+	    A number of algorithms can be used by OpenID Providers to
+	    calculate pairwise identifiers.
+	    Three example methods are:
 
-	  <t>1.  The Sector Identifier can be concatenated with a local account ID and a salt 
-	  value that is kept secret by the Provider. The concatenated string is then 
-	  hashed by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).</t>
+	    <list style="numbers">
 
-	  <t>2.  The Sector Identifier can be concatenated with a local account ID and a salt 
-	  value that is kept secret by the Provider. The concatenated string is then 
-	  encrypted by an appropriate algorithm.</t>
-	  <t>Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).</t>
+	      <t>
+		The Sector Identifier can be concatenated with a local account ID and a salt 
+		value that is kept secret by the Provider. The concatenated string is then 
+		hashed using an appropriate algorithm.
+		<vspace blankLines="1"/>
+		Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).
+	      </t>
 
-	  <t>3.  The Issuer creates a Globally Unique Identifier (GUID) for the tuple of
-	  Sector Identifier and local account ID.  This is stored in a table and 
-	  the value looked up each time.</t>
+	      <t>
+		The Sector Identifier can be concatenated with a local account ID and a salt 
+		value that is kept secret by the Provider. The concatenated string is then 
+		encrypted using an appropriate algorithm.
+		<vspace blankLines="1"/>
+		Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).
+	      </t>
+
+	      <t>
+		The Issuer creates a Globally Unique Identifier (GUID) for the pair of
+		Sector Identifier and local account ID and stores this value.
+	      </t>
+
+	    </list>
+	  </t>
 
 	</section>
       </section>
