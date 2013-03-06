@@ -302,7 +302,7 @@
                     from the Token Endpoint.
                     When used by OpenID Connect, an ID Token is also returned
                     from the Token Endpoint.
-                    Authorization Servers MUST support
+                    OpenID Providers that are not Self-Issued OPs MUST support
                     this <spanx style="verb">response_type</spanx>.</t>
 
                     <t hangText="token">When supplied as the value for the
@@ -326,14 +326,14 @@
                     for the <spanx style="verb">response_type</spanx>
                     parameter, a successful response MUST include an ID Token.
                     Both successful and error responses SHOULD be fragment-encoded.
-                    Authorization Servers MUST support this <spanx style="verb">response_type</spanx>.</t>
+                    OpenID Providers MUST support this <spanx style="verb">response_type</spanx>.</t>
 
                     <t hangText="id_token token">When supplied as the value
                     for the <spanx style="verb">response_type</spanx>
                     parameter, a successful response MUST include both an
                     Access Token and an ID Token.
                     Both successful and error responses SHOULD be fragment-encoded.
-                    Authorization Servers MUST support this <spanx style="verb">response_type</spanx>.</t>
+                    OpenID Providers MUST support this <spanx style="verb">response_type</spanx>.</t>
 
                     <t hangText="code token">When supplied as the value for
                     the <spanx style="verb">response_type</spanx> parameter, a
@@ -357,16 +357,18 @@
                     Both successful and error responses SHOULD be fragment-encoded.</t>
                   </list>
                 </t>
-
-                <t>The Authorization Server MUST support all three of the <spanx
-                style="verb">code</spanx>, <spanx
-                style="verb">id_token</spanx>, and <spanx
-                style="verb">id_token token</spanx> values for <spanx
-                style="verb">response_type</spanx>.</t>
-
-                <t>The Client may request any OAuth 2.0 registered response
-                type supported by the Authorization Server other than
-                <spanx style="verb">token</spanx> (which provides no ID Token).</t>
+                <t>
+		  All OpenID Providers MUST support the
+		  <spanx style="verb">id_token</spanx> and
+		  <spanx style="verb">token id_token</spanx> response types and
+		  all OpenID Providers that are not Self-Issued OPs MUST also support the
+		  <spanx style="verb">code</spanx> response type.
+		</t>
+                <t>
+		  The Client may use any OAuth 2.0 registered
+		  response type supported by the OpenID Provider other than
+		  <spanx style="verb">token</spanx> (which provides no ID Token).
+		</t>
 
                 <t hangText="client_id">
                   REQUIRED.
