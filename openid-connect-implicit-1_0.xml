@@ -937,13 +937,16 @@
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
 
-	  <t>Clients send requests with the following parameters to the
-	  UserInfo Endpoint to obtain further information about the End-User.
-	  The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
-	  Protected Resource that complies with the <xref
-	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification. As such,
-	  the Access Token SHOULD be sent using the
-	  <spanx style="verb">Authorization</spanx> header field.</t>
+	  <t>
+	    Clients send requests to the
+	    UserInfo Endpoint to obtain Claims about the End-User.
+	    The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
+	    Protected Resource that complies with the <xref
+	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
+	    The Access Token SHOULD be sent using the
+	    <spanx style="verb">Authorization</spanx> header field.
+	    The following parameters are defined for use in UserInfo requests:
+	  </t>
 
 	  <t>
 	    <list style="hanging">
@@ -965,7 +968,9 @@
 	  </t>
 
 	  <figure>
-	    <preamble>The following is a non-normative example:</preamble>
+            <preamble>
+	      The following is a non-normative example of a UserInfo request:
+	    </preamble>
 
 	    <artwork><![CDATA[
   GET /userinfo?schema=openid HTTP/1.1

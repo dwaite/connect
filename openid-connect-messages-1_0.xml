@@ -1221,28 +1221,33 @@
 	name and value pairs for the Claims.</t>
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
-	  <t>Clients send requests with the following parameters to the
-	  UserInfo Endpoint to obtain further information about the End-User.
-	  The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
-	  Protected Resource that complies with the <xref
-	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification. As such,
-	  the Access Token SHOULD be sent using the
-	  <spanx style="verb">Authorization</spanx> header field.</t>
+	  <t>
+	    Clients send requests to the
+	    UserInfo Endpoint to obtain Claims about the End-User.
+	    The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
+	    Protected Resource that complies with the <xref
+	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
+	    The Access Token SHOULD be sent using the
+	    <spanx style="verb">Authorization</spanx> header field.
+	    The following parameters are defined for use in UserInfo requests:
+	  </t>
 
-	  <t><list style="hanging">
-	    <t hangText="access_token">REQUIRED.
-	    Access Token obtained
-	    from an OpenID Connect Authorization Request. </t>
+	  <t>
+	    <list style="hanging">
+	      <t hangText="access_token">REQUIRED.
+	      Access Token obtained
+	      from an OpenID Connect Authorization Request. </t>
 
-	    <t hangText="schema">REQUIRED.
-	    Schema in which the
-	    data is to be returned. The only defined <spanx style="verb">schema</spanx>
-	    value is <spanx style="verb">openid</spanx>.</t>
+	      <t hangText="schema">REQUIRED.
+	      Schema in which the
+	      data is to be returned. The only defined <spanx style="verb">schema</spanx>
+	      value is <spanx style="verb">openid</spanx>.</t>
 
-	    <t hangText="id">This identifier is reserved. It MUST be
-	    ignored by the endpoint when the <spanx
-	    style="verb">openid</spanx> schema is used.</t>
-	  </list></t>
+	      <t hangText="id">This identifier is reserved. It MUST be
+	      ignored by the endpoint when the <spanx
+	      style="verb">openid</spanx> schema is used.</t>
+	    </list>
+	  </t>
 	</section>
 
 	<section anchor="UserInfoResponse" title="UserInfo Response">
