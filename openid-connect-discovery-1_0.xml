@@ -106,7 +106,7 @@
 	    </t>
 	    <t>
 	      Note: this document defines various kinds of Identifiers, designed for use in different contexts.
-	      Examples include URLs using the <spanx style="verb">https:</spanx> scheme and e-mail addresses.
+	      Examples include URLs using the <spanx style="verb">https</spanx> scheme and e-mail addresses.
 	    </t>
 
 	  </list></t>
@@ -160,7 +160,7 @@
 
       <t>
 	The Issuer MUST be returned in the response.
-	This includes a URI scheme (which MUST be <spanx style="verb">https:</spanx>),
+	This includes a URI scheme (which MUST be <spanx style="verb">https</spanx>),
 	a Host, and OPTIONALLY, a port.
       </t>
 
@@ -246,7 +246,7 @@
                 the string is interpreted as 
                 <spanx style="verb">authority path-abempty [ "?" query ] [ "#" fragment ]</spanx>
                 of <xref target="RFC3986">RFC 3986</xref>. 
-                In this case, the <spanx style="verb">https:</spanx> scheme is assumed, 
+                In this case, the <spanx style="verb">https</spanx> scheme is assumed, 
                 and the normalized URL will be formed by 
                 prefixing <spanx style="verb">https://</spanx> to the string. 
               </t>
@@ -443,7 +443,7 @@
 	  </t>
 
 	  <t hangText="issuer">REQUIRED.
-	  URL using the <spanx style="verb">https:</spanx> scheme with no query or fragment component that the OP asserts as its
+	  URL using the <spanx style="verb">https</spanx> scheme with no query or fragment component that the OP asserts as its
 	  Issuer Identifier.
 	  </t>
 
@@ -579,7 +579,11 @@
 	  JSON array containing a list of the JWS signing algorithms
 	  (<spanx style="verb">alg</spanx> values)
 	  supported by the Authorization Server for the Request Object described in
-	  Section 2.10 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 2.9 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  These algorithms are used both when the Request Object is passed by value
+	  (using the <spanx style="verb">request</spanx> parameter)
+	  and when it is passed by reference
+	  (using the <spanx style="verb">request_uri</spanx> parameter).
 	  Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.
 	  </t>
 
@@ -587,14 +591,18 @@
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">alg</spanx> values)
 	  supported by the Authorization Server for the Request Object described in
-	  Section 2.10 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 2.9 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  These algorithms are used both when the Request Object is passed by value
+	  and when it is passed by reference.
 	  </t>
 
 	  <t hangText="request_object_encryption_enc_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">enc</spanx> values)
 	  supported by the Authorization Server for the Request Object described in
-	  Section 2.10 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 2.9 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  These algorithms are used both when the Request Object is passed by value
+	  and when it is passed by reference.
 	  </t>
 
 	  <t hangText="token_endpoint_auth_methods_supported">OPTIONAL.

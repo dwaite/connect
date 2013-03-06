@@ -229,7 +229,7 @@
 	  <spanx style="verb">native</spanx>
 	  or <spanx style="verb">web</spanx>.
 	  Web Clients using the OAuth implicit grant type
-	  MUST only register URLs using the <spanx style="verb">https:</spanx> scheme as
+	  MUST only register URLs using the <spanx style="verb">https</spanx> scheme as
 	  <spanx style="verb">redirect_uris</spanx>;
 	  they MAY NOT use <spanx style="verb">localhost</spanx> as the hostname.
 	  Native Clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
@@ -293,7 +293,7 @@
     value is REQUIRED for all keys in the document to indicate each key's intended usage.</t>
 
 	  <t hangText="sector_identifier_uri">OPTIONAL.
-	  URL using the <spanx style="verb">https:</spanx> scheme to be used in
+	  URL using the <spanx style="verb">https</spanx> scheme to be used in
 	  calculating Pseudonymous Identifiers by the OP. The URL references a
 	  file with a single JSON array of <spanx style="verb">redirect_uri</spanx> values.
 	  Please see <xref target="sector.identifier.url.validation" />.
@@ -341,7 +341,7 @@
 	  algorithm <xref target="JWA" /> required for symmetric encryption of UserInfo Responses.
 	  The valid values are listed in
 	  Section 4.2 <xref target="JWA">JWA</xref>.
-	  If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
+	  If <spanx style="verb">userinfo_encrypted_response_alg</spanx> is specified 
 	  the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
 	  If this is requested in combination with signing the response 
 	  will be signed then encrypted. If this is specified the response will be 
@@ -375,7 +375,7 @@
 	  issued to this <spanx style="verb">client_id</spanx>. 
 	  The valid values are listed in
 	  Section 4.2 of <xref target="JWA">JWA</xref>.
-	  If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified,
+	  If <spanx style="verb">id_token_encrypted_response_alg</spanx> is specified,
 	  the default for this parameter is <spanx style="verb">A128CBC+HS256</spanx>.
 	  If this is requested in combination with signing, the response 
 	  will be signed then encrypted. If this is specified, the response will be 
@@ -412,7 +412,7 @@
 	  </t>
 
 	  <t hangText="initiate_login_uri">OPTIONAL. 
-	  URI using the <spanx style="verb">https:</spanx> scheme that the Authorization Server can call
+	  URI using the <spanx style="verb">https</spanx> scheme that the Authorization Server can call
 	  to initiate a login at the Client.
 	  The URI MUST accept requests via both GET and POST.
 	  The Client MUST understand the 
@@ -440,7 +440,7 @@
 	    If the contents of the request file could ever change,
 	    these URI values SHOULD include the base64url encoded SHA-256 hash value of
 	    the file contents referenced by the URI as the value of the URI fragment.
-	    If the framgment value used for a URI changes, that signals the server
+	    If the fragment value used for a URI changes, that signals the server
 	    that its cached value for that URI with the old fragment value
 	    is no longer valid.
 	  </t>
@@ -803,7 +803,7 @@
 
       <t>
 	The value of the <spanx style="verb">sector_identifier_uri</spanx>
-	must be a URL using the <spanx style="verb">https:</spanx> scheme that references
+	must be a URL using the <spanx style="verb">https</spanx> scheme that references
 	a JSON file containing an array of <spanx style="verb">redirect_uri</spanx> values.
 	The values registered in <spanx style="verb">redirect_uris</spanx>
 	MUST be included in the elements of the array,
@@ -898,7 +898,7 @@
       <t>Since requests to the Client Registration Endpoint result in the
       transmission of clear-text credentials (in the HTTP request and
       response),
-      all communiucation with the Registration Endpoint MUST utilize TLS.
+      all communication with the Registration Endpoint MUST utilize TLS.
       See <xref target="TLS_requirements"/> for more information on using TLS.
       </t>
 

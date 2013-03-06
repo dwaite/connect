@@ -240,7 +240,7 @@
         prepares an Authorization Request to the Authorization Endpoint.</t>
 
 	<t>
-	  Communiucation with the Authorization Endpoint MUST utilize TLS.
+	  Communication with the Authorization Endpoint MUST utilize TLS.
 	  See <xref target="TLS_requirements"/> for more information on using TLS.
 	</t>
 
@@ -259,7 +259,7 @@
                  title="Client Prepares Authorization Request">
           <t>The Client prepares an Authorization Request to the Authorization Endpoint
 	  with the request parameters using the HTTP "GET" or "POST"
-          method. The scheme used in the Authorization URL MUST be <spanx style="verb">https:</spanx>.
+          method. The scheme used in the Authorization URL MUST be <spanx style="verb">https</spanx>.
 	  </t>
 
           <section anchor="RequestParameters" title="Request Parameters">
@@ -610,7 +610,7 @@
               </figure>
 	      <figure>
                 <preamble>
-		  The following is the RSA public key in JWK foramt that can be used to
+		  The following is the RSA public key in JWK format that can be used to
 		  validate the Request Object signature in the above example
 		  (with line breaks for display purposes only):
 		</preamble>
@@ -717,7 +717,7 @@
             <t>The Client prepares an Authorization Request using the desired 
             HTTP "GET" or "POST" method. The Client SHOULD use the HTTP "GET"
             method, but MAY use the HTTP "POST" method.
-	    The scheme used in the Authorization URL MUST be <spanx style="verb">https:</spanx>.
+	    The scheme used in the Authorization URL MUST be <spanx style="verb">https</spanx>.
 	    </t>
 
             <t> The Authorization Request MUST NOT include the 
@@ -725,7 +725,7 @@
 	    MUST include the <spanx style="verb">request_uri</spanx> parameter.
 	    The contents of the resource referenced by the URL must be a Request Object.
 	    The scheme used in the 
-            <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https:</spanx>, 
+            <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https</spanx>, 
             unless the target Request Object is signed in a way that is verifiable by the 
             Authorization Server.
             The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
@@ -762,7 +762,7 @@
                      title="Client Generates the URL of the Request File">
               <t>
 		The Client stores the Request File either locally or remotely.
-		This is the Request URI, <spanx style="verb">"request_uri"</spanx>.
+		This is the Request URI, <spanx style="verb">request_uri</spanx>.
 		Servers MAY cache the contents of the files referenced by request URIs.
 		If the contents of the Request File could ever change,
 		the URI SHOULD include the base64url encoded SHA-256 hash of the
@@ -773,8 +773,8 @@
 	      </t>
 	      <t>
 		Note that Clients MAY pre-register
-		<spanx style="verb">"request_uri"</spanx> values using the
-		<spanx style="verb">"request_uris"</spanx> parameter defined in
+		<spanx style="verb">request_uri</spanx> values using the
+		<spanx style="verb">request_uris</spanx> parameter defined in
 		Section 2 of the <xref target="OpenID.Registration">OpenID Connect
 		Dynamic Client Registration 1.0</xref> specification.
 		OPs can require that <spanx style="verb">request_uri</spanx> values used
@@ -784,12 +784,12 @@
 
               <t>It should be noted that if the Request File includes user's attribute 
               values, it MUST NOT be revealed to anybody but the Authorization Server. 
-              As such, the <spanx style="verb">"request_uri"</spanx> MUST have
+              As such, the <spanx style="verb">request_uri</spanx> MUST have
               appropriate entropy for its lifetime, 
               and must be removed after successful authentication or a reasonable timeout.
               </t>
               <t>The Client then records the Request File either locally or
-              remotely and obtains the Request File URI, <spanx style="verb">"request_uri"</spanx>.
+              remotely and obtains the Request File URI, <spanx style="verb">request_uri</spanx>.
               </t>
               <figure>
                 <preamble>Following is a non-normative example
@@ -884,7 +884,7 @@
           in the following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"prompt"</spanx> parameter with the value
+                style="verb">prompt</spanx> parameter with the value
 		<spanx style="verb">none</spanx>.
                 The Authorization Server MUST return an error if the End-User is 
                 unauthenticated.</t>
@@ -915,7 +915,7 @@
           following cases:
           <list style="symbols">
                 <t>The Authorization Request contains the <spanx 
-                style="verb">"prompt"</spanx> parameter with the value
+                style="verb">prompt</spanx> parameter with the value
 		<spanx style="verb">none</spanx>.
                 The Authorization Server MUST return an error if the End-User has
                 not pre-authorized the Client.</t>
@@ -1210,7 +1210,7 @@
 
             <figure>
                 <preamble>
-		  The following is the RSA public key in JWK foramt that can be used to
+		  The following is the RSA public key in JWK format that can be used to
 		  validate the Request Object signature in the above examples
 		  (with line breaks for display purposes only):
 		</preamble>
@@ -1302,7 +1302,7 @@
       Token Endpoint.</t>
 
       <t>
-	Communiucation with the Token Endpoint MUST utilize TLS.
+	Communication with the Token Endpoint MUST utilize TLS.
 	See <xref target="TLS_requirements"/> for more information on using TLS.
       </t>
 
@@ -1392,7 +1392,7 @@
           return either a successful response or an error response that corresponds to
           the received Authorization Code.</t>
 
-	  <t>A successful response returns the "<spanx style="verb">application/json</spanx>"
+	  <t>A successful response returns the <spanx style="verb">application/json</spanx>
 	  media type and the response body is the Access Token Response documented in
 	  Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
@@ -1471,7 +1471,7 @@
           the received Refresh Token.</t>
 
           <t>Upon successful validation of the Refresh Token, a successful
-          response returns the "<spanx style="verb">application/json</spanx>"
+          response returns the <spanx style="verb">application/json</spanx>
           media type and the response body is the Access Token Response of 
           Section 2.2.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
 	  except that it MUST NOT return an <spanx style="verb">id_token</spanx>.</t>
@@ -1678,7 +1678,7 @@
           <t hangText="iss">REQUIRED.
 	    Issuer Identifier for the Issuer that the Client is to send
 	    the authentication request to. 
-            Its value MUST be a URL using the <spanx style="verb">https:</spanx> scheme.
+            Its value MUST be a URL using the <spanx style="verb">https</spanx> scheme.
           </t>
           <t hangText="target_link_uri">OPTIONAL.
 	    URI that the Client is requested to redirect to after authentication.
@@ -2258,7 +2258,7 @@
 	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
 	  </t>
 	  <t>
-	    Fixed #719 - Moved message defintions for Self-Issued OPs to the Messages spec.
+	    Fixed #719 - Moved message definitions for Self-Issued OPs to the Messages spec.
 	  </t>
 	  <t>
 	    Fixed #788 - Renamed "OpenID Request Object" to "Request Object".

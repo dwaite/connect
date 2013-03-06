@@ -113,8 +113,13 @@
               entity authentication assurance level.
             </t>
 
+            <t hangText="Authentication Context Class">
+              A set of authentication methods or procedures that are considered
+	      to be equivalent to each other in a particular context.
+            </t>
+
             <t hangText="Authentication Context Class Reference">
-              Identifier that identifies the Authentication Context. 
+              Identifier for an Authentication Context Class. 
             </t>
 
             <t hangText="Claim">Piece of information about an Entity that a
@@ -145,7 +150,7 @@
             <t hangText="Issuer">Entity that issues a set of Claims.</t>
 
             <t hangText="Issuer Identifier">Verifiable identifier for
-            an Issuer.  An Issuer Identifier is a URL using the <spanx style="verb">https:</spanx> scheme that
+            an Issuer.  An Issuer Identifier is a URL using the <spanx style="verb">https</spanx> scheme that
             contains scheme, host, and OPTIONALLY, port number and path
             components.  (No query or fragment components may be present.)</t>
 
@@ -590,7 +595,7 @@
 		  This parameter is used by the Client to provide information about itself
 		  to a Self-Issued OP that would normally be provided to an OP during
 		  Dynamic Client Registration,
-		  as specified in <xref target="RegistrationRequest"/>.
+		  as specified in <xref target="SelfIssuedRegistrationRequest"/>.
 		  The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
 		  when the OP is not a Self-Issued OP.
                 </t>
@@ -599,7 +604,7 @@
                   OPTIONAL.
 		  This parameter enables
 		  OpenID Connect requests to be passed in a single,
-		  self-contined parameter and to be signed and optionally encrypted.
+		  self-contained parameter and to be signed and optionally encrypted.
 		  The parameter value is a Request Object.
 		  It represents the request as JWT whose Claims are the request parameters
 		  above, as specified in <xref target="RequestObject"/>.
@@ -621,9 +626,9 @@
 		  This parameter enables
 		  OpenID Connect requests to be passed by reference, rather than by value.
 		  The <spanx style="verb">request_uri</spanx> value is a URL
-		  using the <spanx style="verb">https:</spanx> scheme
+		  using the <spanx style="verb">https</spanx> scheme
 		  referencing a resource containing a Request Object value,
-		  which is a JWT containing the request parmeters.
+		  which is a JWT containing the request parameters.
 		  This parameter is used identically to the
 		  <spanx style="verb">request</spanx> parameter, other than that
 		  the Request Object is retrieved from the specified URL,
@@ -644,8 +649,8 @@
 
           <t>This specification only
           describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
-          OAuth 2.0 response parameter "<spanx style="verb">token_type</spanx>"
-          MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
+          OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
+          MUST be set to <spanx style="verb">Bearer</spanx> unless another Token Type 
           has been negotiated with the Client.</t>
 
           <t>When the <spanx style="verb">response_type</spanx> in the request
@@ -1156,7 +1161,7 @@
 	  <t>This specification only
 	  describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
 	  OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
-	  MUST be set to "<spanx style="verb">Bearer</spanx>" unless another token type 
+	  MUST be set to <spanx style="verb">Bearer</spanx> unless another Token Type 
 	  has been negotiated with the Client. Servers SHOULD support 
 	  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> for interoperability.
 	  For security reasons Servers may only allow Clients to register specific 
@@ -1636,8 +1641,8 @@
 	<t>
 	  Claims MAY be represented in multiple languages and scripts.
 	  To specify the languages and scripts, <xref
-	  target="RFC5646">BCP47</xref> language tags are added to
-	  member names, delimited by a <spanx style="verb">#</spanx>.  For example,
+	  target="RFC5646">BCP47</xref> language tags are added to member names,
+	  delimited by a <spanx style="verb">#</spanx> character.  For example,
 	  <spanx style="verb">family_name#ja-Kana-JP</spanx> expresses the
 	  Family Name in Katakana in Japanese, which is commonly used to index
 	  and represent the phonetics of the Kanji representation of the same
@@ -1645,7 +1650,7 @@
 	</t>
 	<t>
 	  A <spanx style="verb">claims_locales</spanx> request can be used to
-	  specify the preferred langauges and scripts to use for the returned Claims.
+	  specify the preferred languages and scripts to use for the returned Claims.
 	  <xref target="IndividualClaimsLanguages"/> describes how to request
 	  that specific Claims use particular languages and scripts.
 	</t>
@@ -2221,7 +2226,7 @@
 	  is provided, the host component of that URL is used as
 	  the Sector Identifier for the pairwise identifier calculation.
 	  The value of the <spanx style="verb">sector_identifier_uri</spanx>
-	  must be a URL using the <spanx style="verb">https:</spanx> scheme that points to
+	  must be a URL using the <spanx style="verb">https</spanx> scheme that points to
 	  a JSON file containing an array of
 	  <spanx style="verb">redirect_uri</spanx> values.
 	  The values of the registered <spanx style="verb">redirect_uris</spanx>
@@ -2241,6 +2246,7 @@
 		hashed using an appropriate algorithm.
 		<vspace blankLines="1"/>
 		Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).
+		<vspace blankLines="1"/>
 	      </t>
 
 	      <t>
@@ -2249,6 +2255,7 @@
 		encrypted using an appropriate algorithm.
 		<vspace blankLines="1"/>
 		Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).
+		<vspace blankLines="1"/>
 	      </t>
 
 	      <t>
@@ -2262,49 +2269,12 @@
 	</section>
       </section>
 
-      <section anchor="RegistrationRequest" title="Self-Issued Registration Request">
-	<t>
-	  The <spanx style="verb">registration</spanx> parameter
-	  is used by the Client to provide information about itself to a Self-Issued OP
-	  that would normally be provided to an OP during Dynamic Client Registration.
-	  The value is a JSON object containing name/value pairs defined in
-	  Section 2.1 of the 
-	  <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-	  specification.
-	  None of this information is required by Self-Issued OPs, and so
-	  use of this parameter is OPTIONAL.
-	</t>
-	<t>
-	  The <spanx style="verb">registration</spanx> parameter value is represented
-	  in an OAuth 2.0 request as UTF-8 encoded JSON
-	  (which ends up being form-urlencoded when passed as an OAuth parameter).
-	  When used in a Request Object, per <xref target="RequestObject"/>,
-	  the JSON is used as the value of the
-	  <spanx style="verb">registration</spanx> member.
-	</t>
-	<t>
-	  The Registration parameters that would typically be used in requests
-	  to Self-Issued OPs are
-	  <spanx style="verb">policy_uri</spanx>,
-	  <spanx style="verb">tos_uri</spanx>, and
-	  <spanx style="verb">logo_uri</spanx>.
-	  If the Client uses more than one redirect URI, the
-	  <spanx style="verb">redirect_uris</spanx>
-	  parameter would be used to register them.
-	  Finally, if the Client is requesting encrypted responses, it would use
-	  the parameters
-	  <spanx style="verb">jwks_uri</spanx> and
-	  <spanx style="verb">id_token_encrypted_response_alg</spanx> and
-	  <spanx style="verb">id_token_encrypted_response_enc</spanx>.
-	</t>
-      </section>
-
       <section anchor="RequestObject" title="Request Object">
 
 	<t>
 	  The <spanx style="verb">request</spanx> parameter
 	  enables OpenID Connect requests to be passed in a single,
-	  self-contined parameter and to be signed and optionally encrypted.
+	  self-contained parameter and to be signed and optionally encrypted.
 	  It represents the request as JWT whose Claims are the request parameters
 	  specified in <xref target="RequestParameters"/>.
 	  This JWT is called a Request Object.
@@ -2398,7 +2368,7 @@
 
       <section anchor="RequestUriParameter" title="Using the &quot;request_uri&quot; Parameter">
 	<t>
-	  The <spanx style="verb">"request_uri"</spanx> parameter enables
+	  The <spanx style="verb">request_uri</spanx> parameter enables
 	  OpenID Connect requests to be passed by reference, rather than by value.
 	  This parameter is used identically to the
 	  <spanx style="verb">request</spanx> parameter, other than that
@@ -2440,8 +2410,8 @@
 	</t>
 	<t>
 	  Note that Clients MAY pre-register
-	  <spanx style="verb">"request_uri"</spanx> values using the
-	  <spanx style="verb">"request_uris"</spanx> parameter defined in
+	  <spanx style="verb">request_uri</spanx> values using the
+	  <spanx style="verb">request_uris</spanx> parameter defined in
 	  Section 2 of the <xref target="OpenID.Registration">OpenID Connect
 	  Dynamic Client Registration 1.0</xref> specification.
 	</t>
@@ -2460,7 +2430,7 @@
 	      </t>
 	      <t>
 		Passing a <spanx style="verb">request_uri</spanx> value, rather than
-		a complete request by value, may reduce request latancy.
+		a complete request by value, may reduce request latency.
 	      </t>
 	      <t>
 		Most requests for Claims from an RP are constant.
@@ -2626,7 +2596,7 @@
 	  <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
 	  JWE <spanx style="verb">enc</spanx>
 	  algorithm <xref target="JWA" /> required for UserInfo Responses.
-	  If <spanx style="verb">"userinfo_encrypted_response_alg"</spanx> is specified 
+	  If <spanx style="verb">userinfo_encrypted_response_alg</spanx> is specified 
 	  the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
 	  </t>
 
@@ -2648,7 +2618,7 @@
 	  JWE <spanx style="verb">enc</spanx> 
 	  algorithm <xref target="JWA" /> required for 
 	  ID Tokens issued to this <spanx style="verb">client_id</spanx>.
-	  If <spanx style="verb">"id_token_encrypted_response_alg"</spanx> is specified 
+	  If <spanx style="verb">id_token_encrypted_response_alg</spanx> is specified 
 	  the default for this value is <spanx style="verb">A128CBC+HS256</spanx>.
 	  </t>
 	</list></t>
@@ -2987,7 +2957,7 @@
 	      <t>
 		If the <spanx style="verb">acr</spanx> Claim is requested
 		as an Essential Claim for the ID Token
-		with a <spanx style="verb">values</spanx> parameter requsting
+		with a <spanx style="verb">values</spanx> parameter requesting
 		specific Authentication Context Class Reference values, then 
 		the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
 		Claim value that matches one of the requested values. 
@@ -3284,7 +3254,7 @@
 		 title="Providing Additional Registration Information">
 	  <t>
 	    The <spanx style="verb">registration</spanx> request parameter
-	    can be used by the Client to provide information about itself to a Self-Issued OP
+	    is used by the Client to provide information about itself to a Self-Issued OP
 	    that would normally be provided to an OP during Dynamic Client Registration.
 	    The value is a JSON object containing name/value pairs defined in
 	    Section 2.1 of the 
@@ -3297,6 +3267,9 @@
 	    The <spanx style="verb">registration</spanx> parameter value is represented
 	    in an OAuth 2.0 request as UTF-8 encoded JSON
 	    (which ends up being form-urlencoded when passed as an OAuth parameter).
+	    When used in a Request Object, per <xref target="RequestObject"/>,
+	    the JSON is used as the value of the
+	    <spanx style="verb">registration</spanx> member.
 	  </t>
 	  <t>
 	    The Registration parameters that would typically be used in requests
@@ -3369,7 +3342,7 @@
 	    This parameter is used by the Client to provide information about itself
 	    to a Self-Issued OP that would normally be provided to an OP during
 	    Dynamic Client Registration,
-	    as specified in <xref target="RegistrationRequest"/>.
+	    as specified in <xref target="SelfIssuedRegistrationRequest"/>.
 	  </t>
 	  <t hangText="request">
 	    OPTIONAL.
@@ -3434,7 +3407,7 @@
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">EC</spanx>, the key values
 	    <spanx style="verb">crv</spanx>,
-	    <spanx style="verb">x</spanx> and 
+	    <spanx style="verb">x</spanx>, and 
 	    <spanx style="verb">y</spanx> are concatenated in that order.
 	  </t>
 	  <t>
@@ -3495,7 +3468,7 @@
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">EC</spanx>, the key values
 	    <spanx style="verb">crv</spanx>,
-	    <spanx style="verb">x</spanx> and 
+	    <spanx style="verb">x</spanx>, and 
 	    <spanx style="verb">y</spanx> are concatenated in that order.
 	  </t>
 	  <t>
@@ -3998,7 +3971,7 @@
 	  Also, <spanx style="verb">client_secret</spanx> values MUST also contain
 	  at least the minimum of number of bytes required for MAC keys for the
 	  particular algorithm used.
-	  So for instace, for <spanx style="verb">HS256</spanx>, the
+	  So for instance, for <spanx style="verb">HS256</spanx>, the
 	  <spanx style="verb">client_secret</spanx> value MUST contain
 	  at least 8 bytes (and almost certainly SHOULD contain more,
 	  since <spanx style="verb">client_secret</spanx> values are
@@ -5588,7 +5561,7 @@
 	    Made UserInfo Endpoint MTI to support for all OPs that issue Access Tokens.
 	  </t>
 	  <t>
-	    Fixed #719 - Moved message defintions for Self-Issued OPs to the Messages spec.
+	    Fixed #719 - Moved message definitions for Self-Issued OPs to the Messages spec.
 	  </t>
 	  <t>
 	    Fixed #671 - Specified that an Access Token must be requested when

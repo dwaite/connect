@@ -175,7 +175,7 @@
               Entity that issues a set of Claims. 
             </t>
             <t hangText="Issuer Identifier">
-	      URL using the <spanx style="verb">https:</spanx> scheme that acts as a verifiable identifier for an Issuer.
+	      URL using the <spanx style="verb">https</spanx> scheme that acts as a verifiable identifier for an Issuer.
             </t>
 
 	    <t hangText="Self-Issued OpenID Provider">
@@ -234,7 +234,7 @@
           prepares an Authorization Request to the Authorization Endpoint.</t>
 
 	  <t>
-	    Communiucation with the Authorization Endpoint MUST utilize TLS.
+	    Communication with the Authorization Endpoint MUST utilize TLS.
 	    See <xref target="TLS_requirements"/> for more information on using TLS.
 	  </t>
 
@@ -477,9 +477,10 @@
 		
 		<t hangText="registration">
                   OPTIONAL.
-                  This parameter requests that the Client
-                  be be registered at the Authorization Server for a Self-Issued OP,
-                  as specified in <xref target="SelfIssuedRegistrationRequest"/>.
+		  This parameter is used by the Client to provide information about itself
+		  to a Self-Issued OP that would normally be provided to an OP during
+		  Dynamic Client Registration,
+		  as specified in <xref target="SelfIssuedRegistrationRequest"/>.
                   The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
                   when the OP is not a Self-Issued OP.
 		</t>
@@ -565,7 +566,7 @@
                 UserInfo Endpoint.</t>
 
                 <t hangText="token_type">REQUIRED.
-		OAuth 2.0 token type value.
+		OAuth 2.0 Token Type value.
 		The value MUST be <spanx style="verb">Bearer</spanx> or
 		another <spanx style="verb">token_type</spanx> value that the Client 
                 has negotiated with the Authorization Server.
@@ -621,7 +622,7 @@
           </section>
           
           <section anchor="implicit_callback" 
-                   title="Example Redirect URI response">
+                   title="Example Redirect URI Response">
 	    <t>The Client must provide a way for the User-Agent to parse the fragment encoded
 	    response and POST it to the Web Server Client for validation.</t>
 
@@ -1360,8 +1361,8 @@
 	  <t>
 	    Claims MAY be represented in multiple languages and scripts.
 	    To specify the languages and scripts, <xref
-	    target="RFC5646">BCP47</xref> language tags are added to
-	    member names, delimited by a <spanx style="verb">#</spanx>.  For example,
+	    target="RFC5646">BCP47</xref> language tags are added to member names,
+	    delimited by a <spanx style="verb">#</spanx> character.  For example,
 	    <spanx style="verb">family_name#ja-Kana-JP</spanx> expresses the
 	    Family Name in Katakana in Japanese, which is commonly used to index
 	    and represent the phonetics of the Kanji representation of the same
@@ -1369,7 +1370,7 @@
 	  </t>
 	  <t>
 	    A <spanx style="verb">claims_locales</spanx> request can be used to
-	    specify the preferred langauges and scripts to use for the returned Claims.
+	    specify the preferred languages and scripts to use for the returned Claims.
 	  </t>
 	</section>
 
@@ -1589,7 +1590,7 @@
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">EC</spanx>, the key values
 	    <spanx style="verb">crv</spanx>,
-	    <spanx style="verb">x</spanx> and 
+	    <spanx style="verb">x</spanx>, and 
             <spanx style="verb">y</spanx> are concatenated in that order.
 	  </t>
 	  <t>
@@ -1644,7 +1645,7 @@
 	    When the <spanx style="verb">kty</spanx> value is
 	    <spanx style="verb">EC</spanx>, the key values
 	    <spanx style="verb">crv</spanx>,
-	    <spanx style="verb">x</spanx> and 
+	    <spanx style="verb">x</spanx>, and 
             <spanx style="verb">y</spanx> are concatenated in that order.
           </t>
           <t>
@@ -1812,7 +1813,7 @@
       <t>
 	This specification defines features used by Relying Parties
 	using the OAuth implicit grant type.
-	All of these Relying Parties MUST implement the features that are listed
+	These Relying Parties MUST implement the features that are listed
 	in this specification as being "REQUIRED" or are described with a "MUST".
       </t>
 
@@ -2412,7 +2413,7 @@
 	    it SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 	  </t>
 	  <t>
-	    Removed vestigal encryption text that had been copied over from Standard,
+	    Removed vestigial encryption text that had been copied over from Standard,
 	    since encryption is not part of the Implicit profile.
 	  </t>
 	  <t>
