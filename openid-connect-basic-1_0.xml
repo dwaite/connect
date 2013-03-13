@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 24</title>
+    Client Profile 1.0 - draft 25</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="6" month="March" year="2013" />
+    <date day="13" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1282,6 +1282,16 @@
 	    A <spanx style="verb">claims_locales</spanx> request can be used to
 	    specify the preferred languages and scripts to use for the returned Claims.
 	  </t>
+	  <t>
+	    When the OP determines, either through the
+	    <spanx style="verb">claims_locales</spanx> parameter,
+	    or by other means, that the End-User and Client are
+	    requesting Claims in only one set of languages and scripts,
+	    it is RECOMMENDED that OPs return Claims without language tags
+	    when they employ this language and script.
+	    It is also RECOMMENDED that Clients be written in a manner
+	    that they can handle and utilize Claims using language tags.
+	  </t>
 	</section>
 
 	<section anchor="claim.stability" title="Claim Stability and Uniqueness">
@@ -1908,6 +1918,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-25
+        <list style="symbols">
+	  <t>
+	    Fixed #802 - Clarified recommendations and responsibilities for
+	    producing and consuming Claims with and without language tags.
+	  </t>
+	</list>
+      </t>
 
       <t>-24
         <list style="symbols">
