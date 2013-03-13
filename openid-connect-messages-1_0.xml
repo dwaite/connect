@@ -1361,7 +1361,8 @@
 	    the <spanx style="verb">address</spanx> Claim.</t>
 
 	    <t hangText="phone">OPTIONAL. This scope value requests access to
-	    the <spanx style="verb">phone_number</spanx> Claim.</t>
+	    the <spanx style="verb">phone_number</spanx> and
+	    <spanx style="verb">phone_number_verified</spanx> Claims.</t>
 
 	    <t hangText="offline_access">OPTIONAL. This scope value requests
 	    that an OAuth 2.0 Refresh Token be issued that can be used to
@@ -1537,6 +1538,21 @@
 	  For example, <spanx
 	  style="verb">+1 (425)
 	  555-1212</spanx> or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
+
+	  <c>phone_number_verified</c>
+	  <c>boolean</c>
+	  <c>
+	    True if the End-User's phone number has been verified; otherwise false.
+	    When this Claim value is <spanx style="verb">true</spanx>,
+	    this  means that the OP took affirmative steps
+	    to ensure that this phone number was controlled by the End-User
+	    at the time the verification was performed.
+	    The means by which an phone number must be verified is context-specific,
+	    and dependent upon the trust framework or contractual agreements
+	    within which the parties are operating.
+	    When true, the <spanx style="verb">phone_number</spanx>
+	    Claim MUST be in E.164 format.
+	  </c>
 
 	  <c>address</c>
 	  <c>JSON object</c>
@@ -5461,6 +5477,9 @@
 	  <t>
 	    Fixed #797 - Clarified the intended semantics of e-mail verification
 	    and that the precise verification rules are context-specific.
+	  </t>
+	  <t>
+	    Fixed #806 - Added <spanx style="verb">phone_number_verified</spanx> Claim.
 	  </t>
 	</list>
       </t>
