@@ -1263,10 +1263,16 @@
 
 	  <c>phone_number</c>
 	  <c>string</c>
-	  <c>End-User's preferred telephone number. <xref target="E.164">
-	  E.164</xref> is RECOMMENDED as the format of this Claim. 
-	  For example, <spanx style="verb">+1 (425) 555-1212</spanx>
-	  or <spanx style="verb">+56 (2) 687 2400</spanx>.</c>
+	  <c>
+	    End-User's preferred telephone number. <xref target="E.164">E.164</xref>
+	    is RECOMMENDED as the format of this Claim,
+	    for example, <spanx style="verb">+1 (425) 555-1212</spanx>
+	    or <spanx style="verb">+56 (2) 687 2400</spanx>.
+	    If the phone number contains an extension, it is RECOMMENDED that
+	    the extension be represented using the
+	    <xref target="RFC3966">RFC 3966</xref> extension syntax,
+	    for example, <spanx style="verb">+1 (604) 555-1234;ext=5678</spanx>.
+	  </c>
 
 	  <c>phone_number_verified</c>
 	  <c>boolean</c>
@@ -1280,7 +1286,8 @@
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	    When true, the <spanx style="verb">phone_number</spanx>
-	    Claim MUST be in E.164 format.
+	    Claim MUST be in E.164 format
+	    and any extensions MUST be represented in RFC 3966 format.
 	  </c>
 
 	  <c>address</c>
@@ -1937,6 +1944,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3966"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
@@ -2415,6 +2423,10 @@
 	  </t>
 	  <t>
 	    Fixed #806 - Added <spanx style="verb">phone_number_verified</spanx> Claim.
+	  </t>
+	  <t>
+	    Fixed #800 - Specified that phone number extensions are to be
+	    represented using RFC 3966 extension syntax.
 	  </t>
 	</list>
       </t>
