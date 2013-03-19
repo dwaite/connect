@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Standard 1.0">OpenID Connect Standard 1.0 - draft 17</title>
+    <title abbrev="OpenID Connect Standard 1.0">OpenID Connect Standard 1.0 - draft 18</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="6" month="March" year="2013" />
+    <date day="18" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1517,7 +1517,7 @@
 
     <section anchor="userinfo_ep" title="UserInfo Endpoint">
       <t>
-	The UserInfo Endpoint is a Protected Resource that
+	The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
         returns Claims about the authenticated End-User.
 	To obtain the requested Claims about the End-User, the Client
 	makes a GET or POST request to the UserInfo Endpoint as in
@@ -1558,7 +1558,7 @@
 	  </preamble>
 
           <artwork><![CDATA[
-  GET /userinfo?schema=openid HTTP/1.1
+  GET /userinfo HTTP/1.1
   Host: server.example.com
   Authorization: Bearer SlAV32hkKG
 ]]></artwork>
@@ -1614,10 +1614,6 @@
   the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification
   utilizing an error code as specified in
   Section 2.3.3 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
-
-  <t>The HTTP 400 (Bad Request) status code SHOULD be returned for the 
-    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> response
-    when the <spanx style="verb">invalid_schema</spanx> error occurs.</t>
 
   <figure>
       <preamble>Following is a non-normative example of an error
@@ -2199,6 +2195,16 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-18
+	<list style="symbols">
+	  <t>
+	    Fixed #801 - Removed <spanx style="verb">schema</spanx> and <spanx style="verb">id</spanx>
+	    parameters to UserInfo Endpoint.
+	    Also fixed related issue #791 - Removed <spanx style="verb">invalid_schema</spanx> error.
+	  </t>
+	</list>
+      </t>
 
       <t>-17
         <list style="symbols">

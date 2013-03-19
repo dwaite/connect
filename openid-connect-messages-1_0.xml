@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="13" month="March" year="2013" />
+    <date day="18" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1232,10 +1232,13 @@
 
       <section anchor="userinfo" title="UserInfo Endpoint">
 
-	<t>The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
-	returns Claims about the authenticated End-User. Claims are
-	represented by a JSON object that contains a collection of
-	name and value pairs for the Claims.</t>
+	<t>
+	  The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
+	  returns Claims about the authenticated End-User.
+	  The location of the UserInfo Endpoint MUST be
+	  a URL using the <spanx style="verb">https</spanx> scheme, which MAY contain
+	  port, path, and query parameter components.
+	</t>
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
 	  <t>
@@ -1254,23 +1257,14 @@
 	      <t hangText="access_token">REQUIRED.
 	      Access Token obtained
 	      from an OpenID Connect Authorization Request. </t>
-
-	      <t hangText="schema">REQUIRED.
-	      Schema in which the
-	      data is to be returned. The only defined <spanx style="verb">schema</spanx>
-	      value is <spanx style="verb">openid</spanx>.</t>
-
-	      <t hangText="id">This identifier is reserved. It MUST be
-	      ignored by the endpoint when the <spanx
-	      style="verb">openid</spanx> schema is used.</t>
 	    </list>
 	  </t>
 	</section>
 
 	<section anchor="UserInfoResponse" title="UserInfo Response">
 	  <t>
-	    If the requested schema is <spanx style="verb">openid</spanx>, 
-	    the UserInfo Claims MUST be returned as the members of a JSON object.
+	    The UserInfo Claims MUST be returned as the members of a JSON object
+	    unless a signed or encrypted response was requested during Client Registration.
 	    The Claims defined in <xref target="StandardClaims"/> can be returned,
 	    as can additional Claims not specified there.
 	  </t>
@@ -1299,14 +1293,7 @@
 	  <t>When an error condition occurs, the UserInfo Endpoint returns
 	  an Error Response as defined in Section 3 of
 	  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
-	  In addition to the error codes defined in Section 3.1 of <xref
-	  target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>, this specification defines the
-	  following error codes:</t>
-
-	  <t><list style="hanging">
-	    <t hangText="invalid_schema">The requested schema is invalid or
-	    unsupported.</t>
-	  </list></t>
+	  </t>
 	</section>
       </section>
 
@@ -4745,19 +4732,6 @@
 	    </list>
 	  </t>
 
-	  <t>
-	    <list style="symbols">
-	      <t>Error name: <spanx style="verb">invalid_schema</spanx></t>
-
-	      <t>Error usage location: UserInfo Endpoint</t>
-
-	      <t>Related protocol extension: OpenID Connect</t>
-
-	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
-
-	      <t>Specification document(s): <xref target="UserInfoError"/> of this document</t>
-	    </list>
-	  </t>
 	</section>
 	<?rfc subcompact="no"?>
 
@@ -5506,6 +5480,11 @@
 	  <t>
 	    Fixed #808 - Specified that phone numbers may be used as
 	    <spanx style="verb">login_hint</spanx> values.
+	  </t>
+	  <t>
+	    Fixed #801 - Removed <spanx style="verb">schema</spanx> and <spanx style="verb">id</spanx>
+	    parameters to UserInfo Endpoint.
+	    Also fixed related issue #791 - Removed <spanx style="verb">invalid_schema</spanx> error.
 	  </t>
 	</list>
       </t>
