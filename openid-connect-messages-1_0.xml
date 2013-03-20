@@ -2063,10 +2063,16 @@
 		  corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
 		  be present if they are understood by both parties.
 
-		  <list style="hanging">
-		    <t hangText="JWT">REQUIRED.
-		    JWT containing Claim values.</t>
-		  </list>
+		    <list style="hanging">
+		      <t hangText="JWT">REQUIRED.
+		      JWT containing Claim values.</t>
+		    </list>
+
+		    The JWT SHOULD NOT contain a <spanx style="verb">sub</spanx> (subject)
+		    Claim unless its value is an identifier for the End-User at
+		    the Claims Provider (and not for the OpenID Provider or another party);
+		    this typically means that a <spanx style="verb">sub</spanx> Claim
+		    SHOULD NOT be provided.
 		  </t>
 
 		  <t hangText="Distributed Claims">
@@ -2084,14 +2090,20 @@
 		      enabling retrieval of the Claims from the endpoint URL
 		      by using the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
 		      protocol. Claims SHOULD be requested using
-		      the Authorization Request header field and Claims
-		      Sources MUST support this method. If the Access Token
+		      the Authorization Request header field and Claims Providers
+		      MUST support this method. If the Access Token
 		      is not available, Clients MAY need to retrieve the
 		      Access Token out of band or use an a priori Access Token
-		      that was negotiated between the Claim Source and
-		      Client, or the Claim Source MAY reauthenticate the
+		      that was negotiated between the Claims Provider and
+		      Client, or the Claims Provider MAY reauthenticate the
 		      End-User and/or reauthorize the Client.</t>
 
+		    A <spanx style="verb">sub</spanx> (subject) Claim SHOULD NOT
+		    be returned from the Claims Provider
+		    unless its value is an identifier for the End-User at
+		    the Claims Provider (and not for the OpenID Provider or another party);
+		    this typically means that a <spanx style="verb">sub</spanx> Claim
+		    SHOULD NOT be provided.
 		    </list>
 		  </t>
 		</list>
@@ -2241,7 +2253,8 @@
       </section>
 
       <section anchor="idtype" title="Subject Identifier Types">
-	<t>Provider's Discovery documents SHOULD list their supported identifier types in the 
+	<t>The OpenID Provider's Discovery document SHOULD list
+	its supported identifier types in the 
 	<spanx style="verb">subject_types_supported</spanx> element.
 	If there is more than one type listed in the array, the Client MAY elect to
 	provide its preferred identifier type using the
@@ -5517,6 +5530,11 @@
 	  <t>
 	    Fixed #794 - Required <spanx style="verb">picture</spanx>
 	    to refer to an image file that is a picture of the End-User.
+	  </t>
+	  <t>
+	    Fixed #805 - Placed requirements on use of the <spanx style="verb">sub</spanx>
+	    Claim when Aggregated Claims and Distributed Claims are used,
+	    to prevent unintended correlations.
 	  </t>
 	</list>
       </t>
