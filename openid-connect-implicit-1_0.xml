@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="18" month="March" year="2013" />
+    <date day="19" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -1148,20 +1148,36 @@
 
 	  <c>name</c>
 	  <c>string</c>
-	  <c>End-User's full name in displayable form including all name parts,
-	  ordered according to End-User's locale and preferences.</c>
+	  <c>
+	    End-User's full name in displayable form including all name parts,
+	    possibly including titles and suffixes,
+	    ordered according to the End-User's locale and preferences.
+	  </c>
 
 	  <c>given_name</c>
 	  <c>string</c>
-	  <c>Given name or first name of the End-User.</c>
+	  <c>
+	    Given name(s) or first name(s) of the End-User.
+	    Note that in some cultures, people may have multiple given names;
+	    all may be present, with the names being separated by space characters.
+	  </c>
 
 	  <c>family_name</c>
 	  <c>string</c>
-	  <c>Surname or last name of the End-User.</c>
+	  <c>
+	    Surname(s) or last name(s) of the End-User.
+	    Note that in some cultures, people may have multiple family names;
+	    all may be present, with the names being separated by space characters.
+	  </c>
 
 	  <c>middle_name</c>
 	  <c>string</c>
-	  <c>Middle name of the End-User.</c>
+	  <c>
+	    Middle name(s) of the End-User.
+	    Note that in some cultures, people may have multiple middle names;
+	    all may be present, with the names being separated by space characters.
+	    Also note that in some cultures, middle names are not used.
+	  </c>
 
 	  <c>nickname</c>
 	  <c>string</c>
@@ -2434,6 +2450,9 @@
 	    Fixed #801 - Removed <spanx style="verb">schema</spanx> and <spanx style="verb">id</spanx>
 	    parameters to UserInfo Endpoint.
 	    Also fixed related issue #791 - Removed <spanx style="verb">invalid_schema</spanx> error.
+	  </t>
+	  <t>
+	    Fixed #793, #796, and #799 - Allow name Claims to contain multiple space-separated names.
 	  </t>
 	</list>
       </t>
