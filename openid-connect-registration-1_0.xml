@@ -38,7 +38,7 @@
       </address>
     </author>
 
-    <date day="19" month="March" year="2013" />
+    <date day="21" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -239,10 +239,8 @@
 	  <t hangText="client_name">OPTIONAL.
 	  Name of the Client
 	  to be presented to the user. If desired, representation of 
-	  this Claim in different languages and scripts is obtained 
-	  by applying the rules set in  
-	  Section 2.6.2 (Languages and Scripts for Individual Claims) of 
-	  <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+	  this Claim in different languages and scripts is represented
+	  as described in <xref target="LanguagesAndScripts"/>.</t>
 
 	  <t hangText="logo_uri">OPTIONAL.
 	  URL that references a logo for the 
@@ -437,6 +435,36 @@
 	  </t>
 	</list>
       </t>
+
+      <section anchor="LanguagesAndScripts" title="Metadata Languages and Scripts">
+	<t>
+	  Human-redable Client Metadata values or Client Metadata values
+	  that reference human-readable values MAY be represented in
+	  multiple languages and scripts.
+	  For example, values such as <spanx style="verb">client_name</spanx>,
+	  <spanx style="verb">tos_uri</spanx>, <spanx style="verb">policy_uri</spanx>,
+	  <spanx style="verb">logo_uri</spanx>, and <spanx style="verb">client_uri</spanx>
+	  might have multiple locale-specific values in some Client registrations.
+	</t>
+	<t>
+	  To specify the languages and scripts, <xref target="RFC5646">BCP47</xref>
+	  language tags are added to Client Metadata member names,
+	  delimited by a <spanx style="verb">#</spanx> character.
+	  The same syntax is used for representing languages and scripts for
+	  Client Metatadata as is used for Claims, as described in  
+	  Section 2.5.2 (Claims Languages and Scripts) of 
+	  <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	</t>
+	<t>
+	  If such a human-readable field is sent without a language tag,
+	  parties using it MUST NOT make any assumptions about the language,
+	  character set, or script of the string value, and the string value
+	  MUST be used as-is wherever it is presented in a user interface.
+	  To facilitate interoperability, it is RECOMMENDED that
+	  any human-readable fields sent without language tags contain values
+	  suitable for display on a wide variety of systems.
+	</t>
+      </section>
     </section>
 
     <section anchor="ClientRegistration" title="Client Registration">
@@ -955,6 +983,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>

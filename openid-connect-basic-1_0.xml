@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="20" month="March" year="2013" />
+    <date day="21" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -414,9 +414,10 @@
 		  represented as a space-separated list of
 		  <xref target="RFC5646">BCP47</xref> language tag values,
 		  ordered by preference.
-		  For instance, the value "fr-CA fr-FR en-CA" represents a preference
-		  for French as spoken in Canada, then French as spoken in France,
-		  followed by English as spoken in Canada. 
+                  For instance, the value "fr-CA fr en" represents a preference
+                  for French as spoken in Canada,
+		  then French (without a region designation),
+                  followed by English (without a region designation). 
 		  An error SHOULD NOT result if some or all of the requested locales
 		  are not supported by the OpenID Provider.
 		</t>
@@ -1328,6 +1329,33 @@
 	    represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
 	  </t>
 	  <t>
+	    Since Claim Names are case sensitive, it is strongly RECOMMENDED
+	    that language tag values used in Claim Names be spelled using the
+	    character case with which they are registered in the
+	    <xref target="IANA.Language">IANA Language Subtag Registry</xref>.
+	    In particular, normally language names are spelled with lowercase characters,
+	    region names are spelled with uppercase characters, and
+	    languages are spelled with mixed case characters.
+	    However, since BCP47 language tag values are case insensitive,
+	    implementations SHOULD interpret the language tag values supplied
+	    in a case insensitive manner.
+	  </t>
+	  <t>
+	    Per the recommendations in BCP47, language tag values for Claims
+	    should only be as specific as necessary.
+	    For instance, using <spanx style="verb">fr</spanx> might be sufficient
+	    in many contexts, rather than <spanx style="verb">fr-CA</spanx> or
+	    <spanx style="verb">fr-FR</spanx>.
+	    Where possible, OPs should try to match requested Claim locales with
+	    Claims it has.  For instance, if the Client asks for a Claim with
+	    a <spanx style="verb">de</spanx> (German) language tag and the OP
+	    has a value tagged with <spanx style="verb">de-CH</spanx> (Swiss German)
+	    and no generic German value, it would be appropraite for the OP
+	    to return the Swiss German value to the Client.
+	    (This intentionally moves as much of the complexity of language tag
+	    matching to the OP as possible, to simplify Clients.)
+	  </t>
+	  <t>
 	    A <spanx style="verb">claims_locales</spanx> request can be used to
 	    specify the preferred languages and scripts to use for the returned Claims.
 	  </t>
@@ -1851,6 +1879,18 @@
 		type="HTML"/>
       </reference>
 
+      <reference anchor="IANA.Language">
+        <front>
+          <title>Language Subtag Registry</title>
+          <author>
+            <organization>Internet Assigned Numbers Authority (IANA)</organization>
+          </author>
+	  <date year="2005"/>
+        </front>
+	<format target="http://www.iana.org/assignments/language-subtag-registry"
+		type="TXT" />
+      </reference>
+
     </references>
     <references title="Informative References">
 
@@ -2006,6 +2046,14 @@
 	  <t>
 	    Fixed #794 - Required <spanx style="verb">picture</spanx>
 	    to refer to an image file that is a picture of the End-User.
+	  </t>
+	  <t>
+	    Fixed #811 - Specifiy that language tag components should be spelled using
+	    the character cases registered in the IANA Language Subtag Registry.
+	  </t>
+	  <t>
+	    Fixed #812 - Clarified that language tag values used need not be
+	    unnecessarily specific.
 	  </t>
 	</list>
       </t>
