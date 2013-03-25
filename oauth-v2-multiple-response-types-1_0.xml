@@ -190,22 +190,26 @@
           a successful response MUST include an Authorization Code, an <spanx style="verb">id_token</spanx>, and an Access Token.
           Both success and error responses SHOULD be fragment-encoded.</t> 
       </list></t>
-    <t>A non-normative request/response example as issued/received by the User-Agent:
-          <figure>
-            <artwork><![CDATA[GET https://server.example.com/authorize?
-response_type=token%20id_token
-&client_id=s6BhdRkqt3
-&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-&state=af0ifjsldkj HTTP/1.1]]></artwork></figure>
-          <figure>
-<artwork><![CDATA[HTTP/1.1 302 Found
-Location: https://client.example.org/cb#
-access_token=SlAV32hkKG
-&token_type=bearer
-&id_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
-&expires_in=3600
-&state=af0ifjsldkj]]></artwork>
-          </figure>
+    <t>
+      A non-normative request/response example as issued/received by the User-Agent
+      (with extra line breaks for display purposes only) is:
+          <figure><artwork><![CDATA[
+  GET /authorize?
+    response_type=token%20id_token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &state=af0ifjsldkj HTTP/1.1
+  Host: server.example.com
+]]></artwork></figure>
+          <figure><artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+  access_token=SlAV32hkKG
+  &token_type=bearer
+  &id_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
+  &expires_in=3600
+  &state=af0ifjsldkj
+]]></artwork></figure>
     </t>
   </section>
 
@@ -370,7 +374,12 @@ access_token=SlAV32hkKG
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>-07 <list style="symbols">
-          <t>Fixed #817 - Removed duplicate definition of "Authorization Endpoint".</t>
+          <t>
+	    Fixed #817 - Removed duplicate definition of "Authorization Endpoint".
+	  </t>
+	  <t>
+	    Fixed #818 - Corrected HTTP GET example.
+	  </t>
         </list></t>
 
       <t>-06 <list style="symbols">
