@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="21" month="March" year="2013" />
+    <date day="25" month="March" year="2013" />
 
     <abstract>
       <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
@@ -846,8 +846,10 @@
               </list>
 	    </t>
 
-	    <t>The JWT MAY contain other Claims
-	    that are understood by all parties using it.</t>
+	    <t>
+	      The JWT MAY contain other Claims.
+	      Any Claims used that are not understood MUST be ignored.
+	    </t>
 
             <t>ID Tokens MUST be signed using <xref
             target="JWS">JWS</xref> and OPTIONALLY both signed and
@@ -1039,8 +1041,10 @@
 		  as measured in UTC until the desired date/time.</t>
 		</list></t>
 
-		<t>The JWT MAY contain other Claims
-		that are understood by all parties using it.</t>
+		<t>
+		  The JWT MAY contain other Claims.
+		  Any Claims used that are not understood MUST be ignored.
+		</t>
 
 		<t>The authentication token MUST be sent as the value of the
 		<xref target="OAuth.Assertions"/>
@@ -1101,8 +1105,10 @@
 		  as measured in UTC until the desired date/time.</t>
 		</list></t>
 
-		<t>The JWT MAY contain other Claims
-		that are understood by all parties using it.</t>
+		<t>
+		  The JWT MAY contain other Claims.
+		  Any Claims used that are not understood MUST be ignored.
+		</t>
 
 		<t>The authentication token MUST be sent as the value of the
 		<xref target="OAuth.Assertions"/>
@@ -1831,8 +1837,8 @@
 
 	  </list>
 
-	  Other members MAY be present and if so, SHOULD be understood by
-	  both parties.
+	  Other members MAY be present.
+	  Any members used that are not understood MUST be ignored.
 	</t>
 
 	<t>
@@ -1964,8 +1970,8 @@
 		</list>
 
 		Other members MAY be defined to provide additional 
-		information about the requested Claims,
-		and if so, SHOULD be understood by both parties.
+		information about the requested Claims.
+		Any members used that are not understood MUST be ignored.
 	      </t>
 	    </list>
 	  </t>
@@ -2097,8 +2103,9 @@
 		  contain the <spanx style="verb">JWT</spanx> member whose value is a <xref
 		  target="JWT">JWT</xref> that MUST contain all the Claims
 		  in the <spanx style="verb">_claim_names</spanx> object that references the
-		  corresponding <spanx style="verb">_claim_sources</spanx> member. Other members MAY
-		  be present if they are understood by both parties.
+		  corresponding <spanx style="verb">_claim_sources</spanx> member.
+		  Other members MAY be present.
+		  Any members used that are not understood MUST be ignored.
 
 		    <list style="hanging">
 		      <t hangText="JWT">REQUIRED.
@@ -5594,6 +5601,9 @@
 	  <t>
 	    Fixed #812 - Clarified that language tag values used need not be
 	    unnecessarily specific.
+	  </t>
+	  <t>
+	    Fixed #816 - Changed "must understand" language to "MUST be ignored if not understood".
 	  </t>
 	</list>
       </t>
