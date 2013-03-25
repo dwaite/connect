@@ -126,7 +126,7 @@
             Claims Provider asserts about that Entity.</t>
 
 	    <t hangText="Claim Type">
-	      Syntax used for representing a Claim value.
+	      Syntax used for representing a Claim Value.
 	      This specification defines Normal, Aggregated, and Distributed Claim Types.
 	    </t>
 
@@ -515,7 +515,7 @@
                   the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref>
                   <spanx style="verb">max_auth_age</spanx> request parameter.)
                   When <spanx style="verb">max_age</spanx> is used, the ID Token returned
-                  MUST include an <spanx style="verb">auth_time</spanx> Claim value.
+                  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
                 </t>
 
                 <t hangText="ui_locales">
@@ -583,7 +583,7 @@
 		  values that the Authorization Server MUST use 
 		  for processing requests from this Client.
 		  The Authentication Context Class satisfied by the authentication
-		  performed is returned as the <spanx style="verb">acr</spanx> Claim value,
+		  performed is returned as the <spanx style="verb">acr</spanx> Claim Value,
 		  as specified in <xref target="id_token"/>.
                 </t>
 
@@ -752,12 +752,12 @@
 		  The value is passed through unmodified from the Authorization Request to the ID Token.
 		  If present in the <xref target="id_token">ID Token</xref>,
 		  Clients MUST verify that
-		  the <spanx style="verb">nonce</spanx> Claim value is equal to
+		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
 		  the value of the <spanx style="verb">nonce</spanx>
 		  parameter sent in the Authorization Request.
 		  If present in the Authorization Request, Authorization Servers
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
-		  <xref target="id_token">ID Token</xref> with the Claim value
+		  <xref target="id_token">ID Token</xref> with the Claim Value
 		  being the nonce value sent in the Authorization Request.
 		  Use of the nonce is REQUIRED for all requests where an ID Token
 		  is returned directly from the Authorization Endpoint.  
@@ -1000,8 +1000,8 @@
 		  The Client authenticates in accordance with Section 2.2 of <xref
 		  target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
 		  <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
-		  The JWT MUST contain the following REQUIRED Claim values and
-		MAY contain the following OPTIONAL Claim values:</t>
+		  The JWT MUST contain the following REQUIRED Claim Values and
+		MAY contain the following OPTIONAL Claim Values:</t>
 
 		<t><list style="hanging">
 		  <t hangText="iss">REQUIRED.
@@ -1062,8 +1062,8 @@
 		  The Client authenticates in accordance with Section 2.2 of <xref
 		  target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
 		  <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
-		  The JWT MUST contain the following REQUIRED Claim values and
-		MAY contain the following OPTIONAL Claim values:</t>
+		  The JWT MUST contain the following REQUIRED Claim Values and
+		MAY contain the following OPTIONAL Claim Values:</t>
 
 		<t><list style="hanging">
 		  <t hangText="iss">REQUIRED.
@@ -1305,7 +1305,7 @@
 	with Access Tokens determine what resources will be available when they are 
 	used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
 	can be used to request that specific sets of information
-	be made available as Claim values.
+	be made available as Claim Values.
 	OAuth 2.0 allows additional scope values to be specified, as extensions.
 	This specification describes only the scope values used by OpenID Connect.</t>
 
@@ -1503,7 +1503,7 @@
 	  <c>boolean</c>
 	  <c>
 	    True if the End-User's e-mail address has been verified; otherwise false.
-	    When this Claim value is <spanx style="verb">true</spanx>,
+	    When this Claim Value is <spanx style="verb">true</spanx>,
 	    this  means that the OP took affirmative steps
 	    to ensure that this e-mail address was controlled by the End-User
 	    at the time the verification was performed.
@@ -1567,7 +1567,7 @@
 	  <c>boolean</c>
 	  <c>
 	    True if the End-User's phone number has been verified; otherwise false.
-	    When this Claim value is <spanx style="verb">true</spanx>,
+	    When this Claim Value is <spanx style="verb">true</spanx>,
 	    this  means that the OP took affirmative steps
 	    to ensure that this phone number was controlled by the End-User
 	    at the time the verification was performed.
@@ -1688,7 +1688,8 @@
 
       <section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
 	<t>
-	  Claims MAY be represented in multiple languages and scripts.
+	  Human-readable Claim Values and Claim Values that reference human-readable values
+	  MAY be represented in multiple languages and scripts.
 	  To specify the languages and scripts, <xref
 	  target="RFC5646">BCP47</xref> language tags are added to member names,
 	  delimited by a <spanx style="verb">#</spanx> character.  For example,
@@ -1696,6 +1697,10 @@
 	  Family Name in Katakana in Japanese, which is commonly used to index
 	  and represent the phonetics of the Kanji representation of the same
 	  represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+	  As another example, both <spanx style="verb">website</spanx> and
+	  <spanx style="verb">website#de</spanx> Claim Values might be returned,
+	  referencing a Web site in an unspecified language and a Web site
+	  in German.
 	</t>
 	<t>
 	  Since Claim Names are case sensitive, it is strongly RECOMMENDED
@@ -1905,7 +1910,7 @@
 		    </figure>
 
 		    can be used to specify that it is Essential to return an
-		    <spanx style="verb">auth_time</spanx> Claim value.
+		    <spanx style="verb">auth_time</spanx> Claim Value.
 		  </t>
 		  <t>
 		    If the value is <spanx style="verb">false</spanx>,
@@ -1995,7 +2000,8 @@
 	<section anchor="IndividualClaimsLanguages" title="Languages and Scripts for Individual Claims">
 	  <t>
 	    As described in <xref target="ClaimsLanguagesAndScripts"/>,
-	    Claims MAY be represented in multiple languages and scripts.
+	    human-readable Claims values and Claim Values that reference human-readable values
+	    MAY be represented in multiple languages and scripts.
 	    Within a request for individual Claims, requested languages and scripts
 	    for particular Claims may be requested by including Claim Names
 	    that contain <spanx style="verb">#</spanx>-separated
@@ -2008,6 +2014,13 @@
 	    and a Kanji representation of the Family Name in Japanese
 	    can be requested using the Claim Name
 	    <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+	    A German-language Web site can be requested with the Claim Name
+	    <spanx style="verb">website#de</spanx>.
+	  </t>
+	  <t>
+	    If an OP receives a request for human-readable Claims in a language and script
+	    that it doesn't have, any versions of those Claims returned that don't use
+	    the requested language and script SHOULD use a langauge tag in the Claim Name.
 	  </t>
 	</section>
 
@@ -2089,7 +2102,7 @@
 
 		    <list style="hanging">
 		      <t hangText="JWT">REQUIRED.
-		      JWT containing Claim values.</t>
+		      JWT containing Claim Values.</t>
 		    </list>
 		  </t>
 		  <t>
@@ -3061,7 +3074,7 @@
 		with a <spanx style="verb">values</spanx> parameter requesting
 		specific Authentication Context Class Reference values, then 
 		the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
-		Claim value that matches one of the requested values. 
+		Claim Value that matches one of the requested values. 
 		The Authorization Server MAY ask the user to re-authenticate
 		with additional factors 
 		to meet this requirement. If this is an Essential Claim and the 
@@ -3488,7 +3501,7 @@
 	</t>
 	<t><list style="numbers">
 	  <t>
-	    The <spanx style="verb">iss</spanx> (issuer) Claim value is 
+	    The <spanx style="verb">iss</spanx> (issuer) Claim Value is 
 	    <spanx style="verb">https://self-issued.me</spanx>.
 	  </t>
 	  <t>
@@ -5686,7 +5699,7 @@
 	  </t>
 	  <t>
 	    Fixed #763 - OPs MUST treat the inability to return an Essential
-	    requested <spanx style="verb">acr</spanx> Claim value as
+	    requested <spanx style="verb">acr</spanx> Claim Value as
 	    a failed authentication attempt.
 	  </t>
 	  <t>

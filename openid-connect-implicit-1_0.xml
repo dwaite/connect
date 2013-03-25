@@ -416,7 +416,7 @@
 		  Specifies that the End-User must be actively authenticated if the
 		  End-User was authenticated longer ago than the specified number of seconds.
 		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
-		  MUST include an <spanx style="verb">auth_time</spanx> Claim value.
+		  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
 		</t>
 
 		<t hangText="ui_locales">
@@ -474,7 +474,7 @@
 		  values that the Authorization Server MUST use 
 		  for processing requests from this Client.
 		  The Authentication Context Class satisfied by the authentication
-		  performed is returned as the <spanx style="verb">acr</spanx> Claim value,
+		  performed is returned as the <spanx style="verb">acr</spanx> Claim Value,
 		  as specified in <xref target="id_token"/>.
 		</t>
 		
@@ -759,12 +759,12 @@
 	    with an ID Token, and to mitigate replay attacks. 
 	    The value is passed through unmodified from the Authorization Request to the ID Token.
 	    The Client MUST verify that
-	    the <spanx style="verb">nonce</spanx> Claim value is equal to
+	    the <spanx style="verb">nonce</spanx> Claim Value is equal to
 	    the value of the <spanx style="verb">nonce</spanx>
 	    parameter sent in the Authorization Request.
 	    If present in the Authorization Request, Authorization Servers
 	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
-	    <xref target="id_token">ID Token</xref> with the Claim value
+	    <xref target="id_token">ID Token</xref> with the Claim Value
 	    being the nonce value sent in the Authorization Request.
 	    Use of the nonce is REQUIRED when using the implicit flow
 	    and OPTIONAL when using the code flow.</t>
@@ -1040,7 +1040,7 @@
         with Access Tokens determine what resources will be available when they are 
         used to access OAuth 2.0 protected endpoints. For OpenID Connect, scopes
 	can be used to request that specific sets of information
-	be made available as Claim values.
+	be made available as Claim Values.
         OAuth 2.0 allows additional scope values to be specified, as extensions.
         This specification describes only the scope values used by OpenID Connect.</t>
         
@@ -1233,7 +1233,7 @@
 	  <c>boolean</c>
 	  <c>
 	    True if the End-User's e-mail address has been verified; otherwise false.
-	    When this Claim value is <spanx style="verb">true</spanx>,
+	    When this Claim Value is <spanx style="verb">true</spanx>,
 	    this  means that the OP took affirmative steps
 	    to ensure that this e-mail address was controlled by the End-User
 	    at the time the verification was performed.
@@ -1297,7 +1297,7 @@
 	  <c>boolean</c>
 	  <c>
 	    True if the End-User's phone number has been verified; otherwise false.
-	    When this Claim value is <spanx style="verb">true</spanx>,
+	    When this Claim Value is <spanx style="verb">true</spanx>,
 	    this  means that the OP took affirmative steps
 	    to ensure that this phone number was controlled by the End-User
 	    at the time the verification was performed.
@@ -1409,7 +1409,8 @@
 
 	<section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
 	  <t>
-	    Claims MAY be represented in multiple languages and scripts.
+	    Human-readable Claim Values and Claim Values that reference human-readable values
+	    MAY be represented in multiple languages and scripts.
 	    To specify the languages and scripts, <xref
 	    target="RFC5646">BCP47</xref> language tags are added to member names,
 	    delimited by a <spanx style="verb">#</spanx> character.  For example,
@@ -1417,6 +1418,10 @@
 	    Family Name in Katakana in Japanese, which is commonly used to index
 	    and represent the phonetics of the Kanji representation of the same
 	    represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+	    As another example, both <spanx style="verb">website</spanx> and
+	    <spanx style="verb">website#de</spanx> Claim Values might be returned,
+	    referencing a Web site in an unspecified language and a Web site
+	    in German.
 	  </t>
 	  <t>
 	    Since Claim Names are case sensitive, it is strongly RECOMMENDED
@@ -1657,7 +1662,7 @@
         </t>
         <t><list style="numbers">
           <t>
-	    The <spanx style="verb">iss</spanx> (issuer) Claim value is 
+	    The <spanx style="verb">iss</spanx> (issuer) Claim Value is 
             <spanx style="verb">https://self-issued.me</spanx>.
 	  </t>
 	  <t>
