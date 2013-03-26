@@ -1655,167 +1655,167 @@
 ]]></artwork>
 	</figure>
 
-      <section title="Address Claim" anchor="address_claim">
-	<t>
-	  The components of a physical mailing address. 
-	  Implementations MAY return only a subset of the
-	  fields of an <spanx style="verb">address</spanx>, depending upon
-	  the information available and the End-User's privacy 
-	  preferences. For
-	  example, the <spanx style="verb">country</spanx> and <spanx 
-	  style="verb">region</spanx> might be returned without returning
-	  more fine-grained address information.
-	</t>
-	<t>
-	  Implementations MAY return just the full address 
-	  as a single string in the formatted sub-field, 
-	  or they MAY return just the individual component 
-	  fields using the other sub-fields, 
-	  or they MAY return both. 
-	  If both variants are returned, 
-	  they SHOULD be describing the same address, 
-	  with the formatted address indicating how the 
-	  component fields should be combined.
-	</t>
-	<t>
-	  <list style="hanging">
-	    <t hangText="formatted">
-	      Full mailing address, 
-	      formatted for display or use on a mailing label. 
-	      This field MAY contain multiple lines, separated by newline characters.
-	      This is the primary member of this Claim value, 
-	      for the purposes of sorting and filtering.
-	    </t>
+	<section title="Address Claim" anchor="address_claim">
+	  <t>
+	    The components of a physical mailing address. 
+	    Implementations MAY return only a subset of the
+	    fields of an <spanx style="verb">address</spanx>, depending upon
+	    the information available and the End-User's privacy 
+	    preferences. For
+	    example, the <spanx style="verb">country</spanx> and <spanx 
+	    style="verb">region</spanx> might be returned without returning
+	    more fine-grained address information.
+	  </t>
+	  <t>
+	    Implementations MAY return just the full address 
+	    as a single string in the formatted sub-field, 
+	    or they MAY return just the individual component 
+	    fields using the other sub-fields, 
+	    or they MAY return both. 
+	    If both variants are returned, 
+	    they SHOULD be describing the same address, 
+	    with the formatted address indicating how the 
+	    component fields should be combined.
+	  </t>
+	  <t>
+	    <list style="hanging">
+	      <t hangText="formatted">
+		Full mailing address, 
+		formatted for display or use on a mailing label. 
+		This field MAY contain multiple lines, separated by newline characters.
+		This is the primary member of this Claim value, 
+		for the purposes of sorting and filtering.
+	      </t>
 
-	    <t hangText="street_address">
-	      Full street address component, 
-	      which may include house number, street name, 
-	      Post Office Box, and multi-line extended street 
-	      address information.
-	      This field MAY contain multiple lines, separated by newline characters.
-	    </t>
+	      <t hangText="street_address">
+		Full street address component, 
+		which may include house number, street name, 
+		Post Office Box, and multi-line extended street 
+		address information.
+		This field MAY contain multiple lines, separated by newline characters.
+	      </t>
 
-	    <t hangText="locality">City or locality component.</t>
+	      <t hangText="locality">City or locality component.</t>
 
-	    <t hangText="region">State, province, 
-	    prefecture or region component.</t>
+	      <t hangText="region">State, province, 
+	      prefecture or region component.</t>
 
-	    <t hangText="postal_code">Zip code or 
-	    postal code component.</t>
+	      <t hangText="postal_code">Zip code or 
+	      postal code component.</t>
 
-	    <t hangText="country">Country name component.</t>
-	  </list>
-	</t>
+	      <t hangText="country">Country name component.</t>
+	    </list>
+	  </t>
+	</section>
+
+	<section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
+	  <t>
+	    Human-readable Claim Values and Claim Values that reference human-readable values
+	    MAY be represented in multiple languages and scripts.
+	    To specify the languages and scripts, <xref
+	    target="RFC5646">BCP47</xref> language tags are added to member names,
+	    delimited by a <spanx style="verb">#</spanx> character.  For example,
+	    <spanx style="verb">family_name#ja-Kana-JP</spanx> expresses the
+	    Family Name in Katakana in Japanese, which is commonly used to index
+	    and represent the phonetics of the Kanji representation of the same
+	    represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
+	    As another example, both <spanx style="verb">website</spanx> and
+	    <spanx style="verb">website#de</spanx> Claim Values might be returned,
+	    referencing a Web site in an unspecified language and a Web site
+	    in German.
+	  </t>
+	  <t>
+	    Since Claim Names are case sensitive, it is strongly RECOMMENDED
+	    that language tag values used in Claim Names be spelled using the
+	    character case with which they are registered in the
+	    <xref target="IANA.Language">IANA Language Subtag Registry</xref>.
+	    In particular, normally language names are spelled with lowercase characters,
+	    region names are spelled with uppercase characters, and
+	    languages are spelled with mixed case characters.
+	    However, since BCP47 language tag values are case insensitive,
+	    implementations SHOULD interpret the language tag values supplied
+	    in a case insensitive manner.
+	  </t>
+	  <t>
+	    Per the recommendations in BCP47, language tag values for Claims
+	    should only be as specific as necessary.
+	    For instance, using <spanx style="verb">fr</spanx> might be sufficient
+	    in many contexts, rather than <spanx style="verb">fr-CA</spanx> or
+	    <spanx style="verb">fr-FR</spanx>.
+	    Where possible, OPs should try to match requested Claim locales with
+	    Claims it has.  For instance, if the Client asks for a Claim with
+	    a <spanx style="verb">de</spanx> (German) language tag and the OP
+	    has a value tagged with <spanx style="verb">de-CH</spanx> (Swiss German)
+	    and no generic German value, it would be appropraite for the OP
+	    to return the Swiss German value to the Client.
+	    (This intentionally moves as much of the complexity of language tag
+	    matching to the OP as possible, to simplify Clients.)
+	  </t>
+	  <t>
+	    A <spanx style="verb">claims_locales</spanx> request can be used to
+	    specify the preferred languages and scripts to use for the returned Claims.
+	    <xref target="IndividualClaimsLanguages"/> describes how to request
+	    that specific Claims use particular languages and scripts.
+	  </t>
+	  <t>
+	    When the OP determines, either through the
+	    <spanx style="verb">claims_locales</spanx> parameter,
+	    or by other means, that the End-User and Client are
+	    requesting Claims in only one set of languages and scripts,
+	    it is RECOMMENDED that OPs return Claims without language tags
+	    when they employ this language and script.
+	    It is also RECOMMENDED that Clients be written in a manner
+	    that they can handle and utilize Claims using language tags.
+	  </t>
+	</section>
+
+	<section anchor="claim.stability" title="Claim Stability and Uniqueness">
+
+	  <t>
+	    The <spanx style="verb">sub</spanx> (subject) and
+	    <spanx style="verb">iss</spanx> (issuer) Claims are the only Claims that a Client
+	    can rely upon as a stable identifier for the End-User,
+	    since the <spanx style="verb">sub</spanx>
+	    Claim MUST be locally unique and never reassigned within the Issuer
+	    for a particular End-User, as described in <xref target="id_token"></xref>.
+	    Therefore, the only guaranteed unique identifier for a given End-User is the
+	    combination of the <spanx style="verb">iss</spanx> Claim
+	    and the <spanx style="verb">sub</spanx> Claim.
+	  </t>
+	  <t>
+	    All other Claims carry no such guarantees across different issuers in terms of
+	    stability over time or uniqueness across users, and Issuers are permitted to
+	    apply local restrictions and policies. For instance, an Issuer MAY re-use an
+	    <spanx style="verb">email</spanx> Claim value across different
+	    End-Users at different points in time, and the claimed 
+	    <spanx style="verb">email</spanx> address for a given End-User MAY change 
+	    over time.
+	    Therefore, other Claims such as <spanx style="verb">email</spanx>,
+	    <spanx style="verb">phone_number</spanx>, and
+	    <spanx style="verb">preferred_username</spanx>
+	    and MUST NOT be used as unique identifiers for the End-User.
+	  </t>
+
+	</section>
+
+	<section anchor="AdditionalClaims" title="Additional Claims">
+	  <t>
+	    While this specification defines only small set of Claims as
+	    standard Claims, other Claims MAY be used in conjunction
+	    with the standard Claims.
+	    When using such Claims, it is RECOMMENDED that
+	    collision resistant names be used for the Claim Names,
+	    as described in Section 4.2 (Public Claim Names) of the
+	    <xref target="JWT">JSON Web Token (JWT)</xref> specification.
+	    Alternatively, Private Claim Names can be safely used
+	    when naming conflicts are unlikely to arise,
+	    as described in 4.3 of the JWT specification.
+	    Or, if specific additional Claims will have broad and general applicability,
+	    they can be registered with Reserved Claim Names,
+	    per Sections 4.1 and 9.1 of the JWT specification.
+	  </t>
+	</section>
       </section>
-
-      <section anchor="ClaimsLanguagesAndScripts" title="Claims Languages and Scripts">
-	<t>
-	  Human-readable Claim Values and Claim Values that reference human-readable values
-	  MAY be represented in multiple languages and scripts.
-	  To specify the languages and scripts, <xref
-	  target="RFC5646">BCP47</xref> language tags are added to member names,
-	  delimited by a <spanx style="verb">#</spanx> character.  For example,
-	  <spanx style="verb">family_name#ja-Kana-JP</spanx> expresses the
-	  Family Name in Katakana in Japanese, which is commonly used to index
-	  and represent the phonetics of the Kanji representation of the same
-	  represented as <spanx style="verb">family_name#ja-Hani-JP</spanx>.
-	  As another example, both <spanx style="verb">website</spanx> and
-	  <spanx style="verb">website#de</spanx> Claim Values might be returned,
-	  referencing a Web site in an unspecified language and a Web site
-	  in German.
-	</t>
-	<t>
-	  Since Claim Names are case sensitive, it is strongly RECOMMENDED
-	  that language tag values used in Claim Names be spelled using the
-	  character case with which they are registered in the
-	  <xref target="IANA.Language">IANA Language Subtag Registry</xref>.
-	  In particular, normally language names are spelled with lowercase characters,
-	  region names are spelled with uppercase characters, and
-	  languages are spelled with mixed case characters.
-	  However, since BCP47 language tag values are case insensitive,
-	  implementations SHOULD interpret the language tag values supplied
-	  in a case insensitive manner.
-	</t>
-	<t>
-	  Per the recommendations in BCP47, language tag values for Claims
-	  should only be as specific as necessary.
-	  For instance, using <spanx style="verb">fr</spanx> might be sufficient
-	  in many contexts, rather than <spanx style="verb">fr-CA</spanx> or
-	  <spanx style="verb">fr-FR</spanx>.
-	  Where possible, OPs should try to match requested Claim locales with
-	  Claims it has.  For instance, if the Client asks for a Claim with
-	  a <spanx style="verb">de</spanx> (German) language tag and the OP
-	  has a value tagged with <spanx style="verb">de-CH</spanx> (Swiss German)
-	  and no generic German value, it would be appropraite for the OP
-	  to return the Swiss German value to the Client.
-	  (This intentionally moves as much of the complexity of language tag
-	  matching to the OP as possible, to simplify Clients.)
-	</t>
-	<t>
-	  A <spanx style="verb">claims_locales</spanx> request can be used to
-	  specify the preferred languages and scripts to use for the returned Claims.
-	  <xref target="IndividualClaimsLanguages"/> describes how to request
-	  that specific Claims use particular languages and scripts.
-	</t>
-	<t>
-	  When the OP determines, either through the
-	  <spanx style="verb">claims_locales</spanx> parameter,
-	  or by other means, that the End-User and Client are
-	  requesting Claims in only one set of languages and scripts,
-	  it is RECOMMENDED that OPs return Claims without language tags
-	  when they employ this language and script.
-	  It is also RECOMMENDED that Clients be written in a manner
-	  that they can handle and utilize Claims using language tags.
-	</t>
-      </section>
-
-      <section anchor="claim.stability" title="Claim Stability and Uniqueness">
-
-	<t>
-	  The <spanx style="verb">sub</spanx> (subject) and
-	  <spanx style="verb">iss</spanx> (issuer) Claims are the only Claims that a Client
-	  can rely upon as a stable identifier for the End-User,
-	  since the <spanx style="verb">sub</spanx>
-	  Claim MUST be locally unique and never reassigned within the Issuer
-	  for a particular End-User, as described in <xref target="id_token"></xref>.
-	  Therefore, the only guaranteed unique identifier for a given End-User is the
-	  combination of the <spanx style="verb">iss</spanx> Claim
-	  and the <spanx style="verb">sub</spanx> Claim.
-	</t>
-	<t>
-	  All other Claims carry no such guarantees across different issuers in terms of
-	  stability over time or uniqueness across users, and Issuers are permitted to
-	  apply local restrictions and policies. For instance, an Issuer MAY re-use an
-	  <spanx style="verb">email</spanx> Claim value across different
-	  End-Users at different points in time, and the claimed 
-	  <spanx style="verb">email</spanx> address for a given End-User MAY change 
-	  over time.
-	  Therefore, other Claims such as <spanx style="verb">email</spanx>,
-	  <spanx style="verb">phone_number</spanx>, and
-	  <spanx style="verb">preferred_username</spanx>
-	  and MUST NOT be used as unique identifiers for the End-User.
-	</t>
-
-      </section>
-
-      <section anchor="AdditionalClaims" title="Additional Claims">
-	<t>
-	  While this specification defines only small set of Claims as
-	  standard Claims, other Claims MAY be used in conjunction
-	  with the standard Claims.
-	  When using such Claims, it is RECOMMENDED that
-	  collision resistant names be used for the Claim Names,
-	  as described in Section 4.2 (Public Claim Names) of the
-	  <xref target="JWT">JSON Web Token (JWT)</xref> specification.
-	  Alternatively, Private Claim Names can be safely used
-	  when naming conflicts are unlikely to arise,
-	  as described in 4.3 of the JWT specification.
-	  Or, if specific additional Claims will have broad and general applicability,
-	  they can be registered with Reserved Claim Names,
-	  per Sections 4.1 and 9.1 of the JWT specification.
-	</t>
-      </section>
-    </section>
 
       <section anchor="ClaimsRequest" title="Claims Request">
 	<t>
