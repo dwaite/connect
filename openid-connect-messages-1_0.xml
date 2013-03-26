@@ -1199,13 +1199,17 @@
 	  <t>
 	    If an ID Token is returned as a result of a token refresh request,
 	    the following requirements apply:
+	    its <spanx style="verb">iss</spanx> Claim value MUST be the same as
+	    in the ID Token issued when the original authentication occurred;
+	    its <spanx style="verb">sub</spanx> Claim value MUST be the same as
+	    in the ID Token issued when the original authentication occurred;
 	    its <spanx style="verb">iat</spanx> Claim MUST represent
 	    the time that the new ID Token is issued;
 	    if the ID Token contains an <spanx style="verb">auth_time</spanx> Claim,
 	    its value MUST represent the time of the original authentication - not
 	    the time that the new ID token is issued;
 	    if the ID Token contains an <spanx style="verb">azp</spanx> Claim,
-	    its value MUST be the same as the <spanx style="verb">azp</spanx> Claim
+	    its value MUST be the same as
 	    in the ID Token issued when the original authentication occurred;
 	    otherwise, the same rules apply as apply when issuing an ID Token
 	    at the time of the original authentication.
