@@ -85,8 +85,8 @@
       <section anchor="terminology" title="Terminology">
 	<t>This specification uses the terms "Access Token", "Refresh Token",
 	"Authorization Code", "Authorization Grant", "Authorization Server",
-	"Authorization Endpoint", "Client", "Client Identifier", "Client
-	Secret", "Protected Resource", "Resource Owner", "Resource Server", and
+	"Authorization Endpoint", "Client", "Client Identifier", "Client Secret",
+	"Protected Resource", "Resource Owner", "Resource Server", and
 	"Token Endpoint" defined by
 	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
@@ -140,7 +140,7 @@
         using a scripting language. The Access Token and ID Token are returned
         directly to the Client, which MAY expose them to the Resource Owner and
         other applications that have access to the Resource Owner's User-Agent.
-        The Authorization Server does not perform Client authentication before
+        The Authorization Server does not perform Client Authentication before
         issuing the Access Token.</t>
 
         <t>The Authorization Code Flow returns an Authorization Code to the
@@ -1358,11 +1358,11 @@
           <t>
             <list style='symbols'>
               <t>
-                Require client authentication for any Client issued
-                client credentials (or with other authentication requirements),
+                Authenticate any Clients that were issued Client Credentials
+		(or for which other Client Authentication methods can be used),
               </t>
               <t>
-                Authenticate the Client if client authentication is included and ensure the
+                Ensure the
                 Authorization Code was issued to the authenticated Client,
               </t>
               <t>
@@ -1379,7 +1379,7 @@
 		not be present when there is only one registered
 		<spanx style='verb'>redirect_uri</spanx> value,
 		the Authorization Server MAY return an error
-		(since the client should have included the parameter)
+		(since the Client should have included the parameter)
 		or MAY proceed without an error
 		(since OAuth 2.0 permits the parameter to be omitted in this case).
               </t>
