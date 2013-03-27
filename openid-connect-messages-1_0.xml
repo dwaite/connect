@@ -856,8 +856,9 @@
             target="JWS">JWS</xref> and OPTIONALLY both signed and
             encrypted using <xref target="JWS">JWS</xref> and <xref
             target="JWE">JWE</xref> respectively, thereby providing
-            <xref target="signing_order">authentication, integrity,
-	    non-repudiation, and optionally, confidentiality</xref>.</t>
+            authentication, integrity,
+	    non-repudiation, and optionally, confidentiality,
+	    per <xref target="signing_order"/>.</t>
 
             <t>
               Clients MUST directly validate the ID Token per 
@@ -1588,7 +1589,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this phone number was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which an phone number must be verified is context-specific,
+	    The means by which a phone number must be verified is context-specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	    When true, the <spanx style="verb">phone_number</spanx>
@@ -1746,7 +1747,7 @@
 	    Claims it has.  For instance, if the Client asks for a Claim with
 	    a <spanx style="verb">de</spanx> (German) language tag and the OP
 	    has a value tagged with <spanx style="verb">de-CH</spanx> (Swiss German)
-	    and no generic German value, it would be appropraite for the OP
+	    and no generic German value, it would be appropriate for the OP
 	    to return the Swiss German value to the Client.
 	    (This intentionally moves as much of the complexity of language tag
 	    matching to the OP as possible, to simplify Clients.)
@@ -2063,7 +2064,7 @@
 	  <t>
 	    If an OP receives a request for human-readable Claims in a language and script
 	    that it doesn't have, any versions of those Claims returned that don't use
-	    the requested language and script SHOULD use a langauge tag in the Claim Name.
+	    the requested language and script SHOULD use a language tag in the Claim Name.
 	  </t>
 	</section>
 
@@ -2651,7 +2652,7 @@
 
       <t>When the message is both signed and 
       encrypted, it MUST be
-      <xref target="signing_order">signed first and then encrypted</xref>,
+      signed first and then encrypted, per <xref target="signing_order"/>,
       with nesting performed in the same manner as
       specified for JWTs <xref target="JWT"/>.
       Note that all JWE encryption methods perform integrity checking.</t>
@@ -2750,7 +2751,7 @@
 	  algorithm <xref target="JWA" /> required for UserInfo Responses.
 	  If this is requested in 
 	  combination with signing, the response 
-	  MUST be <xref target="signing_order">signed first then encrypted</xref>.
+	  MUST be signed first then encrypted, per <xref target="signing_order"/>.
 	  If this is specified, the response will be 
 	  <xref target="JWT">JWT</xref> serialized.</t>
 
@@ -2969,24 +2970,24 @@
 
 	<t><list style="hanging">
 
-	  <t hangText="Asymmetric Encryption RSA">
+	  <t hangText="Asymmetric Encryption: RSA">
 	    Use the link registered/discovered in <xref target="sigenc.key"></xref>
 	    to retrieve the relevant key.
 	    If there are multiple keys in the referenced JWK document, a
 	    <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
-	    Use the supported RSA KeyWrap algorithm to KeyWrap a random 
+	    Use the supported RSA key wrapping algorithm to wrap a random 
 	    <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
 	    the signed JWT.
 	    The key usage of the respective keys MUST include encryption.
 	  </t>
-	  <t hangText="Asymmetric Encryption Elliptic Curve">
+	  <t hangText="Asymmetric Encryption: Elliptic Curve">
 	    Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
 	    element of the JWE header. 
 	    Use the link registered/discovered in <xref target="sigenc.key"></xref>
 	    to retrieve the relevant key.
 	    If there are multiple keys in the referenced JWK document, a
 	    <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
-	    Use the ECDH-ES algorithm to KeyWrap a random 
+	    Use the ECDH-ES algorithm to wrap a random 
 	    <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
 	    the signed JWT.
 	    The key usage of the respective keys MUST support encryption.
@@ -2998,7 +2999,7 @@
 	    the bytes of the UTF-8 representation of
 	    the <spanx style="verb">client_secret</spanx>.
 	    The SHA-256 value MUST be left truncated to the appropriate bit length 
-	    for the AES KeyWrap algorithm used,
+	    for the AES key wrapping algorithm used,
 	    for instance, to 128 bits for <spanx style="verb">A128KW</spanx>.
 	  </t>
 	</list></t>
@@ -5635,7 +5636,7 @@
 	    to prevent unintended correlations.
 	  </t>
 	  <t>
-	    Fixed #811 - Specifiy that language tag components should be spelled using
+	    Fixed #811 - Specify that language tag components should be spelled using
 	    the character cases registered in the IANA Language Subtag Registry.
 	  </t>
 	  <t>
