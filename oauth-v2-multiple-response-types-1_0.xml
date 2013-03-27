@@ -40,6 +40,8 @@
 
     <date day="26" month="March" year="2013" />
 
+    <workgroup>OpenID Connect Working Group</workgroup>
+
     <abstract>
       <t>This specification aims to provide guidance on proper encoding of responses to
         OAuth 2.0 Authorization requests, where the request specifies a response type that includes
@@ -176,24 +178,26 @@
       <t>This section registers combinations of the values <spanx style="verb">code</spanx>, <spanx style="verb">token</spanx>, and <spanx style="verb">id_token</spanx>, which are each
         individually registered response types.</t>
 
-      <t><list style="hanging">
-        <t hangText="code token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter, a successful
-          response MUST include both an Access Token and an Authorization Code as defined in the OAuth 2.0
-          specification. Both successful and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="code id_token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
-          a successful response MUST include both an Authorization Code as well as an <spanx style="verb">id_token</spanx>.
-          Both success and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="id_token token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
-          a successful response MUST include both an Access Token as well as an <spanx style="verb">id_token</spanx>.
-          Both success and error responses SHOULD be fragment-encoded.</t>
-        <t hangText="code id_token token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
-          a successful response MUST include an Authorization Code, an <spanx style="verb">id_token</spanx>, and an Access Token.
-          Both success and error responses SHOULD be fragment-encoded.</t> 
-      </list></t>
-    <t>
-      A non-normative request/response example as issued/received by the User-Agent
-      (with extra line breaks for display purposes only) is:
-          <figure><artwork><![CDATA[
+      <t>
+	<list style="hanging">
+	  <t hangText="code token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter, a successful
+	  response MUST include both an Access Token and an Authorization Code as defined in the OAuth 2.0
+	  specification. Both successful and error responses SHOULD be fragment-encoded.</t>
+	  <t hangText="code id_token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
+	  a successful response MUST include both an Authorization Code as well as an <spanx style="verb">id_token</spanx>.
+	  Both success and error responses SHOULD be fragment-encoded.</t>
+	  <t hangText="id_token token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
+	  a successful response MUST include both an Access Token as well as an <spanx style="verb">id_token</spanx>.
+	  Both success and error responses SHOULD be fragment-encoded.</t>
+	  <t hangText="code id_token token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
+	  a successful response MUST include an Authorization Code, an <spanx style="verb">id_token</spanx>, and an Access Token.
+	  Both success and error responses SHOULD be fragment-encoded.</t> 
+	</list>
+      </t>
+      <t>
+	A non-normative request/response example as issued/received by the User-Agent
+	(with extra line breaks for display purposes only) is:
+	<figure><artwork><![CDATA[
   GET /authorize?
     response_type=token%20id_token
     &client_id=s6BhdRkqt3
@@ -201,7 +205,7 @@
     &state=af0ifjsldkj HTTP/1.1
   Host: server.example.com
 ]]></artwork></figure>
-          <figure><artwork><![CDATA[
+	<figure><artwork><![CDATA[
   HTTP/1.1 302 Found
   Location: https://client.example.org/cb#
   access_token=SlAV32hkKG
@@ -210,113 +214,114 @@
   &expires_in=3600
   &state=af0ifjsldkj
 ]]></artwork></figure>
-    </t>
-  </section>
-
-  <section anchor="IANA" title="IANA Considerations">
-    <t>
-      This specification registers the <spanx style="verb">response_type</spanx>
-      values defined by this specification in the IANA
-      OAuth Authorization Endpoint Response Types registry
-      <xref target="RFC6749" />.
-    </t>
-
-    <section anchor="RegistryContents" title='Registry Contents'>
-      <t> <?rfc subcompact="yes"?>
-
-	<list style='symbols'>
-	  <t>
-	    Response Type Name: <spanx style="verb">id_token</spanx>
-	  </t>
-	  <t>
-	    Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	  </t>
-	  <t>
-	    Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	  </t>
-	</list>
-      </t>
-      <t>
-	<list style='symbols'>
-	  <t>
-	    Response Type Name: <spanx style="verb">none</spanx>
-	  </t>
-	  <t>
-	    Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	  </t>
-	  <t>
-	    Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	  </t>
-	</list>
-      </t>
-      <t>
-	<list style='symbols'>
-	  <t>
-	    Response Type Name: <spanx style="verb">code token</spanx>
-	  </t>
-	  <t>
-	    Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	  </t>
-	  <t>
-	    Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	  </t>
-	</list>
-      </t>
-      <t>
-	<list style='symbols'>
-	  <t>
-	    Response Type Name: <spanx style="verb">code id_token</spanx>
-	  </t>
-	  <t>
-	    Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	  </t>
-	  <t>
-	    Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	  </t>
-	</list>
-      </t>
-      <t>
-	<list style='symbols'>
-	  <t>
-	    Response Type Name: <spanx style="verb">id_token token</spanx>
-	  </t>
-	  <t>
-	    Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	  </t>
-	  <t>
-	    Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	  </t>
-	</list>
-      </t>
-      <t>
-	<list style='symbols'>
-	  <t>
-	    Response Type Name: <spanx style="verb">code id_token token</spanx>
-	  </t>
-	  <t>
-	    Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	  </t>
-	  <t>
-	    Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	  </t>
-	</list>
       </t>
     </section>
-    <?rfc subcompact="no"?>
 
-  </section>
-</middle>  
-<back>
-  <references title="Normative References">
+    <section anchor="IANA" title="IANA Considerations">
+      <t>
+	This specification registers the <spanx style="verb">response_type</spanx>
+	values defined by this specification in the IANA
+	OAuth Authorization Endpoint Response Types registry
+	<xref target="RFC6749" />.
+      </t>
+
+      <section anchor="RegistryContents" title='Registry Contents'>
+	<t> <?rfc subcompact="yes"?>
+
+	  <list style='symbols'>
+	    <t>
+	      Response Type Name: <spanx style="verb">id_token</spanx>
+	    </t>
+	    <t>
+	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  <list style='symbols'>
+	    <t>
+	      Response Type Name: <spanx style="verb">none</spanx>
+	    </t>
+	    <t>
+	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  <list style='symbols'>
+	    <t>
+	      Response Type Name: <spanx style="verb">code token</spanx>
+	    </t>
+	    <t>
+	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  <list style='symbols'>
+	    <t>
+	      Response Type Name: <spanx style="verb">code id_token</spanx>
+	    </t>
+	    <t>
+	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  <list style='symbols'>
+	    <t>
+	      Response Type Name: <spanx style="verb">id_token token</spanx>
+	    </t>
+	    <t>
+	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  <list style='symbols'>
+	    <t>
+	      Response Type Name: <spanx style="verb">code id_token token</spanx>
+	    </t>
+	    <t>
+	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	    </t>
+	  </list>
+	</t>
+      </section>
+      <?rfc subcompact="no"?>
+
+    </section>
+  </middle>  
+  <back>
+    <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
-
     </references>
+
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>The OpenID Community would like to thank the following people for the
       work they've done in the drafting and editing of this specification.</t>
 
-      <t><list style="empty">
+      <t>
+	<list style="empty">
           <t>Naveen Agarwal (naa@google.com), Google</t>
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
@@ -325,7 +330,8 @@
           <t>David Recordon (dr@fb.com), Facebook</t>
           <t>Marius Scurtescu (mscurtescu@google.com), Google</t>
           <t>Paul Tarjan (pt@fb.com), Facebook</t>
-        </list></t>
+        </list>
+      </t>
     </section>
 
     <section anchor="Notices" title="Notices">
