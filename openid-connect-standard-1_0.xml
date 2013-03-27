@@ -242,22 +242,24 @@
 	  See <xref target="TLS_requirements"/> for more information on using TLS.
 	</t>
 
-        <t>Authorization Servers MUST support the use of the HTTP "GET" and 
-        "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
+        <t>Authorization Servers MUST support the use of the HTTP <spanx style="verb">GET</spanx> and 
+        <spanx style="verb">POST</spanx> methods defined in <xref target="RFC2616">RFC 2616</xref> at the
         Authorization Endpoint. </t>
 
-        <t>Clients MAY use the HTTP "GET" or "POST" method to send the
+        <t>Clients MAY use the HTTP <spanx style="verb">GET</spanx> or
+	<spanx style="verb">POST</spanx> methods to send the
         Authorization Request to the Authorization Server. If using the HTTP
-        "GET" method, the request parameters are serialized using
+        <spanx style="verb">GET</spanx> method, the request parameters are serialized using
 	URI Query String Serialization, per <xref target="qss"/>.
-	If using the HTTP "POST"
+	If using the HTTP <spanx style="verb">POST</spanx>
         method, the request parameters are serialized using 
         Form Serialization, per <xref target="form_serialization"/>.</t>
 
         <section anchor="AuthorizationRequest"
                  title="Client Prepares Authorization Request">
           <t>The Client prepares an Authorization Request to the Authorization Endpoint
-	  with the request parameters using the HTTP "GET" or "POST"
+	  with the request parameters using the HTTP <spanx style="verb">GET</spanx>
+	  or <spanx style="verb">POST</spanx>
           method. The scheme used in the Authorization URL MUST be <spanx style="verb">https</spanx>.
 	  </t>
 
@@ -480,10 +482,10 @@
           <section anchor="SimpleRequestMethod" title="Simple Request Method">
             <t>The Client prepares an Authorization Request to the
             Authorization Endpoint using the appropriate parameters. If using 
-            the HTTP "GET" method, the request parameters are serialized using
+            the HTTP <spanx style="verb">GET</spanx> method, the request parameters are serialized using
             URI Query String Serialization, per <xref target="qss"/>.
 	    If using
-            the HTTP "POST" method, the request parameters are serialized using 
+            the HTTP <spanx style="verb">POST</spanx> method, the request parameters are serialized using 
             Form Serialization, per <xref target="form_serialization"/>.</t>
 
             <t><figure>
@@ -529,7 +531,8 @@
             <t>The Client prepares an Authorization Request to the
             Authorization Endpoint using the appropriate HTTP parameter
             serialization. The Client SHOULD construct the request using the
-            HTTP "POST" method, but MAY use the HTTP "GET" method.</t>
+            HTTP <spanx style="verb">POST</spanx> method,
+	    but MAY use the HTTP <spanx style="verb">GET</spanx> method.</t>
 
             <t>The Authorization Request MUST include the 
             <spanx style="verb">request</spanx> parameter defined in <xref
@@ -715,8 +718,9 @@
             part of the Authorization Request.</t>
 
             <t>The Client prepares an Authorization Request using the desired 
-            HTTP "GET" or "POST" method. The Client SHOULD use the HTTP "GET"
-            method, but MAY use the HTTP "POST" method.
+            HTTP <spanx style="verb">GET</spanx> or <spanx style="verb">POST</spanx> method.
+	    The Client SHOULD use the HTTP <spanx style="verb">GET</spanx>
+            method, but MAY use the HTTP <spanx style="verb">POST</spanx> method.
 	    The scheme used in the Authorization URL MUST be <spanx style="verb">https</spanx>.
 	    </t>
 
@@ -829,7 +833,7 @@
 
             <section anchor="FetchesRequestFile" title="Authorization Server Fetches Request File">
               <t>Upon receipt of the Request, the Authorization Server MUST
-              send a GET request to the <spanx style="verb">request_uri</spanx>
+              send a <spanx style="verb">GET</spanx> request to the <spanx style="verb">request_uri</spanx>
               to retrieve the content unless it is already cached and parse it
               to recreate the Authorization Request parameters.</t>
 
@@ -1289,7 +1293,7 @@
       <t>The Token Endpoint handles requests for retrieving and refreshing
       Access Tokens as well as ID Token and other variables.</t>
 
-      <t>Clients MUST use the HTTP "POST" method to make requests to the Token Endpoint.
+      <t>Clients MUST use the HTTP <spanx style="verb">POST</spanx> method to make requests to the Token Endpoint.
       Request parameters are added using
       Form Serialization, per <xref target="form_serialization"/>.</t>
 
@@ -1297,7 +1301,7 @@
       Token Endpoint as described in
       Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
 
-      <t>The Token Endpoint MUST support the use of the HTTP "POST"
+      <t>The Token Endpoint MUST support the use of the HTTP <spanx style="verb">POST</spanx>
       method defined in <xref target="RFC2616">RFC 2616</xref> at the
       Token Endpoint.</t>
 
@@ -1336,7 +1340,7 @@
           authenticate to the Token Endpoint using the authentication method
 	  registered for its <spanx style="verb">client_id</spanx>, as documented in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-          The Client sends the parameters via HTTPS POST to the Token Endpoint using
+          The Client sends the parameters via HTTPS <spanx style="verb">POST</spanx> to the Token Endpoint using
           Form Serialization, per <xref target="form_serialization"/>,
 	  as described in Section 4.1.3 of 
           <xref target="RFC6749">OAuth 2.0</xref>.</t>
@@ -1459,7 +1463,7 @@
           authenticate to the Token Endpoint using the authentication method registered
 	  for its <spanx style="verb">client_id</spanx>, as documented in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
+	  The Client sends the parameters via HTTPS <spanx style="verb">POST</spanx> to the Token Endpoint using
           Form Serialization, per <xref target="form_serialization"/>,
 	  as described in Section 6 of 
           <xref target="RFC6749">OAuth 2.0</xref>:</t>
@@ -1522,7 +1526,8 @@
 	The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
         returns Claims about the authenticated End-User.
 	To obtain the requested Claims about the End-User, the Client
-	makes a GET or POST request to the UserInfo Endpoint as in
+	makes a <spanx style="verb">GET</spanx> or
+	<spanx style="verb">POST</spanx> request to the UserInfo Endpoint as in
 	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
       </t>
       <t>
@@ -1530,8 +1535,8 @@
 	See <xref target="TLS_requirements"/> for more information on using TLS.
       </t>
 
-      <t>The UserInfo Endpoint MUST support the use of the HTTP "GET" and HTTP
-      "POST" methods defined in <xref target="RFC2616">RFC 2616</xref> at the
+      <t>The UserInfo Endpoint MUST support the use of the HTTP <spanx style="verb">GET</spanx> and HTTP
+      <spanx style="verb">POST</spanx> methods defined in <xref target="RFC2616">RFC 2616</xref> at the
       UserInfo Endpoint. </t>
 
       <t>The UserInfo Endpoint MUST accept Access Tokens as
@@ -1544,7 +1549,7 @@
       <section anchor="UserInfoRequest" title="UserInfo Request">
         <t>Client SHOULD send the UserInfo Request defined in
 	Section 2.3.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
-        either in an HTTPS GET or HTTPS POST request.</t>
+        either in an HTTPS <spanx style="verb">GET</spanx> or HTTPS <spanx style="verb">POST</spanx> request.</t>
         
         <t>The Access Token obtained
             from an OpenID Connect Authorization Request MUST be sent as a Bearer Token.
@@ -1552,7 +1557,7 @@
             specification documents the permissible methods of sending the Access Token.</t> 
             <t>It is RECOMMENDED that the Client use the
 	    <spanx style="verb">Authorization</spanx> header field
-	    method for all requests and that they use the GET method.</t>
+	    method for all requests and that they use the <spanx style="verb">GET</spanx> method.</t>
             
         <figure>
           <preamble>
@@ -1709,12 +1714,12 @@
 
       <section anchor="qss" title="Query String Serialization">
 
-        <t>In order to serialize the parameters using the query string
-        serialization, the Client constructs the string by adding the
+        <t>In order to serialize the parameters using the Query String
+        Serialization, the Client constructs the string by adding the
         parameters and values to the query component of a URL using the <spanx
         style="verb">application/x-www-form-urlencoded</spanx> format as
         defined by <xref target="W3C.REC-html401-19991224"></xref>.
-	Query string serialization is typically used in HTTP GET requests.</t>
+	Query String Serialization is typically used in HTTP <spanx style="verb">GET</spanx> requests.</t>
 
         <figure>
           <preamble>Following is a non-normative example of such
@@ -1731,11 +1736,11 @@
 
       <section anchor="form_serialization" title="Form Serialization">
 
-        <t>Parameters and their values are form serialized by adding the 
+        <t>Parameters and their values are Form Serialized by adding the 
         parameter names and values to the entity body of the HTTP request using
         the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
         as defined by <xref target="W3C.REC-html401-19991224"></xref>.
-	Form Serialization is typically used in HTTP POST requests.</t>
+	Form Serialization is typically used in HTTP <spanx style="verb">POST</spanx> requests.</t>
 
         <figure>
           <preamble>Following is a non-normative example of such
