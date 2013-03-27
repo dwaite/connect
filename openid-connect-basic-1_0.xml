@@ -73,7 +73,7 @@
 	OAuth <spanx style="verb">authorization_code</spanx> grant type.
       </t>
       <t>
-	OpenID Providers and non Web-based applications
+	OpenID Providers and non-Web-based applications
 	should instead consult the Messages and Standard specifications.
       </t>
     </abstract>
@@ -100,10 +100,10 @@
 	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref>
 	specification for a related profile for basic
 	Web-based Relying Parties using the OAuth implicit grant type.
-	OpenID Providers and non Web-based applications
+	OpenID Providers and non-Web-based applications
 	should instead consult the Messages and Standard specifications.
 	This profile omits implementation and security
-	considerations for OpenID Providers and non Web-based applications.
+	considerations for OpenID Providers and non-Web-based applications.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -238,8 +238,9 @@
           <xref target="RFC2616">RFC 2616</xref>.</t>
 
           <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
-          parameters are serialized using <xref target="qss">Query String 
-          Serialization</xref>. If using the HTTP 
+          parameters are serialized using
+	  the Query String Serialization, per <xref target="qss"/>.
+	  If using the HTTP
           <spanx style="verb">POST</spanx> method, the request parameters are 
           added to the HTTP request entity-body using the 
           <spanx style="verb">application/x-www-form-urlencoded</spanx> format
@@ -434,7 +435,7 @@
 
 		<t hangText="id_token_hint">
 		  OPTIONAL.
-		  Previously issued <xref target="id_token">ID Token</xref>
+		  Previously issued ID Token
 		  passed to the Authorization Server as a hint about the End-User's current or past
 		  authenticated session with the Client.
 		  This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
@@ -590,7 +591,7 @@
 
             <t>
 	      The Client makes a request to the Token Endpoint using
-	      <xref target="form_serialization">form serialization</xref> as described in 
+	      the Form Serialization, per <xref target="form_serialization"/>, as described in 
 	      Section 4.1.3 of <xref target="RFC6749">OAuth 2.0</xref>.
 	      The Client authenticates itself by communicating its form-urlencoded
 	      Client Credentials in an Authorization header using the HTTP Basic method,
@@ -973,9 +974,8 @@
 	    </t>
 
             <t hangText="profile">OPTIONAL. This scope value 
-	    requests access to the End-User's default <xref
-	    target="ClaimTable">profile Claims</xref>.
-	    These Claims are:
+	    requests access to the End-User's default profile Claims,
+	    which are:
 
 	    <spanx style="verb">name</spanx>,
 	    <spanx style="verb">family_name</spanx>,

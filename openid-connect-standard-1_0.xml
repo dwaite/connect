@@ -155,15 +155,13 @@
         that cannot.</t>
 
         <section anchor="retrieving_code_token" 
-                 title="How to Get Authorization Code, Access Token, and ID Token">
+                 title="Obtaining the Authorization Code, ID Token, and Access Token">
           <t>In this specification, the Client sends the Authorization Request 
           to the Authorization Endpoint through the User-Agent to obtain the 
-          Access Token and ID Token. It can obtain them from the Authorization Endpoint
-	  or from Token Endpoint utilizing the <spanx style="verb">
-          code</spanx> that it obtained from the Authorization Endpoint. 
-          The latter is called <xref target="code_flow">Code Flow</xref> 
-          and the former is called <xref target="implicit_flow">Implicit Flow
-          </xref>. 
+          ID Token and Access Token.
+	  It can obtain them from the Token Endpoint utilizing the Authorization Code
+          that it obtained from the Authorization Endpoint using the Authorization Code Flow
+	  or from the Authorization Endpoint using the Implicit Flow.
           </t>
           
         </section>
@@ -186,7 +184,7 @@
               an Authorization Code.</t>
 
               <t>Client requests a response using the Authorization Code at the
-              <xref target="token_ep">Token Endpoint</xref>.</t>
+              Token Endpoint, per <xref target="token_ep"/>.</t>
 
               <t>Client receives a response that contains an Access Token and ID
               Token in the response body.</t>
@@ -194,8 +192,8 @@
               <t>Client validates the ID Token and retrieves the End-User's
               subject identifier.</t>
 
-              <t>(OPTIONAL) Client accesses the <xref 
-              target="userinfo_ep">UserInfo Endpoint</xref>  with the Access Token.</t>
+              <t>(OPTIONAL) Client accesses the UserInfo Endpoint with the Access Token,
+	      per <xref target="userinfo"/>.</t>
 
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
@@ -223,8 +221,8 @@
               <t>Client validates the ID Token and retrieves the End-User's
               subject identifier.</t>
 
-              <t>(OPTIONAL) Client accesses the <xref 
-              target="userinfo_ep">UserInfo Endpoint</xref>  with the Access Token.</t>
+              <t>(OPTIONAL) Client accesses the UserInfo Endpoint with the Access Token,
+	      per <xref target="userinfo"/>.</t>
 
               <t>(OPTIONAL) Client receives UserInfo Response.</t>
              </list>Note that in each step, the party that receives a message
@@ -250,10 +248,11 @@
 
         <t>Clients MAY use the HTTP "GET" or "POST" method to send the
         Authorization Request to the Authorization Server. If using the HTTP
-        "GET" method, the request parameters are serialized using URI <xref
-        target="qss">query string serialization</xref>. If using the HTTP "POST"
+        "GET" method, the request parameters are serialized using
+	URI Query String Serialization, per <xref target="qss"/>.
+	If using the HTTP "POST"
         method, the request parameters are serialized using 
-        <xref target="form_serialization">form serialization</xref>.</t>
+        Form Serialization, per <xref target="form_serialization"/>.</t>
 
         <section anchor="AuthorizationRequest"
                  title="Client Prepares Authorization Request">
@@ -482,9 +481,10 @@
             <t>The Client prepares an Authorization Request to the
             Authorization Endpoint using the appropriate parameters. If using 
             the HTTP "GET" method, the request parameters are serialized using
-            URI <xref target="qss">query string serialization</xref>. If using
+            URI Query String Serialization, per <xref target="qss"/>.
+	    If using
             the HTTP "POST" method, the request parameters are serialized using 
-            <xref target="form_serialization">form serialization</xref>.</t>
+            Form Serialization, per <xref target="form_serialization"/>.</t>
 
             <t><figure>
 	      <preamble>The following is a non-normative example of an
@@ -1291,7 +1291,7 @@
 
       <t>Clients MUST use the HTTP "POST" method to make requests to the Token Endpoint.
       Request parameters are added using
-      <xref target="form_serialization">form serialization</xref>.</t>
+      Form Serialization, per <xref target="form_serialization"/>.</t>
 
       <t>Clients MAY provide authentication parameters in the request to the
       Token Endpoint as described in
@@ -1325,9 +1325,11 @@
       </texttable>
 
       <section anchor="RequestingAccessToken" title="Requesting Access Token">
-        <t>To retrieve an Access Token, a Client MUST have an Authorization Code
-	obtained via the method as described in <xref
-        target="code_flow">Authorization Code Flow</xref>.</t>
+        <t>
+	  To retrieve an Access Token when using the Authorization Code Flow,
+	  a Client MUST have an Authorization Code
+	  obtained as described in <xref target="code_flow"></xref>.
+	</t>
 
         <section anchor="AccessTokenRequest" title="Access Token Request">
           <t>To obtain an Access Token, Refresh Token or ID Token, the Client MUST
@@ -1335,8 +1337,8 @@
 	  registered for its <spanx style="verb">client_id</spanx>, as documented in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
           The Client sends the parameters via HTTPS POST to the Token Endpoint using
-          <xref target="form_serialization">form serialization</xref> as 
-          specified in Section 4.1.3 of 
+          Form Serialization, per <xref target="form_serialization"/>,
+	  as described in Section 4.1.3 of 
           <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
           <figure>
@@ -1458,8 +1460,8 @@
 	  for its <spanx style="verb">client_id</spanx>, as documented in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	  The Client sends the parameters via HTTPS POST to the Token Endpoint using
-          <xref target="form_serialization">form serialization</xref> as 
-          specified in Section 6 of 
+          Form Serialization, per <xref target="form_serialization"/>,
+	  as described in Section 6 of 
           <xref target="RFC6749">OAuth 2.0</xref>:</t>
         
         <t>The Authorization Server MUST validate the Refresh Token.
@@ -1515,7 +1517,7 @@
       </section>
     </section>
 
-    <section anchor="userinfo_ep" title="UserInfo Endpoint">
+    <section anchor="userinfo" title="UserInfo Endpoint">
       <t>
 	The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
         returns Claims about the authenticated End-User.
@@ -1733,7 +1735,7 @@
         parameter names and values to the entity body of the HTTP request using
         the <spanx style="verb">application/x-www-form-urlencoded</spanx> format
         as defined by <xref target="W3C.REC-html401-19991224"></xref>.
-	Form serialization is typically used in HTTP POST requests.</t>
+	Form Serialization is typically used in HTTP POST requests.</t>
 
         <figure>
           <preamble>Following is a non-normative example of such

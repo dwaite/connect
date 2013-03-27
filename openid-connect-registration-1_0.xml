@@ -489,8 +489,8 @@
       <section anchor="RegistrationRequest" title="Client Registration Request">
         <t>To register a new Client to the Authorization Server, the Client
         sends an HTTP POST message to the Client Registration Endpoint with
-	any parameters described in <xref
-        target="client-metadata">Client Metadata</xref> that the Client wishes
+	any Client Metadata parameters, as defined in <xref target="client-metadata"/>,
+	that the Client wishes
         to specify for itself during the registration.
 	The Authorization Server assigns this Client a unique Client
         Identifier, optionally assigns a Client Secret, and associates the
@@ -670,7 +670,7 @@
 	    more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
 
             <t hangText="invalid_client_metadata"><vspace/>The value of one of
-            the <xref target="client-metadata">Client Metadata</xref> fields
+            the Client Metadata fields
             is invalid and the server has rejected this request. Note that an
             Authorization Server MAY choose to substitute a valid value for
             any requested parameter of a Client's Metadata.</t>
@@ -726,8 +726,7 @@
       <section anchor="ReadResponse" title="Client Read Response">
         <t>
 	  Upon a successful read operation, the Authorization Server
-	  SHOULD return all registered <xref
-	  target="client-metadata">Metadata</xref> about this Client, including
+	  SHOULD return all registered Metadata about this Client, including
 	  any fields provisioned by the Authorization Server itself.
 	  Some values, including the <spanx style="verb">client_secret</spanx>
 	  value, may have been updated since the initial registration.
