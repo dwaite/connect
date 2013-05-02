@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 17</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 18</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="26" month="March" year="2013" />
+    <date day="1" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -2821,53 +2821,48 @@
 	    </t>
 	  </list>
 	</t>
+	<t>
+	  When both signing and encryption keys are made available,
+	  the <spanx style="verb">use</spanx> (Key Use) parameter
+	  value is REQUIRED for all keys in the JWK Set at the
+	  <spanx style="verb">jwks_uri</spanx> to indicate each key's intended usage.
+	  Although some algorithms allow the same key pair to be used for
+	  both signatures and encryption, doing so is
+	  NOT RECOMMENDED, as it is less secure.
+	</t>
 
-	<section anchor="PKIXKeyType" title="PKIX Key Type">
+	<section anchor="x5cJWK" title='"x5c" JWK Member'>
 	  <t>
-	    In addition to the Key Types defined in <xref target="JWA">JSON Web Algorithms</xref>,
-	    the <spanx style="verb">jwks_uri</spanx> JWK Set can also contain a <spanx style="verb">PKIX</spanx>
-	    Key Type, which is a key type used to enable a JWK to contain a chain of PKIX certificates.
+	    A forthcoming version of the JWK specification is expected to
+	    add the ability to represent an X.509 certificate chain within a JWK object.
+	    This representation will define the use of this member within
+	    RSA and Elliptic Curve key representations:
 	  </t>
 	  <t>
-	    [[ Note:  The PKIX Key Type is derived from the
-	    <xref target="JWK.PKIX">JSON Web Key (JWK) for PKIX Certificates</xref>
-	    specification, which is an early work in progress.
-	    In the future, should this functionality be incorporated into
-	    a JOSE working group specification,
-	    it would then no longer be replicated in this document. ]]
+	    <list style="hanging">
+	      <t hangText="x5c">
+		OPTIONAL. Contains a chain of one or more PKIX certificates <xref target="RFC5280"/>.
+		The certificate chain is represented as a JSON array of certificate value strings.
+		Each string in the array is a base64 encoded
+		(<xref target="RFC4648"/> Section 4 -- not base64url encoded)
+		DER <xref target="ITU.X690.1994"/> PKIX certificate value.
+		The array MUST have at least one value, which MUST be the PKIX certificate of the actor
+		(e.g., the singer of a <xref target="JWS"/>, or a recipient of a <xref target="JWE"/>).
+		Each additional value of the array (if any) MUST be the PKIX certificate that certifies the
+		previous certificate.
+		The key in the first certificate MUST match the bare public key represented by
+		other members of the JWK.
+	    </t>
+	    </list>
 	  </t>
 	  <t>
-	    The PKIX Key Type defines the following JWK parameters:
-	  </t>
-	  <t><list style="hanging">
-	    <t hangText="kty">REQUIRED. The value of the <spanx style="verb">kty</spanx> parameter MUST be
-	    <spanx style="verb">PKIX</spanx>.</t>
-	    <t hangText="x5c">REQUIRED. Contains a chain of one or more PKIX certificates <xref target="RFC5280"/>.
-	    The certificate chain is represented as a JSON array of certificate value strings. Each string in the array
-	    is a DER <xref target="ITU.X690.1994"/> PKIX certificate encoded as base64 <xref target="RFC4648"/>
-	    (note: not base64url). The array MUST have at least one value, which MUST be the PKIX certificate of the actor
-	    (e.g., the singer of a <xref target="JWS"/>, or a recipient of a <xref target="JWE"/>).
-	    Each additional value of the array (if any) MUST be the PKIX certificate that certifies the
-	    previous certificate.</t></list>
-	  </t>
-	  <t>
-	    The PKIX key type enables the same key to be represented as an X.509 certificate as well as a simple JWK
-	    formatted bare key in the same document. When the same key is published in both formats, the values of the
-	    <spanx style="verb">kid</spanx> (Key ID), <spanx style="verb">use</spanx> (Key Use) and
-	    <spanx style="verb">alg</spanx> (Algorithm) parameters MUST be the same for both.
-	  </t>
-	  <t>
-	    When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
-	    value is REQUIRED for all keys in the JWK Set at the
-	    <spanx style="verb">jwks_uri</spanx> to indicate each key's intended usage.
-	    Although some algorithms allow the same key pair to be used for both signatures and encryption, doing so is
-	    NOT RECOMMENDED, as it is less secure.
+	    Once this member is defined in the JWK specification, it will be removed from this specification.
 	  </t>
 	  <t>
 	    <figure>
 	      <preamble>The following is a non-normative example of a <spanx style="verb">jwks_uri</spanx> document
-	      with one RSA signing key represented using both the <spanx style="verb">RSA</spanx> and
-	      <spanx style="verb">PKIX</spanx> key types:</preamble>
+	      with one RSA signing key represented both as a bare public key
+	      and as an X.509 certificate using the <spanx style="verb">x5c</spanx> member:</preamble>
 	      <artwork><![CDATA[
   {"keys":[
    {"kty":"RSA",
@@ -2879,10 +2874,7 @@
     YWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy1wgzjYQDwH
     MTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMv
     VfJb6jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ",
-    "e":"AQAB"},
-   {"kty":"PKIX",
-    "use":"sig",
-    "kid":"1b94c",
+    "e":"AQAB",
     "x5c":
      ["MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJB
      gNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYD
@@ -5485,26 +5477,6 @@
 		type="HTML" />
       </reference>
 
-      <reference anchor="JWK.PKIX">
-	<front>
-	  <title>JSON Web Key (JWK) for PKIX Certificates (work in progress)</title>
-
-	  <author initials="M." surname="Miller" fullname="Matthew Miller">
-	    <organization>Cisco Systems, Inc.</organization>
-	    <address><email>mamille2@cisco.com</email></address>
-	  </author>
-	  <author initials="B." surname="Campbell" fullname="Brian Campbell">
-	    <organization>Ping Identity Corp.</organization>
-	    <address><email>brian.d.campbell@gmail.com</email></address>
-	  </author>
-
-	  <date day="21" month="February" year="2013"/>
-	</front>
-
-        <seriesInfo value="draft-miller-jose-pkix-key" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-miller-jose-pkix-key-01" type="HTML"/>
-      </reference>
-
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -5593,6 +5565,16 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-18
+        <list style="symbols">
+	  <t>
+	    Replaced the <spanx style="verb">PKIX</spanx> JWK key type with
+	    the <spanx style="verb">x5c</spanx> JWK key member.
+	    (This will be removed from this specification once this member is defined in the JWK specification.)
+	  </t>
+	</list>
+      </t>
 
       <t>-17
 	<list style="symbols">
