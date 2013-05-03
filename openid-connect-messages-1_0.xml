@@ -251,17 +251,21 @@
           to be authenticated. Then, after potential authorization actions by the
           End-User, the Authorization Server returns an Authorization Response,
           which can include an Authorization Code value.
-          For some Clients, the Implicit Grant will be used to obtain an Access Token
-	  without using an Authorization Code. In this case,
-	  the <spanx style="verb">response_type</spanx> parameter value MUST include <spanx
-          style="verb">token</spanx> and <spanx style="verb">id_token</spanx>.</t>
+          For some Clients, the Implicit Grant will be used to obtain
+	  an ID Token and Access Token without using an Authorization Code;
+	  the <spanx style="verb">response_type</spanx> parameter value
+	  <spanx style="verb">id_token token</spanx> does this.
+          For some Clients, the Implicit Grant will be used to obtain only an ID Token;
+	  the <spanx style="verb">response_type</spanx> parameter value
+	  <spanx style="verb">id_token</spanx> does this.
+	  </t>
 
-          <t>Token Endpoint: The Client sends an Access Token Request
+          <t>Token Endpoint: Clients using an Authorization Code send an Access Token Request
 	  containing the Authorization Code to the
           Token Endpoint to obtain an Access Token Response that includes an
           Access Token and an ID Token.</t>
 
-          <t>UserInfo Endpoint: The Client sends the Access Token to the UserInfo Endpoint
+          <t>UserInfo Endpoint: Clients using an Access Token send the Access Token to the UserInfo Endpoint
 	  to obtain Claims about the End-User.</t>
 
         </list>
