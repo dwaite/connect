@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="1" month="May" year="2013" />
+    <date day="2" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -2769,8 +2769,8 @@
 	  for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
 	  The default if not specified is <spanx style="verb">RS256</spanx>.
 	  The public key for validating the signature is provided by retrieving the 
-	  document from the
-	  <spanx style="verb">jwks_uri</spanx> element from discovery.</t>
+	  JWK Set referenced by the
+	  <spanx style="verb">jwks_uri</spanx> element from Discovery.</t>
 
 	  <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
 	  JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
@@ -2796,12 +2796,12 @@
 	  <list style="hanging">
 	    <t hangText="jwks_uri">
 	      REQUIRED.
-	      URL of the OP's JSON Web Key Set <xref target="JWK"/> document
-	      that contains the Server's signing key(s)
-	      that are used for signing responses to the Client.
-	      The JWK Set MAY also contain the Server's encryption key(s)
-	      that are used by the Client to encrypt requests to the Server.
-	      When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
+	      URL of the OP's JSON Web Key Set <xref target="JWK"/> document.
+	      This contains the signing key(s) the Client uses to validate signatures from the OP.
+	      The JWK Set MAY also contain the Server's encryption key(s),
+	      which are used by Clients to encrypt requests to the Server.
+	      When both signing and encryption keys are made available,
+	      a <spanx style="verb">use</spanx> (Key Use) parameter
 	      value is REQUIRED for all keys in the document to indicate each key's intended usage.
 	    </t>
 	  </list>
@@ -2812,11 +2812,13 @@
 	  <list style="hanging">
 	    <t hangText="jwks_uri">
 	      OPTIONAL.
-	      URL for the Client's JSON Web Key Set <xref target="JWK"/> document
-	      containing key(s) that are used for signing requests to the OP.
-	      The JWK Set MAY also contain the Client's encryption keys(s)
-	      that are used by the OP to encrypt the responses to the Client.
-	      When both signing and encryption keys are made available, the <spanx style="verb">use</spanx> (Key Use) parameter
+	      URL for the Client's JSON Web Key Set <xref target="JWK"/> document.
+	      If the Client signs requests to the Server,
+	      it contains the signing key(s) the Server uses to validate signatures from the Client.
+	      The JWK Set MAY also contain the Client's encryption keys(s),
+	      which are used by the Server to encrypt responses to the Client.
+	      When both signing and encryption keys are made available,
+	      a <spanx style="verb">use</spanx> (Key Use) parameter
 	      value is REQUIRED for all keys in the document to indicate each key's intended usage.
 	    </t>
 	  </list>
@@ -4926,7 +4928,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="26" month="March" year="2013"/>
+	  <date day="2" month="May" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -4950,7 +4952,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="26" month="March" year="2013"/>
+	  <date day="2" month="May" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -5572,6 +5574,9 @@
 	    Replaced the <spanx style="verb">PKIX</spanx> JWK key type with
 	    the <spanx style="verb">x5c</spanx> JWK key member.
 	    (This will be removed from this specification once this member is defined in the JWK specification.)
+	  </t>
+	  <t>
+	    Fixed #820 - Removed assumption that Clients that want encrypted responses also sign requests.
 	  </t>
 	</list>
       </t>

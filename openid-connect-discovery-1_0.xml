@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 14</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 15</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="26" month="March" year="2013" />
+    <date day="2" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -479,15 +479,15 @@
 	  target="OpenID.Session"></xref>.
 	  </t>
 
-	  <t hangText="jwks_uri">OPTIONAL.
-	  URL of the OP's JSON Web Key Set <xref target="JWK"/> document
-	  that contains the Server's signing key(s)
-	  that are used for signing responses to the Client.
-	  The JWK Set MAY also contain the Server's encryption key(s)
-	  that are used by the Client to encrypt requests to the Server.
-	  When both signing and encryption keys are made available,
-	  a <spanx style="verb">use</spanx> (Key Use) parameter
-	  value is REQUIRED for all keys in the document to indicate each key's intended usage.
+	  <t hangText="jwks_uri">
+	    REQUIRED.
+	    URL of the OP's JSON Web Key Set <xref target="JWK"/> document.
+	    This contains the signing key(s) the Client uses to validate signatures from the OP.
+	    The JWK Set MAY also contain the Server's encryption key(s),
+	    which are used by Clients to encrypt requests to the Server.
+	    When both signing and encryption keys are made available,
+	    a <spanx style="verb">use</spanx> (Key Use) parameter
+	    value is REQUIRED for all keys in the document to indicate each key's intended usage.
 	  </t>
 
 	  <t hangText="registration_endpoint">RECOMMENDED.
@@ -1087,7 +1087,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="26" month="March" year="2013"/>
+          <date day="2" month="May" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-messages-1_0.html"
@@ -1244,7 +1244,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="26" month="March" year="2013"/>
+          <date day="2" month="May" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1382,6 +1382,14 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-15
+        <list style="symbols">
+	  <t>
+	    Fixed #820 - Removed assumption that Clients that want encrypted responses also sign requests.
+	  </t>
+	</list>
+      </t>
 
       <t>-14
 	<list style="symbols">
