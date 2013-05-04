@@ -838,6 +838,16 @@
 	Clients MUST directly validate the ID Token per 
 	<xref target="id.token.validation"/>. 
 	</t>
+	<t>
+	  ID Tokens SHOULD NOT use the JWS or JWE
+	  <spanx style="verb">x5u</spanx>,
+	  <spanx style="verb">x5c</spanx>,
+	  <spanx style="verb">jku</spanx>, or
+	  <spanx style="verb">jwk</spanx>
+	  header parameter fields.
+	  Instead, key values and key references used for ID Tokens are
+	  communicated in advance using Discovery and Registration parameters.
+	</t>
 
 	<figure>
 	  <preamble>The following is a non-normative example of a base64url decoded 
@@ -2505,6 +2515,11 @@
 	  <t>
 	    Fixed #829 - Stated that additional scope values can be defined and used
 	    and that scope values that are not understood should be ignored.
+	  </t>
+	  <t>
+	    Fixed #831 - Stated that JWS and JWE header parameters used to communicate
+	    key values and key references should not be used in ID Tokens, since these
+	    are communicated in advance using Discovery and Registration parameters.
 	  </t>
 	</list>
       </t>
