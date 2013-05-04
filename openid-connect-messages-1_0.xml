@@ -3297,8 +3297,8 @@
 	  </t>
 	  <t>
 	    MUST ignore the <spanx style="verb">offline_access</spanx> request
-	    if the Client is not requesting a <spanx style="verb">response_type</spanx> of
-	    <spanx style="verb">code</spanx> or <spanx style="verb">code id_token</spanx>.
+	    if the Client is not using a <spanx style="verb">response_type</spanx>
+	    value that would result in an Authorization Code being returned.
 	  </t>
 	  <t>
 	    MUST explicitly receive user consent for all Clients when
@@ -5560,6 +5560,10 @@
 	    Fixed #825 - Replaced <spanx style="verb">updated_time</spanx>, which used the
 	    RFC 3339 textual time format, with <spanx style="verb">updated_at</spanx>,
 	    using the numeric time format used by <spanx style="verb">iat</spanx>, etc.
+	  </t>
+	  <t>
+	    Fixed #826 - Clarified <spanx style="verb">response_type</spanx> values for
+	    which an <spanx style="verb">offline_access</spanx> request must be ignored.
 	  </t>
 	</list>
       </t>
