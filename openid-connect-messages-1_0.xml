@@ -967,6 +967,11 @@
 		<spanx style="verb">request</spanx> parameter.
 	      </t>
 
+	      <t hangText="request_uri_not_supported">
+		The OP does not support use of the
+		<spanx style="verb">request_uri</spanx> parameter.
+	      </t>
+
 	    </list>
 	  </t>
 	</section>
@@ -2539,6 +2544,9 @@
 	<t>
 	  The <spanx style="verb">request_uri_parameter_supported</spanx>
 	  Discovery result indicates whether the OP supports this parameter.
+	  Should an OP not support this parameter and an RP uses it,
+	  the OP MUST return the <spanx style="verb">request_uri_not_supported</spanx>
+	  error.
 	</t>
 	<t>
 	  When the <spanx style="verb">request_uri</spanx> parameter is used,
@@ -5564,6 +5572,10 @@
 	  <t>
 	    Fixed #826 - Clarified <spanx style="verb">response_type</spanx> values for
 	    which an <spanx style="verb">offline_access</spanx> request must be ignored.
+	  </t>
+	  <t>
+	    Fixed #827 - Added <spanx style="verb">request_uri_not_supported</spanx>
+	    error code.
 	  </t>
 	</list>
       </t>
