@@ -706,20 +706,12 @@
 	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
 	    It MUST NOT exceed 255 ASCII characters in length.</t>
 
-	    <t hangText="aud">REQUIRED.
-	    Audience
-	    that this ID Token is intended for. It MUST contain the
-	    OAuth 2.0 <spanx style="verb">client_id</spanx> of the Client.</t>
-
-	    <t hangText="azp">
-	      OPTIONAL.
-	      Authorized Presenter.
-	      This member identifies an OAuth 2.0 Client authorized to use this
-	      ID Token as an OAuth Access Token.
-	      It MUST contain the <spanx style="verb">client_id</spanx>
-	      of the Authorized Presenter.
-	      This Claim is only needed when the party requesting the ID Token
-	      is not the same as the audience of the ID Token.
+	    <t hangText="aud">
+	      REQUIRED.
+	      Audience(s) that this ID Token is intended for.
+	      It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
+	      of the Relying Party as an audience value
+	      and may contain identifiers for other audiences.
 	    </t>
 
 	    <t hangText="exp">REQUIRED.
@@ -776,6 +768,30 @@
 	      The definition of particular values to be used in the
 	      <spanx style="verb">amr</spanx> Claim
 	      is beyond the scope of this specification.
+	    </t>
+
+	    <t hangText="azp">
+	      OPTIONAL.
+	      Authorized Presenters.
+	      This member identifies OAuth 2.0 Client(s) and potentially
+	      other parties authorized to use this ID Token as an assertion
+	      of the identity of the ID Token's subject at the ID Token's audiences.
+	      If present, it MUST contain the <spanx style="verb">client_id</spanx>
+	      or other identifiers for all Authorized Presenters.
+	      The issuer is not to be listed as an Authorized Presenter.
+	      This Claim is only needed when the party requesting the ID Token
+	      is not the same as the sole audience of the ID Token.
+	      It MAY be included even when the Authorized Presenter is the same
+	      as the sole audience.
+	      Authorized Presenter values should be verified by the participants,
+	      however the mechanisms for validating <spanx style="verb">azp</spanx>
+	      values are beyond the scope of this specification.
+	      In the general case, 
+	      the <spanx style="verb">azp</spanx> value is an array of
+	      case sensitive strings, each containing a StringOrURI value.
+	      In the special case when the ID Token has one authorized presenter,
+	      the <spanx style="verb">azp</spanx> value MAY be a single
+	      case sensitive string containing a StringOrURI value.
 	    </t>
 
 	  </list>
@@ -2060,6 +2076,11 @@
 	    Fixed #831 - Stated that JWS and JWE header parameters used to communicate
 	    key values and key references should not be used in ID Tokens, since these
 	    are communicated in advance using Discovery and Registration parameters.
+	  </t>
+	  <t>
+	    Fixed #712 and #830 - Clarified the <spanx style="verb">azp</spanx>
+	    description and made <spanx style="verb">azp</spanx> multi-valued,
+	    like <spanx style="verb">aud</spanx>.
 	  </t>
 	</list>
       </t>
