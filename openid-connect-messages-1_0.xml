@@ -1230,24 +1230,6 @@
 	    <spanx style="verb">authorization_code</spanx>
 	    and MAY be returned when other grant types are used.
 	  </t>
-	  <t>
-	    If an ID Token is returned as a result of a token refresh request,
-	    the following requirements apply:
-	    its <spanx style="verb">iss</spanx> Claim value MUST be the same as
-	    in the ID Token issued when the original authentication occurred;
-	    its <spanx style="verb">sub</spanx> Claim value MUST be the same as
-	    in the ID Token issued when the original authentication occurred;
-	    its <spanx style="verb">iat</spanx> Claim MUST represent
-	    the time that the new ID Token is issued;
-	    if the ID Token contains an <spanx style="verb">auth_time</spanx> Claim,
-	    its value MUST represent the time of the original authentication - not
-	    the time that the new ID token is issued;
-	    if the ID Token contains an <spanx style="verb">azp</spanx> Claim,
-	    its value MUST be the same as
-	    in the ID Token issued when the original authentication occurred;
-	    otherwise, the same rules apply as apply when issuing an ID Token
-	    at the time of the original authentication.
-	  </t>
 
 	  <figure>
 	    <preamble>Following is a non-normative example:</preamble>
@@ -1265,6 +1247,44 @@
 
 	  <t>As in the <xref target="RFC6749">OAuth 2.0</xref>, Clients
 	  SHOULD ignore unrecognized response parameters.</t>
+
+	  <t>
+	    If an ID Token is returned as a result of a token refresh request,
+	    the following requirements apply:
+	    <list style="symbols">
+	      <t>
+		its <spanx style="verb">iss</spanx> Claim value MUST be the same as
+		in the ID Token issued when the original authentication occurred,
+	      </t>
+	      <t>
+		its <spanx style="verb">sub</spanx> Claim value MUST be the same as
+		in the ID Token issued when the original authentication occurred,
+	      </t>
+	      <t>
+		its <spanx style="verb">iat</spanx> Claim MUST represent
+		the time that the new ID Token is issued,
+	      </t>
+	      <t>
+		its <spanx style="verb">aud</spanx> Claim value MUST be the same as
+		in the ID Token issued when the original authentication occurred,
+	      </t>
+	      <t>
+		if the ID Token contains an <spanx style="verb">auth_time</spanx> Claim,
+		its value MUST represent the time of the original authentication - not
+		the time that the new ID token is issued,
+	      </t>
+	      <t>
+		its <spanx style="verb">azp</spanx> Claim value MUST be the same as
+		in the ID Token issued when the original authentication occurred;
+		if no <spanx style="verb">azp</spanx> Claim was present in the original
+		ID Token, one MUST NOT be present in the new ID Token, and
+	      </t>
+	      <t>
+		otherwise, the same rules apply as apply when issuing an ID Token
+		at the time of the original authentication.
+	      </t>
+	    </list>
+	  </t>
 	</section>
 
 	<section anchor="TokenErrorResponse" title="Access Token Error Response">
@@ -5594,6 +5614,10 @@
 	    Stated that sufficient entropy must be present in
 	    <spanx style="verb">nonce</spanx> values to prevent
 	    attackers from guessing values.
+	  </t>
+	  <t>
+	    Required that the <spanx style="verb">aud</spanx> value in an ID Token issued
+	    from a Refresh Token must match that in the originally issued ID Token.
 	  </t>
 	</list>
       </t>
