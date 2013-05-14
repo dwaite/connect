@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 18</title>
+    <title abbrev="OpenID Connect Messages 1.0">OpenID Connect Messages 1.0 - draft 19</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="3" month="May" year="2013" />
+    <date day="14" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -756,6 +756,8 @@
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
 		  ID Token with the Claim Value
 		  being the nonce value sent in the Authorization Request.
+		  Authorization Servers SHOULD perform no other processing
+		  on <spanx style="verb">nonce</spanx> values used.
 		  Use of the nonce is REQUIRED for all requests where an ID Token
 		  is returned directly from the Authorization Endpoint.  
 		  It is OPTIONAL when the ID Token is returned from the 
@@ -5578,6 +5580,16 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-19
+        <list style="symbols">
+	  <t>
+	    Stated that OPs should perform no other nonce processing than
+	    returning <spanx style="verb">nonce</spanx> values received in requests
+	    as claims in issued ID Tokens.
+	  </t>
+	</list>
+      </t>
 
       <t>-18
         <list style="symbols">

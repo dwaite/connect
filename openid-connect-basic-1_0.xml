@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 26</title>
+    Client Profile 1.0 - draft 27</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="3" month="May" year="2013" />
+    <date day="14" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -740,6 +740,20 @@
 	    When a <spanx style="verb">max_age</spanx> request is made
 	    then this Claim is REQUIRED.
 	    </t>
+
+	    <t hangText="nonce">OPTIONAL.
+	    String value used to associate a Client session 
+	    with an ID Token, and to mitigate replay attacks. 
+	    The value is passed through unmodified from the Authorization Request to the ID Token.
+	    The Client MUST verify that
+	    the <spanx style="verb">nonce</spanx> Claim Value is equal to
+	    the value of the <spanx style="verb">nonce</spanx>
+	    parameter sent in the Authorization Request.
+	    If present in the Authorization Request, Authorization Servers
+	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
+	    ID Token with the Claim Value
+	    being the nonce value sent in the Authorization Request.
+	    Use of the nonce is OPTIONAL when using the code flow.</t>
 
 	    <t hangText="acr">
 	      OPTIONAL.
@@ -2060,6 +2074,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>-27
+        <list style="symbols">
+	  <t>
+	    Fixed #834 - Described how to optionally use <spanx style="verb">nonce</spanx>
+	    values in the Basic specification.
+	  </t>
+	</list>
+      </t>
 
       <t>-26
         <list style="symbols">
