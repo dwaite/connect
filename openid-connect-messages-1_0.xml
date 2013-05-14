@@ -437,8 +437,12 @@
               <list style="hanging">
                 <t hangText="nonce">
                   REQUIRED or OPTIONAL.
-                  Random, unique string value used
-                  to mitigate replay attacks.
+		  String value used to associate a Client session 
+		  with an ID Token, and to mitigate replay attacks. The value is passed 
+		  through unmodified from the Authorization Request to the ID Token.
+		  Sufficient entropy MUST be present in the
+		  <spanx style="verb">nonce</spanx> values used to prevent
+		  attackers from guessing values.
                   Use of the nonce is REQUIRED for all requests where an ID Token
                   is returned directly from the Authorization Endpoint.  
                   It is OPTIONAL when the ID Token is returned from the 
@@ -5585,6 +5589,11 @@
 	    Stated that OPs should perform no other nonce processing than
 	    returning <spanx style="verb">nonce</spanx> values received in requests
 	    as claims in issued ID Tokens.
+	  </t>
+	  <t>
+	    Stated that sufficient entropy must be present in
+	    <spanx style="verb">nonce</spanx> values to prevent
+	    attackers from guessing values.
 	  </t>
 	</list>
       </t>

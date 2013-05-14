@@ -339,10 +339,13 @@
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
 		  The value is passed through unmodified to the ID Token.
+		  Sufficient entropy MUST be present in the
+		  <spanx style="verb">nonce</spanx> values used to prevent
+		  attackers from guessing values.
 		  One method to achieve this is to store a random value as a signed session cookie, and
 		  pass the value in the <spanx style="verb">nonce</spanx> parameter.
 		  In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
-		  is compared to the signed session cookie to detect ID Token replay by third 
+		  can be compared to the signed session cookie to detect ID Token replay by third 
 		  parties.
 		</t>
 
@@ -2523,7 +2526,9 @@
       <t>-10
         <list style="symbols">
 	  <t>
-	    TBD
+	    Stated that sufficient entropy must be present in
+	    <spanx style="verb">nonce</spanx> values to prevent
+	    attackers from guessing values.
 	  </t>
 	</list>
       </t>
