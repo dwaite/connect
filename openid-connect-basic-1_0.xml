@@ -755,6 +755,23 @@
 	    being the nonce value sent in the Authorization Request.
 	    Use of the nonce is OPTIONAL when using the code flow.</t>
 
+	    <t hangText="at_hash">
+	      OPTIONAL. 
+	      Access Token hash value.
+	      This is OPTIONAL when the ID Token is issued from the Token Endpoint,
+	      which is the case for this profile; nonetheless,
+	      an <spanx style="verb">at_hash</spanx> Claim MAY be present.
+
+	      The value is produced by base64url encoding the left-most half of the hash 
+	      created by hashing the <spanx style="verb">access_token</spanx> 
+	      with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
+	      <spanx style="verb">alg</spanx>
+	      parameter in the <xref target="JWS">JWS</xref> header.
+	      For instance, if the <spanx style="verb">alg</spanx> is
+	      <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
+	      with SHA-256, then take the left-most 128 bits and base64url encode them.
+	    </t>
+
 	    <t hangText="acr">
 	      OPTIONAL.
 	      Authentication Context Class Reference.
@@ -2080,6 +2097,10 @@
 	  <t>
 	    Fixed #834 - Described how to optionally use <spanx style="verb">nonce</spanx>
 	    values in the Basic specification.
+	  </t>
+	  <t>
+	    Fixed #833 - Stated that an <spanx style="verb">at_hash</spanx>
+	    Claim MAY be present in the ID Token.
 	  </t>
 	</list>
       </t>
