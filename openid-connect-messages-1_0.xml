@@ -777,14 +777,15 @@
 		  If the ID Token is issued from the Authorization Endpoint with an 
 		  <spanx style="verb">access_token</spanx>, this is REQUIRED.
 		  This is OPTIONAL when the ID Token is issued from the Token Endpoint.
-
-		  The value is produced by base64url encoding the left-most half of the hash 
-		  created by hashing the <spanx style="verb">access_token</spanx> 
-		  with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
-		  <spanx style="verb">alg</spanx>
-		  parameter in the <xref target="JWS">JWS</xref> header.
+		  Its value is the base64url encoding of the left-most half of the
+		  hash of the octets of the ASCII representation of the
+		  <spanx style="verb">access_token</spanx> value,
+		  where the hash algorithm used is the the hash algorithm
+		  used in the <spanx style="verb">alg</spanx> parameter
+		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
-		  <spanx style="verb">RS256</spanx>, hash <spanx style="verb">access_token</spanx>
+		  <spanx style="verb">RS256</spanx>, hash the
+		  <spanx style="verb">access_token</spanx> value
 		  with SHA-256, then take the left-most 128 bits and base64url encode them.
 		</t>
 
@@ -793,13 +794,15 @@
 		  Code hash value.
 		  If the ID Token is issued from the Authorization Endpoint with a 
 		  <spanx style="verb">code</spanx>, this is REQUIRED.
-		  The value is produced by base64url encoding the left-most half of the hash 
-		  created by hashing the <spanx style="verb">code</spanx> 
-		  with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
-		  <spanx style="verb">alg</spanx>
-		  parameter in the <xref target="JWS">JWS</xref> header.
+		  Its value is the base64url encoding of the left-most half of the
+		  hash of the octets of the ASCII representation of the
+		  <spanx style="verb">code</spanx> value,
+		  where the hash algorithm used is the the hash algorithm
+		  used in the <spanx style="verb">alg</spanx> parameter
+		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
-		  <spanx style="verb">HS512</spanx>, hash <spanx style="verb">code</spanx>
+		  <spanx style="verb">HS512</spanx>, hash the
+		  <spanx style="verb">code</spanx> value
 		  with SHA-512, then take the left-most 256 bits and base64url encode them.
 		</t>
 
@@ -3292,7 +3295,8 @@
 	the Client SHOULD do the following:</t>
 
 	<t><list style="numbers">
-	  <t>Hash the <spanx style="verb">access_token</spanx> 
+	  <t>Hash the octets of the ASCII representation of
+	  the <spanx style="verb">access_token</spanx> 
 	  with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
 	  <spanx style="verb">alg</spanx>
 	  parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
@@ -3311,7 +3315,8 @@
 	<spanx style="verb">code id_token</spanx> or <spanx style="verb">code token id_token</spanx>, the Client SHOULD do the following:</t>
 
 	<t><list style="numbers">
-	  <t>Hash the <spanx style="verb">code</spanx> 
+	  <t>Hash the octets of the ASCII representation of
+	  the <spanx style="verb">code</spanx> 
 	  with the hash algorithm specified in <xref target="JWA">JWS</xref> for the
 	  <spanx style="verb">alg</spanx>
 	  parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
