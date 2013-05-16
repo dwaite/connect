@@ -3783,11 +3783,6 @@
 	      OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
 	      (an <spanx style="verb">alg</spanx> value of <spanx style="verb">RS256</spanx>).
 	    </t>
-	    <t hangText="UserInfo Endpoint">
-	      All OPs that issue Access Tokens MUST support the UserInfo Endpoint,
-	      as defined in <xref target="userinfo"/>.
-	      (Self-Issued OPs do not issue Access Tokens.)
-	    </t>
 	    <t hangText="Prompt Parameter">
 	      OPs must support the <spanx style="verb">prompt</spanx> parameter,
 	      as defined in <xref target="RequestParameters"/>, including the specified
@@ -3852,6 +3847,11 @@
 	      These OPs MUST support Dynamic Client Registration,
 	      as defined in
 	      <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
+	    </t>
+	    <t hangText="UserInfo Endpoint">
+	      All dynamic OPs that issue Access Tokens MUST support the UserInfo Endpoint,
+	      as defined in <xref target="userinfo"/>.
+	      (Self-Issued OPs do not issue Access Tokens.)
 	    </t>
 	    <t hangText="Public Keys Published as Bare Keys">
 	      These OPs MUST publish their public keys as bare keys,
@@ -5622,6 +5622,10 @@
 	    Restricted the meaning of the <spanx style="verb">azp</spanx>
 	    (authorized party) Claim to simply be the single party
 	    to which the ID Token was issued.
+	  </t>
+	  <t>
+	    Changed the requirement to support the UserInfo endpoint from applying to
+	    all OpenID Providers to only applying to dynamic OpenID Providers.
 	  </t>
 	</list>
       </t>
