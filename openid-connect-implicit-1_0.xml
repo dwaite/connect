@@ -1695,7 +1695,7 @@
           Other parameters MAY be sent. 
           Note that all Claims are returned in the ID Token.
         </t>
-        <t>The entire URL MUST NOT exceed 2048 bytes.</t>
+        <t>The entire URL MUST NOT exceed 2048 characters.</t>
         <figure>
           <preamble>
             Following is a non-normative example (with line wraps for display purposes only):
@@ -1731,7 +1731,7 @@
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) Claim
 	    value is the base64url encoded SHA-256 hash of 
-            the concatenation of the bytes of the UTF-8 representations of
+            the concatenation of the octets of the UTF-8 representations of
 	    the base64url encoded key values in the
 	    <spanx style="verb">sub_jwk</spanx> Claim.
 	    When the <spanx style="verb">kty</spanx> value is
@@ -1786,7 +1786,7 @@
           <t>
             The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
 	    value is the base64url encoded SHA-256 hash of 
-            the concatenation of the bytes of the UTF-8 representations of
+            the concatenation of the octets of the UTF-8 representations of
 	    the base64url encoded key values in the
 	    <spanx style="verb">sub_jwk</spanx> Claim.
 	    When the <spanx style="verb">kty</spanx> value is
@@ -2547,6 +2547,9 @@
 	    Restricted the meaning of the <spanx style="verb">azp</spanx>
 	    (authorized party) Claim to simply be the single party
 	    to which the ID Token was issued.
+	  </t>
+	  <t>
+	    Changed from using the term "byte" to either "octet" or "character".
 	  </t>
 	</list>
       </t>
