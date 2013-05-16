@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="15" month="May" year="2013" />
+    <date day="16" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -712,8 +712,8 @@
 		  REQUIRED.
 		  Audience(s) that this ID Token is intended for.
 		  It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
-		  of the Relying Party as an audience value
-		  and may contain identifiers for other audiences.
+		  of the Relying Party as an audience value.
+		  It MAY also contain identifiers for other audiences.
 		</t>
 
                 <t hangText="exp">REQUIRED.
@@ -836,27 +836,17 @@
                 </t>
 
 		<t hangText="azp">
-		  OPTIONAL.
-		  Authorized Presenters.
-		  This member identifies OAuth 2.0 Client(s) and potentially
-		  other parties authorized to use this ID Token as an assertion
-		  of the identity of the ID Token's subject at the ID Token's audiences.
-		  If present, it MUST contain the <spanx style="verb">client_id</spanx>
-		  or other identifiers for all Authorized Presenters.
-		  The issuer is not to be listed as an Authorized Presenter.
-		  This Claim is only needed when the party requesting the ID Token
+		  OPTIONAL or REQUIRED.
+		  Authorized Party - 
+		  the party to which the ID Token was issued.
+		  If present, it MUST contain the OAuth 2.0
+		  <spanx style="verb">client_id</spanx> of the Relying Party.
+		  This Claim is only REQUIRED when the party requesting the ID Token
 		  is not the same as the sole audience of the ID Token.
-		  It MAY be included even when the Authorized Presenter is the same
+		  It MAY be included even when the Authorized Party is the same
 		  as the sole audience.
-		  Authorized Presenter values should be verified by the participants,
-		  however the mechanisms for validating <spanx style="verb">azp</spanx>
-		  values are beyond the scope of this specification.
-		  In the general case, 
-		  the <spanx style="verb">azp</spanx> value is an array of
-		  case sensitive strings, each containing a StringOrURI value.
-		  In the special case when the ID Token has one authorized presenter,
-		  the <spanx style="verb">azp</spanx> value MAY be a single
-		  case sensitive string containing a StringOrURI value.
+		  The <spanx style="verb">azp</spanx> value is a case sensitive string
+		  containing a StringOrURI value.
 		</t>
 
 		<t hangText="sub_jwk">
@@ -3203,14 +3193,15 @@
 	    The ID Token MUST be rejected if the ID Token does not list
 	    the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
 	  </t>
-
-	  <t>If the token contains multiple audiences or contains
-	  an <spanx style="verb">azp</spanx> (authorized presenter) Claim,
-	  the Client SHOULD verify 
-	  the identity of the presenter.  The authorized presenter of the token is
-	  identified by an <spanx style="verb">azp</spanx> Claim in the token.  
-	  The <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>, a direct connection to the Token Endpoint or other extension 
-	  may be used to identify the presenter.</t>
+	  <t>
+	    If the ID Token contains multiple audiences, the Client SHOULD verify
+	    that an <spanx style="verb">azp</spanx> Claim is present.
+	  </t>
+	  <t>
+	    If an <spanx style="verb">azp</spanx> (authorized party) Claim is present,
+	    the Client SHOULD verify and that its <spanx style="verb">client_id</spanx>
+	    is the Claim value.
+	  </t>
 
 	  <t>If the <spanx style="verb">id_token</spanx> is received via direct
 	  communication between the Client and the Token Endpoint, the TLS server 
@@ -5626,6 +5617,11 @@
 	    Stated that the Authorization Server need not be listed as an
 	    audience of the ID Token when it is used as an
 	    <spanx style="verb">id_token_hint</spanx> value.
+	  </t>
+	  <t>
+	    Restricted the meaning of the <spanx style="verb">azp</spanx>
+	    (authorized party) Claim to simply be the single party
+	    to which the ID Token was issued.
 	  </t>
 	</list>
       </t>
