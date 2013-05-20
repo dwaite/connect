@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 13</title>
+    Session Management 1.0 - draft 14</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="26" month="March" year="2013" />
+    <date day="20" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -115,9 +115,11 @@
 
     <section anchor="EndpointDiscovery" title="Endpoint Discovery">
       <t>To support OpenID Connect session management, the RP needs to obtain
-      the session management related endpoint URLs. This can either be
-      communicated out of band or through the OP configuration file, as described
-      in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.</t>
+      the session management related endpoint URLs.
+      These URLs are normally obtained via the OP's Discovery response,
+      as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
+      or may be learned via other mechanisms.
+      </t>
 
       <t>The OP endpoints defined in this specification are as follows:</t>
 
@@ -377,13 +379,16 @@
 
     <section anchor="RPLogout" title="RP-Initiated Logout">
       <t>Sometimes, the RP may want to notify the OP that the user has logged
-      out of the site, and he may want to logout of the OP as well. In this
-      case, the RP, after having logged out the user, sends the user to the
-      OP's logout endpoint URL that is either advertised through OP's
-      provider configuration information or via out of band knowledge.</t>
+      out of the site, and may want to log out of the OP as well. In this
+      case, the RP, after having logged the user out of the RP,
+      sends the user to the OP's logout endpoint URL.
+      This URL is normally obtained via the
+      <spanx style="verb">end_session_endpoint</spanx> element of the OP's
+      Discovery response, or may be learned via other mechanisms.
+      </t>
 
-      <t>Upon receipt of such message, the OP SHOULD prompt the user whether
-      he wants to logout of the OP as well. If the user says "yes", then the OP MUST
+      <t>At the logout endpoint, the OP SHOULD prompt the user whether
+      he wants to log out of the OP as well. If the user says "yes", then the OP MUST
       log the user out.</t>
 
       <section anchor="RedirectionAfterLogout" title="Redirection to RP After Logout">
@@ -664,10 +669,17 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>-14
+        <list style="symbols">
+	  <t>
+	    Clarified RP-initiated logout description.
+	  </t>
+        </list></t>
+
       <t>-13
         <list style="symbols">
 	  <t>
-	    Added OpenID Connect Working Group declaration.
+	    Added OpenID Connect Working Group declaration to the document metadata.
 	  </t>
         </list></t>
 
