@@ -38,7 +38,7 @@
       </address>
     </author>
 
-    <date day="23" month="May" year="2013" />
+    <date day="24" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -68,7 +68,7 @@
 
       <t>
 	Note:  This specification will likely be modified to use the
-	<xref target="I-D.ietf-oauth-dyn-reg">OAuth Dynamic Client Registration Protocol</xref>
+	<xref target="I-D.ietf-oauth-dyn-reg">OAuth 2.0 Dynamic Client Registration Protocol</xref>
 	specification once it is stable.
 	While currently self-contained, this specification intentionally uses
 	the same syntax and identifiers as the current version of the
@@ -101,24 +101,28 @@
 
 	<t><list style="hanging">
           <t hangText="Client Registration Endpoint">
-	    OAuth 2.0 Protected Resource through which a Client can request
-	    a new registration.
+	    OAuth 2.0 Protected Resource through which a Client
+	    can be registered at an Authorization Server.
 	  </t>
 
 	  <t hangText="Client Configuration Endpoint">
-	    The OAuth 2.0 Endpoint through
-	    which a specific Client can manage its registration information,
-	    provided by the Authorization Server to the Client. This URL for
-	    this endpoint is communicated to the Client by the Authorization Server
-	    in the Client Registration Response.
+	    OAuth 2.0 Endpoint through
+	    which registration information for a registered Client can be managed.
+            This URL for this endpoint is returned by the Authorization
+            Server in the Client Information Response.
 	  </t>
 
           <t hangText="Registration Access Token">
 	    OAuth 2.0 Bearer Token issued by the Authorization Server
 	    through the Client Registration Endpoint that is used
-	    to authenticate the caller when reading
-	    the Client's registration information.
-	    This token is associated with a particular Client.
+	    to authenticate the caller when accessing the Client's
+	    registration information at the Client Configuration Endpoint.
+	    This Access Token is associated with a particular registered Client.
+	  </t>
+
+	  <t hangText="Initial Access Token">
+	    OAuth 2.0 Access Token optionally issued by an Authorization Server
+	    granting access to its Client Registration Endpoint.
 	  </t>
         </list></t>
       </section>
@@ -478,7 +482,7 @@
       <t>The Client Registration Endpoint is an
       OAuth 2.0 Protected Resource through which a Client can request
       a new registration and manage the Metadata associated with it.
-      The OpenID Provider may require an Access Token that is
+      The OpenID Provider may require an Initial Access Token that is
       provisioned out-of-band (in a manner that is out of scope for
       this specification) to restrict registration requests
       to only authorized Clients.</t>
@@ -488,8 +492,8 @@
       Access Tokens.
       These requests MAY be rate-limited or otherwise limited to prevent
       a denial-of-service attack on the Client Registration Endpoint.
-      If an Access Token is required for Client registration, the Client Registration Endpoint
-      MUST be able to accept Access Tokens in the manner described in the
+      If an Initial Access Token is required for Client registration, the Client Registration Endpoint
+      MUST be able to accept these Access Tokens in the manner described in the
       <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
       specification.</t>
 
@@ -585,9 +589,8 @@
 	    <spanx style="verb">private_key_jwt</spanx>.</t>
 
             <t hangText="registration_access_token"><vspace/>REQUIRED.
-	    Access Token that is
-	    used by the Client to perform subsequent operations upon
-	    the resulting Client registration.</t>
+	    Access Token that is used at the Client Configuration Endpoint to
+	    perform subsequent operations upon the Client registration.</t>
 
             <t hangText="registration_client_uri"><vspace/>REQUIRED.
 	    Location where the Access Token can be used to perform subsequent
@@ -599,7 +602,8 @@
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    </t>
 
-            <t hangText="client_secret_expires_at"><vspace/>OPTIONAL.
+            <t hangText="client_secret_expires_at"><vspace/>
+	    REQUIRED if <spanx style="verb">client_secret</spanx> is issued.
 	    Time at which the <spanx style="verb">client_secret</spanx> will expire
 	    or 0 if it will not expire.
 	    The time is represented as the number of seconds from
