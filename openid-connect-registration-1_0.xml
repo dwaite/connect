@@ -38,7 +38,7 @@
       </address>
     </author>
 
-    <date day="22" month="May" year="2013" />
+    <date day="23" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -480,10 +480,10 @@
       a new registration and manage the Metadata associated with it.
       The OpenID Provider may require an Access Token that is
       provisioned out-of-band (in a manner that is out of scope for
-      this specification) in order to restrict registration requests
+      this specification) to restrict registration requests
       to only authorized Clients.</t>
 
-      <t>In order to support open registration, the Client
+      <t>To support open registration, the Client
       Registration Endpoint SHOULD accept registration requests without OAuth 2.0
       Access Tokens.
       These requests MAY be rate-limited or otherwise limited to prevent
@@ -593,13 +593,13 @@
 	    Location where the Access Token can be used to perform subsequent
 	    operations upon the resulting Client registration.</t>
 
-            <t hangText="issued_at"><vspace/>OPTIONAL.
+            <t hangText="client_id_issued_at"><vspace/>OPTIONAL.
 	    Time at which the Client Identifier was issued.
 	    The time is represented as the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    </t>
 
-            <t hangText="expires_at"><vspace/>OPTIONAL.
+            <t hangText="client_secret_expires_at"><vspace/>OPTIONAL.
 	    Time at which the <spanx style="verb">client_secret</spanx> will expire
 	    or 0 if it will not expire.
 	    The time is represented as the number of seconds from
@@ -622,7 +622,7 @@
    "client_id": "s6BhdRkqt3",
    "client_secret":
      "ZJYCqe3GGRvdrudKyZS0XhGv_Z45DuKhCUk0gBR1vZk",
-   "expires_at": 1577858400,
+   "client_secret_expires_at": 1577858400,
    "registration_access_token":
      "this.is.an.access.token.value.ffx83",
    "registration_client_uri":
@@ -801,7 +801,7 @@
    "client_id": "s6BhdRkqt3",
    "client_secret":
      "OylyaC56ijpAQ7G5ZZGL7MMQ6Ap6mEeuhSTFVps2N4Q",
-   "expires_at": 17514165600,
+   "client_secret_expires_at": 17514165600,
    "registration_client_uri":
      "https://server.example.com/connect/register?client_id=s6BhdRkqt3",
    "token_endpoint_auth_method":
@@ -1339,6 +1339,13 @@
 	    to help clarify its semantics to developers.  This was explained
 	    in the OAuth Registration spec but wasn't previously explained here.
 	  </t>
+          <t>
+	    Renamed <spanx style="verb">expires_at</spanx> to
+	    <spanx style="verb">client_secret_expires_at</spanx> and
+	    <spanx style="verb">issued_at</spanx> to
+	    <spanx style="verb">client_id_issued_at</spanx>,
+	    tracking OAuth Registration changes.
+	  </t>
 	</list>
       </t>
 
@@ -1627,7 +1634,7 @@
       <t>-08<list style="symbols">
           <t>Replaced token_endpoint with a defined term Token Endpoint [OAuth 2.0]</t>
 	  <t>Added policy_url parameter</t>
-	  <t>Renamed expires_in but expires_at</t>
+	  <t>Renamed expires_in to expires_at</t>
 	  <t>Registration Endpoint can be OAuth Protected</t>
 	  <t>Added parameters for requiring encryption and/or signing of OpenID Request Object, UserInfo and ID Token</t>
 	  <t>Added token_endpoint_auth_type and list of valid authentication types</t>
