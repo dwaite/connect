@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="20" month="May" year="2013" />
+    <date day="30" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -64,7 +64,7 @@
 
       <t>
 	This document describes how to manage sessions for OpenID Connect,
-	including when to log out the user.
+	including when to log out the End-User.
       </t>
     </abstract>
   </front>
@@ -74,9 +74,9 @@
       <t>
 	This specification complements the OpenID Connect Messages 1.0
 	and OpenID Connect Standard 1.0 specifications
-	by defining how to monitor the user's
+	by defining how to monitor the End-User's
 	login status at the OpenID Provider on an ongoing basis so
-	that the Relying Party can log out the user once the user has
+	that the Relying Party can log out the End-User once he has
 	logged out of the OpenID Provider.
       </t>
 
@@ -131,11 +131,12 @@
 	    The page is loaded from an invisible iframe embedded in
 	    an RP page so that it can run in the OP's security context. 
 	    It accepts postMessage requests from the relevant RP iframe and
-	    uses postMessage to post back the login status of the user at the OP.
+	    uses postMessage to post back the login status of the End-User at the OP.
 	  </t>
 
           <t hangText="end_session_endpoint">
-	    URL at the OP that an RP can redirect the user to log out at the OP.
+	    URL at the OP that an RP can redirect to to request that the
+	    End-User be logged out at the OP.
 	  </t>
         </list></t>
     </section>
@@ -143,7 +144,7 @@
     <section anchor="CreatingUpdatingSessions" title="Creating and Updating Sessions">
       <t>
 	In OpenID Connect, the session at the RP typically starts when the RP
-	validates the user's ID Token.
+	validates the End-User's ID Token.
 	Refer to the OpenID Connect Messages 1.0 <xref target="OpenID.Messages"/>
 	and OpenID Connect Standard 1.0 <xref target="OpenID.Standard"/>
 	specifications to find
@@ -159,7 +160,7 @@
 
       <t><list style="hanging">
           <t hangText="session_state">Session State.
-	  JSON string that represents the user's login state
+	  JSON string that represents the End-User's login state
           at the OP.  This string is opaque to the RP.
 	  This is REQUIRED if session management is supported.
 	  </t>
@@ -168,9 +169,9 @@
 
     <section anchor="ChangeNotification" title="Session Status Change Notification">
       <t>ID Token typically comes with the expiry date. The RP MAY rely on it
-      to expire the RP session. However, it is entirely possible that the user
+      to expire the RP session. However, it is entirely possible that the End-User
       may have logged out of the OP before the expiry date. Therefore, it is
-      highly desirable to be able to find out the login status of the user at
+      highly desirable to be able to find out the login status of the End-User at
       the OP.</t>
 
       <t>To do so, it is possible to repeat the authentication request with
@@ -253,7 +254,7 @@
 	  cookie or HTML5 local storage.  It is origin bound to the
 	  Authorization Server.  It captures meaningful events such as
 	  logins, logouts, change of user,
-	  change of authorization status for Clients being used by the end-user,
+	  change of authorization status for Clients being used by the End-User,
 	  etc.  Thus, the OP should
 	  update the value of the browser state in response to such
 	  meaningful events. As a result, the next call to
@@ -268,7 +269,7 @@
 	  The computation of the session state returned in response to
 	  unsuccessful Authorization Requests should, in addition to
 	  the browser state, incorporate sufficient randomness in the
-	  form of a salt so as to prevent identification of a user
+	  form of a salt so as to prevent identification of an End-User
 	  across successive calls to the OP's Authorization Endpoint.
 	</t>
 	<t>
@@ -283,7 +284,7 @@
 	      (login, logout, session add).
 	    </t>
 	    <t>
-	      The authorization status of Clients being used by the end-user changes.
+	      The authorization status of Clients being used by the End-User changes.
 	    </t>
 	  </list>
 	</t>
@@ -305,6 +306,15 @@
 	  values of session state can be simultaneously valid, for
 	  instance by the introduction of random salt in the session
 	  states issued in response to unsuccessful Authorization Requests.
+	</t>
+	<t>
+	  In some implementations, <spanx style='verb'>changed</spanx>
+	  notifications will occur only when changes to the End-User's
+	  session occur, whereas in other implementations, they may
+	  also occur as a result of changes to other sessions between
+	  the user agent and the OP.
+	  RPs should be prepared for either eventuality,
+	  silently handling any false positives that may occur.
 	</t>
       </section>
 
@@ -364,11 +374,11 @@
 	  try an immediate mode request within an iframe to obtain a
 	  new ID Token and session state, sending the old ID Token as
 	  the <spanx style="verb">id_token_hint</spanx>. 
-	  If the RP receives an ID token for the same user, it should
+	  If the RP receives an ID token for the same End-User, it should
 	  simply update the value of the session state.  If it doesn't
 	  receive an ID token or receives an ID token for another
-	  user, then it needs to handle this case as a logout for the
-	  original user.
+	  End-User, then it needs to handle this case as a logout for the
+	  original End-User.
 	</t>
 	<t>
 	  Note that the session state is origin bound.
@@ -378,22 +388,46 @@
     </section>
 
     <section anchor="RPLogout" title="RP-Initiated Logout">
-      <t>Sometimes, the RP may want to notify the OP that the user has logged
+      <t>Sometimes, the RP may want to notify the OP that the End-User has logged
       out of the site, and may want to log out of the OP as well. In this
-      case, the RP, after having logged the user out of the RP,
-      sends the user to the OP's logout endpoint URL.
+      case, the RP, after having logged the End-User out of the RP,
+      redirects the End-User's browser to the OP's logout endpoint URL.
       This URL is normally obtained via the
       <spanx style="verb">end_session_endpoint</spanx> element of the OP's
       Discovery response, or may be learned via other mechanisms.
       </t>
+      <t>
+	This specification also defines the following parameter
+	that is passed as a query parameter in the logout request:
+      </t>
+      <t>
+	<list style="hanging">
 
-      <t>At the logout endpoint, the OP SHOULD prompt the user whether
-      he wants to log out of the OP as well. If the user says "yes", then the OP MUST
-      log the user out.</t>
+	  <t hangText="id_token_hint">
+	    RECOMMENDED.
+	    Previously issued ID Token passed to the logout endpoint
+	    as a hint about the End-User's current authenticated
+	    session with the Client.
+	    This is used as an indication of the identity of the
+	    End-User that the RP is requesting be logged out by the OP.
+	    The OP need not be listed as an
+	    audience of the ID Token when it is used as an
+	    <spanx style="verb">id_token_hint</spanx> value.
+	  </t>
+
+	</list>
+      </t>
+
+      <t>
+	At the logout endpoint, the OP SHOULD ask the End-User whether
+	he wants to log out of the OP as well.
+	If the End-User says "yes", then the OP MUST log the End-User out.
+      </t>
 
       <section anchor="RedirectionAfterLogout" title="Redirection to RP After Logout">
 	<t>
-	  In some cases, the RP may want the user to be redirected back to the RP
+	  In some cases, the RP may want the End-User's browser
+	  to be redirected back to the RP
 	  after a logout has been performed.
 	  This specification defines an additional dynamic registration parameter
 	  for this purpose, per Section 2.1 of
@@ -403,9 +437,10 @@
 	  <list style="hanging">
             <t hangText="post_logout_redirect_uri">
 	      OPTIONAL.
-	      URL supplied by the RP to request that the user be redirected to this location
+	      URL supplied by the RP to request that the
+	      End-User's browser be redirected to this location
 	      after a logout has been performed.
-	      If supplied, the OP SHOULD honor this request following a logout initiated from this RP.
+	      If supplied, the OP SHOULD honor this request, following a logout initiated from this RP.
 	    </t>
 	  </list>
 	</t>
@@ -674,7 +709,15 @@
 	  <t>
 	    Clarified RP-initiated logout description.
 	  </t>
-        </list></t>
+	  <t>
+	    Added an <spanx style="verb">id_token_hint</spanx> parameter to logout requests.
+	  </t>
+	  <t>
+	    Stated that RPs should gracefully any false positive
+	    <spanx style='verb'>changed</spanx> notifications that may occur.
+	  </t>
+        </list>
+      </t>
 
       <t>-13
         <list style="symbols">
