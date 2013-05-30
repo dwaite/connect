@@ -788,7 +788,7 @@
 		  Its value is the base64url encoding of the left-most half of the
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">access_token</spanx> value,
-		  where the hash algorithm used is the the hash algorithm
+		  where the hash algorithm used is the hash algorithm
 		  used in the <spanx style="verb">alg</spanx> parameter
 		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
@@ -805,7 +805,7 @@
 		  Its value is the base64url encoding of the left-most half of the
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">code</spanx> value,
-		  where the hash algorithm used is the the hash algorithm
+		  where the hash algorithm used is the hash algorithm
 		  used in the <spanx style="verb">alg</spanx> parameter
 		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
@@ -2882,76 +2882,12 @@
 	  both signatures and encryption, doing so is
 	  NOT RECOMMENDED, as it is less secure.
 	</t>
+	<t>
+	  In both cases, the JWK <spanx style="verb">x5c</spanx> parameter MAY be used
+	  to provide X.509 representations of keys provided.  When used, the bare key
+	  values MUST still be present and MUST match those in the certificate.
+	</t>
 
-	<section anchor="x5cJWK" title='"x5c" JWK Member'>
-	  <t>
-	    A forthcoming version of the JWK specification is expected to
-	    add the ability to represent an X.509 certificate chain within a JWK object.
-	    This representation will define the use of this member within
-	    RSA and Elliptic Curve key representations:
-	  </t>
-	  <t>
-	    <list style="hanging">
-	      <t hangText="x5c">
-		OPTIONAL. Contains a chain of one or more PKIX certificates <xref target="RFC5280"/>.
-		The certificate chain is represented as a JSON array of certificate value strings.
-		Each string in the array is a base64 encoded
-		(<xref target="RFC4648"/> Section 4 -- not base64url encoded)
-		DER <xref target="ITU.X690.1994"/> PKIX certificate value.
-		The array MUST have at least one value, which MUST be the PKIX certificate of the actor
-		(e.g., the singer of a <xref target="JWS"/>, or a recipient of a <xref target="JWE"/>).
-		Each additional value of the array (if any) MUST be the PKIX certificate that certifies the
-		previous certificate.
-		The key in the first certificate MUST match the bare public key represented by
-		other members of the JWK.
-	    </t>
-	    </list>
-	  </t>
-	  <t>
-	    Once this member is defined in the JWK specification, it will be removed from this specification.
-	  </t>
-	  <t>
-	    <figure>
-	      <preamble>The following is a non-normative example of a <spanx style="verb">jwks_uri</spanx> document
-	      with one RSA signing key represented both as a bare public key
-	      and as an X.509 certificate using the <spanx style="verb">x5c</spanx> member:</preamble>
-	      <artwork><![CDATA[
-  {"keys":[
-   {"kty":"RSA",
-    "use":"sig",
-    "kid":"1b94c",
-    "n":"vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08
-    PLbK_PdiVGKPrqzmDIsLI7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Q
-    u2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7iI7w0LK9orSMhBEwwZDCxTWq4a
-    YWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy1wgzjYQDwH
-    MTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMv
-    VfJb6jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ",
-    "e":"AQAB",
-    "x5c":
-     ["MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJB
-     gNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYD
-     VQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1
-     wYmVsbDAeFw0xMzAyMjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIxCzAJBg
-     NVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDV
-     QQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1w
-     YmVsbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL64zn8/QnH
-     YMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9if6amFtPDy2yvz3YlRij66
-     s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+IiZhtELto/A7Fck9Ws6
-     SQvzRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quGmFgHIXPLfnpn
-     fajr1rVTAwtgV5LEZ4Iel+W1GC8ugMhyr4/p1MtcIM42EA8BzE6ZQqC7VPq
-     PvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWamT3cEvqqPpnjL1XyW+oyVVk
-     aZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG9w0BA
-     QUFAAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL
-     +9gGlqCz5iWLOgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1
-     zFo+Owb1zxtp3PehFdfQJ610CDLEaS9V9Rqp17hCyybEpOGVwe8fnk+fbEL
-     2Bo3UPGrpsHzUoaGpDftmWssZkhpBJKVMJyf/RuP2SmmaIzmnw9JiSlYhzo
-     4tpzd5rFXhjRbg4zW9C+2qok+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTq
-     gawR+N5MDtdPTEQ0XfIBc2cJEUyMTY5MPvACWpkA6SdS4xSvdXK3IVfOWA=="]}
-  ]}
-]]></artwork>
-	    </figure>
-	  </t>
-	</section>
       </section>
 
       <section anchor="sigs" title="Signing">
@@ -5661,6 +5597,10 @@
 	    Fixed #835 - Clarified requirements on using
 	    <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>
 	    qualifiers when requesting specific values for individual claims.
+	  </t>
+	  <t>
+	    Removed definition of the <spanx style="verb">x5c</spanx> JWK key member
+	    since it is now defined in the JWK specification.
 	  </t>
 	  <t>
 	    Stated that the JWS Compact Serialization and the JWE Compact Serialization
