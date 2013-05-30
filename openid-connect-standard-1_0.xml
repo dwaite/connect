@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="16" month="May" year="2013" />
+    <date day="30" month="May" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -542,16 +542,20 @@
 	    The Authorization Request MUST NOT include the 
             <spanx style="verb">request_uri</spanx> parameter.</t>
 
-            <t>The <spanx style="verb">request</spanx> parameter is
+            <t>
+	      The <spanx style="verb">request</spanx> parameter is
 	      a Request Object represented as a
 	      <xref target="JWT">JWT</xref> containing
 	      a set of OpenID Connect request parameters.
-	      The Request Object MAY be signed or signed and encrypted via
-              <xref target="JWS">JWS</xref> and <xref target="JWE">JWE</xref>
-              respectively, thereby providing authentication, integrity,
-              non-repudiation and/or confidentiality.</t>
+	      The Request Object MAY be a Plaintext JWT,
+	      signed, or signed and encrypted using
+              <xref target="JWS">JWS</xref> and/or <xref target="JWE">JWE</xref>,
+              thereby enabling authentication, integrity,
+              non-repudiation, and/or confidentiality to be achieved.
+	    </t>
 
-            <t><figure>
+            <t>
+	      <figure>
                 <preamble>
 		  The following is a non-normative example of the Claims in
 		  a Request Object before base64url encoding and signing:
@@ -2235,6 +2239,10 @@
 	<list style="symbols">
 	  <t>
 	    Changed from using the term "byte" to either "octet" or "character".
+	  </t>
+	  <t>
+	    Fixed #836 - Clarified language describing signing and encrypting
+	    <spanx style="verb">request</spanx> parameter values.
 	  </t>
 	</list>
       </t>
