@@ -907,6 +907,12 @@
                 The Authorization Server MUST return an error if the End-User is 
                 unauthenticated.</t>
           </list></t>
+
+	  <t>
+	    The Authorization Server MUST employ appropriate measures against
+	    Cross-Site Request Forgery and Clickjacking as, described in
+	    Sections 10.12 and 10.13 of <xref target="RFC6749">OAuth 2.0</xref>. 
+	  </t>
         </section>
 
         <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
@@ -938,6 +944,11 @@
                 The Authorization Server MUST return an error if the End-User has
                 not pre-authorized the Client.</t>
           </list></t>
+	  
+	  <t>
+	    As in the previous section, the Authorization Server MUST employ countermeasures against
+	    Cross-Site Request Forgery and Clickjacking when interacting with the End-User.
+	  </t>
         </section>
 
         <section title="Authorization Server Sends End-User Back to Client"
@@ -1833,8 +1844,17 @@
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
-      <t>This specification references the security considerations defined in
-      <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+      <t>
+	This specification references the security considerations defined in
+	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>,
+	Section 10 of <xref target="RFC6749">OAuth 2.0</xref>, and
+	Section 5 of <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
+	Furthermore, the <xref target="RFC6819">OAuth 2.0 Threat Model and Security
+	Considerations</xref> specification provides an extensive list of threats and controls 
+	that apply to this specification as well, given that it is an OAuth 2.0
+	binding of OpenID Connect Messages 1.0.  Implementers are highly advised to
+	read these references in detail and apply the countermeasures described therein.
+      </t>
 
       <t>In addition, the following list of attack vectors and remedies are
       also considered.</t>
@@ -1912,6 +1932,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6819"?>
 
       <?rfc include='http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
@@ -2255,6 +2276,10 @@
 	  <t>
 	    Stated that the JWS Compact Serialization and the JWE Compact Serialization
 	    are always used for JWS and JWE data structures.
+	  </t>
+	  <t>
+	    Fixed #839 - Described requirement to employ countermeasures against
+	    Cross-Site Request Forgery and Clickjacking.
 	  </t>
 	</list>
       </t>
