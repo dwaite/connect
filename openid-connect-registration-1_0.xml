@@ -58,12 +58,12 @@
     <section anchor="Introduction" title="Introduction">
 
       <t>In order for an OpenID Connect Client to utilize OpenID services for
-      a user, the Client needs to register with the OpenID Provider to acquire
+      an End-User, the Client needs to register with the OpenID Provider to acquire
       a Client ID and shared secret. This document describes how a new Client
       can register with the OP, and how registration information
       for the Client can be retrieved.</t>
 
-      <t>The Client Registration Endpoint may be co-resident with the Token Endpoint
+      <t>The Client Registration Endpoint MAY be co-resident with the Token Endpoint
       as an optimization in some deployments.</t>
 
       <t>
@@ -242,19 +242,19 @@
 	  Native Clients MUST only register <spanx style="verb">redirect_uris</spanx> using custom 
 	  URI schemes or URLs using the <spanx style="verb">http:</spanx> scheme with
 	  <spanx style="verb">localhost</spanx> as the hostname.
-	  Authorization Servers may place additional constraints on Native Clients.
+	  Authorization Servers MAY place additional constraints on Native Clients.
 	  The Authorization Server MUST verify that all the registered 
 	  <spanx style="verb">redirect_uris</spanx> conform to these constraints.  
 	  This prevents sharing a Client ID across different types of Clients.</t>
 
 	  <t hangText="contacts">OPTIONAL.
 	  Array of e-mail addresses of people responsible for this Client.
-	  This may be used by some providers to enable a Web user interface to modify the 
+	  This might be used by some providers to enable a Web user interface to modify the 
 	  Client information.</t>
 
 	  <t hangText="client_name">OPTIONAL.
 	  Name of the Client
-	  to be presented to the user. If desired, representation of 
+	  to be presented to the End-User. If desired, representation of 
 	  this Claim in different languages and scripts is represented
 	  as described in <xref target="LanguagesAndScripts"/>.</t>
 
@@ -270,7 +270,7 @@
 	  <spanx style="verb">client_secret_jwt</spanx>, 
 	  and <spanx style="verb">private_key_jwt</spanx>, as described in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	  Other Authentication methods may be defined by extension. If unspecified or
+	  Other Authentication methods MAY be defined by extensions. If unspecified or
 	  omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
 	  Scheme as specified in
 	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
@@ -321,7 +321,7 @@
 
 	  <t hangText="request_object_signing_alg">OPTIONAL.
 	  <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> that MUST be required by the Authorization Server.
+	  algorithm <xref target="JWA" /> that MUST be used for requests to the Authorization Server.
 	  The valid values are listed in
 	  Section 3.1 of <xref target="JWA">JWA</xref>.
 	  All Request Objects from
@@ -330,7 +330,7 @@
 	  
 	  <t hangText="userinfo_signed_response_alg">OPTIONAL.
 	  JWS <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> required for UserInfo Responses. 
+	  algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses. 
 	  The valid values are listed in
 	  Section 3.1 of <xref target="JWA">JWA</xref>.
 	  If this is specified the response will be 
@@ -338,7 +338,7 @@
 	  
 	  <t hangText="userinfo_encrypted_response_alg">OPTIONAL.
 	  <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
-	  algorithm <xref target="JWA" /> required for encrypting UserInfo Responses. 
+	  algorithm <xref target="JWA" /> REQUIRED for encrypting UserInfo Responses. 
 	  The valid values are listed in
 	  Section 4.1 of <xref target="JWA">JWA</xref>.
 	  If this is requested in combination with signing the response 
@@ -347,7 +347,7 @@
 	  
 	  <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
 	  JWE <spanx style="verb">enc</spanx>
-	  algorithm <xref target="JWA" /> required for symmetric encryption of UserInfo Responses.
+	  algorithm <xref target="JWA" /> REQUIRED for symmetric encryption of UserInfo Responses.
 	  The valid values are listed in
 	  Section 4.2 <xref target="JWA">JWA</xref>.
 	  If <spanx style="verb">userinfo_encrypted_response_alg</spanx> is specified 
@@ -358,7 +358,7 @@
 
 	  <t hangText="id_token_signed_response_alg">OPTIONAL.
 	  JWS <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> required for the ID Token issued to this
+	  algorithm <xref target="JWA" /> REQUIRED for the ID Token issued to this
 	  <spanx style="verb">client_id</spanx>.
 	  The valid values are listed in
 	  Section 3.1 of <xref target="JWA">JWA</xref>,
@@ -371,7 +371,7 @@
 	  
 	  <t hangText="id_token_encrypted_response_alg">OPTIONAL.
 	  JWE <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> required for encrypting the ID Token
+	  algorithm <xref target="JWA" /> REQUIRED for encrypting the ID Token
 	  issued to this <spanx style="verb">client_id</spanx>.
 	  The valid values are listed in
 	  Section 4.1 of <xref target="JWA">JWA</xref>.
@@ -380,7 +380,7 @@
 	  
 	  <t hangText="id_token_encrypted_response_enc">OPTIONAL.
 	  JWE <spanx style="verb">enc</spanx>
-	  algorithm <xref target="JWA" /> required for symmetric encryption of the ID Token
+	  algorithm <xref target="JWA" /> REQUIRED for symmetric encryption of the ID Token
 	  issued to this <spanx style="verb">client_id</spanx>. 
 	  The valid values are listed in
 	  Section 4.2 of <xref target="JWA">JWA</xref>.
@@ -392,7 +392,7 @@
 
 	  <t hangText="default_max_age">OPTIONAL.
 	  Default Maximum Authentication Age.
-	  Specifies that the End-User must be actively authenticated if the
+	  Specifies that the End-User MUST be actively authenticated if the
 	  End-User was authenticated longer ago than the specified number of seconds.
 	  The <spanx style="verb">max_age</spanx> request parameter
 	  overrides this default value.
@@ -430,7 +430,7 @@
 	  </t>
 
 	  <t hangText="post_logout_redirect_uri">OPTIONAL.
-	  URL supplied by the RP to request that the user be redirected to this location
+	  URL supplied by the RP to request that End-User's User-Agent be redirected to this location
 	  after a logout has been performed, as specified in
 	  <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
 	  </t>
@@ -491,7 +491,7 @@
       <t>The Client Registration Endpoint is an
       OAuth 2.0 Protected Resource through which a Client can request
       a new registration and manage the Metadata associated with it.
-      The OpenID Provider may require an Initial Access Token that is
+      The OpenID Provider MAY require an Initial Access Token that is
       provisioned out-of-band (in a manner that is out of scope for
       this specification) to restrict registration requests
       to only authorized Clients.</t>
@@ -593,7 +593,7 @@
             This MUST be unique for each <spanx style="verb">client_id</spanx>.
             This value is used by Confidential Clients to authenticate to the
             Token Endpoint as described in OAuth 2.0 Section 2.3.1.
-	    It is not required for
+	    It is not needed for
 	    Clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
 	    <spanx style="verb">private_key_jwt</spanx>.</t>
 
@@ -742,7 +742,7 @@
         component pieces.</t>
 
         <t>Depending on deployment characteristics, the Client Configuration
-        Endpoint URL may take any number of forms. It is RECOMMENDED that this
+        Endpoint URL can take any number of forms. It is RECOMMENDED that this
         endpoint URL be formed through the use of a server-constructed URL
         string which combines the Client Registration Endpoint's URL and the
         issued Client ID for this Client, with the latter as either a path
@@ -788,7 +788,7 @@
 	  SHOULD return all registered Metadata about this Client, including
 	  any fields provisioned by the Authorization Server itself.
 	  Some values, including the <spanx style="verb">client_secret</spanx>
-	  value, may have been updated since the initial registration.
+	  value, might have been updated since the initial registration.
 	</t>
 
         <t>The Authorization Server need not include the
@@ -880,7 +880,7 @@
 
       <t>
 	The value of the <spanx style="verb">sector_identifier_uri</spanx>
-	must be a URL using the <spanx style="verb">https</spanx> scheme that references
+	MUST be a URL using the <spanx style="verb">https</spanx> scheme that references
 	a JSON file containing an array of <spanx style="verb">redirect_uri</spanx> values.
 	The values registered in <spanx style="verb">redirect_uris</spanx>
 	MUST be included in the elements of the array,
@@ -993,11 +993,11 @@
       
       <t>In a situation where the Authorization Server is supporting open Client 
       registration, 
-      it must be extremely careful with any URL provided by the Client that will 
-      be displayed to the user (e.g. <spanx style="verb">logo_uri</spanx> and
+      it needs to be extremely careful with any URL provided by the Client that will 
+      be displayed to the End-User (e.g. <spanx style="verb">logo_uri</spanx> and
       <spanx style="verb">policy_uri</spanx>). A rogue Client could 
       specify a registration request with a reference to a drive-by download in the 
-      <spanx style="verb">policy_uri</spanx>. The Authorization Server should check to see if the
+      <spanx style="verb">policy_uri</spanx>. The Authorization Server SHOULD check to see if the
       <spanx style="verb">logo_uri</spanx> and <spanx style="verb">policy_uri</spanx> have the 
       same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.</t>
 

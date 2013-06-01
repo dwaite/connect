@@ -386,7 +386,7 @@
                 <t hangText="max_age">
                   OPTIONAL.
                   Maximum Authentication Age.
-                  Specifies that the End-User must be actively authenticated if the
+                  Specifies that the End-User MUST be actively authenticated if the
                   End-User was authenticated longer ago than the specified number of seconds.
                 </t>
 
@@ -416,7 +416,7 @@
                 <t hangText="login_hint">
                   OPTIONAL.
                   Hint to the Authorization Server
-                  about the login identifier the End-User may use to log in (if necessary). 
+                  about the login identifier the End-User might use to log in (if necessary).
                 </t>
 
                 <t hangText="acr_values">
@@ -478,7 +478,7 @@
 	    Request Object value.
 	    This method enables requests to be signed and optionally encrypted.
 	    Like the Simple Request Method, some requests using this method
-	    may exceed limits imposed by User-Agents.
+	    can exceed limits imposed by User-Agents.
 	  </t>
           <t>
 	    The Request File Method works similarly to the Request Parameter
@@ -741,7 +741,7 @@
             <t> The Authorization Request MUST NOT include the 
             <spanx style="verb">request</spanx> parameter. The Authorization Request
 	    MUST include the <spanx style="verb">request_uri</spanx> parameter.
-	    The contents of the resource referenced by the URL must be a Request Object.
+	    The contents of the resource referenced by the URL MUST be a Request Object.
 	    The scheme used in the 
             <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https</spanx>, 
             unless the target Request Object is signed in a way that is verifiable by the 
@@ -800,11 +800,11 @@
 		discovery parameter.
 	      </t>
 
-              <t>It should be noted that if the Request File includes user's attribute 
+              <t>If the Request File includes attribute 
               values, it MUST NOT be revealed to anybody but the Authorization Server. 
               As such, the <spanx style="verb">request_uri</spanx> MUST have
               appropriate entropy for its lifetime, 
-              and must be removed after successful authentication or a reasonable timeout.
+              and MUST be removed after successful authentication or a reasonable timeout.
               </t>
               <t>The Client then records the Request File either locally or
               remotely and obtains the Request File URI, <spanx style="verb">request_uri</spanx>.
@@ -878,7 +878,7 @@
         <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
           <t>The Authorization Server validates the request to ensure all
-          required parameters are present and valid. If the request is valid,
+          REQUIRED parameters are present and valid. If the request is valid,
           the Authorization Server MUST authenticate the End-User. The way in
           which the Authorization Server authenticates the End-User (e.g.
           username and password login, session cookies) is beyond the scope of
@@ -1400,13 +1400,12 @@
                 Verify that the Authorization Code is valid, and
               </t>
               <t>
-                Ensure that, if <spanx style='verb'>redirect_uri</spanx> parameter is
-		present (which it should be), that the
+                Ensure that the
 		Scheme, Host, Path, and Query Parameter segments
+		in the <spanx style='verb'>redirect_uri</spanx> parameter
 		are identical to the <spanx style='verb'>redirect_uri</spanx>
-		parameter value that was included in the initial Authorization Request
-		(which also should have been present).
-		Should the <spanx style='verb'>redirect_uri</spanx> parameter value
+		parameter value that was included in the initial Authorization Request.
+		If the <spanx style='verb'>redirect_uri</spanx> parameter value
 		not be present when there is only one registered
 		<spanx style='verb'>redirect_uri</spanx> value,
 		the Authorization Server MAY return an error
@@ -1682,13 +1681,13 @@
 
     <section anchor="client_Initiate_login" title="Initiating Login at Client from Third Party">
       <t>
-	In some cases, the login flow may start at the Authorization Server
+	In some cases, the login flow can start at the Authorization Server
 	or another party by contacting the Client via a stored link.
-	The target resource at the Client may be a deep link,
+	The target resource at the Client can be a deep link,
 	rather than a default landing page.
       </t>
       <t>
-	The Client may optionally <xref target="OpenID.Registration">register</xref>
+	The Client MAY optionally <xref target="OpenID.Registration">register</xref>
 	an <spanx style="verb">initiate_login_uri</spanx> that
 	can be used by the Authorization Server
 	or another party to initiate a login for an End-User at the Client.
@@ -1702,7 +1701,7 @@
 	<list style="hanging">
           <t hangText="login_hint">REQUIRED.
 	    Hint to the Authorization Server
-            about the login identifier the End-User may use to log in (if necessary).
+            about the login identifier the End-User might use to log in (if necessary).
           </t>
           <t hangText="iss">REQUIRED.
 	    Issuer Identifier for the Issuer that the Client is to send
@@ -1725,7 +1724,7 @@
       </t>
       
       <t>Clients SHOULD employ frame busting and other techniques to prevent
-      users from being logged in by third party sites without their knowledge.</t>
+      End-Users from being logged in by third party sites without their knowledge.</t>
       
     </section>
 
@@ -1829,7 +1828,7 @@
       <section anchor="disco_reg" title="Discovery and Registration">
 
 	<t>Some OpenID Connect installations can use a pre-configured set of
-	OpenID Providers and/or Relying Parties. In those cases, it may not be
+	OpenID Providers and/or Relying Parties. In those cases, it might not be
 	necessary to support dynamic discovery of information about identities
 	or services or dynamic registration of Clients.</t>
 
@@ -2108,7 +2107,7 @@
              <organization abbrev="Facebook"> Facebook</organization>
            </author>
 
-           <date day="26" month="March" year="2013"></date>
+           <date day="1" month="June" year="2013"></date>
         </front>
 
       <format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0-07.html"

@@ -124,7 +124,7 @@
     </section>
 
     <section anchor="ProviderDisc" title="OpenID Provider Discovery">
-      <t>OpenID Provider discovery is optional; if a Relying Party knows the
+      <t>OpenID Provider discovery is OPTIONAL; if a Relying Party knows the
       OP information through an out-of-band mechanism, they can skip this step
       and proceed to <xref target="ProviderConfig"></xref>.</t>
 
@@ -226,9 +226,9 @@
             </list>
           </t>
 
-          <t>Note: The user input Identifier may be in the form 
+          <t>Note: The user input Identifier MAY be in the form 
             of <spanx style="verb">userinfo@host</spanx>. 
-            For the user, this would normally be perceived as being an e-mail address.
+            For the End-User, this would normally be perceived as being an e-mail address.
 	    However, it is also 
             a valid authority section of a URI, and this specification 
             treats it such as to exclude various
@@ -501,7 +501,7 @@
 	  </t>
 
 	  <t hangText="end_session_endpoint">OPTIONAL.
-	  URL of the OP's endpoint that initiates the user logout <xref
+	  URL of the OP's endpoint that initiates logging out the End-User.<xref
 	  target="OpenID.Session"></xref>.
 	  </t>
 
@@ -643,7 +643,7 @@
 	  <spanx style="verb">client_secret_jwt</spanx>, and
 	  <spanx style="verb">private_key_jwt</spanx>, as described in
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	  Other authentication methods may be defined by extensions.
+	  Other authentication methods MAY be defined by extensions.
 	  If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
 	  the HTTP Basic Authentication Scheme as specified in
 	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
@@ -678,22 +678,22 @@
 
 	  <t hangText="claims_supported">RECOMMENDED.
 	  JSON array containing a list of the Claim Names of the Claims
-	  that the OpenID Provider may be able to supply values for.
-	  Note that for privacy or other reasons, this may not be an exhaustive list.
+	  that the OpenID Provider MAY be able to supply values for.
+	  Note that for privacy or other reasons, this might not be an exhaustive list.
 	  </t>
 
 	  <t hangText="service_documentation">OPTIONAL.
 	  URL of a page containing human-readable information that
 	  developers might want or need to know when using the OpenID Provider.
 	  In particular, if the OpenID Provider does not support Dynamic Client Registration,
-	  then information on how to register Clients should be provided in this documentation.
+	  then information on how to register Clients needs to be provided in this documentation.
 	  </t>
 
 	  <t hangText="claims_locales_supported">OPTIONAL.
 	  Languages and scripts supported for values in Claims being returned, 
 	  represented as a JSON array of
 	  <xref target="RFC5646">BCP47</xref> language tag values.
-	  Not all languages and scripts may be supported for all Claim values.
+	  Not all languages and scripts are necessarily supported for all Claim values.
 	  </t>
 
 	  <t hangText="ui_locales_supported">OPTIONAL.
@@ -738,7 +738,7 @@
 	    OPTIONAL.
 	    URL that the OpenID Provider provides to the person registering
 	    the Client to read about the OP's requirements on how
-	    the Relying Party may use the data provided by the OP.
+	    the Relying Party can use the data provided by the OP.
 	    The registration process SHOULD display this
 	    URL to the person registering the Client if it is given.
 	  </t>
@@ -757,8 +757,8 @@
 
     <section anchor="ProviderConfig"
              title="Obtaining OpenID Provider Configuration Information">
-      <t>This step is optional. The OpenID Provider endpoints and
-      configuration information may be obtained out-of-band.</t>
+      <t>This step is OPTIONAL. The OpenID Provider endpoints and
+      configuration information MAY be obtained out-of-band.</t>
 
       <t>Using the Issuer discovered in <xref
       target="ProviderDisc"></xref> or through direct configuration, the OpenID
@@ -923,7 +923,7 @@
         for the URL that was directly used to retrieve the configuration.
         Since the discovery process allows for multiple levels of
 	redirection, this Issuer
-        URL may be different from the one originally used to begin the
+        URL MAY be different from the one originally used to begin the
         discovery process.</t>
       </section>
     </section>

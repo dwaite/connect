@@ -409,8 +409,8 @@
 
 		    <t hangText="select_account">The Authorization Server MUST
 		    prompt the End-User to select a user account.  This allows 
-		    a user who has multiple accounts at the Authorization Server
-		    to select amongst the multiple accounts that they may have 
+		    an End-User who has multiple accounts at the Authorization Server
+		    to select amongst the multiple accounts that they might have 
 		    current sessions for.</t>
 		  </list>
 
@@ -425,7 +425,7 @@
 		<t hangText="max_age">
 		  OPTIONAL.
 		  Maximum Authentication Age.
-		  Specifies that the End-User must be actively authenticated if the
+		  Specifies that the End-User MUST be actively authenticated if the
 		  End-User was authenticated longer ago than the specified number of seconds.
 		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
 		  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
@@ -472,7 +472,7 @@
 		<t hangText="login_hint">
 		  OPTIONAL.
 		  Hint to the Authorization Server
-		  about the login identifier the End-User may use to log in (if necessary). 
+		  about the login identifier the End-User might use to log in (if necessary).
 		  This hint can be used by an RP if it first asks the End-User for their e-mail 
 		  address (or other identifier) and then wants to pass that value as a hint
 		  to the discovered authorization service.
@@ -641,7 +641,7 @@
           
           <section anchor="implicit_callback" 
                    title="Example Redirect URI Response">
-	    <t>The Client must provide a way for the User-Agent to parse the fragment encoded
+	    <t>The Client MUST provide a way for the User-Agent to parse the fragment encoded
 	    response and post it to the Web Server Client for validation.</t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
@@ -679,7 +679,7 @@
   req.onreadystatechange = function (e) {
     if (req.readyState == 4) {
       if (req.status == 200) {
-  // If the response from the POST is 200 OK, redirect the user
+  // If the response from the POST is 200 OK, perform a redirect
         window.location = 'https://'
           + window.location.host + '/redirect_after_login'
       }
@@ -804,7 +804,7 @@
 	      <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
 	      Authentication using a long-lived browser cookie, for instance, is one 
 	      example where the use of "level 0" is appropriate. Authentications with 
-	      level 0 should never be used to authorize access to any resource of any 
+	      level 0 SHOULD never be used to authorize access to any resource of any 
 	      monetary value.  
 	      An absolute URI or a <xref target="RFC6711">registered 
 	      name</xref> MAY be used as an <spanx style="verb">acr</spanx> value.
@@ -934,7 +934,7 @@
 	      
 	      <t>The Client MUST use the signing key provided
 	      in Discovery by the Issuer.
-	      The Issuer must exactly match the value of the 
+	      The Issuer MUST exactly match the value of the 
 	      <spanx style="verb">iss</spanx> (issuer) Claim.</t>
 
 	      <t>The current time MUST be less than the value of the 
@@ -943,7 +943,7 @@
 	      
 	      <t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
 	      were issued too far away from the current time, limiting the amount of
-	      time that nonces must be stored to prevent attacks. 
+	      time that nonces need to be stored to prevent attacks. 
 	      The acceptable range is Client specific.</t>
 	      
 	      <t>The value of the <spanx style="verb">nonce</spanx>
@@ -1162,8 +1162,8 @@
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
         information requested by Clients.
-        To minimize the amount of information that the user is being asked
-	to disclose, a Client may elect to
+        To minimize the amount of information that the End-User is being asked
+	to disclose, a Client can elect to
         only request a subset of the information available from the
         UserInfo Endpoint.</t>
 
@@ -1207,24 +1207,24 @@
 	  <c>string</c>
 	  <c>
 	    Given name(s) or first name(s) of the End-User.
-	    Note that in some cultures, people may have multiple given names;
-	    all may be present, with the names being separated by space characters.
+	    Note that in some cultures, people can have multiple given names;
+	    all can be present, with the names being separated by space characters.
 	  </c>
 
 	  <c>family_name</c>
 	  <c>string</c>
 	  <c>
 	    Surname(s) or last name(s) of the End-User.
-	    Note that in some cultures, people may have multiple family names;
-	    all may be present, with the names being separated by space characters.
+	    Note that in some cultures, people can have multiple family names;
+	    all can be present, with the names being separated by space characters.
 	  </c>
 
 	  <c>middle_name</c>
 	  <c>string</c>
 	  <c>
 	    Middle name(s) of the End-User.
-	    Note that in some cultures, people may have multiple middle names;
-	    all may be present, with the names being separated by space characters.
+	    Note that in some cultures, people can have multiple middle names;
+	    all can be present, with the names being separated by space characters.
 	    Also note that in some cultures, middle names are not used.
 	  </c>
 
@@ -1250,7 +1250,7 @@
 	  <c>string</c>
 	  <c>
 	    URL of the End-User's profile page.
-	    The contents of this Web page should be about the End-User.
+	    The contents of this Web page SHOULD be about the End-User.
 	  </c>
 
 	  <c>picture</c>
@@ -1270,7 +1270,7 @@
 	  <c>string</c>
 	  <c>
 	    URL of the End-User's Web page or blog.
-	    This Web page should contain information published by the End-User
+	    This Web page SHOULD contain information published by the End-User
 	    or an organization that the End-User is affiliated with.
 	  </c>
 
@@ -1292,7 +1292,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this e-mail address was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which an e-mail address must be verified is context-specific,
+	    The means by which an e-mail address is verified is context-specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	  </c>
@@ -1310,8 +1310,8 @@
 	  <xref target="ISO8601-2004">ISO 8601:2004</xref> <spanx style="verb">YYYY-MM-DD</spanx> 
 	  format. The year MAY be <spanx style="verb">0000</spanx>, indicating that it is omitted. 
 	  To represent only the year, <spanx style="verb">YYYY</spanx> format is allowed. Note that 
-	  depending on the underlying platform's date related function, providing just year may 
-	  result in varying month and day, so the implementers should take this factor into account 
+	  depending on the underlying platform's date related function, providing just year can
+	  result in varying month and day, so the implementers need to take this factor into account 
 	  to correctly process the dates. </c>
 
 	  <c>zoneinfo</c>
@@ -1356,7 +1356,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this phone number was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which a phone number must be verified is context-specific,
+	    The means by which a phone number is verified is context-specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	    When true, the <spanx style="verb">phone_number</spanx>
@@ -1435,7 +1435,7 @@
 	    If both variants are returned, 
 	    they SHOULD be describing the same address, 
 	    with the formatted address indicating how the 
-	    component fields SHOULD be combined.
+	    component fields are combined.
 	  </t>
 	  <t>
 	    <list style="hanging">
@@ -1449,7 +1449,7 @@
 
 	      <t hangText="street_address">
 		Full street address component, 
-		which may include house number, street name, 
+		which MAY include house number, street name, 
 		Post Office Box, and multi-line extended street 
 		address information.
 		This field MAY contain multiple lines, separated by newline characters.
@@ -1498,11 +1498,11 @@
 	  </t>
 	  <t>
 	    Per the recommendations in BCP47, language tag values for Claims
-	    should only be as specific as necessary.
+	    SHOULD only be as specific as necessary.
 	    For instance, using <spanx style="verb">fr</spanx> might be sufficient
 	    in many contexts, rather than <spanx style="verb">fr-CA</spanx> or
 	    <spanx style="verb">fr-FR</spanx>.
-	    Where possible, OPs should try to match requested Claim locales with
+	    Where possible, OPs SHOULD try to match requested Claim locales with
 	    Claims it has.  For instance, if the Client asks for a Claim with
 	    a <spanx style="verb">de</spanx> (German) language tag and the OP
 	    has a value tagged with <spanx style="verb">de-CH</spanx> (Swiss German)
@@ -1634,7 +1634,7 @@
 	    Section 2.1 of the 
 	    <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
 	    specification.
-	    None of this information is required by Self-Issued OPs,
+	    None of this information is REQUIRED by Self-Issued OPs,
 	    so the use of this parameter is OPTIONAL.
 	  </t>
 	  <t>
@@ -1752,7 +1752,7 @@
 	  </t>
 	  <t>
 	    No Access Token is returned for accessing a UserInfo Endpoint,
-	    so all Claims returned must be in the ID Token.
+	    so all Claims returned MUST be in the ID Token.
 	  </t>
 	</list></t>
       </section>
@@ -1787,7 +1787,7 @@
           <t>
             The <spanx style="verb">alg</spanx> value SHOULD be the default of 
             <spanx style="verb">RS256</spanx>.
-	    It may also be <spanx style="verb">ES256</spanx>.
+	    It MAY also be <spanx style="verb">ES256</spanx>.
           </t>
           <t>
             The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
@@ -1813,7 +1813,7 @@
           <t>
             The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that 
             were issued too far away from the current time, limiting the amount of
-            time that nonces must be stored to prevent attacks. 
+            time that nonces need to be stored to prevent attacks. 
             The acceptable range is Client specific.
           </t>
           <t>
@@ -1977,7 +1977,7 @@
       <section anchor="disco_reg" title="Discovery and Registration">
 
 	<t>Some OpenID Connect installations can use a pre-configured set of
-	OpenID Providers and/or Relying Parties. In those cases, it may not be
+	OpenID Providers and/or Relying Parties. In those cases, it might not be
 	necessary to support dynamic discovery of information about identities
 	or services or dynamic registration of Clients.</t>
 
@@ -2402,7 +2402,7 @@
 	    <organization abbrev="Facebook"> Facebook</organization>
 	  </author>
 
-	  <date day="26" month="March" year="2013"></date>
+	  <date day="1" month="June" year="2013"></date>
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0-07.html"
