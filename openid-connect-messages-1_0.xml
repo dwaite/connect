@@ -4010,16 +4010,60 @@
       </section>
 
       <section anchor="token_substitution" title="Token Substitution">
-	<t>An End-User might attempt to impersonate a more 
-	privileged user by subverting the communication channel between the 
-	Token Endpoint and Client, for example by reordering the messages, 
-	to convince the Token Endpoint 
-	that his or her authorization grant corresponds to the grant sent on 
-	behalf of the more privileged user. </t>
-	<t>Responses to Token Requests are bound to the corresponding
-	requests by message order in HTTP, as both token and requests are
-	protected by TLS that can detect and disallow malicious reordering of
-	packets.</t>
+	<t>
+	  Token Substitution is a class of attacks in which a malicious user
+	  swaps various tokens, including swapping an Authorization Code for
+	  a legitimate user with another token that the attacker has.
+	</t>
+	<t>
+	  The implicit flow of <xref target="RFC6749">OAuth 2.0</xref>
+	  is not designed to mitigate this risk.  In Section 10.16,
+	  it normatively requires that any use of the authorization
+	  process as a form of delegated End-User authentication to the
+	  Client MUST NOT use the implicit flow without employing
+	  additional security mechanisms that enable the Client to
+	  determine whether the Access Token was issued for its use.
+	</t>
+	<t>
+	  In OpenID Connect, this is mitigated through mechanisms
+	  provided through the ID Token.  The ID Token is a signed
+	  security token that provides Claims such as
+	  <spanx style="verb">iss</spanx> (issuer),
+	  <spanx style="verb">sub</spanx> (subject),
+	  <spanx style="verb">aud</spanx> (audience),
+	  <spanx style="verb">azp</spanx> (authorized party),
+	  <spanx style="verb">at_hash</spanx> (access token hash), and
+	  <spanx style="verb">c_hash</spanx> (code hash).  Using the ID Token,
+	  the Client is capable of detecting the Token Substitution Attack.
+	</t>
+	<t>
+	  The <spanx style="verb">c_hash</spanx> in the ID Token enables
+	  Clients to prevent <spanx style="verb">code</spanx> substitution.
+	</t>
+	<t>
+	  Also, a malicious user may attempt to impersonate a more
+	  privileged user by subverting the communication channel
+	  between the Authorization Endpoint and Client, or the Token Endpoint
+	  and Client, for example by swapping the <spanx style="verb">code</spanx>
+	  or reordering the messages, to convince the Token Endpoint
+	  that the attacker's authorization grant corresponds to a grant
+	  sent on behalf of a more privileged user.
+	</t>
+	<t>
+	  For HTTP bindings such as OpenID Connect Standard 1.0, the
+	  responses to Token Requests are bound to the corresponding
+	  requests by message order in HTTP, as both the response
+	  containing the token and requests are protected by TLS, which
+	  will detect and prevent packet reordering.
+	</t>
+	<t>
+	  When designing another binding of OpenID Connect Messages to a
+	  protocol incapable of strongly binding Token Endpoint
+	  requests to responses, additional mechanisms to
+	  address this issue MUST be utilized. One such mechanism could
+	  be to include an ID Token with a <spanx style="verb">c_hash</spanx>
+	  Claim in the token request and response.
+	</t>
       </section>
 
       <section anchor="TimingAttack" title="Timing Attack">
@@ -4861,9 +4905,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3966"?>
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml/reference.RFC.4648'?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5280"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5322"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
@@ -4871,8 +4913,6 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6750"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6819"?>
-
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml2/reference.ITU.X690.1994.xml' ?>
 
       <reference anchor="USA15">
 	<front>
@@ -5609,6 +5649,9 @@
 	  <t>
 	    Fixed #847 - Corrected type of <spanx style="verb">updated_at</spanx>
 	    to number.
+	  </t>
+	  <t>
+	    Fixed #840 - Provided a better description of the Token Substitution attack.
 	  </t>
 	</list>
       </t>
