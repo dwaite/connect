@@ -894,36 +894,42 @@
 
         <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
-          <t>The Authorization Server validates the request to ensure all
-          REQUIRED parameters are present and valid. If the request is valid,
-          the Authorization Server MUST authenticate the End-User. The way in
-          which the Authorization Server authenticates the End-User (e.g.
-          username and password login, session cookies) is beyond the scope of
-          this specification. An authentication user interface MAY be displayed
-          by the Authorization Server depending on the authentication method
-          used.</t>
+          <t>
+	    The Authorization Server validates the request to ensure all
+	    REQUIRED parameters are present and all parameters are valid.
+	    If the request is valid, the Authorization Server attempts
+	    to log in the End-User or determines whether he is logged in,
+	    depending upon the request parameter values used.
+	    The methods used by the Authorization Server to log in the End-User
+	    (e.g. username and password, session cookies, etc.)
+	    are beyond the scope of this specification.
+	    An authentication user interface MAY be displayed by
+	    the Authorization Server, depending upon the request parameter values used
+	    and the authentication methods used.
+	  </t>
 
-          <t>The Authorization Server MUST attempt to authenticate the 
+          <t>The Authorization Server MUST attempt to log in the 
           End-User in the following cases:
-          <list style="symbols">
-                <t>The End-User is not already authenticated by the
-		Authorization Server.</t>
+	    <list style="symbols">
+	      <t>The End-User is not already logged in.</t>
 
-                <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with the value
-		<spanx style="verb">login</spanx>. The
-                Authorization Server MUST reauthenticate the End-User
-                even if the End-User is already authenticated.</t>
-          </list></t>
-          <t>The Authorization Server MUST NOT attempt authentication
-          in the following cases:
-          <list style="symbols">
-                <t>The Authorization Request contains the <spanx 
-                style="verb">prompt</spanx> parameter with the value
-		<spanx style="verb">none</spanx>.
-                The Authorization Server MUST return an error if the End-User is 
-                unauthenticated.</t>
-          </list></t>
+	      <t>The Authorization Request contains the <spanx 
+	      style="verb">prompt</spanx> parameter with the value
+	      <spanx style="verb">login</spanx>.  In this case, the
+	      Authorization Server MUST reauthenticate the End-User
+	      even if the End-User is already authenticated.</t>
+	    </list>
+	  </t>
+          <t>The Authorization Server MUST NOT interact with the End-User
+          in the following case:
+            <list style="symbols">
+	      <t>The Authorization Request contains the <spanx 
+	      style="verb">prompt</spanx> parameter with the value
+	      <spanx style="verb">none</spanx>.  In this case,
+	      the Authorization Server MUST return an error if the End-User
+	      is not already logged in or could not be silently logged in.</t>
+	    </list>
+	  </t>
 
 	  <t>
 	    The Authorization Server MUST employ appropriate measures against
