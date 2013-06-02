@@ -1258,6 +1258,100 @@
 ]]></artwork>
             </figure>            
 
+	    <t>
+	      The Client MUST validate the response as follows:
+	    </t>
+	    <t>
+	      Case 1: response_type=code
+	      <list style="numbers">
+		<t>
+		  Validate the response according to RFC 6749,
+		  especially Sections 4.1.2 and 10.12.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 2: response_type=token id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2 and 4.4 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 3: response_type=code id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2 and 4.5 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 4: response_type=token code
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 5: response_type=token code id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2, 4.4, and 4.5 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 6: response_type=code id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2 and 4.5 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+
           </section>
 
           <section anchor="authz_error"
@@ -2279,6 +2373,10 @@
 	  <t>
 	    Fixed #839 - Described requirement to employ countermeasures against
 	    Cross-Site Request Forgery and Clickjacking.
+	  </t>
+	  <t>
+	    Fixed #841 - Described verification requirements for
+	    Authorization Server responses.
 	  </t>
 	</list>
       </t>
