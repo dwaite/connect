@@ -429,10 +429,13 @@
 	  SHOULD support the <spanx style="verb">target_link_uri</spanx> parameter.
 	  </t>
 
-	  <t hangText="post_logout_redirect_uri">OPTIONAL.
-	  URL supplied by the RP to request that End-User's User-Agent be redirected to this location
-	  after a logout has been performed, as specified in
-	  <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
+	  <t hangText="post_logout_redirect_uris">
+	    OPTIONAL.
+	    Array of URLs supplied by the RP to which it MAY request that
+	    the End-User's User-Agent be redirected using the
+	    <spanx style="verb">post_logout_redirect_uri</spanx> parameter
+	    after a logout has been performed, as specified in
+	    <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
 	  </t>
 
 	  <t hangText="request_uris">
@@ -1362,6 +1365,10 @@
 	  <t>
 	    Stated that the JWS Compact Serialization and the JWE Compact Serialization
 	    are always used for JWS and JWE data structures.
+	  </t>
+	  <t>
+	    Fixed #842 - Made <spanx style="verb">post_logout_redirect_uri</spanx>
+	    treatment parallel to <spanx style="verb">redirect_uri</spanx>.
 	  </t>
 	</list>
       </t>
