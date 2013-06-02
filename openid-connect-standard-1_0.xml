@@ -69,9 +69,26 @@
 
   <middle>
     <section anchor='Introduction' title='Introduction'>
-      <t>This specification describes the binding of the HTTP
-      protocol with the endpoints described in <xref
-      target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.</t>
+      <t>
+	The <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref>
+	and <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
+	specifications provide a general framework for third-party applications
+	to obtain and use limited access to HTTP resources.  They define
+	mechanisms to obtain and use Access Tokens to access resources but
+	do not define standard methods to provide identity information.
+	Notably, without profiling OAuth 2.0, it is incapable of
+	providing information about the authentication of an End-User.
+      </t>
+      <t>
+	This specification is a binding of the messages defined in the
+	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>
+	specification to RFC6749 and RFC6750, including messages
+	that provide identity and authentication information,
+	allowing services to securely exchange identity information.
+	This binding builds an identity layer on top of OAuth 2.0.
+	Using this specification, deployments are able to share
+	authentication and attributes on OAuth 2.0 based systems.
+      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -2377,6 +2394,9 @@
 	  <t>
 	    Fixed #841 - Described verification requirements for
 	    Authorization Server responses.
+	  </t>
+	  <t>
+	    Fixed #846 - Provided a more complete introduction to Standard.
 	  </t>
 	</list>
       </t>
