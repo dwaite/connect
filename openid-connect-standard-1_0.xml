@@ -521,14 +521,14 @@
             <t><figure>
 	      <preamble>The following is a non-normative example of an
 	      Authorization Request URL
-	      (with line wraps within the values for display purposes only):</preamble>
+	      (with line wraps within values for display purposes only):</preamble>
 
 	      <artwork><![CDATA[
   https://server.example.com/op/authorize?
     response_type=code%20id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
 ]]></artwork>
@@ -541,7 +541,7 @@
 
               <figure>
 		<preamble>Following is a non-normative example using HTTP redirect
-		(with line wraps within the values for display purposes only):</preamble>
+		(with line wraps within values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -549,7 +549,7 @@
     response_type=code%20id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
 ]]></artwork>
@@ -622,7 +622,7 @@
                 <preamble>
 		  Signing it with the <spanx style="verb">RS256</spanx> algorithm
 		  results in this Request Object value
-		  (with line breaks for display purposes only):
+		  (with line wraps within values for display purposes only):
 		</preamble>
 
                 <artwork><![CDATA[
@@ -648,8 +648,9 @@
 	      <figure>
                 <preamble>
 		  The following is the RSA public key in JWK format that can be used to
-		  validate the Request Object signature in the above example
-		  (with line breaks for display purposes only):
+		  validate the Request Object signature in this
+		  and subsequent Request Object examples
+		  (with line wraps within values for display purposes only):
 		</preamble>
 
                 <artwork><![CDATA[
@@ -672,12 +673,12 @@
                 <preamble>The following is a non-normative example of an
                 Authorization Request using the <spanx style='verb'>request</spanx>
 		parameter
-                (with line wraps within the values for display purposes only):
+                (with line wraps within values for display purposes only):
                 </preamble>
 
                 <artwork><![CDATA[
   https://server.example.com/authorize?
-    response_type=code%02id_token
+    response_type=code%20id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid
@@ -711,7 +712,7 @@
 
               <figure>
 		<preamble>Following is a non-normative example using HTTP redirect
-		(with line wraps within the values for display purposes only):</preamble>
+		(with line wraps within values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -773,7 +774,7 @@
             <t><figure>
                 <preamble>Following is a non-normative example of
 		the contents of a Request File
-		(with line wraps within the values for display purposes only):</preamble>
+		(with line wraps within values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   eyJhbGciOiJSUzI1NiJ9.ew0KICJyZXNwb25zZV90eXBlIjogImNvZGUgaWRfdG9rZ
@@ -835,7 +836,7 @@
               </t>
               <figure>
                 <preamble>Following is a non-normative example
-		(with line wraps for display purposes only):</preamble>
+		(with line wraps within values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   https://client.example.org/rf.txt
@@ -855,7 +856,7 @@
 
               <figure>
                 <preamble>Following is a non-normative example
-		(with line wraps within the values for display purposes only):</preamble>
+		(with line wraps within values for display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -864,7 +865,8 @@
     &client_id=s6BhdRkqt3
     &request_uri=https%3A%2F%2Fclient.example.org%2Frf.txt
     %23GkurKxf5T0Y-mnPFCHqWOMiZi4VS138cQO_V7PZHAdM
-    &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj&scope=openid
+    &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj
+    &scope=openid
 ]]></artwork>
               </figure>
             </section>
@@ -1083,7 +1085,7 @@
 	      </list>
 	    </t>
 	    <t>
-	      Case 6: response_type=code id_token
+	      Case 6: response_type=id_token
 	      <list style="numbers">
 		<t>
 		  Verify that the response conforms to Section 5 of
@@ -1094,7 +1096,7 @@
 		  especially those in Sections 4.2.2 and 10.12.
 		</t>
 		<t>
-		  Follow the validation rules in Sections 4.2 and 4.5 of
+		  Follow the validation rules in Section 4.2 of
 		  <xref target="OpenID.Messages"/>.
 		</t>
 	      </list>
@@ -1103,7 +1105,7 @@
             <t>
               The following are non-normative examples of requests with 
               differing <spanx style="verb">response_type</spanx> values and their responses 
-              (with line wraps within the values for display purposes only):
+              (with line wraps within values for display purposes only):
             </t>
 
             <figure>
@@ -1114,7 +1116,7 @@
     response_type=code
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
               
@@ -1132,7 +1134,7 @@
     response_type=token%20id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
               
@@ -1178,7 +1180,7 @@
     response_type=code%20id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
               
@@ -1223,7 +1225,7 @@
     response_type=token%20code
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
 
@@ -1243,7 +1245,7 @@
     response_type=token%20code%20id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
 
@@ -1294,31 +1296,13 @@
             </t>
 
             <figure>
-              <preamble>Case 6: response_type=code id_token</preamble>
+              <preamble>Case 6: response_type=id_token</preamble>
               <artwork><![CDATA[
   https://server.example.com/op/authorize?
-    response_type=code%20id_token
+    response_type=id_token
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
-    &request=eyJhbGciOiJSUzI1NiJ9.ew0KICJyZXNwb25zZV90eXBlIjogImNvZG
-    UgaWRfdG9rZW4iLA0KICJjbGllbnRfaWQiOiAiczZCaGRSa3F0MyIsDQogInJlZG
-    lyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogIn
-    Njb3BlIjogIm9wZW5pZCIsDQogInN0YXRlIjogImFmMGlmanNsZGtqIiwNCiAibm
-    9uY2UiOiAibi0wUzZfV3pBMk1qIiwNCiAibWF4X2FnZSI6IDg2NDAwLA0KICJjbG
-    FpbXMiOiANCiAgew0KICAgInVzZXJpbmZvIjogDQogICAgew0KICAgICAiZ2l2ZW
-    5fbmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICJuaWNrbmFtZSI6IG
-    51bGwsDQogICAgICJlbWFpbCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgIC
-    JlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICJwaW
-    N0dXJlIjogbnVsbA0KICAgIH0sDQogICAiaWRfdG9rZW4iOiANCiAgICB7DQogIC
-    AgICJnZW5kZXIiOiBudWxsLA0KICAgICAiYmlydGhkYXRlIjogeyJlc3NlbnRpYW
-    wiOiB0cnVlfSwNCiAgICAgImFjciI6IHsidmFsdWVzIjogWyIyIl19DQogICAgfQ
-    0KICB9DQp9.bOD4rUiQfzh4QPIs_f_R2GVBhNHcc1p2cQTgixB1tsYRs52xW4TO7
-    4USgb-nii3RPsLdfoPlsEbJLmtbxG8-TQBHqGAyZxMDPWy3phjeRt9ApDRnLQrjY
-    uvsCj6byu9TVaKX9r1KDFGT-HLqUNlUTpYtCyM2B2rLkWM08ufBq9JBCEzzaLRzj
-    evYEPMaoLAOjb8LPuYOYTBqshRMUxy4Z380-FJ2Lc7VSfSu6HcB2nLSjiKrrfI35
-    xkRJsaSSmjasMYeDZarYCl7r4o17rFclk5KacYMYgAs-JYFkwab6Dd56ZrAzakHt
-    9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
+    &scope=openid%20profile%20email
     &nonce=n-0S6_WzA2Mj
     &state=af0ifjsldkj
 
@@ -1326,18 +1310,21 @@
   Location: https://client.example.org/cb#
     code=Qcb0Orv1zh30vL1MPRsbm-diHiMwcLyZvn1arpZv-Jxf_11jnpEX3Tgfvk
     &token_type=Bearer
-    &id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICJpc3MiOiAiaHR0cDovL3NlcnZlc
-    i5leGFtcGxlLmNvbSIsDQogInN1YiI6ICIyNDgyODk3NjEwMDEiLA0KICJhdWQiO
-    iAiczZCaGRSa3F0MyIsDQogIm5vbmNlIjogIm4tMFM2X1d6QTJNaiIsDQogImV4c
-    CI6IDEzMTEyODE5NzAsDQogImlhdCI6IDEzMTEyODA5NzAsDQogImdlbmRlciI6I
-    CJmZW1hbGUiLA0KICJiaXJ0aGRhdGUiOiAiMDAwMC0xMC0zMSIsDQogImFjciI6I
-    CIyIiwNCiAiY19oYXNoIjogIkxEa3RLZG9RYWszUGswY25YeENsdEEiDQp9.d8vv
-    NPuPR01zA_6RTArFMCtct1Oy6Q0gTCTXa9oDEuk7Sd3Hv0i34M6xFccrrbYtCzVn
-    AjnJnJCgixJSlMsYJBTx168HgqdBcBwFLmd28i1Q_7cyfoglw4GkblXn7UxUgdAZ
-    1ILyDAOV3dMS2ZxaCPK_HE2-_kzlIXtOamdWruHickUBA3_xlzMorMvbmHnU47qA
-    u3AgCJF9RmKhgVY1cjUiHmEF8GBugxMn6eE7-ji6houeM-WL0nudHJEBikVmpnhQ
-    ezFyj6tZhfeVcWoEsCwzbDts4pPQVcDHFq2dSnq1ZuhX1svDYnV-TRUW9ri7V9ik
-    K7TBhtqtk7e5cIWSPw
+    &id_token=eyJhbGciOiJSUzI1NiJ9.ew0KICJpc3MiOiAiaHR0cDovL3Nlc
+    nZlci5leGFtcGxlLmNvbSIsDQogInN1YiI6ICIyNDgyODk3NjEwMDEiLA0KI
+    CJhdWQiOiAiczZCaGRSa3F0MyIsDQogIm5vbmNlIjogIm4tMFM2X1d6QTJNa
+    iIsDQogImV4cCI6IDEzMTEyODE5NzAsDQogImlhdCI6IDEzMTEyODA5NzAsD
+    QogIm5hbWUiOiAiSmFuZSBEb2UiLA0KICJnaXZlbl9uYW1lIjogIkphbmUiL
+    A0KICJmYW1pbHlfbmFtZSI6ICJEb2UiLA0KICJnZW5kZXIiOiAiZmVtYWxlI
+    iwNCiAiYmlydGhkYXRlIjogIjAwMDAtMTAtMzEiLA0KICJlbWFpbCI6ICJqY
+    W5lZG9lQGV4YW1wbGUuY29tIiwNCiAicGljdHVyZSI6ICJodHRwOi8vZXhhb
+    XBsZS5jb20vamFuZWRvZS9tZS5qcGciDQp9.Bgdr1pzosIrnnnpIekmJ7ooe
+    DbXuA2AkwfMf90Po2TrMcl3NQzUE_9dcr9r8VOuk4jZxNpV5kCu0RwqqF11-
+    6pQ2KQx_ys2i0arLikdResxvJlZzSm_UG6-21s97IaXC97vbnTCcpAkokSe8
+    Uik6f8-U61zVmCBMJnpvnxEJllfV8fYldo8lWCqlOngScEbFQUh4fzRsH8O3
+    Znr20UZib4V4mGZqYPtPDVGTeu8xkty1t0aK-wEhbm6Hi-TQTi4kltJlw47M
+    cSVgF_8SswaGcW6Bf_954ir_ddi4Nexo9RBiWu4n3JMNcQvZU5xMPhu-EF-6
+    _nJNotp-lbnBUyxTSg
     &state=af0ifjsldkj
 ]]></artwork>
             </figure>
@@ -1354,10 +1341,13 @@
    "nonce": "n-0S6_WzA2Mj",
    "exp": 1311281970,
    "iat": 1311280970,
+   "name": "Jane Doe",
+   "given_name": "Jane",
+   "family_name": "Doe",
    "gender": "female",
    "birthdate": "0000-10-31",
-   "acr": "urn:mace:incommon:iap:silver",
-   "c_hash": "LDktKdoQak3Pk0cnXxCltA"
+   "email": "janedoe@example.com",
+   "picture": "http://example.com/janedoe/me.jpg"
   }
 ]]></artwork>
             </figure>
@@ -1366,7 +1356,7 @@
                 <preamble>
 		  The following is the RSA public key in JWK format that can be used to
 		  validate the ID Token signatures in the above examples
-		  (with line breaks for display purposes only):
+		  (with line wraps within values for display purposes only):
 		</preamble>
 
                 <artwork><![CDATA[
@@ -1423,7 +1413,7 @@
 
             <t><figure>
                 <preamble>The following is a non-normative example
-		(with line wraps within the values for the display purposes only):</preamble>
+		(with line wraps within values for the display purposes only):</preamble>
 
                 <artwork><![CDATA[
   HTTP/1.1 302 Found
@@ -1878,8 +1868,10 @@
 	</t>
 
         <figure>
-          <preamble>Following is a non-normative example of such
-          serialization:</preamble>
+          <preamble>
+	    Following is a non-normative example of this serialization
+	    (with line wraps within values for display purposes only):
+	  </preamble>
 
           <artwork><![CDATA[
   GET /authorize?scope=openid&response_type=code
@@ -1899,8 +1891,10 @@
 	Form Serialization is typically used in HTTP <spanx style="verb">POST</spanx> requests.</t>
 
         <figure>
-          <preamble>Following is a non-normative example of such
-          serialization:</preamble>
+          <preamble>
+	    Following is a non-normative example of this serialization
+	    (with line wraps within values for display purposes only):
+	  </preamble>
 
           <artwork><![CDATA[
   POST /authorize HTTP/1.1
@@ -1921,8 +1915,9 @@
 	JSON numbers. Each parameter MAY have a JSON structure as its value.</t>
 
 	<figure>
-	  <preamble>Following is a non-normative example of such
-	  serialization:</preamble>
+          <preamble>
+	    Following is a non-normative example of this serialization:
+	  </preamble>
 
 	  <artwork><![CDATA[
   {
