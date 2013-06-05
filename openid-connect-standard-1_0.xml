@@ -134,14 +134,14 @@
     </section>
 
     <section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
-      <t>The Authorization Endpoint performs authentication services for the
+      <t>The Authorization Endpoint performs authentication of the
       End-User and requests authorization from the End-User to release
-      information to OpenID Connect Relying Party Clients. When an End-User 
-      accesses a Relying Party Client application that requires
-      the End-User's identifier and other information, it sends the End-User to
+      information to an OpenID Connect Relying Party (Client). When an End-User 
+      accesses a Relying Party application that requires
+      the End-User's identity and other information, it sends the End-User to
       the Authorization Server's Authorization Endpoint for authentication and
       authorization. The Authorization Server then issues an ID Token that
-      asserts the End-User's identifier and an Access Token that allows the
+      asserts the End-User's identity and an Access Token that allows the
       Client to access the End-User's information at Protected Resource
       endpoints. Protected Resource endpoints MAY perform different actions or
       return different information based on the scopes associated with the 
@@ -351,8 +351,11 @@
 
 		<t hangText="state">
 		  RECOMMENDED.
-		  Opaque value used to maintain state
-		  between the request and the callback.
+		  Opaque value used
+		  to maintain state between the request and the callback.
+		  Typically, Cross-Site Request Forgery mitigation is
+		  done through cryptographically binding the value of
+		  this parameter with the browser cookie.
 		</t>
 
               </list>
@@ -796,7 +799,8 @@
             <section anchor="rurl_create"
                      title="Client Generates the URL of the Request File">
               <t>
-		The Client stores the Request File either locally or remotely.
+		The Client stores the Request File either locally or remotely
+		at a URL the Server can access.
 		This is the Request URI, <spanx style="verb">request_uri</spanx>.
 		Servers MAY cache the contents of the files referenced by request URIs.
 		If the contents of the Request File could ever change,
@@ -820,8 +824,11 @@
               <t>If the Request File includes attribute 
               values, it MUST NOT be revealed to anybody but the Authorization Server. 
               As such, the <spanx style="verb">request_uri</spanx> MUST have
-              appropriate entropy for its lifetime, 
-              and MUST be removed after successful authentication or a reasonable timeout.
+              appropriate entropy for its lifetime.
+              It is RECOMMENDED that it be removed
+	      if it is known that it will not be used again
+	      or after a reasonable timeout
+	      unless access control measures are taken.
               </t>
               <t>The Client then records the Request File either locally or
               remotely and obtains the Request File URI, <spanx style="verb">request_uri</spanx>.
@@ -944,6 +951,7 @@
           obtain an authorization decision. This MAY be done by presenting the
           End-User with a dialogue that allows the End-User to recognize what he is
           consenting to and obtain his consent or by establishing consent via
+	  conditions for processing or
           other means (for example, via previous administrative consent).</t>
 
           <t>The Authorization Server MUST attempt to request authorization
@@ -955,7 +963,7 @@
                 <t>The Authorization Request contains the <spanx 
                 style="verb">prompt</spanx> parameter with the value
 		<spanx style="verb">consent</spanx>. The
-                Authorization Server MUST request End-User authorization even if the
+                Authorization Server SHOULD request End-User authorization even if the
                 End-User has previously authorized the Client.</t>
           </list></t>
           <t>The Authorization Server MUST NOT request End-User authorization in the
@@ -997,6 +1005,100 @@
               component of the redirection URI. Otherwise, the response parameters 
               are added to the query component of the redirection URI.
             </t>
+
+	    <t>
+	      The Client MUST validate the response as follows:
+	    </t>
+	    <t>
+	      Case 1: response_type=code
+	      <list style="numbers">
+		<t>
+		  Validate the response according to RFC 6749,
+		  especially Sections 4.1.2 and 10.12.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 2: response_type=token id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2 and 4.4 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 3: response_type=code id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2 and 4.5 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 4: response_type=token code
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 5: response_type=token code id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2, 4.4, and 4.5 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Case 6: response_type=code id_token
+	      <list style="numbers">
+		<t>
+		  Verify that the response conforms to Section 5 of
+		  <xref target="OAuth.Responses"/>.
+		</t>
+		<t>
+		  Follow the validation rules in RFC 6749,
+		  especially those in Sections 4.2.2 and 10.12.
+		</t>
+		<t>
+		  Follow the validation rules in Sections 4.2 and 4.5 of
+		  <xref target="OpenID.Messages"/>.
+		</t>
+	      </list>
+	    </t>
 
             <t>
               The following are non-normative examples of requests with 
@@ -1281,100 +1383,6 @@
 ]]></artwork>
             </figure>            
 
-	    <t>
-	      The Client MUST validate the response as follows:
-	    </t>
-	    <t>
-	      Case 1: response_type=code
-	      <list style="numbers">
-		<t>
-		  Validate the response according to RFC 6749,
-		  especially Sections 4.1.2 and 10.12.
-		</t>
-	      </list>
-	    </t>
-	    <t>
-	      Case 2: response_type=token id_token
-	      <list style="numbers">
-		<t>
-		  Verify that the response conforms to Section 5 of
-		  <xref target="OAuth.Responses"/>.
-		</t>
-		<t>
-		  Follow the validation rules in RFC 6749,
-		  especially those in Sections 4.2.2 and 10.12.
-		</t>
-		<t>
-		  Follow the validation rules in Sections 4.2 and 4.4 of
-		  <xref target="OpenID.Messages"/>.
-		</t>
-	      </list>
-	    </t>
-	    <t>
-	      Case 3: response_type=code id_token
-	      <list style="numbers">
-		<t>
-		  Verify that the response conforms to Section 5 of
-		  <xref target="OAuth.Responses"/>.
-		</t>
-		<t>
-		  Follow the validation rules in RFC 6749,
-		  especially those in Sections 4.2.2 and 10.12.
-		</t>
-		<t>
-		  Follow the validation rules in Sections 4.2 and 4.5 of
-		  <xref target="OpenID.Messages"/>.
-		</t>
-	      </list>
-	    </t>
-	    <t>
-	      Case 4: response_type=token code
-	      <list style="numbers">
-		<t>
-		  Verify that the response conforms to Section 5 of
-		  <xref target="OAuth.Responses"/>.
-		</t>
-		<t>
-		  Follow the validation rules in RFC 6749,
-		  especially those in Sections 4.2.2 and 10.12.
-		</t>
-	      </list>
-	    </t>
-	    <t>
-	      Case 5: response_type=token code id_token
-	      <list style="numbers">
-		<t>
-		  Verify that the response conforms to Section 5 of
-		  <xref target="OAuth.Responses"/>.
-		</t>
-		<t>
-		  Follow the validation rules in RFC 6749,
-		  especially those in Sections 4.2.2 and 10.12.
-		</t>
-		<t>
-		  Follow the validation rules in Sections 4.2, 4.4, and 4.5 of
-		  <xref target="OpenID.Messages"/>.
-		</t>
-	      </list>
-	    </t>
-	    <t>
-	      Case 6: response_type=code id_token
-	      <list style="numbers">
-		<t>
-		  Verify that the response conforms to Section 5 of
-		  <xref target="OAuth.Responses"/>.
-		</t>
-		<t>
-		  Follow the validation rules in RFC 6749,
-		  especially those in Sections 4.2.2 and 10.12.
-		</t>
-		<t>
-		  Follow the validation rules in Sections 4.2 and 4.5 of
-		  <xref target="OpenID.Messages"/>.
-		</t>
-	      </list>
-	    </t>
-
           </section>
 
           <section anchor="authz_error"
@@ -1402,7 +1410,7 @@
 		  OAuth 2.0 state value.
 		  REQUIRED if the Authorization Request
                 included the <spanx style="verb">state</spanx> parameter. Set
-                to the exact value received from the Client.</t>
+                to the value received from the Client.</t>
               </list></t>
 
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
@@ -1863,7 +1871,11 @@
         parameters and values to the query component of a URL using the <spanx
         style="verb">application/x-www-form-urlencoded</spanx> format as
         defined by <xref target="W3C.REC-html401-19991224"></xref>.
-	Query String Serialization is typically used in HTTP <spanx style="verb">GET</spanx> requests.</t>
+	Query String Serialization is typically used in
+	HTTP <spanx style="verb">GET</spanx> requests.
+	The same serialization method is also used when adding
+	parameters to the fragment component of a URL.
+	</t>
 
         <figure>
           <preamble>Following is a non-normative example of such
@@ -2323,14 +2335,21 @@
 
       <t><list style="empty">
 	  <t>Naveen Agarwal (naa@google.com), Google</t>
+	  <t>Amanda Anganes (aanganes@mitre.org), Mitre</t>
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
           <t>Tim Bray (tbray@textuality.com), Google</t>
+	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
+	  <t>Blaine Cook (romeda@gmail.com), Independent</t>
           <t>Breno de Medeiros (breno@gmail.com), Google</t>
+	  <t>Vladimir Dzhuvinov (vladimir@nimbusds.com), Nimbus Directory Services</t>
           <t>George Fletcher (gffletch@aol.com), AOL</t>
+	  <t>Roland Hedberg (roland.hedberg@adm.umu.se), University of Umea</t>
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
-          <t>Hideki Nara (hideki.nara@gmail.com), Takt Communications</t>
+	  <t>Torsten Lodderstedt (t.lodderstedt@telecom.de), Deutsche Telekom</t>
+	  <t>Hideki Nara (hdknr@ic-tact.co.jp), Tact Communications</t>
           <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
+	  <t>Justin Richer (jricher@mitre.org), Mitre</t>
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
         </list></t>
     </section>

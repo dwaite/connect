@@ -326,8 +326,10 @@
 		<t hangText="state">
 		  RECOMMENDED.
 		  Opaque value used
-		  to maintain state between the request and the callback;
-		  serves as a protection against XSRF attacks.
+		  to maintain state between the request and the callback.
+		  Typically, Cross-Site Request Forgery mitigation is
+		  done through cryptographically binding the value of
+		  this parameter with the browser cookie.
 		</t>
 
               </list>
@@ -600,7 +602,7 @@
 		  REQUIRED if the 
 		  <spanx style="verb">state</spanx> parameter is present in the
 		  Client Authorization Request. Clients MUST verify that the 
-		  <spanx style="verb">state</spanx> value is equal to the exact 
+		  <spanx style="verb">state</spanx> value is equal to the 
 		  value of <spanx style="verb">state</spanx> parameter in the 
                 Authorization Request.</t>
 
@@ -1879,7 +1881,11 @@
 	parameters and values to the query component using the <spanx
 	style="verb">application/x-www-form-urlencoded</spanx> format as
 	defined by <xref target="W3C.REC-html401-19991224"/>.
-	Query String Serialization is typically used in HTTP <spanx style="verb">GET</spanx> requests.</t>
+	Query String Serialization is typically used in
+	HTTP <spanx style="verb">GET</spanx> requests.
+	The same serialization method is also used when adding
+	parameters to the fragment component of a URL.
+	</t>
 
 	<figure>
 	  <preamble>Following is a non-normative example of such
@@ -2478,14 +2484,14 @@
           <t>Breno de Medeiros (breno@gmail.com), Google</t>
           <t>Pamela Dingle (pdingle@pingidentity.com), Ping Identity</t>
           <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
-          <t>Roland Hedberg (roland.hedberg@adm.umu.se), Independent</t>
+          <t>Roland Hedberg (roland.hedberg@adm.umu.se), University of Umea</t>
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
           <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
           <t>Nov Matake (nov@matake.jp), Independent</t>
           <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
           <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
-          <t>Hideki Nara (hideki.nara@gmail.com), Takt Communications</t>
+	  <t>Hideki Nara (hdknr@ic-tact.co.jp), Tact Communications</t>
           <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
           <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>David Recordon (dr@fb.com), Facebook</t>
