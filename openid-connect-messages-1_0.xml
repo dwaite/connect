@@ -2936,6 +2936,8 @@
 	    the <spanx style="verb">client_secret</spanx> value.
 	    See <xref target="SymmetricKeyEntropy"/> for a discussion of
 	    entropy requirements for <spanx style="verb">client_secret</spanx> values.
+	    Symmetric signatures MUST never be used by public (non-confidential) Clients
+	    because of their inability to keep secrets.
 	  </t>
 	</list></t>
 	<t>
@@ -3004,6 +3006,8 @@
 	    If a key wrapping key with greater than 256 bits is needed, a different method
 	    of deriving the key from the <spanx style="verb">client_secret</spanx>
 	    would have to be defined by an extension.
+	    Symmetric encryption MUST never be used by public (non-confidential) Clients
+	    because of their inability to keep secrets.
 	  </t>
 	</list></t>
 	<t>
@@ -4032,6 +4036,10 @@
 	  Token Substitution is a class of attacks in which a malicious user
 	  swaps various tokens, including swapping an Authorization Code for
 	  a legitimate user with another token that the attacker has.
+	  One means of accomplishing this is for the attacker to copy
+	  a token out one session and use it in an HTTP message for
+	  a different session, which is easy to do when the token is
+	  available to the browser; this is known as the "cut and paste" attack.
 	</t>
 	<t>
 	  The implicit flow of <xref target="RFC6749">OAuth 2.0</xref>
