@@ -68,16 +68,33 @@
       obtain basic profile information about the End-User in an interoperable and 
       REST-like manner.</t>
 
-      <t>This specification only defines the endpoints and 
-      the associated message formats. 
-      The actual use MUST be based on one of 
-      the companion protocol bindings specifications 
-      such as OpenID Connect Standard 1.0.</t>
+      <t>
+	This specification only defines the endpoints,
+	associated messages,
+	and message exchange sequences.
+	These are used in protocol bindings such as OpenID Connect Standard 1.0,
+	which is a binding of these messages to OAuth 2.0.
+	Actual use requires also using a companion protocol binding specification,
+	such as OpenID Connect Standard 1.0.
+      </t>
     </abstract>
   </front>
 
   <middle>
     <section anchor='Introduction' title='Introduction'>
+
+      <t>
+	The OpenID Connect Messages 1.0 specification defines endpoints,
+	associated messages, and message sequences that can be used to build
+	an actual OpenID Connect identity protocol.
+	<xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref>
+	is such a protocol.
+	It binds the OAuth 2.0 code and implicit flows to
+	the elements defined by this specification
+	to define an interoperable identity protocol over HTTPS.
+	Similarly, one could use this specification to write bindings
+	to other protocols such as IMAP or XMPP. 
+      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -105,10 +122,8 @@
 	"Protected Resource", "Resource Owner", "Resource Server", and
         "Token Endpoint" defined by
         <xref target="RFC6749">OAuth 2.0</xref>,
-        the terms "Claim Names" and "Claim Values" defined by
-        <xref target="JWT">JSON Web Token (JWT)</xref>,
-	and the terms "validate" and "verify" as defined by
-	<xref target="RFC4949">Internet Security Glossary, Version 2</xref>.
+        and the terms "Claim Names" and "Claim Values" defined by
+        <xref target="JWT">JSON Web Token (JWT)</xref>.
         </t>
         <t>
           This specification also defines the following terms:
@@ -131,7 +146,7 @@
             </t>
 
             <t hangText="Authentication Context Class">
-              A set of authentication methods or procedures that are considered
+              Set of authentication methods or procedures that are considered
 	      to be equivalent to each other in a particular context.
             </t>
 
@@ -139,16 +154,23 @@
               Identifier for an Authentication Context Class. 
             </t>
 
-            <t hangText="Claim">Piece of information about an Entity that a
-            Claims Provider asserts about that Entity.</t>
+            <t hangText="Claim">
+	      Piece of information asserted about an Entity.
+	    </t>
 
 	    <t hangText="Claim Type">
 	      Syntax used for representing a Claim Value.
 	      This specification defines Normal, Aggregated, and Distributed Claim Types.
 	    </t>
 
-            <t hangText="Claims Provider">Server that can
-            return Claims about an Entity.</t>
+            <t hangText="Claims Provider">
+	      Server that can return Claims about an Entity.
+	    </t>
+
+	    <t hangText="Credential">
+	      Data presented as evidence of the right to use an identity
+	      or other resources.
+	    </t>
 
             <t hangText="End-User">Human Resource Owner.</t>
 
@@ -163,6 +185,14 @@
 
             <t hangText="ID Token">Token that contains Claims about the authentication event. 
             It MAY contain other Claims. </t>
+
+            <t hangText="Identifier">
+	     Value that uniquely characterizes an Entity in a specific context.
+	    </t>
+
+            <t hangText="Identity">
+	      Set of Claims about an Entity.
+	    </t>
 
             <t hangText="Issuer">Entity that issues a set of Claims.</t>
 
@@ -212,6 +242,14 @@
             presented with an Access Token by the Client, returns Claims
             about the End-User represented by that Access Token.</t>
 
+            <t hangText="Validation">
+	      Process intended to establish the soundness or correctness of a construct.
+	    </t>
+
+            <t hangText="Verification">
+	      Process intended to test or prove the truth or accuracy of a fact or value.
+	    </t>
+
             <t hangText="Voluntary Claim">
               Claim specified by the Client as being useful but not Essential
               for the specific task requested by the End-User.
@@ -221,7 +259,9 @@
         </t>
 	<t>
 	  For more background on some of the terminology used,
-	  see <xref target="X.1252">ITU-T X.1252</xref>.
+	  see <xref target="RFC4949">Internet Security Glossary, Version 2</xref>,
+	  <xref target="ISO29115">ISO/IEC 29115 Entity Authentication Assurance</xref>,
+	  and <xref target="X.1252">ITU-T X.1252</xref>.
 	</t>
       </section>
 
@@ -266,8 +306,8 @@
 	<list style="numbers">
           <t>Authorization Endpoint: The RP sends a request to the 
           OP at the Authorization Endpoint. The OP 
-          then authenticates the End-User to determine whether he is eligible
-          to be authenticated. Then, after potential authorization actions by the
+          then authenticates the End-User.
+	  Then, after potential authorization actions by the
           End-User, the Authorization Server returns an Authorization Response,
           which can include an Authorization Code value.
           For some Clients, the Implicit Grant will be used to obtain
@@ -282,7 +322,9 @@
           <t>Token Endpoint: Clients using an Authorization Code send an Access Token Request
 	  containing the Authorization Code to the
           Token Endpoint to obtain an Access Token Response that includes an
-          Access Token and an ID Token.</t>
+          Access Token and an ID Token.
+	  The Client can also send a Refresh Token to it to obtain a new Access Token.
+	  </t>
 
           <t>UserInfo Endpoint: Clients using an Access Token send the Access Token to the UserInfo Endpoint
 	  to obtain Claims about the End-User.</t>
@@ -293,7 +335,7 @@
       <section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
         <t>The RP sends an Authorization Request to the Authorization Endpoint
         of the OP to obtain an Authorization Response,
-        which MAY contain an ID Token and Access Token,
+        which MAY contain an ID Token, Code, and Access Token,
         depending on the <spanx style="verb">response_type</spanx> value used.</t>
 
         <section anchor="AuthorizationRequest" title="Authorization Request">
@@ -326,7 +368,7 @@
                     <t hangText="code">When supplied as the value for the
                     <spanx style="verb">response_type</spanx> parameter, a
                     successful response MUST include an Authorization Code as
-                    defined in the OAuth 2.0 specification. Both successful
+                    defined in OAuth 2.0. Both successful
                     and error responses MUST be added as parameters to the
                     query component of the response.  All tokens are returned
                     from the Token Endpoint.
@@ -338,7 +380,7 @@
                     <t hangText="token">When supplied as the value for the
                     <spanx style="verb">response_type</spanx> parameter, a
                     successful response MUST include an Access Token as
-                    defined in the OAuth 2.0 specification.  Both successful
+                    defined in OAuth 2.0.  Both successful
                     and error responses MUST be fragment-encoded.
                     No ID Token is provided to the Client;
                     therefore, this <spanx style="verb">response_type</spanx>
@@ -368,8 +410,7 @@
                     <t hangText="code token">When supplied as the value for
                     the <spanx style="verb">response_type</spanx> parameter, a
                     successful response MUST include both an Access Token and
-                    an Authorization Code as defined in the OAuth 2.0
-                    specification.
+                    an Authorization Code as defined in OAuth 2.0.
                     When used by OpenID Connect, an ID Token is also returned
                     from the Token Endpoint.
                     Both successful and error responses SHOULD be fragment-encoded.</t>
@@ -441,8 +482,8 @@
                   RECOMMENDED.
                   Opaque value used
                   to maintain state between the request and the callback.
-		  Typically, Cross-Site Request Forgery mitigation is
-		  done through cryptographically binding the value of
+		  Typically, Cross-Site Request Forgery (CSRF, XSRF)
+		  mitigation is done by cryptographically binding the value of
 		  this parameter with the browser cookie.
 		</t>
 
@@ -511,21 +552,29 @@
                     user interface pages. An error is returned if the End-User 
                     is not already authenticated or the Client does not have 
                     pre-configured consent for the requested
-                    Claims. This can be used as a
+                    Claims or does not fulfill other conditions for processing.
+		    This can be used as a
                     method to check for existing authentication and/or consent.</t>
 
-                    <t hangText="login">The Authorization Server MUST prompt the
-                    End-User for reauthentication.</t>
+                    <t hangText="login">
+		      The Authorization Server SHOULD prompt the
+		      End-User for reauthentication.
+		      If it cannot prompt the End-User, it MUST return an error.
+		    </t>
 
-                    <t hangText="consent">The Authorization Server MUST prompt
-                    the End-User for consent before returning information to the
-                    Client.</t>
+                    <t hangText="consent">
+		      The Authorization Server SHOULD prompt the End-User for consent
+		      before returning information to the Client.
+		    </t>
 
-                    <t hangText="select_account">The Authorization Server MUST
-                    prompt the End-User to select a user account.  This allows 
-                    an End-User who has multiple accounts at the Authorization Server
-                    to select amongst the multiple accounts that they might have 
-                    current sessions for.</t>
+                    <t hangText="select_account">
+		      The Authorization Server SHOULD
+		      prompt the End-User to select a user account.  This allows 
+		      an End-User who has multiple accounts at the Authorization Server
+		      to select amongst the multiple accounts that they might have 
+		      current sessions for.
+		      If it cannot prompt the End-User, it MUST return an error.
+		    </t>
                   </list>
 
                   The <spanx style="verb">prompt</spanx> parameter
@@ -539,8 +588,11 @@
                 <t hangText="max_age">
                   OPTIONAL.
                   Maximum Authentication Age.
-                  Specifies that the End-User MUST be actively authenticated if the
-                  End-User was authenticated longer ago than the specified number of seconds.
+		  Specifies the allowable elapsed time in seconds
+		  since the last time the End-User was actively
+		  authenticated. If the elapsed time is greater than
+		  this value, the OP MUST attempt to actively
+		  re-authenticate the End-User.
                   (The <spanx style="verb">max_age</spanx> request parameter corresponds to
                   the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref>
                   <spanx style="verb">max_auth_age</spanx> request parameter.)
@@ -697,8 +749,13 @@
 
           <t>When the <spanx style="verb">response_type</spanx>
           includes other values, they MUST be returned as defined by
-          their registration.  The <spanx style="verb">id_token</spanx>
-	  and <spanx style="verb">token id_token</spanx> response types are defined in
+          their registration.  The
+	  <spanx style="verb">id_token</spanx>,
+	  <spanx style="verb">code&nbsp;id_token</spanx>,
+	  <spanx style="verb">token&nbsp;id_token</spanx>,
+	  <spanx style="verb">code&nbsp;token</spanx>,
+	  and <spanx style="verb">code&nbsp;token&nbsp;id_token</spanx>
+	  response types are defined in
           <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.</t>
 
           <section anchor="id_token" title="ID Token">
@@ -716,17 +773,22 @@
 
             <t>
 	      <list style="hanging">
-                <t hangText="iss">REQUIRED.
-		Issuer Identifier for the Issuer
-                of the response.</t>
+                <t hangText="iss">
+		  REQUIRED.
+		  Issuer Identifier for the Issuer of the response.
+		  The <spanx style="verb">iss</spanx> value is a case sensitive string.
+		</t>
 
-                <t hangText="sub">REQUIRED.
-		Subject identifier.  A locally unique and never
-                reassigned identifier within the Issuer for the End-User, 
-                which is intended to be
-                consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
-                or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-                It MUST NOT exceed 255 ASCII characters in length.</t>
+                <t hangText="sub">
+		  REQUIRED.
+		  Subject identifier.  A locally unique and never
+		  reassigned identifier within the Issuer for the End-User, 
+		  which is intended to be consumed by the Client,
+		  e.g., <spanx style="verb">24400320</spanx>
+		  or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+		  It MUST NOT exceed 255 ASCII characters in length.
+		  The <spanx style="verb">sub</spanx> value is a case sensitive string.
+		</t>
 
                 <t hangText="aud">
 		  REQUIRED.
@@ -734,6 +796,12 @@
 		  It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
 		  of the Relying Party as an audience value.
 		  It MAY also contain identifiers for other audiences.
+		  In the general case,
+		  the <spanx style="verb">aud</spanx> value is an array of
+		  case sensitive strings.
+		  In the special case when there is one audience,
+		  the <spanx style="verb">aud</spanx> value MAY be a single
+		  case sensitive string.
 		</t>
 
                 <t hangText="exp">REQUIRED.
@@ -747,12 +815,15 @@
 		1970-01-01T0:0:0Z as measured in UTC until the date/time.
 		See <xref target="RFC3339">RFC 3339</xref>
                 for details regarding date/times in general and UTC in
-                particular.</t>
+                particular.
+		The <spanx style="verb">exp</spanx> value is a number.
+		</t>
                 
                 <t hangText="iat">REQUIRED.
 		Time at which the JWT was issued.
                 The time is represented as the number of seconds from
 		1970-01-01T0:0:0Z as measured in UTC until the date/time.
+		The <spanx style="verb">iat</spanx> value is a number.
 		</t>
 
                 <t hangText="auth_time">
@@ -767,6 +838,7 @@
                   (The <spanx style="verb">auth_time</spanx> Claim semantically
                   corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
                   <spanx style="verb">auth_time</spanx> response parameter.)
+		  The <spanx style="verb">auth_time</spanx> value is a number.
                 </t>
 
                 <t hangText="nonce">
@@ -789,6 +861,7 @@
 		  is returned directly from the Authorization Endpoint.  
 		  It is OPTIONAL when the ID Token is returned from the 
 		  Token Endpoint.
+		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 		</t>
 
                 <t hangText="at_hash">
@@ -807,6 +880,7 @@
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
 		  with SHA-256, then take the left-most 128 bits and base64url encode them.
+		  The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
 		</t>
 
                 <t hangText="c_hash">
@@ -824,6 +898,7 @@
 		  <spanx style="verb">HS512</spanx>, hash the
 		  <spanx style="verb">code</spanx> value
 		  with SHA-512, then take the left-most 256 bits and base64url encode them.
+		  The <spanx style="verb">c_hash</spanx> value is a case sensitive string.
 		</t>
 
                 <t hangText="acr">
@@ -848,6 +923,7 @@
 		  that which is registered.
 		  Parties using this claim will need to agree upon the meanings of
 		  the values used, which may be context-specific.
+		  The <spanx style="verb">acr</spanx> value is a case sensitive string.
                 </t>
 
                 <t hangText="amr">
@@ -862,14 +938,17 @@
 		  is beyond the scope of this specification.
 		  Parties using this claim will need to agree upon the meanings of
 		  the values used, which may be context-specific.
-                </t>
+		  The <spanx style="verb">amr</spanx> value is an array of
+		  case sensitive strings.
+		</t>
 
 		<t hangText="azp">
 		  OPTIONAL or REQUIRED.
 		  Authorized Party - 
 		  the party to which the ID Token was issued.
 		  If present, it MUST contain the OAuth 2.0
-		  <spanx style="verb">client_id</spanx> of the Relying Party.
+		  <spanx style="verb">client_id</spanx> of the
+		  party that will be using it.
 		  This Claim is only REQUIRED when the party requesting the ID Token
 		  is not the same as the sole audience of the ID Token.
 		  It MAY be included even when the Authorized Party is the same
@@ -888,13 +967,14 @@
 		  Use of the <spanx style="verb">sub_jwk</spanx> Claim
 		  is REQUIRED when the OP is a Self-Issued OP and
 		  is NOT RECOMMENDED when the OP is not Self-Issued.
+		  The <spanx style="verb">iss</spanx> value is a JSON object.
 		</t>
 
               </list>
 	    </t>
 
 	    <t>
-	      The JWT MAY contain other Claims.
+	      ID Tokens MAY contain other Claims.
 	      Any Claims used that are not understood MUST be ignored.
 	    </t>
 
@@ -916,7 +996,7 @@
 	      communicated in advance using Discovery and Registration parameters.
 	    </t>
             <t>
-              Clients MUST directly validate the ID Token per 
+              Clients MUST validate the ID Token per 
               <xref target="id.token.validation"/>. 
             </t>
             
@@ -1102,7 +1182,7 @@
 		</list></t>
 
 		<t>
-		  The JWT MAY contain other Claims.
+		  ID Tokens MAY contain other Claims.
 		  Any Claims used that are not understood MUST be ignored.
 		</t>
 
@@ -5172,7 +5252,7 @@
 
       <reference anchor="ISO29115">
 	<front>
-	  <title>ISO/IEC FDIS 29115 --
+	  <title>ISO/IEC 29115:2013 --
 	  Information technology - Security techniques - Entity authentication
 	  assurance framework</title>
 
@@ -5180,7 +5260,7 @@
 	    <organization abbrev="ISO">International Organization for Standardization</organization>
 	  </author>
 
-	  <date day="20" month="December" year="2012" />
+	  <date year="2013" />
 	</front>
 
 	<seriesInfo name="ISO/IEC" value="29115" />

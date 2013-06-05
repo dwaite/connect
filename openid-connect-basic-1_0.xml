@@ -142,15 +142,8 @@
 	<t>
 	  This specification also defines the following terms:
 	  <list style="hanging">
-	    <t hangText="Relying Party (RP)">
-	      Application requiring Claims from an OpenID Provider.
-	    </t>
-	    <t hangText="OpenID Provider (OP)">
-	      Service capable of providing Claims to a Relying Party.
-	    </t>
-	    <t hangText="Claim">
-	      Piece of information about an Entity that a Claims Provider
-	      asserts about that Entity.
+            <t hangText="Claim">
+	      Piece of information asserted about an Entity.
 	    </t>
 	    <t hangText="Claims Provider">
 	      Server that can return Claims about an Entity.
@@ -162,16 +155,6 @@
 	      Something that has a separate and distinct existence and that can be
 	      identified in a context. An End-User is one example of an Entity.
 	    </t>
-	    <t hangText="Personally Identifiable Information (PII)">
-	      Information that (a) can be used to identify the natural person 
-	      to whom such information relates, or 
-	      (b) is or might be directly or indirectly linked to a 
-	      natural person to whom such information relates. 
-	    </t>
-	    <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
-	      Identifier that identifies the Entity to a Relying Party that cannot be correlated 
-	      with the Entity's PPID at another Relying Party.
-	    </t>
 	    <t hangText="ID Token">
 	      <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
 	    </t>
@@ -181,12 +164,33 @@
 	    <t hangText="Issuer Identifier">
 	      URL using the <spanx style="verb">https</spanx> scheme that acts as a verifiable identifier for an Issuer.
 	    </t>
+	    <t hangText="OpenID Provider (OP)">
+	      Service capable of providing Claims to a Relying Party.
+	    </t>
+	    <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
+	      Identifier that identifies the Entity to a Relying Party that cannot be correlated 
+	      with the Entity's PPID at another Relying Party.
+	    </t>
+	    <t hangText="Personally Identifiable Information (PII)">
+	      Information that (a) can be used to identify the natural person 
+	      to whom such information relates, or 
+	      (b) is or might be directly or indirectly linked to a 
+	      natural person to whom such information relates. 
+	    </t>
+	    <t hangText="Relying Party (RP)">
+	      Application requiring Claims from an OpenID Provider.
+	    </t>
 	    <t hangText="UserInfo Endpoint">
 	      Protected resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
 	      Authorization Grant.
 	    </t>
-
+            <t hangText="Validation">
+	      Process intended to establish the soundness or correctness of a construct.
+	    </t>
+            <t hangText="Verification">
+	      Process intended to test or prove the truth or accuracy of a fact or value.
+	    </t>
             <t hangText="Voluntary Claim">
               Claim specified by the Client as being useful but not essential
               for the specific task requested by the End-User.
@@ -320,8 +324,8 @@
 		  RECOMMENDED.
 		  Opaque value used
 		  to maintain state between the request and the callback.
-		  Typically, Cross-Site Request Forgery mitigation is
-		  done through cryptographically binding the value of
+		  Typically, Cross-Site Request Forgery (CSRF, XSRF)
+		  mitigation is done by cryptographically binding the value of
 		  this parameter with the browser cookie.
 		</t>
 
@@ -388,21 +392,29 @@
 		    user interface pages. An error is returned if the End-User 
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
-		    Claims. This can be used as a
+		    Claims or does not fulfill other conditions for processing.
+		    This can be used as a
 		    method to check for existing authentication and/or consent.</t>
 
-		    <t hangText="login">The Authorization Server MUST prompt the
-		    End-User for reauthentication.</t>
+                    <t hangText="login">
+		      The Authorization Server SHOULD prompt the
+		      End-User for reauthentication.
+		      If it cannot prompt the End-User, it MUST return an error.
+		    </t>
 
-		    <t hangText="consent">The Authorization Server MUST prompt
-		    the End-User for consent before returning information to the
-		    Client.</t>
+                    <t hangText="consent">
+		      The Authorization Server SHOULD prompt the End-User for consent
+		      before returning information to the Client.
+		    </t>
 
-		    <t hangText="select_account">The Authorization Server MUST
-		    prompt the End-User to select a user account.  This allows 
-		    an End-User who has multiple accounts at the Authorization Server
-		    to select amongst the multiple accounts that they might have 
-		    current sessions for.</t>
+                    <t hangText="select_account">
+		      The Authorization Server SHOULD
+		      prompt the End-User to select a user account.  This allows 
+		      an End-User who has multiple accounts at the Authorization Server
+		      to select amongst the multiple accounts that they might have 
+		      current sessions for.
+		      If it cannot prompt the End-User, it MUST return an error.
+		    </t>
 		  </list>
 
 		  The <spanx style="verb">prompt</spanx> parameter
@@ -416,8 +428,11 @@
 		<t hangText="max_age">
 		  OPTIONAL.
 		  Maximum Authentication Age.
-		  Specifies that the End-User MUST be actively authenticated if the
-		  End-User was authenticated longer ago than the specified number of seconds.
+		  Specifies the allowable elapsed time in seconds
+		  since the last time the End-User was actively
+		  authenticated. If the elapsed time is greater than
+		  this value, the OP MUST attempt to actively
+		  re-authenticate the End-User.
 		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
 		  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
 		</t>
@@ -708,17 +723,22 @@
 
 	<t>
 	  <list style="hanging">
-	    <t hangText="iss">REQUIRED.
-	    Issuer Identifier for the Issuer
-	    of the response.</t>
+	    <t hangText="iss">
+	      REQUIRED.
+	      Issuer Identifier for the Issuer of the response.
+	      The <spanx style="verb">iss</spanx> value is a case sensitive string.
+	    </t>
 
-	    <t hangText="sub">REQUIRED.
-	    Subject identifier.  A locally unique and never
-	    reassigned identifier within the Issuer for the End-User, 
-	    which is intended to be
-	    consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
-	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-	    It MUST NOT exceed 255 ASCII characters in length.</t>
+	    <t hangText="sub">
+	      REQUIRED.
+	      Subject identifier.  A locally unique and never
+	      reassigned identifier within the Issuer for the End-User, 
+	      which is intended to be consumed by the Client,
+	      e.g., <spanx style="verb">24400320</spanx>
+	      or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+	      It MUST NOT exceed 255 ASCII characters in length.
+	      The <spanx style="verb">sub</spanx> value is a case sensitive string.
+	    </t>
 
 	    <t hangText="aud">
 	      REQUIRED.
@@ -726,6 +746,12 @@
 	      It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
 	      of the Relying Party as an audience value.
 	      It MAY also contain identifiers for other audiences.
+	      In the general case,
+	      the <spanx style="verb">aud</spanx> value is an array of
+	      case sensitive strings.
+	      In the special case when there is one audience,
+	      the <spanx style="verb">aud</spanx> value MAY be a single
+	      case sensitive string.
 	    </t>
 
 	    <t hangText="exp">REQUIRED.
@@ -739,12 +765,15 @@
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    See <xref target="RFC3339">RFC 3339</xref>
 	    for details regarding date/times in general and UTC in
-	    particular.</t>
+	    particular.
+	    The <spanx style="verb">exp</spanx> value is a number.
+	    </t>
 	    
 	    <t hangText="iat">REQUIRED.
 	    Time at which the JWT was issued.
 	    The time is represented as the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    The <spanx style="verb">iat</spanx> value is a number.
 	    </t>
 
 	    <t hangText="auth_time">OPTIONAL or REQUIRED.
@@ -753,6 +782,7 @@
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    When a <spanx style="verb">max_age</spanx> request is made
 	    then this Claim is REQUIRED.
+	    The <spanx style="verb">auth_time</spanx> value is a number.
 	    </t>
 
 	    <t hangText="nonce">OPTIONAL.
@@ -767,7 +797,9 @@
 	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
 	    ID Token with the Claim Value
 	    being the nonce value sent in the Authorization Request.
-	    Use of the nonce is OPTIONAL when using the code flow.</t>
+	    Use of the nonce is OPTIONAL when using the code flow.
+	    The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+	    </t>
 
 	    <t hangText="at_hash">
 	      OPTIONAL. 
@@ -785,6 +817,7 @@
 	      <spanx style="verb">RS256</spanx>, hash the
 	      <spanx style="verb">access_token</spanx> value
 	      with SHA-256, then take the left-most 128 bits and base64url encode them.
+	      The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
 	    </t>
 
 	    <t hangText="acr">
@@ -806,6 +839,7 @@
 	      that which is registered.
 	      Parties using this claim will need to agree upon the meanings of
 	      the values used, which may be context-specific.
+	      The <spanx style="verb">acr</spanx> value is a case sensitive string.
 	    </t>
 
 	    <t hangText="amr">
@@ -820,6 +854,8 @@
 	      is beyond the scope of this specification.
 	      Parties using this claim will need to agree upon the meanings of
 	      the values used, which may be context-specific.
+	      The <spanx style="verb">amr</spanx> value is an array of
+	      case sensitive strings.
 	    </t>
 
 	    <t hangText="azp">
@@ -827,7 +863,8 @@
 	      Authorized Party - 
 	      the party to which the ID Token was issued.
 	      If present, it MUST contain the OAuth 2.0
-	      <spanx style="verb">client_id</spanx> of the Relying Party.
+	      <spanx style="verb">client_id</spanx> of the
+	      party that will be using it.
 	      This Claim is only REQUIRED when the party requesting the ID Token
 	      is not the same as the sole audience of the ID Token.
 	      It MAY be included even when the Authorized Party is the same
@@ -840,7 +877,7 @@
 	</t>
 
 	<t>
-	  The JWT MAY contain other Claims.
+	  ID Tokens MAY contain other Claims.
 	  Any Claims used that are not understood MUST be ignored.
 	</t>
 	<t>
@@ -1767,7 +1804,7 @@
 
       <reference anchor="ISO29115">
         <front>
-          <title>ISO/IEC FDIS 29115 --
+          <title>ISO/IEC 29115:2013 --
           Information technology - Security techniques - Entity authentication
           assurance framework</title>
 
@@ -1775,7 +1812,7 @@
             <organization abbrev="ISO">International Organization for Standardization</organization>
           </author>
 
-          <date day="20" month="December" year="2012" />
+          <date year="2013" />
         </front>
 
 	<seriesInfo name="ISO/IEC" value="29115" />

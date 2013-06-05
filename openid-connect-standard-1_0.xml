@@ -353,8 +353,8 @@
 		  RECOMMENDED.
 		  Opaque value used
 		  to maintain state between the request and the callback.
-		  Typically, Cross-Site Request Forgery mitigation is
-		  done through cryptographically binding the value of
+		  Typically, Cross-Site Request Forgery (CSRF, XSRF)
+		  mitigation is done by cryptographically binding the value of
 		  this parameter with the browser cookie.
 		</t>
 
@@ -406,8 +406,11 @@
                 <t hangText="max_age">
                   OPTIONAL.
                   Maximum Authentication Age.
-                  Specifies that the End-User MUST be actively authenticated if the
-                  End-User was authenticated longer ago than the specified number of seconds.
+		  Specifies the allowable elapsed time in seconds
+		  since the last time the End-User was actively
+		  authenticated. If the elapsed time is greater than
+		  this value, the OP MUST attempt to actively
+		  re-authenticate the End-User.
                 </t>
 
                 <t hangText="ui_locales">
