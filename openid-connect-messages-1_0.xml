@@ -313,7 +313,7 @@
           For some Clients, the Implicit Grant will be used to obtain
 	  an ID Token and Access Token without using an Authorization Code;
 	  the <spanx style="verb">response_type</spanx> parameter value
-	  <spanx style="verb">id_token token</spanx> does this.
+	  <spanx style="verb">id_token&nbsp;token</spanx> does this.
           For some Clients, the Implicit Grant will be used to obtain only an ID Token;
 	  the <spanx style="verb">response_type</spanx> parameter value
 	  <spanx style="verb">id_token</spanx> does this.
@@ -400,14 +400,14 @@
                     Both successful and error responses SHOULD be fragment-encoded.
                     OpenID Providers MUST support this <spanx style="verb">response_type</spanx>.</t>
 
-                    <t hangText="id_token token">When supplied as the value
+                    <t hangText="id_token&nbsp;token">When supplied as the value
                     for the <spanx style="verb">response_type</spanx>
                     parameter, a successful response MUST include both an
                     Access Token and an ID Token.
                     Both successful and error responses SHOULD be fragment-encoded.
                     OpenID Providers MUST support this <spanx style="verb">response_type</spanx>.</t>
 
-                    <t hangText="code token">When supplied as the value for
+                    <t hangText="code&nbsp;token">When supplied as the value for
                     the <spanx style="verb">response_type</spanx> parameter, a
                     successful response MUST include both an Access Token and
                     an Authorization Code as defined in OAuth 2.0.
@@ -415,13 +415,13 @@
                     from the Token Endpoint.
                     Both successful and error responses SHOULD be fragment-encoded.</t>
 
-                    <t hangText="code id_token">When supplied as the value for
+                    <t hangText="code&nbsp;id_token">When supplied as the value for
                     the <spanx style="verb">response_type</spanx> parameter, a
                     successful response MUST include both an Authorization Code
                     and an ID Token.
                     Both successful and error responses SHOULD be fragment-encoded.</t>
 
-                    <t hangText="code id_token token">When supplied as the
+                    <t hangText="code&nbsp;id_token&nbsp;token">When supplied as the
                     value for the <spanx style="verb">response_type</spanx>
                     parameter, a successful response MUST include an
                     Authorization Code, an ID Token, and an Access Token.
@@ -430,10 +430,10 @@
                 </t>
                 <t>
 		  All OpenID Providers MUST support the
-		  <spanx style="verb">id_token</spanx> and
-		  <spanx style="verb">token id_token</spanx> response types and
+		  <spanx style="verb">id_token</spanx> response type and
 		  all OpenID Providers that are not Self-Issued OPs MUST also support the
-		  <spanx style="verb">code</spanx> response type.
+		  <spanx style="verb">id_token&nbsp;token</spanx> and
+		  <spanx style="verb">code</spanx> response types.
 		</t>
                 <t>
 		  The Client can use any OAuth 2.0 registered
@@ -752,9 +752,9 @@
           their registration.  The
 	  <spanx style="verb">id_token</spanx>,
 	  <spanx style="verb">code&nbsp;id_token</spanx>,
-	  <spanx style="verb">token&nbsp;id_token</spanx>,
+	  <spanx style="verb">id_token&nbsp;token</spanx>,
 	  <spanx style="verb">code&nbsp;token</spanx>,
-	  and <spanx style="verb">code&nbsp;token&nbsp;id_token</spanx>
+	  and <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>
 	  response types are defined in
           <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.</t>
 
@@ -3350,7 +3350,7 @@
       <section anchor="access.token.validation" title="Access Token Validation">
 	<t>To validate an Access Token issued from the Authorization Endpoint with an ID Token in 
 	response to a request containing a <spanx style="verb">response_type</spanx> of
-	<spanx style="verb">token id_token</spanx> or <spanx style="verb">code token id_token</spanx>, 
+	<spanx style="verb">id_token&nbsp;token</spanx> or <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>, 
 	the Client SHOULD do the following:</t>
 
 	<t><list style="numbers">
@@ -3371,7 +3371,7 @@
       <section anchor="code.validation" title="Code Validation">
 	<t>To validate a <spanx style="verb">code</spanx> issued from the Authorization Endpoint with an ID Token in 
 	response to a request containing a <spanx style="verb">response_type</spanx> of
-	<spanx style="verb">code id_token</spanx> or <spanx style="verb">code token id_token</spanx>, the Client SHOULD do the following:</t>
+	<spanx style="verb">code&nbsp;id_token</spanx> or <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>, the Client SHOULD do the following:</t>
 
 	<t><list style="numbers">
 	  <t>Hash the octets of the ASCII representation of
@@ -4332,7 +4332,7 @@
 	<spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
       </section>
 
-      <section anchor="OfflineAccess" title="Offline Access">
+      <section anchor="OfflineAccessPrivacy" title="Offline Access">
 
 	<t>
 	  Offline access enables access to Claims when the user is not present,
