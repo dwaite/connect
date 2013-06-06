@@ -4305,26 +4305,82 @@
 	</t>
       </section>
     </section>
-
     <section anchor="privacy_considerations" title="Privacy Considerations">
-      <t>The UserInfo Response typically contains Personally Identifiable
-      Information (PII). As such, End-User consent for the release of the information
-      for the specified purpose SHOULD be obtained at or prior to the
-      authorization time in accordance with relevant regulations. The purpose
-      of use is typically registered in association with the <spanx
-      style="verb">redirect_uris</spanx>.</t>
 
-      <t>Only necessary UserInfo data should be stored at the Client and the
-      Client SHOULD associate the received data with the purpose of use
-      statement.</t>
+      <section anchor="PII" title="Personally Identifiable Information">
 
-      <t>The Resource Server SHOULD make the UserInfo access log available to 
-      the End-User so that the End-User can monitor who accessed his data.</t>
+	<t>The UserInfo Response typically contains Personally Identifiable
+	Information (PII). As such, End-User consent for the release of the information
+	for the specified purpose SHOULD be obtained at or prior to the
+	authorization time in accordance with relevant regulations. The purpose
+	of use is typically registered in association with the <spanx
+	style="verb">redirect_uris</spanx>.</t>
 
-      <t>To protect the End-User from a possible correlation among Clients, the
-      use of a Pairwise Pseudonymous Identifier (PPID) as the <spanx
-      style="verb">sub</spanx> SHOULD be considered.</t>
+	<t>Only necessary UserInfo data should be stored at the Client and the
+	Client SHOULD associate the received data with the purpose of use
+	statement.</t>
+      </section>
 
+      <section anchor="AccessMonitoring" title="Data Access Monitoring">
+	<t>The Resource Server SHOULD make the UserInfo access log available to 
+	the End-User so that the End-User can monitor who accessed his data.</t>
+      </section>
+
+      <section anchor="Correlation" title="Correlation">
+	<t>To protect the End-User from a possible correlation among Clients, the
+	use of a Pairwise Pseudonymous Identifier (PPID) as the
+	<spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+      </section>
+
+      <section anchor="OfflineAccess" title="Offline Access">
+
+	<t>
+	  Offline access enables access to Claims when the user is not present,
+	  posing greater privacy risk than the Claims transfer when the user is present.
+	  Therefore, it is prudent to obtain explicit consent for
+	  offline access to resources.
+	  This specification mandates the use of the <spanx style="verb">prompt</spanx>
+	  parameter to obtain consent unless it is a priori known that the
+	  request complies with the conditions for processing in each jurisdiction.
+	</t>
+	<t>
+	  When an Access Token is returned in the front channel, there is
+	  a greater risk of it being exposed to an attacker, who could
+	  later use it to access the UserInfo endpoint.
+	  If the Access Token does not enable offline access and the server
+	  can differentiate whether the Client request has been made
+	  offline or online, the risk will be substantially reduced.
+	  Therefore, this specification mandates ignoring
+	  the offline access request when the Access Token is
+	  transmitted in the front channel.
+	  Note that differentiating between online and offline access
+	  from the server can be difficult especially for native clients.
+	  The server may well have to rely on heuristics.
+	  Also, the risk of exposure for the Access Token delivered
+	  in the front channel for the response types of
+	  <spanx style="verb">code&nbsp;token</spanx> and
+	  <spanx style="verb">token</spanx> is the same.
+	  Thus, the implementations should be prepared to detect the
+	  channel from which the Access Token was issued and deny offline access
+	  if the token was issued in the front channel.
+	</t>
+	<t>
+	  Note that although these provisions require an explicit
+	  consent dialogue through the <spanx style="verb">prompt</spanx> parameter,
+	  the mere fact that the user pressed an "accept" button etc.,
+	  might not constitute a valid consent.
+	  Developers should be aware that for the act of consent to
+	  be valid, typically, the impact of the terms have to be
+	  understood by the End-User, the consent must be freely given
+	  and not forced (i.e., other options have to be available),
+	  and the terms must fair and equitable.
+	  In general, it is advisable for the service to follow the
+	  required privacy principles in each jurisdiction and rely on
+	  other conditions of processing than simply explicit consent,
+	  as online self-service "explicit consent" often does not
+	  form a valid consent in some jurisdictions.
+	</t>
+      </section>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -5789,6 +5845,9 @@
 	  </t>
 	  <t>
 	    Said that we're using the terms "validate" and "verify" as defined by RFC 4949.
+	  </t>
+	  <t>
+	    Added Privacy Considerations for Offline Access.
 	  </t>
 	</list>
       </t>
