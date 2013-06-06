@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 18</title>
+    Dynamic Client Registration 1.0 - draft 19</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -38,7 +38,7 @@
       </address>
     </author>
 
-    <date day="30" month="May" year="2013" />
+    <date day="6" month="June" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -367,7 +367,8 @@
 	  The default if not specified is <spanx style="verb">RS256</spanx>.
 	  The public key for validating the signature is provided by retrieving the 
 	  JWK Set referenced by the
-	  <spanx style="verb">jwks_uri</spanx> element from Discovery.</t>
+	  <spanx style="verb">jwks_uri</spanx> element from
+	  <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>.</t>
 	  
 	  <t hangText="id_token_encrypted_response_alg">OPTIONAL.
 	  JWE <spanx style="verb">alg</spanx>
@@ -1103,10 +1104,37 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="30" month="May" year="2013"/>
+          <date day="6" month="June" year="2013"/>
         </front>
 
-	<format target="http://openid.net/specs/openid-connect-messages-1_0-19.html"
+	<format target="http://openid.net/specs/openid-connect-messages-1_0-20.html"
+                type="HTML" />
+      </reference>
+
+      <reference anchor="OpenID.Discovery">
+        <front>
+          <title>OpenID Connect Discovery 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Edmund Jay" initials="E." surname="Jay">
+            <organization abbrev="Illumila">Illumila</organization>
+          </author>
+
+          <date day="6" month="June" year="2013"/>
+        </front>
+
+	<format target="http://openid.net/specs/openid-connect-discovery-1_0-17.html"
                 type="HTML" />
       </reference>
 
@@ -1135,7 +1163,7 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="30" month="May" year="2013"/>
+          <date day="6" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0-14.html"
@@ -1348,6 +1376,16 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>
+	-19
+        <list style="symbols">
+	  <t>
+	    Fixed #842 - Made <spanx style="verb">post_logout_redirect_uri</spanx>
+	    treatment parallel to <spanx style="verb">redirect_uri</spanx>.
+	  </t>
+	</list>
+      </t>
+
       <t>-18
         <list style="symbols">
 	  <t>
@@ -1365,10 +1403,6 @@
 	  <t>
 	    Stated that the JWS Compact Serialization and the JWE Compact Serialization
 	    are always used for JWS and JWE data structures.
-	  </t>
-	  <t>
-	    Fixed #842 - Made <spanx style="verb">post_logout_redirect_uri</spanx>
-	    treatment parallel to <spanx style="verb">redirect_uri</spanx>.
 	  </t>
 	</list>
       </t>
