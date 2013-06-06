@@ -1006,8 +1006,10 @@
               Note that if the <spanx style="verb">response_type</spanx> parameter in the 
               Authorization Request includes the string value 
               <spanx style="verb">token</spanx> or <spanx style="verb">id_token</spanx>, 
-              all response parameters SHOULD be added to the fragment 
-              component of the redirection URI. Otherwise, the response parameters 
+              all response parameters are added to the fragment component
+	      of the redirection URI, as specified in
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+	      Otherwise, the response parameters 
               are added to the query component of the redirection URI.
             </t>
 
@@ -1409,8 +1411,10 @@
             <t>If the <spanx style="verb">response_type</spanx> parameter in the
             Authorization Request includes the string value
 	    <spanx style="verb">token</spanx> or <spanx style="verb">id_token</spanx>,
-	    all error response parameters SHOULD be added to the 
-            fragment component of the redirection URI. Otherwise, the response
+	    all error response parameters are be added to the 
+            fragment component of the redirection URI, as specified in
+	    <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+	    Otherwise, the response
             parameters are added to the query component of the redirection URI.
             </t>
 
@@ -1987,7 +1991,7 @@
 
       <section anchor="ImplicitGrantFlowThreats" title="Implicit Grant Flow Threats">
         <t>In the implicit grant flow, the Access Token is returned in the
-        fragment part of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
+        fragment component of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
         protected between the OP and the User-Agent, and User-Agent and the
         RP. The only the place it can be captured is the User-Agent where the
         TLS session is terminated, and is possible if the User-Agent is

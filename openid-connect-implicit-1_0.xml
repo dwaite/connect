@@ -291,7 +291,7 @@
 		  This value MUST include <spanx style="verb">token</spanx> and
 		  <spanx style="verb">id_token</spanx>, as a space delimited list.
 		  This requests that both an Access Token and an ID Token be returned
-		  in the URL fragment of the response, as specified in
+		  in the URL fragment component of the response, as specified in
 		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
 		</t>
 
@@ -579,8 +579,8 @@
 
             <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Access Token and delivers it to the
-            Client by adding the following parameters to the fragment
-            component of the redirection URI using the 
+            Client by adding the following parameters to the fragment component
+	    of the redirection URI using the 
             <spanx style="verb">application/x-www-form-urlencoded</spanx>
             format as defined in Section 4.2.2 of
             <xref target="RFC6749">OAuth 2.0</xref> and 
@@ -588,7 +588,7 @@
             Encoding Practices</xref>.</t>
 
             <t>In the Implicit Flow, the entire response is returned in the
-            fragment component of the redirect URI, as defined in 4.2.2 of
+            fragment component of the redirection URI, as defined in 4.2.2 of
             <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
             <t>
@@ -660,7 +660,7 @@
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
 	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
-	    the Authorization Server.  The fragment is parsed and then sent by <spanx style="verb">POST</spanx> to a URI 
+	    the Authorization Server.  The fragment component is parsed and then sent by <spanx style="verb">POST</spanx> to a URI 
 	    that will validate the information received.</t>
 
 	    <figure>
@@ -1691,7 +1691,7 @@
 	    <spanx style="verb">policy_uri</spanx>,
 	    <spanx style="verb">tos_uri</spanx>, and
 	    <spanx style="verb">logo_uri</spanx>.
-	    If the Client uses more than one redirect URI, the
+	    If the Client uses more than one redirection URI, the
 	    <spanx style="verb">redirect_uris</spanx>
 	    parameter would be used to register them.
 	  </t>
@@ -1766,8 +1766,8 @@
 
       <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
         <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
-	response with the following refinements.  Since it is an implicit flow 
-	response, the response parameters will be returned in a fragment.
+	response with the following refinements.  Since it is an implicit flow
+	response, the response parameters will be returned in the URL fragment component.
         </t>
         <t><list style="numbers">
           <t>
