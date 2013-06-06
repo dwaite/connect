@@ -1399,23 +1399,16 @@
       <section anchor="userinfo" title="UserInfo Endpoint">
 
 	<t>
-	  The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
+	  The UserInfo Endpoint is a Protected Resource that
 	  returns Claims about the authenticated End-User.
-	  The location of the UserInfo Endpoint MUST be
-	  a URL using the <spanx style="verb">https</spanx> scheme, which MAY contain
-	  port, path, and query parameter components.
+	  These Claims are represented by a JSON object that contains
+	  a collection of name and value pairs for the Claims.
 	</t>
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
 	  <t>
-	    Clients send requests to the
-	    UserInfo Endpoint to obtain Claims about the End-User.
-	    The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
-	    Protected Resource that complies with the <xref
-	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
-	    The Access Token SHOULD be sent using the
-	    <spanx style="verb">Authorization</spanx> header field.
-	    The following parameters are defined for use in UserInfo Requests:
+	    Clients send requests with the following parameters to the
+	    UserInfo Endpoint to obtain Claims about the End-User:
 	  </t>
 
 	  <t>
@@ -1603,7 +1596,8 @@
 	  <c>string</c>
 	  <c>
 	    Surname(s) or last name(s) of the End-User.
-	    Note that in some cultures, people can have multiple family names;
+	    Note that in some cultures, people can have multiple family names
+	    or no family name;
 	    all can be present, with the names being separated by space characters.
 	  </c>
 
@@ -1815,7 +1809,7 @@
 
 	<section title="Address Claim" anchor="address_claim">
 	  <t>
-	    The components of a physical mailing address. 
+	    The Address Claim represents a physical mailing address. 
 	    Implementations MAY return only a subset of the
 	    fields of an <spanx style="verb">address</spanx>, depending upon
 	    the information available and the End-User's privacy 
@@ -1889,7 +1883,7 @@
 	    <xref target="IANA.Language">IANA Language Subtag Registry</xref>.
 	    In particular, normally language names are spelled with lowercase characters,
 	    region names are spelled with uppercase characters, and
-	    languages are spelled with mixed case characters.
+	    scripts are spelled with mixed case characters.
 	    However, since BCP47 language tag values are case insensitive,
 	    implementations SHOULD interpret the language tag values supplied
 	    in a case insensitive manner.
@@ -2778,6 +2772,12 @@
 		enables OPs to cache and pre-validate the request parameters at
 		registration time, meaning they need not be retrieved at request time.
 	      </t>
+	      <t>
+		Pre-registering a fixed set of request parameters at
+		registration time enables OPs to vet the contents of
+		the request from consumer protection and other points
+		of views, either itself or by utilizing a third party.
+	      </t>
 	    </list>
 	  </t>
 	</section>
@@ -3397,10 +3397,12 @@
 	obtain an Access Token that grants access to the End-User's
 	UserInfo Endpoint even when the End-User is not present (not logged in).
 	When offline access is requested, a <spanx style="verb">prompt</spanx>
-	parameter value of <spanx style="verb">consent</spanx> MUST be used.
-	The user MUST always explicitly consent to the return of a Refresh Token
-	that enables offline access.
-	A previously saved user consent is not sufficient to grant offline access.
+	parameter value of <spanx style="verb">consent</spanx> MUST be used
+	unless other conditions for processing permitting offline access
+	to the requested resources are in place.
+	The OP MUST always obtain consent to returning a Refresh Token
+	that enables offline access to the requested resources.
+	A previously saved user consent is not always sufficient to grant offline access.
       </t>
       <t>
 	Upon receipt of a scope parameter containing the
@@ -3409,22 +3411,24 @@
 	<list style="symbols">
 	  <t>
 	    MUST ensure that the prompt parameter contains <spanx
-	    style="verb">consent</spanx>; if the prompt parameter
-	    does not contain <spanx style="verb">consent</spanx> then
+	    style="verb">consent</spanx> unless other
+	    conditions for processing permitting offline access
+	    to the requested resources are in place;
+	    unless one or both of these conditions are fulfilled, then
 	    it MUST ignore the <spanx style="verb">offline_access</spanx> request,
 	  </t>
 	  <t>
 	    MUST ignore the <spanx style="verb">offline_access</spanx> request
-	    if the Client is not using a <spanx style="verb">response_type</spanx>
-	    value that would result in an Authorization Code being returned.
+	    unless the Client is using a <spanx style="verb">response_type</spanx>
+	    value that would result in an Authorization Code being returned,
 	  </t>
 	  <t>
-	    MUST explicitly receive user consent for all Clients when
+	    MUST explicitly receive or have consent for all Clients when
 	    the registered <spanx style="verb">application_type</spanx>
 	    is <spanx style="verb">web</spanx>,
 	  </t>
 	  <t>
-	    SHOULD explicitly receive user consent for all Clients when
+	    SHOULD explicitly receive or have consent for all Clients when
 	    the registered <spanx style="verb">application_type</spanx>
 	    is <spanx style="verb">native</spanx>.
 	  </t>
