@@ -110,9 +110,8 @@
 	    <t hangText="Host">
 	      Server where a WebFinger service is hosted.
 	    </t>
-	    <t hangText="Identifier">
-	      String that uniquely characterizes an entity in a specific environment
-	      with defined boundary conditions in which entities exist and interact.
+            <t hangText="Identifier">
+	     Value that uniquely characterizes an Entity in a specific context.
 	    </t>
 	    <t>
 	      Note: this document defines various kinds of Identifiers, designed for use in different contexts.
@@ -132,16 +131,16 @@
       discovery request:</t>
 
       <t><list style="hanging">
-          <t hangText="Resource">
+          <t hangText="resource">
 	    Identifier of the target End-User that is the
 	    subject of the discovery request.
 	  </t>
 
-          <t hangText="Host">
+          <t hangText="host">
 	    Server where a WebFinger service is hosted.
 	  </t>
 
-          <t hangText="Rel">
+          <t hangText="rel">
 	    URI identifying the type of service whose location is requested.
 	  </t>
         </list></t>
@@ -341,7 +340,7 @@
 	    Note:  It is common for sites to use e-mail addresses as local identifiers
 	    for accounts at those sites, even though the domain in the e-mail address
 	    one controlled by the site.
-	    For instance, the site <spanx style="verb">site.example</spanx>
+	    For instance, the site <spanx style="verb">example.org</spanx>
 	    might have a local account named <spanx style="verb">joe@example.com</spanx>.
 	    As of the time of this writing, a discussion is ongoing among WebFinger
 	    contributors about the syntax that should be used when discovering
@@ -351,10 +350,10 @@
 	    identifier when constructing the <spanx style="verb">acct:</spanx> URI
 	    representing the account.
 	    Such an example is
-	    <spanx style="verb">acct:joe%40example.com@site.example</spanx>.
+	    <spanx style="verb">acct:joe%40example.com@example.org</spanx>.
 	    In a future version of this specification, it is possible that
 	    normalization rules will be defined allowing End-Users to input
-	    values like <spanx style="verb">joe@example.com@site.example</spanx>
+	    values like <spanx style="verb">joe@example.com@example.org</spanx>
 	    to initiate discovery on such accounts.
 	  </t>
         </section>
@@ -732,6 +731,7 @@
 	    <spanx style="verb">request_uri</spanx> values used to be pre-registered
 	    using the <spanx style="verb">request_uris</spanx> registration parameter.
 	    Pre-registration is REQUIRED when the value is <spanx style="verb">true</spanx>.
+	    If omitted, the default value is <spanx style="verb">false</spanx>.
 	  </t>
 
 	  <t hangText="op_policy_uri">
@@ -772,7 +772,9 @@
       style="verb">.well-known</spanx> are defined in <xref
       target="RFC5785">RFC 5785</xref> and apply to the Issuer value
       when it contains no path component. <spanx style="verb">openid-configuration</spanx>
-      MUST point to a JSON document compliant with this specification.</t>
+      MUST point to a JSON document compliant with this specification and
+      MUST be returned using the <spanx style="verb">application/json</spanx> content type.
+      </t>
 
       <t>
 	OpenID Providers supporting discovery MUST support receiving WebFinger requests via TLS.
@@ -828,7 +830,8 @@
         configuration, including all necessary endpoints, supported scopes, and
         public key location information.
         The response MUST return the 200 OK response code and a plain text 
-        JSON object that contains a set of Claims as its members
+        JSON object using the <spanx style="verb">application/json</spanx> content type
+	that contains a set of Claims as its members
 	that are a subset of the Metadata values defined in
 	<xref target="ProviderMetadata"/>.
 	Other Claims MAY also be returned.</t>
@@ -841,6 +844,9 @@
 	    <preamble>The following is a non-normative example response:</preamble>
 
             <artwork><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+
   {
    "version": "3.0",
    "issuer":
@@ -1416,7 +1422,7 @@
 	  </t>
 	  <t>
 	    Added a note about the future possibility of acct: URIs like
-	    <spanx style="verb">acct:joe%40example.com@site.example</spanx>
+	    <spanx style="verb">acct:joe%40example.com@example.org</spanx>
 	    when e-mail addresses are used as local account identifiers at sites.
 	  </t>
 	  <t>
