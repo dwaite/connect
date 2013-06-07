@@ -58,7 +58,7 @@
       </address>
     </author>
 
-    <date day="6" month="June" year="2013" />
+    <date day="7" month="June" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -74,10 +74,12 @@
 	OpenID Connect Messages 1.0 and 
 	OpenID Connect Standard 1.0 specifications
 	that is designed to be easy to read and implement for basic
-	Web-based Relying Parties using the OAuth implicit grant type.
+	Web-based Relying Parties using the
+	OAuth implicit grant type.
 	This specification intentionally duplicates content from the Messages and Standard
 	specifications to provide a self-contained implementation profile for basic
-	Web-based Relying Parties using the OAuth implicit grant type.
+	Web-based Relying Parties using the
+	OAuth implicit grant type.
       </t>
       <t>
 	OpenID Providers and non-Web-based applications
@@ -95,10 +97,12 @@
 	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref> and
 	<xref target="OpenID.Standard">OpenID Connect Standard 1.0</xref> specifications
 	that is designed to be easy to read and implement for basic
-	Web-based Relying Parties using the OAuth implicit grant type.
+	Web-based Relying Parties using the
+	OAuth implicit grant type.
 	This specification intentionally duplicates content from the Messages and Standard
 	specifications to provide a self-contained implementation profile for basic
-	Web-based Relying Parties using the OAuth implicit grant type.
+	Web-based Relying Parties using the
+	OAuth implicit grant type.
       </t>
       <t>
 	See the
@@ -161,6 +165,7 @@
             </t>
             <t hangText="ID Token">
               <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
+	      It MAY contain other Claims.
             </t>
             <t hangText="Issuer">
               Entity that issues a set of Claims. 
@@ -169,20 +174,21 @@
 	      URL using the <spanx style="verb">https</spanx> scheme that acts as a verifiable identifier for an Issuer.
             </t>
             <t hangText="OpenID Provider (OP)">
-              Service capable of providing Claims to a Relying Party.
+              OAuth 2.0 Authorization Server that is capable of 
+              providing Claims to a Relying Party.
             </t>
             <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
               Identifier that identifies the Entity to a Relying Party that cannot be correlated 
               with the Entity's PPID at another Relying Party.
             </t>
             <t hangText="Personally Identifiable Information (PII)">
-              Information that (a) can be used to identify the natural person 
-              to whom such information relates, or 
-              (b) is or might be directly or indirectly linked to a 
-              natural person to whom such information relates. 
+              Information that (a) can be used to identify the natural person
+              to whom such information relates, or
+              (b) is or might be directly or indirectly linked to a
+              natural person to whom such information relates.
             </t>
             <t hangText="Relying Party (RP)">
-              Application requiring Claims from an OpenID Provider.
+              OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
             </t>
 	    <t hangText="Self-Issued OpenID Provider">
 	      Personal OpenID Provider that issues self-signed ID Tokens.
@@ -199,7 +205,7 @@
 	      Process intended to test or prove the truth or accuracy of a fact or value.
 	    </t>
             <t hangText="Voluntary Claim">
-              Claim specified by the Client as being useful but not essential
+              Claim specified by the Client as being useful but not Essential
               for the specific task requested by the End-User.
             </t>
 
@@ -318,6 +324,10 @@
                   REQUIRED.
                   Redirection URI to which the response will be sent.
 		  This MUST be pre-registered with the OpenID Provider.
+		  This URI MUST exactly match one of the
+		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  with the matching performed as described in
+		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
 		  If the Client uses the OAuth implicit grant type, the redirection URI
 		  MUST NOT use the <spanx style="verb">http</spanx> scheme
 		  unless the Client is a native application, in which case it MAY
@@ -348,7 +358,7 @@
 		  REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified to the ID Token.
+		  The value is passed through unmodified from the Authorization Request to the ID Token.
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
@@ -411,9 +421,10 @@
 		      If it cannot prompt the End-User, it MUST return an error.
 		    </t>
 
-		    <t hangText="consent">The Authorization Server MUST prompt
-		    the End-User for consent before returning information to the
-		    Client.</t>
+                    <t hangText="consent">
+		      The Authorization Server SHOULD prompt the End-User for consent
+		      before returning information to the Client.
+		    </t>
 
                     <t hangText="select_account">
 		      The Authorization Server SHOULD
@@ -738,8 +749,8 @@
 	      REQUIRED.
 	      Subject identifier. A locally unique and never
 	      reassigned identifier within the Issuer for the End-User, 
-	      which is intended to be
-	      consumed by the Client. e.g. <spanx style="verb">24400320</spanx>
+	      which is intended to be consumed by the Client,
+	      e.g., <spanx style="verb">24400320</spanx>
 	      or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
 	      It MUST NOT exceed 255 ASCII characters in length.
 	      The <spanx style="verb">sub</spanx> value is a case sensitive string.
@@ -794,7 +805,7 @@
 	    String value used to associate a Client session 
 	    with an ID Token, and to mitigate replay attacks. 
 	    The value is passed through unmodified from the Authorization Request to the ID Token.
-	    The Client MUST verify that
+	    Clients MUST verify that
 	    the <spanx style="verb">nonce</spanx> Claim Value is equal to
 	    the value of the <spanx style="verb">nonce</spanx>
 	    parameter sent in the Authorization Request.
@@ -878,16 +889,17 @@
 	      containing a StringOrURI value.
 	    </t>
 
-	    <t hangText="sub_jwk">NOT RECOMMENDED or REQUIRED.
-	    Public key value used to check the signature of an ID Token
-	    issued by a Self-Issued OpenID Provider,
-	    as specified in <xref target="self_issued"/>.
-	    The key is a bare key in JWK  <xref target="JWK"/> format
-	    (not an X.509 certificate value).
-	    Use of the <spanx style="verb">sub_jwk</spanx> Claim
-	    is REQUIRED when the OP is a Self-Issued OP and
-	    is NOT RECOMMENDED when the OP is not Self-Issued.
-	    The <spanx style="verb">iss</spanx> value is a JSON object.
+	    <t hangText="sub_jwk">
+	      NOT RECOMMENDED or REQUIRED.
+	      Public key value used to check the signature of an ID Token
+	      issued by a Self-Issued OpenID Provider,
+	      as specified in <xref target="self_issued"/>.
+	      The key is a bare key in JWK <xref target="JWK"/> format
+	      (not an X.509 certificate value).
+	      Use of the <spanx style="verb">sub_jwk</spanx> Claim
+	      is REQUIRED when the OP is a Self-Issued OP and
+	      is NOT RECOMMENDED when the OP is not Self-Issued.
+	      The <spanx style="verb">iss</spanx> value is a JSON object.
 	    </t>
 
 	  </list>
@@ -1368,15 +1380,15 @@
 	  <c>string</c>
 	  <c>End-User's locale, represented as a
 	  <xref target="RFC5646">BCP47</xref> language tag.
-	  This is typically an <xref
-	  target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
+	  This is typically an <xref target="ISO639-1">ISO 639-1 Alpha-2</xref>
+	  language code in
 	  lowercase and an <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref>
-	  country code in uppercase, separated by a dash. For example, <spanx
-	  style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>. As
-	  a compatibility note, some implementations have used an underscore
-	  as the separator rather than a dash, for example, <spanx
-	  style="verb">en_US</spanx>; Implementations MAY choose to accept
-	  this locale syntax as well.</c>
+	  country code in uppercase, separated by a dash. For example,
+	  <spanx style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>.
+	  As a compatibility note, some implementations have used an underscore
+	  as the separator rather than a dash, for example,
+	  <spanx style="verb">en_US</spanx>; Implementations MAY choose to
+	  accept this locale syntax as well.</c>
 
 	  <c>phone_number</c>
 	  <c>string</c>
@@ -2079,23 +2091,31 @@
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
 
-      <t>The UserInfo Response typically contains Personally Identifiable
-      Information (PII). As such, End-User consent for the release of the information
-      for the specified purpose SHOULD be obtained at or prior to the
-      authorization time in accordance with relevant regulations. The purpose
-      of use is typically registered in association with the <spanx
-      style="verb">redirect_uri</spanx>.</t>
+      <section anchor="PII" title="Personally Identifiable Information">
 
-      <t>Only necessary UserInfo data SHOULD be stored at the Client and the
-      Client SHOULD associate the received data with the purpose of use
-      statement.</t>
+	<t>The UserInfo Response typically contains Personally Identifiable
+	Information (PII). As such, End-User consent for the release of the information
+	for the specified purpose SHOULD be obtained at or prior to the
+	authorization time in accordance with relevant regulations. The purpose
+	of use is typically registered in association with the <spanx
+	style="verb">redirect_uris</spanx>.</t>
 
-      <t>The Resource Server SHOULD make the UserInfo access log available to 
-      the End-User so that the End-User can monitor who accessed his data.</t>
+	<t>Only necessary UserInfo data should be stored at the Client and the
+	Client SHOULD associate the received data with the purpose of use
+	statement.</t>
+      </section>
 
-      <t>To protect the End-User from a possible correlation among Clients, the
-      use of a Pairwise Pseudonymous Identifier (PPID) as the
-      <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+      <section anchor="AccessMonitoring" title="Data Access Monitoring">
+	<t>The Resource Server SHOULD make the UserInfo access log available to 
+	the End-User so that the End-User can monitor who accessed his data.</t>
+      </section>
+
+      <section anchor="Correlation" title="Correlation">
+	<t>To protect the End-User from a possible correlation among Clients, the
+	use of a Pairwise Pseudonymous Identifier (PPID) as the
+	<spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+      </section>
+
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -2111,6 +2131,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3966"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
@@ -2267,7 +2288,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-messages-1_0-20.html"
@@ -2302,7 +2323,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-standard-1_0-21.html"
@@ -2318,7 +2339,7 @@
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identiity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -2329,7 +2350,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0-17.html"
@@ -2352,7 +2373,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0-19.html"
@@ -2440,19 +2461,19 @@
         <front>
 	  <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
 
-	  <author fullname="Breno" initials="B." surname="de Medeiros">
+	  <author fullname="Breno de Medeiros" initials="B." role="editor" surname="de Medeiros">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
-	  <author fullname="Marius" initials="M." surname="Scurtescu">
+	  <author fullname="Marius Scurtescu" initials="M." surname="Scurtescu">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
-	  <author fullname="Paul" initials="P." surname="Tarjan">
+	  <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
 	    <organization abbrev="Facebook"> Facebook</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013" />
+	  <date day="7" month="June" year="2013" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0-08.html"
@@ -2491,8 +2512,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
             <organization abbrev="Google">Google</organization>
           </author>
 
@@ -2500,7 +2520,7 @@
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-basic-1_0-28.html"
@@ -2526,12 +2546,12 @@
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
           <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+          <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>Nov Matake (nov@matake.jp), Independent</t>
           <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
           <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
 	  <t>Hideki Nara (hdknr@ic-tact.co.jp), Tact Communications</t>
           <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
-          <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>David Recordon (dr@fb.com), Facebook</t>
           <t>Justin Richer (jricher@mitre.org), Mitre</t>
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd. </t>
@@ -2594,6 +2614,11 @@
 	  <t>
 	    Fixed #847 - Corrected type of <spanx style="verb">updated_at</spanx>
 	    to number.
+	  </t>
+	  <t>
+	    Stated that <spanx style="verb">redirect_uri</spanx> matches must be exact,
+	    with matching performed as described in
+	    Section 6.2.1 of RFC 3986 (Simple String Comparison).
 	  </t>
 	</list>
       </t>

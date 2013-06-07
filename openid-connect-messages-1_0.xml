@@ -37,7 +37,7 @@
     </author>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization abbrev="Google">Google Inc.</organization>
+      <organization abbrev="Google">Google</organization>
       <address>
         <email>breno@google.com</email>
       </address>
@@ -57,7 +57,7 @@
       </address>
     </author>
 
-    <date day="6" month="June" year="2013" />
+    <date day="7" month="June" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -172,19 +172,23 @@
 	      or other resources.
 	    </t>
 
-            <t hangText="End-User">Human Resource Owner.</t>
-
-            <t hangText="Entity">Something that has a separate and
-            distinct existence and that can be identified in context.
-            An End-User is one example of an Entity.</t>
+            <t hangText="End-User">
+              Human Resource Owner.
+            </t>
+            <t hangText="Entity">
+              Something that has a separate and distinct existence and that can be
+	      identified in a context. An End-User is one example of an Entity.
+            </t>
 
             <t hangText="Essential Claim">
               Claim specified by the Client as being necessary to ensure a smooth
 	      authorization experience for the specific task requested by the End-User.
             </t>
 
-            <t hangText="ID Token">Token that contains Claims about the authentication event. 
-            It MAY contain other Claims. </t>
+            <t hangText="ID Token">
+              <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
+	      It MAY contain other Claims.
+            </t>
 
             <t hangText="Identifier">
 	     Value that uniquely characterizes an Entity in a specific context.
@@ -206,7 +210,7 @@
 
             <t hangText="OpenID Provider (OP)">
               OAuth 2.0 Authorization Server that is capable of 
-              returning Claims to a Relying Party
+              providing Claims to a Relying Party
               about the authentication event and the End-User
               in an ID Token and/or a UserInfo Endpoint response. 
             </t>
@@ -218,30 +222,32 @@
 	      JWT that contains a set of request parameters as its Claims.
 	    </t>
 
-            <t hangText="Personally Identifiable Information (PII)">
-              Any information that (a) can be used to identify the natural person 
-              to whom such information relates, or 
-              (b) is or might be directly or indirectly linked to a 
-            natural person to whom such information relates. </t>
-
             <t hangText="Pairwise Pseudonymous Identifier (PPID)">
-              Identifier that identifies the Entity to a Relying Party. 
-              An Entity's PPID at one Relying Party cannot be correlated 
-            with the Entity's PPID at another Relying Party. </t>
+	      Identifier that identifies the Entity to a Relying Party that cannot be correlated 
+	      with the Entity's PPID at another Relying Party.
+	    </t>
+
+            <t hangText="Personally Identifiable Information (PII)">
+              Information that (a) can be used to identify the natural person
+              to whom such information relates, or
+              (b) is or might be directly or indirectly linked to a
+	      natural person to whom such information relates.
+	    </t>
 
             <t hangText="Relying Party (RP)">
-              Application requiring Claims from an OpenID Provider. 
-              It is an extended OAuth 2.0 Client. 
+              OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
             </t>
 
 	    <t hangText="Self-Issued OpenID Provider">
 	      Personal OpenID Provider that issues self-signed ID Tokens.
 	    </t>
 
-            <t hangText="UserInfo Endpoint">Protected Resource that, when
-            presented with an Access Token by the Client, returns Claims
-            about the End-User represented by that Access Token.</t>
-
+            <t hangText="UserInfo Endpoint">
+              Protected resource that, when presented with an Access Token by the Client,
+	      returns authorized information about the End-User represented by the corresponding 
+              Authorization Grant.
+            </t>
+ 
             <t hangText="Validation">
 	      Process intended to establish the soundness or correctness of a construct.
 	    </t>
@@ -462,8 +468,12 @@
 
                 <t hangText="redirect_uri">
                   REQUIRED.
-                  Redirection URI to which the response will be sent.
+		  Redirection URI to which the response will be sent.
 		  This MUST be pre-registered with the OpenID Provider.
+		  This URI MUST exactly match one of the
+		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  with the matching performed as described in
+		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
 		  If the Client uses the OAuth implicit grant type, the redirection URI
 		  MUST NOT use the <spanx style="verb">http</spanx> scheme
 		  unless the Client is a native application, in which case it MAY
@@ -499,11 +509,16 @@
                 <t hangText="nonce">
                   REQUIRED or OPTIONAL.
 		  String value used to associate a Client session 
-		  with an ID Token, and to mitigate replay attacks. The value is passed 
-		  through unmodified from the Authorization Request to the ID Token.
+		  with an ID Token, and to mitigate replay attacks.
+		  The value is passed through unmodified from the Authorization Request to the ID Token.
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
+		  One method to achieve this is to store a random value as a signed session cookie, and
+		  pass the value in the <spanx style="verb">nonce</spanx> parameter.
+		  In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
+		  can be compared to the signed session cookie to detect ID Token replay by third 
+		  parties.
                   Use of the nonce is REQUIRED for all requests where an ID Token
                   is returned directly from the Authorization Endpoint.  
                   It is OPTIONAL when the ID Token is returned from the 
@@ -962,7 +977,7 @@
 		  Public key value used to check the signature of an ID Token
 		  issued by a Self-Issued OpenID Provider,
 		  as specified in <xref target="self_issued"/>.
-		  The key is a bare key in JWK format
+		  The key is a bare key in JWK <xref target="JWK"/> format
 		  (not an X.509 certificate value).
 		  Use of the <spanx style="verb">sub_jwk</spanx> Claim
 		  is REQUIRED when the OP is a Self-Issued OP and
@@ -1612,7 +1627,7 @@
 
 	  <c>nickname</c>
 	  <c>string</c>
-	  <c>Casual name of the End-User that MAY or MAY not be the same as the
+	  <c>Casual name of the End-User that may or may not be the same as the
 	  <spanx style="verb">given_name</spanx>. For instance, a <spanx
 	  style="verb">nickname</spanx> value of <spanx style="verb">Mike</spanx>
 	  might be returned alongside a <spanx style="verb">given_name</spanx>
@@ -1698,7 +1713,7 @@
 
 	  <c>zoneinfo</c>
 	  <c>string</c>
-	  <c>String from zoneinfo <xref target="zoneinfo"></xref> time zone
+	  <c>String from zoneinfo <xref target="zoneinfo"/> time zone
 	  database representing the End-User's time zone.
 	  For example, <spanx style="verb">Europe/Paris</spanx> or
 	  <spanx style="verb">America/Los_Angeles</spanx>.</c>
@@ -1707,13 +1722,13 @@
 	  <c>string</c>
 	  <c>End-User's locale, represented as a
 	  <xref target="RFC5646">BCP47</xref> language tag.
-	  This is typically an <xref
-	  target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
-	  lowercase and an <xref target="ISO3166-1">ISO 3166-1
-	  Alpha-2</xref> country code in uppercase, separated by a dash. For
-	  example, <spanx style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>.
-	  As a compatibility note, some implementations have used an
-	  underscore as the separator rather than a dash, for example,
+	  This is typically an <xref target="ISO639-1">ISO 639-1 Alpha-2</xref>
+	  language code in
+	  lowercase and an <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref>
+	  country code in uppercase, separated by a dash. For example,
+	  <spanx style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>.
+	  As a compatibility note, some implementations have used an underscore
+	  as the separator rather than a dash, for example,
 	  <spanx style="verb">en_US</spanx>; Implementations MAY choose to
 	  accept this locale syntax as well.</c>
 
@@ -1774,7 +1789,7 @@
 	The UserInfo Endpoint MAY return Claims in
 	JWT format, which can be signed and/or encrypted.
 	The UserInfo Endpoint MUST return a content-type header to indicate
-	the format that is being returned. The following are accepted content
+	which format is being returned. The following are accepted content
 	types:</t>
 
 	<texttable style="all">
@@ -4956,20 +4971,6 @@
 
 	<section anchor='ErrorContents' title='Registry Contents'>
 	  <t> <?rfc subcompact="yes"?>
-	  <list style="symbols">
-	    <t>Error name: <spanx style="verb">invalid_redirect_uri</spanx></t>
-
-	    <t>Error usage location: Authorization Endpoint</t>
-
-	    <t>Related protocol extension: OpenID Connect</t>
-
-	    <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
-
-	    <t>Specification document(s): <xref target="AuthError"/> of this document</t>
-	  </list>
-	  </t>
-
-	  <t>
 	    <list style="symbols">
 	      <t>Error name: <spanx style="verb">interaction_required</spanx></t>
 
@@ -5069,6 +5070,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3966"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5322"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
@@ -5094,8 +5096,8 @@
 	    </address>
 	  </author>
 
-	  <author fullname="Martin D&uuml;rst" initials="M."
-		  surname="D&uuml;rst"></author>
+	  <author fullname="Martin D&uuml;rst" initials="M." surname="D&uuml;rst">
+	  </author>
 
 	  <date day="03" month="09" year="2009" />
 	</front>
@@ -5108,8 +5110,7 @@
 	  <title>OpenID Connect Discovery 1.0</title>
 
 	  <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-	    <organization abbrev="NRI">Nomura Research Institute,
-	    Ltd.</organization>
+	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
 	  </author>
 
 	  <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -5124,7 +5125,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013"/>
+	  <date day="7" month="June" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0-17.html"
@@ -5136,8 +5137,7 @@
 	  <title>OpenID Connect Dynamic Client Registration 1.0</title>
 
 	  <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-	    <organization abbrev="NRI">Nomura Research Institute,
-	    Ltd.</organization>
+	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
 	  </author>
 
 	  <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -5148,7 +5148,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013"/>
+	  <date day="7" month="June" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0-19.html"
@@ -5265,7 +5265,7 @@
 	  </author>
 
 	  <author fullname="Brian Campbell" initials="B." surname="Campbell">
-	    <organization abbrev="Ping Identity">Ping Identity Corp.</organization>
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
 	  </author>
 
 	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
@@ -5285,7 +5285,7 @@
 	  <title abbrev='oauth-assertions'>Assertion Framework for OAuth 2.0</title>
 
 	  <author fullname="Brian Campbell" initials="B." surname="Campbell">
-	    <organization abbrev="Ping">Ping Identity Corp.</organization>
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
 	  </author>
 
 	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
@@ -5401,23 +5401,23 @@
       </reference>
 
       <reference anchor="OAuth.Responses">
-	<front>
+        <front>
 	  <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
 
-	  <author fullname="Breno" initials="B." surname="de Medeiros">
+	  <author fullname="Breno de Medeiros" initials="B." role="editor" surname="de Medeiros">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
-	  <author fullname="Marius" initials="M." surname="Scurtescu">
+	  <author fullname="Marius Scurtescu" initials="M." surname="Scurtescu">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
-	  <author fullname="Paul" initials="P." surname="Tarjan">
+	  <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
 	    <organization abbrev="Facebook"> Facebook</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013" />
-	</front>
+	  <date day="7" month="June" year="2013" />
+        </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0-08.html"
 		type="HTML" />
@@ -5457,8 +5457,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <author fullname="Breno de Medeiros" initials="B."
-		  surname="de Medeiros">
+	  <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
@@ -5466,7 +5465,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013"/>
+	  <date day="7" month="June" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-basic-1_0-28.html"
@@ -5489,8 +5488,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <author fullname="Breno de Medeiros" initials="B."
-		  surname="de Medeiros">
+	  <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
@@ -5502,7 +5500,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013"/>
+	  <date day="7" month="June" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-implicit-1_0-11.html"
@@ -5537,7 +5535,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013"/>
+	  <date day="7" month="June" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-standard-1_0-21.html"
@@ -5561,8 +5559,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <author fullname="Breno de Medeiros" initials="B."
-		  surname="de Medeiros">
+	  <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
 	    <organization abbrev="Google">Google</organization>
 	  </author>
 
@@ -5574,7 +5571,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="6" month="June" year="2013"/>
+	  <date day="7" month="June" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0-15.html"
@@ -5710,8 +5707,8 @@
 	<t>Amanda Anganes (aanganes@mitre.org), Mitre</t>
 	<t>Casper Biering (cb@peercraft.com), Peercraft</t>
 	<t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
-	<t>Johnny Bufu (jbufu@janrain.com), Janrain</t>
 	<t>Tim Bray (tbray@textuality.com), Google</t>
+	<t>Johnny Bufu (jbufu@janrain.com), Janrain</t>
 	<t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
 	<t>Breno de Medeiros (breno@gmail.com), Google</t>
 	<t>Pamela Dingle (pdingle@pingidentity.com), Ping Identity</t>
@@ -5803,6 +5800,11 @@
 	  </t>
 	  <t>
 	    Added Privacy Considerations for Offline Access.
+	  </t>
+	  <t>
+	    Stated that <spanx style="verb">redirect_uri</spanx> matches must be exact,
+	    with matching performed as described in
+	    Section 6.2.1 of RFC 3986 (Simple String Comparison).
 	  </t>
 	</list>
       </t>

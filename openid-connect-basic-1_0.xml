@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="6" month="June" year="2013" />
+    <date day="7" month="June" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -101,7 +101,8 @@
 	See the
 	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref>
 	specification for a related profile for basic
-	Web-based Relying Parties using the OAuth implicit grant type.
+	Web-based Relying Parties using the
+	OAuth implicit grant type.
 	OpenID Providers and non-Web-based applications
 	should instead consult the Messages and Standard specifications.
 	This profile omits implementation and security
@@ -157,6 +158,7 @@
 	    </t>
 	    <t hangText="ID Token">
 	      <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
+	      It MAY contain other Claims.
 	    </t>
 	    <t hangText="Issuer">
 	      Entity that issues a set of Claims. 
@@ -165,20 +167,21 @@
 	      URL using the <spanx style="verb">https</spanx> scheme that acts as a verifiable identifier for an Issuer.
 	    </t>
 	    <t hangText="OpenID Provider (OP)">
-	      Service capable of providing Claims to a Relying Party.
+              OAuth 2.0 Authorization Server that is capable of 
+              providing Claims to a Relying Party.
 	    </t>
 	    <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
 	      Identifier that identifies the Entity to a Relying Party that cannot be correlated 
 	      with the Entity's PPID at another Relying Party.
 	    </t>
 	    <t hangText="Personally Identifiable Information (PII)">
-	      Information that (a) can be used to identify the natural person 
-	      to whom such information relates, or 
-	      (b) is or might be directly or indirectly linked to a 
-	      natural person to whom such information relates. 
+	      Information that (a) can be used to identify the natural person
+	      to whom such information relates, or
+	      (b) is or might be directly or indirectly linked to a
+	      natural person to whom such information relates.
 	    </t>
 	    <t hangText="Relying Party (RP)">
-	      Application requiring Claims from an OpenID Provider.
+              OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
 	    </t>
 	    <t hangText="UserInfo Endpoint">
 	      Protected resource that, when presented with an Access Token by the Client,
@@ -192,7 +195,7 @@
 	      Process intended to test or prove the truth or accuracy of a fact or value.
 	    </t>
             <t hangText="Voluntary Claim">
-              Claim specified by the Client as being useful but not essential
+              Claim specified by the Client as being useful but not Essential
               for the specific task requested by the End-User.
             </t>
 
@@ -311,6 +314,10 @@
                   REQUIRED.
 		  Redirection URI to which the response will be sent.
 		  This MUST be pre-registered with the OpenID Provider.
+		  This URI MUST exactly match one of the
+		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  with the matching performed as described in
+		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
 		  If the Client only uses the
 		  OAuth <spanx style="verb">authorization_code</spanx> grant type,
 		  the redirection URI
@@ -342,8 +349,8 @@
 		<t hangText="nonce">
 		  OPTIONAL.
 		  String value used to associate a Client session 
-		  with an ID Token, and to mitigate replay attacks. The value is passed 
-		  through unmodified from the Authorization Request to the ID Token. 
+		  with an ID Token, and to mitigate replay attacks.
+		  The value is passed through unmodified from the Authorization Request to the ID Token. 
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
@@ -1307,15 +1314,15 @@
 	  <c>string</c>
 	  <c>End-User's locale, represented as a
 	  <xref target="RFC5646">BCP47</xref> language tag.
-	  This is typically an <xref
-	  target="ISO639-1">ISO 639-1 Alpha-2</xref> language code in
+	  This is typically an <xref target="ISO639-1">ISO 639-1 Alpha-2</xref>
+	  language code in
 	  lowercase and an <xref target="ISO3166-1">ISO 3166-1 Alpha-2</xref>
-	  country code in uppercase, separated by a dash. For example, <spanx
-	  style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>. As
-	  a compatibility note, some implementations have used an underscore
-	  as the separator rather than a dash, for example, <spanx
-	  style="verb">en_US</spanx>; Implementations MAY choose to accept
-	  this locale syntax as well.</c>
+	  country code in uppercase, separated by a dash. For example,
+	  <spanx style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>.
+	  As a compatibility note, some implementations have used an underscore
+	  as the separator rather than a dash, for example,
+	  <spanx style="verb">en_US</spanx>; Implementations MAY choose to
+	  accept this locale syntax as well.</c>
 
 	  <c>phone_number</c>
 	  <c>string</c>
@@ -1717,23 +1724,80 @@
 
     <section anchor="privacy_considerations" title="Privacy Considerations">
 
-      <t>The UserInfo Response typically contains Personally Identifiable
-      Information (PII). As such, End-User consent for the release of the information
-      for the specified purpose SHOULD be obtained at or prior to the
-      authorization time in accordance with relevant regulations. The purpose
-      of use is typically registered in association with the <spanx
-      style="verb">redirect_uri</spanx>.</t>
+      <section anchor="PII" title="Personally Identifiable Information">
 
-      <t>Only necessary UserInfo data SHOULD be stored at the Client and the
-      Client SHOULD associate the received data with the purpose of use
-      statement.</t>
+	<t>The UserInfo Response typically contains Personally Identifiable
+	Information (PII). As such, End-User consent for the release of the information
+	for the specified purpose SHOULD be obtained at or prior to the
+	authorization time in accordance with relevant regulations. The purpose
+	of use is typically registered in association with the <spanx
+	style="verb">redirect_uris</spanx>.</t>
 
-      <t>The Resource Server SHOULD make the UserInfo access log available to 
-      the End-User so that the End-User can monitor who accessed his data.</t>
+	<t>Only necessary UserInfo data should be stored at the Client and the
+	Client SHOULD associate the received data with the purpose of use
+	statement.</t>
+      </section>
 
-      <t>To protect the End-User from a possible correlation among Clients, the
-      use of a Pairwise Pseudonymous Identifier (PPID) as the
-      <spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+      <section anchor="AccessMonitoring" title="Data Access Monitoring">
+	<t>The Resource Server SHOULD make the UserInfo access log available to 
+	the End-User so that the End-User can monitor who accessed his data.</t>
+      </section>
+
+      <section anchor="Correlation" title="Correlation">
+	<t>To protect the End-User from a possible correlation among Clients, the
+	use of a Pairwise Pseudonymous Identifier (PPID) as the
+	<spanx style="verb">sub</spanx> (subject) SHOULD be considered.</t>
+      </section>
+
+      <section anchor="OfflineAccessPrivacy" title="Offline Access">
+
+	<t>
+	  Offline access enables access to Claims when the user is not present,
+	  posing greater privacy risk than the Claims transfer when the user is present.
+	  Therefore, it is prudent to obtain explicit consent for
+	  offline access to resources.
+	  This specification mandates the use of the <spanx style="verb">prompt</spanx>
+	  parameter to obtain consent unless it is a priori known that the
+	  request complies with the conditions for processing in each jurisdiction.
+	</t>
+	<t>
+	  When an Access Token is returned in the front channel, there is
+	  a greater risk of it being exposed to an attacker, who could
+	  later use it to access the UserInfo endpoint.
+	  If the Access Token does not enable offline access and the server
+	  can differentiate whether the Client request has been made
+	  offline or online, the risk will be substantially reduced.
+	  Therefore, this specification mandates ignoring
+	  the offline access request when the Access Token is
+	  transmitted in the front channel.
+	  Note that differentiating between online and offline access
+	  from the server can be difficult especially for native clients.
+	  The server may well have to rely on heuristics.
+	  Also, the risk of exposure for the Access Token delivered
+	  in the front channel for the response types of
+	  <spanx style="verb">code&nbsp;token</spanx> and
+	  <spanx style="verb">token</spanx> is the same.
+	  Thus, the implementations should be prepared to detect the
+	  channel from which the Access Token was issued and deny offline access
+	  if the token was issued in the front channel.
+	</t>
+	<t>
+	  Note that although these provisions require an explicit
+	  consent dialogue through the <spanx style="verb">prompt</spanx> parameter,
+	  the mere fact that the user pressed an "accept" button etc.,
+	  might not constitute a valid consent.
+	  Developers should be aware that for the act of consent to
+	  be valid, typically, the impact of the terms have to be
+	  understood by the End-User, the consent must be freely given
+	  and not forced (i.e., other options have to be available),
+	  and the terms must fair and equitable.
+	  In general, it is advisable for the service to follow the
+	  required privacy principles in each jurisdiction and rely on
+	  other conditions of processing than simply explicit consent,
+	  as online self-service "explicit consent" often does not
+	  form a valid consent in some jurisdictions.
+	</t>
+      </section>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -1749,6 +1813,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3966"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246"?>
@@ -1785,20 +1850,6 @@
         <seriesInfo name="Unicode Standard Annex" value="15"/>
       </reference>
 
-      <reference anchor="ISO639-1">
-        <front>
-          <title>ISO 639-1:2002. Codes for the representation of names of
-          languages -- Part 1: Alpha-2 code</title>
-
-          <author fullname="International Organization for Standardization">
-            <organization abbrev="ISO">International Organization for
-            Standardization</organization>
-          </author>
-
-          <date year="2002"/>
-        </front>
-      </reference>
-
       <reference anchor="ISO29115">
         <front>
           <title>ISO/IEC 29115:2013 --
@@ -1815,6 +1866,20 @@
 	<seriesInfo name="ISO/IEC" value="29115" />
         <format target="http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=45138"
                 type="HTML" />
+      </reference>
+
+      <reference anchor="ISO639-1">
+        <front>
+          <title>ISO 639-1:2002. Codes for the representation of names of
+          languages -- Part 1: Alpha-2 code</title>
+
+          <author fullname="International Organization for Standardization">
+            <organization abbrev="ISO">International Organization for
+            Standardization</organization>
+          </author>
+
+          <date year="2002"/>
+        </front>
       </reference>
 
       <reference anchor="ISO3166-1">
@@ -1905,7 +1970,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-messages-1_0-20.html"
@@ -1940,7 +2005,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-standard-1_0-21.html"
@@ -1956,7 +2021,7 @@
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization>Ping Identiity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -1967,7 +2032,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0-17.html"
@@ -1990,7 +2055,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0-19.html"
@@ -2076,8 +2141,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
             <organization abbrev="Google">Google</organization>
           </author>
 
@@ -2089,7 +2153,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="6" month="June" year="2013"/>
+          <date day="7" month="June" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-implicit-1_0-11.html"
@@ -2115,12 +2179,12 @@
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
           <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+          <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>Nov Matake (nov@matake.jp), Independent</t>
           <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
           <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
 	  <t>Hideki Nara (hdknr@ic-tact.co.jp), Tact Communications</t>
           <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
-          <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>David Recordon (dr@fb.com), Facebook</t>
           <t>Justin Richer (jricher@mitre.org), Mitre</t>
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd. </t>
@@ -2182,6 +2246,11 @@
 	  <t>
 	    Fixed #847 - Corrected type of <spanx style="verb">updated_at</spanx>
 	    to number.
+	  </t>
+	  <t>
+	    Stated that <spanx style="verb">redirect_uri</spanx> matches must be exact,
+	    with matching performed as described in
+	    Section 6.2.1 of RFC 3986 (Simple String Comparison).
 	  </t>
 	</list>
       </t>
