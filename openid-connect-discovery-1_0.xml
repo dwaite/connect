@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="7" month="June" year="2013" />
+    <date day="19" month="June" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -251,30 +251,34 @@
             <list style="numbers">
               <t>
                 If the user input Identifier does not have an 
-                <xref target="RFC3986">RFC 3986</xref> "scheme" portion, 
+                <xref target="RFC3986">RFC 3986</xref> scheme portion, 
                 the string is interpreted as 
                 <spanx style="verb">[userinfo "@"] host [":" port] path-abempty [ "?" query ] [ "#" fragment ]</spanx>
-                of <xref target="RFC3986">RFC 3986</xref>. </t>
-                <t> If userinfo is present and both path component and query component are empty, 
+                per <xref target="RFC3986">RFC 3986</xref>.</t>
+
+                <t>If the userinfo component is present and all of the path component,
+		query component, and port component are empty, 
                 the <spanx style="verb">acct</spanx> scheme is assumed. 
-                The normalized URL will be formed by 
+                In this case, the normalized URI is formed by 
                 prefixing <spanx style="verb">acct:</spanx> to the string as the scheme.
-                Per the<xref target="I-D.ietf-appsawg-acct-uri">'acct' URI Scheme</xref>, 
-                if there is a at-sign character (U+0040) in the userinfo component, it needs to be 
-                percent-encoded as described in <xref target="RFC3986">RFC 3986</xref></t>
-                <t> For all other input the <spanx style="verb">https</spanx> scheme is assumed, 
-                and the normalized URL will be formed by 
+                Per the <xref target="I-D.ietf-appsawg-acct-uri">'acct' URI Scheme</xref>, 
+                if there is an at-sign character ('@') in the userinfo component, it needs to be 
+                percent-encoded as described in <xref target="RFC3986">RFC 3986</xref>.</t>
+
+                <t>For all other inputs without a scheme portion,
+		the <spanx style="verb">https</spanx> scheme is assumed, 
+                and the normalized URI is formed by 
                 prefixing <spanx style="verb">https://</spanx> to the string as the scheme. 
               </t>
 
-              <t>If the resulting URL contains a fragment portion, it MUST be
+              <t>If the resulting URI contains a fragment portion, it MUST be
               stripped off together with the fragment delimiter
               character "#".</t>
             </list>
           </t>
           <t>
             The <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> Resource
-	    in this case is the resulting URL, and 
+	    in this case is the resulting URI, and 
             the WebFinger Host is the authority component. 
           </t>
           <t>
@@ -282,7 +286,7 @@
             in <xref target="RFC3986">RFC 3986</xref> 
             is <spanx style="verb">[ userinfo "@" ] host [ ":" port ]</spanx>, 
             it is legal to have a user input identifier like 
-            <spanx style="verb">userinfo@host:port</spanx>. e.g., 
+            <spanx style="verb">userinfo@host:port</spanx>, e.g., 
             <spanx style="verb">alice@example.com:8080</spanx>. 
           </t>
         </section>
@@ -290,7 +294,7 @@
 
       <section anchor="Examples" title="Non-Normative Examples">
 
-        <section anchor="AcctURISyntax" title="User Input Using E-Mail Address Syntax">
+        <section anchor="EmailSyntax" title="User Input Using E-Mail Address Syntax">
           <t>To find the Issuer for the given user input
           in the form of an e-mail address <spanx style="verb">joe@example.com</spanx>,
 	  the WebFinger parameters are as follows:</t>
@@ -342,26 +346,6 @@
   }
 ]]></artwork>
             </figure>
-	  </t>
-	  <t>
-	    Note:  It is common for sites to use e-mail addresses as local identifiers
-	    for accounts at those sites, even though the domain in the e-mail address
-	    one controlled by the site.
-	    For instance, the site <spanx style="verb">example.org</spanx>
-	    might have a local account named <spanx style="verb">joe@example.com</spanx>.
-	    As of the time of this writing, a discussion is ongoing among WebFinger
-	    contributors about the syntax that should be used when discovering
-	    information about such accounts with WebFinger.
-	    The current thinking seems to be that such accounts would be represented
-	    by quoting the '@' character in the userinfo portion of the account
-	    identifier when constructing the <spanx style="verb">acct:</spanx> URI
-	    representing the account.
-	    Such an example is
-	    <spanx style="verb">acct:joe%40example.com@example.org</spanx>.
-	    In a future version of this specification, it is possible that
-	    normalization rules will be defined allowing End-Users to input
-	    values like <spanx style="verb">joe@example.com@example.org</spanx>
-	    to initiate discovery on such accounts.
 	  </t>
         </section>
 
@@ -467,11 +451,11 @@
             </figure></t>
         </section>
         
-        <section anchor="EmailSyntax" title="User Input Using acct URI Syntax">
+        <section anchor="AcctURISyntax" title='User Input Using "acct" URI Syntax'>
           <t>To find the Issuer for the given user input
           in the form of an account URI 
           <spanx style="verb">acct:juliet%40capulet.example@shoppingsite.example.com</spanx>,
-	      the WebFinger parameters are as follows:</t>
+	  the WebFinger parameters are as follows:</t>
 
           <texttable>
             <ttcol>WebFinger Parameter</ttcol>
@@ -486,11 +470,6 @@
             <c>rel</c>
             <c>http://openid.net/specs/connect/1.0/issuer</c>
           </texttable>
-
-	  <t>
-	    Note that in this case, the <spanx style="verb">acct:</spanx> scheme
-	    <xref target="I-D.ietf-appsawg-acct-uri"/> is prepended to the Identifier.
-	  </t>
 
           <t>
 	    <figure>
@@ -1497,27 +1476,21 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
-    <t>
-	-18
-	<list style="symbols">
-	  <t>
-	    Updated the reference to draft-ietf-appsawg-acct-uri-05
-	  </t>
-	  <t>
-	    Updated Sec 2.1.2 to normalize email addresses to acct scheme.
-	  </t>
-	  <t>
-	    Added example for acct URI.
-	  </t>
-	</list>
-      </t>
-      
       <t>
 	-17
 	<list style="symbols">
 	  <t>
 	    Required that the OpenID Provider configuration information be returned
 	    using the <spanx style="verb">application/json</spanx> content type.
+	  </t>
+	  <t>
+	    Updated the acct: URI reference to draft-ietf-appsawg-acct-uri-05.
+	  </t>
+	  <t>
+	    Updated normative text so that e-mail addresses use the acct: scheme.
+	  </t>
+	  <t>
+	    Added an example for the acct: scheme.
 	  </t>
 	</list>
       </t>
