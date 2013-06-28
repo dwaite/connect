@@ -680,11 +680,14 @@
                   OPTIONAL.
                   Requested Authentication Context Class Reference values. 
 		  Space-separated string that specifies the <spanx style="verb">acr</spanx>
-		  values that the Authorization Server MUST use 
-		  for processing requests from this Client.
+		  values that the Authorization Server is being requested to use 
+		  for processing this authentication request,
+		  with the values appearing in order of preference.
 		  The Authentication Context Class satisfied by the authentication
 		  performed is returned as the <spanx style="verb">acr</spanx> Claim Value,
 		  as specified in <xref target="id_token"/>.
+		  The <spanx style="verb">acr</spanx> Claim is requested as
+		  a Voluntary Claim by this parameter.
                 </t>
 
                 <t hangText="claims">
@@ -3229,7 +3232,7 @@
 		treat that outcome as a failed authentication attempt.
 	      </t>
 	      <t>
-		The Client MAY request this Claim as an optional Claim
+		The Client MAY request this Claim as a Voluntary Claim
 		by using the <spanx style="verb">acr_values</spanx> request parameter
 		or by not including "essential": true in the individual
 		<spanx style="verb">acr</spanx> Claim request. 
@@ -5805,6 +5808,11 @@
 	    Stated that <spanx style="verb">redirect_uri</spanx> matches must be exact,
 	    with matching performed as described in
 	    Section 6.2.1 of RFC 3986 (Simple String Comparison).
+	  </t>
+	  <t>
+	    Fixed #854 - Clarified that the <spanx style="verb">acr_values</spanx> values
+	    are in order of preference and that <spanx style="verb">acr_values</spanx>
+	    requests the <spanx style="verb">acr</spanx> Claim as a Voluntary Claim.
 	  </t>
 	</list>
       </t>
