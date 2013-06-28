@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="7" month="June" year="2013" />
+    <date day="27" month="June" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1821,9 +1821,12 @@
       </t>
       <t>
 	<list style="hanging">
-          <t hangText="login_hint">REQUIRED.
+          <t hangText="login_hint">OPTIONAL.
 	    Hint to the Authorization Server
-            about the login identifier the End-User might use to log in (if necessary).
+            about the login identifier the End-User might use to log in.
+	    If the client receives a value for this string-valued parameter,
+	    it MUST include it in the subsequent authorization request
+	    as the <spanx style="verb">login_hint</spanx> parameter value.
           </t>
           <t hangText="iss">REQUIRED.
 	    Issuer Identifier for the Issuer that the Client is to send
@@ -2402,6 +2405,10 @@
 	    Stated that <spanx style="verb">redirect_uri</spanx> matches must be exact,
 	    with matching performed as described in
 	    Section 6.2.1 of RFC 3986 (Simple String Comparison).
+	  </t>
+	  <t>
+	    Fixed #850 - Clarified <spanx style="verb">login_hint</spanx> semantics
+	    for third party initiated logins.
 	  </t>
 	</list>
       </t>
