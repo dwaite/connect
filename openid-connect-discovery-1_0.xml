@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="29" month="June" year="2013" />
+    <date day="2" month="July" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -216,10 +216,12 @@
               specification.</t>
 
               <t>All other user input Identifiers MUST be treated as
-	      a URI either in the form of 
+	      a URI in one of the forms
             <spanx style="verb">scheme "://" authority path-abempty [ "?" query ] [ "#" fragment ]</spanx> 
             or 
             <spanx style="verb">authority path-abempty [ "?" query ] [ "#" fragment ]</spanx>
+	    or
+	    <spanx style="verb">scheme ":" path-rootless</spanx> 
             per <xref target="RFC3986">RFC 3986</xref>. 
               </t>
             </list>
@@ -229,7 +231,9 @@
             of <spanx style="verb">userinfo@host</spanx>. 
             For the End-User, this would normally be perceived as being an e-mail address.
 	    However, it is also 
-            a valid authority section of a URI, and this specification 
+            a valid userpart "@" host section of an <spanx style="verb">acct</spanx> URI
+	    <xref target="I-D.ietf-appsawg-acct-uri"/>,
+	    and this specification 
             treats it such as to exclude various
             extra strings allowed in <spanx style="verb">addr-spec</spanx> of 
             <xref target="RFC5322">RFC 5322</xref>. 
@@ -239,10 +243,12 @@
         <section anchor="NormalizationSteps" title="Normalization Steps">
           <t>
             A string of any other type is interpreted as 
-            a URI either the form of 
+            a URI in one of the forms
             <spanx style="verb">scheme "://" authority path-abempty [ "?" query ] [ "#" fragment ]</spanx> 
             or 
             <spanx style="verb">authority path-abempty [ "?" query ] [ "#" fragment ]</spanx>
+	    or
+	    <spanx style="verb">scheme ":" path-rootless</spanx> 
             per <xref target="RFC3986">RFC 3986</xref>  
             and is normalized according to the following rules:
           </t>
@@ -256,7 +262,8 @@
                 <spanx style="verb">[userinfo "@"] host [":" port] path-abempty [ "?" query ] [ "#" fragment ]</spanx>
                 per <xref target="RFC3986">RFC 3986</xref>.</t>
 
-                <t>If the userinfo component is present and all of the path component,
+                <t>If the userinfo component is present and all of the
+		scheme component, path component,
 		query component, and port component are empty, 
                 the <spanx style="verb">acct</spanx> scheme is assumed. 
                 In this case, the normalized URI is formed by 
@@ -270,6 +277,12 @@
                 and the normalized URI is formed by 
                 prefixing <spanx style="verb">https://</spanx> to the string as the scheme. 
               </t>
+	      <t>
+		When the input contains an explicit scheme such as
+		<spanx style="verb">acct</spanx> that matches the RFC 3986
+		<spanx style="verb">scheme ":" path-rootless</spanx> syntax,
+		no input normalization is performed.
+	      </t>
 
               <t>If the resulting URI contains a fragment portion, it MUST be
               stripped off together with the fragment delimiter
@@ -1491,9 +1504,15 @@
 	  <t>
 	    Added an example for the acct: scheme.
 	  </t>
+	  <t>
+	    Fixed #856 - Updated normative text to clarify that no input normalization
+	    is performed when the input contains an explicit scheme such as
+	    <spanx style="verb">acct</spanx> that matches the RFC 3986
+	    <spanx style="verb">scheme ":" path-rootless</spanx> syntax.
+	  </t>
 	</list>
       </t>
-	
+
       <t>-16
         <list style="symbols">
 	  <t>
