@@ -160,12 +160,23 @@
 	      <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
 	      It MAY contain other Claims.
 	    </t>
+
+            <t hangText="Identifier">
+	     Value that uniquely characterizes an Entity in a specific context.
+	    </t>
+
 	    <t hangText="Issuer">
 	      Entity that issues a set of Claims. 
 	    </t>
-	    <t hangText="Issuer Identifier">
-	      URL using the <spanx style="verb">https</spanx> scheme that acts as a verifiable identifier for an Issuer.
+
+            <t hangText="Issuer Identifier">
+	      Verifiable Identifier for an Issuer.
+	      An Issuer Identifier is a case sensitive URL
+	      using the <spanx style="verb">https</spanx> scheme that
+	      contains scheme, host, and OPTIONALLY, port number and path
+	      components and no query or fragment components.
 	    </t>
+
 	    <t hangText="OpenID Provider (OP)">
               OAuth 2.0 Authorization Server that is capable of 
               providing Claims to a Relying Party.
@@ -745,7 +756,10 @@
 	    <t hangText="iss">
 	      REQUIRED.
 	      Issuer Identifier for the Issuer of the response.
-	      The <spanx style="verb">iss</spanx> value is a case sensitive string.
+	      The <spanx style="verb">iss</spanx> value is a case sensitive URL
+	      using the <spanx style="verb">https</spanx> scheme that
+	      contains scheme, host, and OPTIONALLY, port number and path
+	      components and no query or fragment components.
 	    </t>
 
 	    <t hangText="sub">
@@ -2268,6 +2282,10 @@
 	    Fixed #854 - Clarified that the <spanx style="verb">acr_values</spanx> values
 	    are in order of preference and that <spanx style="verb">acr_values</spanx>
 	    requests the <spanx style="verb">acr</spanx> Claim as a Voluntary Claim.
+	  </t>
+	  <t>
+	    Fixed #858 - Incorporated elements of the Issuer Identifier definition
+	    into the <spanx style="verb">iss</spanx> Claim description.
 	  </t>
 	  <t>
 	    Fixed #859 - Added IMPORTANT NOTE TO READERS about the terminology

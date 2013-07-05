@@ -200,10 +200,13 @@
 
             <t hangText="Issuer">Entity that issues a set of Claims.</t>
 
-            <t hangText="Issuer Identifier">Verifiable identifier for
-            an Issuer.  An Issuer Identifier is a URL using the <spanx style="verb">https</spanx> scheme that
-            contains scheme, host, and OPTIONALLY, port number and path
-            components.  (No query or fragment components MAY be present.)</t>
+            <t hangText="Issuer Identifier">
+	      Verifiable Identifier for an Issuer.
+	      An Issuer Identifier is a case sensitive URL
+	      using the <spanx style="verb">https</spanx> scheme that
+	      contains scheme, host, and OPTIONALLY, port number and path
+	      components and no query or fragment components.
+	    </t>
 
             <t hangText="Message">Request or a response between an OpenID 
             Relying Party and an OpenID Provider.</t>
@@ -803,7 +806,10 @@
                 <t hangText="iss">
 		  REQUIRED.
 		  Issuer Identifier for the Issuer of the response.
-		  The <spanx style="verb">iss</spanx> value is a case sensitive string.
+		  The <spanx style="verb">iss</spanx> value is a case sensitive URL
+		  using the <spanx style="verb">https</spanx> scheme that
+		  contains scheme, host, and OPTIONALLY, port number and path
+		  components and no query or fragment components.
 		</t>
 
                 <t hangText="sub">
@@ -5828,6 +5834,10 @@
 	  <t>
 	    Fixed #851 - Clarified that <spanx style="verb">none</spanx>
 	    is not an acceptable ID Token signature algorithm.
+	  </t>
+	  <t>
+	    Fixed #858 - Incorporated elements of the Issuer Identifier definition
+	    into the <spanx style="verb">iss</spanx> Claim description.
 	  </t>
 	  <t>
 	    Fixed #859 - Added IMPORTANT NOTE TO READERS about the terminology
