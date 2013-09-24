@@ -50,7 +50,7 @@
       </address>
     </author>
 
-    <date day="23" month="September" year="2013" />
+    <date day="24" month="September" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -235,16 +235,14 @@
             <t hangText="OP Endpoints">Authorization Endpoint, Token Endpoint,
 	    and UserInfo Endpoint.</t>
 
-	    <t hangText="Request File">Document whose content
-	    is a Request Object representing a set of Authorization Request
-	    parameters.</t>
-
-	    <t hangText="Request File URI">URL that references a Request File.
-	    The Request File contents MUST be retrievable by the
-	    Authorization Server.</t>
-
             <t hangText="Request Object">
 	      JWT that contains a set of request parameters as its Claims.
+	    </t>
+
+	    <t hangText="Request URI">
+	      URL that references a resource containing a Request Object.
+	      The Request URI contents MUST be retrievable by the
+	      Authorization Server.
 	    </t>
 
             <t hangText="Pairwise Pseudonymous Identifier (PPID)">
@@ -1468,6 +1466,7 @@
 	  <t>
 	    <figure>
 	      <preamble>The following is a non-normative example
+	      response
 	      (with line wraps within values for the display purposes only):</preamble>
 
 	      <artwork><![CDATA[
@@ -1818,7 +1817,7 @@
 	  media type.</t>
 
 	  <figure>
-	    <preamble>Following is a non-normative example of a token request:</preamble>
+	    <preamble>The following is a non-normative example of a token request:</preamble>
 
 	    <artwork><![CDATA[
   {
@@ -1832,8 +1831,8 @@
 	  </figure>
 
 	  <figure>
-	    <preamble>Following is a non-normative example of a
-	    successful response:</preamble>
+	    <preamble>The following is a non-normative example of a
+	    successful token response:</preamble>
 
 	    <artwork><![CDATA[
   HTTP/1.1 200 OK
@@ -1913,7 +1912,7 @@
 	  </t>
 
 	  <figure>
-	    <preamble>Following is a non-normative example error response:</preamble>
+	    <preamble>The following is a non-normative example token error response:</preamble>
 
 	    <artwork><![CDATA[
   HTTP/1.1 400 Bad Request
@@ -1954,8 +1953,8 @@
 	  except that it MUST NOT return an <spanx style="verb">id_token</spanx>.</t>
         
           <figure>
-            <preamble>Following is a non-normative example of a
-	    Refresh Token Request and response:</preamble>
+            <preamble>The following is a non-normative example of a
+	    Refresh Token Request and Response:</preamble>
 
             <artwork><![CDATA[
   POST /token HTTP/1.1
@@ -2105,8 +2104,8 @@
 	  </t>
 
 	  <figure>
-	    <preamble>Following is a non-normative example of such
-	    response:</preamble>
+	    <preamble>The following is a non-normative example
+	    of a UserInfo Response:</preamble>
 
 	    <artwork><![CDATA[
   HTTP/1.1 200 OK
@@ -2133,8 +2132,8 @@
 	  </t>
 
 	  <figure>
-	    <preamble>Following is a non-normative example of an error
-	    response:</preamble>
+	    <preamble>The following is a non-normative example
+	    of a UserInfo Error Response:</preamble>
 
 	    <artwork><![CDATA[
   HTTP/1.1 401 Unauthorized
@@ -2240,7 +2239,7 @@
 	<t>
 	  <figure>
 	    <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
-	    Request.</preamble>
+	    Request:</preamble>
 
 	    <artwork><![CDATA[
   scope=openid profile email phone
@@ -2482,8 +2481,8 @@
 	</texttable>
 
 	<figure>
-	  <preamble>The following is a non-normative example of such a
-	  response:</preamble>
+	  <preamble>The following is a non-normative example
+	  of a UserInfo Response body:</preamble>
 	  <artwork><![CDATA[
   {
    "sub": "248289761001",
@@ -3281,91 +3280,20 @@
 	</section>
       </section>
 
-      <section anchor="RequestMethods" title="Request Methods">
-
-	<t>There are three methods to construct and send the request to the 
-	Authorization Endpoint: 
-	<list style="numbers">
-	  <t>Simple Request Method</t>
-
-	  <t>Request Parameter Method</t>
-
-	  <t>Request File Method</t>
-	</list></t>
+      <section anchor="JWTRequests" title="Passing Authorization Request Parameters as JWTs">
 
 	<t>
-	  The Simple Request Method can be used in cases where signed or
-	  encrypted requests are not needed and where the size of the
-	  request does not exceed limits imposed by User-Agents.
-	</t>
-	<t>
-	  The Request Parameter Method is used when the Client wants or needs to
-	  send an OpenID Connect request as a single, self-contained
-	  Request Object value.
-	  This method enables requests to be signed and optionally encrypted.
-	  Like the Simple Request Method, some requests using this method
-	  can exceed limits imposed by User-Agents.
-	</t>
-	<t>
-	  The Request File Method works similarly to the Request Parameter
-	  Method but differs in that it sends a URL as a reference to the
-	  Request Object. It enables large requests to be sent
-	  securely and compactly even on User-Agents with limited capabilities.
-	  Clients MAY use the Request File Method to minimize the request
-	  size.
+	  This specification defines the <spanx style="verb">request</spanx>
+	  and <spanx style="verb">request_uri</spanx> OAuth 2.0 extension parameters
+	  to enable Authentication Requests to be signed and optionally encrypted.
+	  Requests using these parameters are represented as JWTs, which are respectively
+	  passed by value or by reference.
+	  The ability to pass requests by reference is particularly useful for large requests.
+	  If one of these parameters is used,
+	  the other MUST NOT be used in the same request.
 	</t>
 
-	<section anchor="SimpleRequestMethod" title="Simple Request Method">
-	  <t>The Client prepares an Authorization Request to the
-	  Authorization Endpoint using the appropriate parameters. If using 
-	  the HTTP <spanx style="verb">GET</spanx> method, the request parameters are serialized using
-	  URI Query String Serialization, per <xref target="qss"/>.
-	  If using
-	  the HTTP <spanx style="verb">POST</spanx> method, the request parameters are serialized using 
-	  Form Serialization, per <xref target="form_serialization"/>.</t>
-
-	  <t>
-	    <figure>
-	      <preamble>The following is a non-normative example of an
-	      Authorization Request URL
-	      (with line wraps within values for display purposes only):</preamble>
-
-	      <artwork><![CDATA[
-  https://server.example.com/op/authorize?
-    response_type=code%20id_token
-    &client_id=s6BhdRkqt3
-    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid%20profile%20email
-    &nonce=n-0S6_WzA2Mj
-    &state=af0ifjsldkj
-]]></artwork>
-	    </figure>
-	  </t>
-
-	  <section anchor="norm_req"
-		   title='Client Sends Simple Request'>
-	    <t>Having constructed the Authorization Request, the Client sends it
-	    to the Authorization Endpoint using HTTPS.</t>
-
-	    <figure>
-	      <preamble>Following is a non-normative example using HTTP redirect
-	      (with line wraps within values for display purposes only):</preamble>
-
-	      <artwork><![CDATA[
-  HTTP/1.1 302 Found
-  Location: https://server.example.com/authorize?
-    response_type=code%20id_token
-    &client_id=s6BhdRkqt3
-    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid%20profile%20email
-    &nonce=n-0S6_WzA2Mj
-    &state=af0ifjsldkj
-]]></artwork>
-	    </figure>
-	  </section>
-	</section>
-
-	<section title="Request Parameter Method" anchor="RequestObject">
+	<section title="Passing a Request Object by Value" anchor="RequestObject">
 
 	  <t>
 	    The <spanx style="verb">request</spanx> parameter
@@ -3423,35 +3351,6 @@
 	    <spanx style="verb">request</spanx> and
 	    <spanx style="verb">request_uri</spanx> parameters
 	    MUST NOT be included in Request Objects.
-	  </t>
-
-	  <t>
-	    EDITOR'S NOTE - TBD -
-	    Need to harmonize the following text from Standard with the above text from Messages.
-	  </t>
-
-	  <t>The Client prepares an Authorization Request to the
-	  Authorization Endpoint using the appropriate HTTP parameter
-	  serialization. The Client SHOULD construct the request using the
-	  HTTP <spanx style="verb">POST</spanx> method,
-	  but MAY use the HTTP <spanx style="verb">GET</spanx> method.</t>
-
-	  <t>The Authorization Request MUST include the 
-	  <spanx style="verb">request</spanx> parameter defined in <xref
-	  target="RequestParameters" />.
-	  The Authorization Request MUST NOT include the 
-	  <spanx style="verb">request_uri</spanx> parameter.</t>
-
-	  <t>
-	    The <spanx style="verb">request</spanx> parameter is
-	    a Request Object represented as a
-	    <xref target="JWT">JWT</xref> containing
-	    a set of OpenID Connect request parameters.
-	    The Request Object MAY be a Plaintext JWT,
-	    signed, or signed and encrypted using
-	    <xref target="JWS">JWS</xref> and/or <xref target="JWE">JWE</xref>,
-	    thereby enabling authentication, integrity,
-	    non-repudiation, and/or confidentiality to be achieved.
 	  </t>
 
 	  <t>
@@ -3540,15 +3439,20 @@
 	    </figure>
 	  </t>
 
-	  <t>
-	    <figure>
-	      <preamble>The following is a non-normative example of an
-	      Authorization Request using the <spanx style='verb'>request</spanx>
-	      parameter
-	      (with line wraps within values for display purposes only):
-	      </preamble>
+	  <section anchor="request_use"
+		   title='Client Sends Request using "request" Parameter'>
+	    <t>The Client sends the Authorization Request to the
+	    Authorization Endpoint.</t>
 
-	      <artwork><![CDATA[
+	    <t>
+	      <figure>
+		<preamble>The following is a non-normative example of an
+		Authorization Request using the <spanx style='verb'>request</spanx>
+		parameter
+		(with line wraps within values for display purposes only):
+		</preamble>
+
+		<artwork><![CDATA[
   https://server.example.com/authorize?
     response_type=code%20id_token
     &client_id=s6BhdRkqt3
@@ -3575,50 +3479,12 @@
     xkRJsaSSmjasMYeDZarYCl7r4o17rFclk5KacYMYgAs-JYFkwab6Dd56ZrAzakHt
     9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
 ]]></artwork>
-	  </figure></t>
-
-	  <section anchor="request_req"
-		   title='Client Sends Request using "request" Parameter'>
-	    <t>Having constructed the Authorization Request, the Client sends
-	    it to the Authorization Endpoint using HTTPS.</t>
-
-	    <figure>
-	      <preamble>Following is a non-normative example using HTTP redirect
-	      (with line wraps within values for display purposes only):</preamble>
-
-	      <artwork><![CDATA[
-  HTTP/1.1 302 Found
-  Location: https://server.example.com/authorize?
-    response_type=code%20id_token
-    &client_id=s6BhdRkqt3
-    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
-    &scope=openid
-    &state=af0ifjsldkj
-    &nonce=n-0S6_WzA2Mj
-    &request=eyJhbGciOiJSUzI1NiJ9.ew0KICJyZXNwb25zZV90eXBlIjogImNvZG
-    UgaWRfdG9rZW4iLA0KICJjbGllbnRfaWQiOiAiczZCaGRSa3F0MyIsDQogInJlZG
-    lyZWN0X3VyaSI6ICJodHRwczovL2NsaWVudC5leGFtcGxlLm9yZy9jYiIsDQogIn
-    Njb3BlIjogIm9wZW5pZCIsDQogInN0YXRlIjogImFmMGlmanNsZGtqIiwNCiAibm
-    9uY2UiOiAibi0wUzZfV3pBMk1qIiwNCiAibWF4X2FnZSI6IDg2NDAwLA0KICJjbG
-    FpbXMiOiANCiAgew0KICAgInVzZXJpbmZvIjogDQogICAgew0KICAgICAiZ2l2ZW
-    5fbmFtZSI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICJuaWNrbmFtZSI6IG
-    51bGwsDQogICAgICJlbWFpbCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgIC
-    JlbWFpbF92ZXJpZmllZCI6IHsiZXNzZW50aWFsIjogdHJ1ZX0sDQogICAgICJwaW
-    N0dXJlIjogbnVsbA0KICAgIH0sDQogICAiaWRfdG9rZW4iOiANCiAgICB7DQogIC
-    AgICJnZW5kZXIiOiBudWxsLA0KICAgICAiYmlydGhkYXRlIjogeyJlc3NlbnRpYW
-    wiOiB0cnVlfSwNCiAgICAgImFjciI6IHsidmFsdWVzIjogWyIyIl19DQogICAgfQ
-    0KICB9DQp9.bOD4rUiQfzh4QPIs_f_R2GVBhNHcc1p2cQTgixB1tsYRs52xW4TO7
-    4USgb-nii3RPsLdfoPlsEbJLmtbxG8-TQBHqGAyZxMDPWy3phjeRt9ApDRnLQrjY
-    uvsCj6byu9TVaKX9r1KDFGT-HLqUNlUTpYtCyM2B2rLkWM08ufBq9JBCEzzaLRzj
-    evYEPMaoLAOjb8LPuYOYTBqshRMUxy4Z380-FJ2Lc7VSfSu6HcB2nLSjiKrrfI35
-    xkRJsaSSmjasMYeDZarYCl7r4o17rFclk5KacYMYgAs-JYFkwab6Dd56ZrAzakHt
-    9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ
-]]></artwork>
-	    </figure>
+	      </figure>
+	    </t>
 	  </section>
 	</section>
 
-	<section title="Request File Method" anchor="RequestUriParameter">
+	<section title="Passing a Request Object by Reference" anchor="RequestUriParameter">
 	  <t>
 	    The <spanx style="verb">request_uri</spanx> parameter enables
 	    OpenID Connect requests to be passed by reference, rather than by value.
@@ -3655,7 +3521,7 @@
 	    underlying OAuth 2.0 logic that this is an OpenID Connect request.
 	  </t>
 	  <t>
-	    Servers MAY cache the contents of the resources referenced by request URIs.
+	    Servers MAY cache the contents of the resources referenced by Request URIs.
 	    If the contents of the referenced resource could ever change,
 	    the URI SHOULD include the base64url encoded SHA-256 hash of the
 	    referenced resource contents as the fragment component of the URI.
@@ -3669,41 +3535,28 @@
 	    <spanx style="verb">request_uris</spanx> parameter defined in
 	    Section 2 of the <xref target="OpenID.Registration">OpenID Connect
 	    Dynamic Client Registration 1.0</xref> specification.
+	    OPs can require that <spanx style="verb">request_uri</spanx> values used
+	    be pre-registered with the <spanx style="verb">require_request_uri_registration</spanx>
+	    discovery parameter.
 	  </t>
-
 	  <t>
-	    EDITOR'S NOTE - TBD -
-	    Need to harmonize the following text from Standard with the above text from Messages.
+	    The entire Request URI MUST NOT exceed 512 ASCII characters.
 	  </t>
-
-	  <t>The Request File Method differs from the other methods in that
-	  it uses a Request File that contains a Request Object.
-	  It then sends the Request File URL as
-	  part of the Authorization Request.</t>
-
-	  <t>The Client prepares an Authorization Request using the desired 
-	  HTTP <spanx style="verb">GET</spanx> or <spanx style="verb">POST</spanx> method.
-	  The Client SHOULD use the HTTP <spanx style="verb">GET</spanx>
-	  method, but MAY use the HTTP <spanx style="verb">POST</spanx> method.
-	  The scheme used in the Authorization URL MUST be <spanx style="verb">https</spanx>.
-	  </t>
-
-	  <t> The Authorization Request MUST NOT include the 
-	  <spanx style="verb">request</spanx> parameter. The Authorization Request
-	  MUST include the <spanx style="verb">request_uri</spanx> parameter.
-	  The contents of the resource referenced by the URL MUST be a Request Object.
-	  The scheme used in the 
-	  <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https</spanx>, 
-	  unless the target Request Object is signed in a way that is verifiable by the 
-	  Authorization Server.
-	  The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
-	  Authorization Server, and SHOULD be reachable by the Client.
+	  <t>
+	    The contents of the resource referenced by the URL MUST be a Request Object.
+	    The scheme used in the 
+	    <spanx style="verb">request_uri</spanx> value MUST be <spanx style="verb">https</spanx>, 
+	    unless the target Request Object is signed in a way that is verifiable by the 
+	    Authorization Server.
+	    The <spanx style="verb">request_uri</spanx> value MUST be reachable by the
+	    Authorization Server, and SHOULD be reachable by the Client.
 	  </t>
 
 	  <t>
 	    <figure>
-	      <preamble>Following is a non-normative example of
-	      the contents of a Request File
+	      <preamble>The following is a non-normative example of
+	      the contents of a Request Object resource that can be
+	      referenced by a <spanx style="verb">request_uri</spanx>
 	      (with line wraps within values for display purposes only):</preamble>
 
 	      <artwork><![CDATA[
@@ -3728,72 +3581,51 @@
 	    </figure>
 	  </t>
 
-	  <section anchor="rurl_create"
-		   title="Client Generates the URL of the Request File">
+	  <section anchor="request_uri_create"
+		   title="Client Generates the URL of the Request Object">
 	    <t>
-	      The Client stores the Request File either locally or remotely
-	      at a URL the Server can access.
+	      The Client stores the Request Object resource either
+	      locally or remotely at a URL the Server can access.
 	      This is the Request URI, <spanx style="verb">request_uri</spanx>.
-	      Servers MAY cache the contents of the files referenced by request URIs.
-	      If the contents of the Request File could ever change,
-	      the URI SHOULD include the base64url encoded SHA-256 hash of the
-	      referenced file contents as the fragment component of the URI.
-	      If the fragment value used for a URI changes, that signals the server
-	      that any cached value for that URI with the old fragment value
-	      is no longer valid.
 	    </t>
 	    <t>
-	      Note that Clients MAY pre-register
-	      <spanx style="verb">request_uri</spanx> values using the
-	      <spanx style="verb">request_uris</spanx> parameter defined in
-	      Section 2 of the <xref target="OpenID.Registration">OpenID Connect
-	      Dynamic Client Registration 1.0</xref> specification.
-	      OPs can require that <spanx style="verb">request_uri</spanx> values used
-	      be pre-registered with the <spanx style="verb">require_request_uri_registration</spanx>
-	      discovery parameter.
-	    </t>
-
-	    <t>If the Request File includes attribute 
-	    values, it MUST NOT be revealed to anybody but the Authorization Server. 
-	    As such, the <spanx style="verb">request_uri</spanx> MUST have
-	    appropriate entropy for its lifetime.
-	    It is RECOMMENDED that it be removed
-	    if it is known that it will not be used again
-	    or after a reasonable timeout
-	    unless access control measures are taken.
-	    </t>
-	    <t>The Client then records the Request File either locally or
-	    remotely and obtains the Request File URI, <spanx style="verb">request_uri</spanx>.
+	      If the Request Object includes attribute 
+	      values, it MUST NOT be revealed to anybody but the Authorization Server. 
+	      As such, the <spanx style="verb">request_uri</spanx> MUST have
+	      appropriate entropy for its lifetime.
+	      It is RECOMMENDED that it be removed
+	      if it is known that it will not be used again
+	      or after a reasonable timeout
+	      unless access control measures are taken.
 	    </t>
 	    <figure>
-	      <preamble>Following is a non-normative example
+	      <preamble>The following is a non-normative example
+	      of a Request URI value
 	      (with line wraps within values for display purposes only):</preamble>
 
 	      <artwork><![CDATA[
-  https://client.example.org/rf.txt
-    #GkurKxf5T0Y-mnPFCHqWOMiZi4VS138cQO_V7PZHAdM
+  https://client.example.org/request.jwt#
+    GkurKxf5T0Y-mnPFCHqWOMiZi4VS138cQO_V7PZHAdM
 ]]></artwork>
 	    </figure>
 
 	  </section>
 
-	  <section anchor="art_req"
+	  <section anchor="request_uri_use"
 		   title='Client Sends Request using "request_uri" Parameter'>
 	    <t>The Client sends the Authorization Request to the
 	    Authorization Endpoint.</t>
 
-	    <t>The entire request URL MUST NOT exceed 512 ASCII characters.</t>
-
 	    <figure>
-	      <preamble>Following is a non-normative example
+	      <preamble>The following is a non-normative example
+	      of an Authorization Request using the <spanx style="verb">request_uri</spanx> parameter
 	      (with line wraps within values for display purposes only):</preamble>
 
 	      <artwork><![CDATA[
-  HTTP/1.1 302 Found
-  Location: https://server.example.com/authorize
-    ?response_type=code%20id_token
+  https://server.example.com/authorize?
+    response_type=code%20id_token
     &client_id=s6BhdRkqt3
-    &request_uri=https%3A%2F%2Fclient.example.org%2Frf.txt
+    &request_uri=https%3A%2F%2Fclient.example.org%2Frequest.jwt
     %23GkurKxf5T0Y-mnPFCHqWOMiZi4VS138cQO_V7PZHAdM
     &state=af0ifjsldkj&nonce=n-0S6_WzA2Mj
     &scope=openid
@@ -3801,7 +3633,7 @@
 	    </figure>
 	  </section>
 
-	  <section anchor="FetchesRequestFile" title="Authorization Server Fetches Request File">
+	  <section anchor="request_uri_get" title="Authorization Server Fetches Request Object">
 	    <t>Upon receipt of the Request, the Authorization Server MUST
 	    send a <spanx style="verb">GET</spanx> request to the <spanx style="verb">request_uri</spanx>
 	    to retrieve the content unless it is already cached and parse it
@@ -3813,11 +3645,11 @@
 	    </t>
 
 	    <figure>
-	      <preamble>Following is a non-normative example of this fetch
+	      <preamble>The following is a non-normative example of this fetch
 	      process:</preamble>
 
 	      <artwork><![CDATA[
-  GET /rf.txt HTTP/1.1
+  GET /request.jwt HTTP/1.1
   Host: client.example.org
 ]]></artwork>
 	    </figure>
@@ -4857,13 +4689,14 @@
 	<t>The entire URL MUST NOT exceed 2048 ASCII characters.</t>
 	<figure>
 	  <preamble>
-	    Following is a non-normative example
+	    The following is a non-normative example
+	    response
 	    (with line wraps within values for display purposes only):
 	  </preamble>
 	  <artwork><![CDATA[
   HTTP/1.1 302 Found
-  Location: openid://
-    ?response_type=id_token
+  Location: openid://?
+    response_type=id_token
     &client_id=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid%20profile
     &state=af0ifjsldkj
@@ -5042,7 +4875,7 @@
 
         <figure>
           <preamble>
-	    Following is a non-normative example of this serialization
+	    The following is a non-normative example of this serialization
 	    (with line wraps within values for display purposes only):
 	  </preamble>
 
@@ -5065,7 +4898,7 @@
 
         <figure>
           <preamble>
-	    Following is a non-normative example of this serialization
+	    The following is a non-normative example of this serialization
 	    (with line wraps within values for display purposes only):
 	  </preamble>
 
@@ -5089,7 +4922,7 @@
 
 	<figure>
           <preamble>
-	    Following is a non-normative example of this serialization:
+	    The following is a non-normative example of this serialization:
 	  </preamble>
 
 	  <artwork><![CDATA[
