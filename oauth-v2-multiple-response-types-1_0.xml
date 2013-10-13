@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OAuth 2.0 Multiple Response Types">
-      OAuth 2.0 Multiple Response Type Encoding Practices - draft 08
+      OAuth 2.0 Multiple Response Type Encoding Practices - draft 09
     </title>
 
     <author fullname="Breno de Medeiros" initials="B." role="editor" surname="de Medeiros">
@@ -38,13 +38,20 @@
       </address>
     </author>
 
-    <date day="7" month="June" year="2013" />
+    <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+      <organization abbrev="Microsoft">Microsoft</organization>
+      <address>
+        <email>mbj@microsoft.com</email>
+      </address>
+    </author>
+
+    <date day="12" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
     <abstract>
       <t>This specification aims to provide guidance on proper encoding of responses to
-        OAuth 2.0 Authorization requests, where the request specifies a response type that includes
+        OAuth 2.0 Authorization Requests, where the request specifies a response type that includes
         space characters.</t>
 
       <t>This specification also serves as the registration document for several
@@ -136,9 +143,24 @@
         the assertion and how it can be validated are not specified in this document.</t>
 
       <t><list style="hanging">
-        <t hangText="id_token">If supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
-          Authorization Request, a successful response SHOULD include the parameter
-          <spanx style="verb">id_token</spanx> encoded in the fragment of the response URI.</t>
+        <t hangText="id_token">
+	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
+          Authorization Request, a successful response MUST include the parameter
+          <spanx style="verb">id_token</spanx> encoded in the fragment of the response URI.
+	  The Authorization Server SHOULD NOT return an OAuth 2.0
+	  Authorization Code, Access Token, or Access Token Type in a successful
+          response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
+	  is supplied, the User-Agent SHOULD be redirected
+          there after granting or denying access.
+	  The request MAY include a <spanx style="verb">state</spanx> parameter,
+	  and if so, the
+          server MUST echo its value by adding it to the
+	  <spanx style="verb">redirect_uri</spanx> when issuing
+	  either a successful response or an error response.
+          Any parameters added to the <spanx style="verb">redirect_uri</spanx>
+	  SHOULD be fragment encoded. This applies to both successful
+          responses and error responses.
+	</t>
       </list></t>
 
       <t>Returning the <spanx style="verb">id_token</spanx> in a fragment reduces the likelihood that the <spanx style="verb">id_token</spanx> leaks
@@ -161,13 +183,18 @@
         to return access credentials simultaneously in the authorization step.</t>
 
       <t><list style="hanging">
-        <t hangText="none">When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0 authorization
-          request, the Authorization Server SHOULD NOT return an OAuth 2.0 <spanx style="verb">code</spanx> nor a <spanx style="verb">token</spanx> in a successful
+        <t hangText="none">
+	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
+	  Authorization Request, the Authorization Server SHOULD NOT return an OAuth 2.0
+	  Authorization Code, Access Token, or Access Token Type in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
 	  is supplied, the User-Agent SHOULD be redirected
-          there after granting or denying access. The request MAY include a state parameter, and if so the
+          there after granting or denying access.
+	  The request MAY include a <spanx style="verb">state</spanx> parameter,
+	  and if so, the
           server MUST echo its value by adding it to the
-	  <spanx style="verb">redirect_uri</spanx> when issuing a successful response.
+	  <spanx style="verb">redirect_uri</spanx> when issuing
+	  either a successful response or an error response.
           Any parameters added to the <spanx style="verb">redirect_uri</spanx>
 	  SHOULD be query encoded. This applies to both successful
           responses and error responses.</t>
@@ -178,21 +205,44 @@
       <t>This section registers combinations of the values <spanx style="verb">code</spanx>, <spanx style="verb">token</spanx>, and <spanx style="verb">id_token</spanx>, which are each
         individually registered response types.</t>
 
+	<t>
+	  <list style="hanging">
+	    <t hangText="code&nbsp;token">
+	      When supplied as the value for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include
+	      an Access Token, an Access Token Type,
+	      and an Authorization Code.
+	      Both successful and error responses SHOULD be fragment-encoded.
+	    </t>
+	    <t hangText="code&nbsp;id_token">
+	      When supplied as the value for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include
+	      both an Authorization Code and an <spanx style="verb">id_token</spanx>.
+	      Both successful and error responses SHOULD be fragment-encoded.
+	    </t>
+	    <t hangText="id_token&nbsp;token">
+	      When supplied as the value for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include
+	      an Access Token, an Access Token Type,
+	      and an <spanx style="verb">id_token</spanx>.
+	      Both successful and error responses SHOULD be fragment-encoded.
+	    </t>
+	    <t hangText="code&nbsp;id_token&nbsp;token">
+	      When supplied as the value for the <spanx style="verb">response_type</spanx>
+	      parameter, a successful response MUST include
+	      an Authorization Code, an <spanx style="verb">id_token</spanx>,
+	      an Access Token, and an Access Token Type.
+	      Both successful and error responses SHOULD be fragment-encoded.
+	    </t> 
+	  </list>
+	</t>
       <t>
-	<list style="hanging">
-	  <t hangText="code&nbsp;token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter, a successful
-	  response MUST include both an Access Token and an Authorization Code as defined in the OAuth 2.0
-	  specification. Both successful and error responses SHOULD be fragment-encoded.</t>
-	  <t hangText="code&nbsp;id_token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
-	  a successful response MUST include both an Authorization Code as well as an <spanx style="verb">id_token</spanx>.
-	  Both success and error responses SHOULD be fragment-encoded.</t>
-	  <t hangText="id_token&nbsp;token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
-	  a successful response MUST include both an Access Token as well as an <spanx style="verb">id_token</spanx>.
-	  Both success and error responses SHOULD be fragment-encoded.</t>
-	  <t hangText="code&nbsp;id_token&nbsp;token">When supplied as the value for the <spanx style="verb">response_type</spanx> parameter,
-	  a successful response MUST include an Authorization Code, an <spanx style="verb">id_token</spanx>, and an Access Token.
-	  Both success and error responses SHOULD be fragment-encoded.</t> 
-	</list>
+	For all these response types,
+	the request MAY include a <spanx style="verb">state</spanx> parameter,
+	and if so, the
+	server MUST echo its value by adding it to the
+	<spanx style="verb">redirect_uri</spanx> when issuing
+	either a successful response or an error response.
       </t>
       <t>
 	A non-normative request/response example as issued/received by the User-Agent
@@ -378,6 +428,26 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-09
+        <list style="symbols">
+          <t>
+	    Clarified that the response types <spanx style="verb">none</spanx>
+	    and <spanx style="verb">id_token</spanx> do not return
+	    Authorization Code, Access Token, or Access Token Type values.
+	  </t>
+	  <t>
+	    Clarified that an Access Token Type value MUST be returned in the same cases
+	    that an Access Token is.
+	  </t>
+	  <t>
+	    Clarified that the <spanx style="verb">state</spanx> value must be
+	    included in both successful responses and error responses,
+	    when present in the request.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-08

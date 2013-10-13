@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 28</title>
+    Client Profile 1.0 - draft 29</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date day="5" month="July" year="2013" />
+    <date day="12" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -225,11 +225,18 @@
     </section>
 
     <section anchor="ProtocolElements" title="Protocol Elements">
-      <t>Authorization Requests can follow one of two paths; the Implicit Flow
-      or the Authorization Code Flow. The Authorization Code Flow is
-      suitable for Clients that can securely maintain a Client Secret between
-      themselves and the Authorization Server whereas, the Implicit Flow is
-      suitable for Clients that cannot.</t>
+      <t>
+	Authorization Requests can follow one of three paths:
+	the Authorization Code Flow,
+	the Implicit Flow, or
+	the Hybrid Flow.
+	The Authorization Code Flow is
+	suitable for Clients that can securely maintain a Client Secret between
+	themselves and the Authorization Server whereas, the Implicit Flow is
+	suitable for Clients that cannot.
+	The Hybrid Flow combines aspects of the Authorization Code Flow
+	and the Implicit Flow.
+      </t>
 
       <t>
 	This specification only provides information that is sufficient for
@@ -247,13 +254,16 @@
 
             <t>Authorization Server authenticates the End-User.</t>
 
-            <t>Authorization Server obtains the End-User Consent/Authorization.</t>
+            <t>Authorization Server obtains End-User Consent/Authorization.</t>
 
             <t>Authorization Server sends the End-User back to the Client with
 	    <spanx style="verb">code</spanx>.</t>
 
             <t>Client sends the <spanx style="verb">code</spanx> to the
 	    Token Endpoint to receive an Access Token and ID Token in the response.</t>
+
+	    <t>Client validates the tokens and retrieves the End-User's
+	    subject identifier.</t>
           </list>
         </t>
 
@@ -543,13 +553,13 @@
 	    (with line wraps within values for display purposes only):</preamble>
 
             <artwork><![CDATA[
-  HTTP/1.1 302 Found
-  Location: https://server.example.com/authorize?
+  GET /authorize?
     response_type=code
     &client_id=s6BhdRkqt3
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid%20profile
-    &state=af0ifjsldkj
+    &state=af0ifjsldkj HTTP/1.1
+  Host: server.example.com
 ]]></artwork>
           </figure>
         </section>
@@ -2265,6 +2275,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-29
+        <list style="symbols">
+	  <t>
+	    Tracked editorial changes applied to OpenID Connect Core.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-28
