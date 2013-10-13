@@ -1464,16 +1464,20 @@
 	      <xref target="SelfIssuedResponse" format="counter"/>
 	      for additional Claims defined by this specification.
 	    </t>
-
-            <t>ID Tokens MUST be signed using <xref
-            target="JWS">JWS</xref> and OPTIONALLY both signed and then
-            encrypted using <xref target="JWS">JWS</xref> and <xref
-            target="JWE">JWE</xref> respectively, thereby providing
-            authentication, integrity,
-	    non-repudiation, and optionally, confidentiality,
-	    per <xref target="signing_order"/>.
-	    ID Tokens MUST NOT use <spanx style="verb">none</spanx>
-	    as the <spanx style="verb">alg</spanx> value.</t>
+            <t>
+	      ID Tokens MUST be signed using <xref
+	      target="JWS">JWS</xref> and OPTIONALLY both signed and then
+	      encrypted using <xref target="JWS">JWS</xref> and <xref
+	      target="JWE">JWE</xref> respectively, thereby providing
+	      authentication, integrity,
+	      non-repudiation, and optionally, confidentiality,
+	      per <xref target="signing_order"/>.
+	      ID Tokens MUST NOT use <spanx style="verb">none</spanx>
+	      as the <spanx style="verb">alg</spanx> value
+	      unless the Authorization Request used the Authorization Code Flow
+	      and the Client explicitly requested the use of
+	      <spanx style="verb">none</spanx> at registration time.
+	    </t>
 	    <t>
 	      ID Tokens SHOULD NOT use the JWS or JWE
 	      <spanx style="verb">x5u</spanx>,
@@ -1484,7 +1488,7 @@
 	      Instead, key values and key references used for ID Tokens are
 	      communicated in advance using Discovery and Registration parameters.
 	    </t>
-            
+
 	    <figure>
 	      <preamble>The following is a non-normative example of an
 	      ID Token claims set:</preamble>
@@ -8059,6 +8063,10 @@
 	    <spanx style="verb">acr</spanx> Claim is requested with both the
 	    <spanx style="verb">acr_values</spanx> request parameter and
 	    an individual claim request listing requested values.
+	  </t>
+	  <t>
+	    Fixed #867 - Allow ID Tokens to use "alg":"none" when using the
+	    Authorization Code Flow and when explicitly requested at registration time.
 	  </t>
 	</list>
       </t>
