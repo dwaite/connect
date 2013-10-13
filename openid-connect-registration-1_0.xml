@@ -346,13 +346,16 @@
 
 	  <t hangText="request_object_signing_alg">OPTIONAL.
 	  <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> that MUST be used for requests to the Authorization Server.
+	  algorithm <xref target="JWA" /> that MUST be used for
+	  signing Request Objects sent to the Authorization Server.
 	  The valid values are listed in
 	  Section 3.1 of <xref target="JWA">JWA</xref>.
 	  All Request Objects from
 	  this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
-	  Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
-	  
+	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
+	  The value <spanx style="verb">none</spanx> MAY be used.
+	  </t>
+
 	  <t hangText="userinfo_signed_response_alg">OPTIONAL.
 	  JWS <spanx style="verb">alg</spanx>
 	  algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses. 
@@ -1414,6 +1417,9 @@
 	  <t>
 	    Fixed #867 - Allow ID Tokens to use "alg":"none" when using the
 	    Authorization Code Flow and when explicitly requested at registration time.
+	  </t>
+	  <t>
+	    Fixed #868 - Clarified when "alg":"none" can and cannot be used.
 	  </t>
 	</list>
       </t>
