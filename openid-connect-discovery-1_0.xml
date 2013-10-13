@@ -647,28 +647,6 @@
 	  <spanx style="verb">public</spanx>.
 	  </t>
 
-	  <t hangText="userinfo_signing_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
-	  (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
-	  supported by the UserInfo Endpoint
-	  to encode the Claims in a JWT <xref target="JWT" />.
-	  The value <spanx style="verb">none</spanx> MAY be included.
-	  </t>
-
-	  <t hangText="userinfo_encryption_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
-	  (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
-	  supported by the UserInfo Endpoint
-	  to encode the Claims in a JWT <xref target="JWT" />.
-	  </t>
-
-	  <t hangText="userinfo_encryption_enc_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE encryption algorithms
-	  (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
-	  supported by the UserInfo Endpoint
-	  to encode the Claims in a JWT <xref target="JWT" />.
-	  </t>
-
 	  <t hangText="id_token_signing_alg_values_supported">REQUIRED.
 	  JSON array containing a list of the JWS signing algorithms
 	  (<spanx style="verb">alg</spanx> values)
@@ -690,6 +668,28 @@
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">enc</spanx> values)
 	  supported by the Authorization Server for the ID Token
+	  to encode the Claims in a JWT <xref target="JWT" />.
+	  </t>
+
+	  <t hangText="userinfo_signing_alg_values_supported">OPTIONAL.
+	  JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
+	  (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+	  supported by the UserInfo Endpoint
+	  to encode the Claims in a JWT <xref target="JWT" />.
+	  The value <spanx style="verb">none</spanx> MAY be included.
+	  </t>
+
+	  <t hangText="userinfo_encryption_alg_values_supported">OPTIONAL.
+	  JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
+	  (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+	  supported by the UserInfo Endpoint
+	  to encode the Claims in a JWT <xref target="JWT" />.
+	  </t>
+
+	  <t hangText="userinfo_encryption_enc_values_supported">OPTIONAL.
+	  JSON array containing a list of the JWE encryption algorithms
+	  (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
+	  supported by the UserInfo Endpoint
 	  to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
@@ -733,16 +733,17 @@
 	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
 	  Other authentication methods MAY be defined by extensions.
 	  If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
-	  the HTTP Basic Authentication Scheme as specified in
+	  the HTTP Basic Authentication Scheme specified in
 	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
 	  </t>
 
 	  <t hangText="token_endpoint_auth_signing_alg_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWS signing algorithms
 	  (<spanx style="verb">alg</spanx> values)
-	  supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
-	  and <spanx style="verb">client_secret_jwt</spanx> methods
-	  to encode the JWT <xref target="JWT" />.
+	  supported by the Token Endpoint for the signature on
+	  the JWT <xref target="JWT" /> used to authenticate the Client
+	  at the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
+	  and <spanx style="verb">client_secret_jwt</spanx> authentication methods.
 	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
 	  The value <spanx style="verb">none</spanx> MUST NOT be used.
 	  </t>

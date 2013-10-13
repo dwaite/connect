@@ -5134,18 +5134,16 @@
     </section>
 
     <section anchor="sigenc" title="Signatures and Encryption">
-      <t>Depending on the transport through which the messages are sent, the
-      integrity of the message might not be guaranteed and the originator of the
-      message might not be authenticated. To mitigate these risks, 
-      Request Object, ID Token, and UserInfo Response values
-      MAY utilize <xref target="JWS">JSON Web Signature
-      (JWS)</xref> to sign the contents.</t>
-
-      <t>To achieve message confidentiality, 
-      Request Object, ID Token, and UserInfo Response values
-      MAY use
-      <xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt the
-      content.</t>
+      <t>
+	Depending on the transport through which the messages are sent, the
+	integrity of the message might not be guaranteed and the originator of the
+	message might not be authenticated. To mitigate these risks,
+	ID Token, UserInfo Response, Request Object,
+	and Token Endpoint client authentication JWT values can utilize
+	<xref target="JWS">JSON Web Signature (JWS)</xref> to sign their contents.
+	To achieve message confidentiality, these values can also use
+	<xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt their contents.
+      </t>
 
       <t>When the message is both signed and 
       encrypted, it MUST be

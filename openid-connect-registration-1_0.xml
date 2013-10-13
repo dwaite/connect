@@ -287,19 +287,6 @@
 	  as described in <xref target="LanguagesAndScripts"/>.
 	  </t>
 
-	  <t hangText="token_endpoint_auth_method">OPTIONAL.
-	  Requested authentication method for the Token Endpoint.
-	  The options are 
-	  <spanx style="verb">client_secret_post</spanx>, 
-	  <spanx style="verb">client_secret_basic</spanx>, 
-	  <spanx style="verb">client_secret_jwt</spanx>, 
-	  and <spanx style="verb">private_key_jwt</spanx>, as described in
-	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
-	  Other Authentication methods MAY be defined by extensions. If unspecified or
-	  omitted, the default is <spanx style="verb">client_secret_basic</spanx> HTTP Basic Authentication 
-	  Scheme as specified in
-	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.</t>
-
 	  <t hangText="policy_uri">OPTIONAL.
 	  URL that the Relying 
 	  Party Client provides to the End-User to read about the how the
@@ -344,52 +331,10 @@
 	  <spanx style="verb">pairwise</spanx> and
 	  <spanx style="verb">public</spanx>.</t>
 
-	  <t hangText="request_object_signing_alg">OPTIONAL.
-	  <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> that MUST be used for
-	  signing Request Objects sent to the Authorization Server.
-	  The valid values are listed in
-	  Section 3.1 of <xref target="JWA">JWA</xref>.
-	  All Request Objects from
-	  this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
-	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
-	  The value <spanx style="verb">none</spanx> MAY be used.
-	  </t>
-
-	  <t hangText="userinfo_signed_response_alg">OPTIONAL.
-	  JWS <spanx style="verb">alg</spanx>
-	  algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses. 
-	  The valid values are listed in
-	  Section 3.1 of <xref target="JWA">JWA</xref>.
-	  If this is specified the response will be 
-	  <xref target="JWT">JWT</xref> serialized, and signed using JWS.</t>
-	  
-	  <t hangText="userinfo_encrypted_response_alg">OPTIONAL.
-	  <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
-	  algorithm <xref target="JWA" /> REQUIRED for encrypting UserInfo Responses. 
-	  The valid values are listed in
-	  Section 4.1 of <xref target="JWA">JWA</xref>.
-	  If this is requested in combination with signing the response 
-	  will be signed then encrypted. If this is specified the response will be 
-	  <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-	  
-	  <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
-	  JWE <spanx style="verb">enc</spanx>
-	  algorithm <xref target="JWA" /> REQUIRED for symmetric encryption of UserInfo Responses.
-	  The valid values are listed in
-	  Section 4.2 <xref target="JWA">JWA</xref>.
-	  If <spanx style="verb">userinfo_encrypted_response_alg</spanx> is specified 
-	  the default for this value is <spanx style="verb">A128CBC-HS256</spanx>.
-	  If this is requested in combination with signing the response 
-	  will be signed then encrypted. If this is specified the response will be 
-	  <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
-
 	  <t hangText="id_token_signed_response_alg">OPTIONAL.
 	  JWS <spanx style="verb">alg</spanx>
 	  algorithm <xref target="JWA" /> REQUIRED for the ID Token issued to this
 	  <spanx style="verb">client_id</spanx>.
-	  The valid values are listed in
-	  Section 3.1 of <xref target="JWA">JWA</xref>.
 	  The value <spanx style="verb">none</spanx>
 	  MUST NOT be used as the ID Token <spanx style="verb">alg</spanx> value
 	  unless the Client uses only the Authorization Code Flow.
@@ -403,22 +348,78 @@
 	  JWE <spanx style="verb">alg</spanx>
 	  algorithm <xref target="JWA" /> REQUIRED for encrypting the ID Token
 	  issued to this <spanx style="verb">client_id</spanx>.
-	  The valid values are listed in
-	  Section 4.1 of <xref target="JWA">JWA</xref>.
 	  If this is requested, the response will be signed then encrypted. 
 	  The default, if not specified, is no encryption.</t>
 	  
 	  <t hangText="id_token_encrypted_response_enc">OPTIONAL.
 	  JWE <spanx style="verb">enc</spanx>
-	  algorithm <xref target="JWA" /> REQUIRED for symmetric encryption of the ID Token
+	  algorithm <xref target="JWA" /> REQUIRED for encryption of the ID Token
 	  issued to this <spanx style="verb">client_id</spanx>. 
-	  The valid values are listed in
-	  Section 4.2 of <xref target="JWA">JWA</xref>.
 	  If <spanx style="verb">id_token_encrypted_response_alg</spanx> is specified,
 	  the default for this parameter is <spanx style="verb">A128CBC-HS256</spanx>.
 	  If this is requested in combination with signing, the response 
 	  will be signed then encrypted. If this is specified, the response will be 
 	  <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
+
+	  <t hangText="userinfo_signed_response_alg">OPTIONAL.
+	  JWS <spanx style="verb">alg</spanx>
+	  algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses. 
+	  If this is specified the response will be 
+	  <xref target="JWT">JWT</xref> serialized, and signed using JWS.</t>
+	  
+	  <t hangText="userinfo_encrypted_response_alg">OPTIONAL.
+	  <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
+	  algorithm <xref target="JWA" /> REQUIRED for encrypting UserInfo Responses. 
+	  If this is requested in combination with signing the response 
+	  will be signed then encrypted. If this is specified the response will be 
+	  <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
+	  
+	  <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
+	  JWE <spanx style="verb">enc</spanx>
+	  algorithm <xref target="JWA" /> REQUIRED for encryption of UserInfo Responses.
+	  If <spanx style="verb">userinfo_encrypted_response_alg</spanx> is specified 
+	  the default for this value is <spanx style="verb">A128CBC-HS256</spanx>.
+	  If this is requested in combination with signing the response 
+	  will be signed then encrypted. If this is specified the response will be 
+	  <xref target="JWT">JWT</xref> serialized, and encrypted using JWE.</t>
+
+	  <t hangText="request_object_signing_alg">OPTIONAL.
+	  <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
+	  algorithm <xref target="JWA" /> that MUST be used for
+	  signing Request Objects sent to the Authorization Server.
+	  All Request Objects from
+	  this <spanx style="verb">client_id</spanx> MUST be rejected
+	  if not signed with this algorithm.
+	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
+	  The value <spanx style="verb">none</spanx> MAY be used.
+	  </t>
+
+	  <t hangText="token_endpoint_auth_method">OPTIONAL.
+	  Requested authentication method for the Token Endpoint.
+	  The options are 
+	  <spanx style="verb">client_secret_post</spanx>, 
+	  <spanx style="verb">client_secret_basic</spanx>, 
+	  <spanx style="verb">client_secret_jwt</spanx>, 
+	  and <spanx style="verb">private_key_jwt</spanx>, as described in
+	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Other authentication methods MAY be defined by extensions.
+	  If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
+	  the HTTP Basic Authentication Scheme specified in
+	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
+	  </t>
+
+	  <t hangText="token_endpoint_auth_signing_alg">OPTIONAL.
+	  <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
+	  algorithm <xref target="JWA" /> that MUST be used for signing
+	  the JWT <xref target="JWT" /> used to authenticate the Client
+	  at the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
+	  and <spanx style="verb">client_secret_jwt</spanx> authentication methods.
+	  All Token Requests using these authentication methods from
+	  this <spanx style="verb">client_id</spanx> MUST be rejected
+	  if the JWT is not signed with this algorithm.
+	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
+	  The value <spanx style="verb">none</spanx> MUST NOT be used.
+	  </t>
 
 	  <t hangText="default_max_age">OPTIONAL.
 	  Default Maximum Authentication Age.
@@ -1420,6 +1421,10 @@
 	  </t>
 	  <t>
 	    Fixed #868 - Clarified when "alg":"none" can and cannot be used.
+	  </t>
+	  <t>
+	    Fixed #875 - Added <spanx style="verb">token_endpoint_auth_signing_alg</spanx>
+	    parameter.
 	  </t>
 	</list>
       </t>
