@@ -754,34 +754,13 @@
 		  has an active session with the Authorization Server.
 		  The Authorization Server MUST NOT reply with an ID Token or
 		  Access Token for a different user, 
-		  even if they have an active session with the Authorization Server. 
-		</t>
-		<t>
-		  If the <spanx style="verb">acr</spanx> Claim is requested
-		  as an Essential Claim for the ID Token
-		  with a <spanx style="verb">values</spanx> parameter requesting
-		  specific Authentication Context Class Reference values, then 
-		  the Authorization Server MUST return an <spanx style="verb">acr</spanx> 
-		  Claim Value that matches one of the requested values. 
-		  The Authorization Server MAY ask the End-User to re-authenticate
-		  with additional factors 
-		  to meet this requirement. If this is an Essential Claim and the 
-		  requirement cannot be met, then the Authorization Server MUST
-		  treat that outcome as a failed authentication attempt.
-		</t>
-		<!-- A better place for the following text should probably be found -->
-		<t>
-		  The Client MAY request the <spanx style="verb">acr</spanx>
-		  Claim as a Voluntary Claim
-		  by using the <spanx style="verb">acr_values</spanx> request parameter
-		  or by not including "essential": true in the individual
-		  <spanx style="verb">acr</spanx> Claim request. 
-		  If the Claim is not Essential and the requested value
-		  cannot be provided, the Authorization Server SHOULD return 
-		  the session's current <spanx style="verb">acr</spanx> as
-		  the value of the <spanx style="verb">acr</spanx> Claim. 
-		  If the Claim is not Essential, the Authorization Server is not required to
-		  provide this Claim in its response.
+		  even if they have an active session with the Authorization Server.
+		  Such a request can be made either using an
+		  <spanx style="verb">id_token_hint</spanx> parameter
+		  or by requesting a specific Claim value
+		  as described in <xref target="IndividualClaimsRequests"/>,
+		  if the <spanx style="verb">claims</spanx> parameter
+		  is supported by the implementation.
 		</t>
 	      </list>
 	    </t>
@@ -3545,7 +3524,8 @@
 		    Note that even if the Claims are not available because 
 		    the End-User did not authorize their release or they are not present,
 		    the Authorization Server MUST NOT generate an error when
-		    Claims are not returned, whether they are Essential or Voluntary.
+		    Claims are not returned, whether they are Essential or Voluntary,
+		    unless otherwise specified in the description of the specific claim.
 		  </t>
 
 		  <t hangText="value">
@@ -3629,6 +3609,45 @@
 ]]></artwork>
 	    </figure>
 	  </t>
+
+	  <section anchor="acrSemantics" title='Requesting the "acr" Claim'>
+
+	    <t>
+	      If the <spanx style="verb">acr</spanx> Claim is requested
+	      as an Essential Claim for the ID Token
+	      with a <spanx style="verb">values</spanx> parameter requesting
+	      specific Authentication Context Class Reference values and
+	      the implementation supports the <spanx style="verb">claims</spanx> parameter,
+	      the Authorization Server MUST return an <spanx style="verb">acr</spanx>
+	      Claim Value that matches one of the requested values.
+	      The Authorization Server MAY ask the End-User to re-authenticate
+	      with additional factors
+	      to meet this requirement. If this is an Essential Claim and the
+	      requirement cannot be met, then the Authorization Server MUST
+	      treat that outcome as a failed authentication attempt.
+	    </t>
+	    <t>
+	      Note that the Client MAY request the <spanx style="verb">acr</spanx>
+	      Claim as a Voluntary Claim
+	      by using the <spanx style="verb">acr_values</spanx> request parameter
+	      or by not including "essential": true in an individual
+	      <spanx style="verb">acr</spanx> Claim request.
+	      If the Claim is not Essential and a requested value
+	      cannot be provided, the Authorization Server SHOULD return
+	      the session's current <spanx style="verb">acr</spanx> as
+	      the value of the <spanx style="verb">acr</spanx> Claim.
+	      If the Claim is not Essential, the Authorization Server is not required to
+	      provide this Claim in its response.
+	    </t>
+	    <t>
+	      If the client requests the <spanx style="verb">acr</spanx> Claim using
+	      both the <spanx style="verb">acr_values</spanx> request parameter and
+	      an individual <spanx style="verb">acr</spanx> Claim request for the ID Token
+	      listing specific requested values,
+	      the resulting behavior is unspecified.
+	    </t>
+	  </section>
+
 	</section>
 
 	<section anchor="IndividualClaimsLanguages" title="Languages and Scripts for Individual Claims">
@@ -8034,6 +8053,12 @@
         <list style="symbols">
 	  <t>
 	    Fixed #862 - Clarified <spanx style="verb">azp</spanx> definition.
+	  </t>
+	  <t>
+	    Fixed #866 - Stated that the behavior is unspecified if the
+	    <spanx style="verb">acr</spanx> Claim is requested with both the
+	    <spanx style="verb">acr_values</spanx> request parameter and
+	    an individual claim request listing requested values.
 	  </t>
 	</list>
       </t>
