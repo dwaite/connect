@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 13</title>
+    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 14</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -50,7 +50,7 @@
       </address>
     </author>
 
-    <date day="12" month="October" year="2013" />
+    <date day="13" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1464,10 +1464,10 @@
 		  Authorized Party - 
 		  the party to which the ID Token was issued.
 		  If present, it MUST contain the OAuth 2.0
-		  <spanx style="verb">client_id</spanx> of the
-		  party that will be using it.
-		  This Claim is only REQUIRED when the party requesting the ID Token
-		  is not the same as the sole audience of the ID Token.
+		  <spanx style="verb">client_id</spanx> of this party.
+		  This Claim is only REQUIRED when
+		  the ID Token has a single audience value
+		  and that audience is different than the Authorized Party.
 		  It MAY be included even when the Authorized Party is the same
 		  as the sole audience.
 		  The <spanx style="verb">azp</spanx> value is a case sensitive string
@@ -8028,6 +8028,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-14
+        <list style="symbols">
+	  <t>
+	    Fixed #862 - Clarified <spanx style="verb">azp</spanx> definition.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-13
