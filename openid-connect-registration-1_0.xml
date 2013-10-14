@@ -604,7 +604,7 @@
         the response to the Client.</t>
 
         <t>
-	  The response also contains a Registration Access Token that is
+	  The response MAY contain a Registration Access Token that can be
 	  used by the Client to perform subsequent operations upon
 	  the resulting Client registration.
 	</t>
@@ -615,7 +615,7 @@
 
         <t>
 	  <list style="hanging">
-            <t hangText="client_id"><vspace/>REQUIRED. Unique Client identifier.
+            <t hangText="client_id"><vspace/>REQUIRED. Unique Client Identifier.
 	    It MUST NOT be currently valid for any other registered
             Client.</t>
 
@@ -627,13 +627,18 @@
 	    Clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
 	    <spanx style="verb">private_key_jwt</spanx>.</t>
 
-            <t hangText="registration_access_token"><vspace/>REQUIRED.
-	    Access Token that is used at the Client Configuration Endpoint to
+            <t hangText="registration_access_token"><vspace/>OPTIONAL.
+	    Registration Access Token that can be used at the Client Configuration Endpoint to
 	    perform subsequent operations upon the Client registration.</t>
 
-            <t hangText="registration_client_uri"><vspace/>REQUIRED.
-	    Location where the Access Token can be used to perform subsequent
-	    operations upon the resulting Client registration.</t>
+            <t hangText="registration_client_uri"><vspace/>OPTIONAL.
+	    Location of the Client Configuration Endpoint
+	    where the Registration Access Token can be used to perform subsequent
+	    operations upon the resulting Client registration.
+	    Implementations MUST either return both
+	    a Client Configuration Endpoint and a Registration Access Token
+	    or neither of them.
+	    </t>
 
             <t hangText="client_id_issued_at"><vspace/>OPTIONAL.
 	    Time at which the Client Identifier was issued.
@@ -749,9 +754,36 @@
       </section>
     </section>
 
+    <section anchor="StatelessRegistration" title="Stateless Dynamic Client Registration">
+      <t>
+	In some deployments, it is advantageous to enable Clients to obtain
+	the information necessary to interact with the Authorization Server,
+	such as a Client Identifier,
+	without the requirement that state about the Client be stored at the
+	Authorization Server.
+	The interfaces defined by this specification can be used for
+	stateless dynamic client registration.
+      </t>
+      <t>
+	One means of doing this is to encode necessary registration information
+	about the Client into the <spanx style="verb">client_id</spanx>
+	and/or <spanx style="verb">client_secret</spanx> values returned by
+	the initial registration of the Client.
+	This has the effect of having the Client store this information,
+	rather than the Authorization Server.
+	The particular encodings used by different Authorization Servers will differ.
+      </t>
+      <t>
+	When stateless dynamic client registration is used by the Authorization Server,
+	read operations are likely to not be possible.
+	In that case, no Client Configuration Endpoint or Registration Access Token
+	will be returned by the initial registration of the Client.
+      </t>
+    </section>
+
     <section anchor="AccessEndpoint" title="Client Configuration Endpoint">
       <t>The Client Configuration Endpoint is an OAuth 2.0 protected resource
-      that is provisioned by the server for a specific Client to be able to
+      that MAY be provisioned by the server for a specific Client to be able to
       view and update its registered information. The Client MUST use its
       Registration Access Token in all calls to this endpoint as an
       OAuth 2.0 Bearer Token <xref target="RFC6750"/>.</t>
@@ -763,7 +795,10 @@
 
       <section anchor="AccessURL"
                title="Forming the Client Configuration Endpoint URL">
-        <t>The Authorization Server MUST provide the Client with the fully
+        <t>
+	  If a Client Configuration Endpoint and a Registration Access Token
+	  are returned by the initial registration of the Client,
+	  the Authorization Server MUST provide the Client with the fully
         qualified URL in the <spanx style="verb">registration_client_uri</spanx>
         element of the Client Registration Response, per <xref target="RegistrationResponse"/>.
 	The Authorization Server MUST NOT expect the Client
@@ -793,9 +828,12 @@
       </section>
 
       <section anchor="ReadRequest" title="Client Read Request">
-        <t>To read the current configuration of the Client on the
-        Authorization Server, the Client makes an HTTP <spanx style="verb">GET</spanx> request to the
-        Client Configuration Endpoint with the Registration Access Token.
+        <t>
+	  If the initial registration of the Client returned
+	  a Client Configuration Endpoint and a Registration Access Token,
+	  the current configuration of the Client on the Authorization Server
+	  can be read by making an HTTP <spanx style="verb">GET</spanx> request to the
+	  Client Configuration Endpoint with the Registration Access Token.
 	</t>
 
         <figure>
@@ -1435,6 +1473,11 @@
 	  <t>
 	    Fixed #865 - Described the possibility of implementations using the
 	    update operation defined by the OAuth Dynamic Registration spec.
+	  </t>
+	  <t>
+	    Fixed #863 - Described how to perform stateless dynamic client registration.
+	    This included making the
+	    Client Configuration Endpoint and Registration Access Token optional.
 	  </t>
 	</list>
       </t>
