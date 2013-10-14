@@ -43,7 +43,7 @@
       </address>
     </author>
 
-    <date day="13" month="October" year="2013" />
+    <date day="14" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -64,7 +64,7 @@
     <section anchor="Introduction" title="Introduction">
       <t>In order for an OpenID Client to utilize OpenID Connect services for
       an End-User, the Client needs to know where the OpenID Provider is. OpenID
-      Connect uses <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> to locate
+      Connect uses <xref target="RFC7033">WebFinger</xref> to locate
       the OpenID Provider for an End-User.</t>
 
       <t>Once an OpenID Provider is identified, the endpoint and other
@@ -157,7 +157,7 @@
 
       <t>OpenID Connect uses the following discoverable
       <spanx style="verb">rel</spanx> value in
-      <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>:</t>
+      <xref target="RFC7033">WebFinger</xref>:</t>
 
       <texttable align="center" style="all">
         <ttcol>Rel Type</ttcol>
@@ -171,7 +171,7 @@
       Identifier to the Client or Relying Party. The Client applies the
       normalization rules to the Identifier to determine the Resource and Host.
       Then it makes an HTTPS <spanx style="verb">GET</spanx> request to the Host's
-      <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>
+      <xref target="RFC7033">WebFinger</xref>
       endpoint with the <spanx style="verb">resource</spanx> and <spanx
       style="verb">rel</spanx> parameters to obtain the location of the
       requested service.
@@ -278,7 +278,7 @@
                 the <spanx style="verb">acct</spanx> scheme is assumed. 
                 In this case, the normalized URI is formed by 
                 prefixing <spanx style="verb">acct:</spanx> to the string as the scheme.
-                Per the <xref target="I-D.ietf-appsawg-acct-uri">'acct' URI Scheme</xref>, 
+                Per <xref target="I-D.ietf-appsawg-acct-uri">The 'acct' URI Scheme</xref>, 
                 if there is an at-sign character ('@') in the userinfo component, it needs to be 
                 percent-encoded as described in <xref target="RFC3986">RFC 3986</xref>.</t>
 
@@ -300,7 +300,7 @@
             </list>
           </t>
           <t>
-            The <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref> Resource
+            The <xref target="RFC7033">WebFinger</xref> Resource
 	    in this case is the resulting URI, and 
             the WebFinger Host is the authority component. 
           </t>
@@ -630,7 +630,7 @@
 	    and MAY support the
 	    <spanx style='verb'>urn:ietf:params:oauth:grant-type:jwt-bearer</spanx>
 	    grant type defined in
-	    <xref target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref>.
+	    <xref target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref>.
 	    If omitted, the default value is
 	    <spanx style="verb">["authorization_code", "implicit"]</spanx>.
 	  </t>
@@ -1152,8 +1152,8 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5785"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.7033"?>
 
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-webfinger-15.xml' ?>
       <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-acct-uri-06.xml' ?>
 
       <reference anchor="USA15">
@@ -1263,11 +1263,11 @@
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="28" month="May" year="2013" />
+          <date day="7" month="October" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-oauth-json-web-token" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-08"
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-12"
                 type="HTML" />
       </reference>
 
@@ -1287,11 +1287,11 @@
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="28" month="May" year="2013" />
+          <date day="7" month="October" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-signature" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-11"
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-17"
                 type="HTML" />
       </reference>
 
@@ -1311,11 +1311,11 @@
 	    <organization>Cisco Systems, Inc.</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-encryption" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-11" type="HTML" />
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-17" type="HTML" />
       </reference>
 
       <reference anchor="JWA">
@@ -1326,11 +1326,11 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="28" month="May" year="2013" />
+          <date day="7" month="October" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-algorithms" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-11"
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-17"
                 type="HTML" />
       </reference>
 
@@ -1342,11 +1342,11 @@
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-key" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key-11" type="HTML" />
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key-17" type="HTML" />
       </reference>
 
       <reference anchor="OpenID.Registration">
@@ -1371,29 +1371,29 @@
 	<format target="http://openid.net/specs/openid-connect-registration-1_0-19.html"
                 type="HTML" />
       </reference>
-        
+
       <reference anchor="OAuth.JWT">
-        <front>
-	    <title abbrev="OAuth JWT Bearer Token Profiles">JSON Web Token (JWT) Bearer Token Profiles for OAuth 2.0</title>
+	<front>
+	  <title abbrev="OAuth JWT Assertion Profiles">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</title>
 
-	    <author fullname="Michael B. Jones" surname="Jones" initials="M.B."> <!-- role="editor" -->
-	      <organization>Microsoft</organization>
-	    </author>
+	  <author fullname="Michael B. Jones" surname="Jones" initials="M.B."> <!-- role="editor" -->
+	    <organization>Microsoft</organization>
+	  </author>
 
-	    <author fullname="Brian Campbell" initials="B." surname="Campbell">
-	      <organization abbrev="Ping Identity">Ping Identity</organization>
-	    </author>
+	  <author fullname="Brian Campbell" initials="B." surname="Campbell">
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
+	  </author>
 
-	    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-	      <organization>Salesforce</organization>
-	    </author>
+	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+	    <organization>Salesforce</organization>
+	  </author>
 
-	    <date day="29" month="March" year="2013"/>
-	  </front>
+	  <date day="14" month="July" year="2013"/>
+	</front>
 
-	  <seriesInfo value="draft-ietf-oauth-jwt-bearer" name="Internet-Draft"/>
-	  <format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer-05"
-		    type="HTML" />
+	<seriesInfo value="draft-ietf-oauth-jwt-bearer" name="Internet-Draft"/>
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer-06"
+		type="HTML" />
       </reference>
 
     </references>

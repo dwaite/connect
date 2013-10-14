@@ -4999,8 +4999,8 @@
 	  </t>
 	  <t>
 	    The Client authenticates in accordance with Section 2.2 of <xref
-	    target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
-	    <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
+	    target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref> and 
+	    <xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</xref>.
 	    The JWT MUST contain the following REQUIRED Claim Values and
 	    MAY contain the following OPTIONAL Claim Values:
 	  </t>
@@ -5061,8 +5061,8 @@
 	    Clients that have registered a public key sign a JWT using 
 	    that key.
 	    The Client authenticates in accordance with Section 2.2 of <xref
-	    target="OAuth.JWT">OAuth JWT Bearer Token Profiles</xref> and 
-	    <xref target="OAuth.Assertions">OAuth 2.0 Assertion Profile</xref>.
+	    target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</xref> and 
+	    <xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</xref>.
 	    The JWT MUST contain the following REQUIRED Claim Values and
 	  MAY contain the following OPTIONAL Claim Values:</t>
 
@@ -5941,6 +5941,56 @@
 	specifications.</t>
       </section>
 
+      <section anchor="CompatibilityNotes" title="Compatibility Notes">
+
+	<section anchor="PreFinalIETFSpecs" title="Pre-Final IETF Specifications">
+
+	  <t>
+	    Implementers should be aware that the OpenID Connect
+	    specifications use several IETF specifications that are
+	    not yet final specifications.  Those specifications are:
+	    <list style="symbols">
+	      <t><xref target="JWT">JSON Web Token (JWT) draft -12</xref></t>
+	      <t><xref target="JWS">JSON Web Signature (JWS) draft -17</xref></t>
+	      <t><xref target="JWE">JSON Web Encryption (JWE) draft -17</xref></t>
+	      <t><xref target="JWK">JSON Web Key (JWK) draft -17</xref></t>
+	      <t><xref target="JWA">JSON Web Algorithms draft -17</xref></t>
+	      <t><xref target="OAuth.Assertions">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants draft -12</xref></t>
+	      <t><xref target="OAuth.JWT">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants draft -06</xref></t>
+	      <t><xref target="I-D.ietf-appsawg-acct-uri">The 'acct' URI Scheme draft -06</xref></t>
+	      
+	    </list>
+	  </t>
+	  <t>
+	    While every effort will be made to prevent breaking
+	    changes to these specifications, should they occur,
+	    OpenID Connect implementations should continue to use the
+	    specifically referenced draft versions above in preference
+	    to the final versions, unless using a possible future
+	    OpenID Connect profile or specification that
+	    updates some or all of these references.
+	  </t>
+	</section>
+
+	<section anchor="GoogleIss" title='Google "iss" Value'>
+
+	  <t>
+	    Implementers may want to be aware that,
+	    as of the time of this writing,
+	    Google's deployed OpenID Connect implementation issues ID Tokens
+	    that omit the required <spanx style="verb">https://</spanx>
+	    scheme prefix from the <spanx style="verb">iss</spanx> (issuer)
+	    Claim value.
+	    Relying Party implementations wishing to work with Google
+	    will therefore need to have code to work around this,
+	    until such time as their implementation is updated.
+	    Any such workaround code should be written in a manner
+	    that will not break at such point Google adds the
+	    missing prefix to their issuer values.
+	  </t>
+	</section>
+      </section>
+
       <section anchor="related" title="Related Specifications">
 
 	<t>
@@ -5973,23 +6023,6 @@
 	</t>
       </section>
 
-      <section anchor="CompatibilityNotes" title="Compatibility Notes">
-
-	<t>
-	  Implementers may want to be aware that,
-	  as of the time of this writing,
-	  Google's deployed OpenID Connect implementation issues ID Tokens
-	  that omit the required <spanx style="verb">https://</spanx>
-	  scheme prefix from the <spanx style="verb">iss</spanx> (issuer)
-	  Claim value.
-	  Relying Party implementations wishing to work with Google
-	  will therefore need to have code to work around this,
-	  until such time as their implementation is updated.
-	  Any such workaround code should be written in a manner
-	  that will not break at such point Google adds the
-	  missing prefix to their issuer values.
-	</t>
-      </section>
     </section>
 
     <section anchor="security_considerations" title="Security Considerations">
@@ -7252,11 +7285,11 @@
 	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
 	</front>
 
 	<seriesInfo value="draft-ietf-oauth-json-web-token" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-08"
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-12"
 		type="HTML" />
       </reference>
 
@@ -7276,11 +7309,11 @@
 	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
 	</front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-signature" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-11"
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-signature-17"
 		type="HTML" />
       </reference>
 
@@ -7300,11 +7333,11 @@
 	    <organization>Cisco Systems, Inc.</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
 	</front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-encryption" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-11" type="HTML" />
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-17" type="HTML" />
       </reference>
 
       <reference anchor="JWK">
@@ -7315,11 +7348,11 @@
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
 	</front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-key" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key-11" type="HTML" />
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-key-17" type="HTML" />
       </reference>
 
       <reference anchor="JWA">
@@ -7330,16 +7363,16 @@
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="28" month="May" year="2013" />
+	  <date day="7" month="October" year="2013" />
 	</front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-algorithms" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-11" type="HTML" />
+	<format target="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-17" type="HTML" />
       </reference>
 
       <reference anchor="OAuth.JWT">
 	<front>
-	  <title abbrev="OAuth JWT Bearer Token Profiles">JSON Web Token (JWT) Bearer Token Profiles for OAuth 2.0</title>
+	  <title abbrev="OAuth JWT Assertion Profiles">JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants</title>
 
 	  <author fullname="Michael B. Jones" surname="Jones" initials="M.B."> <!-- role="editor" -->
 	    <organization>Microsoft</organization>
@@ -7353,17 +7386,17 @@
 	    <organization>Salesforce</organization>
 	  </author>
 
-	  <date day="29" month="March" year="2013"/>
+	  <date day="14" month="July" year="2013"/>
 	</front>
 
 	<seriesInfo value="draft-ietf-oauth-jwt-bearer" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer-05"
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-jwt-bearer-06"
 		type="HTML" />
       </reference>
 
       <reference anchor="OAuth.Assertions">
 	<front>
-	  <title abbrev='oauth-assertions'>Assertion Framework for OAuth 2.0</title>
+	  <title abbrev="OAuth Assertion Framework">Assertion Framework for OAuth 2.0 Client Authentication and Authorization Grants</title>
 
 	  <author fullname="Brian Campbell" initials="B." surname="Campbell">
 	    <organization abbrev="Ping Identity">Ping Identity</organization>
@@ -7381,11 +7414,11 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="29" month="March" year="2013"/>
+	  <date day="14" month="July" year="2013"/>
 	</front>
 
 	<seriesInfo value="draft-ietf-oauth-assertions" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-ietf-oauth-assertions-11"
+	<format target="http://tools.ietf.org/html/draft-ietf-oauth-assertions-12"
 		type="HTML" />
       </reference>
 
@@ -7534,6 +7567,7 @@
     <references title="Informative References">
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4949"?>
+      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-acct-uri-06.xml' ?>
 
       <reference anchor="OpenID.Basic">
 	<front>
@@ -8165,6 +8199,9 @@
 	    Fixed #876 - Described that Google's <spanx style="verb">iss</spanx>
 	    value currently omits the required <spanx style="verb">https://</spanx>
 	    scheme prefix.
+	  </t>
+	  <t>
+	    Fixed #882 - Called out pre-final IETF specifications used.
 	  </t>
 	</list>
       </t>
