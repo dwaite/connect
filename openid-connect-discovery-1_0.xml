@@ -98,7 +98,7 @@
 	"Token Endpoint" defined by
 	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
-	<xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	</t>
 	<t>
 	  This specification also defines the following terms:
@@ -560,18 +560,18 @@
 	  </t>
 
 	  <t hangText="authorization_endpoint">OPTIONAL.
-	  URL of the OP's Authentication and Authorization Endpoint <xref
-	  target="OpenID.Messages"></xref>.
+	  URL of the OP's Authentication and Authorization Endpoint
+	  <xref target="OpenID.Core"/>.
 	  </t>
 
 	  <t hangText="token_endpoint">OPTIONAL.
-	  URL of the OP's OAuth 2.0 Token Endpoint <xref
-	  target="OpenID.Messages"></xref>.
+	  URL of the OP's OAuth 2.0 Token Endpoint
+	  <xref target="OpenID.Core"/>.
 	  </t>
 	  
 	  <t hangText="userinfo_endpoint">
 	    RECOMMENDED.
-	    URL of the OP's UserInfo Endpoint <xref target="OpenID.Messages"></xref>.
+	    URL of the OP's UserInfo Endpoint <xref target="OpenID.Core"/>.
 	    This URL MUST use the <spanx style="verb">https</spanx> scheme and MAY contain
 	    port, path, and query parameter components.
 	  </t>
@@ -697,7 +697,7 @@
 	  JSON array containing a list of the JWS signing algorithms
 	  (<spanx style="verb">alg</spanx> values)
 	  supported by the Authorization Server for the Request Object described in
-	  Section 2.9 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 5.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  These algorithms are used both when the Request Object is passed by value
 	  (using the <spanx style="verb">request</spanx> parameter)
 	  and when it is passed by reference
@@ -709,7 +709,7 @@
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">alg</spanx> values)
 	  supported by the Authorization Server for the Request Object described in
-	  Section 2.9 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 5.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  These algorithms are used both when the Request Object is passed by value
 	  and when it is passed by reference.
 	  </t>
@@ -718,7 +718,7 @@
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">enc</spanx> values)
 	  supported by the Authorization Server for the Request Object described in
-	  Section 2.9 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 5.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  These algorithms are used both when the Request Object is passed by value
 	  and when it is passed by reference.
 	  </t>
@@ -730,7 +730,7 @@
 	  <spanx style="verb">client_secret_basic</spanx>,
 	  <spanx style="verb">client_secret_jwt</spanx>, and
 	  <spanx style="verb">private_key_jwt</spanx>, as described in
-	  Section 2.2.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 8 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  Other authentication methods MAY be defined by extensions.
 	  If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
 	  the HTTP Basic Authentication Scheme specified in
@@ -752,14 +752,14 @@
 	  JSON array containing a list of the <spanx style="verb">display</spanx>
 	  parameter values that the OpenID Provider supports.
 	  These values are described in
-	  Section 2.1.1 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 2.1.2.1.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  </t>
 
 	  <t hangText="claim_types_supported">OPTIONAL.
 	  JSON array containing a list of the Claim Types
 	  that the OpenID Provider supports.
 	  These Claim Types are described in
-	  Section 2.6 of <xref target="OpenID.Messages">OpenID Connect Messages 1.0</xref>.
+	  Section 4.6 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  Values defined by this specification are <spanx style="verb">normal</spanx>,
 	  <spanx style="verb">aggregated</spanx>, and <spanx style="verb">distributed</spanx>.
 	  If not specified, the implementation supports
@@ -1181,16 +1181,16 @@
         <seriesInfo name="Unicode Standard Annex" value="15" />
       </reference>
 
-      <reference anchor="OpenID.Messages">
+      <reference anchor="OpenID.Core">
         <front>
-          <title>OpenID Connect Messages 1.0</title>
+          <title>OpenID Connect Core 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
-	    <organization abbrev="Ping Identity">Ping Identity</organization>
+            <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
           <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
@@ -1205,14 +1205,10 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="Illumila">Illumila</organization>
-          </author>
-
-          <date day="5" month="July" year="2013"/>
+          <date day="14" month="October" year="2013"/>
         </front>
 
-	<format target="http://openid.net/specs/openid-connect-messages-1_0-20.html"
+	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
                 type="HTML" />
       </reference>
 
@@ -1240,10 +1236,10 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="5" month="July" year="2013"/>
+          <date day="14" month="October" year="2013"/>
         </front>
 
-	<format target="http://openid.net/specs/openid-connect-session-1_0-15.html"
+	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
                 type="HTML" />
       </reference>
       
@@ -1365,10 +1361,10 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="5" month="July" year="2013"/>
+          <date day="14" month="October" year="2013"/>
         </front>
 
-	<format target="http://openid.net/specs/openid-connect-registration-1_0-19.html"
+	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
                 type="HTML" />
       </reference>
 
@@ -1509,6 +1505,10 @@
 	<list style="symbols">
 	  <t>
 	    Fixed #868 - Clarified when "alg":"none" can and cannot be used.
+	  </t>
+	  <t>
+	    Replaced uses of the OpenID Connect Messages and OpenID Connect Standard
+	    specifications with OpenID Connect Core.
 	  </t>
 	</list>
       </t>
@@ -1694,7 +1694,7 @@
 	  </t>
 	  <t>
 	    Fixed #705 - Switched from using Simple Web Discovery to
-	    <xref target="I-D.ietf-appsawg-webfinger">WebFinger</xref>.
+	    WebFinger.
 	    This also means that Identifiers using e-mail address syntax
 	    are prefixed by the <spanx style="verb">acct:</spanx> scheme
 	    when passed as <spanx style="verb">resource</spanx> parameters
