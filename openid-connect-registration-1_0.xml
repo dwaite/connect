@@ -1081,6 +1081,26 @@
       <spanx style="verb">logo_uri</spanx> and <spanx style="verb">policy_uri</spanx> have the 
       same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.</t>
 
+      <section anchor="NativeCodeLeakage" title="Native Code Leakage">
+
+	<t>
+	  Implementers should be aware that on iOS, information is
+	  returned to native applications using custom URI schemes,
+	  but multiple applications can register the same URI scheme.
+	  In this case, it is nondeterministic which application
+	  receives the information.
+	  This can result in an Authorization Code being leaked to
+	  the wrong application.
+	  Several possible solutions to this have been proposed
+	  and are being discussed in the IETF OAuth working group.
+	  It is expected that a standard solution to this problem
+	  will be developed there.
+	  At that point, an extension to OpenID Connect may
+	  be published describing how to apply that solution
+	  to OpenID Connect.
+	</t>
+      </section>
+
       <section anchor="TLS_requirements" title="TLS Requirements">
 	<t>
 	  Implementations MUST support TLS.
@@ -1477,6 +1497,9 @@
 	    Fixed #863 - Described how to perform stateless dynamic client registration.
 	    This included making the
 	    Client Configuration Endpoint and Registration Access Token optional.
+	  </t>
+	  <t>
+	    Fixed #864 - Described Native application code leakage problem on iOS.
 	  </t>
 	</list>
       </t>
