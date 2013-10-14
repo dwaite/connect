@@ -601,12 +601,15 @@
 		    <list style="hanging">
 		      <t hangText="none">The Authorization Server
 		      MUST NOT display any authentication or consent
-		      user interface pages. An error is returned if the End-User 
+		      user interface pages.
+		      A <spanx style="verb">login_required</spanx> error is returned
+		      if the End-User
 		      is not already authenticated or the Client does not have 
 		      pre-configured consent for the requested
 		      Claims or does not fulfill other conditions for processing.
 		      This can be used as a
-		      method to check for existing authentication and/or consent.</t>
+		      method to check for existing authentication and/or consent.
+		      </t>
 
 		      <t hangText="login">
 			The Authorization Server SHOULD prompt the
@@ -671,10 +674,16 @@
 		    Previously issued ID Token
 		    passed to the Authorization Server as a hint about the End-User's current or past
 		    authenticated session with the Client.
-		    This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 		    If the End-User identified by the ID Token is logged in or is logged in by the request,
 		    then the Authorization Server returns a positive response;
-		    otherwise, it SHOULD return a negative response.
+		    otherwise, it SHOULD return
+		    a <spanx style="verb">login_required</spanx> error.
+		    When possible, an <spanx style="verb">id_token_hint</spanx>
+		    SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
+		    and an <spanx style="verb">invalid_request</spanx> error
+		    MAY be returned if it is not;
+		    however, the server SHOULD respond succcessfully when possible,
+		    even if it is not present.
 		    The Authorization Server need not be listed as an
 		    audience of the ID Token when it is used as an
 		    <spanx style="verb">id_token_hint</spanx> value.
@@ -684,10 +693,6 @@
 		    decrypt the signed ID Token contained within the encrypted ID Token.
 		    The Client MAY re-encrypt the signed ID token to the Authentication Server
 		    using a key that enables the server to decrypt the ID Token.
-		  </t>
-		  <t>
-		    For a Self-Issued ID Token, the <spanx style="verb">sub</spanx> (subject) of the
-		    signed ID Token MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
 		  </t>
 
 		  <t hangText="login_hint">
@@ -723,9 +728,9 @@
 		See Sections <xref target="ImplicitRequestParameters" format="counter"/>,
 		<xref target="HybridRequestParameters" format="counter"/>,
 		<xref target="ClaimsLocales" format="counter"/>,
-		<xref target="ClaimsRequest" format="counter"/>,
+		<xref target="ClaimsParameter" format="counter"/>,
 		<xref target="JWTRequests" format="counter"/>, and
-		<xref target="RegistrationRequestParameter" format="counter"/>
+		<xref target="RegistrationParameter" format="counter"/>
 		for additional Authorization Request parameters and parameter values
 		defined by this specification.
 	      </t>
@@ -809,7 +814,8 @@
 	      <t>The Authorization Request contains the <spanx 
 	      style="verb">prompt</spanx> parameter with the value
 	      <spanx style="verb">none</spanx>.  In this case,
-	      the Authorization Server MUST return an error if the End-User
+	      the Authorization Server MUST return
+	      a <spanx style="verb">login_required</spanx> error if the End-User
 	      is not already logged in or could not be silently logged in.</t>
 	    </list>
 	    </t>
@@ -3364,7 +3370,7 @@
 	</t>
       </section>
 
-      <section anchor="ClaimsRequest" title='Requesting Claims using the "claims" Request Parameter'>
+      <section anchor="ClaimsParameter" title='Requesting Claims using the "claims" Request Parameter'>
 
 	<t>
 	  OpenID Connect defines the following Authorization Request parameter
@@ -3376,8 +3382,7 @@
 	    <t hangText="claims">
 	      OPTIONAL.
 	      This parameter is used to request that specific Claims be returned.
-	      The value is a JSON object listing the requested Claims,
-	      as specified in <xref target="ClaimsRequest"/>.
+	      The value is a JSON object listing the requested Claims.
 	    </t>
 	  </list>
 	</t>
@@ -4551,7 +4556,7 @@
 	  perform any special processing for registration of a Self-Issued OP.
 	</t>
 
-	<section anchor="RegistrationRequestParameter"
+	<section anchor="RegistrationParameter"
 		 title='Providing Information with the "registration" Request Parameter'>
 
 	  <t>
@@ -4566,6 +4571,10 @@
 		This parameter is used by the Client to provide information about itself
 		to a Self-Issued OP that would normally be provided to an OP during
 		Dynamic Client Registration.
+		The value is a JSON object containing Client metadata values,
+		as defined in Section 2.1 of the 
+		<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+		specification.
 		The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
 		when the OP is not a Self-Issued OP.
 	      </t>
@@ -4625,20 +4634,10 @@
 	    </t>
 	    <t hangText="id_token_hint">
 	      OPTIONAL.
-	      Previously issued ID Token
-	      passed to the Authorization Server as a hint about the End-User's
-	      current or past authenticated session with the Client.
-	      This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
-	      If the End-User identified by the ID Token is logged in or is logged in by the
-	      request, then the Authorization Server returns a positive response;
-	      otherwise, it SHOULD return a negative response.
-	    </t>
-	    <t>
-	      If the ID Token received by the RP is encrypted, the Client MUST
-	      decrypt the signed ID Token contained within the encrypted ID Token.
-	      The Client MAY re-encrypt the signed ID token to the Authentication Server
-	      using a key that enables the server to decrypt the ID Token.
-	      In this case, the <spanx style="verb">sub</spanx> (subject)
+	      <spanx style="verb">id_token_hint</spanx> parameter value,
+	      as specified in <xref target="RequestParameters"/>.
+	      If the ID Token is encrypted to the Self-Issued OP,
+	      the <spanx style="verb">sub</spanx> (subject)
 	      of the signed ID Token MUST be sent as the
 	      <spanx style="verb">kid</spanx> (Key ID) of the JWE.
 	      Encrypting content to Self-Issued OPs is currently only supported when
@@ -4647,20 +4646,20 @@
 	    </t>
 	    <t hangText="claims">
 	      OPTIONAL.
-	      This parameter is used to request that specific Claims be returned.
-	      The value is a JSON object, as specified in <xref target="ClaimsRequest"/>.
+	      <spanx style="verb">claims</spanx> parameter value,
+	      as specified in <xref target="ClaimsParameter"/>.
 	    </t>
 	    <t hangText="registration">
 	      OPTIONAL.
 	      This parameter is used by the Client to provide information about itself
 	      to a Self-Issued OP that would normally be provided to an OP during
 	      Dynamic Client Registration,
-	      as specified in <xref target="RegistrationRequestParameter"/>.
+	      as specified in <xref target="RegistrationParameter"/>.
 	    </t>
 	    <t hangText="request">
 	      OPTIONAL.
 	      Request Object value, as specified in <xref target="RequestObject"/>.
-	      The Request Object MAY be encrypted in a JWE by the Client.
+	      The Request Object MAY be encrypted to the Self-Issued OP by the Client.
 	      In this case, the <spanx style="verb">sub</spanx> (subject) of
 	      a previously issued ID Token for this Client
 	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
@@ -6902,7 +6901,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="ClaimsRequest"/> of this document</t>
+	      <t>Specification document(s): <xref target="ClaimsParameter"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6916,7 +6915,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RegistrationRequestParameter"/> of this document</t>
+	      <t>Specification document(s): <xref target="RegistrationParameter"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -8124,6 +8123,9 @@
 	  <t>
 	    Fixed #877 - Specified that a user interface MUST NOT be displayed
 	    when "prompt":"none" is used.
+	  </t>
+	  <t>
+	    Fixed #878 - Defined negative response for "id_token_hint".
 	  </t>
 	</list>
       </t>

@@ -438,7 +438,9 @@
 		  <list style="hanging">
 		    <t hangText="none">The Authorization Server
 		    MUST NOT display any authentication or consent
-		    user interface pages. An error is returned if the End-User 
+		    user interface pages.
+		    A <spanx style="verb">login_required</spanx> error is returned
+		    if the End-User
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
 		    Claims or does not fulfill other conditions for processing.
@@ -515,10 +517,16 @@
 		  Previously issued ID Token
 		  passed to the Authorization Server as a hint about the End-User's current or past
 		  authenticated session with the Client.
-		  This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 		  If the End-User identified by the ID Token is logged in or is logged in by the request,
 		  then the Authorization Server returns a positive response;
-		  otherwise, it SHOULD return a negative response.
+		  otherwise, it SHOULD return
+		  a <spanx style="verb">login_required</spanx> error.
+		  When possible, an <spanx style="verb">id_token_hint</spanx>
+		  SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
+		  and an <spanx style="verb">invalid_request</spanx> error
+		  MAY be returned if it is not;
+		  however, the server SHOULD respond succcessfully when possible,
+		  even if it is not present.
 		  The Authorization Server need not be listed as an
 		  audience of the ID Token when it is used as an
 		  <spanx style="verb">id_token_hint</spanx> value.
@@ -556,9 +564,7 @@
 		  This parameter is used by the Client to provide information about itself
 		  to a Self-Issued OP that would normally be provided to an OP during
 		  Dynamic Client Registration,
-		  as specified in <xref target="SelfIssuedRegistrationRequest"/>.
-                  The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-                  when the OP is not a Self-Issued OP.
+		  as specified in <xref target="RegistrationParameter"/>.
 		</t>
 	      </list>
 	    </t>
@@ -1657,7 +1663,7 @@
 	<spanx style="verb">https://self-issued.me</spanx>.
       </t>
 
-      <section anchor="self_issued.discovery" title="Self-Issued OpenID Provider Discovery">
+      <section anchor="SelfIssuedDiscovery" title="Self-Issued OpenID Provider Discovery">
         <t>
           If the input identifier for the discovery process
 	  contains the domain self-issued.me, dynamic discovery is not performed. 
@@ -1691,7 +1697,7 @@
         </t>
       </section>
 
-      <section anchor="self_issued.registration" title="Self-Issued OpenID Provider Registration">
+      <section anchor="SelfIssuedRegistration" title="Self-Issued OpenID Provider Registration">
         <t>
           When using a Self-Issued OP, the Client is deemed to have 
           registered with the OP and obtained following Client Registration Response.  
@@ -1713,16 +1719,31 @@
 	  perform any special processing for registration of a Self-Issued OP.
         </t>
 
-	<section anchor="SelfIssuedRegistrationRequest"
-		 title="Providing Additional Registration Information">
+	<section anchor="RegistrationParameter"
+		 title='Providing Information with the "registration" Request Parameter'>
+
 	  <t>
-	    The <spanx style="verb">registration</spanx> request parameter
-	    can be used by the Client to provide information about itself to a Self-Issued OP
-	    that would normally be provided to an OP during Dynamic Client Registration.
-	    The value is a JSON object containing name/value pairs defined in
-	    Section 2.1 of the 
-	    <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
-	    specification.
+	    OpenID Connect defines the following Authorization Request parameter
+	    to enable Clients to provide additional registration information to
+	    Self-Issued OpenID Providers:
+
+	    <list style="hanging">
+
+	      <t hangText="registration">
+		OPTIONAL.
+		This parameter is used by the Client to provide information about itself
+		to a Self-Issued OP that would normally be provided to an OP during
+		Dynamic Client Registration.
+		The value is a JSON object containing Client metadata values,
+		as defined in Section 2.1 of the 
+		<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+		specification.
+		The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
+		when the OP is not a Self-Issued OP.
+	      </t>
+	    </list>
+	  </t>
+	  <t>
 	    None of this information is REQUIRED by Self-Issued OPs,
 	    so the use of this parameter is OPTIONAL.
 	  </t>
@@ -1744,7 +1765,7 @@
 	</section>
       </section>
 
-      <section anchor="self_issued.request" title="Self-Issued OpenID Provider Request">
+      <section anchor="SelfIssuedRequest" title="Self-Issued OpenID Provider Request">
         <t>The Client sends the Authorization Request to the Authorization Endpoint
 	with the following parameters:</t>
         <t><list style="hanging">
@@ -1762,27 +1783,21 @@
             is NOT REQUIRED to also be included in the request.
           </t>
           <t hangText="scope">
-            REQUIRED. <spanx style="verb">scope</spanx> parameter value,
-            as defined in <xref target="scopes"/>.
+            REQUIRED.
+	    <spanx style="verb">scope</spanx> parameter value,
+            as defined in <xref target="RequestParameters"/>.
           </t>
 	  <t hangText="id_token_hint">
 	    OPTIONAL.
-	    Previously issued ID Token
-	    passed to the Authorization Server as a hint about the End-User's
-	    current or past authenticated session with the Client.
-	    This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
-	    If the End-User identified by the ID Token is logged in or is logged in by the
-	    request, then the Authorization Server returns a positive response;
-	    otherwise, it SHOULD return a negative response.
+	    <spanx style="verb">id_token_hint</spanx> parameter value,
+	    as specified in <xref target="RequestParameters"/>.
 	  </t>
 	  <t hangText="registration">
 	    OPTIONAL.
 	    This parameter is used by the Client to provide information about itself
 	    to a Self-Issued OP that would normally be provided to an OP during
 	    Dynamic Client Registration,
-	    as specified in <xref target="SelfIssuedRegistrationRequest"/>.
-	    The <spanx style="verb">registration</spanx> parameter SHOULD NOT be used
-	    when the OP is not a Self-Issued OP.
+	    as specified in <xref target="RegistrationParameter"/>.
 	  </t>
 	</list>
 	</t>
@@ -2651,6 +2666,9 @@
 	  </t>
 	  <t>
 	    Fixed #862 - Clarified <spanx style="verb">azp</spanx> definition.
+	  </t>
+	  <t>
+	    Fixed #878 - Defined negative response for "id_token_hint".
 	  </t>
 	</list>
       </t>

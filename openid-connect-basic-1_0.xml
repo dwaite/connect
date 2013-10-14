@@ -426,7 +426,9 @@
 		  <list style="hanging">
 		    <t hangText="none">The Authorization Server
 		    MUST NOT display any authentication or consent
-		    user interface pages. An error is returned if the End-User 
+		    user interface pages.
+		    A <spanx style="verb">login_required</spanx> error is returned
+		    if the End-User
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
 		    Claims or does not fulfill other conditions for processing.
@@ -503,10 +505,16 @@
 		  Previously issued ID Token
 		  passed to the Authorization Server as a hint about the End-User's current or past
 		  authenticated session with the Client.
-		  This SHOULD be present when <spanx style="verb">prompt=none</spanx> is used.
 		  If the End-User identified by the ID Token is logged in or is logged in by the request,
 		  then the Authorization Server returns a positive response;
-		  otherwise, it SHOULD return a negative response.
+		  otherwise, it SHOULD return
+		  a <spanx style="verb">login_required</spanx> error.
+		  When possible, an <spanx style="verb">id_token_hint</spanx>
+		  SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
+		  and an <spanx style="verb">invalid_request</spanx> error
+		  MAY be returned if it is not;
+		  however, the server SHOULD respond succcessfully when possible,
+		  even if it is not present.
 		  The Authorization Server need not be listed as an
 		  audience of the ID Token when it is used as an
 		  <spanx style="verb">id_token_hint</spanx> value.
@@ -2284,6 +2292,9 @@
 	  </t>
 	  <t>
 	    Fixed #862 - Clarified <spanx style="verb">azp</spanx> definition.
+	  </t>
+	  <t>
+	    Fixed #878 - Defined negative response for "id_token_hint".
 	  </t>
 	</list>
       </t>
