@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Implicit Client Implementer's Guide 1.0">OpenID Connect
+    <title abbrev="OpenID Connect Implicit Client Guide 1.0">OpenID Connect
     Implicit Client Implementer's Guide 1.0 - draft 12</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -144,7 +144,7 @@
 	</t>
       </section>
 
-      <section anchor="terminology" title="Terminology"> 
+      <section anchor="Terminology" title="Terminology"> 
         <t>
           This specification uses the terms "Access Token", "Refresh Token",
 	  "Authorization Code", "Authorization Grant", "Authorization Server",
@@ -286,7 +286,7 @@
 
 	  <t>
 	    Communication with the Authorization Endpoint MUST utilize TLS.
-	    See <xref target="TLS_requirements"/> for more information on using TLS.
+	    See <xref target="TLSRequirements"/> for more information on using TLS.
 	  </t>
 
           <t>Clients MAY construct the request using the HTTP
@@ -296,7 +296,7 @@
 
           <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
           parameters are serialized using
-	  the Query String Serialization, per <xref target="qss"/>.
+	  the Query String Serialization, per <xref target="QuerySerialization"/>.
 	  If using the HTTP
           <spanx style="verb">POST</spanx> method, the request parameters are 
           added to the HTTP request entity-body using the 
@@ -352,7 +352,7 @@
 		  <spanx style="verb">phone</spanx>,
 		  and <spanx style="verb">offline_access</spanx>
 		  are also defined.
-		  See <xref target="scopes"/> for more about the scope values defined by this specification.
+		  See <xref target="Scopes"/> for more about the scope values defined by this specification.
 		</t>
 
                 <t hangText="redirect_uri">
@@ -561,7 +561,7 @@
 		  with the values appearing in order of preference.
 		  The Authentication Context Class satisfied by the authentication
 		  performed is returned as the <spanx style="verb">acr</spanx> Claim Value,
-		  as specified in <xref target="id_token"/>.
+		  as specified in <xref target="IDToken"/>.
 		  The <spanx style="verb">acr</spanx> Claim is requested as
 		  a Voluntary Claim by this parameter.
 		</t>
@@ -578,7 +578,7 @@
 	  </section>
         </section>
 
-        <section anchor="implicit_req"
+        <section anchor="ImplicitRequest"
 		 title="Client Sends Request to Authorization Server">
           <t>Having constructed the Authorization Request, the Client sends it
           to the Authorization Endpoint using HTTPS.</t>
@@ -606,7 +606,7 @@
 	    The Authorization Server logs in the End-User or verifies whether
 	    he is logged in, depending upon the request parameter values used.
 	    If interaction with the End-User occurs over an HTTP channel,
-	    it MUST use TLS, as per <xref target="TLS_requirements"/>.
+	    it MUST use TLS, as per <xref target="TLSRequirements"/>.
 	    The exact authentication methods used are out of scope for this specification.
 	  </t>
         </section>
@@ -626,13 +626,13 @@
 	  </t>
         </section>
 
-        <section anchor="implicit_res"
+        <section anchor="ImplicitResponse"
                  title="Authorization Server Sends End-User Back to Client">
 
           <t>Once the authorization is determined, the Authorization Server
           returns a successful response or an error response.</t>
 
-          <section anchor="implicit_ok" title="End-User Grants Authorization">
+          <section anchor="ImplicitOK" title="End-User Grants Authorization">
 
             <t>If the Resource Owner grants the access request, the
             Authorization Server issues an Access Token and delivers it to the
@@ -700,7 +700,7 @@
             </figure>
           </section>
 
-          <section anchor="implicit_authz_error"
+          <section anchor="ImplicitAuthzError"
                    title="End-User Denies Authorization or Invalid Request">
 
             <t>If the End-User denies the authorization or the End-User authentication
@@ -710,8 +710,8 @@
             SHOULD be returned.</t>
           </section>
           
-          <section anchor="implicit_callback" 
-                   title="Example Redirect URI Handling">
+          <section anchor="ImplicitCallback" 
+                   title="Redirect URI Fragment Handling">
 	    <t>The Client MUST provide a way for the User-Agent to parse the fragment encoded
 	    response and post it to the Web Server Client for validation.</t>
 
@@ -771,7 +771,7 @@
         
       </section>
 
-      <section anchor="id_token" title="ID Token">
+      <section anchor="IDToken" title="ID Token">
 	<t>The ID Token is a security token that contains Claims about the
 	authentication event and other requested Claims.  
 	The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
@@ -942,7 +942,7 @@
 	      NOT RECOMMENDED or REQUIRED.
 	      Public key value used to check the signature of an ID Token
 	      issued by a Self-Issued OpenID Provider,
-	      as specified in <xref target="self_issued"/>.
+	      as specified in <xref target="SelfIssued"/>.
 	      The key is a bare key in JWK <xref target="JWK"/> format
 	      (not an X.509 certificate value).
 	      Use of the <spanx style="verb">sub_jwk</spanx> Claim
@@ -962,7 +962,7 @@
 	<t>ID Tokens MUST be signed using <xref
 	target="JWS">JWS</xref>.
 	Clients MUST validate the ID Token per 
-	<xref target="id.token.validation"/>. 
+	<xref target="IDTokenValidation"/>. 
 	</t>
 	<t>
 	  ID Tokens SHOULD NOT use the JWS or JWE
@@ -992,7 +992,7 @@
 ]]></artwork>
 	</figure>
         
-	<section anchor="id.token.validation" title="ID Token Validation">
+	<section anchor="IDTokenValidation" title="ID Token Validation">
 
 	  <t>
 	    If any of the validation procedures defined in this specification fail, any operations requiring
@@ -1071,8 +1071,8 @@
 	    </list>
 	  </t>
 	</section>
-	
-	<section anchor="access.token.validation" title="Access Token Validation">
+
+	<section anchor="AccessTokenValidation" title="Access Token Validation">
 	  <t>To validate an Access Token issued with an ID Token in 
 	  the implicit flow, the Client SHOULD do the following:</t>
 
@@ -1093,7 +1093,7 @@
 
       </section>
 
-      <section anchor="userinfo" title="UserInfo Endpoint">
+      <section anchor="UserInfo" title="UserInfo Endpoint">
 
         <t>
 	  The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
@@ -1108,7 +1108,7 @@
 
         <t>
 	  Communication with the UserInfo Endpoint MUST utilize TLS.
-	  See <xref target="TLS_requirements"/> for more information on using TLS.
+	  See <xref target="TLSRequirements"/> for more information on using TLS.
 	</t>
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
@@ -1183,7 +1183,7 @@
 	</section>
       </section>
 
-      <section title="Scope Values" anchor="scopes">
+      <section anchor="Scopes" title="Scope Values">
         <t>OpenID Connect Clients use <spanx style="verb">scope</spanx> values as defined in 3.3 of 
         <xref target="RFC6749">OAuth 2.0</xref> to specify what
         access privileges are being requested for Access Tokens. The scopes associated
@@ -1348,7 +1348,7 @@
 	  special characters such as <spanx style="verb">@</spanx>, 
 	  <spanx style="verb">/</spanx>, or whitespace. This value MUST NOT
 	  be relied upon to be unique by the RP. 
-	  (See <xref target="claim.stability"></xref>.)</c>
+	  (See <xref target="ClaimStability"></xref>.)</c>
 	  
 	  <c>profile</c>
 	  <c>string</c>
@@ -1385,7 +1385,7 @@
 	    Its value MUST conform to the <xref target="RFC5322">RFC 5322</xref>
 	    addr-spec syntax.
 	    This value MUST NOT be relied upon to be unique by the RP,
-	    as discussed in <xref target="claim.stability"></xref>.
+	    as discussed in <xref target="ClaimStability"></xref>.
 	  </c>
 
 	  <c>email_verified</c>
@@ -1473,7 +1473,7 @@
 	  <c>End-User's preferred address. The value of the <spanx
 	  style="verb">address</spanx> member is a <xref
 	  target="RFC4627">JSON</xref> structure containing some or all of
-	  the members defined in <xref target="address_claim" />.</c>
+	  the members defined in <xref target="AddressClaim" />.</c>
 
 	  <c>updated_at</c>
 	  <c>number</c>
@@ -1519,7 +1519,7 @@
 	  <c>JSON Web Token (JWT)</c>
 	</texttable>
 
-	<section title="Address Claim" anchor="address_claim">
+	<section anchor="AddressClaim" title="Address Claim">
 	  <t>
 	    The Address Claim represents a physical mailing address. 
 	    Implementations MAY return only a subset of the
@@ -1629,7 +1629,7 @@
 	  </t>
 	</section>
 
-	<section anchor="claim.stability" title="Claim Stability and Uniqueness">
+	<section anchor="ClaimStability" title="Claim Stability and Uniqueness">
 
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) and
@@ -1637,7 +1637,7 @@
 	    can rely upon as a stable identifier for the End-User,
 	    since the <spanx style="verb">sub</spanx>
 	    Claim MUST be locally unique and never reassigned within the Issuer
-	    for a particular End-User, as described in <xref target="id_token"></xref>.
+	    for a particular End-User, as described in <xref target="IDToken"></xref>.
 	    Therefore, the only guaranteed unique identifier for a given End-User is the
 	    combination of the <spanx style="verb">iss</spanx> Claim
 	    and the <spanx style="verb">sub</spanx> Claim.
@@ -1662,7 +1662,7 @@
 
     </section>
 
-    <section anchor="self_issued" title="Self-Issued OpenID Provider">
+    <section anchor="SelfIssued" title="Self-Issued OpenID Provider">
       <t>
 	OpenID Connect supports Self-Issued OpenID Providers -
 	personal OPs that issue self-signed ID Tokens.
@@ -1843,7 +1843,7 @@
         </figure> 
       </section>
 
-      <section anchor="self_issued.response" title="Self-Issued OpenID Provider Response">
+      <section anchor="SelfIssuedResponse" title="Self-Issued OpenID Provider Response">
         <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
 	response with the following refinements.  Since it is an implicit flow
 	response, the response parameters will be returned in the URL fragment component.
@@ -1880,7 +1880,7 @@
 	</list></t>
       </section>
 
-      <section anchor="self_issued.validation" title="Self-Issued ID Token Validation">
+      <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
 
         <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
         MUST do the following:</t>
@@ -1891,7 +1891,7 @@
             If <spanx style="verb">iss</spanx> contains a different value, 
             the ID Token is not Self-Issued, and instead
 	    it MUST be validated according to
-	    <xref target="id.token.validation"/>.
+	    <xref target="IDTokenValidation"/>.
           </t>
           <t>
             The Client MUST validate that the 
@@ -1989,7 +1989,7 @@
         </list>
       </t>
 
-      <section anchor="qss" title="Query String Serialization">
+      <section anchor="QuerySerialization" title="Query String Serialization">
 
 	<t>In order to serialize the parameters using the Query String
 	Serialization, the Client constructs the string by adding the
@@ -2019,7 +2019,7 @@
 	</figure>
       </section>
 
-      <section anchor="form_serialization" title="Form Serialization">
+      <section anchor="FormSerialization" title="Form Serialization">
 
 	<t>Parameters and their values are Form Serialized by adding the 
 	parameter names and values to the entity body of the HTTP request using
@@ -2048,7 +2048,7 @@
 
     </section>
 
-    <section anchor="stringops" title="String Operations">
+    <section anchor="StringOps" title="String Operations">
       <t>
 	Processing some OpenID Connect messages requires comparing
 	values in the messages to known values. For example, the Claim
@@ -2085,7 +2085,7 @@
 
     </section>
 
-    <section title='TLS Version' anchor='tls'>
+    <section anchor='TLS' title='TLS Version'>
       <t>
 	Whenever Transport Layer Security (TLS) is used by this specification,
 	the appropriate version (or versions) of
@@ -2105,7 +2105,7 @@
 	in this specification as being "REQUIRED" or are described with a "MUST".
       </t>
 
-      <section anchor="disco_reg" title="Discovery and Registration">
+      <section anchor="DiscoReg" title="Discovery and Registration">
 
 	<t>Some OpenID Connect installations can use a pre-configured set of
 	OpenID Providers and/or Relying Parties. In those cases, it might not be
@@ -2122,14 +2122,14 @@
       </section>
     </section>
 
-    <section anchor="security_considerations" title="Security Considerations">
+    <section anchor="Security" title="Security Considerations">
 
       <t>
 	For security considerations other than those listed below, refer to the
 	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref> specification.
       </t>
 
-      <section anchor="TLS_requirements" title="TLS Requirements">
+      <section anchor="TLSRequirements" title="TLS Requirements">
 	<t>
 	  Implementations MUST support TLS.
 	  Which version(s) ought to be implemented will vary over
@@ -2157,7 +2157,7 @@
       </section>
     </section>
 
-    <section anchor="privacy_considerations" title="Privacy Considerations">
+    <section anchor="Privacy" title="Privacy Considerations">
 
       <section anchor="PII" title="Personally Identifiable Information">
 
