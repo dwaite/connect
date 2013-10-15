@@ -170,30 +170,35 @@
 
       <t>This parameter is:</t>
 
-      <t><list style="hanging">
+      <t>
+	<list style="hanging">
           <t hangText="session_state">Session State.
 	  JSON string that represents the End-User's login state
           at the OP.  This string is opaque to the RP.
 	  This is REQUIRED if session management is supported.
 	  </t>
-        </list></t>
+        </list>
+      </t>
     </section>
 
     <section anchor="ChangeNotification" title="Session Status Change Notification">
-      <t>ID Token typically comes with the expiry date. The RP MAY rely on it
-      to expire the RP session. However, it is entirely possible that the End-User
-      might have logged out of the OP before the expiry date. Therefore, it is
-      highly desirable to be able to find out the login status of the End-User at
-      the OP.</t>
-
-      <t>To do so, it is possible to repeat the authentication request with
-      prompt=none. However, this causes network traffic and this is
-      problematic on the mobile devices that are increasingly becoming
-      popular. Therefore, once the session is established with the
-      authentication request and response, it is desirable to be able to check
-      the login status at the OP without causing network traffic by polling
-      the hidden OP iframe from a RP iframe with origin restricted postMessage
-      as follows.</t>
+      <t>
+	An ID Token typically comes with an expiration date. The RP MAY rely on it
+	to expire the RP session. However, it is entirely possible that the End-User
+	might have logged out of the OP before the expiration date. Therefore, it is
+	highly desirable to be able to find out the login status of the End-User at
+	the OP.
+      </t>
+      <t>
+	To do so, it is possible to repeat the authentication request with
+	prompt=none. However, this causes network traffic and this is
+	problematic on the mobile devices that are becoming increasingly
+	popular. Therefore, once the session is established with the
+	authentication request and response, it is desirable to be able to check
+	the login status at the OP without causing network traffic by polling
+	a hidden OP iframe from an RP iframe with an origin restricted postMessage
+	as follows.
+      </t>
 
       <t></t>
 
