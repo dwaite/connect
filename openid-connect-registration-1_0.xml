@@ -125,6 +125,11 @@
 	  <t hangText="Initial Access Token">
 	    OAuth 2.0 Access Token optionally issued by an Authorization Server
 	    granting access to its Client Registration Endpoint.
+	    The contents
+	    of this token are service-specific and are out of scope for this 
+            specification. The means by which the Authorization Server issues this
+            token and the means by which the Registration Endpoint validates
+            it are also out of scope.
 	  </t>
         </list>
 	</t>
@@ -147,6 +152,17 @@
       from human-facing display strings, such as a Client name, to items that
       impact the security of the protocol, such as the list of valid redirect
       URIs.</t>
+      <t>The Client Metadata values are used in two ways:</t>
+      <t>
+	<list style="symbols">
+	  <t>
+	    as input values to registration requests, and
+	  </t>
+	  <t>
+	    as output values in registration responses and read responses.
+	  </t>
+	</list>
+      </t>
       <t>
 	These Client Metadata values are used by OpenID Connect:
 
@@ -267,7 +283,11 @@
 
 	  <t hangText="logo_uri">OPTIONAL.
 	  URL that references a logo for the Client application.
+	  If present, the server SHOULD display this image to the End-User during approval.
 	  The value of this field MUST point to a valid image file.
+	  If desired, representation of 
+	  this Claim in different languages and scripts is represented
+	  as described in <xref target="LanguagesAndScripts"/>.
 	  </t>
 
           <t hangText="client_uri">OPTIONAL.
@@ -283,15 +303,26 @@
 	  <t hangText="policy_uri">OPTIONAL.
 	  URL that the Relying 
 	  Party Client provides to the End-User to read about the how the
-	  profile data will be used. The OpenID Provider SHOULD display this
-	  URL to the End-User if it is given.</t>
+	  profile data will be used.
+	  The value of this field MUST point to a valid web page.
+	  The OpenID Provider SHOULD display this
+	  URL to the End-User if it is given.
+	  If desired, representation of 
+	  this Claim in different languages and scripts is represented
+	  as described in <xref target="LanguagesAndScripts"/>.
+	  </t>
 
 	  <t hangText="tos_uri">OPTIONAL.
 	  URL that the Relying 
 	  Party Client provides to the End-User to read about
 	  the Relying Party's terms of service.
+	  The value of this field MUST point to a valid web page.
 	  The OpenID Provider SHOULD display this
-	  URL to the End-User if it is given.</t>
+	  URL to the End-User if it is given.
+	  If desired, representation of 
+	  this Claim in different languages and scripts is represented
+	  as described in <xref target="LanguagesAndScripts"/>.
+	  </t>
 
 	  <t hangText="jwks_uri">
 	    OPTIONAL.
@@ -303,7 +334,6 @@
 	    When both signing and encryption keys are made available,
 	    a <spanx style="verb">use</spanx> (Key Use) parameter
 	    value is REQUIRED for all keys in the document to indicate each key's intended usage.
-	    OPTIONAL.
 	  </t>
 
 	  <t hangText="sector_identifier_uri">OPTIONAL.
@@ -516,14 +546,14 @@
       </section>
     </section>
 
-    <section anchor="ClientRegistration" title="Client Registration">
+    <section anchor="ClientRegistration" title="Client Registration Endpoint">
       <t>The Client Registration Endpoint is an
-      OAuth 2.0 Protected Resource through which a Client can request
-      a new registration and manage the Metadata associated with it.
+      OAuth 2.0 Protected Resource through which
+      a new Client registration can be requested.
       The OpenID Provider MAY require an Initial Access Token that is
       provisioned out-of-band (in a manner that is out of scope for
       this specification) to restrict registration requests
-      to only authorized Clients.</t>
+      to only authorized Clients or developers.</t>
 
       <t>To support open registration, the Client
       Registration Endpoint SHOULD accept registration requests without OAuth 2.0
@@ -600,12 +630,19 @@
         The Authorization Server MAY reject or replace any of the Client's
         requested field values and substitute them with suitable values. If
         this happens, the Authorization Server MUST include these fields in
-        the response to the Client.</t>
+        the response to the Client.
+	An Authorization Server MAY ignore values provided by the client,
+	and MUST ignore any fields send by the Client that it does not understand.
+	</t>
 
         <t>
 	  The response MAY contain a Registration Access Token that can be
 	  used by the Client to perform subsequent operations upon
 	  the resulting Client registration.
+	</t>
+
+	<t>
+	  The response should use an HTTP 201 Created status code.
 	</t>
 
         <t>All of the response items are returned as a <xref
@@ -779,7 +816,7 @@
       </t>
     </section>
 
-    <section anchor="AccessEndpoint" title="Client Configuration Endpoint">
+    <section anchor="ClientConfigurationEndpoint" title="Client Configuration Endpoint">
       <t>The Client Configuration Endpoint is an OAuth 2.0 protected resource
       that MAY be provisioned by the server for a specific Client to be able to
       view and update its registered information. The Client MUST use its
@@ -862,6 +899,10 @@
 	<spanx style="verb">registration_client_uri</spanx>
         value in this response unless they have been updated.</t>
 
+	<t>
+	  The response should use an HTTP 200 OK status code.
+	</t>
+
         <t>The response is a JSON Document <xref target="RFC4627"/> with
         the Client Metadata as top-level members of a JSON object.
 
@@ -910,9 +951,15 @@
       </section>
 
       <section anchor="ReadError" title="Client Read Error Response">
-	
+
+	<t>
+	  If the Registration Access Token used to make this request is 
+	  not valid, the server MUST respond with an error as described in 
+	  <xref target="RFC6750">OAuth Bearer Token Usage</xref>.
+	</t>
+
 	<t>When a read error condition occurs, the Client Configuration Endpoint returns
-	a HTTP 403 Forbidden status code.  This indicates that the Access Token
+	a HTTP 401 Unauthorized status code.  This indicates that the Access Token
 	is invalid or the Client record requested is invalid or non-existent.
 	Note that for security reasons, to inhibit brute force attacks, endpoints MUST NOT return 
 	404 Not Found error codes.</t>
@@ -1505,6 +1552,14 @@
 	    Fixed #885 - Removed normative Session Management definitions.
 	    When Session Management is supported, the Session Management
 	    registration parameters defined in that specification are used.
+	  </t>
+	  <t>
+	    Defined the HTTP status code values for responses.
+	  </t>
+	  <t>
+	    Added internationalization to the <spanx style="verb">logo_uri</spanx>,
+	    <spanx style="verb">tos_uri</spanx>, and
+	    <spanx style="verb">policy_uri</spanx> fields.
 	  </t>
 	</list>
       </t>
