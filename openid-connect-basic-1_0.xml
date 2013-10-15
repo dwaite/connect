@@ -13,8 +13,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Basic Client Profile 1.0">OpenID Connect Basic
-    Client Profile 1.0 - draft 29</title>
+    <title abbrev="OpenID Connect Basic Client Implementer's Guide 1.0">OpenID Connect
+    Basic Client Implementer's Guide 1.0 - draft 29</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -68,15 +68,15 @@
       REST-like manner.</t>
 
       <t>
-	OpenID Connect Basic Client Profile 1.0 is a profile of the 
+	This OpenID Connect Basic Client Implementer's Guide 1.0 contains a subset of the
 	OpenID Connect Core 1.0 specification
 	that is designed to be easy to read and implement for basic
 	Web-based Relying Parties using the
-	OAuth <spanx style="verb">authorization_code</spanx> grant type.
+	OAuth Authorization Code Flow.
 	This specification intentionally duplicates content from the Core
-	specification to provide a self-contained implementation profile for basic
+	specification to provide a self-contained implementer's guide for basic
 	Web-based Relying Parties using the
-	OAuth <spanx style="verb">authorization_code</spanx> grant type.
+	OAuth Authorization Code Flow.
       </t>
       <t>
 	OpenID Providers and non-Web-based applications
@@ -90,25 +90,27 @@
     <section anchor="Introduction" title="Introduction">
 
       <t>
-	OpenID Connect Basic Client Profile 1.0 is a profile of the 
+	This OpenID Connect Basic Client Implementer's Guide 1.0 contains a subset of the
 	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref> specification
 	that is designed to be easy to read and implement for basic
 	Web-based Relying Parties using the
-	OAuth <spanx style="verb">authorization_code</spanx> grant type.
+	OAuth Authorization Code Flow.
 	This specification intentionally duplicates content from the Core
-	specification to provide a self-contained implementation profile for basic
+	specification to provide a self-contained implementer's guide for basic
 	Web-based Relying Parties using the
-	OAuth <spanx style="verb">authorization_code</spanx> grant type.
+	OAuth Authorization Code Flow.
+	Should there be any conflicts between the contents of this implementer's guide
+	and the OpenID Connect Core specification, the latter takes precedence.
       </t>
       <t>
 	See the
-	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref>
-	specification for a related profile for basic
+	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Implementer's Guide 1.0</xref>
+	for a related guide for basic
 	Web-based Relying Parties using the
-	OAuth implicit grant type.
+	OAuth Implicit Flow.
 	OpenID Providers and non-Web-based applications
 	should instead consult the Core specification.
-	This profile omits implementation and security
+	This guide omits implementation and security
 	considerations for OpenID Providers and non-Web-based applications.
       </t>
 
@@ -312,7 +314,7 @@
           <section anchor="RequestParameters" title="Request Parameters">
 
             <t>
-              This profile of
+              This subset of
 	      OpenID Connect uses the following OAuth 2.0 request parameters:
 	    </t>
 	    <t>
@@ -352,7 +354,8 @@
 		  with the matching performed as described in
 		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
 		  If the Client only uses the
-		  OAuth <spanx style="verb">authorization_code</spanx> grant type,
+		  OAuth Authorization Code Flow,
+		  (which is the case for this subset of OpenID Connect),
 		  the redirection URI
 		  MAY use the <spanx style="verb">http</spanx> scheme,
 		  provided that the Client Type is
@@ -721,9 +724,9 @@
 		The value MUST be <spanx style="verb">Bearer</spanx> or
 		another <spanx style="verb">token_type</spanx> value that the Client 
                 has negotiated with the Authorization Server.
-                Clients implementing this profile MUST support the <xref
+                Clients implementing this subset MUST support the <xref
 		target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
-		This profile only describes the use of bearer tokens.</t>
+		This subset only describes the use of bearer tokens.</t>
 
                 <t hangText="id_token">REQUIRED.
 		ID Token.</t>
@@ -859,7 +862,7 @@
 	      OPTIONAL. 
 	      Access Token hash value.
 	      This is OPTIONAL when the ID Token is issued from the Token Endpoint,
-	      which is the case for this profile; nonetheless,
+	      which is the case for this subset of OpenID Connect; nonetheless,
 	      an <spanx style="verb">at_hash</spanx> Claim MAY be present.
 	      Its value is the base64url encoding of the left-most half of the
 	      hash of the octets of the ASCII representation of the
@@ -1216,7 +1219,7 @@
       </section>
 
       <section anchor="StandardClaims" title="Standard Claims">
-	<t>This profile defines a set of standard Claims.
+	<t>This subset of OpenID Connect defines a set of standard Claims.
 	They are returned in the UserInfo Response.
 	</t>
 
@@ -1711,7 +1714,7 @@
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
 	This specification defines features used by Relying Parties
-	using the OAuth <spanx style="verb">authorization_code</spanx> grant type.
+	using the OAuth Authorization Code Flow.
 	These Relying Parties MUST implement the features that are listed
 	in this specification as being "REQUIRED" or are described with a "MUST".
       </t>
@@ -2134,7 +2137,7 @@
 
       <reference anchor="OpenID.Implicit">
         <front>
-          <title>OpenID Connect Implicit Client Profile 1.0</title>
+          <title>OpenID Connect Implicit Client Implementer's Guide 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -2262,6 +2265,10 @@
 	  <t>
 	    Replaced uses of the OpenID Connect Messages and OpenID Connect Standard
 	    specifications with OpenID Connect Core.
+	  </t>
+	  <t>
+	    Fixed #884 - Changed the descriptions of Basic and Implicit from being profiles
+	    to being implementer's guides containing subsets of OpenID Connect Core.
 	  </t>
 	</list>
       </t>

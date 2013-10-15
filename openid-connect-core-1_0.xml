@@ -5806,13 +5806,7 @@
     <section anchor="ImplementationConsiderations" title="Implementation Considerations">
       <t>
 	This specification defines features used by both Relying Parties and
-	OpenID Providers.  Features that are mandatory to implement for
-	Relying Parties are already described in the
-	<xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> and
-	<xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref>
-	specifications, and so are not discussed again here.
-      </t>
-      <t>
+	OpenID Providers.
 	It is expected that some OpenID Providers will require
 	static, out-of-band configuration of RPs using them,
 	whereas others will support dynamic usage by RPs without
@@ -5946,6 +5940,32 @@
 	specifications.</t>
       </section>
 
+      <section anchor="RPMTI" title="Mandatory to Implement Features for Relying Parties">
+	<t>
+	  In general, it is up to Relying Parties which features they use
+	  when interacting with OpenID Providers.
+	  However, some choices are dictated by the nature of their OAuth Client,
+	  such as whether it is a Confidential Client, capable of keeping secrets,
+	  in which case the Authorization Code Flow may be appropriate,
+	  or whether it is a Public Client, for instance, a
+	  User-Agent Based Application or a Native Application,
+	  in which case the Implicit Flow may be appropriate.
+	</t>
+	<t>
+	  When using OpenID Connect features, those listed as being
+	  "REQUIRED" or are described with a "MUST" are
+	  mandatory to implement, when used by a Relying Party.
+	  Likewise, those features that are described as "OPTIONAL"
+	  need not be used or supported unless they provide value
+	  in the particular application context.
+	  Finally, when interacting with OpenID Providers that support Discovery,
+	  the OP's Discovery document can be used to dynamically determine
+	  which OP features are available for use by the RP.
+      </t>
+      <t>
+	</t>
+      </section>
+
       <section anchor="CompatibilityNotes" title="Compatibility Notes">
 
 	<section anchor="PreFinalIETFSpecs" title="Pre-Final IETF Specifications">
@@ -5996,11 +6016,12 @@
 	</section>
       </section>
 
-      <section anchor="related" title="Related Specifications">
+      <section anchor="related" title="Related Specifications and Implementer's Guides">
 
 	<t>
 	  These related OpenID Connect specifications MAY be used in
 	  combination with this specification to provide additional functionality:
+
 	  <list style="symbols">
 
 	    <t><xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> -
@@ -6011,19 +6032,28 @@
 	    Dynamic registration of OpenID Connect
 	    Clients with OpenID Providers</t>
 
-	    <t><xref target="OpenID.Basic">OpenID Connect Basic Client Profile 1.0</xref> -
-	    Implementer's guide for a subset of this specification
-	    that is intended for use by basic
-	    Web-based Relying Parties using the
-	    OAuth <spanx style="verb">authorization_code</spanx> grant type</t>
-
-	    <t><xref target="OpenID.Implicit">OpenID Connect Implicit Client Profile 1.0</xref> -
-	    Implementer's guide for a subset of this specification
-	    that is intended for use by basic
-	    Web-based Relying Parties using the OAuth implicit grant type</t>
-
 	    <t><xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
 	    Session management for OpenID Connect, including logout functionality</t>
+
+	  </list>
+	</t>
+	<t>
+	  These implementer's guides are intended to serve as self-contained references
+	  for implementers of basic Web-based Relying Parties:
+
+	  <list style="symbols">
+	    <t><xref target="OpenID.Basic">OpenID Connect Basic Client Implementer's Guide 1.0</xref> -
+	    Implementer's guide containing a subset of this specification
+	    that is intended for use by basic
+	    Web-based Relying Parties using the
+	    OAuth Authorization Code Flow</t>
+
+	    <t><xref target="OpenID.Implicit">OpenID Connect Implicit Client Implementer's Guide 1.0</xref> -
+	    Implementer's guide containing a subset of this specification
+	    that is intended for use by basic
+	    Web-based Relying Parties using the
+	    OAuth Implicit Flow</t>
+
 	  </list>
 	</t>
       </section>
@@ -7576,7 +7606,7 @@
 
       <reference anchor="OpenID.Basic">
 	<front>
-	  <title>OpenID Connect Basic Client Profile 1.0</title>
+	  <title>OpenID Connect Basic Client Implementer's Guide 1.0</title>
 
 	  <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
 	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -7607,7 +7637,7 @@
 
       <reference anchor="OpenID.Implicit">
 	<front>
-	  <title>OpenID Connect Implicit Client Profile 1.0</title>
+	  <title>OpenID Connect Implicit Client Implementer's Guide 1.0</title>
 
 	  <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
 	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -8207,6 +8237,10 @@
 	  </t>
 	  <t>
 	    Fixed #882 - Called out pre-final IETF specifications used.
+	  </t>
+	  <t>
+	    Fixed #884 - Changed the descriptions of Basic and Implicit from being profiles
+	    to being implementer's guides containing subsets of OpenID Connect Core.
 	  </t>
 	</list>
       </t>
