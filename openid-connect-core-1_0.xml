@@ -467,6 +467,260 @@
 	    method, the request parameters are serialized using 
 	    Form Serialization, per <xref target="form_serialization"/>.</t>
 
+	    <t>
+	      OpenID Connect uses the following OAuth 2.0 request parameters with
+	      the Authorization Code Flow:
+	    </t>
+	    <t>
+	      <list style="hanging">
+		<t hangText="scope">
+		  REQUIRED.
+		  OAuth 2.0 scope values.
+		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
+		  Other scope values MAY be present.
+		  See Sections <xref target="ScopeClaims" format="counter"/>
+		  and <xref target="OfflineAccess" format="counter"/>
+		  for additional scope values defined by this specification.
+		</t>
+
+		<t hangText="response_type">
+		  REQUIRED.
+		  OAuth 2.0 registered
+		  response type value that determines how the Authorization Response
+		  is returned to the Client.
+		  When using the Authorization Code Flow, this value MUST be
+		  <spanx style="verb">code</spanx>.
+		</t>
+
+		<t hangText="client_id">
+		  REQUIRED.
+		  OAuth 2.0 Client Identifier.
+		</t>
+
+		<t hangText="redirect_uri">
+		  REQUIRED.
+		  Redirection URI to which the response will be sent.
+		  This MUST be pre-registered with the OpenID Provider.
+		  This URI MUST exactly match one of the
+		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  with the matching performed as described in
+		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
+		  When using this flow,
+		  the redirection URI
+		  MAY use the <spanx style="verb">http</spanx> scheme,
+		  provided that the Client Type is
+		  <spanx style="verb">confidential</spanx>,
+		  as defined in Section 2.1 of OAuth 2.0;
+		  otherwise, it MUST use the <spanx style="verb">https</spanx> scheme.
+		</t>
+
+		<t hangText="state">
+		  RECOMMENDED.
+		  Opaque value used
+		  to maintain state between the request and the callback.
+		  Typically, Cross-Site Request Forgery (CSRF, XSRF)
+		  mitigation is done by cryptographically binding the value of
+		  this parameter with the browser cookie.
+		</t>
+
+	      </list>
+	    </t>
+
+	    <t>
+	      This specification also defines the following request parameters for use with
+	      the Authorization Code Flow:
+	    </t>
+
+	    <t>
+	      <list style="hanging">
+		<t hangText="nonce">
+		  OPTIONAL.
+		  String value used to associate a Client session 
+		  with an ID Token, and to mitigate replay attacks.
+		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  Sufficient entropy MUST be present in the
+		  <spanx style="verb">nonce</spanx> values used to prevent
+		  attackers from guessing values.
+		  One method to achieve this is to store a random value as a signed session cookie, and
+		  pass the value in the <spanx style="verb">nonce</spanx> parameter.
+		  In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
+		  can be compared to the signed session cookie to detect ID Token replay by third 
+		  parties.
+		</t>
+
+		<t hangText="display">
+		  OPTIONAL.
+		  ASCII string value that specifies
+		  how the Authorization Server displays the authentication and
+		  consent user interface pages to the End-User.
+		  The defined values are:
+
+		  <list style="hanging">
+		    <t hangText="page">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a full User-Agent page
+		    view. If the display parameter is not specified this is the
+		    default display mode.</t>
+
+		    <t hangText="popup">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a popup User-Agent
+		    window. The popup User-Agent window SHOULD be 450 pixels wide
+		    and 500 pixels tall.</t>
+
+		    <t hangText="touch">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a device that
+		    leverages a touch interface. The Authorization Server MAY attempt
+		    to detect the touch device and further customize the interface.</t>
+
+		    <t hangText="wap">The Authorization Server SHOULD display
+		    authentication and consent UI consistent with a "feature phone"
+		    type display.</t>
+		  </list>
+		</t>
+
+		<t hangText="prompt">
+		  OPTIONAL.
+		  Space delimited, case sensitive list of ASCII string values
+		  that specifies whether the Authorization Server prompts
+		  the End-User for reauthentication and consent.
+		  The defined values are:
+
+		  <list style="hanging">
+		    <t hangText="none">The Authorization Server
+		    MUST NOT display any authentication or consent
+		    user interface pages.
+		    A <spanx style="verb">login_required</spanx> error is returned
+		    if the End-User
+		    is not already authenticated or the Client does not have 
+		    pre-configured consent for the requested
+		    Claims or does not fulfill other conditions for processing.
+		    This can be used as a
+		    method to check for existing authentication and/or consent.
+		    </t>
+
+		    <t hangText="login">
+		      The Authorization Server SHOULD prompt the
+		      End-User for reauthentication.
+		      If it cannot prompt the End-User, it MUST return an error.
+		    </t>
+
+		    <t hangText="consent">
+		      The Authorization Server SHOULD prompt the End-User for consent
+		      before returning information to the Client.
+		    </t>
+
+		    <t hangText="select_account">
+		      The Authorization Server SHOULD
+		      prompt the End-User to select a user account.  This enables 
+		      an End-User who has multiple accounts at the Authorization Server
+		      to select amongst the multiple accounts that they might have 
+		      current sessions for.
+		      If it cannot prompt the End-User, it MUST return an error.
+		    </t>
+		  </list>
+
+		  The <spanx style="verb">prompt</spanx> parameter
+		  can be used by the Client to make sure that the End-User is
+		  still present for the current session or to bring attention to the
+		  request. If this parameter contains <spanx style="verb">none</spanx>
+		  with any other value, an
+		  error is returned.
+		</t>
+
+		<t hangText="max_age">
+		  OPTIONAL.
+		  Maximum Authentication Age.
+		  Specifies the allowable elapsed time in seconds
+		  since the last time the End-User was actively
+		  authenticated. If the elapsed time is greater than
+		  this value, the OP MUST attempt to actively
+		  re-authenticate the End-User.
+		  (The <spanx style="verb">max_age</spanx> request parameter corresponds to
+		  the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref>
+		  <spanx style="verb">max_auth_age</spanx> request parameter.)
+		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
+		  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
+		</t>
+
+		<t hangText="ui_locales">
+		  OPTIONAL.
+		  End-User's preferred languages and scripts for the user interface,
+		  represented as a space-separated list of
+		  <xref target="RFC5646">BCP47</xref> language tag values,
+		  ordered by preference.
+		  For instance, the value "fr-CA fr en" represents a preference
+		  for French as spoken in Canada,
+		  then French (without a region designation),
+		  followed by English (without a region designation). 
+		  An error SHOULD NOT result if some or all of the requested locales
+		  are not supported by the OpenID Provider.
+		</t>
+
+		<t hangText="id_token_hint">
+		  OPTIONAL.
+		  Previously issued ID Token
+		  passed to the Authorization Server as a hint about the End-User's current or past
+		  authenticated session with the Client.
+		  If the End-User identified by the ID Token is logged in or is logged in by the request,
+		  then the Authorization Server returns a positive response;
+		  otherwise, it SHOULD return
+		  a <spanx style="verb">login_required</spanx> error.
+		  When possible, an <spanx style="verb">id_token_hint</spanx>
+		  SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
+		  and an <spanx style="verb">invalid_request</spanx> error
+		  MAY be returned if it is not;
+		  however, the server SHOULD respond succcessfully when possible,
+		  even if it is not present.
+		  The Authorization Server need not be listed as an
+		  audience of the ID Token when it is used as an
+		  <spanx style="verb">id_token_hint</spanx> value.
+		</t>
+		<t>
+		  If the ID Token received by the RP is encrypted, the Client MUST
+		  decrypt the signed ID Token contained within the encrypted ID Token.
+		  The Client MAY re-encrypt the signed ID token to the Authentication Server
+		  using a key that enables the server to decrypt the ID Token.
+		</t>
+
+		<t hangText="login_hint">
+		  OPTIONAL.
+		  Hint to the Authorization Server
+		  about the login identifier the End-User might use to log in (if necessary).
+		  This hint can be used by an RP if it first asks the End-User for their e-mail 
+		  address (or other identifier) and then wants to pass that value as a hint
+		  to the discovered authorization service.
+		  It is RECOMMENDED that the hint value match the value used for discovery.
+		  This value MAY also be a phone number in the format specified for the
+		  <spanx style="verb">phone_number</spanx> Claim.
+		  The use of this parameter is left to the OP's discretion.
+		</t>
+
+		<t hangText="acr_values">
+		  OPTIONAL.
+		  Requested Authentication Context Class Reference values. 
+		  Space-separated string that specifies the <spanx style="verb">acr</spanx>
+		  values that the Authorization Server is being requested to use 
+		  for processing this Authentication Request,
+		  with the values appearing in order of preference.
+		  The Authentication Context Class satisfied by the authentication
+		  performed is returned as the <spanx style="verb">acr</spanx> Claim Value,
+		  as specified in <xref target="id_token"/>.
+		  The <spanx style="verb">acr</spanx> Claim is requested as
+		  a Voluntary Claim by this parameter.
+		</t>
+	      </list>
+	    </t>
+	    <t>
+	      Other parameters MAY be sent. 
+	      See Sections <xref target="ImplicitAuthorizationEndpoint" format="counter"/>,
+	      <xref target="HybridAuthorizationEndpoint" format="counter"/>,
+	      <xref target="ClaimsLocales" format="counter"/>,
+	      <xref target="ClaimsParameter" format="counter"/>,
+	      <xref target="JWTRequests" format="counter"/>, and
+	      <xref target="RegistrationParameter" format="counter"/>
+	      for additional Authorization Request parameters and parameter values
+	      defined by this specification.
+	    </t>
+
 	    <figure>
 	      <preamble>
 		The following is a non-normative example request using this flow
@@ -484,262 +738,6 @@
 ]]></artwork>
 	    </figure>
 
-	    <section anchor="RequestParameters" title="Authorization Request Parameters">
-
-	      <t>
-		OpenID Connect uses the following OAuth 2.0 request parameters with
-		the Authorization Code Flow:
-	      </t>
-	      <t>
-		<list style="hanging">
-		  <t hangText="response_type">
-		    REQUIRED.
-		    OAuth 2.0 registered
-		    response type value that determines how the Authorization Response
-		    is returned to the Client.
-		    When using the Authorization Code Flow, this value MUST be
-		    <spanx style="verb">code</spanx>.
-		  </t>
-
-		  <t hangText="client_id">
-		    REQUIRED.
-		    OAuth 2.0 Client Identifier.
-		  </t>
-
-		  <t hangText="scope">
-		    REQUIRED.
-		    Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
-		    OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
-		    Other scope values MAY be present.
-		    See Sections <xref target="ScopeClaims" format="counter"/>
-		    and <xref target="OfflineAccess" format="counter"/>
-		    for additional scope values defined by this specification.
-		  </t>
-
-		  <t hangText="redirect_uri">
-		    REQUIRED.
-		    Redirection URI to which the response will be sent.
-		    This MUST be pre-registered with the OpenID Provider.
-		    This URI MUST exactly match one of the
-		    <spanx style="verb">redirect_uris</spanx> registered for the Client,
-		    with the matching performed as described in
-		    Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
-		    When using this flow,
-		    the redirection URI
-		    MAY use the <spanx style="verb">http</spanx> scheme,
-		    provided that the Client Type is
-		    <spanx style="verb">confidential</spanx>,
-		    as defined in Section 2.1 of OAuth 2.0;
-		    otherwise, it MUST use the <spanx style="verb">https</spanx> scheme.
-		  </t>
-
-		  <t hangText="state">
-		    RECOMMENDED.
-		    Opaque value used
-		    to maintain state between the request and the callback.
-		    Typically, Cross-Site Request Forgery (CSRF, XSRF)
-		    mitigation is done by cryptographically binding the value of
-		    this parameter with the browser cookie.
-		  </t>
-
-		</list>
-	      </t>
-
-	      <t>
-		This specification also defines the following request parameters for use with
-		the Authorization Code Flow:
-	      </t>
-
-	      <t>
-		<list style="hanging">
-		  <t hangText="nonce">
-		    OPTIONAL.
-		    String value used to associate a Client session 
-		    with an ID Token, and to mitigate replay attacks.
-		    The value is passed through unmodified from the Authorization Request to the ID Token.
-		    Sufficient entropy MUST be present in the
-		    <spanx style="verb">nonce</spanx> values used to prevent
-		    attackers from guessing values.
-		    One method to achieve this is to store a random value as a signed session cookie, and
-		    pass the value in the <spanx style="verb">nonce</spanx> parameter.
-		    In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
-		    can be compared to the signed session cookie to detect ID Token replay by third 
-		    parties.
-		  </t>
-
-		  <t hangText="display">
-		    OPTIONAL.
-		    ASCII string value that specifies
-		    how the Authorization Server displays the authentication and
-		    consent user interface pages to the End-User.
-		    The defined values are:
-
-		    <list style="hanging">
-		      <t hangText="page">The Authorization Server SHOULD display
-		      authentication and consent UI consistent with a full User-Agent page
-		      view. If the display parameter is not specified this is the
-		      default display mode.</t>
-
-		      <t hangText="popup">The Authorization Server SHOULD display
-		      authentication and consent UI consistent with a popup User-Agent
-		      window. The popup User-Agent window SHOULD be 450 pixels wide
-		      and 500 pixels tall.</t>
-
-		      <t hangText="touch">The Authorization Server SHOULD display
-		      authentication and consent UI consistent with a device that
-		      leverages a touch interface. The Authorization Server MAY attempt
-		      to detect the touch device and further customize the interface.</t>
-
-		      <t hangText="wap">The Authorization Server SHOULD display
-		      authentication and consent UI consistent with a "feature phone"
-		      type display.</t>
-		    </list>
-		  </t>
-
-		  <t hangText="prompt">
-		    OPTIONAL.
-		    Space delimited, case sensitive list of ASCII string values
-		    that specifies whether the Authorization Server prompts
-		    the End-User for reauthentication and consent.
-		    The defined values are:
-
-		    <list style="hanging">
-		      <t hangText="none">The Authorization Server
-		      MUST NOT display any authentication or consent
-		      user interface pages.
-		      A <spanx style="verb">login_required</spanx> error is returned
-		      if the End-User
-		      is not already authenticated or the Client does not have 
-		      pre-configured consent for the requested
-		      Claims or does not fulfill other conditions for processing.
-		      This can be used as a
-		      method to check for existing authentication and/or consent.
-		      </t>
-
-		      <t hangText="login">
-			The Authorization Server SHOULD prompt the
-			End-User for reauthentication.
-			If it cannot prompt the End-User, it MUST return an error.
-		      </t>
-
-		      <t hangText="consent">
-			The Authorization Server SHOULD prompt the End-User for consent
-			before returning information to the Client.
-		      </t>
-
-		      <t hangText="select_account">
-			The Authorization Server SHOULD
-			prompt the End-User to select a user account.  This enables 
-			an End-User who has multiple accounts at the Authorization Server
-			to select amongst the multiple accounts that they might have 
-			current sessions for.
-			If it cannot prompt the End-User, it MUST return an error.
-		      </t>
-		    </list>
-
-		    The <spanx style="verb">prompt</spanx> parameter
-		    can be used by the Client to make sure that the End-User is
-		    still present for the current session or to bring attention to the
-		    request. If this parameter contains <spanx style="verb">none</spanx>
-		    with any other value, an
-		    error is returned.
-		  </t>
-
-		  <t hangText="max_age">
-		    OPTIONAL.
-		    Maximum Authentication Age.
-		    Specifies the allowable elapsed time in seconds
-		    since the last time the End-User was actively
-		    authenticated. If the elapsed time is greater than
-		    this value, the OP MUST attempt to actively
-		    re-authenticate the End-User.
-		    (The <spanx style="verb">max_age</spanx> request parameter corresponds to
-		    the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref>
-		    <spanx style="verb">max_auth_age</spanx> request parameter.)
-		    When <spanx style="verb">max_age</spanx> is used, the ID Token returned
-		    MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
-		  </t>
-
-		  <t hangText="ui_locales">
-		    OPTIONAL.
-		    End-User's preferred languages and scripts for the user interface,
-		    represented as a space-separated list of
-		    <xref target="RFC5646">BCP47</xref> language tag values,
-		    ordered by preference.
-		    For instance, the value "fr-CA fr en" represents a preference
-		    for French as spoken in Canada,
-		    then French (without a region designation),
-		    followed by English (without a region designation). 
-		    An error SHOULD NOT result if some or all of the requested locales
-		    are not supported by the OpenID Provider.
-		  </t>
-
-		  <t hangText="id_token_hint">
-		    OPTIONAL.
-		    Previously issued ID Token
-		    passed to the Authorization Server as a hint about the End-User's current or past
-		    authenticated session with the Client.
-		    If the End-User identified by the ID Token is logged in or is logged in by the request,
-		    then the Authorization Server returns a positive response;
-		    otherwise, it SHOULD return
-		    a <spanx style="verb">login_required</spanx> error.
-		    When possible, an <spanx style="verb">id_token_hint</spanx>
-		    SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
-		    and an <spanx style="verb">invalid_request</spanx> error
-		    MAY be returned if it is not;
-		    however, the server SHOULD respond succcessfully when possible,
-		    even if it is not present.
-		    The Authorization Server need not be listed as an
-		    audience of the ID Token when it is used as an
-		    <spanx style="verb">id_token_hint</spanx> value.
-		  </t>
-		  <t>
-		    If the ID Token received by the RP is encrypted, the Client MUST
-		    decrypt the signed ID Token contained within the encrypted ID Token.
-		    The Client MAY re-encrypt the signed ID token to the Authentication Server
-		    using a key that enables the server to decrypt the ID Token.
-		  </t>
-
-		  <t hangText="login_hint">
-		    OPTIONAL.
-		    Hint to the Authorization Server
-		    about the login identifier the End-User might use to log in (if necessary).
-		    This hint can be used by an RP if it first asks the End-User for their e-mail 
-		    address (or other identifier) and then wants to pass that value as a hint
-		    to the discovered authorization service.
-		    It is RECOMMENDED that the hint value match the value used for discovery.
-		    This value MAY also be a phone number in the format specified for the
-		    <spanx style="verb">phone_number</spanx> Claim.
-		    The use of this parameter is left to the OP's discretion.
-		  </t>
-
-		  <t hangText="acr_values">
-		    OPTIONAL.
-		    Requested Authentication Context Class Reference values. 
-		    Space-separated string that specifies the <spanx style="verb">acr</spanx>
-		    values that the Authorization Server is being requested to use 
-		    for processing this Authentication Request,
-		    with the values appearing in order of preference.
-		    The Authentication Context Class satisfied by the authentication
-		    performed is returned as the <spanx style="verb">acr</spanx> Claim Value,
-		    as specified in <xref target="id_token"/>.
-		    The <spanx style="verb">acr</spanx> Claim is requested as
-		    a Voluntary Claim by this parameter.
-		  </t>
-		</list>
-	      </t>
-	      <t>
-		Other parameters MAY be sent. 
-		See Sections <xref target="ImplicitRequestParameters" format="counter"/>,
-		<xref target="HybridRequestParameters" format="counter"/>,
-		<xref target="ClaimsLocales" format="counter"/>,
-		<xref target="ClaimsParameter" format="counter"/>,
-		<xref target="JWTRequests" format="counter"/>, and
-		<xref target="RegistrationParameter" format="counter"/>
-		for additional Authorization Request parameters and parameter values
-		defined by this specification.
-	      </t>
-	    </section>
 	  </section>
 
 	  <section anchor="AuthzRequestValidation" title="Authorization Request Validation">
@@ -835,36 +833,13 @@
 	  <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
 	    <t>Once the End-User is authenticated, the Authorization Server MUST
-	    obtain an authorization decision. This MAY be done by presenting the
-	    End-User with a dialogue that enables the End-User to recognize what he is
-	    consenting to and obtain his consent or by establishing consent via
-	    conditions for processing or
+	    obtain an authorization decision.
+	    When permitted by the request parameters used,
+	    this MAY be done through an interactive dialogue with the End-User
+	    that makes it clear what is being consented to
+	    or by establishing consent via conditions for processing or
 	    other means (for example, via previous administrative consent).</t>
 
-	    <t>The Authorization Server MUST attempt to request authorization
-	    from the End-User in the following cases:
-            <list style="symbols">
-	      <t>The End-User has not pre-authorized the Client for the
-	      Authorization Request.</t>
-
-	      <t>The Authorization Request contains the <spanx 
-	      style="verb">prompt</spanx> parameter with the value
-	      <spanx style="verb">consent</spanx>. The
-	      Authorization Server SHOULD request End-User authorization even if the
-	      End-User has previously authorized the Client.</t>
-	    </list>
-	    </t>
-	    <t>The Authorization Server MUST NOT request End-User authorization in the
-	    following cases:
-	    <list style="symbols">
-	      <t>The Authorization Request contains the <spanx 
-	      style="verb">prompt</spanx> parameter with the value
-	      <spanx style="verb">none</spanx>.
-	      The Authorization Server MUST return an error if the End-User has
-	      not pre-authorized the Client.</t>
-	    </list>
-	    </t>
-	    
 	    <t>
 	      The Authorization Server MUST employ countermeasures against
 	      Cross-Site Request Forgery and Clickjacking when interacting with the End-User.
@@ -872,7 +847,7 @@
 
 	  </section>
 
-	  <section anchor="AuthzResponse" title="Authorization Response">
+	  <section anchor="AuthzResponse" title="Authorization Successful Response">
 
 	    <t>
 	      Once the authorization is determined, the Authorization Server
@@ -917,15 +892,8 @@
 
 	  </section>
 
-	  <section anchor="AuthorizationResponseValidation" title="Authorization Response Validation">
-	    <t>
-	      When using the Authorization Code Flow,
-	      the Client MUST validate the response according to RFC 6749,
-	      especially Sections 4.1.2 and 10.12.
-	    </t>
-	  </section>
-
 	  <section anchor="AuthError" title="Authorization Error Response">
+
 	    <t>
 	      If the End-User denies the request or the End-User authentication
 	      fails, the OP (Authorization Server) informs the RP (Client)
@@ -1057,6 +1025,14 @@
 	    </t>
 	  </section>
 
+	  <section anchor="AuthorizationResponseValidation" title="Authorization Response Validation">
+	    <t>
+	      When using the Authorization Code Flow,
+	      the Client MUST validate the response according to RFC 6749,
+	      especially Sections 4.1.2 and 10.12.
+	    </t>
+	  </section>
+
 	</section>
 
 	<section anchor="TokenEndpoint" title="Token Endpoint">
@@ -1182,7 +1158,7 @@
 
 	  </section>
 
-	  <section anchor="TokenResponse" title="Token Response">
+	  <section anchor="TokenResponse" title="Token Successful Response">
 	    <t>Upon receipt of the Token Request, the Authorization Server MUST
 	    return either a successful response or an error response that corresponds to
 	    the received Authorization Code.</t>
@@ -1259,6 +1235,33 @@
 
 	    <t>As specified in <xref target="RFC6749">OAuth 2.0</xref>, Clients
 	    SHOULD ignore unrecognized response parameters.</t>
+	  </section>
+
+	  <section anchor="TokenErrorResponse" title="Token Error Response">
+
+	    <t>
+	      If the Token Request is invalid or unauthorized, the
+	      Authorization Server constructs the error response. The parameters
+	      of the Token Error Response are defined as in Section 5.2 of <xref
+	      target="RFC6749">OAuth 2.0</xref>.
+	      The HTTP response body uses the <spanx style="verb">application/json</spanx>
+	      media type with HTTP response code of 400.
+	    </t>
+
+	    <figure>
+	      <preamble>The following is a non-normative example Token Error Response:</preamble>
+
+	      <artwork><![CDATA[
+  HTTP/1.1 400 Bad Request
+  Content-Type: application/json
+  Cache-Control: no-store
+  Pragma: no-cache
+
+  {
+   "error": "invalid_request"
+  }
+]]></artwork>
+	    </figure>
 	  </section>
 
 	  <section anchor="TokenResponseValidation" title="Token Response Validation">
@@ -1632,32 +1635,6 @@
 	    </t>
 	  </section>
 
-	  <section anchor="TokenErrorResponse" title="Token Error Response">
-	    <t>
-	      If the Token Request is invalid or unauthorized, the
-	      Authorization Server constructs the error response. The parameters
-	      of the Token Error Response are defined as in Section 5.2 of <xref
-	      target="RFC6749">OAuth 2.0</xref>.
-	      The HTTP response body uses the <spanx style="verb">application/json</spanx>
-	      media type with HTTP response code of 400.
-	    </t>
-
-	    <figure>
-	      <preamble>The following is a non-normative example Token Error Response:</preamble>
-
-	      <artwork><![CDATA[
-  HTTP/1.1 400 Bad Request
-  Content-Type: application/json
-  Cache-Control: no-store
-  Pragma: no-cache
-
-  {
-   "error": "invalid_request"
-  }
-]]></artwork>
-	    </figure>
-	  </section>
-
 	</section>
 
       </section>
@@ -1717,6 +1694,66 @@
 	      with the exception of the differences specified in this section.
 	    </t>
 
+	    <t>
+	      When using the Implicit Flow, the same Authorization Request parameters
+	      are used as for the Code Flow,
+	      as defined in <xref target="AuthorizationEndpoint"/>,
+	      with the exception of the differences specified in this section.
+	    </t>
+	    <t>
+	      <list style="hanging">
+		<t hangText="response_type">
+		  REQUIRED.
+		  OAuth 2.0 registered
+		  response type value that determines how the Authorization Response
+		  is returned to the Client.
+		  When using the Implicit Flow, this value MUST be
+		  <spanx style="verb">id_token&nbsp;token</spanx> or
+		  <spanx style="verb">id_token</spanx>.
+		  The meanings of both of these values are defined in
+		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+		  No Access Token is returned when the value is
+		  <spanx style="verb">id_token</spanx>.
+		</t>
+		<t>
+		  (Note that while OAuth 2.0 also defines the
+		  <spanx style="verb">token</spanx> response type value
+		  for the Implicit Flow, OpenID Connect does not use this response type,
+		  since no ID Token is returned.)
+		</t>
+
+		<t hangText="redirect_uri">
+		  REQUIRED.
+		  Redirection URI to which the response will be sent.
+		  This MUST be pre-registered with the OpenID Provider.
+		  This URI MUST exactly match one of the
+		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  with the matching performed as described in
+		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
+		  When using this flow, the redirection URI
+		  MUST NOT use the <spanx style="verb">http</spanx> scheme
+		  unless the Client is a native application, in which case it MAY
+		  use the <spanx style="verb">http:</spanx> scheme with
+		  <spanx style="verb">localhost</spanx> as the hostname.
+		</t>
+
+		<t hangText="nonce">
+		  REQUIRED.
+		  String value used to associate a Client session 
+		  with an ID Token, and to mitigate replay attacks. 
+		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  Sufficient entropy MUST be present in the
+		  <spanx style="verb">nonce</spanx> values used to prevent
+		  attackers from guessing values.
+		  One method to achieve this is to store a random value as a signed session cookie, and
+		  pass the value in the <spanx style="verb">nonce</spanx> parameter.
+		  In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
+		  can be compared to the signed session cookie to detect ID Token replay by third 
+		  parties.
+		</t>
+	      </list>
+	    </t>
+
 	    <figure>
 	      <preamble>
 		The following is a non-normative example request using the Implicit Flow
@@ -1735,69 +1772,6 @@
 ]]></artwork>
 	    </figure>
 
-	    <section anchor="ImplicitRequestParameters" title="Authorization Request Parameters">
-
-	      <t>
-		When using the Implicit Flow, the same Authorization Request parameters
-		are used as for the Code Flow,
-		as defined in <xref target="RequestParameters"/>,
-		with the exception of the differences specified in this section.
-	      </t>
-	      <t>
-		<list style="hanging">
-		  <t hangText="response_type">
-		    REQUIRED.
-		    OAuth 2.0 registered
-		    response type value that determines how the Authorization Response
-		    is returned to the Client.
-		    When using the Implicit Flow, this value MUST be
-		    <spanx style="verb">id_token&nbsp;token</spanx> or
-		    <spanx style="verb">id_token</spanx>.
-		    The meanings of both of these values are defined in
-		    <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-		    No Access Token is returned when the value is
-		    <spanx style="verb">id_token</spanx>.
-		  </t>
-		  <t>
-		    (Note that while OAuth 2.0 also defines the
-		    <spanx style="verb">token</spanx> response type value
-		    for the Implicit Flow, OpenID Connect does not use this response type,
-		    since no ID Token is returned.)
-		  </t>
-
-		  <t hangText="redirect_uri">
-		    REQUIRED.
-		    Redirection URI to which the response will be sent.
-		    This MUST be pre-registered with the OpenID Provider.
-		    This URI MUST exactly match one of the
-		    <spanx style="verb">redirect_uris</spanx> registered for the Client,
-		    with the matching performed as described in
-		    Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
-		    When using this flow, the redirection URI
-		    MUST NOT use the <spanx style="verb">http</spanx> scheme
-		    unless the Client is a native application, in which case it MAY
-		    use the <spanx style="verb">http:</spanx> scheme with
-		    <spanx style="verb">localhost</spanx> as the hostname.
-		  </t>
-
-		  <t hangText="nonce">
-		    REQUIRED.
-		    String value used to associate a Client session 
-		    with an ID Token, and to mitigate replay attacks. 
-		    The value is passed through unmodified from the Authorization Request to the ID Token.
-		    Sufficient entropy MUST be present in the
-		    <spanx style="verb">nonce</spanx> values used to prevent
-		    attackers from guessing values.
-		    One method to achieve this is to store a random value as a signed session cookie, and
-		    pass the value in the <spanx style="verb">nonce</spanx> parameter.
-		    In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
-		    can be compared to the signed session cookie to detect ID Token replay by third 
-		    parties.
-		  </t>
-		</list>
-	      </t>
-
-	    </section>
 	  </section>
 
 	  <section anchor="ImplicitValidation" title="Authorization Request Validation">
@@ -1825,7 +1799,7 @@
 	  </section>
 
 
-	  <section anchor="ImplicitAuthzResponse" title="Authorization Response">
+	  <section anchor="ImplicitAuthzResponse" title="Authorization Successful Response">
 	    <t>
 	      When using the Implicit Flow, Authorization Responses are made in
 	      the same manner as for the Authorization Code Flow,
@@ -1895,20 +1869,40 @@
     &state=af0ifjsldkj
 ]]></artwork>
             </figure>
+	  </section>
 
-	    <section anchor="implicit_callback" title="Redirect URI Handling">
-	      <t>The Client MUST provide a way for the User-Agent to parse the fragment encoded
-	      response and post it to the Web Server Client for validation.</t>
+	  <section anchor="ImplicitAuthError" title="Authorization Error Response">
 
-	      <t>The following is an example of a JavaScript file that a Client might host at its
-	      <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
-	      the Authorization Server.  The fragment component is parsed and then sent by <spanx style="verb">POST</spanx> to a URI 
-	      that will validate the information received.</t>
+	    <t>
+	      When using the Implicit Flow, Authorization Error Responses are made in
+	      the same manner as for the Authorization Code Flow,
+	      as defined in <xref target="AuthError"/>,
+	      with the exception of the differences specified in this section.
+	    </t>
+            <t>
+	      If the End-User denies the request or the End-User authentication
+	      fails, the Authorization Server MUST return the error
+	      Authorization Response as defined in 4.2.2.1 of 
+	      <xref target="RFC6749">OAuth 2.0</xref> and
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+	      In particular, error parameters are returned in the
+	      fragment component of the redirection URI.
+	    </t>
+	  </section>
 
-	      <figure>
-		<preamble>Following is a non-normative example of a
-		Redirect URI response:</preamble>
-		<artwork><![CDATA[
+	  <section anchor="implicit_callback" title="Redirect URI Handling">
+	    <t>The Client MUST provide a way for the User-Agent to parse the fragment encoded
+	    response and post it to the Web Server Client for validation.</t>
+
+	    <t>The following is an example of a JavaScript file that a Client might host at its
+	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
+	    the Authorization Server.  The fragment component is parsed and then sent by <spanx style="verb">POST</spanx> to a URI 
+	    that will validate the information received.</t>
+
+	    <figure>
+	      <preamble>Following is a non-normative example of a
+	      Redirect URI response:</preamble>
+	      <artwork><![CDATA[
   GET /cb HTTP/1.1
   Host: client.example.org
 
@@ -1948,10 +1942,9 @@
     }
   };
   req.send(postBody);
-]]></artwork>
-	      </figure>
+  ]]></artwork>
+	    </figure>
 
-	    </section>
 	  </section>
 
 	  <section anchor="ImplicitAuthorizationResponseValidation" title="Authorization Response Validation">
@@ -2087,24 +2080,6 @@
 	    </t>
 	  </section>
 
-	  <section anchor="ImplicitAuthError" title="Authorization Error Response">
-	    <t>
-	      When using the Implicit Flow, Authorization Error Responses are made in
-	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthError"/>,
-	      with the exception of the differences specified in this section.
-	    </t>
-            <t>
-	      If the End-User denies the request or the End-User authentication
-	      fails, the Authorization Server MUST return the error
-	      Authorization Response as defined in 4.2.2.1 of 
-	      <xref target="RFC6749">OAuth 2.0</xref> and
-	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-	      In particular, error parameters are returned in the
-	      fragment component of the redirection URI.
-	    </t>
-	  </section>
-
 	</section>
       </section>
 
@@ -2168,6 +2143,33 @@
 	      with the exception of the differences specified in this section.
 	    </t>
 
+	    <t>
+	      When using the Hybrid Flow, the same Authorization Request parameters
+	      are used as for the Implicit Flow,
+	      as defined in <xref target="ImplicitAuthorizationEndpoint"/>,
+	      with the exception of the differences specified in this section.
+	    </t>
+	    <t>
+	      <list style="hanging">
+		<t hangText="response_type">
+		  REQUIRED.
+		  OAuth 2.0 registered
+		  response type value that determines how the Authorization Response
+		  is returned to the Client.
+		  When using the Hybrid Flow, this value MUST be
+		  <spanx style="verb">code&nbsp;id_token</spanx>,
+		  <spanx style="verb">code&nbsp;token</spanx>, or
+		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
+		  The meanings of these values are defined in
+		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+		  No Access Token is returned when the value is
+		  <spanx style="verb">id_token</spanx>.
+		</t>
+
+	      </list>
+	    </t>
+
+
 	    <figure>
 	      <preamble>
 		The following is a non-normative example request using the Hybrid Flow
@@ -2186,35 +2188,6 @@
 ]]></artwork>
 	    </figure>
 
-	    <section anchor="HybridRequestParameters" title="Authorization Request Parameters">
-
-	      <t>
-		When using the Hybrid Flow, the same Authorization Request parameters
-		are used as for the Implicit Flow,
-		as defined in <xref target="ImplicitRequestParameters"/>,
-		with the exception of the differences specified in this section.
-	      </t>
-	      <t>
-		<list style="hanging">
-		  <t hangText="response_type">
-		    REQUIRED.
-		    OAuth 2.0 registered
-		    response type value that determines how the Authorization Response
-		    is returned to the Client.
-		    When using the Hybrid Flow, this value MUST be
-		    <spanx style="verb">code&nbsp;id_token</spanx>,
-		    <spanx style="verb">code&nbsp;token</spanx>, or
-		    <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
-		    The meanings of these values are defined in
-		    <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-		    No Access Token is returned when the value is
-		    <spanx style="verb">id_token</spanx>.
-		  </t>
-
-		</list>
-	      </t>
-
-	    </section>
 	  </section>
 
 	  <section anchor="HybridValidation" title="Authorization Request Validation">
@@ -2244,7 +2217,7 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridAuthzResponse" title="Authorization Response">
+	  <section anchor="HybridAuthzResponse" title="Authorization Successful Response">
 
 	    <t>
 	      When using the Hybrid Flow, Authorization Responses are made in
@@ -2289,15 +2262,35 @@
 ]]></artwork>
             </figure>
 
-	    <section anchor="hybrid_callback" title="Redirect URI Handling">
+	  </section>
 
-	      <t>
-		When using the Hybrid Flow, Redirect URI handling is done in
-		the same manner as for the Implicit Flow,
-		as defined in <xref target="implicit_callback"/>,
-		with the exception of the differences specified in this section.
-	      </t>
-	    </section>
+	  <section anchor="HybridAuthError" title="Authorization Error Response">
+
+	    <t>
+	      When using the Hybrid Flow, Authorization Error Responses are made in
+	      the same manner as for the Authorization Code Flow,
+	      as defined in <xref target="AuthError"/>,
+	      with the exception of the differences specified in this section.
+	    </t>
+            <t>
+	      If the End-User denies the request or the End-User authentication
+	      fails, the Authorization Server MUST return the error
+	      Authorization Response as defined in 4.2.2.1 of 
+	      <xref target="RFC6749">OAuth 2.0</xref> and
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+	      In particular, error parameters are returned in the
+	      fragment component of the redirection URI.
+	    </t>
+	  </section>
+
+	  <section anchor="hybrid_callback" title="Redirect URI Handling">
+
+	    <t>
+	      When using the Hybrid Flow, Redirect URI handling is done in
+	      the same manner as for the Implicit Flow,
+	      as defined in <xref target="implicit_callback"/>,
+	      with the exception of the differences specified in this section.
+	    </t>
 	  </section>
 
 	  <section anchor="HybridAuthorizationResponseValidation" title="Authorization Response Validation">
@@ -2462,25 +2455,6 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridAuthError" title="Authorization Error Response">
-
-	    <t>
-	      When using the Hybrid Flow, Authorization Error Responses are made in
-	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthError"/>,
-	      with the exception of the differences specified in this section.
-	    </t>
-            <t>
-	      If the End-User denies the request or the End-User authentication
-	      fails, the Authorization Server MUST return the error
-	      Authorization Response as defined in 4.2.2.1 of 
-	      <xref target="RFC6749">OAuth 2.0</xref> and
-	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-	      In particular, error parameters are returned in the
-	      fragment component of the redirection URI.
-	    </t>
-	  </section>
-
 	</section>
 
 	<section anchor="HybridTokenEndpoint" title="Token Endpoint">
@@ -2510,12 +2484,21 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridTokenResponse" title="Token Response">
+	  <section anchor="HybridTokenResponse" title="Token Successful Response">
 
 	    <t>
 	      When using the Hybrid Flow, Token Responses are made in
 	      the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="TokenResponse"/>.
+	    </t>
+	  </section>
+
+	  <section anchor="HybridTokenErrorResponse" title="Token Error Response">
+
+	    <t>
+	      When using the Hybrid Flow, Token Error Responses are made in
+	      the same manner as for the Authorization Code Flow,
+	      as defined in <xref target="TokenErrorResponse"/>.
 	    </t>
 	  </section>
 
@@ -2588,15 +2571,6 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridTokenErrorResponse" title="Token Error Response">
-
-	    <t>
-	      When using the Hybrid Flow, Token Error Responses are made in
-	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="TokenErrorResponse"/>.
-	    </t>
-	  </section>
-
 	</section>
       </section>
 
@@ -2662,6 +2636,11 @@
       <t>
 	This section specifies how the Client can obtain Claims about the End-User
 	and defines a standard set of basic profile Claims.
+	Pre-defined sets of claims can be requested using specific scope values
+	or individual claims can be requested using the
+	<spanx style="verb">claims</spanx> request parameter.
+	The claims can come directly from the OpenID Provider
+	or from distributed sources as well.
       </t>
 
       <section anchor="ScopeClaims" title="Requesting Claims using Scope Values">
@@ -3247,7 +3226,7 @@
 	  </figure>
 	</section>
 
-	<section anchor="UserInfoResponse" title="UserInfo Response">
+	<section anchor="UserInfoResponse" title="UserInfo Successful Response">
 	  <t>
 	    The UserInfo Claims MUST be returned as the members of a JSON object
 	    unless a signed or encrypted response was requested during Client Registration.
@@ -3308,6 +3287,27 @@
 	  </figure>
 	</section>
 
+	<section anchor="UserInfoError" title="UserInfo Error Response">
+
+	  <t>
+	    When an error condition occurs, the UserInfo Endpoint returns
+	    an Error Response as defined in Section 3 of
+	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
+	  </t>
+
+	  <figure>
+	    <preamble>The following is a non-normative example
+	    of a UserInfo Error Response:</preamble>
+
+	    <artwork><![CDATA[
+  HTTP/1.1 401 Unauthorized
+  WWW-Authenticate: Bearer realm="example.com",
+                       error="invalid_token",
+                       error_description="The Access Token expired"
+]]></artwork>
+	  </figure>
+	</section>
+
 	<section anchor="UserInfoResponseValidation" title="UserInfo Response Validation">
 
 	  <t>
@@ -3332,26 +3332,6 @@
 	  </t>
 	</section>
 
-	<section anchor="UserInfoError" title="UserInfo Error Response">
-
-	  <t>
-	    When an error condition occurs, the UserInfo Endpoint returns
-	    an Error Response as defined in Section 3 of
-	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
-	  </t>
-
-	  <figure>
-	    <preamble>The following is a non-normative example
-	    of a UserInfo Error Response:</preamble>
-
-	    <artwork><![CDATA[
-  HTTP/1.1 401 Unauthorized
-  WWW-Authenticate: Bearer realm="example.com",
-                       error="invalid_token",
-                       error_description="The Access Token expired"
-]]></artwork>
-	  </figure>
-	</section>
       </section>
 
       <section anchor="ClaimsLocales" title='Requesting Claims Locales with the "claims_locales" Request Parameter'>
@@ -4011,7 +3991,7 @@
 	  enables OpenID Connect requests to be passed in a single,
 	  self-contained parameter and to be signed and optionally encrypted.
 	  It represents the request as a JWT whose Claims are the request parameters
-	  specified in <xref target="RequestParameters"/>.
+	  specified in <xref target="AuthorizationEndpoint"/>.
 	  This JWT is called a Request Object.
 	</t>
 	<t>
@@ -4630,6 +4610,11 @@
 	with the following parameters:</t>
 	<t>
 	  <list style="hanging">
+	    <t hangText="scope">
+	      REQUIRED.
+	      <spanx style="verb">scope</spanx> parameter value,
+	      as specified in <xref target="AuthorizationEndpoint"/>.
+	    </t>
 	    <t hangText="response_type">
 	      REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
 	    </t>
@@ -4643,15 +4628,10 @@
 	      a <spanx style="verb">redirect_uri</spanx> parameter
 	      is NOT REQUIRED to also be included in the request.
 	    </t>
-	    <t hangText="scope">
-	      REQUIRED.
-	      <spanx style="verb">scope</spanx> parameter value,
-	      as specified in <xref target="RequestParameters"/>.
-	    </t>
 	    <t hangText="id_token_hint">
 	      OPTIONAL.
 	      <spanx style="verb">id_token_hint</spanx> parameter value,
-	      as specified in <xref target="RequestParameters"/>.
+	      as specified in <xref target="AuthorizationEndpoint"/>.
 	      If the ID Token is encrypted to the Self-Issued OP,
 	      the <spanx style="verb">sub</spanx> (subject)
 	      of the signed ID Token MUST be sent as the
@@ -5591,7 +5571,7 @@
 	</t>
       </section>
 
-      <section anchor="RefreshTokenResponse" title="Refresh Response">
+      <section anchor="RefreshTokenResponse" title="Refresh Successful Response">
 	<t>Upon receipt of the Refresh Request, the Authorization Server MUST
 	return either a successful response or an error response that corresponds to
 	the received Refresh Token.</t>
@@ -5833,13 +5813,13 @@
 	    </t>
 	    <t hangText="Prompt Parameter">
 	      OPs MUST support the <spanx style="verb">prompt</spanx> parameter,
-	      as defined in <xref target="RequestParameters"/>, including the specified
+	      as defined in <xref target="AuthorizationEndpoint"/>, including the specified
 	      user interface behaviors such as <spanx style="verb">none</spanx>
 	      and <spanx style="verb">login</spanx>.
 	    </t>
 	    <t hangText="Display Parameter">
 	      OPs MUST support the <spanx style="verb">display</spanx> parameter,
-	      as defined in <xref target="RequestParameters"/>.
+	      as defined in <xref target="AuthorizationEndpoint"/>.
 	      (Note that the minimum level of support required for this parameter is
 	      simply to have its use not result in an error.)
 	    </t>
@@ -5848,7 +5828,7 @@
 	      for the user interface and for Claims via the
 	      <spanx style="verb">ui_locales</spanx> and
 	      <spanx style="verb">claims_locales</spanx> request parameters,
-	      as defined in <xref target="RequestParameters"/>.
+	      as defined in <xref target="AuthorizationEndpoint"/>.
 	      (Note that the minimum level of support required for these parameters is
 	      simply to have their use not result in errors.)
 	    </t>
@@ -5860,13 +5840,13 @@
 	    <t hangText="Maximum Authentication Age">
 	      OPs MUST support enforcing a maximum authentication age
 	      via the <spanx style="verb">max_age</spanx> parameter,
-	      as defined in <xref target="RequestParameters"/>.
+	      as defined in <xref target="AuthorizationEndpoint"/>.
 	    </t>
 	    <t hangText="Authentication Context Class Reference">
 	      OPs MUST support requests for specific
 	      Authentication Context Class Reference values
 	      via the <spanx style="verb">acr_values</spanx> parameter,
-	      as defined in <xref target="RequestParameters"/>.
+	      as defined in <xref target="AuthorizationEndpoint"/>.
 	      (Note that the minimum level of support required for this parameter is
 	      simply to have its use not result in an error.)
 	    </t>
@@ -5917,7 +5897,7 @@
 	      These OPs MUST support requests made using a Request Object value
 	      that is retrieved from a Request URI that is provided
 	      with the <spanx style="verb">request_uri</spanx> parameter,
-	      as defined in <xref target="RequestParameters"/>.
+	      as defined in <xref target="AuthorizationEndpoint"/>.
 	    </t>
 
 	  </list>
@@ -6872,7 +6852,7 @@
 
 	    <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	    <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	    <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	    <t>Related information: None</t>
 	  </list>
@@ -6886,7 +6866,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6900,7 +6880,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6914,7 +6894,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6928,7 +6908,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6956,7 +6936,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6970,7 +6950,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
@@ -6984,7 +6964,7 @@
 
 	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
 
-	      <t>Specification document(s): <xref target="RequestParameters"/> of this document</t>
+	      <t>Specification document(s): <xref target="AuthorizationEndpoint"/> of this document</t>
 
 	      <t>Related information: None</t>
 	    </list>
