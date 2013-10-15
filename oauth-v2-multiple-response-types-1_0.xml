@@ -45,7 +45,7 @@
       </address>
     </author>
 
-    <date day="12" month="October" year="2013" />
+    <date day="14" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -123,7 +123,7 @@
         response for this multiple-valued <spanx style="verb">response_type</spanx> MUST be fully encoded
         within the fragment. This recommendation applies to both success and error responses.</t>
 
-      <t>Rationale: Whenever <spanx style="verb">response_type</spanx> values include fragment-encoded parts,
+      <t>Rationale: Whenever <spanx style="verb">response_type</spanx> values include fragment encoded parts,
         a User-Agent Client component must be involved to complete processing of the response.
         If a new query parameter is added to the Client URI, it will cause the User-Agent
         to re-fetch the Client URI,
@@ -132,6 +132,22 @@
         component, which can then process the fragment and
         also convey any parameters to a Client host as necessary, e.g., via XmlHttpRequest.
         Therefore, full fragment encoding always results in lower latency for response processing.</t>
+
+      <t>
+	Furthermore, there are security implications to encoding values in the query string.
+	The HTTP Referer header includes query parameters,
+	and so any values encoded in query parameters will leak to third parties.
+	Thus, while it is safe to encode an Authorization Code as a query parameter
+	when using a Confidential Client (because it can't be used without the
+	Client Secret, which third parties won't have), more sensitive information
+	such as Access Tokens and ID Tokens MUST NOT be encoded in the query string.
+      </t>
+      <t>
+	This specification uses "SHOULD" rather than "MUST" when specifying
+	the use of fragment encoding to leave open the possibility of using other
+	safe parameter transmission mechnaisms in the future, such as PostMessage.
+	These "SHOULDs" MUST NOT be interpreted as permitting query encoding.
+      </t>
     </section>
 
     <section anchor="id_token" title="ID Token Response Type">
@@ -146,7 +162,8 @@
         <t hangText="id_token">
 	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
           Authorization Request, a successful response MUST include the parameter
-          <spanx style="verb">id_token</spanx> encoded in the fragment of the response URI.
+          <spanx style="verb">id_token</spanx>,
+	  which SHOULD be encoded in the fragment of the response URI.
 	  The Authorization Server SHOULD NOT return an OAuth 2.0
 	  Authorization Code, Access Token, or Access Token Type in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
@@ -158,8 +175,8 @@
 	  <spanx style="verb">redirect_uri</spanx> when issuing
 	  either a successful response or an error response.
           Any parameters added to the <spanx style="verb">redirect_uri</spanx>
-	  SHOULD be fragment encoded. This applies to both successful
-          responses and error responses.
+	  SHOULD be fragment encoded and MUST NOT be query encoded.
+	  This applies to both successful responses and error responses.
 	</t>
       </list></t>
 
@@ -168,7 +185,7 @@
     </section>
 
     <section anchor="none" title="None Response Type">
-      <t>This section registers the response type none, in accordance
+      <t>This section registers the response type <spanx style="verb">none</spanx>, in accordance
         with the stipulations in the OAuth 2.0 specification, Section 8.4.
         The intended purpose is to enable
         use cases where a party requests the server to register a
@@ -196,10 +213,14 @@
 	  <spanx style="verb">redirect_uri</spanx> when issuing
 	  either a successful response or an error response.
           Any parameters added to the <spanx style="verb">redirect_uri</spanx>
-	  SHOULD be query encoded. This applies to both successful
-          responses and error responses.</t>
+	  SHOULD be query encoded.
+	  This applies to both successful responses and error responses.
+	</t>
       </list></t>
-      <t>The response type none SHOULD NOT be combined with other response types.</t>
+      <t>
+      The response type <spanx style="verb">none</spanx>
+      SHOULD NOT be combined with other response types.
+      </t>
     </section>
     <section anchor="Combinations" title="Registration of Some Multiple-Valued Response Type Combinations">
       <t>This section registers combinations of the values <spanx style="verb">code</spanx>, <spanx style="verb">token</spanx>, and <spanx style="verb">id_token</spanx>, which are each
@@ -212,27 +233,31 @@
 	      parameter, a successful response MUST include
 	      an Access Token, an Access Token Type,
 	      and an Authorization Code.
-	      Both successful and error responses SHOULD be fragment-encoded.
+	      Both successful and error responses SHOULD be fragment encoded
+	      and MUST NOT be query encoded.
 	    </t>
 	    <t hangText="code&nbsp;id_token">
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      both an Authorization Code and an <spanx style="verb">id_token</spanx>.
-	      Both successful and error responses SHOULD be fragment-encoded.
+	      Both successful and error responses SHOULD be fragment encoded
+	      and MUST NOT be query encoded.
 	    </t>
 	    <t hangText="id_token&nbsp;token">
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Access Token, an Access Token Type,
 	      and an <spanx style="verb">id_token</spanx>.
-	      Both successful and error responses SHOULD be fragment-encoded.
+	      Both successful and error responses SHOULD be fragment encoded
+	      and MUST NOT be query encoded.
 	    </t>
 	    <t hangText="code&nbsp;id_token&nbsp;token">
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Authorization Code, an <spanx style="verb">id_token</spanx>,
 	      an Access Token, and an Access Token Type.
-	      Both successful and error responses SHOULD be fragment-encoded.
+	      Both successful and error responses SHOULD be fragment encoded
+	      and MUST NOT be query encoded.
 	    </t> 
 	  </list>
 	</t>
@@ -445,6 +470,11 @@
 	    Clarified that the <spanx style="verb">state</spanx> value must be
 	    included in both successful responses and error responses,
 	    when present in the request.
+	  </t>
+	  <t>
+	    Fixed #887 - Clarified the reasons that some parameters
+	    are described as "SHOULD be fragment encoded"
+	    and stated that these "MUST NOT be query encoded".
 	  </t>
         </list>
       </t>
