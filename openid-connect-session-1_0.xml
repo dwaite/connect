@@ -134,24 +134,35 @@
       or MAY be learned via other mechanisms.
       </t>
 
-      <t>The OP endpoints defined in this specification are as follows:</t>
+      <section anchor="OPMetadata" title="OpenID Provider Discovery Metadata">
 
-      <t><list style="hanging">
-          <t hangText="check_session_iframe">
-	    URL of an OP iframe that supports cross-origin communications
-	    for session state information with the RP Client,
-	    using the HTML 5 postMessage API.
-	    The page is loaded from an invisible iframe embedded in
-	    an RP page so that it can run in the OP's security context. 
-	    It accepts postMessage requests from the relevant RP iframe and
-	    uses postMessage to post back the login status of the End-User at the OP.
-	  </t>
+	<t>
+	  These OpenID Provider Metadata parameters MUST be included in
+	  the Server's discovery responses
+	  when Session Management and Discovery are supported:
+	</t>
 
-          <t hangText="end_session_endpoint">
-	    URL at the OP to which an RP can perform a redirect to request that the
-	    End-User be logged out at the OP.
-	  </t>
-        </list></t>
+	<t>
+	  <list style="hanging">
+	    <t hangText="check_session_iframe">
+	      REQUIRED.
+	      URL of an OP iframe that supports cross-origin communications
+	      for session state information with the RP Client,
+	      using the HTML 5 postMessage API.
+	      The page is loaded from an invisible iframe embedded in
+	      an RP page so that it can run in the OP's security context. 
+	      It accepts postMessage requests from the relevant RP iframe and
+	      uses postMessage to post back the login status of the End-User at the OP.
+	    </t>
+
+	    <t hangText="end_session_endpoint">
+	      REQUIRED.
+	      URL at the OP to which an RP can perform a redirect to request that the
+	      End-User be logged out at the OP.
+	    </t>
+	  </list>
+	</t>
+      </section>
     </section>
 
     <section anchor="CreatingUpdatingSessions" title="Creating and Updating Sessions">
@@ -469,17 +480,26 @@
 	  for this purpose, per Section 2.1 of
 	  <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>.
 	</t>
+
+	<section anchor="ClientMetadata" title="Client Registration Metadata">
+
 	<t>
-	  <list style="hanging">
-            <t hangText="post_logout_redirect_uris">
-	    OPTIONAL.
-	    Array of URLs supplied by the RP to which it MAY request that
-	    the End-User's User-Agent be redirected using the
-	    <spanx style="verb">post_logout_redirect_uri</spanx> parameter
-	    after a logout has been performed.
-	    </t>
-	  </list>
+	  This Client Metadata parameter MAY be included in
+	  the Client's dynamic registration information
+	  when Session Management and Registration are supported:
 	</t>
+	  <t>
+	    <list style="hanging">
+	      <t hangText="post_logout_redirect_uris">
+		OPTIONAL.
+		Array of URLs supplied by the RP to which it MAY request that
+		the End-User's User-Agent be redirected using the
+		<spanx style="verb">post_logout_redirect_uri</spanx> parameter
+		after a logout has been performed.
+	      </t>
+	    </list>
+	  </t>
+	</section>
       </section>
 
     </section>
@@ -706,6 +726,10 @@
 	  <t>
 	    Replaced uses of the OpenID Connect Messages and OpenID Connect Standard
 	    specifications with OpenID Connect Core.
+	  </t>
+	  <t>
+	    Added section headings for Discovery and Registration parameters
+	    defined for use when Session Management is supported.
 	  </t>
 	</list>
       </t>

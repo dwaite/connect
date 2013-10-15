@@ -553,7 +553,7 @@
     <section anchor="ProviderMetadata" title="OpenID Provider Metadata">
       <t>
 	OpenID Providers have metadata describing their configuration.
-	The OpenID Provider Metadata values used by OpenID Connect are:
+	These OpenID Provider Metadata values are used by OpenID Connect:
 
 	<list style="hanging">
 
@@ -577,19 +577,6 @@
 	    URL of the OP's UserInfo Endpoint <xref target="OpenID.Core"/>.
 	    This URL MUST use the <spanx style="verb">https</spanx> scheme and MAY contain
 	    port, path, and query parameter components.
-	  </t>
-
-	  <t hangText="check_session_iframe">OPTIONAL.
-	  URL of an OP endpoint that provides a page to support cross-origin
-	  communications for session state information with the RP Client, using
-	  the HTML5 postMessage API. The page is loaded from an invisible iframe
-	  embedded in an RP page so that it can run in the OP's security context.
-	  See <xref target="OpenID.Session"/>.
-	  </t>
-
-	  <t hangText="end_session_endpoint">OPTIONAL.
-	  URL of the OP's endpoint that initiates logging out the End-User.
-	  See <xref target="OpenID.Session"/>.
 	  </t>
 
 	  <t hangText="jwks_uri">
@@ -847,6 +834,12 @@
 
 	</list>
       </t>
+      <t>
+	Other OpenID Provider Metadata values are also defined by other specifications,
+	such as
+	<xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
+      </t>
+
     </section>
 
     <section anchor="ProviderConfig"
@@ -1214,37 +1207,6 @@
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
                 type="HTML" />
       </reference>
-
-      <reference anchor="OpenID.Session">
-        <front>
-          <title>OpenID Connect Session Management 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Ping Identity">Ping Identity</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <author fullname="Naveen Agarwal" initials="N." surname="Agarwal">
-            <organization abbrev="Google">Google</organization>
-          </author>
-
-          <date day="14" month="October" year="2013"/>
-        </front>
-
-	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
-                type="HTML" />
-      </reference>
       
       <reference anchor="JWT">
         <front>
@@ -1399,6 +1361,37 @@
 
     <references title="Informative References">
 
+      <reference anchor="OpenID.Session">
+        <front>
+          <title>OpenID Connect Session Management 1.0</title>
+
+          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+          </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+            <organization abbrev="Microsoft">Microsoft</organization>
+          </author>
+
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <author fullname="Naveen Agarwal" initials="N." surname="Agarwal">
+            <organization abbrev="Google">Google</organization>
+          </author>
+
+          <date day="14" month="October" year="2013"/>
+        </front>
+
+	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
+                type="HTML" />
+      </reference>
+
       <reference anchor="XRI_Syntax_2.0">
         <front>
           <title>Extensible Resource Identifier (XRI) Syntax V2.0</title>
@@ -1512,6 +1505,11 @@
 	  <t>
 	    Replaced uses of the OpenID Connect Messages and OpenID Connect Standard
 	    specifications with OpenID Connect Core.
+	  </t>
+	  <t>
+	    Fixed #885 - Removed normative Session Management definitions.
+	    When Session Management is supported, the Session Management
+	    discovery parameters defined in that specification are used.
 	  </t>
 	</list>
       </t>
