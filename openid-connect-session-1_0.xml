@@ -28,6 +28,7 @@
       <organization>Google</organization>
       <address>
         <email>naa@google.com</email>
+	<uri>http://www.linkedin.com/in/nvnagr</uri>
       </address>
     </author>
 
@@ -202,7 +203,8 @@
       </t>
       <t>
 	To do so, it is possible to repeat the authentication request with
-	prompt=none. However, this causes network traffic and this is
+	<spanx style="verb">prompt=none</spanx>.
+	However, this causes network traffic and this is
 	problematic on the mobile devices that are becoming increasingly
 	popular. Therefore, once the session is established with the
 	authentication request and response, it is desirable to be able to check
@@ -211,14 +213,100 @@
 	as follows.
       </t>
 
-      <t></t>
+      <section anchor="RPiframe" title="RP iframe">
+
+        <t>The RP loads an invisible iframe from itself.
+        This iframe MUST know the ID of the OP iframe,
+	as described in <xref target="OPiframe"/>, so that it can
+        postMessage to the OP iframe.</t>
+
+        <t>
+	  The RP iframe polls the OP iframe with postMessage at an interval
+	  suitable for the RP application. With each postMessage, it sends the
+	  session state defined in <xref target="OPiframe"/>.
+	</t>
+
+        <t>
+	  The postMessage from the RP iframe delivers the
+	  following concatenation as the data:
+
+	  <list style="symbols">
+            <t>Client ID + " " + Session State</t>
+          </list>
+	</t>
+
+	<t>
+	  It also has to be able to
+	  receive the postMessage back from the OP iframe. The received data
+	  will either be <spanx style='verb'>changed</spanx> or
+	  <spanx style='verb'>unchanged</spanx>.  Upon receipt of
+	  <spanx style='verb'>changed</spanx>, the RP MUST perform re-authentication with 
+	  <spanx style='verb'>prompt=none</spanx> to obtain the current 
+	  session state at the OP.
+	</t>
+
+        <t>
+	  Following is non-normative example pseudo-code for the RP iframe:
+	</t>
+
+        <t>
+	  <figure>
+            <artwork><![CDATA[
+  var stat = "unchanged";
+  var mes = client_id + " " + session_state;
+
+  function check_session()
+  {
+    var targetOrigin  = "http://server.example.com";
+    var win = window.parent.document.getElementById("op").
+                contentWindow;
+    win.postMessage( mes, targetOrigin);
+  }
+
+  function setTimer()
+  {
+    check_session();
+    timerID = setInterval("check_session()",3*1000);
+  }
+
+  window.addEventListener("message", receiveMessage, false); 
+
+  function receiveMessage(e)
+  {
+    var targetOrigin  = "http://server.example.com";
+    if (e.origin !== targetOrigin ) {return;}
+    stat = e.data;
+
+    if stat == "changed" then take the actions below...
+  }
+]]></artwork>
+          </figure>
+	</t>
+	<t>
+	  When the RP detects a session state change, it SHOULD first
+	  try a <spanx style="verb">prompt=none</spanx> request
+	  within an iframe to obtain a
+	  new ID Token and session state, sending the old ID Token as
+	  the <spanx style="verb">id_token_hint</spanx>. 
+	  If the RP receives an ID token for the same End-User, it SHOULD
+	  simply update the value of the session state.  If it doesn't
+	  receive an ID token or receives an ID token for another
+	  End-User, then it needs to handle this case as a logout for the
+	  original End-User.
+	</t>
+	<t>
+	  Note that the session state is origin bound.
+	  Session state SHOULD be returned upon an authorization failure.
+	</t>
+      </section>
 
       <section anchor="OPiframe" title="OP iframe">
-        <t>The RP typically loads an invisible OP iframe in the page from the OP's
+
+        <t>The RP also loads an invisible OP iframe into itself from the OP's
         <spanx style='verb'>check_session_iframe</spanx>.</t>
 
         <t>The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
-        address it later.</t>
+        address it, as described above.</t>
 
 	<t>
 	  The OP iframe MUST enforce that the caller has the same
@@ -226,8 +314,9 @@
 	  requests from any other source origin.
 	</t>
         <t>
-	  The postMessage from the RP iframe delivers the
-	  concatenation of the following, as the data:
+	  As specified in <xref target="RPiframe"/>,
+	  the postMessage from the RP iframe delivers the
+	  following concatenation as the data:
 
 	  <list style="symbols">
             <t>Client ID + " " + Session State</t>
@@ -355,73 +444,6 @@
 	</t>
       </section>
 
-      <section anchor="RPiframe" title="RP iframe">
-        <t>The RP also loads an invisible iframe from itself in the same page.
-        This iframe MUST know the ID of the OP iframe so that it can
-        postMessage to the OP iframe.</t>
-
-        <t>RP iframe polls OP iframe with postMessage with certain interval
-        suitable for the RP application. With each postMessage, it sends the
-        session state defined in <xref target="OPiframe"/>. It also has to be able to
-        receive the postMessage back from the OP iframe. The received data
-        would either be <spanx style='verb'>changed</spanx> or <spanx style='verb'>unchanged</spanx>. Upon receipt of
-        <spanx style='verb'>changed</spanx>, the RP MUST perform the re-authentication with 
-        <spanx style='verb'>prompt=none</spanx> to find the current 
-        session state at the OP. </t>
-
-        <t>
-	  Following is non-normative example pseudo-code for the RP iframe:
-	</t>
-
-        <t>
-	  <figure>
-            <artwork><![CDATA[
-  var stat = "unchanged";
-  var mes = client_id + " " + session_state;
-
-  function check_session()
-  {
-    var targetOrigin  = "http://server.example.com";
-    var win = window.parent.document.getElementById("op").
-                contentWindow;
-    win.postMessage( mes, targetOrigin);
-  }
-
-  function setTimer()
-  {
-    check_session();
-    timerID = setInterval("check_session()",3*1000);
-  }
-
-  window.addEventListener("message", receiveMessage, false); 
-
-  function receiveMessage(e)
-  {
-    var targetOrigin  = "http://server.example.com";
-    if (e.origin !== targetOrigin ) {return;}
-    stat = e.data;
-
-    if stat == "changed" then take the actions below...
-  }
-]]></artwork>
-          </figure>
-	</t>
-	<t>
-	  When the RP detects a session state change, it SHOULD first
-	  try an immediate mode request within an iframe to obtain a
-	  new ID Token and session state, sending the old ID Token as
-	  the <spanx style="verb">id_token_hint</spanx>. 
-	  If the RP receives an ID token for the same End-User, it SHOULD
-	  simply update the value of the session state.  If it doesn't
-	  receive an ID token or receives an ID token for another
-	  End-User, then it needs to handle this case as a logout for the
-	  original End-User.
-	</t>
-	<t>
-	  Note that the session state is origin bound.
-	  Session state SHOULD be returned upon an authorization failure.
-	</t>
-      </section>
     </section>
 
     <section anchor="RPLogout" title="RP-Initiated Logout">
@@ -730,6 +752,9 @@
 	  <t>
 	    Added section headings for Discovery and Registration parameters
 	    defined for use when Session Management is supported.
+	  </t>
+	  <t>
+	    Fixed #883 - Moved the RP iframe description ahead of the OP iframe description.
 	  </t>
 	</list>
       </t>
