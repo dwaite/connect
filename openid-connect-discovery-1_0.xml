@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 18</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 19</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="15" month="October" year="2013" />
+    <date day="18" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -101,7 +101,8 @@
 	"Token Endpoint" defined by
 	<xref target="RFC6749">OAuth 2.0</xref>,
 	and the terms defined by
-	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref> and
+	<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
 	</t>
 	<t>
 	  This specification also defines the following terms:
@@ -605,7 +606,8 @@
 	  <t hangText="response_types_supported">REQUIRED.
 	  JSON array containing a list of the OAuth 2.0 
 	  <spanx style="verb">response_type</spanx> values that this
-	  server supports. The server MUST support the <spanx style="verb">code</spanx>,
+	  server supports.
+	  Dynamic OpenID Providers MUST support the <spanx style="verb">code</spanx>,
 	  <spanx style="verb">id_token</spanx>, and the <spanx style="verb">token id_token</spanx>
 	  response type values.
 	  </t>
@@ -614,7 +616,7 @@
 	    OPTIONAL.
 	    JSON array containing a list of the OAuth 2.0 
 	    grant type values that this
-	    server supports. The server MUST support the
+	    server supports. Dynamic OpenID Providers MUST support the
 	    <spanx style="verb">authorization_code</spanx> and
 	    <spanx style="verb">implicit</spanx> grant type values
 	    and MAY support the
@@ -1357,6 +1359,33 @@
 		type="HTML" />
       </reference>
 
+      <reference anchor="OAuth.Responses">
+        <front>
+	  <title>OAuth 2.0 Multiple Response Type Encoding Practices</title>
+
+	  <author fullname="Breno de Medeiros" initials="B." role="editor" surname="de Medeiros">
+	    <organization abbrev="Google">Google</organization>
+	  </author>
+
+	  <author fullname="Marius Scurtescu" initials="M." surname="Scurtescu">
+	    <organization abbrev="Google">Google</organization>
+	  </author>
+
+	  <author fullname="Paul Tarjan" initials="P." surname="Tarjan">
+	    <organization abbrev="Facebook"> Facebook</organization>
+	  </author>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+	  <date day="15" month="October" year="2013" />
+        </front>
+
+	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
+		type="HTML" />
+      </reference>
+
     </references>
 
     <references title="Informative References">
@@ -1495,6 +1524,16 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-19
+	<list style="symbols">
+	  <t>
+	    Harmonized statements about functionality that servers must support
+	    with Server MTI statements in Core.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-18
