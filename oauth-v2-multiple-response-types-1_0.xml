@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OAuth 2.0 Multiple Response Types">
-      OAuth 2.0 Multiple Response Type Encoding Practices - draft 09
+      OAuth 2.0 Multiple Response Type Encoding Practices - draft 10
     </title>
 
     <author fullname="Breno de Medeiros" initials="B." role="editor" surname="de Medeiros">
@@ -48,7 +48,7 @@
       </address>
     </author>
 
-    <date day="15" month="October" year="2013" />
+    <date day="18" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -69,7 +69,7 @@
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 	"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
 	document are to be interpreted as described in <xref
-	target="RFC2119"></xref> .</t>
+	target="RFC2119"></xref>.</t>
 
 	<t>Throughout this document, values are quoted to indicate that they are
 	to be taken literally. When using these values in protocol messages, the
@@ -90,11 +90,25 @@
 	      resource (Protected Resource) on the server by authenticating
 	      with the server using the Resource Owner's credentials. </t>
 
-	    <t hangText="Response Type">The Client informs the
+	    <t hangText="Response Type">
+	      The Response Type determines what parameters are returned
+	      from the endpoints used.
+	      The Client informs the
 	      Authorization Server of the desired authorization processing flow using the
-	      parameter <spanx style="verb">response_type</spanx>.</t>
+	      <spanx style="verb">response_type</spanx> request parameter.
+	    </t>
 
-	    <t hangText="Authorization Endpoint Response Type Registry">
+	    <t hangText="Response Mode">
+	      The Response Mode determines how the Authorization Server
+	      returns result parameters from the Authorization Endpoint.
+	      Non-default modes are specified using the
+	      <spanx style="verb">response_mode</spanx> request parameter.
+	      If <spanx style="verb">response_mode</spanx> is not present
+	      in a request, the default Response Mode mechanism specified
+	      by the Response Type is used.
+	    </t>
+
+	    <t hangText="Authorization Endpoint Response Types Registry">
 	      Process established by the OAuth 2.0 specification for the registration of new
 	      <spanx style="verb">response_type</spanx> parameters.</t>
 
@@ -103,57 +117,127 @@
 	      If a response type contains one of more space characters (%20), it is
 	      compared as a space-delimited list of values in which the order of
 	      values does not matter.</t>
-	 </list></t>
+	 </list>
+	</t>
       </section>
     </section>
 
-    <section anchor="Encoding" title="Encoding Multiple-Valued Response Types">
-      <t>This specification does not provide guidance if, in a request, <spanx style="verb">response_type</spanx> includes
-        a value that requires the server to return data partially encoded in the query string
-        and partially encoded in the fragment.</t>
-
-      <t>Otherwise, if a multiple-valued response type is defined, then it is RECOMMENDED
-        that the following encoding rules be applied for the issued response.</t>
-
-      <t>If, in a request, <spanx style="verb">response_type</spanx> includes only values that require the server
-         to return data fully encoded within the query string then
-         the returned data in the response for this multiple-valued <spanx style="verb">response_type</spanx>
-         MUST be fully encoded within the query string. This recommendation
-         applies to both success and error responses.</t>
-
-      <t>If, in a request, <spanx style="verb">response_type</spanx> includes any value that requires the server to
-        return data fully encoded within the fragment then the returned data in the
-        response for this multiple-valued <spanx style="verb">response_type</spanx> MUST be fully encoded
-        within the fragment. This recommendation applies to both success and error responses.</t>
-
-      <t>Rationale: Whenever <spanx style="verb">response_type</spanx> values include fragment encoded parts,
-        a User-Agent Client component must be involved to complete processing of the response.
-        If a new query parameter is added to the Client URI, it will cause the User-Agent
-        to re-fetch the Client URI,
-        causing discontinuity of operation of the User-Agent based Client components. If
-        only fragment encoding is used, the User-Agent will simply reactivate the Client
-        component, which can then process the fragment and
-        also convey any parameters to a Client host as necessary, e.g., via XmlHttpRequest.
-        Therefore, full fragment encoding always results in lower latency for response processing.</t>
+    <section anchor="ResponseTypesAndModes" title="Response Types and Response Modes">
 
       <t>
-	Furthermore, there are security implications to encoding values in the query string.
-	The HTTP Referer header includes query parameters,
-	and so any values encoded in query parameters will leak to third parties.
-	Thus, while it is safe to encode an Authorization Code as a query parameter
-	when using a Confidential Client (because it can't be used without the
-	Client Secret, which third parties won't have), more sensitive information
-	such as Access Tokens and ID Tokens MUST NOT be encoded in the query string.
+	The Response Type request parameter <spanx style="verb">response_type</spanx>
+	informs the Authorization Server of the
+	desired authorization processing flow,
+	including what parameters are returned from the endpoints used.
+	The Response Mode request parameter
+	<spanx style="verb">response_mode</spanx>
+	informs the Authorization Server of the mechanism to be used
+	when returning parameters from the Authorization Endpoint.
+	Each Response Type value also defines a default Response Mode
+	mechanism to be used, if no Response Mode is specified
+	using the request parameter.	
       </t>
-      <t>
-	This specification uses "SHOULD" rather than "MUST" when specifying
-	the use of fragment encoding to leave open the possibility of using other
-	safe parameter transmission mechanisms in the future, such as postMessage.
-	These "SHOULDs" MUST NOT be interpreted as permitting query encoding.
-      </t>
+
+      <section anchor="ResponseModes" title="Response Modes">
+
+	<t>
+	  This specification defines the following OAuth Authorization Request parameter:
+
+	<list style="hanging">
+	  <t hangText="response_mode">
+	    OPTIONAL.
+	    Informs the Authorization Server of the mechanism to be used
+	    when returning parameters from the Authorization Endpoint.
+	    This use of this parameter is NOT RECOMMENDED when the Response Mode
+	    that would be requested is the default mode specified by the Response Type.
+	  </t>
+	</list>
+	</t>
+
+	<t>
+	  This specification uses the following Response Modes and defines the
+	  associated <spanx style="verb">response_mode</spanx> values:
+	</t>
+
+	<t>
+	  <list style="hanging">
+	    <t hangText="query">
+	      In this mode, response parameters are encoded in
+	      the query string added to the <spanx style="verb">redirect_uri</spanx>
+	      when redirecting back to the Client.
+	    </t>
+	    <t hangText="fragment">
+	      In this mode, response parameters are encoded in
+	      the fragment added to the <spanx style="verb">redirect_uri</spanx>
+	      when redirecting back to the Client.
+	    </t>
+	    <t hangText="form_post">
+	      In this mode, response parameters are encoded
+	      as HTML form values that are auto-submitted in the user-agent,
+	      and thus are transmitted via the HTTP POST method to the client,
+	      with the result parameters being encoded in the response body
+	      using the "application/x-www-form-urlencoded" format.
+	      The action attribute of the form MUST be the client's redirect URI.
+	      The method of the form attribute MUST be <spanx style="verb">POST</spanx>.
+	    </t>
+	    <t>
+	      Any technique supported by the user agent MAY be used to cause
+	      the submission of the form, and any form content necessary to support this
+	      MAY be included, such as submit controls and client-side scripting commands.
+	      However, the client MUST be able to process the message without regard for
+	      the mechanism by which the form submission is initiated.
+	    </t>
+	  </list>
+	</t>
+	<t>
+	  For purposes of this specification, the default Response Mode for the
+	  OAuth 2.0 <spanx style="verb">code</spanx>
+	  <spanx style="verb">response_type</spanx> is the query encoding.
+	  For purposes of this specification, the default Response Mode for the
+	  OAuth 2.0 <spanx style="verb">token</spanx>
+	  <spanx style="verb">response_type</spanx> is the fragment encoding.
+	</t>
+	<t>
+	  Note that it is expected that additional Response Modes may be defined
+	  by other specifications in the future, including possibly
+	  <spanx style="verb">postMessage</spanx> and
+	  <spanx style="verb">CORS</spanx>.
+	</t>
+      </section>
+
+      <section anchor="MultiValueResponseTypes" title="Multiple-Valued Response Types">
+
+	<t>
+	  When a multiple-valued response type is defined, it is RECOMMENDED
+	  that the following encoding rules be applied for the issued response
+	  from the Authorization Endpoint.
+	</t>
+	<t>
+	  The all parameters returned from the Authorization Endpoint SHOULD
+	  use the same Response Mode.
+	  This recommendation applies to both success and error responses.
+	</t>
+	<t>
+	  Rationale:  This significantly simplifies Client parameter processing.
+	  It also can have positive performance benefits, as described below.
+	</t>
+	<t>
+	  For instance, if a response includes fragment encoded parts,
+	  a User-Agent Client component must be involved to complete processing of the response.
+	  If a new query parameter is added to the Client URI, it will cause the User-Agent
+	  to re-fetch the Client URI,
+	  causing discontinuity of operation of the User-Agent based Client components. If
+	  only fragment encoding is used, the User-Agent will simply reactivate the Client
+	  component, which can then process the fragment and
+	  also convey any parameters to a Client host as necessary, e.g., via XmlHttpRequest.
+	  Therefore, full fragment encoding always results in lower latency for response processing.
+	</t>
+      </section>
+
     </section>
 
     <section anchor="id_token" title="ID Token Response Type">
+
       <t>This section registers a new response type, the <spanx style="verb">id_token</spanx>, in accordance
         with the stipulations in the OAuth 2.0 specification, Section 8.4. The intended purpose of
         the <spanx style="verb">id_token</spanx> is that it MUST provide an assertion of
@@ -161,12 +245,12 @@
         specify a targeted audience, e.g. the requesting Client. However, the specific semantics of
         the assertion and how it can be validated are not specified in this document.</t>
 
-      <t><list style="hanging">
+      <t>
+	<list style="hanging">
         <t hangText="id_token">
 	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
           Authorization Request, a successful response MUST include the parameter
-          <spanx style="verb">id_token</spanx>,
-	  which SHOULD be encoded in the fragment of the response URI.
+          <spanx style="verb">id_token</spanx>.
 	  The Authorization Server SHOULD NOT return an OAuth 2.0
 	  Authorization Code, Access Token, or Access Token Type in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
@@ -174,20 +258,22 @@
           there after granting or denying access.
 	  The request MAY include a <spanx style="verb">state</spanx> parameter,
 	  and if so, the
-          server MUST echo its value by adding it to the
-	  <spanx style="verb">redirect_uri</spanx> when issuing
+          server MUST echo its value as a response parameter when issuing
 	  either a successful response or an error response.
-          Any parameters added to the <spanx style="verb">redirect_uri</spanx>
-	  SHOULD be fragment encoded and MUST NOT be query encoded.
-	  This applies to both successful responses and error responses.
+	  The default Response Mode for this Response Type is the fragment encoding
+	  and the query encoding MUST NOT be used.
+	  Both successful and error responses SHOULD be returned using the supplied
+	  Response Mode, or if none is supplied, using the default Response Mode.
 	</t>
-      </list></t>
+      </list>
+      </t>
 
       <t>Returning the <spanx style="verb">id_token</spanx> in a fragment reduces the likelihood that the <spanx style="verb">id_token</spanx> leaks
         during transport and mitigates the associated risks to the privacy of the user (Resource Owner).</t>
     </section>
 
     <section anchor="none" title="None Response Type">
+
       <t>This section registers the response type <spanx style="verb">none</spanx>, in accordance
         with the stipulations in the OAuth 2.0 specification, Section 8.4.
         The intended purpose is to enable
@@ -202,30 +288,33 @@
         not presently interacting with the (not yet active) application, it is not appropriate
         to return access credentials simultaneously in the authorization step.</t>
 
-      <t><list style="hanging">
+      <t>
+	<list style="hanging">
         <t hangText="none">
 	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
 	  Authorization Request, the Authorization Server SHOULD NOT return an OAuth 2.0
-	  Authorization Code, Access Token, or Access Token Type in a successful
+	  Authorization Code, Access Token, Access Token Type, or ID Token in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
 	  is supplied, the User-Agent SHOULD be redirected
           there after granting or denying access.
 	  The request MAY include a <spanx style="verb">state</spanx> parameter,
 	  and if so, the
-          server MUST echo its value by adding it to the
-	  <spanx style="verb">redirect_uri</spanx> when issuing
+          server MUST echo its value as a response parameter when issuing
 	  either a successful response or an error response.
-          Any parameters added to the <spanx style="verb">redirect_uri</spanx>
-	  SHOULD be query encoded.
-	  This applies to both successful responses and error responses.
+	  The default Response Mode for this Response Type is the query encoding.
+	  Both successful and error responses SHOULD be returned using the supplied
+	  Response Mode, or if none is supplied, using the default Response Mode.
 	</t>
-      </list></t>
+	</list>
+      </t>
       <t>
       The response type <spanx style="verb">none</spanx>
       SHOULD NOT be combined with other response types.
       </t>
     </section>
+
     <section anchor="Combinations" title="Registration of Some Multiple-Valued Response Type Combinations">
+
       <t>This section registers combinations of the values <spanx style="verb">code</spanx>, <spanx style="verb">token</spanx>, and <spanx style="verb">id_token</spanx>, which are each
         individually registered response types.</t>
 
@@ -236,40 +325,47 @@
 	      parameter, a successful response MUST include
 	      an Access Token, an Access Token Type,
 	      and an Authorization Code.
-	      Both successful and error responses SHOULD be fragment encoded
-	      and MUST NOT be query encoded.
+	      The default Response Mode for this Response Type is the fragment encoding
+	      and the query encoding MUST NOT be used.
+	      Both successful and error responses SHOULD be returned using the supplied
+	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t>
 	    <t hangText="code&nbsp;id_token">
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      both an Authorization Code and an <spanx style="verb">id_token</spanx>.
-	      Both successful and error responses SHOULD be fragment encoded
-	      and MUST NOT be query encoded.
+	      The default Response Mode for this Response Type is the fragment encoding
+	      and the query encoding MUST NOT be used.
+	      Both successful and error responses SHOULD be returned using the supplied
+	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t>
 	    <t hangText="id_token&nbsp;token">
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Access Token, an Access Token Type,
 	      and an <spanx style="verb">id_token</spanx>.
-	      Both successful and error responses SHOULD be fragment encoded
-	      and MUST NOT be query encoded.
+	      The default Response Mode for this Response Type is the fragment encoding
+	      and the query encoding MUST NOT be used.
+	      Both successful and error responses SHOULD be returned using the supplied
+	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t>
 	    <t hangText="code&nbsp;id_token&nbsp;token">
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Authorization Code, an <spanx style="verb">id_token</spanx>,
 	      an Access Token, and an Access Token Type.
-	      Both successful and error responses SHOULD be fragment encoded
-	      and MUST NOT be query encoded.
+	      The default Response Mode for this Response Type is the fragment encoding
+	      and the query encoding MUST NOT be used.
+	      Both successful and error responses SHOULD be returned using the supplied
+	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t> 
 	  </list>
 	</t>
       <t>
-	For all these response types,
+	For all these Response Types,
 	the request MAY include a <spanx style="verb">state</spanx> parameter,
 	and if so, the
-	server MUST echo its value by adding it to the
-	<spanx style="verb">redirect_uri</spanx> when issuing
+	server MUST echo its value as a response parameter when issuing
 	either a successful response or an error response.
       </t>
       <t>
@@ -296,15 +392,19 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>
-	This specification registers the <spanx style="verb">response_type</spanx>
-	values defined by this specification in the IANA
-	OAuth Authorization Endpoint Response Types registry
-	<xref target="RFC6749" />.
-      </t>
 
-      <section anchor="RegistryContents" title='Registry Contents'>
-	<t> <?rfc subcompact="yes"?>
+      <section anchor="OAuthResponseTypesReg"
+	       title="OAuth Authorization Endpoint Response Types Registration">
+
+	<t>
+	  This specification registers the <spanx style="verb">response_type</spanx>
+	  values defined by this specification in the IANA
+	  OAuth Authorization Endpoint Response Types registry
+	  <xref target="RFC6749" />.
+	</t>
+
+	<section anchor="RegistryContents" title='Registry Contents'>
+	  <t> <?rfc subcompact="yes"?>
 
 	  <list style='symbols'>
 	    <t>
@@ -317,82 +417,221 @@
 	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
 	    </t>
 	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Response Type Name: <spanx style="verb">none</spanx>
-	    </t>
-	    <t>
-	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Response Type Name: <spanx style="verb">code&nbsp;token</spanx>
-	    </t>
-	    <t>
-	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Response Type Name: <spanx style="verb">code&nbsp;id_token</spanx>
-	    </t>
-	    <t>
-	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Response Type Name: <spanx style="verb">id_token&nbsp;token</spanx>
-	    </t>
-	    <t>
-	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  <list style='symbols'>
-	    <t>
-	      Response Type Name: <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>
-	    </t>
-	    <t>
-	      Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
-	    </t>
-	  </list>
-	</t>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Response Type Name: <spanx style="verb">none</spanx>
+	      </t>
+	      <t>
+		Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Response Type Name: <spanx style="verb">code&nbsp;token</spanx>
+	      </t>
+	      <t>
+		Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Response Type Name: <spanx style="verb">code&nbsp;id_token</spanx>
+	      </t>
+	      <t>
+		Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Response Type Name: <spanx style="verb">id_token&nbsp;token</spanx>
+	      </t>
+	      <t>
+		Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style='symbols'>
+	      <t>
+		Response Type Name: <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>
+	      </t>
+	      <t>
+		Change Controller:  OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s):  http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html
+	      </t>
+	    </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+
       </section>
-      <?rfc subcompact="no"?>
+
+      <section anchor="OAuthParametersRegistry" title="OAuth Parameters Registration">
+
+	<t>
+	  This specification registers the following parameter
+	  in the IANA
+	  OAuth Parameters registry
+	  defined in <xref target="RFC6749">RFC 6749</xref>.
+	</t>
+
+	<section anchor='ParametersContents' title='Registry Contents'>
+	  <t> <?rfc subcompact="yes"?>
+	  <list style="symbols">
+	    <t>Parameter name: <spanx style="verb">response_mode</spanx></t>
+
+	    <t>Parameter usage location: Authorization Request</t>
+
+	    <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+	    <t>Specification document(s): <xref target="ResponseModes"/> of this document</t>
+
+	    <t>Related information: None</t>
+	  </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+
+      </section>
 
     </section>
+
+    <section anchor="Security" title="Security Considerations">
+
+      <t>
+	There are security implications to encoding response values in the query string.
+	The HTTP Referer header includes query parameters,
+	and so any values encoded in query parameters will leak to third parties.
+	Thus, while it is safe to encode an Authorization Code as a query parameter
+	when using a Confidential Client (because it can't be used without the
+	Client Secret, which third parties won't have), more sensitive information
+	such as Access Tokens and ID Tokens MUST NOT be encoded in the query string.
+	In no case should a set of response parameters whose default Response Mode
+	is the fragment encoding be encoded using the query encoding.
+	However, it is safe to return response parameters whose default Response Mode
+	is the fragment encoding using the <spanx style="verb">form_post</spanx> Response Mode.
+      </t>
+
+    </section>
+
   </middle>  
+
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
     </references>
+
+    <section anchor="FormPostResponseExample" title='"form_post" Response Mode Example'>
+
+      <t>
+	Below is a non-normative request/response/request example as
+	issued/received/issued by the User-Agent
+	(with extra line breaks for display purposes only)
+	demonstrating an auto-submitted <spanx style="verb">form_post</spanx> encoded response:
+      </t>
+
+      <figure>
+	<preamble>
+	  Authorization Request to the Authorization Endpoint:
+	</preamble>
+	<artwork><![CDATA[
+  GET /authorize?
+   response_type=id_token
+   &response_mode=form_post
+   &client_id=some_client
+   &scope=openid
+   &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcallback
+   &state=DcP7csa3hMlvybERqcieLHrRzKBra
+   &nonce=2T1AgaeRTGTMAJyeDMN9IJbgiUG HTTP/1.1
+  Host: server.example.com
+]]></artwork>
+      </figure>
+
+      <figure>
+	<preamble>
+	  After authentication and approval by the End-User, the Authorization Server
+	  issues the Authorization Response:
+	</preamble>
+	<artwork><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: text/html;charset=UTF-8
+  Cache-Control: no-store
+  Pragma: no-cache
+
+  <html>
+   <head><title>Submit This Form</title></head>
+   <body onload="javascript:document.forms[0].submit()">
+    <form method="post" action="https://client.example.org/callback">
+      <input type="hidden" name="state"
+       value="DcP7csa3hMlvybERqcieLHrRzKBra"/>
+      <input type="hidden" name="id_token"
+       value="eyJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJzdWIiOiJqb2huIiw
+         iYXVkIjoiZmZzMiIsImp0aSI6ImhwQUI3RDBNbEo0c2YzVFR2cllxUkIiLC
+         Jpc3MiOiJodHRwczpcL1wvbG9jYWxob3N0OjkwMzEiLCJpYXQiOjEzNjM5M
+         DMxMTMsImV4cCI6MTM2MzkwMzcxMywibm9uY2UiOiIyVDFBZ2FlUlRHVE1B
+         SnllRE1OOUlKYmdpVUciLCJhY3IiOiJ1cm46b2FzaXM6bmFtZXM6dGM6U0F
+         NTDoyLjA6YWM6Y2xhc3NlczpQYXNzd29yZCIsImF1dGhfdGltZSI6MTM2Mz
+         kwMDg5NH0.c9emvFayy-YJnO0kxUNQqeAoYu7sjlyulRSNrru1ySZs2qwqq
+         wwq-Qk7LFd3iGYeUWrfjZkmyXeKKs_OtZ2tI2QQqJpcfrpAuiNuEHII-_fk
+         IufbGNT_rfHUcY3tGGKxcvZO9uvgKgX9Vs1v04UaCOUfxRjSVlumE6fWGcq
+         XVEKhtPadj1elk3r4zkoNt9vjUQt9NGdm1OvaZ2ONprCErBbXf1eJb4NW_h
+         nrQ5IKXuNsQ1g9ccT5DMtZSwgDFwsHMDWMPFGax5Lw6ogjwJ4AQDrhzNCFc
+         0uVAwBBb772-86HpAkGWAKOK-wTC6ErRTcESRdNRe0iKb47XRXaoz5acA"/>
+    </form>
+   </body>
+  </html>
+]]></artwork>
+      </figure>
+
+      <figure>
+	<preamble>
+	  Which results in an HTTP POST to the client:
+	</preamble>
+	<artwork><![CDATA[
+  POST /callback HTTP/1.1
+  Host: client.example.org
+  Content-Type: application/x-www-form-urlencoded
+
+  id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJzdWIiOiJqb2huIiwiYX
+         VkIjoiZmZzMiIsImp0aSI6ImhwQUI3RDBNbEo0c2YzVFR2cllxUkIiLCJpc
+         3MiOiJodHRwczpcL1wvbG9jYWxob3N0OjkwMzEiLCJpYXQiOjEzNjM5MDMx
+         MTMsImV4cCI6MTM2MzkwMzcxMywibm9uY2UiOiIyVDFBZ2FlUlRHVE1BSnl
+         lRE1OOUlKYmdpVUciLCJhY3IiOiJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTD
+         oyLjA6YWM6Y2xhc3NlczpQYXNzd29yZCIsImF1dGhfdGltZSI6MTM2MzkwM
+         Dg5NH0.c9emvFayy-YJnO0kxUNQqeAoYu7sjlyulRSNrru1ySZs2qwqqwwq
+         -Qk7LFd3iGYeUWrfjZkmyXeKKs_OtZ2tI2QQqJpcfrpAuiNuEHII-_fkIuf
+         bGNT_rfHUcY3tGGKxcvZO9uvgKgX9Vs1v04UaCOUfxRjSVlumE6fWGcqXVE
+         KhtPadj1elk3r4zkoNt9vjUQt9NGdm1OvaZ2ONprCErBbXf1eJb4NW_hnrQ
+         5IKXuNsQ1g9ccT5DMtZSwgDFwsHMDWMPFGax5Lw6ogjwJ4AQDrhzNCFc0uV
+         AwBBb772-86HpAkGWAKOK-wTC6ErRTcESRdNRe0iKb47XRXaoz5acA&
+  state=DcP7csa3hMlvybERqcieLHrRzKBra
+]]></artwork>
+      </figure>
+
+    </section>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>The OpenID Community would like to thank the following people for the
@@ -402,6 +641,7 @@
 	<list style="empty">
           <t>Naveen Agarwal (naa@google.com), Google</t>
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
+	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
           <t>Breno de Medeiros (breno@google.com), Google</t>
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
@@ -456,6 +696,25 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-10
+        <list style="symbols">
+          <t>
+	    Fixed #889 - Differentiated between Response Types,
+	    which specify what is returned,
+	    and Response Modes, which specify how it is returned.
+	    Defined the <spanx style="verb">response_mode</spanx> request parameter
+	    for specifying non-default Response Modes.
+	  </t>
+	  <t>
+	    Fixed #890 - Defined the <spanx style="verb">form_post</spanx> Response Mode.
+	  </t>
+	  <t>
+	    Added Security Considerations section.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-09

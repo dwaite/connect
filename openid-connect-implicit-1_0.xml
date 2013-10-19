@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Guide 1.0">OpenID Connect
-    Implicit Client Implementer's Guide 1.0 - draft 12</title>
+    Implicit Client Implementer's Guide 1.0 - draft 13</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -329,10 +329,10 @@
 	      <list style="hanging">
 		<t hangText="response_type">
 		  REQUIRED.
-		  This value MUST include <spanx style="verb">id_token</spanx> and
+		  This value consists of <spanx style="verb">id_token</spanx> and
 		  <spanx style="verb">token</spanx>, as a space delimited list.
 		  This requests that both an Access Token and an ID Token be returned
-		  in the URL fragment component of the response, as specified in
+		  from the Authorization Endpoint, as specified in
 		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
 		</t>
 
@@ -862,7 +862,7 @@
 	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
 	    ID Token with the Claim Value
 	    being the nonce value sent in the Authorization Request.
-	    Use of the nonce is REQUIRED when using the implicit flow.
+	    Use of the nonce is REQUIRED when using the Implicit Flow.
 	    The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 	    </t>
 
@@ -870,7 +870,7 @@
 	      REQUIRED.
 	      Access Token hash value.
 	      If the ID Token is issued with an <spanx style="verb">access_token</spanx>
-	      in an implicit flow, this is REQUIRED,
+	      in an Implicit Flow, this is REQUIRED,
 	      which is the case for this subset of OpenID Connect.
 	      Its value is the base64url encoding of the left-most half of the
 	      hash of the octets of the ASCII representation of the
@@ -1074,7 +1074,7 @@
 
 	<section anchor="AccessTokenValidation" title="Access Token Validation">
 	  <t>To validate an Access Token issued with an ID Token in 
-	  the implicit flow, the Client SHOULD do the following:</t>
+	  the Implicit Flow, the Client SHOULD do the following:</t>
 
 	  <t><list style="numbers">
             <t>Hash the octets of the ASCII representation of
@@ -1844,8 +1844,8 @@
       </section>
 
       <section anchor="SelfIssuedResponse" title="Self-Issued OpenID Provider Response">
-        <t>The self-issued OpenID Provider response is the same as the normal implicit flow 
-	response with the following refinements.  Since it is an implicit flow
+        <t>The self-issued OpenID Provider response is the same as the normal Implicit Flow 
+	response with the following refinements.  Since it is an Implicit Flow
 	response, the response parameters will be returned in the URL fragment component.
         </t>
         <t><list style="numbers">
@@ -2639,6 +2639,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-13
+        <list style="symbols">
+	  <t>
+	    Updated <spanx style="verb">response_type</spanx> language.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-12

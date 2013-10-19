@@ -300,6 +300,21 @@
               OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
             </t>
 
+	    <t hangText="Response Mode">
+	      Means of specifying how the Authorization Server
+	      returns result parameters from the Authorization Endpoint.
+	      Non-default modes are specified using the
+	      <spanx style="verb">response_mode</spanx> request parameter.
+	    </t>
+
+	    <t hangText="Response Type">
+	      Means of specifying what parameters are returned
+	      from the endpoints used.
+	      The Client informs the
+	      Authorization Server of the desired authorization processing flow using the
+	      <spanx style="verb">response_type</spanx> request parameter.
+	    </t>
+
 	    <t hangText="Self-Issued OpenID Provider">
 	      Personal OpenID Provider that issues self-signed ID Tokens.
 	    </t>
@@ -486,8 +501,9 @@
 		<t hangText="response_type">
 		  REQUIRED.
 		  OAuth 2.0 registered
-		  response type value that determines how the Authorization Response
-		  is returned to the Client.
+		  Response Type value that determines
+		  the authorization processing flow to be used,
+		  including what parameters are returned from the endpoints used.
 		  When using the Authorization Code Flow, this value MUST be
 		  <spanx style="verb">code</spanx>.
 		</t>
@@ -523,6 +539,25 @@
 		  this parameter with the browser cookie.
 		</t>
 
+	      </list>
+	    </t>
+
+	    <t>
+	      OpenID Connect also uses the following OAuth 2.0 request parameter,
+	      which is defined in
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
+	      with the Authorization Code Flow:
+	    </t>
+	    <t>
+
+	      <list style="hanging">
+		<t hangText="response_mode">
+		  OPTIONAL.
+		  Informs the Authorization Server of the mechanism to be used
+		  when returning parameters from the Authorization Endpoint.
+		  This use of this parameter is NOT RECOMMENDED when the Response Mode
+		  that would be requested is the default mode specified for the Response Type.
+		</t>
 	      </list>
 	    </t>
 
@@ -860,9 +895,6 @@
 	      An Authorization Response is a message returned from the 
 	      OP's Authorization Endpoint in response to the Authorization Request 
 	      by the RP.
-	      Response parameters are returned to the Client by adding them to the
-	      <spanx style="verb">redirect_uri</spanx> specified in the Authorization Request
-	      using the "application/x-www-form-urlencoded" format.
 	    </t>
 
 	    <t>This specification only
@@ -871,9 +903,15 @@
 	    MUST be set to <spanx style="verb">Bearer</spanx> unless another Token Type 
 	    has been negotiated with the Client.</t>
 
-	    <t>When using the Authorization Code Flow, the Authorization Response
-	    MUST return the parameters defined in Section 4.1.2 of
-	    <xref target="RFC6749">OAuth 2.0</xref>.</t>
+	    <t>
+	      When using the Authorization Code Flow, the Authorization Response
+	      MUST return the parameters defined in Section 4.1.2 of
+	      <xref target="RFC6749">OAuth 2.0</xref>,
+	      by adding them as query parameters to the
+	      <spanx style="verb">redirect_uri</spanx> specified in the Authorization Request
+	      using the "application/x-www-form-urlencoded" format,
+	      unless a different Response Mode was specified.
+	    </t>
 
 	    <figure>
 	      <preamble>
@@ -903,8 +941,8 @@
 	    <t>
 	      The Authorization Server returns the Client to
 	      the redirection URI specified in the Authorization Request
-	      with the appropriate error parameters. No
-	      other parameters SHOULD be returned.
+	      with the appropriate error and state parameters.
+	      No other parameters SHOULD be returned.
 	    </t>
 	    <t>In addition to the error codes defined in Sections 4.1.2.1 and 4.2.2.1 of
 	    OAuth 2.0, this specification also defines the following error codes:</t>
@@ -996,13 +1034,15 @@
 		  OAuth 2.0 state value.
 		  REQUIRED if the Authorization Request
 		  included the <spanx style="verb">state</spanx> parameter. Set
-		to the value received from the Client.</t>
+		  to the value received from the Client.
+		</t>
 	      </list>
 	    </t>
 
 	    <t>
-	      When using the Authorization Code Flow, the response
-	      parameters are added to the query component of the redirection URI.
+	      When using the Authorization Code Flow, the error response
+	      parameters are added to the query component of the redirection URI,
+	      unless a different Response Mode was specified.
 	    </t>
 
 	    <t>
@@ -1705,8 +1745,9 @@
 		<t hangText="response_type">
 		  REQUIRED.
 		  OAuth 2.0 registered
-		  response type value that determines how the Authorization Response
-		  is returned to the Client.
+		  Response Type value that determines
+		  the authorization processing flow to be used,
+		  including what parameters are returned from the endpoints used.
 		  When using the Implicit Flow, this value MUST be
 		  <spanx style="verb">id_token&nbsp;token</spanx> or
 		  <spanx style="verb">id_token</spanx>.
@@ -1810,7 +1851,8 @@
 	      When using the Implicit Flow,
 	      all response parameters are added to the fragment component
 	      of the redirection URI, as specified in
-	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
+	      unless a different Response Mode was specified.
 	      These parameters are returned:
 	    </t>
 
@@ -1882,17 +1924,21 @@
             <t>
 	      If the End-User denies the request or the End-User authentication
 	      fails, the Authorization Server MUST return the error
-	      Authorization Response as defined in 4.2.2.1 of 
+	      Authorization Response in the
+	      fragment component of the redirection URI,
+	      as defined in 4.2.2.1 of 
 	      <xref target="RFC6749">OAuth 2.0</xref> and
-	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-	      In particular, error parameters are returned in the
-	      fragment component of the redirection URI.
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
+	      unless a different Response Mode was specified.
 	    </t>
 	  </section>
 
 	  <section anchor="ImplicitCallback" title="Redirect URI Fragment Handling">
-	    <t>The Client MUST provide a way for the User-Agent to parse the fragment encoded
-	    response and post it to the Web Server Client for validation.</t>
+	    <t>
+	      When response parameters are returned in the Redirection URI fragment value,
+	      the Client MUST provide a way for the User-Agent to parse the fragment encoded
+	      response and post it to the Web Server Client for validation.
+	    </t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
 	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
@@ -2154,8 +2200,9 @@
 		<t hangText="response_type">
 		  REQUIRED.
 		  OAuth 2.0 registered
-		  response type value that determines how the Authorization Response
-		  is returned to the Client.
+		  Response Type value that determines
+		  the authorization processing flow to be used,
+		  including what parameters are returned from the endpoints used.
 		  When using the Hybrid Flow, this value MUST be
 		  <spanx style="verb">code&nbsp;id_token</spanx>,
 		  <spanx style="verb">code&nbsp;token</spanx>, or
@@ -2275,18 +2322,19 @@
             <t>
 	      If the End-User denies the request or the End-User authentication
 	      fails, the Authorization Server MUST return the error
-	      Authorization Response as defined in 4.2.2.1 of 
+	      Authorization Response in the
+	      fragment component of the redirection URI,
+	      as defined in 4.2.2.1 of 
 	      <xref target="RFC6749">OAuth 2.0</xref> and
-	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
-	      In particular, error parameters are returned in the
-	      fragment component of the redirection URI.
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
+	      unless a different Response Mode was specified.
 	    </t>
 	  </section>
 
 	  <section anchor="HybridCallback" title="Redirect URI Fragment Handling">
 
 	    <t>
-	      When using the Hybrid Flow, Redirect URI handling is done in
+	      When using the Hybrid Flow, Redirection URI handling is done in
 	      the same manner as for the Implicit Flow,
 	      as defined in <xref target="ImplicitCallback"/>,
 	      with the exception of the differences specified in this section.
@@ -4712,9 +4760,11 @@
 	  </list>
 	</t>
 
-	<t>The Self-Issued OpenID Provider response is the same as the normal implicit flow 
-	response with the following refinements.  Since it is an implicit flow
-	response, the response parameters will be returned in the URL fragment component.
+	<t>
+	  The Self-Issued OpenID Provider response is the same as the normal Implicit Flow 
+	  response with the following refinements.  Since it is an Implicit Flow
+	  response, the response parameters will be returned in the URL fragment component,
+	  unless a different Response Mode was specified.
 	</t>
 	<t>
 	  <list style="numbers">
@@ -6215,11 +6265,11 @@
 	  available to the browser; this is known as the "cut and paste" attack.
 	</t>
 	<t>
-	  The implicit flow of <xref target="RFC6749">OAuth 2.0</xref>
+	  The Implicit Flow of <xref target="RFC6749">OAuth 2.0</xref>
 	  is not designed to mitigate this risk.  In Section 10.16,
 	  it normatively requires that any use of the authorization
 	  process as a form of delegated End-User authentication to the
-	  Client MUST NOT use the implicit flow without employing
+	  Client MUST NOT use the Implicit Flow without employing
 	  additional security mechanisms that enable the Client to
 	  determine whether the Access Token was issued for its use.
 	</t>
@@ -6311,13 +6361,13 @@
 	<t>It is RECOMMENDED that only a single issuer per host be used.</t>
       </section>		
 
-      <section anchor="ImplicitGrantFlowThreats" title="Implicit Grant Flow Threats">
-        <t>In the implicit grant flow, the Access Token is returned in the
+      <section anchor="ImplicitGrantFlowThreats" title="Implicit Flow Threats">
+        <t>In the Implicit Flow, the Access Token is returned in the
         fragment component of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
-        protected between the OP and the User-Agent, and User-Agent and the
+        protected between the OP and the User-Agent, and between the User-Agent and the
         RP. The only the place it can be captured is the User-Agent where the
-        TLS session is terminated, and is possible if the User-Agent is
-        infested by malware.</t>
+        TLS session is terminated, which is possible if the User-Agent is
+        infested by malware or under the control of a malicious party.</t>
       </section>
 
       <section anchor="TLSRequirements" title="TLS Requirements">
@@ -8181,7 +8231,9 @@
 	-15
         <list style="symbols">
 	  <t>
-	    Made minor editorial corrections.
+	    Fixed #889 - Generalized the descriptions of returning responses from the
+	    Authorization Endpoint to enable non-default Response Modes
+	    to be used.
 	  </t>
 	</list>
       </t>
