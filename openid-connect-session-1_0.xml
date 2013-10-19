@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="16" month="October" year="2013" />
+    <date day="19" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -434,6 +434,13 @@
 	  states issued in response to unsuccessful Authorization Requests.
 	</t>
 	<t>
+	  If a cookie is used to maintain the OP browser state,
+	  the HttpOnly flag likely can't be set for this cookie,
+	  because it needs to be accessed from JavaScript.
+	  Therefore, information that can be used for identifying the user
+	  should not be put into the cookie, as it could be read by unrelated JavaScript.
+	</t>
+	<t>
 	  In some implementations, <spanx style='verb'>changed</spanx>
 	  notifications will occur only when changes to the End-User's
 	  session occur, whereas in other implementations, they might
@@ -747,6 +754,10 @@
         <list style="symbols">
 	  <t>
 	    Fixed #883 - Moved the RP iframe description ahead of the OP iframe description.
+	  </t>
+	  <t>
+	    Fixed #873 - Clarified that the HttpOnly flag can't be set for cookies
+	    used to maintain OP browser state.
 	  </t>
 	</list>
       </t>
