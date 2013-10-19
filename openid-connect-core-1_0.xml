@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="18" month="October" year="2013" />
+    <date day="19" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1494,14 +1494,14 @@
 
 		<t hangText="azp">
 		  OPTIONAL or REQUIRED.
-		  Authorized Party - 
+		  Authorized party - 
 		  the party to which the ID Token was issued.
 		  If present, it MUST contain the OAuth 2.0
 		  <spanx style="verb">client_id</spanx> of this party.
 		  This Claim is only REQUIRED when
 		  the ID Token has a single audience value
-		  and that audience is different than the Authorized Party.
-		  It MAY be included even when the Authorized Party is the same
+		  and that audience is different than the authorized party.
+		  It MAY be included even when the authorized party is the same
 		  as the sole audience.
 		  The <spanx style="verb">azp</spanx> value is a case sensitive string
 		  containing a StringOrURI value.
@@ -2804,7 +2804,7 @@
 	UserInfo Response or in the ID Token.
 	</t>
 
-	<texttable anchor="ClaimTable" title="Reserved Member Definitions">
+	<texttable anchor="ClaimTable" title="Registered Member Definitions">
 	  <ttcol align="left">Member</ttcol>
 
 	  <ttcol align="left">Type</ttcol>
@@ -3189,19 +3189,19 @@
 
 	<section anchor="AdditionalClaims" title="Additional Claims">
 	  <t>
-	    While this specification defines only small set of Claims as
+	    While this specification defines only a small set of Claims as
 	    standard Claims, other Claims MAY be used in conjunction
 	    with the standard Claims.
 	    When using such Claims, it is RECOMMENDED that
-	    collision resistant names be used for the Claim Names,
+	    collision-resistant names be used for the Claim Names,
 	    as described in Section 4.2 (Public Claim Names) of the
 	    <xref target="JWT">JSON Web Token (JWT)</xref> specification.
 	    Alternatively, Private Claim Names can be safely used
 	    when naming conflicts are unlikely to arise,
 	    as described in 4.3 of the JWT specification.
 	    Or, if specific additional Claims will have broad and general applicability,
-	    they can be registered with Reserved Claim Names,
-	    per Sections 4.1 and 9.1 of the JWT specification.
+	    they can be registered with Registered Claim Names,
+	    per Sections 4.1 and 10.1 of the JWT specification.
 	  </t>
 	</section>
       </section>
@@ -5884,7 +5884,7 @@
 	    </t>
 	    <t hangText="Authentication Time">
 	      OPs MUST support returning the time at which the End-User authenticated
-	      via the <spanx style="verb">auth_time</spanx> Claim,
+	      via the <spanx style="verb">auth_time</spanx> Claim, when requested,
 	      as defined in <xref target="IDToken"/>.
 	    </t>
 	    <t hangText="Maximum Authentication Age">
@@ -6358,14 +6358,18 @@
 	"https://example.com/sales".
 	</t>
 
-	<t>It is RECOMMENDED that only a single issuer per host be used.</t>
+	<t>
+	  It is RECOMMENDED that only a single issuer per host be used.
+	  However, if a host supports multiple tenants,
+	  multiple issuers for that host may be needed.
+	</t>
       </section>		
 
       <section anchor="ImplicitGrantFlowThreats" title="Implicit Flow Threats">
         <t>In the Implicit Flow, the Access Token is returned in the
         fragment component of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
         protected between the OP and the User-Agent, and between the User-Agent and the
-        RP. The only the place it can be captured is the User-Agent where the
+        RP. The only place it can be captured is the User-Agent where the
         TLS session is terminated, which is possible if the User-Agent is
         infested by malware or under the control of a malicious party.</t>
       </section>
