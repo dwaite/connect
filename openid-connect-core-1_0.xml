@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="19" month="October" year="2013" />
+    <date day="23" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -152,14 +152,15 @@
 	  found in this section must be followed.
 	</t>
 
-        <t>This specification uses the terms "Access Token", "Refresh Token",
-        "Authorization Code", "Authorization Grant", "Authorization Server",
-        "Authorization Endpoint", "Client", "Client Identifier", "Client Secret",
-	"Protected Resource", "Resource Owner", "Resource Server", and
-        "Token Endpoint" defined by
-        <xref target="RFC6749">OAuth 2.0</xref>,
-        and the terms "Claim Names" and "Claim Values" defined by
-        <xref target="JWT">JSON Web Token (JWT)</xref>.
+        <t>
+	  This specification uses the terms "Access Token", "Authorization Code",
+	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
+	  "Client", "Client Identifier", "Client Secret",
+	  "Protected Resource", "Redirection URI", "Refresh Token",
+	  "Resource Owner", "Resource Server", and "Token Endpoint"
+	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
+	  and the terms "Claim Names" and "Claim Values" defined by
+	  <xref target="JWT">JSON Web Token (JWT)</xref>.
         </t>
         <t>
           This specification also defines the following terms:
@@ -247,7 +248,7 @@
 	      Set of attributes related to an Entity.
 	    </t>
 
-            <t hangText="Implicit Code Flow">
+            <t hangText="Implicit Flow">
               OAuth 2.0 flow in which all tokens are returned from the Authorization Endpoint.
             </t>
 
@@ -270,9 +271,6 @@
               about the authentication event and the End-User
               in an ID Token and/or a UserInfo Endpoint response. 
             </t>
-
-            <t hangText="OP Endpoints">Authorization Endpoint, Token Endpoint,
-	    and UserInfo Endpoint.</t>
 
             <t hangText="Request Object">
 	      JWT that contains a set of request parameters as its Claims.
@@ -313,6 +311,12 @@
 	      The Client informs the
 	      Authorization Server of the desired authorization processing flow using the
 	      <spanx style="verb">response_type</spanx> request parameter.
+	    </t>
+
+	    <t hangText="Sector Identifier">
+	      Host component of a URL used by the Relying Party's organization
+	      that is an input to the computation of pairwise subject identifiers
+	      for that Relying Party.
 	    </t>
 
 	    <t hangText="Self-Issued OpenID Provider">
@@ -516,13 +520,12 @@
 		<t hangText="redirect_uri">
 		  REQUIRED.
 		  Redirection URI to which the response will be sent.
-		  This MUST be pre-registered with the OpenID Provider.
-		  This URI MUST exactly match one of the
-		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  This URI MUST exactly match one of the Redirection URI values
+		  for the Client pre-registered at the OpenID Provider,
 		  with the matching performed as described in
 		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
 		  When using this flow,
-		  the redirection URI
+		  the Redirection URI
 		  MAY use the <spanx style="verb">http</spanx> scheme,
 		  provided that the Client Type is
 		  <spanx style="verb">confidential</spanx>,
@@ -897,11 +900,12 @@
 	      by the RP.
 	    </t>
 
-	    <t>This specification only
-	    describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
-	    OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
-	    MUST be set to <spanx style="verb">Bearer</spanx> unless another Token Type 
-	    has been negotiated with the Client.</t>
+	    <t>
+	      The OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
+	      MUST be set to <spanx style="verb">Bearer</spanx>,
+	      as specified in <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
+	      unless another Token Type has been negotiated with the Client.
+	    </t>
 
 	    <t>
 	      When using the Authorization Code Flow, the Authorization Response
@@ -936,16 +940,21 @@
 	      If the End-User denies the request or the End-User authentication
 	      fails, the OP (Authorization Server) informs the RP (Client)
 	      by using the Error Response parameters defined in
-	      Sections 4.1.2.1 of <xref target="RFC6749">OAuth 2.0</xref>.
+	      Section 4.1.2.1 of <xref target="RFC6749">OAuth 2.0</xref>.
+	      (HTTP errors unrelated to RFC 6749 are returned using the
+	      appropriate HTTP status code.)
 	    </t>
 	    <t>
-	      The Authorization Server returns the Client to
-	      the redirection URI specified in the Authorization Request
+	      Unless the Redirection URI is invalid,
+	      the Authorization Server returns the Client to
+	      the Redirection URI specified in the Authorization Request
 	      with the appropriate error and state parameters.
 	      No other parameters SHOULD be returned.
 	    </t>
-	    <t>In addition to the error codes defined in Sections 4.1.2.1 and 4.2.2.1 of
-	    OAuth 2.0, this specification also defines the following error codes:</t>
+	    <t>
+	      In addition to the error codes defined in Section 4.1.2.1 of
+	      OAuth 2.0, this specification also defines the following error codes:
+	    </t>
 
 	    <t>
 	      <list style="hanging">
@@ -954,20 +963,17 @@
 		requires End-User interaction of some form to proceed.
 		This error MAY be returned when the 
 		<spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>
-		to request that the
-		Authorization Server MUST NOT display any user interfaces to
-		the End-User, but the Authorization Request cannot be completed
-		without displaying a user interface for End-User interaction.</t>
+		Authorization Request is set to <spanx style="verb">none</spanx>,
+		but the Authorization Request cannot be completed
+		without displaying a user interface for End-User interaction.
+		</t>
 
 		<t hangText="login_required">The Authorization Server requires
 		End-User authentication. This error MAY be returned when the 
 		<spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to
-		<spanx style="verb">none</spanx> to request that the
-		Authorization Server MUST NOT display any user interfaces to
-		the End-User, but the Authorization Request cannot be completed
-		without displaying a user interface for user authentication.
+		Authorization Request is set to <spanx style="verb">none</spanx>,
+		but the Authorization Request cannot be completed
+		without displaying a user interface for End-User authentication.
 		</t>
 
 		<t hangText="session_selection_required">The End-User is REQUIRED
@@ -976,21 +982,18 @@
 		associated accounts, but the End-User did not select a session.
 		This error MAY be returned 
 		when the <spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>
-		to request that the
-		Authorization Server MUST NOT display any user interfaces to
-		the End-User, but the Authorization Request cannot be completed
-		without displaying a user interface to prompt for a session to
-		use.</t>
+		Authorization Request is set to <spanx style="verb">none</spanx>,
+		but the Authorization Request cannot be completed
+		without displaying a user interface to prompt for a session to use.
+		</t>
 
 		<t hangText="consent_required">The Authorization Server
 		requires End-User consent. This error MAY be returned when the 
 		<spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>
-		to request that the
-		Authorization Server MUST NOT display any user interfaces to
-		the End-User, but the Authorization Request cannot be completed
-		without displaying a user interface for End-User consent.</t>
+		Authorization Request is set to <spanx style="verb">none</spanx>,
+		but the Authorization Request cannot be completed
+		without displaying a user interface for End-User consent.
+		</t>
 
 		<t hangText="invalid_request_uri">The 
 		<spanx style="verb">request_uri</spanx> in
@@ -1002,17 +1005,20 @@
 
 		<t hangText="request_not_supported">
 		  The OP does not support use of the
-		  <spanx style="verb">request</spanx> parameter.
+		  <spanx style="verb">request</spanx> parameter
+		  defined in <xref target="JWTRequests"/>.
 		</t>
 
 		<t hangText="request_uri_not_supported">
 		  The OP does not support use of the
-		  <spanx style="verb">request_uri</spanx> parameter.
+		  <spanx style="verb">request_uri</spanx> parameter
+		  defined in <xref target="JWTRequests"/>.
 		</t>
 
 		<t hangText="registration_not_supported">
 		  The OP does not support use of the
-		  <spanx style="verb">registration</spanx> parameter.
+		  <spanx style="verb">registration</spanx> parameter
+		  defined in <xref target="RegistrationParameter"/>.
 		</t>
 
 	      </list>
@@ -1041,7 +1047,7 @@
 
 	    <t>
 	      When using the Authorization Code Flow, the error response
-	      parameters are added to the query component of the redirection URI,
+	      parameters are added to the query component of the Redirection URI,
 	      unless a different Response Mode was specified.
 	    </t>
 
@@ -1171,7 +1177,8 @@
 	      <list style='symbols'>
 		<t>
 		  Authenticate any Clients that were issued Client Credentials
-		  (or for which other Client Authentication methods can be used),
+		  or for which other Client Authentication methods were used,
+		  per <xref target="ClientAuthentication"/>,
 		</t>
 		<t>
 		  Ensure the
@@ -1209,16 +1216,14 @@
 	    parameters in the successful response are defined in Section 4.1.4
 	    of <xref target="RFC6749">OAuth 2.0</xref>.</t>
 
-	    <t>This specification only
-	    describes <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>. The
-	    OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
-	    MUST be set to <spanx style="verb">Bearer</spanx> unless another Token Type 
-	    has been negotiated with the Client. Servers SHOULD support 
-	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> for interoperability.
-	    For security reasons, Servers MAY only allow Clients to register specific 
-	    <spanx style="verb">token_type</spanx> values. Clients MUST support 
-	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> and MAY support other
-	    <spanx style="verb">token_type</spanx>. </t>
+	    <t>
+	      The OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
+	      MUST be set to <spanx style="verb">Bearer</spanx>,
+	      as specified in <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
+	      unless another Token Type has been negotiated with the Client.
+	      Servers SHOULD support the <spanx style="verb">Bearer</spanx> Token Type;
+	      use of other Token Types is outside the scope of this specification.
+	    </t>
 
 	    <t>In addition to the OAuth 2.0 response parameters, the following
 	    parameters MUST be included in the response if the 
@@ -1467,7 +1472,8 @@
 		  (This corresponds to the OpenID 2.0
 		  <xref target="OpenID.PAPE">PAPE</xref> 
 		  <spanx style="verb">nist_auth_level</spanx> 0.)
-		  An absolute URI or a <xref target="RFC6711">registered name</xref>
+		  An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
+		  registered name
 		  SHOULD be used as the <spanx style="verb">acr</spanx> value;
 		  registered names MUST NOT be used with a different meaning than
 		  that which is registered.
@@ -1528,7 +1534,9 @@
 	      per <xref target="SigningOrder"/>.
 	      ID Tokens MUST NOT use <spanx style="verb">none</spanx>
 	      as the <spanx style="verb">alg</spanx> value
-	      unless the Authorization Request used the Authorization Code Flow
+	      unless the flow used returns no ID Token from the
+	      Authorization Endpoint
+	      (such as the Authorization Code Flow)
 	      and the Client explicitly requested the use of
 	      <spanx style="verb">none</spanx> at registration time.
 	    </t>
@@ -1624,7 +1632,7 @@
 		<spanx style="verb">aud</spanx> (audience) Claim are used as the key
 		to validate the signature. Multiple audiences are not supported for MAC based algorithms.</t> 
 
-		<t>For other Signing algorithms, the Client MUST use the signing key provided
+		<t>For other Signing algorithms, the Client MUST use a signing key provided
 		in Discovery by the Issuer.
 		The issuer MUST exactly match the value of the 
 		<spanx style="verb">iss</spanx> (issuer) Claim.</t>
@@ -1671,7 +1679,8 @@
 	      if the ID Token contains an <spanx style="verb">at_hash</spanx> Claim,
 	      the Client MAY use it to validate the Access Token
 	      the same manner as for the Implicit Flow,
-	      as defined in <xref target="AccessTokenValidation"/>.
+	      as defined in <xref target="ImplicitTokenValidation"/>,
+	      but using the ID Token and Access Token returned from the Token Endpoint.
 	    </t>
 	  </section>
 
@@ -1766,12 +1775,11 @@
 		<t hangText="redirect_uri">
 		  REQUIRED.
 		  Redirection URI to which the response will be sent.
-		  This MUST be pre-registered with the OpenID Provider.
-		  This URI MUST exactly match one of the
-		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  This URI MUST exactly match one of the Redirection URI values
+		  for the Client pre-registered at the OpenID Provider,
 		  with the matching performed as described in
 		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
-		  When using this flow, the redirection URI
+		  When using this flow, the Redirection URI
 		  MUST NOT use the <spanx style="verb">http</spanx> scheme
 		  unless the Client is a native application, in which case it MAY
 		  use the <spanx style="verb">http:</spanx> scheme with
@@ -1850,7 +1858,7 @@
 	    <t>
 	      When using the Implicit Flow,
 	      all response parameters are added to the fragment component
-	      of the redirection URI, as specified in
+	      of the Redirection URI, as specified in
 	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
 	      unless a different Response Mode was specified.
 	      These parameters are returned:
@@ -1925,7 +1933,7 @@
 	      If the End-User denies the request or the End-User authentication
 	      fails, the Authorization Server MUST return the error
 	      Authorization Response in the
-	      fragment component of the redirection URI,
+	      fragment component of the Redirection URI,
 	      as defined in 4.2.2.1 of 
 	      <xref target="RFC6749">OAuth 2.0</xref> and
 	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
@@ -1937,7 +1945,8 @@
 	    <t>
 	      When response parameters are returned in the Redirection URI fragment value,
 	      the Client MUST provide a way for the User-Agent to parse the fragment encoded
-	      response and post it to the Web Server Client for validation.
+	      response and consume the values.
+	      One way to do this is to post it to the Web Server Client for validation.
 	    </t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
@@ -2010,7 +2019,7 @@
 		  Follow the ID Token validation rules in <xref target="ImplicitIDTValidation"/>.
 		</t>
 		<t>
-		  Follow the Access Token validation rules in <xref target="AccessTokenValidation"/>,
+		  Follow the Access Token validation rules in <xref target="ImplicitTokenValidation"/>,
 		  unless the <spanx style="verb">response_type</spanx> value used is
 		  <spanx style="verb">id_token</spanx>.
 		</t>
@@ -2018,7 +2027,7 @@
 	    </t>
 	  </section>
 
-	  <section anchor="AccessTokenValidation" title="Access Token Validation">
+	  <section anchor="ImplicitTokenValidation" title="Access Token Validation">
 	    <t>To validate an Access Token issued from the Authorization Endpoint with an ID Token, 
 	    the Client SHOULD do the following:</t>
 
@@ -2323,7 +2332,7 @@
 	      If the End-User denies the request or the End-User authentication
 	      fails, the Authorization Server MUST return the error
 	      Authorization Response in the
-	      fragment component of the redirection URI,
+	      fragment component of the Redirection URI,
 	      as defined in 4.2.2.1 of 
 	      <xref target="RFC6749">OAuth 2.0</xref> and
 	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
@@ -2336,8 +2345,7 @@
 	    <t>
 	      When using the Hybrid Flow, Redirection URI handling is done in
 	      the same manner as for the Implicit Flow,
-	      as defined in <xref target="ImplicitCallback"/>,
-	      with the exception of the differences specified in this section.
+	      as defined in <xref target="ImplicitCallback"/>.
 	    </t>
 	  </section>
 
@@ -2364,12 +2372,14 @@
 		<t>
 		  Follow the Access Token validation rules in <xref target="HybridTokenValidation"/>
 		  when the <spanx style="verb">response_type</spanx> value used is
+		  <spanx style="verb">code&nbsp;token</spanx> or
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
 		</t>
 		<t>
 		  Follow the Authorization Code validation rules in <xref target="CodeValidation"/>
 		  when the <spanx style="verb">response_type</spanx> value used is
-		  <spanx style="verb">code&nbsp;id_token</spanx> or
+		  <spanx style="verb">code&nbsp;id_token</spanx>,
+		  <spanx style="verb">code&nbsp;token</spanx>, or
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
 		</t>
 	      </list>
@@ -2382,7 +2392,7 @@
 	      When using the Hybrid Flow, Access Tokens
 	      returned from the Authorization Endpoint are validated in
 	      the same manner as for the Implicit Flow,
-	      as defined in <xref target="AccessTokenValidation"/>.
+	      as defined in <xref target="ImplicitTokenValidation"/>.
 	    </t>
 	  </section>
 
@@ -2574,15 +2584,19 @@
 	      which is the case with the <spanx style="verb">response_type</spanx> values
 	      <spanx style="verb">code&nbsp;id_token</spanx> and
 	      <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
-	      it is RECOMMENDED that their values be the same.
-	      However, it is acceptable for <spanx style="verb">at_hash</spanx>
-	      and <spanx style="verb">c_hash</spanx> values that may have been
-	      present in the ID Token returned from the Authorization Endpoint
-	      to be omitted from the ID Token returned from the Token Endpoint.
-	      At a minimum, the <spanx style="verb">iss</spanx> and
-	      <spanx style="verb">sub</spanx> Claim values MUST be the identical.
-	      Furthermore, any other Claims about the subject that are present
-	      in both ID Tokens SHOULD have the same values in both.
+	      the <spanx style="verb">iss</spanx> and <spanx style="verb">sub</spanx>
+	      Claim values MUST be the identical in both ID Tokens.
+	      All Claims about the authentication event present in either
+	      SHOULD be present in both.
+	      If either ID Token contains Claims about the End-User,
+	      any that are present in both SHOULD have the same values in both.
+	      Note that the OP MAY choose to return fewer Claims about the End-User
+	      from the Authorization Endpoint, for instance, for privacy reasons.
+	      It is acceptable for <spanx style="verb">at_hash</spanx>
+	      and <spanx style="verb">c_hash</spanx> Claims
+	      to be omitted from the ID Token returned from the Token Endpoint
+	      even when these Claims are
+	      present in the ID Token returned from the Authorization Endpoint.
 	    </t>
 	  </section>
 
@@ -2604,7 +2618,8 @@
 	      which is the case with the <spanx style="verb">response_type</spanx> values
 	      <spanx style="verb">code&nbsp;token</spanx> and
 	      <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
-	      it is RECOMMENDED that their values be the same.
+	      their values MAY be the same
+	      or in some cases, they might be different.
 	    </t>
 	  </section>
 
@@ -2626,21 +2641,20 @@
 
     <section anchor="ThirdPartyInitiatedLogin" title="Initiating Login from a Third Party">
       <t>
-	In some cases, the login flow can start at the Authorization Server
-	or another party by contacting the Client via a stored link.
-	The target resource at the Client can be a deep link,
+	In some cases, the login flow is initiated at the Authorization Server
+	or another party, rather than the Client.
+	In this case, the initiator redirects to the Client at a login initiation endpoint
+	that it supports, which requests that the Client be logged in.
+	This Client endpoint can be a deep link,
 	rather than a default landing page.
+	Clients supporting
+	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
+	register this endpoint value using the
+	<spanx style="verb">initiate_login_uri</spanx> registration parameter.
       </t>
       <t>
-	The Client MAY optionally <xref target="OpenID.Registration">register</xref>
-	an <spanx style="verb">initiate_login_uri</spanx> that
-	can be used by the Authorization Server
-	or another party to initiate a login for an End-User at the Client.
-      </t>
-      <t>
-	The Authorization Server or a third party sends a
-	Login Initiation Request to the
-	Client Initiation URI with the following parameters:
+	The Authorization Server or third party requests that the Client be logged in
+	by redirecting to this endpoint with the following query parameters:
       </t>
       <t>
 	<list style="hanging">
@@ -2987,10 +3001,12 @@
 
 	  <c>address</c>
 	  <c>JSON object</c>
-	  <c>End-User's preferred address. The value of the <spanx
-	  style="verb">address</spanx> member is a <xref
-	  target="RFC4627">JSON</xref> structure containing some or all of
-	  the members defined in <xref target="AddressClaim" />. </c>
+	  <c>
+	    End-User's preferred postal address.
+	    The value of the <spanx style="verb">address</spanx> member is
+	    a JSON <xref target="RFC4627"/> structure containing some or all of
+	    the members defined in <xref target="AddressClaim"/>.
+	  </c>
 
 	  <c>updated_at</c>
 	  <c>number</c>
@@ -3341,6 +3357,8 @@
 	    When an error condition occurs, the UserInfo Endpoint returns
 	    an Error Response as defined in Section 3 of
 	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
+	    (HTTP errors unrelated to RFC 6750 are returned using the
+	    appropriate HTTP status code.)
 	  </t>
 
 	  <figure>
@@ -4642,7 +4660,7 @@
 	    <spanx style="verb">policy_uri</spanx>,
 	    <spanx style="verb">tos_uri</spanx>, and
 	    <spanx style="verb">logo_uri</spanx>.
-	    If the Client uses more than one redirection URI, the
+	    If the Client uses more than one Redirection URI, the
 	    <spanx style="verb">redirect_uris</spanx>
 	    parameter would be used to register them.
 	    Finally, if the Client is requesting encrypted responses, it would use the
@@ -4929,20 +4947,26 @@
 
       <section anchor="PairwiseAlg" title="Pairwise Identifier Algorithm">
 
-	<t>The OpenID Provider MUST calculate a unique
-	<spanx style="verb">sub</spanx> (subject) value for each
-	Sector Identifier.  The subject value MUST NOT be reversible
-	by any party other than the OpenID Provider.</t>
+	<t>
+	  When pairwise subject identifiers are used,
+	  the OpenID Provider MUST calculate a unique
+	  <spanx style="verb">sub</spanx> (subject) value for each
+	  Sector Identifier.  The subject value MUST NOT be reversible
+	  by any party other than the OpenID Provider.
+	</t>
 
-	<t>Providers who use pairwise <spanx style="verb">sub</spanx> values SHOULD 
-	support the <spanx style="verb">sector_identifier_uri</spanx> in 
-	<xref target="OpenID.Registration">Dynamic Client Registration</xref>.
-	It provides a way for a group of websites under common administrative 
-	control to have consistent pairwise <spanx style="verb">sub</spanx> 
-	values independent of the individual domain names.
-	It also provides a way for Clients to change 
-	<spanx style="verb">redirect_uri</spanx> domains without having to 
-	reregister all of their users.</t>
+	<t>
+	  Providers that use pairwise <spanx style="verb">sub</spanx> values
+	  and support
+	  <xref target="OpenID.Registration">Dynamic Client Registration</xref>
+	  SHOULD use the <spanx style="verb">sector_identifier_uri</spanx> parameter.
+	  It provides a way for a group of websites under common administrative 
+	  control to have consistent pairwise <spanx style="verb">sub</spanx> 
+	  values independent of the individual domain names.
+	  It also provides a way for Clients to change 
+	  <spanx style="verb">redirect_uri</spanx> domains without having to 
+	  reregister all of their users.
+	</t>
 
 	<t>If the Client has not provided a value for
 	<spanx style="verb">sector_identifier_uri</spanx> in 
@@ -5394,10 +5418,10 @@
 	      the <spanx style="verb">alg</spanx>
 	      Claim of the JWS header MUST be set to the appropriate algorithm
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>.
-	      The private key MUST be the one associated with the 
+	      The private key MUST be associated with a
 	      Public Signing Key provided in
 	      <xref target="SigEncKey"/>.
-	      If there are multiple keys in the referenced JWK document, a
+	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWS header.
 	      The key usage of the respective keys MUST support signature.
 	    </t>
@@ -5451,11 +5475,11 @@
 
 	    <t hangText="Asymmetric Encryption: RSA">
 	      Use the link registered/discovered in <xref target="SigEncKey"></xref>
-	      to retrieve the relevant key.
-	      If there are multiple keys in the referenced JWK document, a
+	      to retrieve the relevant keys.
+	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
 	      Use the supported RSA key wrapping algorithm to wrap a random 
-	      <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
+	      Content Encryption Key to be used for encrypting 
 	      the signed JWT.
 	      The key usage of the respective keys MUST include encryption.
 	    </t>
@@ -5463,11 +5487,11 @@
 	      Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
 	      element of the JWE header. 
 	      Use the link registered/discovered in <xref target="SigEncKey"></xref>
-	      to retrieve the relevant key.
-	      If there are multiple keys in the referenced JWK document, a
+	      to retrieve the relevant keys.
+	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
 	      Use the ECDH-ES algorithm to wrap a random 
-	      <spanx style="verb">Content Master Key</spanx> to be used for encrypting 
+	      Content Encryption Key to be used for encrypting 
 	      the signed JWT.
 	      The key usage of the respective keys MUST support encryption.
 	    </t>
@@ -5814,7 +5838,7 @@
 	    Unicode code points.
 	  </t>
 	  <t>
-	    <xref target="USA15">Unicode Normalization</xref> MUST NOT
+	    Unicode Normalization <xref target="USA15"/> MUST NOT
 	    be applied at any point to either the JSON string or to
 	    the string it is to be compared against.
 	  </t>
@@ -5920,8 +5944,8 @@
 	      These OpenID Providers MUST support the
 	      <spanx style="verb">id_token</spanx> response type and
 	      all that are not Self-Issued OPs MUST also support the
-	      <spanx style="verb">id_token&nbsp;token</spanx> and
-	      <spanx style="verb">code</spanx> response types.
+	      <spanx style="verb">code</spanx> and
+	      <spanx style="verb">id_token&nbsp;token</spanx> response types.
 	    </t>
 
 	    <t hangText="Discovery">
@@ -6365,7 +6389,7 @@
 	</t>
       </section>		
 
-      <section anchor="ImplicitGrantFlowThreats" title="Implicit Flow Threats">
+      <section anchor="ImplicitFlowThreats" title="Implicit Flow Threats">
         <t>In the Implicit Flow, the Access Token is returned in the
         fragment component of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
         protected between the OP and the User-Agent, and between the User-Agent and the

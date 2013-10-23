@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 20</title>
+    Dynamic Client Registration 1.0 - draft 21</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="15" month="October" year="2013" />
+    <date day="23" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -89,14 +89,15 @@
       </section>
 
       <section anchor="Terminology" title="Terminology">
-	<t>This specification uses the terms "Access Token", "Refresh Token",
-	"Authorization Code", "Authorization Grant", "Authorization Server",
-	"Authorization Endpoint", "Client", "Client Identifier", "Client Secret",
-	"Protected Resource", "Resource Owner", "Resource Server", and
-	"Token Endpoint" defined by
-	<xref target="RFC6749">OAuth 2.0</xref>,
-	and the terms defined by
-	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	<t>
+	  This specification uses the terms "Access Token", "Authorization Code",
+	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
+	  "Client", "Client Identifier", "Client Secret",
+	  "Protected Resource", "Redirection URI", "Refresh Token",
+	  "Resource Owner", "Resource Server", and "Token Endpoint"
+	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
+	  and the terms defined by
+	  <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	</t>
 
 	<t>This specification defines the following additional terms:</t>
@@ -170,9 +171,9 @@
 
 	  <t hangText="redirect_uris">
 	    REQUIRED.
-	    Array of redirection URI values used in the Authorization Code and
+	    Array of Redirection URI values used in the Authorization Code and
 	    Implicit grant types.
-	    One of these registered redirection URI values MUST exactly match
+	    One of these registered Redirection URI values MUST exactly match
 	    the <spanx style="verb">redirect_uri</spanx> parameter
 	    value used in each Authorization Request,
 	    with the matching performed as described in
@@ -645,9 +646,11 @@
 	  The response should use an HTTP 201 Created status code.
 	</t>
 
-        <t>All of the response items are returned as a <xref
-        target="RFC4627">JSON document</xref> with the following fields as
-        top-level members of the root JSON object.</t>
+        <t>
+	  All of the response items are returned in
+	  a JSON <xref target="RFC4627"/> document with the following fields as
+	  top-level members of the root JSON object:
+	</t>
 
         <t>
 	  <list style="hanging">
@@ -1043,7 +1046,7 @@
 	    Unicode code points.
 	  </t>
           <t>
-	    <xref target="USA15">Unicode Normalization</xref> MUST NOT
+	    Unicode Normalization <xref target="USA15"/> MUST NOT
 	    be applied at any point to either the JSON string or to
 	    the string it is to be compared against.
 	  </t>
@@ -1111,7 +1114,7 @@
         mitigate this phishing risk, since the logo could confuse
         users into thinking they're logging in to the legitimate
         RP. An OP could also warn if the domain/site of the logo
-        doesn't match the domain/site of registered redirection URIs. An OP can also
+        doesn't match the domain/site of registered Redirection URIs. An OP can also
         make warnings against untrusted RPs in all cases, especially
         if they're dynamically registered, have not been trusted by
         any users at the OP before, and want to use the logo feature.
@@ -1514,6 +1517,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-21
+        <list style="symbols">
+	  <t>
+	    Updated OAuth 2.0 terminology list.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-20

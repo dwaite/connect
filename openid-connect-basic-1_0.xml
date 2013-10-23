@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="19" month="October" year="2013" />
+    <date day="23" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -139,11 +139,12 @@
 
       <section anchor="Terminology" title="Terminology">
         <t>
-	  This specification uses the terms "Access Token", "Refresh Token",
-	  "Authorization Code", "Authorization Grant", "Authorization Server",
-	  "Authorization Endpoint", "Client", "Client Identifier", "Client Secret",
-	  "Protected Resource", "Resource Owner", "Resource Server", and
-	  "Token Endpoint" defined by <xref target="RFC6749">OAuth 2.0</xref>.
+	  This specification uses the terms "Access Token", "Authorization Code",
+	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
+	  "Client", "Client Identifier", "Client Secret",
+	  "Protected Resource", "Redirection URI", "Refresh Token",
+	  "Resource Owner", "Resource Server", and "Token Endpoint"
+	  defined by <xref target="RFC6749">OAuth 2.0</xref>.
 	</t>
 	<t>
 	  This specification also defines the following terms:
@@ -350,15 +351,14 @@
 		<t hangText="redirect_uri">
                   REQUIRED.
 		  Redirection URI to which the response will be sent.
-		  This MUST be pre-registered with the OpenID Provider.
-		  This URI MUST exactly match one of the
-		  <spanx style="verb">redirect_uris</spanx> registered for the Client,
+		  This URI MUST exactly match one of the Redirection URI values
+		  for the Client pre-registered at the OpenID Provider,
 		  with the matching performed as described in
 		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
 		  If the Client only uses the
 		  OAuth Authorization Code Flow,
 		  (which is the case for this subset of OpenID Connect),
-		  the redirection URI
+		  the Redirection URI
 		  MAY use the <spanx style="verb">http</spanx> scheme,
 		  provided that the Client Type is
 		  <spanx style="verb">confidential</spanx>,
@@ -617,7 +617,7 @@
             <t>If the Resource Owner grants the access request, the
 	    Authorization Server issues a <spanx style="verb">code</spanx> and delivers 
 	    it to the Client by adding the following query parameters to the query
-	    component of the redirection URI using the
+	    component of the Redirection URI using the
 	    <spanx style="verb">application/x-www-form-urlencoded</spanx>
 	    format as defined in Section 4.1.2 of
 	    <xref target="RFC6749">OAuth 2.0</xref>.</t>
@@ -721,14 +721,13 @@
 		Access Token for the
                 UserInfo Endpoint.</t>
 
-                <t hangText="token_type">REQUIRED.
-		OAuth 2.0 Token Type value.
-		The value MUST be <spanx style="verb">Bearer</spanx> or
-		another <spanx style="verb">token_type</spanx> value that the Client 
-                has negotiated with the Authorization Server.
-                Clients implementing this subset MUST support the <xref
-		target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
-		This subset only describes the use of bearer tokens.</t>
+                <t hangText="token_type">
+		  REQUIRED.
+		  OAuth 2.0 Token Type value.
+		  The value MUST be <spanx style="verb">Bearer</spanx>, as specified in
+		  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
+		  for Clients using this subset.
+		</t>
 
                 <t hangText="id_token">REQUIRED.
 		ID Token.</t>
@@ -892,7 +891,8 @@
 	      example where the use of "level 0" is appropriate. Authentications with 
 	      level 0 SHOULD never be used to authorize access to any resource of any 
 	      monetary value.  
-	      An absolute URI or a <xref target="RFC6711">registered name</xref>
+	      An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
+	      registered name
 	      SHOULD be used as the <spanx style="verb">acr</spanx> value;
 	      registered names MUST NOT be used with a different meaning than
 	      that which is registered.
@@ -1407,10 +1407,12 @@
 
 	  <c>address</c>
 	  <c>JSON object</c>
-	  <c>End-User's preferred address. The value of the <spanx
-	  style="verb">address</spanx> member is a <xref
-	  target="RFC4627">JSON</xref> structure containing some or all of
-	  the members defined in <xref target="AddressClaim"/>.</c>
+	  <c>
+	    End-User's preferred postal address.
+	    The value of the <spanx style="verb">address</spanx> member is
+	    a JSON <xref target="RFC4627"/> structure containing some or all of
+	    the members defined in <xref target="AddressClaim"/>.
+	  </c>
 
 	  <c>updated_at</c>
 	  <c>number</c>
@@ -1683,7 +1685,7 @@
 	    Unicode code points.
 	  </t>
 	  <t>
-	    <xref target="USA15">Unicode Normalization</xref> MUST NOT
+	    Unicode Normalization <xref target="USA15"/> MUST NOT
 	    be applied at any point to either the JSON string or to
 	    the string it is to be compared against.
 	  </t>
