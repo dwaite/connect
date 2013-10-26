@@ -446,8 +446,8 @@
 		    <t hangText="none">The Authorization Server
 		    MUST NOT display any authentication or consent
 		    user interface pages.
-		    A <spanx style="verb">login_required</spanx> error is returned
-		    if the End-User
+		    An error is returned
+		    if an End-User
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
 		    Claims or does not fulfill other conditions for processing.
@@ -457,7 +457,7 @@
                     <t hangText="login">
 		      The Authorization Server SHOULD prompt the
 		      End-User for reauthentication.
-		      If it cannot prompt the End-User, it MUST return an error.
+		      If it cannot reauthenticate the End-User, it MUST return an error.
 		    </t>
 
                     <t hangText="consent">
@@ -471,7 +471,8 @@
 		      an End-User who has multiple accounts at the Authorization Server
 		      to select amongst the multiple accounts that they might have 
 		      current sessions for.
-		      If it cannot prompt the End-User, it MUST return an error.
+		      If it cannot obtain an account selection choice made by the End-User,
+		      it MUST return an error.
 		    </t>
 		  </list>
 
@@ -527,7 +528,7 @@
 		  If the End-User identified by the ID Token is logged in or is logged in by the request,
 		  then the Authorization Server returns a positive response;
 		  otherwise, it SHOULD return
-		  a <spanx style="verb">login_required</spanx> error.
+		  an error.
 		  When possible, an <spanx style="verb">id_token_hint</spanx>
 		  SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
 		  and an <spanx style="verb">invalid_request</spanx> error
@@ -711,8 +712,11 @@
           
           <section anchor="ImplicitCallback" 
                    title="Redirect URI Fragment Handling">
-	    <t>The Client MUST provide a way for the User-Agent to parse the fragment encoded
-	    response and post it to the Web Server Client for validation.</t>
+	    <t>
+	      The Client MUST provide a way for the User-Agent to parse the fragment encoded
+	      response and consume the values.
+	      One way to do this is to post it to the Web Server Client for validation.
+	    </t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
 	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
@@ -771,14 +775,14 @@
       </section>
 
       <section anchor="IDToken" title="ID Token">
-	<t>The ID Token is a security token that contains Claims about the
-	authentication event and other requested Claims.  
-	The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
 
-	<t>The ID Token is used to manage the authentication event and user
-	identifier and is scoped to a particular Client via the <spanx
-	style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-	Claims.</t>
+	<t>
+	  The ID Token is a security token that contains Claims about the
+	  authentication of an End-User by an Authorization Server when using a Client,
+	  and potentially other requested Claims.
+	  The ID Token is represented as a
+	  <xref target="JWT">JSON Web Token (JWT)</xref>.
+	</t>
 
 	<t>The following Claims are used within the ID Token:</t>
 
@@ -813,7 +817,7 @@
 	      In the general case,
 	      the <spanx style="verb">aud</spanx> value is an array of
 	      case sensitive strings.
-	      In the special case when there is one audience,
+	      In the common special case when there is one audience,
 	      the <spanx style="verb">aud</spanx> value MAY be a single
 	      case sensitive string.
 	    </t>
@@ -971,7 +975,7 @@
 	  <spanx style="verb">jku</spanx>, or
 	  <spanx style="verb">jwk</spanx>
 	  header parameter fields.
-	  Instead, key values and key references used for ID Tokens are
+	  Instead, keys used for ID Tokens are
 	  communicated in advance using Discovery and Registration parameters.
 	</t>
 
@@ -1007,6 +1011,12 @@
 	    <list style="numbers">
 
 	      <t>
+		The Issuer Identifier for the OpenID Provider
+		(which is typically obtained during Discovery)
+		MUST exactly match the value of the 
+		<spanx style="verb">iss</spanx> (issuer) Claim.
+	      </t>
+	      <t>
 		The Client MUST validate that the
 		<spanx style="verb">aud</spanx> (audience) Claim
 		contains its <spanx style="verb">client_id</spanx> value
@@ -1022,23 +1032,21 @@
 	      </t>
 	      <t>
 		If an <spanx style="verb">azp</spanx> (authorized party) Claim is present,
-		the Client SHOULD verify and that its <spanx style="verb">client_id</spanx>
+		the Client SHOULD verify that its <spanx style="verb">client_id</spanx>
 		is the Claim value.
 	      </t>
 
-	      <t>The Client MUST validate the signature of the ID Token according to
-	      <xref target="JWS">JWS</xref> using the algorithm specified in the 
-	      <spanx style="verb">alg</spanx> parameter of the JWT header.</t>
+	      <t>
+		The Client MUST validate the signature of the ID Token according to
+		<xref target="JWS">JWS</xref> using the algorithm specified in the 
+		<spanx style="verb">alg</spanx> parameter of the JWT header.
+		The Client MUST use the keys provided by the Issuer.
+	      </t>
 	      
 	      <t>The <spanx style="verb">alg</spanx> value SHOULD be <spanx style="verb">RS256</spanx>.
 	      Validation of tokens using other signing algorithms is described in the
 	      <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>
 	      specification.</t>
-	      
-	      <t>The Client MUST use the signing key provided
-	      in Discovery by the Issuer.
-	      The Issuer MUST exactly match the value of the 
-	      <spanx style="verb">iss</spanx> (issuer) Claim.</t>
 
 	      <t>The current time MUST be less than the value of the 
 	      <spanx style="verb">exp</spanx> Claim
@@ -1115,23 +1123,13 @@
 
 	  <t>
 	    Clients send requests to the
-	    UserInfo Endpoint to obtain Claims about the End-User.
+	    UserInfo Endpoint to obtain Claims about the End-User
+	    using an Access Token obtained through OpenID Connect Authentication.
 	    The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
 	    Protected Resource that complies with the <xref
 	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
 	    The Access Token SHOULD be sent using the
 	    <spanx style="verb">Authorization</spanx> header field.
-	    The following parameters are defined for use in UserInfo Requests:
-	  </t>
-
-	  <t>
-	    <list style="hanging">
-	      <t hangText="access_token">REQUIRED.
-	      Access Token obtained from an OpenID Connect Authorization Request.
-	      This parameter MUST only be sent using one method using either the
-	      <spanx style="verb">Authorization</spanx> header field
-	      or a form-encoded <spanx style="verb">POST</spanx> body parameter.</t>
-	    </list>
 	  </t>
 
 	  <figure>
@@ -1147,7 +1145,7 @@
 	  </figure>
 	</section>
 
-	<section anchor="UserInfoResponse" title="UserInfo Response">
+	<section anchor="UserInfoResponse" title="Successful UserInfo Response">
           <t>
 	    The UserInfo Claims MUST be returned as the members of a JSON object.
 	    The response body SHOULD be encoded using UTF-8.
@@ -1171,6 +1169,11 @@
 	    MUST be verified to exactly match the
 	    <spanx style="verb">sub</spanx> Claim in the ID Token
 	    before using additional UserInfo Endpoint Claims.
+	  </t>
+	  <t>
+	    The Client MUST verify that the OP that responded was
+	    the intended OP through a TLS server certificate check,
+	    per <xref target="RFC6125">RFC 6125</xref>.
 	  </t>
 	</section>
 
@@ -2647,6 +2650,10 @@
         <list style="symbols">
 	  <t>
 	    Updated <spanx style="verb">response_type</spanx> language.
+	  </t>
+	  <t>
+	    Fixed #878 - Generalized description of errors that can be returned
+	    when <spanx style="verb">id_token_hint"</spanx> is used.
 	  </t>
 	</list>
       </t>

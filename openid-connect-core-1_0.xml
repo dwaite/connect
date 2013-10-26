@@ -363,7 +363,7 @@
 	    <t>The OP authenticates the End-User and obtains 
 	    appropriate authorization.</t>
 
-	    <t>The OP responds with an Access Token and an ID Token.</t>
+	    <t>The OP responds with an ID Token and usually an Access Token.</t>
 	    
 	    <t>The RP can send a request with the Access Token to the UserInfo Endpoint,
 	    per <xref target="UserInfo"/>.</t>
@@ -380,7 +380,7 @@
       <t>
 	Authentication is performed to log in the End-User
 	or to determine that the End-User is already logged in.
-	Authentication Requests can follow one of three paths:
+	Authentication can follow one of three paths:
 	the Authorization Code Flow,
 	the Implicit Flow, or
 	the Hybrid Flow.
@@ -455,17 +455,14 @@
 	  </t>
 
 	  <section anchor="AuthorizationRequest" title="Authorization Request">
-	    <t>When the Client wishes to access a Protected Resource and the
-	    End-User Authorization has not yet been obtained, the Client
-	    prepares an Authorization Request to the Authorization Endpoint.</t>
-
 	    <t>
-	      An Authorization Request is a message sent from an RP 
-	      to the OP's Authorization Endpoint. 
-	      It is an extended <xref target="RFC6749">OAuth 2.0</xref> 
-	      Authorization Request. 
-	      Section 4.1.1 and 4.2.1 of <xref target="RFC6749">OAuth 2.0</xref> 
-	      define the OAuth 2.0 Authorization Request parameters. 
+	      When the Client wishes to authenticate the End-User and
+	      obtain access to a Protected Resource and
+	      End-User Authorization has not yet been obtained, the Client
+	      prepares an Authentication Request to the Authorization Endpoint.
+	      An Authentication Request is
+	      an OAuth 2.0 Authorization Request that requests that the End-User
+	      be authenticated by the Authorization Server.
 	    </t>
 
 	    <t>
@@ -508,7 +505,7 @@
 		  Response Type value that determines
 		  the authorization processing flow to be used,
 		  including what parameters are returned from the endpoints used.
-		  When using the Authorization Code Flow, this value MUST be
+		  When using the Authorization Code Flow, this value is
 		  <spanx style="verb">code</spanx>.
 		</t>
 
@@ -548,8 +545,7 @@
 	    <t>
 	      OpenID Connect also uses the following OAuth 2.0 request parameter,
 	      which is defined in
-	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
-	      with the Authorization Code Flow:
+	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>:
 	    </t>
 	    <t>
 
@@ -565,8 +561,7 @@
 	    </t>
 
 	    <t>
-	      This specification also defines the following request parameters for use with
-	      the Authorization Code Flow:
+	      This specification also defines the following request parameters:
 	    </t>
 
 	    <t>
@@ -626,11 +621,15 @@
 		    <t hangText="none">The Authorization Server
 		    MUST NOT display any authentication or consent
 		    user interface pages.
-		    A <spanx style="verb">login_required</spanx> error is returned
-		    if the End-User
+		    An error is returned
+		    if an End-User
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
 		    Claims or does not fulfill other conditions for processing.
+		    The error code will typically be
+		    <spanx style="verb">login_required</spanx>,
+		    <spanx style="verb">interaction_required</spanx>,
+		    or another code defined in <xref target="AuthError"/>.
 		    This can be used as a
 		    method to check for existing authentication and/or consent.
 		    </t>
@@ -638,7 +637,7 @@
 		    <t hangText="login">
 		      The Authorization Server SHOULD prompt the
 		      End-User for reauthentication.
-		      If it cannot prompt the End-User, it MUST return an error.
+		      If it cannot reauthenticate the End-User, it MUST return an error.
 		    </t>
 
 		    <t hangText="consent">
@@ -652,7 +651,8 @@
 		      an End-User who has multiple accounts at the Authorization Server
 		      to select amongst the multiple accounts that they might have 
 		      current sessions for.
-		      If it cannot prompt the End-User, it MUST return an error.
+		      If it cannot obtain an account selection choice made by the End-User,
+		      it MUST return an error.
 		    </t>
 		  </list>
 
@@ -701,7 +701,7 @@
 		  If the End-User identified by the ID Token is logged in or is logged in by the request,
 		  then the Authorization Server returns a positive response;
 		  otherwise, it SHOULD return
-		  a <spanx style="verb">login_required</spanx> error.
+		  an error, such as <spanx style="verb">login_required</spanx>.
 		  When possible, an <spanx style="verb">id_token_hint</spanx>
 		  SHOULD be present when <spanx style="verb">prompt=none</spanx> is used
 		  and an <spanx style="verb">invalid_request</spanx> error
@@ -856,7 +856,7 @@
 	      style="verb">prompt</spanx> parameter with the value
 	      <spanx style="verb">none</spanx>.  In this case,
 	      the Authorization Server MUST return
-	      a <spanx style="verb">login_required</spanx> error if the End-User
+	      an error if an End-User
 	      is not already logged in or could not be silently logged in.</t>
 	    </list>
 	    </t>
@@ -885,7 +885,7 @@
 
 	  </section>
 
-	  <section anchor="AuthzResponse" title="Authorization Successful Response">
+	  <section anchor="AuthzResponse" title="Successful Authorization Response">
 
 	    <t>
 	      Once the authorization is determined, the Authorization Server
@@ -898,13 +898,6 @@
 	      An Authorization Response is a message returned from the 
 	      OP's Authorization Endpoint in response to the Authorization Request 
 	      by the RP.
-	    </t>
-
-	    <t>
-	      The OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
-	      MUST be set to <spanx style="verb">Bearer</spanx>,
-	      as specified in <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
-	      unless another Token Type has been negotiated with the Client.
 	    </t>
 
 	    <t>
@@ -949,7 +942,7 @@
 	      the Authorization Server returns the Client to
 	      the Redirection URI specified in the Authorization Request
 	      with the appropriate error and state parameters.
-	      No other parameters SHOULD be returned.
+	      Other parameters SHOULD NOT be returned.
 	    </t>
 	    <t>
 	      In addition to the error codes defined in Section 4.1.2.1 of
@@ -1087,7 +1080,7 @@
 	    the RP (Client) sends a Token Request to the Token Endpoint
 	    to obtain a Token Response,
 	    which includes an ID Token and an Access Token
-	    and MAY include a Refresh Token and other results.
+	    and MAY include a Refresh Token and other values.
 	  </t>
 
 	  <t>
@@ -1124,23 +1117,19 @@
 	    <c>no-cache</c>
 	  </texttable>
 
-	  <t>
-	    <!-- Is this where this goes? -->
-	    Clients MAY provide authentication parameters in the request to the
-	    Token Endpoint, as described in <xref target="ClientAuthentication"/>.
-	  </t>
-
 	  <section anchor="TokenRequest" title="Token Request">
 
 	    <t>
 	      A Client using the Authorization Code Flow
 	      obtains an ID Token and an Access Token by authenticating with the
 	      Authorization Server and presenting its Authorization Grant (in the form of
-	      an Authorization Code) to the Token Endpoint.
+	      an Authorization Code) to the Token Endpoint
+	      using the <spanx style="verb">grant_type</spanx> value
+	      <spanx style="verb">authorization_code</spanx>.
 	    </t>
 
 	    <t>
-	      To obtain an ID Token, Access Token, or Refresh Token, the Client MUST
+	      The Client MUST
 	      authenticate to the Token Endpoint using the authentication method
 	      registered for its <spanx style="verb">client_id</spanx>,
 	      as described in <xref target="ClientAuthentication"/>.
@@ -1205,7 +1194,7 @@
 
 	  </section>
 
-	  <section anchor="TokenResponse" title="Token Successful Response">
+	  <section anchor="TokenResponse" title="Successful Token Response">
 	    <t>Upon receipt of the Token Request, the Authorization Server MUST
 	    return either a successful response or an error response that corresponds to
 	    the received Authorization Code.</t>
@@ -1224,26 +1213,15 @@
 	      Servers SHOULD support the <spanx style="verb">Bearer</spanx> Token Type;
 	      use of other Token Types is outside the scope of this specification.
 	    </t>
-
-	    <t>In addition to the OAuth 2.0 response parameters, the following
-	    parameters MUST be included in the response if the 
-	    <spanx style="verb">grant_type</spanx> value is 
-	    <spanx style="verb">authorization_code</spanx>
-	    and the Authorization Request <spanx style="verb">scope</spanx> parameter 
-	    contains <spanx style="verb">openid</spanx>:</t>
-
+	    <t>
+	      In addition to the OAuth 2.0 response parameters, the following
+	      parameters MUST be included in the response:
+	    </t>
 	    <t>
 	      <list style="hanging">
 		<t hangText="id_token">ID Token value associated with the
 		authenticated session.</t>
 	      </list>
-	    </t>
-
-	    <t>
-	      An <spanx style="verb">id_token</spanx> MUST be 
-	      returned when the <spanx style="verb">grant_type</spanx> value is
-	      <spanx style="verb">authorization_code</spanx>
-	      and MAY be returned when other grant types are used.
 	    </t>
 
 	    <t>A successful response uses the <spanx style="verb">application/json</spanx>
@@ -1330,15 +1308,13 @@
 
           <section anchor="IDToken" title="ID Token">
 
-            <t>The ID Token is a security token that contains Claims about the
-            authentication event and other requested Claims.  
-            The ID Token is represented as a <xref target="JWT">JSON Web Token (JWT)</xref>.</t>
-
-            <t>The ID Token is used to manage the authentication event and user
-            identifier and is scoped to a particular Client via the <spanx
-            style="verb">aud</spanx> (audience) and <spanx style="verb">nonce</spanx>
-            Claims. </t>
-
+            <t>
+	      The ID Token is a security token that contains Claims about the
+	      authentication of an End-User by an Authorization Server when using a Client,
+	      and potentially other requested Claims.
+	      The ID Token is represented as a
+	      <xref target="JWT">JSON Web Token (JWT)</xref>.
+	    </t>
             <t>
 	      The following Claims are used within the ID Token
 	      when using this flow:
@@ -1375,7 +1351,7 @@
 		  In the general case,
 		  the <spanx style="verb">aud</spanx> value is an array of
 		  case sensitive strings.
-		  In the special case when there is one audience,
+		  In the common special case when there is one audience,
 		  the <spanx style="verb">aud</spanx> value MAY be a single
 		  case sensitive string.
 		</t>
@@ -1547,7 +1523,7 @@
 	      <spanx style="verb">jku</spanx>, or
 	      <spanx style="verb">jwk</spanx>
 	      header parameter fields.
-	      Instead, key values and key references used for ID Tokens are
+	      Instead, keys used for ID Tokens are
 	      communicated in advance using Discovery and Registration parameters.
 	    </t>
 
@@ -1583,8 +1559,14 @@
 		<t>If the Client has provided an
 		<spanx style="verb">id_token_encrypted_response_alg</spanx>
 		parameter during Registration, decrypt the ID Token
-		using the key pair specified during Registration.</t>
+		using the keys specified during Registration.</t>
 
+		<t>
+		  The Issuer Identifier for the OpenID Provider
+		  (which is typically obtained during Discovery)
+		  MUST exactly match the value of the 
+		  <spanx style="verb">iss</spanx> (issuer) Claim.
+		</t>
 		<t>
 		  The Client MUST validate that the
 		  <spanx style="verb">aud</spanx> (audience) Claim
@@ -1603,7 +1585,7 @@
 		</t>
 		<t>
 		  If an <spanx style="verb">azp</spanx> (authorized party) Claim is present,
-		  the Client SHOULD verify and that its <spanx style="verb">client_id</spanx>
+		  the Client SHOULD verify that its <spanx style="verb">client_id</spanx>
 		  is the Claim value.
 		</t>
 
@@ -1615,6 +1597,7 @@
 		  The Client MUST validate the signature of all other ID Tokens according to
 		  <xref target="JWS">JWS</xref> using the algorithm specified in the 
 		  <spanx style="verb">alg</spanx> parameter of the JWT header.
+		  The Client MUST use the keys provided by the Issuer.
 		</t>
 
 		<t>The <spanx style="verb">alg</spanx> value SHOULD be the default of
@@ -1631,11 +1614,6 @@
 		<spanx style="verb">client_id</spanx> contained in the 
 		<spanx style="verb">aud</spanx> (audience) Claim are used as the key
 		to validate the signature. Multiple audiences are not supported for MAC based algorithms.</t> 
-
-		<t>For other Signing algorithms, the Client MUST use a signing key provided
-		in Discovery by the Issuer.
-		The issuer MUST exactly match the value of the 
-		<spanx style="verb">iss</spanx> (issuer) Claim.</t>
 
 		<t>The current time MUST be less than the value of the 
 		<spanx style="verb">exp</spanx> Claim.</t>
@@ -1757,7 +1735,7 @@
 		  Response Type value that determines
 		  the authorization processing flow to be used,
 		  including what parameters are returned from the endpoints used.
-		  When using the Implicit Flow, this value MUST be
+		  When using the Implicit Flow, this value is
 		  <spanx style="verb">id_token&nbsp;token</spanx> or
 		  <spanx style="verb">id_token</spanx>.
 		  The meanings of both of these values are defined in
@@ -1848,7 +1826,7 @@
 	  </section>
 
 
-	  <section anchor="ImplicitAuthzResponse" title="Authorization Successful Response">
+	  <section anchor="ImplicitAuthzResponse" title="Successful Authorization Response">
 	    <t>
 	      When using the Implicit Flow, Authorization Responses are made in
 	      the same manner as for the Authorization Code Flow,
@@ -2040,10 +2018,10 @@
 		parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
 
 		<t>Take the left-most half of the hash and base64url encode it.</t>
-
-		<t>The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
-		match the value produced in the previous step if <spanx style="verb">at_hash</spanx>
-		is present in the ID Token.</t>
+		<t>
+		  The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
+		  match the value produced in the previous step.
+		</t>
 	      </list>
 	    </t>
 	  </section>
@@ -2212,7 +2190,7 @@
 		  Response Type value that determines
 		  the authorization processing flow to be used,
 		  including what parameters are returned from the endpoints used.
-		  When using the Hybrid Flow, this value MUST be
+		  When using the Hybrid Flow, this value is
 		  <spanx style="verb">code&nbsp;id_token</spanx>,
 		  <spanx style="verb">code&nbsp;token</spanx>, or
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
@@ -2273,7 +2251,7 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridAuthzResponse" title="Authorization Successful Response">
+	  <section anchor="HybridAuthzResponse" title="Successful Authorization Response">
 
 	    <t>
 	      When using the Hybrid Flow, Authorization Responses are made in
@@ -2542,7 +2520,7 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridTokenResponse" title="Token Successful Response">
+	  <section anchor="HybridTokenResponse" title="Successful Token Response">
 
 	    <t>
 	      When using the Hybrid Flow, Token Responses are made in
@@ -2585,7 +2563,7 @@
 	      <spanx style="verb">code&nbsp;id_token</spanx> and
 	      <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 	      the <spanx style="verb">iss</spanx> and <spanx style="verb">sub</spanx>
-	      Claim values MUST be the identical in both ID Tokens.
+	      Claim values MUST be identical in both ID Tokens.
 	      All Claims about the authentication event present in either
 	      SHOULD be present in both.
 	      If either ID Token contains Claims about the End-User,
@@ -2787,8 +2765,9 @@
 	  as described in <xref target="UserInfoResponse"/>,
 	  when a <spanx style="verb">response_type</spanx> value is used
 	  that results in an Access Token being issued.
-	  However, when the <spanx style="verb">response_type</spanx> value used is
-	  <spanx style="verb">id_token</spanx> (which issues no Access Token),
+	  However, when no Access Token is issued
+	  (which is the case for the <spanx style="verb">response_type</spanx>
+	  value <spanx style="verb">id_token</spanx>),
 	  the resulting Claims are returned in the ID Token.
 	</t>
 
@@ -2802,8 +2781,10 @@
 
 	<t>
 	  <figure>
-	    <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
-	    Request:</preamble>
+	    <preamble>
+	      The following is a non-normative example of an unencoded
+	      <spanx style="verb">scope</spanx> request:
+	    </preamble>
 
 	    <artwork><![CDATA[
   scope=openid profile email phone
@@ -3228,9 +3209,9 @@
 	  The UserInfo Endpoint is an OAuth 2.0 Protected Resource that
 	  returns Claims about the authenticated End-User.
 	  To obtain the requested Claims about the End-User, the Client
-	  makes a <spanx style="verb">GET</spanx> or
-	  <spanx style="verb">POST</spanx> request to the UserInfo Endpoint.
-	  These Claims are represented by a JSON object that contains
+	  makes a request to the UserInfo Endpoint
+	  using an Access Token obtained through OpenID Connect Authentication.
+	  These Claims are normally represented by a JSON object that contains
 	  a collection of name and value pairs for the Claims.
 	</t>
 	<t>
@@ -3250,19 +3231,6 @@
 	or other methods as appropriate to enable Java Script Clients to access the endpoint.</t>
 
 	<section anchor="UserInfoRequest" title="UserInfo Request">
-	  <t>
-	    Clients send requests with the following parameters to the
-	    UserInfo Endpoint to obtain Claims about the End-User:
-	  </t>
-
-	  <t>
-	    <list style="hanging">
-	      <t hangText="access_token">
-		REQUIRED.
-		Access Token obtained from an OpenID Connect Authorization Server.
-	      </t>
-	    </list>
-	  </t>
 
 	  <t>
 	    The Client sends the UserInfo Request using either
@@ -3290,7 +3258,7 @@
 	  </figure>
 	</section>
 
-	<section anchor="UserInfoResponse" title="UserInfo Successful Response">
+	<section anchor="UserInfoResponse" title="Successful UserInfo Response">
 	  <t>
 	    The UserInfo Claims MUST be returned as the members of a JSON object
 	    unless a signed or encrypted response was requested during Client Registration.
@@ -3382,18 +3350,18 @@
 
 	  <t>
 	    <list style="numbers">
+	      <t>Verify that the OP that responded was the intended OP
+	      through a TLS server certificate check, per
+	      <xref target="RFC6125">RFC 6125</xref>.</t>
+
 	      <t>If the Client has provided a 
 	      <spanx style="verb">userinfo_encrypted_response_alg</spanx>
 	      parameter during Registration, decrypt the UserInfo Response
-	      using the key pair specified during Registration.</t>
+	      using the keys specified during Registration.</t>
 
 	      <t>If the response was signed, the Client SHOULD validate the
 	      signature according to <xref
 	      target="JWS">JWS</xref>.</t>
-
-	      <t>Check that the OP that responded was the intended OP
-	      through a TLS server certificate check, per
-	      <xref target="RFC6125">RFC 6125</xref>.</t>
 	    </list>
 	  </t>
 	</section>
@@ -4028,8 +3996,8 @@
 	    self-contained parameter and to be signed and optionally encrypted.
 	    The parameter value is a Request Object value,
 	    as specified in <xref target="RequestObject"/>.
-	    It represents the request as a JWT whose Claims are the request parameters
-	    above.
+	    It represents the request as a JWT whose Claims
+	    are the request parameters.
 	  </t>
 	  <t hangText="request_uri">
 	    OPTIONAL.
@@ -4500,9 +4468,9 @@
 	    of the <spanx style="verb">request_object_signing_alg</spanx> set during
 	    Client Registration <xref target="OpenID.Registration"/> or a value that was
 	    pre-registered by other means.
-	    The signature MUST be validated against the key registered for that <spanx style="verb">client_id</spanx>
-	    and algorithm, in accordance with the 
-	    <xref target="JWS">JSON Web Signature</xref> specification.
+	    The signature MUST be validated against the appropriate key
+	    for that <spanx style="verb">client_id</spanx>
+	    and algorithm.
 	  </t>
 
 	  <t>
@@ -4522,7 +4490,7 @@
 	    If the same parameter exists both in 
 	    the Request Object and the OAuth Authorization Request parameters,
 	    the parameter in the Request Object is used.
-	    Using this set of Authorization Request parameters,
+	    Using the assembled set of Authorization Request parameters,
 	    the Authorization Server then validates the request
 	    the normal manner for the flow being used, as specified in
 	    Sections <xref target="AuthzRequestValidation" format="counter"/>,
@@ -5102,7 +5070,7 @@
 	  </t>
 
 	  <t>
-	    ID Tokens MAY contain other Claims.
+	    The JWT MAY contain other Claims.
 	    Any Claims used that are not understood MUST be ignored.
 	  </t>
 
@@ -5394,7 +5362,7 @@
 	  the <spanx style="verb">use</spanx> (Key Use) parameter
 	  value is REQUIRED for all keys in the JWK Set at the
 	  <spanx style="verb">jwks_uri</spanx> to indicate each key's intended usage.
-	  Although some algorithms allow the same key pair to be used for
+	  Although some algorithms allow the same key to be used for
 	  both signatures and encryption, doing so is
 	  NOT RECOMMENDED, as it is less secure.
 	</t>
@@ -5478,7 +5446,7 @@
 	      to retrieve the relevant keys.
 	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
-	      Use the supported RSA key wrapping algorithm to wrap a random 
+	      Use the supported RSA encryption algorithm to encrypt a random 
 	      Content Encryption Key to be used for encrypting 
 	      the signed JWT.
 	      The key usage of the respective keys MUST include encryption.
@@ -5490,7 +5458,7 @@
 	      to retrieve the relevant keys.
 	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
-	      Use the ECDH-ES algorithm to wrap a random 
+	      Use the ECDH-ES algorithm to agree upon a
 	      Content Encryption Key to be used for encrypting 
 	      the signed JWT.
 	      The key usage of the respective keys MUST support encryption.
@@ -5645,7 +5613,7 @@
 	</t>
       </section>
 
-      <section anchor="RefreshTokenResponse" title="Refresh Successful Response">
+      <section anchor="RefreshTokenResponse" title="Successful Refresh Response">
 	<t>Upon receipt of the Refresh Request, the Authorization Server MUST
 	return either a successful response or an error response that corresponds to
 	the received Refresh Token.</t>
@@ -5883,7 +5851,12 @@
 
 	    <t hangText="Signing ID Tokens with RSA SHA-256">
 	      OPs MUST support signing ID Tokens with the RSA SHA-256 algorithm
-	      (an <spanx style="verb">alg</spanx> value of <spanx style="verb">RS256</spanx>).
+	      (an <spanx style="verb">alg</spanx> value of
+	      <spanx style="verb">RS256</spanx>),
+	      unless the OP only supports returning ID Tokens from the Token Endpoint
+	      (as is the case for the Authorization Code Flow)
+	      and only allows Clients to register specifying
+	      <spanx style="verb">none</spanx> as the requested ID Token signing algorithm.
 	    </t>
 	    <t hangText="Prompt Parameter">
 	      OPs MUST support the <spanx style="verb">prompt</spanx> parameter,
@@ -5964,8 +5937,8 @@
 	      (Self-Issued OPs do not issue Access Tokens.)
 	    </t>
 	    <t hangText="Public Keys Published as Bare Keys">
-	      These OPs MUST publish their public keys as bare keys,
-	      rather than in X.509 format.
+	      These OPs MUST publish their public keys as bare JWK keys
+	      (which MAY also be accompanied by X.509 representations of those keys).
 	    </t>
 	    <t hangText="Request URI">
 	      These OPs MUST support requests made using a Request Object value
@@ -6425,9 +6398,10 @@
 	</t>
       </section>
       <section anchor="TokenLifetime" title="Lifetimes of Access Tokens and Refresh Tokens">
-	<t>Access Token grants are not revocable by the Authorization Server. 
-	Access Token grant lifetimes SHOULD be kept to single use or 
+	<t>Access Tokens might not be revocable by the Authorization Server. 
+	Access Token lifetimes SHOULD therefore be kept to single use or 
 	very short lifetimes.</t>
+
 	<t>If access to the UserInfo Endpoint or other protected resources is required,
 	a Refresh Token SHOULD be used. The Client MAY then exchange the Refresh Token at
 	the Token Endpoint for a fresh short-lived Access Token that can be used to 
@@ -6453,9 +6427,9 @@
 	  particular algorithm used.
 	  So for instance, for <spanx style="verb">HS256</spanx>, the
 	  <spanx style="verb">client_secret</spanx> value MUST contain
-	  at least 8 octets (and almost certainly SHOULD contain more,
+	  at least 32 octets (and almost certainly SHOULD contain more,
 	  since <spanx style="verb">client_secret</spanx> values are
-	  likely to use a restricted alphabet.
+	  likely to use a restricted alphabet).
 	</t>
       </section>
 
@@ -8262,6 +8236,10 @@
 	    Fixed #889 - Generalized the descriptions of returning responses from the
 	    Authorization Endpoint to enable non-default Response Modes
 	    to be used.
+	  </t>
+	  <t>
+	    Fixed #878 - Generalized description of errors that can be returned
+	    when <spanx style="verb">id_token_hint"</spanx> is used.
 	  </t>
 	</list>
       </t>
