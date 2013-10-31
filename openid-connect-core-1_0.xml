@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="23" month="October" year="2013" />
+    <date day="30" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1678,8 +1678,8 @@
 	using a scripting language. The Access Token and ID Token are returned
 	directly to the Client, which may expose them to the Resource Owner and
 	other applications that have access to the Resource Owner's User-Agent.
-	The Authorization Server does not perform Client Authentication before
-	issuing the Access Token.</t>
+	The Authorization Server does not perform Client Authentication.
+	</t>
 
 	<section anchor="ImplicitFlowSteps" title="Implicit Flow Steps">
 	  <t>The Implicit Flow follows the following steps:</t>
@@ -4315,7 +4315,7 @@
 	    This is the Request URI, <spanx style="verb">request_uri</spanx>.
 	  </t>
 	  <t>
-	    If the Request Object includes attribute 
+	    If the Request Object includes requested Claim
 	    values, it MUST NOT be revealed to anybody but the Authorization Server. 
 	    As such, the <spanx style="verb">request_uri</spanx> MUST have
 	    appropriate entropy for its lifetime.
@@ -6133,12 +6133,13 @@
 
       <section anchor="TokenManufacture"
 	       title="Token Manufacture/Modification">
-	<t>An Attacker might generate a bogus token or modify the token content 
-	(such as the authentication or 
-	attribute statements) of an existing parseable token, causing the RP to grant 
-	inappropriate access to the Client. For example, an Attacker might modify 
-	the parseable token to extend the validity period; a Client might modify the 
-	parseable token to have access to information that they should not be able to view.
+	<t>
+	  An Attacker might generate a bogus token or modify the token contents
+	  (such as Claims values or the signature)
+	  of an existing parseable token, causing the RP to grant 
+	  inappropriate access to the Client. For example, an Attacker might modify 
+	  the parseable token to extend the validity period; a Client might modify the 
+	  parseable token to have access to information that they should not be able to view.
 	</t>
 	<t>There are two ways to mitigate this attack:</t>
 
@@ -6168,10 +6169,12 @@
       </section>
 
       <section anchor="ResponseDisclosure" title="Server Response Disclosure">
-	<t>The server response might contain authentication and attribute 
-	statements that include sensitive Client information. Disclosure of the 
-	response contents can make the Client vulnerable to other types of 
-	attacks.</t>
+	<t>
+	  The server response might contain authentication data and Claims
+	  that include sensitive Client information. Disclosure of the 
+	  response contents can make the Client vulnerable to other types of 
+	  attacks.
+	</t>
 
 	<t>
 	  The server response disclosure can be mitigated in the following two
@@ -6368,7 +6371,7 @@
         protected between the OP and the User-Agent, and between the User-Agent and the
         RP. The only place it can be captured is the User-Agent where the
         TLS session is terminated, which is possible if the User-Agent is
-        infested by malware or under the control of a malicious party.</t>
+        infected by malware or under the control of a malicious party.</t>
       </section>
 
       <section anchor="TLSRequirements" title="TLS Requirements">
