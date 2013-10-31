@@ -79,12 +79,14 @@
   <middle>
     <section anchor='Introduction' title='Introduction'>
 
-      <t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
-      protocol. It enables Clients to verify the identity of the End-User based
-      on the authentication performed by an Authorization Server, as well as to
-      obtain basic profile information about the End-User in an interoperable and 
-      REST-like manner.</t>
-
+      <t>
+	OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0
+	<xref target="RFC6749"/>
+	protocol. It enables Clients to verify the identity of the End-User based
+	on the authentication performed by an Authorization Server, as well as to
+	obtain basic profile information about the End-User in an interoperable and 
+	REST-like manner.
+      </t>
       <t>
 	The OpenID Connect Core 1.0 specification defines
 	the core OpenID Connect functionality:
@@ -103,8 +105,22 @@
 	do not define standard methods to provide identity information.
 	Notably, without profiling OAuth 2.0, it is incapable of
 	providing information about the authentication of an End-User.
+	Readers are expected to be familiar with these specifications.
       </t>
-
+      <t>
+	OpenID Connect implements authentication as an extension to the
+	OAuth 2.0 authorization process.
+	Use of this extension is requested by Clients by including
+	the <spanx style="verb">openid</spanx> scope value
+	in the Authorization Request.
+	Information about the authentication performed is returned
+	in a <xref target="JWT">JSON Web Token (JWT)</xref>
+	called an ID Token <xref target="IDToken"/>.
+	OAuth 2.0 Authentication Servers implementing OpenID Connect
+	are also referred to as OpenID Providers (OPs).
+	OAuth 2.0 Clients using OpenID Connect
+	are also referred to as Relying Parties (RPs).
+      </t>
       <t>
 	This specification assumes that the Client has already obtained
 	the locations of the OpenID Provider's endpoints, including its
@@ -358,7 +374,7 @@
 
 	<t>
 	  <list style="numbers">
-	    <t>The RP (Client) sends a request to the OpenID Provider.</t>
+	    <t>The RP (Client) sends a request to the OpenID Provider (OP).</t>
 
 	    <t>The OP authenticates the End-User and obtains 
 	    appropriate authorization.</t>
@@ -372,7 +388,6 @@
 
 	  </list>
 	</t>
-
       </section>
     </section>
 
@@ -384,16 +399,102 @@
 	the Authorization Code Flow,
 	the Implicit Flow, or
 	the Hybrid Flow.
-	The Authorization Code Flow is
-	suitable for Clients that can securely maintain a Client Secret between
-	themselves and the Authorization Server whereas, the Implicit Flow is
-	suitable for Clients that cannot.
-	The Hybrid Flow combines aspects of the Authorization Code Flow
-	and the Implicit Flow.
 	The flows determine how the ID Token and Access Token
 	are returned to the Client.
+      </t>
+      <t>
+	The characteristics of the three flows are summarized in the following table:
+      </t>
+
+      <texttable title="OpenID Connect Authentication Flows">
+
+	<ttcol>Property</ttcol>
+	<ttcol>Authorization Code Flow</ttcol>
+	<ttcol>Implicit Flow</ttcol>
+	<ttcol>Hybrid Flow</ttcol>
+
+	<c>Tokens returned from Authorization Endpoint</c>
+	<c>no</c>
+	<c>yes</c>
+	<c>some</c>
+
+	<c>Tokens returned from Token Endpoint</c>
+	<c>yes</c>
+	<c>no</c>
+	<c>some</c>
+
+	<c>Tokens not revealed to User Agent</c>
+	<c>yes</c>
+	<c>no</c>
+	<c>no</c>
+
+	<c>Client is authenticated</c>
+	<c>yes</c>
+	<c>no</c>
+	<c>yes</c>
+
+	<c>Refresh Token possible</c>
+	<c>yes</c>
+	<c>no</c>
+	<c>yes</c>
+
+	<c>JavaScript-only Client possible</c>
+	<c>no</c>
+	<c>yes</c>
+	<c>no</c>
+
+	<c>Communication in one round trip</c>
+	<c>no</c>
+	<c>yes</c>
+	<c>no</c>
+
+	<c>Most communication server-to-server</c>
+	<c>yes</c>
+	<c>no</c>
+	<c>varies</c>
+
+      </texttable>
+
+      <t>
 	The flow used is determined by the <spanx style="verb">response_type</spanx>
 	value contained in the Authorization Request.
+	These <spanx style="verb">response_type</spanx> values select
+	these flows:
+      </t>
+
+      <texttable title='OpenID Connect "response_type" Values'>
+	<ttcol>"response_type" value</ttcol>
+	<ttcol>Flow</ttcol>
+
+	<c><spanx style="verb">code</spanx></c>
+	<c>Authorization Code Flow</c>
+
+	<c><spanx style="verb">id_token</spanx></c>
+	<c>Implicit Flow</c>
+
+	<c><spanx style="verb">id_token&nbsp;token</spanx></c>
+	<c>Implicit Flow</c>
+
+	<c><spanx style="verb">code&nbsp;id_token</spanx></c>
+	<c>Hybrid Flow</c>
+	
+	<c><spanx style="verb">code&nbsp;token</spanx></c>
+	<c>Hybrid Flow</c>
+
+	<c><spanx style="verb">code&nbsp;id_token&nbsp;token</spanx></c>
+	<c>Hybrid Flow</c>
+
+      </texttable>
+      <t>
+	All but the <spanx style="verb">code</spanx> Response Type value,
+	which is defined by <xref target="RFC6749">OAuth 2.0</xref>,
+	are defined in the
+	<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>
+	specification.
+	Note that while OAuth 2.0 also defines the
+	<spanx style="verb">token</spanx> Response Type value
+	for the Implicit Flow, OpenID Connect does not use this Response Type,
+	since no ID Token is returned.)
       </t>
 
       <section anchor="CodeFlowAuth" title="Authentication using the Authorization Code Flow">
@@ -404,10 +505,11 @@
 	</t>
 
 	<t>The Authorization Code Flow returns an Authorization Code to the
-	Client, which can then exchange it for an Access Token directly. This
-	provides the benefit of not exposing the Access Token to the 
-	Resource Owner and possibly other malicious applications with access
-	to the Resource Owner's User-Agent. The Authorization Server can also
+	Client, which can then exchange it for an ID Token and an Access Token directly.
+	This provides the benefit of not exposing any tokens to the 
+	User-Agent and possibly other malicious applications with access
+	to the User-Agent.
+	The Authorization Server can also
 	authenticate the Client before exchanging the Authorization Code for an
 	Access Token. The Authorization Code flow is suitable for Clients that 
 	can securely maintain a Client Secret between themselves and the
@@ -418,7 +520,7 @@
 	  steps.</t>          
 	  <t>
 	    <list style="numbers">
-	      <t>Client prepares an Authorization Request containing the desired
+	      <t>Client prepares an Authentication Request containing the desired
 	      request parameters.</t>
 
 	      <t>Client sends a request to the Authorization Server.</t>
@@ -454,12 +556,10 @@
 	    authorization.
 	  </t>
 
-	  <section anchor="AuthorizationRequest" title="Authorization Request">
+	  <section anchor="AuthRequest" title="Authentication Request">
 	    <t>
-	      When the Client wishes to authenticate the End-User and
-	      obtain access to a Protected Resource and
-	      End-User Authorization has not yet been obtained, the Client
-	      prepares an Authentication Request to the Authorization Endpoint.
+	      When the Client wishes to authenticate the End-User, the Client
+	      sends an Authentication Request to the Authorization Endpoint.
 	      An Authentication Request is
 	      an OAuth 2.0 Authorization Request that requests that the End-User
 	      be authenticated by the Authorization Server.
@@ -493,6 +593,8 @@
 		  REQUIRED.
 		  OAuth 2.0 scope values.
 		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
+		  If the <spanx style="verb">openid</spanx> scope value is not present,
+		  the behavior is entirely unspecified.
 		  Other scope values MAY be present.
 		  See Sections <xref target="ScopeClaims" format="counter"/>
 		  and <xref target="OfflineAccess" format="counter"/>
@@ -521,13 +623,14 @@
 		  for the Client pre-registered at the OpenID Provider,
 		  with the matching performed as described in
 		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
-		  When using this flow,
-		  the Redirection URI
-		  MAY use the <spanx style="verb">http</spanx> scheme,
+		  When using this flow, the Redirection URI
+		  SHOULD use the <spanx style="verb">https</spanx> scheme;
+		  however, it MAY use the <spanx style="verb">http</spanx> scheme,
 		  provided that the Client Type is
 		  <spanx style="verb">confidential</spanx>,
-		  as defined in Section 2.1 of OAuth 2.0;
-		  otherwise, it MUST use the <spanx style="verb">https</spanx> scheme.
+		  as defined in Section 2.1 of OAuth 2.0, and
+		  provided the OP allows the use of
+		  <spanx style="verb">http</spanx> Redirection URIs in this case.
 		</t>
 
 		<t hangText="state">
@@ -695,8 +798,8 @@
 
 		<t hangText="id_token_hint">
 		  OPTIONAL.
-		  Previously issued ID Token
-		  passed to the Authorization Server as a hint about the End-User's current or past
+		  ID Token previously issued by the Authorization Server
+		  being passed as a hint about the End-User's current or past
 		  authenticated session with the Client.
 		  If the End-User identified by the ID Token is logged in or is logged in by the request,
 		  then the Authorization Server returns a positive response;
@@ -778,7 +881,7 @@
 
 	  </section>
 
-	  <section anchor="AuthzRequestValidation" title="Authorization Request Validation">
+	  <section anchor="AuthRequestValidation" title="Authentication Request Validation">
 	    <t>
 	      The Authorization Server MUST validate the request received as follows:
 	    </t>
@@ -842,7 +945,7 @@
 	    <list style="symbols">
 	      <t>The End-User is not already logged in.</t>
 
-	      <t>The Authorization Request contains the <spanx 
+	      <t>The Authentication Request contains the <spanx 
 	      style="verb">prompt</spanx> parameter with the value
 	      <spanx style="verb">login</spanx>.  In this case, the
 	      Authorization Server MUST reauthenticate the End-User
@@ -852,7 +955,7 @@
 	    <t>The Authorization Server MUST NOT interact with the End-User
 	    in the following case:
             <list style="symbols">
-	      <t>The Authorization Request contains the <spanx 
+	      <t>The Authentication Request contains the <spanx 
 	      style="verb">prompt</spanx> parameter with the value
 	      <spanx style="verb">none</spanx>.  In this case,
 	      the Authorization Server MUST return
@@ -885,19 +988,13 @@
 
 	  </section>
 
-	  <section anchor="AuthzResponse" title="Successful Authorization Response">
+	  <section anchor="AuthResponse" title="Successful Authentication Response">
 
 	    <t>
-	      Once the authorization is determined, the Authorization Server
-	      returns a successful or error response.
-	      This section describes the successful response.
-	      <xref target="AuthError"/> describes the error response.
-	    </t>
-
-	    <t>
-	      An Authorization Response is a message returned from the 
-	      OP's Authorization Endpoint in response to the Authorization Request 
-	      by the RP.
+	      An Authentication Response is an OAuth 2.0 Authorization Response
+	      message returned from the 
+	      OP's Authorization Endpoint in response to the Authorization Request
+	      message sent by the RP.
 	    </t>
 
 	    <t>
@@ -927,7 +1024,14 @@
 
 	  </section>
 
-	  <section anchor="AuthError" title="Authorization Error Response">
+	  <section anchor="AuthError" title="Authentication Error Response">
+
+	    <t>
+	      An Authentication Error Response is an OAuth 2.0 Authorization Error Response
+	      message returned from the 
+	      OP's Authorization Endpoint in response to the Authorization Request
+	      message sent by the RP.
+	    </t>
 
 	    <t>
 	      If the End-User denies the request or the End-User authentication
@@ -956,16 +1060,16 @@
 		requires End-User interaction of some form to proceed.
 		This error MAY be returned when the 
 		<spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>,
-		but the Authorization Request cannot be completed
+		Authentication Request is set to <spanx style="verb">none</spanx>,
+		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User interaction.
 		</t>
 
 		<t hangText="login_required">The Authorization Server requires
 		End-User authentication. This error MAY be returned when the 
 		<spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>,
-		but the Authorization Request cannot be completed
+		Authentication Request is set to <spanx style="verb">none</spanx>,
+		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User authentication.
 		</t>
 
@@ -975,16 +1079,16 @@
 		associated accounts, but the End-User did not select a session.
 		This error MAY be returned 
 		when the <spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>,
-		but the Authorization Request cannot be completed
+		Authentication Request is set to <spanx style="verb">none</spanx>,
+		but the Authentication Request cannot be completed
 		without displaying a user interface to prompt for a session to use.
 		</t>
 
 		<t hangText="consent_required">The Authorization Server
 		requires End-User consent. This error MAY be returned when the 
 		<spanx style="verb">prompt</spanx> parameter in the
-		Authorization Request is set to <spanx style="verb">none</spanx>,
-		but the Authorization Request cannot be completed
+		Authentication Request is set to <spanx style="verb">none</spanx>,
+		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User consent.
 		</t>
 
@@ -1064,7 +1168,7 @@
 	    </t>
 	  </section>
 
-	  <section anchor="AuthorizationResponseValidation" title="Authorization Response Validation">
+	  <section anchor="AuthResponseValidation" title="Authentication Response Validation">
 	    <t>
 	      When using the Authorization Code Flow,
 	      the Client MUST validate the response according to RFC 6749,
@@ -1397,16 +1501,16 @@
 		  OPTIONAL or REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  The value is passed through unmodified from the Authentication Request to the ID Token.
 		  If present in the ID Token,
 		  Clients MUST verify that
 		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
 		  the value of the <spanx style="verb">nonce</spanx>
-		  parameter sent in the Authorization Request.
-		  If present in the Authorization Request, Authorization Servers
+		  parameter sent in the Authentication Request.
+		  If present in the Authentication Request, Authorization Servers
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
 		  ID Token with the Claim Value
-		  being the nonce value sent in the Authorization Request.
+		  being the nonce value sent in the Authentication Request.
 		  Authorization Servers SHOULD perform no other processing
 		  on <spanx style="verb">nonce</spanx> values used.
 		  Use of the nonce is REQUIRED for all requests where an ID Token
@@ -1556,11 +1660,13 @@
 
 	    <t>
 	      <list style="numbers">
-		<t>If the Client has provided an
-		<spanx style="verb">id_token_encrypted_response_alg</spanx>
-		parameter during Registration, decrypt the ID Token
-		using the keys specified during Registration.</t>
-
+		<t>
+		  If the ID Token is encrypted, decrypt it using the
+		  keys and algorithms that the Client specified during Registration
+		  that the OP was to use to encrypt the ID Token.
+		  If encryption was negotated with the OP at Registration time
+		  and the ID Token is not encrypted, the RP SHOULD reject it.
+		</t>
 		<t>
 		  The Issuer Identifier for the OpenID Provider
 		  (which is typically obtained during Discovery)
@@ -1591,7 +1697,8 @@
 
 		<t>
 		  If the <spanx style="verb">id_token</spanx> is received via direct
-		  communication between the Client and the Token Endpoint, the TLS server 
+		  communication between the Client and the Token Endpoint
+		  (which it is in this flow), the TLS server 
 		  validation MAY be used to validate the issuer in place of 
 		  checking the token signature.
 		  The Client MUST validate the signature of all other ID Tokens according to
@@ -1624,10 +1731,10 @@
 		The acceptable range is Client specific.</t>
 
 		<t>
-		  If a nonce value was sent in the Authorization Request,
+		  If a nonce value was sent in the Authentication Request,
 		  a <spanx style="verb">nonce</spanx> Claim MUST be present
 		  and its value checked to verify that
-		  it is the same value as the one that was sent in the Authorization Request.
+		  it is the same value as the one that was sent in the Authentication Request.
 		  The Client SHOULD check the <spanx style="verb">nonce</spanx> value
 		  for replay attacks.
 		  The precise method for detecting replay attacks is Client specific.
@@ -1686,7 +1793,7 @@
 
 	  <t>
 	    <list style="numbers">
-	      <t>Client prepares an Authorization Request containing the desired
+	      <t>Client prepares an Authentication Request containing the desired
 	      request parameters.</t>
 
 	      <t>Client sends a request to the Authorization Server.</t>
@@ -1713,19 +1820,16 @@
 	    with the exception of the differences specified in this section.
 	  </t>
 
-	  <section anchor="ImplicitAuthorizationRequest" title="Authorization Request">
+	  <section anchor="ImplicitAuthRequest" title="Authentication Request">
 	    <t>
-	      When using the Implicit Flow, Authorization Requests are made in
+	      When using the Implicit Flow, Authentication Requests are made in
 	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthorizationRequest"/>,
+	      as defined in <xref target="AuthRequest"/>,
 	      with the exception of the differences specified in this section.
 	    </t>
-
 	    <t>
-	      When using the Implicit Flow, the same Authorization Request parameters
-	      are used as for the Code Flow,
-	      as defined in <xref target="AuthorizationEndpoint"/>,
-	      with the exception of the differences specified in this section.
+	      For this flow, these Authentication Request parameters
+	      are used as follows:
 	    </t>
 	    <t>
 	      <list style="hanging">
@@ -1745,8 +1849,8 @@
 		</t>
 		<t>
 		  (Note that while OAuth 2.0 also defines the
-		  <spanx style="verb">token</spanx> response type value
-		  for the Implicit Flow, OpenID Connect does not use this response type,
+		  <spanx style="verb">token</spanx> Response Type value
+		  for the Implicit Flow, OpenID Connect does not use this Response Type,
 		  since no ID Token is returned.)
 		</t>
 
@@ -1768,7 +1872,7 @@
 		  REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  The value is passed through unmodified from the Authentication Request to the ID Token.
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
@@ -1801,11 +1905,11 @@
 
 	  </section>
 
-	  <section anchor="ImplicitValidation" title="Authorization Request Validation">
+	  <section anchor="ImplicitValidation" title="Authentication Request Validation">
 	    <t>
-	      When using the Implicit Flow, the Authorization Request is validated in
+	      When using the Implicit Flow, the Authentication Request is validated in
 	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthzRequestValidation"/>.
+	      as defined in <xref target="AuthRequestValidation"/>.
 	    </t>
 	  </section>
 
@@ -1826,11 +1930,11 @@
 	  </section>
 
 
-	  <section anchor="ImplicitAuthzResponse" title="Successful Authorization Response">
+	  <section anchor="ImplicitAuthResponse" title="Successful Authentication Response">
 	    <t>
-	      When using the Implicit Flow, Authorization Responses are made in
+	      When using the Implicit Flow, Authentication Responses are made in
 	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthzResponse"/>,
+	      as defined in <xref target="AuthResponse"/>,
 	      with the exception of the differences specified in this section.
 	    </t>
 	    <t>
@@ -1845,7 +1949,7 @@
             <t>
 	      <list style="hanging">
                 <t hangText="access_token">
-		  Access Token for the UserInfo Endpoint.
+		  OAuth 2.0 Access Token.
 		  This is returned
 		  unless the <spanx style="verb">response_type</spanx> value used is
 		  <spanx style="verb">id_token</spanx>.
@@ -1899,7 +2003,7 @@
             </figure>
 	  </section>
 
-	  <section anchor="ImplicitAuthError" title="Authorization Error Response">
+	  <section anchor="ImplicitAuthError" title="Authentication Error Response">
 
 	    <t>
 	      When using the Implicit Flow, Authorization Error Responses are made in
@@ -1980,7 +2084,7 @@
 
 	  </section>
 
-	  <section anchor="ImplicitAuthorizationResponseValidation" title="Authorization Response Validation">
+	  <section anchor="ImplicitAuthResponseValidation" title="Authentication Response Validation">
 	    <t>
 	      When using the Implicit Flow,
 	      the Client MUST validate the response as follows:
@@ -2045,15 +2149,15 @@
 		  REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  The value is passed through unmodified from the Authentication Request to the ID Token.
 		  Clients MUST verify that
 		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
 		  the value of the <spanx style="verb">nonce</spanx>
-		  parameter sent in the Authorization Request.
+		  parameter sent in the Authentication Request.
 		  Authorization Servers
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
 		  ID Token with the Claim Value
-		  being the nonce value sent in the Authorization Request.
+		  being the nonce value sent in the Authentication Request.
 		  Use of the nonce is REQUIRED when using the Implicit Flow.
 		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 		</t>
@@ -2103,7 +2207,7 @@
 		<t>
 		  The value of the <spanx style="verb">nonce</spanx>
 		  Claim MUST be checked to verify that
-		  it is the same value as the one that was sent in the Authorization Request.
+		  it is the same value as the one that was sent in the Authentication Request.
 		  The Client SHOULD check the <spanx style="verb">nonce</spanx> value
 		  for replay attacks.
 		  The precise method for detecting replay attacks is Client specific.
@@ -2133,7 +2237,7 @@
 
 	  <t>
 	    <list style="numbers">
-	      <t>Client prepares an Authorization Request containing the desired
+	      <t>Client prepares an Authentication Request containing the desired
 	      request parameters.</t>
 
 	      <t>Client sends a request to the Authorization Server.</t>
@@ -2167,20 +2271,17 @@
 	    with the exception of the differences specified in this section.
 	  </t>
 
-	  <section anchor="HybridAuthorizationRequest" title="Authorization Request">
+	  <section anchor="HybridAuthRequest" title="Authentication Request">
 
 	    <t>
-	      When using the Hybrid Flow, Authorization Requests are made in
+	      When using the Hybrid Flow, Authentication Requests are made in
 	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthorizationRequest"/>,
+	      as defined in <xref target="AuthRequest"/>,
 	      with the exception of the differences specified in this section.
 	    </t>
-
 	    <t>
-	      When using the Hybrid Flow, the same Authorization Request parameters
-	      are used as for the Implicit Flow,
-	      as defined in <xref target="ImplicitAuthorizationEndpoint"/>,
-	      with the exception of the differences specified in this section.
+	      For this flow, these Authentication Request parameters
+	      are used as follows:
 	    </t>
 	    <t>
 	      <list style="hanging">
@@ -2222,12 +2323,12 @@
 
 	  </section>
 
-	  <section anchor="HybridValidation" title="Authorization Request Validation">
+	  <section anchor="HybridValidation" title="Authentication Request Validation">
 
 	    <t>
-	      When using the Hybrid Flow, the Authorization Request is validated in
+	      When using the Hybrid Flow, the Authentication Request is validated in
 	      the same manner as for the Authorization Code Flow,
-	      as defined in <xref target="AuthzRequestValidation"/>.
+	      as defined in <xref target="AuthRequestValidation"/>.
 	    </t>
 	  </section>
 
@@ -2249,19 +2350,19 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridAuthzResponse" title="Successful Authorization Response">
+	  <section anchor="HybridAuthResponse" title="Successful Authentication Response">
 
 	    <t>
-	      When using the Hybrid Flow, Authorization Responses are made in
+	      When using the Hybrid Flow, Authentication Responses are made in
 	      the same manner as for the Implicit Flow,
-	      as defined in <xref target="ImplicitAuthzResponse"/>,
+	      as defined in <xref target="ImplicitAuthResponse"/>,
 	      with the exception of the differences specified in this section.
 	    </t>
 
             <t>
 	      <list style="hanging">
                 <t hangText="access_token">
-		  Access Token for the UserInfo Endpoint.
+		  OAuth 2.0 Access Token.
 		  This is returned
 		  when the <spanx style="verb">response_type</spanx> value used is
 		  <spanx style="verb">code&nbsp;token</spanx>,
@@ -2296,7 +2397,7 @@
 
 	  </section>
 
-	  <section anchor="HybridAuthError" title="Authorization Error Response">
+	  <section anchor="HybridAuthError" title="Authentication Error Response">
 
 	    <t>
 	      When using the Hybrid Flow, Authorization Error Responses are made in
@@ -2325,7 +2426,7 @@
 	    </t>
 	  </section>
 
-	  <section anchor="HybridAuthorizationResponseValidation" title="Authorization Response Validation">
+	  <section anchor="HybridAuthResponseValidation" title="Authentication Response Validation">
 
 	    <t>
 	      When using the Hybrid Flow,
@@ -2415,15 +2516,15 @@
 		  REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authorization Request to the ID Token.
+		  The value is passed through unmodified from the Authentication Request to the ID Token.
 		  Clients MUST verify that
 		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
 		  the value of the <spanx style="verb">nonce</spanx>
-		  parameter sent in the Authorization Request.
+		  parameter sent in the Authentication Request.
 		  Authorization Servers
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
 		  ID Token with the Claim Value
-		  being the nonce value sent in the Authorization Request.
+		  being the nonce value sent in the Authentication Request.
 		  Use of the nonce is REQUIRED when using the Hybrid Flow.
 		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 		</t>
@@ -2602,7 +2703,7 @@
 	  <section anchor="HybridTokenValidation2" title="Access Token Validation">
 
 	    <t>
-	      When using the Hybrid Code Flow, the Access Token
+	      When using the Hybrid Flow, the Access Token
 	      returned from the Token Endpoint
 	      is validated in
 	      the same manner as for the Authorization Code Flow,
@@ -2673,6 +2774,7 @@
     <section anchor="Claims" title="Claims">
       <t>
 	This section specifies how the Client can obtain Claims about the End-User
+	and the authentication that was performed
 	and defines a standard set of basic profile Claims.
 	Pre-defined sets of claims can be requested using specific scope values
 	or individual claims can be requested using the
@@ -2708,14 +2810,12 @@
 	  as Voluntary Claims.
 	</t>
 
-	<t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
+	<t>
+	  OpenID Connect defines the following <spanx style="verb">scope</spanx> values
+	  that are used to request Claims:
+	</t>
 	<t>
 	  <list style="hanging">
-	    <t hangText="openid">REQUIRED. Informs the Authorization Server
-	    that the Client is making an OpenID Connect request. If the
-	    <spanx style="verb">openid</spanx> scope value is not present,
-	    the behavior is entirely unspecified.
-	    </t>
 
 	    <t hangText="profile">OPTIONAL. This scope value 
 	    requests access to the End-User's default profile Claims,
@@ -3239,7 +3339,7 @@
 	  </t>
 
 	  <t>The Access Token obtained
-	  from an OpenID Connect Authorization Request MUST be sent as a Bearer Token.
+	  from an OpenID Connect Authentication Request MUST be sent as a Bearer Token.
 	  Section 2 of the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
 	  specification documents the permissible methods of sending the Access Token.</t> 
 
@@ -3404,7 +3504,7 @@
 	  </list>
 	</t>
 	<t>
-	  The <spanx style="verb">claims</spanx> Authorization Request
+	  The <spanx style="verb">claims</spanx> Authentication Request
 	  parameter requests that specific Claims
 	  be returned from the UserInfo Endpoint and/or in the ID Token.
 	  It is represented as a JSON object containing lists of Claims being requested
@@ -3726,10 +3826,12 @@
 	    Claims Provider other than the OpenID Provider but are returned
 	    as references by the OpenID Provider.</t>
 	  </list>
-	  The UserInfo Endpoint MUST support Normal Claims.
 	</t>
 
-	<t>Aggregated and Distributed Claims support is OPTIONAL.</t>
+	<t>
+	  The UserInfo Endpoint MUST support Normal Claims.
+	  Support for Aggregated and Distributed Claims is OPTIONAL.
+	</t>
 
 	<section anchor="NormalClaims" title="Normal Claims">
 	  <t>Normal Claims are represented as members in a JSON object. The
@@ -3835,6 +3937,12 @@
 		</list>
 	      </t>
 	    </list>
+	  </t>
+	  <t>
+	    In general, it is up to the OP when it is appropriate to use
+	    Aggregated Claims and Distributed Claims.
+	    In some cases, information about when to use what Claim Types
+	    might be negotiated out of band between RPs and OPs.
 	  </t>
 
 	  <section anchor="AggregatedExample" title="Example of Aggregated Claims">
@@ -4426,7 +4534,7 @@
 	  <spanx style="verb">request_uri</spanx> Authorization Request parameters
 	  are used, additional steps must be performed to validate the
 	  Authentication Request beyond those specified in
-	  Sections <xref target="AuthzRequestValidation" format="counter"/>,
+	  Sections <xref target="AuthRequestValidation" format="counter"/>,
 	  <xref target="ImplicitValidation" format="counter"/>, or
 	  <xref target="HybridValidation" format="counter"/>.
 	  These steps are to validate the JWT containing the Request Object
@@ -4491,7 +4599,7 @@
 	    Using the assembled set of Authorization Request parameters,
 	    the Authorization Server then validates the request
 	    the normal manner for the flow being used, as specified in
-	    Sections <xref target="AuthzRequestValidation" format="counter"/>,
+	    Sections <xref target="AuthRequestValidation" format="counter"/>,
 	    <xref target="ImplicitValidation" format="counter"/>, or
 	    <xref target="HybridValidation" format="counter"/>.
 	  </t>
@@ -4561,7 +4669,8 @@
       <section anchor="SelfIssuedRegistration" title="Self-Issued OpenID Provider Registration">
 	<t>
 	  When using a Self-Issued OP, the Client is deemed to have 
-	  registered with the OP and obtained following Client Registration Response.  
+	  registered with the OP and obtained the equivalent of the following
+	  Client Registration Response:
 	</t>
 	<t>
 	  <list style="hanging">
@@ -4638,7 +4747,7 @@
       </section>
 
       <section anchor="SelfIssuedRequest" title="Self-Issued OpenID Provider Request">
-	<t>The Client sends the Authorization Request to the Authorization Endpoint
+	<t>The Client sends the Authentication Request to the Authorization Endpoint
 	with the following parameters:</t>
 	<t>
 	  <list style="hanging">
@@ -4851,10 +4960,10 @@
 	      The acceptable range is Client specific.
 	    </t>
 	    <t>
-	      If a nonce value was sent in the Authorization Request, 
+	      If a nonce value was sent in the Authentication Request, 
 	      a <spanx style="verb">nonce</spanx> Claim MUST be present 
 	      and its value of the checked to verify that
-	      it is the same value as the one that was sent in the Authorization Request.
+	      it is the same value as the one that was sent in the Authentication Request.
 	      The Client SHOULD check the <spanx style="verb">nonce</spanx> value
 	      for replay attacks.
 	      The precise method for detecting replay attacks is Client specific.

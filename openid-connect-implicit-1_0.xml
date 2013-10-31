@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="23" month="October" year="2013" />
+    <date day="30" month="October" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -76,10 +76,10 @@
 
       <t>
 	This OpenID Connect Implicit Client Implementer's Guide 1.0 contains a subset of the
-	OpenID Connect Core 1.0 specification
+	<xref target="OpenID.Core">OpenID Connect Core 1.0</xref> specification
 	that is designed to be easy to read and implement for basic
 	Web-based Relying Parties using the
-	OAuth Implicit Flow.
+	OAuth 2.0 <xref target="RFC6749"/> Implicit Flow.
 	This specification intentionally duplicates content from the Core
 	specification to provide a self-contained implementer's guide for basic
 	Web-based Relying Parties using the
@@ -247,11 +247,18 @@
 	the Implicit Flow, or
 	the Hybrid Flow.
 	The Authorization Code Flow is
-	suitable for Clients that can securely maintain a Client Secret between
+	intended for Clients that can securely maintain a Client Secret between
 	themselves and the Authorization Server whereas, the Implicit Flow is
-	suitable for Clients that cannot.
+	intended for Clients that cannot.
+	However, the Authorization Code flow is sometimes also used by Native applications
+	and other Clients in order to be able to obtain a Refresh Token,
+	even when they cannot ensure the secrecy of the Client Secret value.
 	The Hybrid Flow combines aspects of the Authorization Code Flow
 	and the Implicit Flow.
+	It enables Clients to obtain an ID Token and/or Access Token with only
+	one round trip to the Authorization Server, possibly minimizing latency,
+	while still enabling Clients to later get tokens from the Token Endpoint
+	-- especially a Refresh Token.
       </t>
 
       <t>
@@ -363,9 +370,7 @@
 		  for the Client pre-registered at the OpenID Provider,
 		  with the matching performed as described in
 		  Section 6.2.1 of <xref target="RFC3986"/> (Simple String Comparison).
-		  If the Client uses the OAuth Implicit Flow,
-		  (which is the case for this subset of OpenID Connect),
-		  the Redirection URI
+		  The Redirection URI
 		  MUST NOT use the <spanx style="verb">http</spanx> scheme
 		  unless the Client is a native application, in which case it MAY
 		  use the <spanx style="verb">http:</spanx> scheme with
@@ -522,8 +527,8 @@
 
 		<t hangText="id_token_hint">
 		  OPTIONAL.
-		  Previously issued ID Token
-		  passed to the Authorization Server as a hint about the End-User's current or past
+		  ID Token previously issued by the Authorization Server
+		  being passed as a hint about the End-User's current or past
 		  authenticated session with the Client.
 		  If the End-User identified by the ID Token is logged in or is logged in by the request,
 		  then the Authorization Server returns a positive response;
