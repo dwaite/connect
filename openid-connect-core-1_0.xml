@@ -393,17 +393,33 @@
 
     <section anchor="Authentication" title="Authentication">
       <t>
-	Authentication is performed to log in the End-User
+	Authentication is typically performed to log in the End-User
 	or to determine that the End-User is already logged in.
+	OpenID Connect returns the result of the Authentication
+	performed by the Server to the Client in a secure manner
+	so that the Client can rely on it.
+	For this reason, the Client is called Relying Party (RP) in this case.
+      </t>
+      <t>
+	The Authentication result is returned in an ID Token <xref target="IDToken"/>.
+	It has Claims expressing such information as the Issuer,
+	the subject identifier, when the authentication result expires, etc.
+      </t>
+      <t>
 	Authentication can follow one of three paths:
-	the Authorization Code Flow,
-	the Implicit Flow, or
-	the Hybrid Flow.
+	the Authorization Code Flow (<spanx style="verb">response_type=code</spanx>),
+	the Implicit Flow (<spanx style="verb">response_type=id_token&nbsp;token</spanx>
+	or <spanx style="verb">response_type=id_token</spanx>), or
+	the Hybrid Flow (using other Response Type values defined in
+	<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>).
 	The flows determine how the ID Token and Access Token
 	are returned to the Client.
       </t>
       <t>
-	The characteristics of the three flows are summarized in the following table:
+	The characteristics of the three flows are summarized
+	in the following non-normative table.
+	The table is intended to provide some guidance on which flow to chose
+	in particular contexts.
       </t>
 
       <texttable title="OpenID Connect Authentication Flows">
@@ -416,12 +432,12 @@
 	<c>All tokens returned from Authorization Endpoint</c>
 	<c>no</c>
 	<c>yes</c>
-	<c>some</c>
+	<c>no</c>
 
 	<c>All tokens returned from Token Endpoint</c>
 	<c>yes</c>
 	<c>no</c>
-	<c>some</c>
+	<c>no</c>
 
 	<c>Tokens not revealed to User Agent</c>
 	<c>yes</c>
