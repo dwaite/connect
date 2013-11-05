@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="30" month="October" year="2013" />
+    <date day="5" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -146,8 +146,8 @@
       </section>
     </section>
 
-    <section anchor="ProviderDisc" title="OpenID Provider Discovery">
-      <t>OpenID Provider discovery is OPTIONAL; if a Relying Party knows the
+    <section anchor="IssuerDiscovery" title="OpenID Provider Issuer Discovery">
+      <t>OpenID Provider Issuer discovery is OPTIONAL; if a Relying Party knows the
       OP information through an out-of-band mechanism, they can skip this step
       and proceed to <xref target="ProviderConfig"></xref>.</t>
 
@@ -571,6 +571,10 @@
 	  <t hangText="issuer">REQUIRED.
 	  URL using the <spanx style="verb">https</spanx> scheme with no query or fragment component that the OP asserts as its
 	  Issuer Identifier.
+	  If Issuer discovery <xref target="IssuerDiscovery"/> is supported,
+	  this MUST be identical to the issuer value returned by WebFinger.
+	  This also MUST be identical to the <spanx style="verb">iss</spanx> Claim value
+	  in ID Tokens issued from this Issuer.
 	  </t>
 
 	  <t hangText="authorization_endpoint">OPTIONAL.
@@ -870,7 +874,7 @@
       configuration information MAY be obtained out-of-band.</t>
 
       <t>Using the Issuer discovered in <xref
-      target="ProviderDisc"></xref> or through direct configuration, the OpenID
+      target="IssuerDiscovery"></xref> or through direct configuration, the OpenID
       Provider's configuration can be retrieved.</t>
 
       <t>OpenID Providers MUST make a JSON document available at the path formed by 
