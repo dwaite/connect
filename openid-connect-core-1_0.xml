@@ -144,10 +144,15 @@
 	document are to be interpreted as described in <xref
 	target="RFC2119">RFC 2119</xref>.</t>
 
-	<t>Throughout this document, values are quoted to indicate that they are
-	to be taken literally. When using these values in protocol messages, the
-	quotes MUST NOT be used as part of the value.</t>
-
+	<t>
+	  In the .txt version of this document,
+	  values are quoted to indicate that they are to be taken literally.
+	  When using these values in protocol messages,
+	  the quotes MUST NOT be used as part of the value.
+	  In the HTML version of this document,
+	  values to be taken literally are indicated by
+	  the use of <spanx style="verb">this fixed-width font</spanx>.
+	</t>
 	<t>
 	  All uses of <xref target="JWS">JSON Web Signature (JWS)</xref>
 	  and <xref target="JWE">JSON Web Encryption (JWE)</xref>
@@ -236,7 +241,7 @@
 	    </t>
 
             <t hangText="End-User">
-              Human Resource Owner.
+              Human participant.
             </t>
             <t hangText="Entity">
               Something that has a separate and distinct existence and that can be
@@ -831,10 +836,13 @@
 		  <spanx style="verb">id_token_hint</spanx> value.
 		</t>
 		<t>
-		  If the ID Token received by the RP is encrypted, the Client MUST
+		  If the ID Token received by the RP from the OP is encrypted,
+		  to use it as an <spanx style="verb">id_token_hint</spanx>, the Client MUST
 		  decrypt the signed ID Token contained within the encrypted ID Token.
 		  The Client MAY re-encrypt the signed ID token to the Authentication Server
-		  using a key that enables the server to decrypt the ID Token.
+		  using a key that enables the server to decrypt the ID Token,
+		  and use the re-encrypted ID token as the
+		  <spanx style="verb">id_token_hint</spanx> value.
 		</t>
 
 		<t hangText="login_hint">
@@ -1176,7 +1184,7 @@
   Location: https://client.example.org/cb?
     error=invalid_request
     &error_description=
-      the%20request%20is%20not%20valid%20or%20malformed
+      Unsupported%20response_type%20value
     &state=af0ifjsldkj
 ]]></artwork>
 	      </figure>
@@ -1803,8 +1811,8 @@
 
 	<t>The Implicit Flow is mainly used by Clients implemented in a browser
 	using a scripting language. The Access Token and ID Token are returned
-	directly to the Client, which may expose them to the Resource Owner and
-	other applications that have access to the Resource Owner's User-Agent.
+	directly to the Client, which may expose them to the End-User and
+	applications that have access to the End-User's User-Agent.
 	The Authorization Server does not perform Client Authentication.
 	</t>
 
@@ -6300,7 +6308,7 @@
 	  Access Tokens are credentials used to access Protected 
 	  Resources, as defined in Section 1.4 of 
 	  <xref target="RFC6749">OAuth 2.0</xref>. Access Tokens represent 
-	  a Resource Owner's authorization and MUST NOT be exposed to 
+	  an End-User's authorization and MUST NOT be exposed to 
 	  unauthorized parties.
 	</t>
       </section>
