@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="11" month="November" year="2013" />
+    <date day="13" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -210,6 +210,11 @@
 	    <t hangText="Self-Issued OpenID Provider">
 	      Personal OpenID Provider that issues self-signed ID Tokens.
 	    </t>
+	    <t hangText="Subject Identifier">
+	      Locally unique and never
+	      reassigned identifier within the Issuer for the End-User, 
+	      which is intended to be consumed by the Client.
+	    </t>
             <t hangText="UserInfo Endpoint">
               Protected resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
@@ -283,7 +288,7 @@
             an ID Token and, if requested, an Access Token.</t>
 
 	    <t>Client validates the tokens and retrieves the End-User's
-	    subject identifier.</t>
+	    Subject Identifier.</t>
           </list>
 	</t>
 
@@ -383,7 +388,7 @@
 		  to maintain state between the request and the callback.
 		  Typically, Cross-Site Request Forgery (CSRF, XSRF)
 		  mitigation is done by cryptographically binding the value of
-		  this parameter with the browser cookie.
+		  this parameter with a browser cookie.
 		</t>
 
               </list>
@@ -404,11 +409,12 @@
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
-		  One method to achieve this is to store a random value as a signed session cookie, and
-		  pass the value in the <spanx style="verb">nonce</spanx> parameter.
-		  In that case, the <spanx style="verb">nonce</spanx> in the returned ID Token
-		  can be compared to the signed session cookie to detect ID Token replay by third 
-		  parties.
+		  One method to achieve this is to store a random value
+		  in HTML5 local storage and use a cryptographic hash of the value
+		  as the <spanx style="verb">nonce</spanx> parameter.
+		  In that case, the <spanx style="verb">nonce</spanx> in the returned
+		  ID Token is compared to the hash of the value in local storage
+		  to detect ID Token replay by third parties.
 		</t>
 
 		<t hangText="display">
@@ -804,7 +810,7 @@
 
 	    <t hangText="sub">
 	      REQUIRED.
-	      Subject identifier. A locally unique and never
+	      Subject Identifier. Locally unique and never
 	      reassigned identifier within the Issuer for the End-User, 
 	      which is intended to be consumed by the Client,
 	      e.g., <spanx style="verb">24400320</spanx>
@@ -2435,7 +2441,7 @@
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="11" month="November" year="2013" />
+          <date day="12" month="November" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-oauth-json-web-token" name="Internet-Draft"/>
@@ -2459,7 +2465,7 @@
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="11" month="November" year="2013" />
+          <date day="12" month="November" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-signature" name="Internet-Draft"/>
@@ -2474,7 +2480,7 @@
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="11" month="November" year="2013" />
+	  <date day="12" month="November" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-key" name="Internet-Draft"/>
@@ -2489,7 +2495,7 @@
 	    <organization>Microsoft</organization>
 	  </author>
 
-	  <date day="11" month="November" year="2013" />
+	  <date day="12" month="November" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-algorithms" name="Internet-Draft"/>

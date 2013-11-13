@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="11" month="November" year="2013" />
+    <date day="13" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -200,6 +200,11 @@
 	    <t hangText="Relying Party (RP)">
               OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
 	    </t>
+	    <t hangText="Subject Identifier">
+	      Locally unique and never
+	      reassigned identifier within the Issuer for the End-User, 
+	      which is intended to be consumed by the Client.
+	    </t>
 	    <t hangText="UserInfo Endpoint">
 	      Protected resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
@@ -276,7 +281,7 @@
 	    Token Endpoint to receive an Access Token and ID Token in the response.</t>
 
 	    <t>Client validates the tokens and retrieves the End-User's
-	    subject identifier.</t>
+	    Subject Identifier.</t>
           </list>
         </t>
 
@@ -378,7 +383,7 @@
 		  to maintain state between the request and the callback.
 		  Typically, Cross-Site Request Forgery (CSRF, XSRF)
 		  mitigation is done by cryptographically binding the value of
-		  this parameter with the browser cookie.
+		  this parameter with a browser cookie.
 		</t>
 
               </list>
@@ -399,6 +404,12 @@
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
+		  One method to achieve this is to store a random value
+		  as an HttpOnly a session cookie and use a cryptographic hash of the value
+		  as the <spanx style="verb">nonce</spanx> parameter.
+		  In that case, the <spanx style="verb">nonce</spanx> in the returned
+		  ID Token is compared to the hash of the session cookie
+		  to detect ID Token replay by third parties.
 		  Use of the nonce is OPTIONAL when using the code flow.
 		</t>
 
@@ -798,7 +809,7 @@
 
 	    <t hangText="sub">
 	      REQUIRED.
-	      Subject identifier.  A locally unique and never
+	      Subject Identifier.  Locally unique and never
 	      reassigned identifier within the Issuer for the End-User, 
 	      which is intended to be consumed by the Client,
 	      e.g., <spanx style="verb">24400320</spanx>
@@ -2098,7 +2109,7 @@
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="11" month="November" year="2013"/>
+          <date day="12" month="November" year="2013"/>
         </front>
 
 	<seriesInfo value="draft-ietf-oauth-json-web-token" name="Internet-Draft"/>
@@ -2122,7 +2133,7 @@
             <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
-          <date day="11" month="November" year="2013" />
+          <date day="12" month="November" year="2013" />
         </front>
 
 	<seriesInfo value="draft-ietf-jose-json-web-signature" name="Internet-Draft"/>
