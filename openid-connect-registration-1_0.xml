@@ -762,7 +762,8 @@
 	the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.</t>
 	
 	<t>When a registration error condition occurs, the Client Registration Endpoint returns
-	a HTTP 400 status code including a JSON object describing the error in the response body.</t>
+	a HTTP 400 Bad request status code
+	including a JSON object describing the error in the response body.</t>
 
 	<t>The JSON object contains two members:</t>
 
@@ -976,11 +977,15 @@
 	  <xref target="RFC6750">OAuth Bearer Token Usage</xref>.
 	</t>
 
-	<t>When a read error condition occurs, the Client Configuration Endpoint returns
-	a HTTP 401 Unauthorized status code.  This indicates that the Access Token
-	is invalid or the Client record requested is invalid or non-existent.
-	Note that for security reasons, to inhibit brute force attacks, endpoints MUST NOT return 
-	404 Not Found error codes.</t>
+	<t>
+	  If the Client does not exist on this server, the Client is invalid,
+	  or the Registration Access Token used is invalid,
+	  the server MUST respond with HTTP 401 Unauthorized.
+	  If the Client does not have permission to read its record,
+	  the server MUST return an HTTP 403 Forbidden.
+	  Note that for security reasons, to inhibit brute force attacks,
+	  endpoints MUST NOT return 404 Not Found error codes.
+	</t>
 	
 	<t>
 	  <figure>
