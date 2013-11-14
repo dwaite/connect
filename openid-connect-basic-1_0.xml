@@ -146,7 +146,7 @@
         <t>
 	  This specification uses the terms "Access Token", "Authorization Code",
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
-	  "Client", "Client Identifier", "Client Secret",
+	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>.
@@ -618,7 +618,7 @@
 
           <t>
 	    The Authorization Server logs in the End-User or verifies whether
-	    he is logged in, depending upon the request parameter values used.
+	    the End-User is logged in, depending upon the request parameter values used.
 	    If interaction with the End-User occurs over an HTTP channel,
 	    it MUST use TLS, as per <xref target="TLSRequirements"/>.
 	    The exact authentication methods used are out of scope for this specification.
@@ -628,10 +628,10 @@
         <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
           <t>The Authorization Server obtains an authorization decision
-	  for the requested Claims. This can done by presenting the End-User
-	  with a dialogue that enables the End-User to recognize what he is
-	  consenting to and obtain his consent or by establishing consent via
-	  other means (for example, via previous administrative consent).</t>
+          for the requested Claims. This can done by presenting the End-User
+          with a dialogue that enables the End-User to recognize what is being
+          consenting to and grant consent or by establishing consent via
+          other means (for example, via previous administrative consent).</t>
 
           <t>
 	    The <spanx style="verb">openid</spanx> scope value declares
@@ -924,7 +924,7 @@
 	      <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
 	      Authentication using a long-lived browser cookie, for instance, is one 
 	      example where the use of "level 0" is appropriate. Authentications with 
-	      level 0 SHOULD never be used to authorize access to any resource of any 
+	      level 0 SHOULD NOT be used to authorize access to any resource of any 
 	      monetary value.  
 	      An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
 	      registered name
@@ -1729,8 +1729,8 @@
       </t>
       <t>
 	In several places, this specification uses space delimited
-	lists of strings.  In all such cases, only the ASCII space
-	character (0x20) MAY be used for this purpose.
+	lists of strings.  In all such cases, the ASCII space
+	character (0x20) MUST be the only character used for this purpose.
       </t>
 
     </section>
@@ -1824,8 +1824,10 @@
       </section>
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
-	<t>The Resource Server SHOULD make the UserInfo access log available to 
-	the End-User so that the End-User can monitor who accessed his data.</t>
+	<t>
+	  The Resource Server SHOULD make End-Users' UserInfo access logs
+	  available to them so that they can monitor who accessed their data.
+	</t>
       </section>
 
       <section anchor="Correlation" title="Correlation">
@@ -1842,7 +1844,7 @@
 	  Therefore, it is prudent to obtain explicit consent for
 	  offline access to resources.
 	  This specification mandates the use of the <spanx style="verb">prompt</spanx>
-	  parameter to obtain consent unless it is a priori known that the
+	  parameter to obtain consent unless it is already known that the
 	  request complies with the conditions for processing in each jurisdiction.
 	</t>
 	<t>

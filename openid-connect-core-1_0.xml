@@ -176,7 +176,7 @@
         <t>
 	  This specification uses the terms "Access Token", "Authorization Code",
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
-	  "Client", "Client Identifier", "Client Secret",
+	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
@@ -963,7 +963,7 @@
 	      The Authorization Server validates the request to ensure all
 	      REQUIRED parameters are present and all parameters are valid.
 	      If the request is valid, the Authorization Server attempts
-	      to log in the End-User or determines whether he is logged in,
+	      to log in the End-User or determines whether the End-User is logged in,
 	      depending upon the request parameter values used.
 	      The methods used by the Authorization Server to log in the End-User
 	      (e.g. username and password, session cookies, etc.)
@@ -1580,7 +1580,7 @@
 		  <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
 		  Authentication using a long-lived browser cookie, for instance, is one 
 		  example where the use of "level 0" is appropriate. Authentications with 
-		  level 0 SHOULD never be used to authorize access to any resource of any 
+		  level 0 SHOULD NOT be used to authorize access to any resource of any 
 		  monetary value.  
 		  (This corresponds to the OpenID 2.0
 		  <xref target="OpenID.PAPE">PAPE</xref> 
@@ -1736,7 +1736,7 @@
 		  checking the token signature.
 		  The Client MUST validate the signature of all other ID Tokens according to
 		  <xref target="JWS">JWS</xref> using the algorithm specified in the 
-		  <spanx style="verb">alg</spanx> parameter of the JWT header.
+		  JWT <spanx style="verb">alg</spanx> header parameter.
 		  The Client MUST use the keys provided by the Issuer.
 		</t>
 
@@ -1746,7 +1746,8 @@
 		in the <spanx style="verb">id_token_signed_response_alg</spanx> parameter 
 		during Registration.</t>
 
-		<t>If the <spanx style="verb">alg</spanx> parameter of the JWT header is a MAC based algorithm such as 
+		<t>If the JWT <spanx style="verb">alg</spanx> header parameter
+		uses a MAC based algorithm such as 
 		<spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
 		or <spanx style="verb">HS512</spanx>,
 		the octets of the UTF-8 representation of
@@ -2151,8 +2152,8 @@
 		<t>Hash the octets of the ASCII representation of
 		the <spanx style="verb">access_token</spanx> 
 		with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-		<spanx style="verb">alg</spanx>
-		parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
+		<spanx style="verb">alg</spanx> header parameter
+		in the ID Token's <xref target="JWS">JWS</xref> header.</t>
 
 		<t>Take the left-most half of the hash and base64url encode it.</t>
 		<t>
@@ -2202,7 +2203,7 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">access_token</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> parameter
+		  used in the <spanx style="verb">alg</spanx> header parameter
 		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
@@ -2516,8 +2517,8 @@
 		<t>Hash the octets of the ASCII representation of
 		the <spanx style="verb">code</spanx> 
 		with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-		<spanx style="verb">alg</spanx>
-		parameter in the ID Token's <xref target="JWS">JWS</xref> header.</t>
+		<spanx style="verb">alg</spanx> header parameter
+		in the ID Token's <xref target="JWS">JWS</xref> header.</t>
 
 		<t>Take the left-most half of the hash and base64url encode it.</t>
 
@@ -2569,7 +2570,7 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">access_token</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> parameter
+		  used in the <spanx style="verb">alg</spanx> header parameter
 		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
@@ -2592,7 +2593,7 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">code</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> parameter
+		  used in the <spanx style="verb">alg</spanx> header parameter
 		  of the ID Token's <xref target="JWS">JWS</xref> header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">HS512</spanx>, hash the
@@ -3953,8 +3954,8 @@
 		      the Authorization Request header field and Claims Providers
 		      MUST support this method. If the Access Token
 		      is not available, Clients MAY need to retrieve the
-		      Access Token out of band or use an a priori Access Token
-		      that was negotiated between the Claims Provider and
+		      Access Token out of band or use an Access Token
+		      that was pre-negotiated between the Claims Provider and
 		      Client, or the Claims Provider MAY reauthenticate the
 		      End-User and/or reauthorize the Client.</t>
 		    </list>
@@ -4701,8 +4702,9 @@
 
       <section anchor="SelfIssuedRegistration" title="Self-Issued OpenID Provider Registration">
 	<t>
-	  When using a Self-Issued OP, the Client is deemed to have 
-	  registered with the OP and obtained the equivalent of the following
+	  When using a Self-Issued OP, registration is not required.
+	  The Client can proceed without registration as if it had
+	  registered with the OP and obtained the following
 	  Client Registration Response:
 	</t>
 	<t>
@@ -5048,8 +5050,10 @@
 	    This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
 	  the provider has no <spanx style="verb">subject_types_supported</spanx> element in its discovery document.</t>
 	  <t hangText="pairwise">
-	    This provides a different <spanx style="verb">sub</spanx> value to each Client, to prevent
-	  correlation of the End-User's activities by Clients without his permission.</t>
+	    This provides a different <spanx style="verb">sub</spanx>
+	    value to each Client, so as not to enable Clients to correlate
+	    the End-User's activities without permission.
+	  </t>
 	</list>
       </t>
 
@@ -5316,7 +5320,7 @@
 	integrity of the message might not be guaranteed and the originator of the
 	message might not be authenticated. To mitigate these risks,
 	ID Token, UserInfo Response, Request Object,
-	and Token Endpoint client authentication JWT values can utilize
+	and Client Authentication JWT values can utilize
 	<xref target="JWS">JSON Web Signature (JWS)</xref> to sign their contents.
 	To achieve message confidentiality, these values can also use
 	<xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt their contents.
@@ -5474,9 +5478,6 @@
 	      This contains the signing key(s) the Client uses to validate signatures from the OP.
 	      The JWK Set MAY also contain the Server's encryption key(s),
 	      which are used by Clients to encrypt requests to the Server.
-	      When both signing and encryption keys are made available,
-	      a <spanx style="verb">use</spanx> (Key Use) parameter
-	      value is REQUIRED for all keys in the document to indicate each key's intended usage.
 	    </t>
 	  </list>
 	</t>
@@ -5491,16 +5492,13 @@
 	      it contains the signing key(s) the Server uses to validate signatures from the Client.
 	      The JWK Set MAY also contain the Client's encryption keys(s),
 	      which are used by the Server to encrypt responses to the Client.
-	      When both signing and encryption keys are made available,
-	      a <spanx style="verb">use</spanx> (Key Use) parameter
-	      value is REQUIRED for all keys in the document to indicate each key's intended usage.
 	    </t>
 	  </list>
 	</t>
 	<t>
 	  When both signing and encryption keys are made available,
 	  the <spanx style="verb">use</spanx> (Key Use) parameter
-	  value is REQUIRED for all keys in the JWK Set at the
+	  value is REQUIRED for all keys in the JWK Set referenced by the
 	  <spanx style="verb">jwks_uri</spanx> to indicate each key's intended usage.
 	  Although some algorithms allow the same key to be used for
 	  both signatures and encryption, doing so is
@@ -5523,8 +5521,8 @@
 	  <list style="hanging">
 	    <t hangText="Asymmetric Signatures">
 	      When using RSA or ECDSA Signatures, 
-	      the <spanx style="verb">alg</spanx>
-	      Claim of the JWS header MUST be set to the appropriate algorithm
+	      the <spanx style="verb">alg</spanx> header parameter
+	      of the JWS header MUST be set to the appropriate algorithm
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>.
 	      The private key MUST be associated with a
 	      Public Signing Key provided in
@@ -5535,15 +5533,15 @@
 	    </t>
 	    <t hangText="Symmetric Signatures">
 	      When using MAC-based signatures,
-	      the <spanx style="verb">alg</spanx>
-	      Claim of the JWS header MUST be set to a MAC algorithm,
+	      the <spanx style="verb">alg</spanx> header parameter
+	      of the JWS header MUST be set to a MAC algorithm,
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>. 
 	      The MAC key used is
 	      the octets of the UTF-8 representation of
 	      the <spanx style="verb">client_secret</spanx> value.
 	      See <xref target="SymmetricKeyEntropy"/> for a discussion of
 	      entropy requirements for <spanx style="verb">client_secret</spanx> values.
-	      Symmetric signatures MUST never be used by public (non-confidential) Clients
+	      Symmetric signatures MUST NOT be used by public (non-confidential) Clients
 	      because of their inability to keep secrets.
 	    </t>
 	  </list>
@@ -5615,7 +5613,7 @@
 	      If a key wrapping key with greater than 256 bits is needed, a different method
 	      of deriving the key from the <spanx style="verb">client_secret</spanx>
 	      would have to be defined by an extension.
-	      Symmetric encryption MUST never be used by public (non-confidential) Clients
+	      Symmetric encryption MUST NOT be used by public (non-confidential) Clients
 	      because of their inability to keep secrets.
 	    </t>
 	  </list>
@@ -5627,8 +5625,10 @@
 
 	<section anchor="RotateEncKeys" title="Rotation of Asymmetric Encryption Keys">
 	  <t>Rotating encryption keys is necessarily a different process than for signing keys because
-	  the encrypting party starts the process and thus cannot rely on a change in kid as a signal
-	  to know that keys need to change. The encrypting party still uses the kid header in the JWE
+	  the encrypting party starts the process and thus cannot rely on
+	  a change in <spanx style="verb">kid</spanx> as a signal
+	  that keys need to change. The encrypting party
+	  still uses the <spanx style="verb">kid</spanx> header parameter in the JWE
 	  to tell the decrypting party which private key to use to decrypt, however, the encrypting party
 	  needs to first select the most appropriate key from those provided in the JWK Set at
 	  <spanx style="verb">jwks_uri</spanx>. To rotate keys, the decrypting party can publish new keys
@@ -5841,7 +5841,10 @@
 	  <t>Form Serialization</t>
 	  <t>JSON Serialization</t>
         </list>
-	Not all methods can be used for all messages.
+
+	This section describes the syntax of these serialization methods;
+	other sections describe when they can and must be used.
+	Note that not all methods can be used for all messages.
       </t>
 
       <section anchor="QuerySerialization" title="Query String Serialization">
@@ -5959,8 +5962,8 @@
       </t>
       <t>
 	In several places, this specification uses space delimited
-	lists of strings.  In all such cases, only the ASCII space
-	character (0x20) MAY be used for this purpose.
+	lists of strings.  In all such cases, the ASCII space
+	character (0x20) MUST be the only character used for this purpose.
       </t>
 
     </section>
@@ -6008,7 +6011,7 @@
 	      OPs MUST support the <spanx style="verb">display</spanx> parameter,
 	      as defined in <xref target="AuthorizationEndpoint"/>.
 	      (Note that the minimum level of support required for this parameter is
-	      simply to have its use not result in an error.)
+	      simply that its use must not result in an error.)
 	    </t>
 	    <t hangText="Preferred Locales">
 	      OPs MUST support requests for preferred languages and scripts
@@ -6405,8 +6408,9 @@
 	Section 4.4.1.1 of <xref target="RFC6819"/>,
 	an Authorization Code can be captured in the User-Agent where the TLS
 	session is terminated if the User-Agent is infected by malware.
-	However, capturing it is not useful as long as the profile
-	uses either Client authentication or an encrypted response.</t>
+	However, capturing it is not useful as long as either
+	Client Authentication or an encrypted response are used.
+	</t>
       </section>
 
       <section anchor="TokenSubstitution" title="Token Substitution">
@@ -6498,7 +6502,10 @@
 	in many jurisdictions.
 	Therefore, for integrity and non-repudiation,
 	this specification requires signing 
-	the plain text JSON Claims.</t>
+	the plain text JSON Claims.
+	If encryption is also desired, it is performed on
+	the JWS containing the signed Claims.
+	</t>
       </section>
 
       <section anchor="IssuerIdentifier" title="Issuer Identifier">
@@ -6630,8 +6637,10 @@
       </section>
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
-	<t>The Resource Server SHOULD make the UserInfo access log available to 
-	the End-User so that the End-User can monitor who accessed his data.</t>
+	<t>
+	  The Resource Server SHOULD make End-Users' UserInfo access logs
+	  available to them so that they can monitor who accessed their data.
+	</t>
       </section>
 
       <section anchor="Correlation" title="Correlation">
@@ -6648,7 +6657,7 @@
 	  Therefore, it is prudent to obtain explicit consent for
 	  offline access to resources.
 	  This specification mandates the use of the <spanx style="verb">prompt</spanx>
-	  parameter to obtain consent unless it is a priori known that the
+	  parameter to obtain consent unless it is already known that the
 	  request complies with the conditions for processing in each jurisdiction.
 	</t>
 	<t>
@@ -8111,7 +8120,7 @@
 
       <t>
 	The following are non-normative examples of Authorization Requests with 
-	differing <spanx style="verb">response_type</spanx> values and their responses 
+	different <spanx style="verb">response_type</spanx> values and their responses 
 	(with line wraps within values for display purposes only):
       </t>
 

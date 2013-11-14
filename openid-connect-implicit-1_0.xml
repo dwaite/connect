@@ -631,7 +631,7 @@
 
           <t>
 	    The Authorization Server logs in the End-User or verifies whether
-	    he is logged in, depending upon the request parameter values used.
+	    the End-User is logged in, depending upon the request parameter values used.
 	    If interaction with the End-User occurs over an HTTP channel,
 	    it MUST use TLS, as per <xref target="TLSRequirements"/>.
 	    The exact authentication methods used are out of scope for this specification.
@@ -642,8 +642,8 @@
 
           <t>The Authorization Server obtains an authorization decision
           for the requested Claims. This can done by presenting the End-User
-          with a dialogue that enables the End-User to recognize what he is
-          consenting to and obtain his consent or by establishing consent via
+          with a dialogue that enables the End-User to recognize what is being
+          consenting to and grant consent or by establishing consent via
           other means (for example, via previous administrative consent).</t>
 
           <t>
@@ -925,7 +925,7 @@
 	      <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
 	      Authentication using a long-lived browser cookie, for instance, is one 
 	      example where the use of "level 0" is appropriate. Authentications with 
-	      level 0 SHOULD never be used to authorize access to any resource of any 
+	      level 0 SHOULD NOT be used to authorize access to any resource of any 
 	      monetary value.  
 	      An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
 	      registered name
@@ -1744,9 +1744,11 @@
 
       <section anchor="SelfIssuedRegistration" title="Self-Issued OpenID Provider Registration">
         <t>
-          When using a Self-Issued OP, the Client is deemed to have 
-          registered with the OP and obtained following Client Registration Response.  
-        </t>
+	  When using a Self-Issued OP, registration is not required.
+	  The Client can proceed without registration as if it had
+	  registered with the OP and obtained the following
+	  Client Registration Response:
+       </t>
         <t>
 	  <list style="hanging">
 	    <t hangText="client_id">
@@ -2110,8 +2112,8 @@
       </t>
       <t>
 	In several places, this specification uses space delimited
-	lists of strings.  In all such cases, only the ASCII space
-	character (0x20) MAY be used for this purpose.
+	lists of strings.  In all such cases, the ASCII space
+	character (0x20) MUST be the only character used for this purpose.
       </t>
 
     </section>
@@ -2205,8 +2207,10 @@
       </section>
 
       <section anchor="AccessMonitoring" title="Data Access Monitoring">
-	<t>The Resource Server SHOULD make the UserInfo access log available to 
-	the End-User so that the End-User can monitor who accessed his data.</t>
+	<t>
+	  The Resource Server SHOULD make End-Users' UserInfo access logs
+	  available to them so that they can monitor who accessed their data.
+	</t>
       </section>
 
       <section anchor="Correlation" title="Correlation">

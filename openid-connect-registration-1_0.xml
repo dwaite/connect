@@ -103,7 +103,7 @@
 	<t>
 	  This specification uses the terms "Access Token", "Authorization Code",
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
-	  "Client", "Client Identifier", "Client Secret",
+	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
@@ -348,7 +348,8 @@
 	    which are used by the Server to encrypt responses to the Client.
 	    When both signing and encryption keys are made available,
 	    a <spanx style="verb">use</spanx> (Key Use) parameter
-	    value is REQUIRED for all keys in the document to indicate each key's intended usage.
+	    value is REQUIRED for all keys in the referenced JWK Set
+	    to indicate each key's intended usage.
 	  </t>
 
 	  <t hangText="sector_identifier_uri">OPTIONAL.
@@ -433,7 +434,7 @@
 	  </t>
 
 	  <t hangText="token_endpoint_auth_method">OPTIONAL.
-	  Requested authentication method for the Token Endpoint.
+	  Requested Client Authentication method for the Token Endpoint.
 	  The options are 
 	  <spanx style="verb">client_secret_post</spanx>, 
 	  <spanx style="verb">client_secret_basic</spanx>, 
@@ -1073,8 +1074,8 @@
       </t>
       <t>
 	In several places, this specification uses space delimited
-	lists of strings.  In all such cases, only the ASCII space
-	character (0x20) MAY be used for this purpose.
+	lists of strings.  In all such cases, the ASCII space
+	character (0x20) MUST be the only character used for this purpose.
       </t>
 
     </section>
