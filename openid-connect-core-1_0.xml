@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="13" month="November" year="2013" />
+    <date day="18" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -127,7 +127,7 @@
 	Authorization Endpoint and Token Endpoint.
 	These URLs are normally obtained via Discovery,
 	as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
-	or MAY be obtained via other mechanisms.
+	or may be obtained via other mechanisms.
       </t>
       <t>
 	Likewise, this specification assumes that the Client has already obtained
@@ -135,7 +135,7 @@
 	These credentials are normally obtained via Dynamic Registration,
 	as described in
 	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
-	or MAY be obtained via other mechanisms.
+	or may be obtained via other mechanisms.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -163,16 +163,6 @@
       </section>
 
       <section anchor="Terminology" title="Terminology">
-	<t>
-	  This section defines the terminology used by this specification.
-	  This section is a normative portion of this specification,
-	  imposing requirements upon implementations.  All the
-	  capitalized words in the text of this specification, such as
-	  "Issuer Identifier", reference these defined terms.
-	  Whenever the reader encounters them, their definitions
-	  found in this section must be followed.
-	</t>
-
         <t>
 	  This specification uses the terms "Access Token", "Authorization Code",
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
@@ -374,6 +364,15 @@
           </list>
         </t>
 	<t>
+	  IMPORTANT NOTE TO READERS: The terminology definitions in
+	  this section are a normative portion of this specification,
+	  imposing requirements upon implementations.  All the
+	  capitalized words in the text of this specification, such as
+	  "Issuer Identifier", reference these defined terms.
+	  Whenever the reader encounters them, their definitions
+	  found in this section must be followed.
+	</t>
+	<t>
 	  For more background on some of the terminology used,
 	  see <xref target="RFC4949">Internet Security Glossary, Version 2</xref>,
 	  <xref target="ISO29115">ISO/IEC 29115 Entity Authentication Assurance</xref>,
@@ -406,7 +405,7 @@
 
     <section anchor="Authentication" title="Authentication">
       <t>
-	Authentication is typically performed to log in the End-User
+	OpenID Connect performs authentication to log in the End-User
 	or to determine that the End-User is already logged in.
 	OpenID Connect returns the result of the Authentication
 	performed by the Server to the Client in a secure manner
@@ -515,7 +514,7 @@
 	are defined in the
 	<xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>
 	specification.
-	Note that while OAuth 2.0 also defines the
+	NOTE:  While OAuth 2.0 also defines the
 	<spanx style="verb">token</spanx> Response Type value
 	for the Implicit Flow, OpenID Connect does not use this Response Type,
 	since no ID Token is returned.
@@ -571,34 +570,29 @@
 	
 	<section anchor="AuthorizationEndpoint" title="Authorization Endpoint">
 	  <t>
-	    The Authorization Endpoint performs authentication of the
-	    End-User and requests authorization from the End-User to release
-	    information to an OpenID Connect Relying Party (Client). When an End-User 
-	    accesses a Relying Party application that requires
-	    the End-User's identity and other information, it sends the User-Agent to
-	    the Authorization Server's Authorization Endpoint for authentication and
-	    authorization.
+	    The Authorization Endpoint performs Authentication of the
+	    End-User.
+	    This is done by sending the User-Agent to
+	    the Authorization Server's Authorization Endpoint for Authentication and
+	    Authorization, using request parameters defined by OAuth 2.0 and
+	    additional parameters and parameter values defined by OpenID Connect.
+	  </t>
+	  <t>
+	    Communication with the Authorization Endpoint MUST utilize TLS.
+	    See <xref target="TLSRequirements"/> for more information on using TLS.
 	  </t>
 
 	  <section anchor="AuthRequest" title="Authentication Request">
 	    <t>
-	      When the Client wishes to authenticate the End-User, the Client
-	      sends an Authentication Request to the Authorization Endpoint.
 	      An Authentication Request is
 	      an OAuth 2.0 Authorization Request that requests that the End-User
 	      be authenticated by the Authorization Server.
 	    </t>
 
-	    <t>
-	      Communication with the Authorization Endpoint MUST utilize TLS.
-	      See <xref target="TLSRequirements"/> for more information on using TLS.
-	    </t>
-
 	    <t>Authorization Servers MUST support the use of the HTTP <spanx style="verb">GET</spanx> and 
 	    <spanx style="verb">POST</spanx> methods defined in <xref target="RFC2616">RFC 2616</xref> at the
-	    Authorization Endpoint. </t>
-
-	    <t>Clients MAY use the HTTP <spanx style="verb">GET</spanx> or
+	    Authorization Endpoint.
+	    Clients MAY use the HTTP <spanx style="verb">GET</spanx> or
 	    <spanx style="verb">POST</spanx> methods to send the
 	    Authorization Request to the Authorization Server. If using the HTTP
 	    <spanx style="verb">GET</spanx> method, the request parameters are serialized using
@@ -615,7 +609,6 @@
 	      <list style="hanging">
 		<t hangText="scope">
 		  REQUIRED.
-		  OAuth 2.0 scope values.
 		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
 		  If the <spanx style="verb">openid</spanx> scope value is not present,
 		  the behavior is entirely unspecified.
@@ -627,8 +620,7 @@
 
 		<t hangText="response_type">
 		  REQUIRED.
-		  OAuth 2.0 registered
-		  Response Type value that determines
+		  OAuth 2.0 Response Type value that determines
 		  the authorization processing flow to be used,
 		  including what parameters are returned from the endpoints used.
 		  When using the Authorization Code Flow, this value is
@@ -637,7 +629,8 @@
 
 		<t hangText="client_id">
 		  REQUIRED.
-		  OAuth 2.0 Client Identifier.
+		  OAuth 2.0 Client Identifier
+		  valid at the Authorization Server.
 		</t>
 
 		<t hangText="redirect_uri">
@@ -925,8 +918,16 @@
 		  OAuth 2.0 parameters according to the OAuth 2.0 specification.
 		</t>
 		<t>
+		  Verify that a <spanx style="verb">scope</spanx> parameter is present
+		  and contains the <spanx style="verb">openid</spanx> scope value.
+		  (If no <spanx style="verb">openid</spanx> scope value is present,
+		  the request may still be a valid OAuth 2.0 request,
+		  but is not an OpenID Connect request.)
+		</t>
+		<t>
 		  The Authorization Server MUST verify that all the REQUIRED parameters 
-		  are present.
+		  are present
+		  and their usage conforms to this specification.
 		</t>
 		<!-- These steps count on claims features -->
 		<t>
@@ -960,23 +961,21 @@
 	  <section anchor="Authenticates" title="Authorization Server Authenticates End-User">
 
 	    <t>
-	      The Authorization Server validates the request to ensure all
-	      REQUIRED parameters are present and all parameters are valid.
 	      If the request is valid, the Authorization Server attempts
-	      to log in the End-User or determines whether the End-User is logged in,
+	      to Authenticate the End-User or determines whether the End-User is Authenticated,
 	      depending upon the request parameter values used.
-	      The methods used by the Authorization Server to log in the End-User
+	      The methods used by the Authorization Server to Authenticate the End-User
 	      (e.g. username and password, session cookies, etc.)
 	      are beyond the scope of this specification.
-	      An authentication user interface MAY be displayed by
+	      An Authentication user interface MAY be displayed by
 	      the Authorization Server, depending upon the request parameter values used
 	      and the authentication methods used.
 	    </t>
 
-	    <t>The Authorization Server MUST attempt to log in the 
+	    <t>The Authorization Server MUST attempt to Authenticate the 
 	    End-User in the following cases:
 	    <list style="symbols">
-	      <t>The End-User is not already logged in.</t>
+	      <t>The End-User is not already Authenticated.</t>
 
 	      <t>The Authentication Request contains the <spanx 
 	      style="verb">prompt</spanx> parameter with the value
@@ -993,30 +992,32 @@
 	      <spanx style="verb">none</spanx>.  In this case,
 	      the Authorization Server MUST return
 	      an error if an End-User
-	      is not already logged in or could not be silently logged in.</t>
+	      is not already Authenticated or could not be silently Authenticated.</t>
 	    </list>
 	    </t>
 
 	    <t>
-	      The Authorization Server MUST employ appropriate measures against
+	      When interacting with the End-User,
+	      the Authorization Server MUST employ appropriate measures against
 	      Cross-Site Request Forgery and Clickjacking as, described in
-	      Sections 10.12 and 10.13 of <xref target="RFC6749">OAuth 2.0</xref>. 
+	      Sections 10.12 and 10.13 of <xref target="RFC6749">OAuth 2.0</xref>.
 	    </t>
 	  </section>
 
 	  <section anchor="Consent" title="Authorization Server Obtains End-User Consent/Authorization">
 
-	    <t>Once the End-User is authenticated, the Authorization Server MUST
-	    obtain an authorization decision.
-	    When permitted by the request parameters used,
-	    this MAY be done through an interactive dialogue with the End-User
-	    that makes it clear what is being consented to
-	    or by establishing consent via conditions for processing or
-	    other means (for example, via previous administrative consent).</t>
-
 	    <t>
-	      The Authorization Server MUST employ countermeasures against
-	      Cross-Site Request Forgery and Clickjacking when interacting with the End-User.
+	      Once the End-User is authenticated, the Authorization Server MUST
+	      obtain an authorization decision before releasing information
+	      to the Relying Party.
+	      When permitted by the request parameters used,
+	      this MAY be done through an interactive dialogue with the End-User
+	      that makes it clear what is being consented to
+	      or by establishing consent via conditions for processing or
+	      other means (for example, via previous administrative consent).
+	      Sections <xref target="IDToken" format="counter"/> and
+	      <xref target="Claims" format="counter"/> describe
+	      information release mechanisms.
 	    </t>
 
 	  </section>
@@ -1055,6 +1056,10 @@
 ]]></artwork>
 	    </figure>
 
+	    <t>
+	      For implementation notes on the contents of
+	      the Authorization Code, see <xref target="CodeNotes"/>.
+	    </t>
 	  </section>
 
 	  <section anchor="AuthError" title="Authentication Error Response">
@@ -1213,65 +1218,35 @@
 
 	<section anchor="TokenEndpoint" title="Token Endpoint">
 	  <t>
-	    When using the Authorization Code Flow,
+	    To obtain an Access Token, an ID Token, and optionally a Refresh Token,
 	    the RP (Client) sends a Token Request to the Token Endpoint
-	    to obtain a Token Response,
-	    which includes an ID Token and an Access Token
-	    and MAY include a Refresh Token and other values.
+	    to obtain a Token Response, as described in
+	    Section 3.2 of <xref target="RFC6749">OAuth 2.0</xref>,
+	    when using the Authorization Code Flow.
 	  </t>
 
-	  <t>
-	    Clients MUST use the HTTP <spanx style="verb">POST</spanx> method
-	    to make requests to the Token Endpoint.
-	    Request parameters are added using
-	    Form Serialization, per <xref target="FormSerialization"/>.
-	    The Token Endpoint MUST support the use of the HTTP <spanx style="verb">POST</spanx>
-	    method defined in <xref target="RFC2616">RFC 2616</xref> at the
-	    Token Endpoint.
-	  </t>
 	  <t>
 	    Communication with the Token Endpoint MUST utilize TLS.
 	    See <xref target="TLSRequirements"/> for more information on using TLS.
 	  </t>
 
-	  <t>
-	    All Token Endpoint responses that contain tokens, secrets, or other
-	    sensitive information MUST include the following HTTP response header
-	    fields and values:
-	  </t>
-
-	  <texttable title="HTTP Response Headers and Values">
-	    <ttcol>Header Name</ttcol>
-
-	    <ttcol>Header Value</ttcol>
-
-	    <c>Cache-Control</c>
-
-	    <c>no-store</c>
-
-	    <c>Pragma</c>
-
-	    <c>no-cache</c>
-	  </texttable>
-
 	  <section anchor="TokenRequest" title="Token Request">
 
 	    <t>
-	      A Client using the Authorization Code Flow
-	      obtains an ID Token and an Access Token by authenticating with the
-	      Authorization Server and presenting its Authorization Grant (in the form of
+	      A Client makes a Token Request by
+	      presenting its Authorization Grant (in the form of
 	      an Authorization Code) to the Token Endpoint
 	      using the <spanx style="verb">grant_type</spanx> value
-	      <spanx style="verb">authorization_code</spanx>.
-	    </t>
-
-	    <t>
-	      The Client MUST
+	      <spanx style="verb">authorization_code</spanx>, as described in 
+	      Section 4.1.3 of <xref target="RFC6749">OAuth 2.0</xref>.
+	      If the Client is a Confidential Client, then it MUST
 	      authenticate to the Token Endpoint using the authentication method
 	      registered for its <spanx style="verb">client_id</spanx>,
 	      as described in <xref target="ClientAuthentication"/>.
-	      The Client sends the parameters via HTTPS <spanx style="verb">POST</spanx>
-	      to the Token Endpoint using
+	    </t>
+	    <t>
+	      The Client sends the parameters to the Token Endpoint
+	      using the HTTP <spanx style="verb">POST</spanx> method and the
 	      Form Serialization, per <xref target="FormSerialization"/>,
 	      as described in Section 4.1.3 of 
 	      <xref target="RFC6749">OAuth 2.0</xref>.
@@ -1297,21 +1272,21 @@
 
 	  <section anchor="TokenRequestValidation" title="Token Request Validation">
 	    <t>
-	      Upon receipt of the request, the Authorization Server MUST:
+	      The Authorization Server MUST validate the Token Request as follows:
 	    </t>
 	    <t>
 	      <list style='symbols'>
 		<t>
 		  Authenticate any Clients that were issued Client Credentials
 		  or for which other Client Authentication methods were used,
-		  per <xref target="ClientAuthentication"/>,
+		  per <xref target="ClientAuthentication"/>.
 		</t>
 		<t>
 		  Ensure the
-		  Authorization Code was issued to the authenticated Client,
+		  Authorization Code was issued to the authenticated Client.
 		</t>
 		<t>
-		  Verify that the Authorization Code is valid, and
+		  Verify that the Authorization Code is valid.
 		</t>
 		<t>
 		  Ensure that the
@@ -1326,16 +1301,17 @@
 		  or MAY proceed without an error
 		  (since OAuth 2.0 permits the parameter to be omitted in this case).
 		</t>
+		<t>
+		  Verify that the Authorization Code used was issued
+		  in response to an OpenID Connect Authentication Request
+		  (so that an ID Token will be returned from the Token Endpoint).
+		</t>
 	      </list>
 	    </t>
 
 	  </section>
 
 	  <section anchor="TokenResponse" title="Successful Token Response">
-	    <t>Upon receipt of the Token Request, the Authorization Server MUST
-	    return either a successful response or an error response that corresponds to
-	    the received Authorization Code.</t>
-
 	    <t>After receiving and validating a valid and authorized Token Request
 	    from the Client, the Authorization Server returns a successful
 	    response that includes an ID Token and an Access Token.  The
@@ -1351,7 +1327,7 @@
 	      use of other Token Types is outside the scope of this specification.
 	    </t>
 	    <t>
-	      In addition to the OAuth 2.0 response parameters, the following
+	      In addition to the response parameters specified by OAuth 2.0, the following
 	      parameters MUST be included in the response:
 	    </t>
 	    <t>
@@ -1361,8 +1337,28 @@
 	      </list>
 	    </t>
 
-	    <t>A successful response uses the <spanx style="verb">application/json</spanx>
+	    <t>The response uses the <spanx style="verb">application/json</spanx>
 	    media type.</t>
+
+	    <t>
+	      All Token Endpoint responses that contain tokens, secrets, or other
+	      sensitive information MUST include the following HTTP response header
+	      fields and values:
+	    </t>
+
+	    <texttable title="HTTP Response Headers and Values">
+	      <ttcol>Header Name</ttcol>
+
+	      <ttcol>Header Value</ttcol>
+
+	      <c>Cache-Control</c>
+
+	      <c>no-store</c>
+
+	      <c>Pragma</c>
+
+	      <c>no-cache</c>
+	    </texttable>
 
 	    <figure>
 	      <preamble>The following is a non-normative example of a
@@ -1516,14 +1512,13 @@
 		</t>
 
                 <t hangText="auth_time">
-                  OPTIONAL or REQUIRED.
                   Time when the End-User authentication occurred.
 		  The time is represented as the number of seconds from
 		  1970-01-01T0:0:0Z as measured in UTC until the date/time.
                   When a <spanx style="verb">max_age</spanx> request is made
                   or when <spanx style="verb">auth_time</spanx> is requested
                   as an Essential Claim,
-                  then this Claim is REQUIRED.
+                  then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
                   (The <spanx style="verb">auth_time</spanx> Claim semantically
                   corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
                   <spanx style="verb">auth_time</spanx> response parameter.)
@@ -1531,7 +1526,6 @@
                 </t>
 
                 <t hangText="nonce">
-		  OPTIONAL or REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
 		  The value is passed through unmodified from the Authentication Request to the ID Token.
@@ -1546,10 +1540,6 @@
 		  being the nonce value sent in the Authentication Request.
 		  Authorization Servers SHOULD perform no other processing
 		  on <spanx style="verb">nonce</spanx> values used.
-		  Use of the nonce is REQUIRED for all requests where an ID Token
-		  is returned directly from the Authorization Endpoint.  
-		  It is OPTIONAL when the ID Token is returned from the 
-		  Token Endpoint.
 		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 		</t>
 
@@ -1612,12 +1602,11 @@
 		</t>
 
 		<t hangText="azp">
-		  OPTIONAL or REQUIRED.
-		  Authorized party - 
-		  the party to which the ID Token was issued.
+		  OPTIONAL.
+		  Authorized party - the party to which the ID Token was issued.
 		  If present, it MUST contain the OAuth 2.0
-		  <spanx style="verb">client_id</spanx> of this party.
-		  This Claim is only REQUIRED when
+		  Client ID of this party.
+		  This Claim is only needed when
 		  the ID Token has a single audience value
 		  and that audience is different than the authorized party.
 		  It MAY be included even when the authorized party is the same
@@ -1677,8 +1666,7 @@
    "exp": 1311281970,
    "iat": 1311280970,
    "auth_time": 1311280969,
-   "acr": "urn:mace:incommon:iap:silver",
-   "at_hash": "MTIzNDU2Nzg5MDEyMzQ1Ng"
+   "acr": "urn:mace:incommon:iap:silver"
   }
 ]]></artwork>
 	    </figure>
@@ -1687,7 +1675,7 @@
 
 	  <section anchor="IDTokenValidation" title="ID Token Validation">
             <t>
-              Clients MUST validate the ID Token in the Token Response,
+              Clients MUST validate the ID Token in the Token Response
 	      in the following manner:
 	    </t>
 
@@ -1861,21 +1849,16 @@
 
 	  <section anchor="ImplicitAuthRequest" title="Authentication Request">
 	    <t>
-	      When using the Implicit Flow, Authentication Requests are made
-	      in the same manner as for the Authorization Code Flow,
+	      Authentication Requests are made
 	      as defined in <xref target="AuthRequest"/>,
-	      with the exception of the differences specified in this section.
-	    </t>
-	    <t>
-	      For this flow, these Authentication Request parameters
+	      except that these Authentication Request parameters
 	      are used as follows:
 	    </t>
 	    <t>
 	      <list style="hanging">
 		<t hangText="response_type">
 		  REQUIRED.
-		  OAuth 2.0 registered
-		  Response Type value that determines
+		  OAuth 2.0 Response Type value that determines
 		  the authorization processing flow to be used,
 		  including what parameters are returned from the endpoints used.
 		  When using the Implicit Flow, this value is
@@ -1887,10 +1870,10 @@
 		  <spanx style="verb">id_token</spanx>.
 		</t>
 		<t>
-		  (Note that while OAuth 2.0 also defines the
+		  NOTE:  While OAuth 2.0 also defines the
 		  <spanx style="verb">token</spanx> Response Type value
 		  for the Implicit Flow, OpenID Connect does not use this Response Type,
-		  since no ID Token is returned.)
+		  since no ID Token is returned.
 		</t>
 
 		<t hangText="redirect_uri">
@@ -1915,6 +1898,7 @@
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
+		  For implementation notes, see <xref target="NonceNotes"/>.
 		</t>
 	      </list>
 	    </t>
@@ -1977,9 +1961,11 @@
 	      of the Redirection URI, as specified in
 	      <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>,
 	      unless a different Response Mode was specified.
-	      These parameters are returned:
 	    </t>
 
+	    <t>
+	      These parameters are returned from the Authorization Endpoint:
+	    </t>
             <t>
 	      <list style="hanging">
                 <t hangText="access_token">
@@ -2018,6 +2004,12 @@
 		Expiration time of the Access Token in seconds
 		since the response was generated.</t>
               </list>
+	    </t>
+
+	    <t>
+	      Per Section 4.2.2 of <xref target="RFC6749">OAuth 2.0</xref>,
+	      no <spanx style="verb">code</spanx> result is returned
+	      when using the Implicit Flow.
 	    </t>
 
             <figure>
@@ -2192,12 +2184,10 @@
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
 		  ID Token with the Claim Value
 		  being the nonce value sent in the Authentication Request.
-		  Use of the nonce is REQUIRED when using the Implicit Flow.
 		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 		</t>
 
                 <t hangText="at_hash">
-		  OPTIONAL or REQUIRED.
 		  Access Token hash value.
 		  Its value is the base64url encoding of the left-most half of the
 		  hash of the octets of the ASCII representation of the
@@ -2216,7 +2206,7 @@
 		  <spanx style="verb">access_token</spanx>,
 		  which is the case with the <spanx style="verb">response_type</spanx> value
 		  <spanx style="verb">id_token&nbsp;token</spanx>,
-		  this is REQUIRED.
+		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
 		</t>
 
 	      </list>
@@ -2308,21 +2298,16 @@
 	  <section anchor="HybridAuthRequest" title="Authentication Request">
 
 	    <t>
-	      When using the Hybrid Flow, Authentication Requests are made
-	      in the same manner as for the Authorization Code Flow,
+	      Authentication Requests are made
 	      as defined in <xref target="AuthRequest"/>,
-	      with the exception of the differences specified in this section.
-	    </t>
-	    <t>
-	      For this flow, these Authentication Request parameters
+	      except that these Authentication Request parameters
 	      are used as follows:
 	    </t>
 	    <t>
 	      <list style="hanging">
 		<t hangText="response_type">
 		  REQUIRED.
-		  OAuth 2.0 registered
-		  Response Type value that determines
+		  OAuth 2.0 Response Type value that determines
 		  the authorization processing flow to be used,
 		  including what parameters are returned from the endpoints used.
 		  When using the Hybrid Flow, this value is
@@ -2393,6 +2378,9 @@
 	      with the exception of the differences specified in this section.
 	    </t>
 
+	    <t>
+	      These Authorization Endpoint results are used in the following manner:
+	    </t>
             <t>
 	      <list style="hanging">
                 <t hangText="access_token">
@@ -2410,6 +2398,11 @@
 		  when the <spanx style="verb">response_type</spanx> value used is
 		  <spanx style="verb">code&nbsp;id_token</spanx> or
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
+		</t>
+
+                <t hangText="code">
+		  Authorization Code.
+		  This is always returned when using the Hybrid Flow.
 		</t>
 
               </list>
@@ -2559,12 +2552,10 @@
 		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
 		  ID Token with the Claim Value
 		  being the nonce value sent in the Authentication Request.
-		  Use of the nonce is REQUIRED when using the Hybrid Flow.
 		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 		</t>
 
                 <t hangText="at_hash">
-		  OPTIONAL or REQUIRED. 
 		  Access Token hash value.
 		  Its value is the base64url encoding of the left-most half of the
 		  hash of the octets of the ASCII representation of the
@@ -2583,11 +2574,10 @@
 		  <spanx style="verb">access_token</spanx>,
 		  which is the case with the <spanx style="verb">response_type</spanx> value
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
-		  this is REQUIRED.
+		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
 		</t>
 
 		<t hangText="c_hash">
-		  OPTIONAL or REQUIRED.
 		  Code hash value.
 		  Its value is the base64url encoding of the left-most half of the
 		  hash of the octets of the ASCII representation of the
@@ -2607,7 +2597,7 @@
 		  which is the case with the <spanx style="verb">response_type</spanx> values
 		  <spanx style="verb">code&nbsp;id_token</spanx> and
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
-		  this is REQUIRED.
+		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
 		</t>
 
 	      </list>
@@ -2755,7 +2745,7 @@
 	In some cases, the login flow is initiated at the Authorization Server
 	or another party, rather than the Client.
 	In this case, the initiator redirects to the Client at a login initiation endpoint
-	that it supports, which requests that the Client be logged in.
+	that it supports, which requests that the Client be Authenticated.
 	This Client endpoint can be a deep link,
 	rather than a default landing page.
 	Clients supporting
@@ -2764,7 +2754,7 @@
 	<spanx style="verb">initiate_login_uri</spanx> registration parameter.
       </t>
       <t>
-	The Authorization Server or third party requests that the Client be logged in
+	The Authorization Server or third party requests that the Client be Authenticated
 	by redirecting to this endpoint with the following query parameters:
       </t>
       <t>
@@ -4688,7 +4678,7 @@
 	  </figure>
 	</t>
 	<t>
-	  Note:  The OpenID Foundation plans to host the OpenID Provider site
+	  NOTE:  The OpenID Foundation plans to host the OpenID Provider site
 	  <spanx style="verb">https://self-issued.me/</spanx>,
 	  including its WebFinger service, so that performing discovery on it
 	  returns the above static discovery information, enabling Clients
@@ -4718,7 +4708,7 @@
 	  </list>
 	</t>
 	<t>
-	  Note:  The OpenID Foundation plans to host the (stateless) endpoint
+	  NOTE:  The OpenID Foundation plans to host the (stateless) endpoint
 	  <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
 	  that returns the response above, enabling Clients to not need
 	  any special processing for registration with the Self-Issued OP.
@@ -4931,14 +4921,8 @@
       <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
 
 	<t>
-	  If any of the validation procedures defined in this specification fail, any operations requiring
-	  the information that failed to correctly validate MUST be aborted and
-	  the information that failed to validate MUST NOT be used.
+	  To validate the ID Token received, the Client MUST do the following:
 	</t>
-
-	<t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
-	MUST do the following:</t>
-
 	<t>
 	  <list style="numbers">
 	    <t>
@@ -5754,10 +5738,6 @@
       </section>
 
       <section anchor="RefreshTokenResponse" title="Successful Refresh Response">
-	<t>Upon receipt of the Refresh Request, the Authorization Server MUST
-	return either a successful response or an error response that corresponds to
-	the received Refresh Token.</t>
-
 	<t>
 	  Upon successful validation of the Refresh Token,
 	  the response body is the Token Response of <xref target="TokenResponse"/>
@@ -6136,19 +6116,35 @@
 	</t>
       </section>
 
-      <section anchor="NonceNotes" title="Nonce Implementation Notes">
-	<t>
-	  The <spanx style="verb">nonce</spanx> parameter value needs to include
-	  per-session state and be unguessable to attackers.
-	  One method to achieve this for Web Server Clients is to store a random value
-	  as an HttpOnly session cookie and use a cryptographic hash of the value
-	  as the <spanx style="verb">nonce</spanx> parameter.
-	  In that case, the <spanx style="verb">nonce</spanx> in the returned
-	  ID Token is compared to the hash of the session cookie
-	  to detect ID Token replay by third parties.
-	  A related method applicable to JavaScript Clients is to store the random value
-	  in HTML5 local storage and use a cryptographic hash of this value.
-	</t>
+      <section anchor="ImplementationNotes" title="Implementation Notes">
+
+	<section anchor="CodeNotes" title="Authorization Code Implementation Notes">
+	  <t>
+	    When using the Authorization Code or Hybrid flows,
+	    an ID Token is returned from the Token Endpoint
+	    in response to a Token Request using an Authorization Code.
+	    Some implementations may choose to encode state about
+	    the ID Token to be returned in the Authorization Code value.
+	    Others may use the Authorization Code value
+	    as an index into a database storing this state.
+	  </t>
+	</section>
+
+	<section anchor="NonceNotes" title="Nonce Implementation Notes">
+	  <t>
+	    The <spanx style="verb">nonce</spanx> parameter value needs to include
+	    per-session state and be unguessable to attackers.
+	    One method to achieve this for Web Server Clients is to store a random value
+	    as an HttpOnly session cookie and use a cryptographic hash of the value
+	    as the <spanx style="verb">nonce</spanx> parameter.
+	    In that case, the <spanx style="verb">nonce</spanx> in the returned
+	    ID Token is compared to the hash of the session cookie
+	    to detect ID Token replay by third parties.
+	    A related method applicable to JavaScript Clients is to store the random value
+	    in HTML5 local storage and use a cryptographic hash of this value.
+	  </t>
+	</section>
+
       </section>
 
       <section anchor="CompatibilityNotes" title="Compatibility Notes">
@@ -6626,7 +6622,7 @@
 
 	<t>The UserInfo Response typically contains Personally Identifiable
 	Information (PII). As such, End-User consent for the release of the information
-	for the specified purpose SHOULD be obtained at or prior to the
+	for the specified purpose should be obtained at or prior to the
 	authorization time in accordance with relevant regulations. The purpose
 	of use is typically registered in association with the <spanx
 	style="verb">redirect_uris</spanx>.</t>
@@ -8505,6 +8501,10 @@
 	  <t>
 	    Added Claim Description entries to Claim registrations,
 	    tracking the addition in the JWT specification.
+	  </t>
+	  <t>
+	    Used clearer language for describing when parameters and claims are
+	    required and optional.
 	  </t>
 	</list>
       </t>

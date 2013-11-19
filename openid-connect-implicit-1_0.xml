@@ -63,7 +63,7 @@
       </address>
     </author>
 
-    <date day="13" month="November" year="2013" />
+    <date day="18" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -119,6 +119,49 @@
 	should instead consult the Core specification.
 	This guide omits implementation and security
 	considerations for OpenID Providers and non-Web-based applications.
+      </t>
+
+      <t>
+	As background,
+	the <xref target="RFC6749">OAuth 2.0 Authorization Framework</xref>
+	and <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
+	specifications provide a general framework for third-party applications
+	to obtain and use limited access to HTTP resources.  They define
+	mechanisms to obtain and use Access Tokens to access resources but
+	do not define standard methods to provide identity information.
+	Notably, without profiling OAuth 2.0, it is incapable of
+	providing information about the authentication of an End-User.
+	Readers are expected to be familiar with these specifications.
+      </t>
+      <t>
+	OpenID Connect implements authentication as an extension to the
+	OAuth 2.0 authorization process.
+	Use of this extension is requested by Clients by including
+	the <spanx style="verb">openid</spanx> scope value
+	in the Authorization Request.
+	Information about the authentication performed is returned
+	in a <xref target="JWT">JSON Web Token (JWT)</xref>
+	called an ID Token <xref target="IDToken"/>.
+	OAuth 2.0 Authentication Servers implementing OpenID Connect
+	are also referred to as OpenID Providers (OPs).
+	OAuth 2.0 Clients using OpenID Connect
+	are also referred to as Relying Parties (RPs).
+      </t>
+      <t>
+	This specification assumes that the Client has already obtained
+	the locations of the OpenID Provider's endpoints, including its
+	Authorization Endpoint and Token Endpoint.
+	These URLs are normally obtained via Discovery,
+	as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
+	or may be obtained via other mechanisms.
+      </t>
+      <t>
+	Likewise, this specification assumes that the Client has already obtained
+	sufficient credentials to interact with the OpenID Provider.
+	These credentials are normally obtained via Dynamic Registration,
+	as described in
+	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
+	or may be obtained via other mechanisms.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -356,12 +399,12 @@
 
 		<t hangText="client_id">
 		  REQUIRED.
-		  OAuth 2.0 Client Identifier.
+		  OAuth 2.0 Client Identifier
+		  valid at the Authorization Server.
 		</t>
 
 		<t hangText="scope">
                   REQUIRED.
-		  Space delimited, case sensitive list of ASCII OAuth 2.0 scope values.
 		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
 		  OPTIONAL scope values of
 		  <spanx style="verb">profile</spanx>,
@@ -870,29 +913,29 @@
 	    The <spanx style="verb">iat</spanx> value is a number.
 	    </t>
 
-	    <t hangText="auth_time">OPTIONAL or REQUIRED.
+	    <t hangText="auth_time">
 	    Time when the End-User authentication occurred.
 	    The time is represented as the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    When a <spanx style="verb">max_age</spanx> request is made
-	    then this Claim is REQUIRED.
+	    then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
 	    The <spanx style="verb">auth_time</spanx> value is a number.
 	    </t>
 
-	    <t hangText="nonce">REQUIRED.
-	    String value used to associate a Client session 
-	    with an ID Token, and to mitigate replay attacks. 
-	    The value is passed through unmodified from the Authorization Request to the ID Token.
-	    Clients MUST verify that
-	    the <spanx style="verb">nonce</spanx> Claim Value is equal to
-	    the value of the <spanx style="verb">nonce</spanx>
-	    parameter sent in the Authorization Request.
-	    If present in the Authorization Request, Authorization Servers
-	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
-	    ID Token with the Claim Value
-	    being the nonce value sent in the Authorization Request.
-	    Use of the nonce is REQUIRED when using the Implicit Flow.
-	    The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+	    <t hangText="nonce">
+	      REQUIRED.
+	      String value used to associate a Client session 
+	      with an ID Token, and to mitigate replay attacks. 
+	      The value is passed through unmodified from the Authorization Request to the ID Token.
+	      Clients MUST verify that
+	      the <spanx style="verb">nonce</spanx> Claim Value is equal to
+	      the value of the <spanx style="verb">nonce</spanx>
+	      parameter sent in the Authorization Request.
+	      If present in the Authorization Request, Authorization Servers
+	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
+	      ID Token with the Claim Value
+	      being the nonce value sent in the Authorization Request.
+	      The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 	    </t>
 
 	    <t hangText="at_hash">
@@ -954,12 +997,11 @@
 	    </t>
 
 	    <t hangText="azp">
-	      OPTIONAL or REQUIRED.
-	      Authorized party - 
-	      the party to which the ID Token was issued.
+	      OPTIONAL.
+	      Authorized party - the party to which the ID Token was issued.
 	      If present, it MUST contain the OAuth 2.0
-	      <spanx style="verb">client_id</spanx> of this party.
-	      This Claim is only REQUIRED when
+	      Client ID of this party.
+	      This Claim is only needed when
 	      the ID Token has a single audience value
 	      and that audience is different than the authorized party.
 	      It MAY be included even when the authorized party is the same
@@ -969,7 +1011,6 @@
 	    </t>
 
 	    <t hangText="sub_jwk">
-	      NOT RECOMMENDED or REQUIRED.
 	      Public key used to check the signature of an ID Token
 	      issued by a Self-Issued OpenID Provider,
 	      as specified in <xref target="SelfIssued"/>.
@@ -1730,7 +1771,7 @@
           </figure>
         </t>
 	<t>
-	  Note:  The OpenID Foundation plans to host the OpenID Provider site
+	  NOTE:  The OpenID Foundation plans to host the OpenID Provider site
 	  <spanx style="verb">https://self-issued.me/</spanx>,
 	  including its WebFinger service, so that performing discovery on it
 	  returns the above static discovery information, enabling Clients
@@ -1760,7 +1801,7 @@
 	  </list>
 	</t>
         <t>
-	  Note:  The OpenID Foundation plans to host the (stateless) endpoint
+	  NOTE:  The OpenID Foundation plans to host the (stateless) endpoint
 	  <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
 	  that returns the response above, enabling Clients to not need
 	  any special processing for registration with the Self-Issued OP.
@@ -1915,74 +1956,76 @@
 
       <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
 
-        <t>To validate the ID Token in the Authorization or Token Endpoint Response, the Client
-        MUST do the following:</t>
+        <t>
+	  To validate the ID Token received, the Client MUST do the following:
+	</t>
+        <t>
+	  <list style="numbers">
+	    <t>
+	      The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.  
+	      If <spanx style="verb">iss</spanx> contains a different value, 
+	      the ID Token is not Self-Issued, and instead
+	      it MUST be validated according to
+	      <xref target="IDTokenValidation"/>.
+	    </t>
+	    <t>
+	      The Client MUST validate that the 
+	      <spanx style="verb">aud</spanx> (audience) Claim
+	      contains the value of the <spanx style="verb">redirect_uri</spanx>
+	      that the Client sent in the authentication request as an audience. 
+	    </t>
+	    <t>
+	      The Client MUST validate the signature of the ID Token according to
+	      <xref target="JWS">JWS</xref> using the algorithm specified in the 
+	      <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
+	      using the key in the <spanx style="verb">sub_jwk</spanx> Claim;
+	      the key is a bare key in JWK <xref target="JWK"/> format
+	      (not an X.509 certificate value).
+	    </t>
+	    <t>
+	      The <spanx style="verb">alg</spanx> value SHOULD be the default of 
+	      <spanx style="verb">RS256</spanx>.
+	      It MAY also be <spanx style="verb">ES256</spanx>.
+	    </t>
+	    <t>
+	      The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
+	      value is the base64url encoded SHA-256 hash of 
+	      the concatenation of the octets of the UTF-8 representations of
+	      the base64url encoded key values in the
+	      <spanx style="verb">sub_jwk</spanx> Claim.
+	      When the <spanx style="verb">kty</spanx> value is
+	      <spanx style="verb">RSA</spanx>, the key values
+	      <spanx style="verb">n</spanx> and 
+	      <spanx style="verb">e</spanx> are concatenated in that order.
+	      When the <spanx style="verb">kty</spanx> value is
+	      <spanx style="verb">EC</spanx>, the key values
+	      <spanx style="verb">crv</spanx>,
+	      <spanx style="verb">x</spanx>, and 
+	      <spanx style="verb">y</spanx> are concatenated in that order.
+	    </t>
+	    <t>
+	      The current time MUST be less than the value of the 
+	      <spanx style="verb">exp</spanx> Claim
+	      (possibly allowing for some small leeway to account for clock skew).
+	    </t>
+	    <t>
+	      The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that 
+	      were issued too far away from the current time, limiting the amount of
+	      time that nonces need to be stored to prevent attacks. 
+	      The acceptable range is Client specific.
+	    </t>
+	    <t>
+	      If a nonce value was sent in the Authorization Request, 
+	      a <spanx style="verb">nonce</spanx> Claim MUST be present 
+	      and its value of the checked to verify that
+	      it is the same value as the one that was sent in the Authorization Request.
+	      The Client SHOULD check the <spanx style="verb">nonce</spanx> value
+	      for replay attacks.
+	      The precise method for detecting replay attacks is Client specific.
+	    </t>
 
-        <t><list style="numbers">
-          <t>
-            The Client MUST validate that the value of the <spanx style="verb">iss</spanx> (issuer) Claim is <spanx style="verb">https://self-isued.me</spanx>.  
-            If <spanx style="verb">iss</spanx> contains a different value, 
-            the ID Token is not Self-Issued, and instead
-	    it MUST be validated according to
-	    <xref target="IDTokenValidation"/>.
-          </t>
-          <t>
-            The Client MUST validate that the 
-            <spanx style="verb">aud</spanx> (audience) Claim
-	    contains the value of the <spanx style="verb">redirect_uri</spanx>
-            that the Client sent in the authentication request as an audience. 
-	  </t>
-	  <t>
-            The Client MUST validate the signature of the ID Token according to
-            <xref target="JWS">JWS</xref> using the algorithm specified in the 
-            <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
-            using the key in the <spanx style="verb">sub_jwk</spanx> Claim;
-	    the key is a bare key in JWK <xref target="JWK"/> format
-	    (not an X.509 certificate value).
-          </t>
-          <t>
-            The <spanx style="verb">alg</spanx> value SHOULD be the default of 
-            <spanx style="verb">RS256</spanx>.
-	    It MAY also be <spanx style="verb">ES256</spanx>.
-          </t>
-          <t>
-            The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
-	    value is the base64url encoded SHA-256 hash of 
-            the concatenation of the octets of the UTF-8 representations of
-	    the base64url encoded key values in the
-	    <spanx style="verb">sub_jwk</spanx> Claim.
-	    When the <spanx style="verb">kty</spanx> value is
-	    <spanx style="verb">RSA</spanx>, the key values
-	    <spanx style="verb">n</spanx> and 
-            <spanx style="verb">e</spanx> are concatenated in that order.
-	    When the <spanx style="verb">kty</spanx> value is
-	    <spanx style="verb">EC</spanx>, the key values
-	    <spanx style="verb">crv</spanx>,
-	    <spanx style="verb">x</spanx>, and 
-            <spanx style="verb">y</spanx> are concatenated in that order.
-          </t>
-          <t>
-            The current time MUST be less than the value of the 
-            <spanx style="verb">exp</spanx> Claim
-	    (possibly allowing for some small leeway to account for clock skew).
-          </t>
-          <t>
-            The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that 
-            were issued too far away from the current time, limiting the amount of
-            time that nonces need to be stored to prevent attacks. 
-            The acceptable range is Client specific.
-          </t>
-          <t>
-            If a nonce value was sent in the Authorization Request, 
-            a <spanx style="verb">nonce</spanx> Claim MUST be present 
-            and its value of the checked to verify that
-            it is the same value as the one that was sent in the Authorization Request.
-	    The Client SHOULD check the <spanx style="verb">nonce</spanx> value
-	    for replay attacks.
-            The precise method for detecting replay attacks is Client specific.
-          </t>
-
-        </list></t>
+	  </list>
+	</t>
         <figure>
 	  <preamble>The following is a non-normative example of a base64url decoded 
 	  Self-Issued ID Token
@@ -2684,6 +2727,9 @@
 	  <t>
 	    Fixed #878 - Generalized description of errors that can be returned
 	    when <spanx style="verb">id_token_hint"</spanx> is used.
+	  </t>
+	  <t>
+	    Provided more context in the introduction.
 	  </t>
 	</list>
       </t>
