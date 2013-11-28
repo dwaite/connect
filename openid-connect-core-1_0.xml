@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="19" month="November" year="2013" />
+    <date day="27" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -170,8 +170,9 @@
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
-	  and the terms "Claim Names" and "Claim Values" defined by
-	  <xref target="JWT">JSON Web Token (JWT)</xref>.
+	  the terms "Claim Name" and "Claim Value" defined by
+	  <xref target="JWT">JSON Web Token (JWT)</xref>,
+	  and the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>.
         </t>
         <t>
           This specification also defines the following terms:
@@ -183,7 +184,8 @@
             <t hangText="Authentication Request">
 	      OAuth 2.0 Authorization Request using extension parameters and scopes
 	      defined by OpenID Connect to request that the End-User be authenticated
-	      by the Authorization Server, which is an OpenID Connect Provider.
+	      by the Authorization Server, which is an OpenID Connect Provider,
+	      to the Client, which is an OpenID Connect Relying Party.
 	    </t>
 
             <t hangText="Authentication Context">
@@ -205,7 +207,9 @@
             </t>
 
             <t hangText="Authorization Code Flow">
-              OAuth 2.0 flow in which all tokens are returned from the Token Endpoint.
+              OAuth 2.0 flow in which
+	      an Authorization Code is returned from the Authorization Endpoint and
+	      all tokens are returned from the Token Endpoint.
             </t>
 
             <t hangText="Authorization Request">
@@ -244,12 +248,14 @@
             </t>
 
             <t hangText="Hybrid Flow">
-              OAuth 2.0 flow in which some tokens are returned from the Authorization Endpoint
+              OAuth 2.0 flow in which
+	      an Authorization Code is returned from the Authorization Endpoint,
+	      some tokens are returned from the Authorization Endpoint,
 	      and others are returned from the Token Endpoint.
             </t>
 
             <t hangText="ID Token">
-              <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
+              <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the Authentication event.
 	      It MAY contain other Claims.
             </t>
 
@@ -262,7 +268,8 @@
 	    </t>
 
             <t hangText="Implicit Flow">
-              OAuth 2.0 flow in which all tokens are returned from the Authorization Endpoint.
+              OAuth 2.0 flow in which all tokens are returned from the Authorization Endpoint
+	      and neither the Token Endpoint nor an Authorization Code are used.
             </t>
 
             <t hangText="Issuer">Entity that issues a set of Claims.</t>
@@ -279,10 +286,10 @@
             Relying Party and an OpenID Provider.</t>
 
             <t hangText="OpenID Provider (OP)">
-              OAuth 2.0 Authorization Server that is capable of 
+              OAuth 2.0 Authorization Server that is capable of
+	      Authenticating the End-User and
               providing Claims to a Relying Party
-              about the authentication event and the End-User
-              in an ID Token and/or a UserInfo Endpoint response. 
+              about the Authentication event and the End-User. 
             </t>
 
             <t hangText="Request Object">
@@ -308,7 +315,8 @@
 	    </t>
 
             <t hangText="Relying Party (RP)">
-              OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
+              OAuth 2.0 Client application requiring End-User Authentication
+	      and Claims from an OpenID Provider.
             </t>
 
 	    <t hangText="Response Mode">
@@ -333,7 +341,7 @@
 	    </t>
 
 	    <t hangText="Self-Issued OpenID Provider">
-	      Personal OpenID Provider that issues self-signed ID Tokens.
+	      Personal, self-hosted OpenID Provider that issues self-signed ID Tokens.
 	    </t>
 
 	    <t hangText="Subject Identifier">
@@ -343,7 +351,7 @@
 	    </t>
 
             <t hangText="UserInfo Endpoint">
-              Protected resource that, when presented with an Access Token by the Client,
+              Protected Resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
               Authorization Grant.
             </t>
@@ -393,13 +401,40 @@
 
 	    <t>The OP responds with an ID Token and usually an Access Token.</t>
 	    
-	    <t>The RP can send a request with the Access Token to the UserInfo Endpoint,
-	    per <xref target="UserInfo"/>.</t>
+	    <t>The RP can send a request with the Access Token to the UserInfo Endpoint.</t>
 
 	    <t>The UserInfo Endpoint returns Claims about the End-User.</t>
 
 	  </list>
 	</t>
+	
+	<figure>
+	  <preamble>
+	    These steps are illustrated in the following diagram:
+	  </preamble>
+
+	  <artwork><![CDATA[
++--------+                                   +--------+ 
+|        |                                   |        |
+|        |---------(1) AuthN Request-------->|        |
+|        |                                   |        |
+|        |  +--------+                       |        |
+|        |  |        |                       |        |
+|        |  |  End-  |<--(2) AuthN & AuthZ-->|        |
+|        |  |  User  |                       |        |
+|   RP   |  |        |                       |   OP   |
+|        |  +--------+                       |        |
+|        |                                   |        |
+|        |<--------(3) AuthN Response--------|        |
+|        |                                   |        |
+|        |---------(4) UserInfo Request----->|        |
+|        |                                   |        |
+|        |<--------(5) UserInfo Response-----|        |
+|        |                                   |        |
++--------+                                   +--------+
+]]></artwork>
+	</figure>
+
       </section>
     </section>
 
@@ -415,7 +450,7 @@
       <t>
 	The Authentication result is returned in an ID Token <xref target="IDToken"/>.
 	It has Claims expressing such information as the Issuer,
-	the Subject Identifier, when the authentication result expires, etc.
+	the Subject Identifier, when the authentication expires, etc.
       </t>
       <t>
 	Authentication can follow one of three paths:
@@ -517,7 +552,7 @@
 	NOTE:  While OAuth 2.0 also defines the
 	<spanx style="verb">token</spanx> Response Type value
 	for the Implicit Flow, OpenID Connect does not use this Response Type,
-	since no ID Token is returned.
+	since no ID Token would be returned.
       </t>
 
       <section anchor="CodeFlowAuth" title="Authentication using the Authorization Code Flow">
@@ -530,8 +565,8 @@
 	<t>The Authorization Code Flow returns an Authorization Code to the
 	Client, which can then exchange it for an ID Token and an Access Token directly.
 	This provides the benefit of not exposing any tokens to the 
-	User-Agent and possibly other malicious applications with access
-	to the User-Agent.
+	User Agent and possibly other malicious applications with access
+	to the User Agent.
 	The Authorization Server can also
 	authenticate the Client before exchanging the Authorization Code for an
 	Access Token. The Authorization Code flow is suitable for Clients that 
@@ -561,7 +596,7 @@
 	      <t>Client receives a response that contains an ID Token
 	      and Access Token in the response body.</t>
 
-	      <t>Client validates the tokens and retrieves the End-User's
+	      <t>Client validates the ID token and retrieves the End-User's
 	      Subject Identifier.</t>
 
 	    </list>
@@ -572,7 +607,7 @@
 	  <t>
 	    The Authorization Endpoint performs Authentication of the
 	    End-User.
-	    This is done by sending the User-Agent to
+	    This is done by sending the User Agent to
 	    the Authorization Server's Authorization Endpoint for Authentication and
 	    Authorization, using request parameters defined by OAuth 2.0 and
 	    additional parameters and parameter values defined by OpenID Connect.
@@ -648,6 +683,8 @@
 		  as defined in Section 2.1 of OAuth 2.0, and
 		  provided the OP allows the use of
 		  <spanx style="verb">http</spanx> Redirection URIs in this case.
+		  The Redirection URI MAY use an alternate scheme,
+		  such as one that is intended to identify a callback into a native application.
 		</t>
 
 		<t hangText="state">
@@ -707,16 +744,16 @@
 		  <list style="hanging">
 		    <t hangText="page">
 		      The Authorization Server SHOULD display the
-		      authentication and consent UI consistent with a full User-Agent page
+		      authentication and consent UI consistent with a full User Agent page
 		      view. If the display parameter is not specified, this is the
 		      default display mode.
 		    </t>
 
 		    <t hangText="popup">
 		      The Authorization Server SHOULD display the
-		      authentication and consent UI consistent with a popup User-Agent
+		      authentication and consent UI consistent with a popup User Agent
 		      window.
-		      The popup User-Agent window should be of an appropriate size
+		      The popup User Agent window should be of an appropriate size
 		      for a login-focused dialog and should not obscure
 		      the entire window that it is popping up over.
 		    </t>
@@ -724,8 +761,7 @@
 		    <t hangText="touch">
 		      The Authorization Server SHOULD display the
 		      authentication and consent UI consistent with a device that
-		      leverages a touch interface. The Authorization Server MAY attempt
-		      to detect the touch device and further customize the interface.
+		      leverages a touch interface.
 		    </t>
 
 		    <t hangText="wap">
@@ -734,6 +770,9 @@
 		      type display.
 		    </t>
 		  </list>
+
+		  The Authorization Server MAY also attempt to detect the capabilities
+		  of the User Agent and present an appropriate display.
 		</t>
 
 		<t hangText="prompt">
@@ -751,7 +790,7 @@
 		    if an End-User
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
-		    Claims or does not fulfill other conditions for processing.
+		    Claims or does not fulfill other conditions for processing the request.
 		    The error code will typically be
 		    <spanx style="verb">login_required</spanx>,
 		    <spanx style="verb">interaction_required</spanx>,
@@ -763,12 +802,15 @@
 		    <t hangText="login">
 		      The Authorization Server SHOULD prompt the
 		      End-User for reauthentication.
-		      If it cannot reauthenticate the End-User, it MUST return an error.
+		      If it cannot reauthenticate the End-User, it MUST return an error,
+		      typically <spanx style="verb">login_required</spanx>.
 		    </t>
 
 		    <t hangText="consent">
 		      The Authorization Server SHOULD prompt the End-User for consent
 		      before returning information to the Client.
+		      If it cannot obtain consent, it MUST return an error,
+		      typically <spanx style="verb">consent_required</spanx>.
 		    </t>
 
 		    <t hangText="select_account">
@@ -778,7 +820,8 @@
 		      to select amongst the multiple accounts that they might have 
 		      current sessions for.
 		      If it cannot obtain an account selection choice made by the End-User,
-		      it MUST return an error.
+		      it MUST return an error,
+		      typically <spanx style="verb">account_selection_required</spanx>.
 		    </t>
 		  </list>
 
@@ -795,7 +838,7 @@
 		  Maximum Authentication Age.
 		  Specifies the allowable elapsed time in seconds
 		  since the last time the End-User was actively
-		  authenticated. If the elapsed time is greater than
+		  authenticated by the OP. If the elapsed time is greater than
 		  this value, the OP MUST attempt to actively
 		  re-authenticate the End-User.
 		  (The <spanx style="verb">max_age</spanx> request parameter corresponds to
@@ -890,7 +933,29 @@
 
 	    <figure>
 	      <preamble>
-		The following is a non-normative example request using this flow
+		The following is a non-normative example
+		302 redirect response by the Client, which triggers
+		the User Agent to make an Authentication Request
+		to the Authorization Endpoint
+		(with line wraps within values for display purposes only):
+	      </preamble>
+
+	      <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://server.example.com/authorize?
+    response_type=code
+    &scope=openid%20profile%20email
+    &client_id=s6BhdRkqt3
+    &state=af0ifjsldkj
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+]]></artwork>
+	    </figure>
+
+	    <figure>
+	      <preamble>
+		The following is the non-normative example request
+		that would be sent by the User Agent to the Authorization Server
+		in response to the 302 redirect response by the Client above
 		(with line wraps within values for display purposes only):
 	      </preamble>
 
@@ -933,7 +998,8 @@
 		<t>
 		  If the <spanx style="verb">sub</spanx> (subject) Claim
 		  is requested with a specific value for the ID Token, 
-		  the Authorization Server MUST only send a positive response if that user 
+		  the Authorization Server MUST only send a positive response
+		  if the End-User identified by that <spanx style="verb">sub</spanx> value
 		  has an active session with the Authorization Server.
 		  The Authorization Server MUST NOT reply with an ID Token or
 		  Access Token for a different user, 
@@ -954,7 +1020,7 @@
 	    </t>
 	    <t>
 	      If the Authorization Server encounters any error, 
-	      it MUST return an error response.
+	      it MUST return an error response, per <xref target="AuthError"/>.
 	    </t>
 	  </section>
 
@@ -1013,7 +1079,7 @@
 	      When permitted by the request parameters used,
 	      this MAY be done through an interactive dialogue with the End-User
 	      that makes it clear what is being consented to
-	      or by establishing consent via conditions for processing or
+	      or by establishing consent via conditions for processing the request or
 	      other means (for example, via previous administrative consent).
 	      Sections <xref target="IDToken" format="counter"/> and
 	      <xref target="Claims" format="counter"/> describe
@@ -1030,11 +1096,10 @@
 	      OP's Authorization Endpoint in response to the Authorization Request
 	      message sent by the RP.
 	    </t>
-
 	    <t>
 	      When using the Authorization Code Flow, the Authorization Response
 	      MUST return the parameters defined in Section 4.1.2 of
-	      <xref target="RFC6749">OAuth 2.0</xref>,
+	      <xref target="RFC6749">OAuth 2.0</xref>
 	      by adding them as query parameters to the
 	      <spanx style="verb">redirect_uri</spanx> specified in the Authorization Request
 	      using the "application/x-www-form-urlencoded" format,
@@ -1076,7 +1141,7 @@
 	      fails, the OP (Authorization Server) informs the RP (Client)
 	      by using the Error Response parameters defined in
 	      Section 4.1.2.1 of <xref target="RFC6749">OAuth 2.0</xref>.
-	      (HTTP errors unrelated to RFC 6749 are returned using the
+	      (HTTP errors unrelated to RFC 6749 are returned to the User Agent using the
 	      appropriate HTTP status code.)
 	    </t>
 	    <t>
@@ -1097,35 +1162,35 @@
 		<t hangText="interaction_required">The Authorization Server
 		requires End-User interaction of some form to proceed.
 		This error MAY be returned when the 
-		<spanx style="verb">prompt</spanx> parameter in the
-		Authentication Request is set to <spanx style="verb">none</spanx>,
+		<spanx style="verb">prompt</spanx> parameter value in the
+		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User interaction.
 		</t>
 
 		<t hangText="login_required">The Authorization Server requires
 		End-User authentication. This error MAY be returned when the 
-		<spanx style="verb">prompt</spanx> parameter in the
-		Authentication Request is set to <spanx style="verb">none</spanx>,
+		<spanx style="verb">prompt</spanx> parameter value in the
+		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User authentication.
 		</t>
 
-		<t hangText="session_selection_required">The End-User is REQUIRED
+		<t hangText="account_selection_required">The End-User is REQUIRED
 		to select a session at the Authorization Server. The End-User MAY
 		be authenticated at the Authorization Server with different
 		associated accounts, but the End-User did not select a session.
 		This error MAY be returned 
-		when the <spanx style="verb">prompt</spanx> parameter in the
-		Authentication Request is set to <spanx style="verb">none</spanx>,
+		when the <spanx style="verb">prompt</spanx> parameter value in the
+		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface to prompt for a session to use.
 		</t>
 
 		<t hangText="consent_required">The Authorization Server
 		requires End-User consent. This error MAY be returned when the 
-		<spanx style="verb">prompt</spanx> parameter in the
-		Authentication Request is set to <spanx style="verb">none</spanx>,
+		<spanx style="verb">prompt</spanx> parameter value in the
+		Authentication Request is <spanx style="verb">none</spanx>,
 		but the Authentication Request cannot be completed
 		without displaying a user interface for End-User consent.
 		</t>
@@ -1277,8 +1342,8 @@
 	    <t>
 	      <list style='symbols'>
 		<t>
-		  Authenticate any Clients that were issued Client Credentials
-		  or for which other Client Authentication methods were used,
+		  Authenticate the Client if it was issued Client Credentials
+		  or if it uses another Client Authentication method,
 		  per <xref target="ClientAuthentication"/>.
 		</t>
 		<t>
@@ -1287,6 +1352,10 @@
 		</t>
 		<t>
 		  Verify that the Authorization Code is valid.
+		</t>
+		<t>
+		  If possible,
+		  verify that the Authorization Code has not been previously used.
 		</t>
 		<t>
 		  Ensure that the
@@ -1312,15 +1381,18 @@
 	  </section>
 
 	  <section anchor="TokenResponse" title="Successful Token Response">
-	    <t>After receiving and validating a valid and authorized Token Request
-	    from the Client, the Authorization Server returns a successful
-	    response that includes an ID Token and an Access Token.  The
-	    parameters in the successful response are defined in Section 4.1.4
-	    of <xref target="RFC6749">OAuth 2.0</xref>.</t>
-
 	    <t>
-	      The OAuth 2.0 response parameter <spanx style="verb">token_type</spanx>
-	      MUST be set to <spanx style="verb">Bearer</spanx>,
+	      After receiving and validating a valid and authorized Token Request
+	      from the Client, the Authorization Server returns a successful
+	      response that includes an ID Token and an Access Token.  The
+	      parameters in the successful response are defined in Section 4.1.4
+	      of <xref target="RFC6749">OAuth 2.0</xref>.
+	      The response uses the <spanx style="verb">application/json</spanx>
+	      media type.
+	    </t>
+	    <t>
+	      The OAuth 2.0 <spanx style="verb">token_type</spanx> response parameter
+	      value MUST be <spanx style="verb">Bearer</spanx>,
 	      as specified in <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
 	      unless another Token Type has been negotiated with the Client.
 	      Servers SHOULD support the <spanx style="verb">Bearer</spanx> Token Type;
@@ -1336,12 +1408,8 @@
 		authenticated session.</t>
 	      </list>
 	    </t>
-
-	    <t>The response uses the <spanx style="verb">application/json</spanx>
-	    media type.</t>
-
 	    <t>
-	      All Token Endpoint responses that contain tokens, secrets, or other
+	      All Token Responses that contain tokens, secrets, or other
 	      sensitive information MUST include the following HTTP response header
 	      fields and values:
 	    </t>
@@ -1496,24 +1564,22 @@
                 expiration date/time listed in the value. Implementers MAY
                 provide for some small leeway, usually no more than a few
                 minutes, to account for clock skew.
-		The time is represented as the number of seconds from
+		Its value is a JSON number representing the number of seconds from
 		1970-01-01T0:0:0Z as measured in UTC until the date/time.
 		See <xref target="RFC3339">RFC 3339</xref>
                 for details regarding date/times in general and UTC in
                 particular.
-		The <spanx style="verb">exp</spanx> value is a number.
 		</t>
                 
                 <t hangText="iat">REQUIRED.
 		Time at which the JWT was issued.
-                The time is represented as the number of seconds from
+                Its value is a JSON number representing the number of seconds from
 		1970-01-01T0:0:0Z as measured in UTC until the date/time.
-		The <spanx style="verb">iat</spanx> value is a number.
 		</t>
 
                 <t hangText="auth_time">
                   Time when the End-User authentication occurred.
-		  The time is represented as the number of seconds from
+		  Its value is a JSON number representing the number of seconds from
 		  1970-01-01T0:0:0Z as measured in UTC until the date/time.
                   When a <spanx style="verb">max_age</spanx> request is made
                   or when <spanx style="verb">auth_time</spanx> is requested
@@ -1522,7 +1588,6 @@
                   (The <spanx style="verb">auth_time</spanx> Claim semantically
                   corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
                   <spanx style="verb">auth_time</spanx> response parameter.)
-		  The <spanx style="verb">auth_time</spanx> value is a number.
                 </t>
 
                 <t hangText="nonce">
@@ -1748,9 +1813,10 @@
 		if an <spanx style="verb">azp</spanx> value is present
 		that is different than the <spanx style="verb">aud</spanx> value.
 		</t> 
-
-		<t>The current time MUST be less than the value of the 
-		<spanx style="verb">exp</spanx> Claim.</t>
+		<t>
+		  The current time MUST be before the time represented by the 
+		  <spanx style="verb">exp</spanx> Claim.
+		</t>
 
 		<t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that 
 		were issued too far away from the current time, limiting the amount of
@@ -1811,7 +1877,7 @@
 	<t>The Implicit Flow is mainly used by Clients implemented in a browser
 	using a scripting language. The Access Token and ID Token are returned
 	directly to the Client, which may expose them to the End-User and
-	applications that have access to the End-User's User-Agent.
+	applications that have access to the End-User's User Agent.
 	The Authorization Server does not perform Client Authentication.
 	</t>
 
@@ -1832,7 +1898,7 @@
 	      <t>Authorization Server sends the End-User back to the Client with
 	      an ID Token and, if requested, an Access Token.</t>
 
-	      <t>Client validates the tokens and retrieves the End-User's
+	      <t>Client validates the ID token and retrieves the End-User's
 	      Subject Identifier.</t>
 
 	    </list>
@@ -1873,7 +1939,7 @@
 		  NOTE:  While OAuth 2.0 also defines the
 		  <spanx style="verb">token</spanx> Response Type value
 		  for the Implicit Flow, OpenID Connect does not use this Response Type,
-		  since no ID Token is returned.
+		  since no ID Token would be returned.
 		</t>
 
 		<t hangText="redirect_uri">
@@ -1906,6 +1972,8 @@
 	    <figure>
 	      <preamble>
 		The following is a non-normative example request using the Implicit Flow
+		that would be sent by the User Agent to the Authorization Server
+		in response to a corresponding 302 redirect response by the Client
 		(with line wraps within values for display purposes only):
 	      </preamble>
 
@@ -2052,15 +2120,16 @@
 	  <section anchor="ImplicitCallback" title="Redirect URI Fragment Handling">
 	    <t>
 	      When response parameters are returned in the Redirection URI fragment value,
-	      the Client needs to provide a way for the User-Agent to parse the fragment encoded
-	      response and consume the values.
-	      One way to do this is to post it to the Web Server Client for validation.
+	      the Client needs to have the User Agent parse the fragment encoded values
+	      and pass them to on to the Client's processing logic for consumption.
+	      One way to achieve this, if the Client does not run entirely in
+	      the User Agent, is to post them to a Web Server Client for validation.
 	    </t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
 	    <spanx style="verb">redirect_uri</spanx>.  This is loaded by the redirect from
 	    the Authorization Server.  The fragment component is parsed and then sent by <spanx style="verb">POST</spanx> to a URI 
-	    that will validate the information received.</t>
+	    that will validate and use the information received.</t>
 
 	    <figure>
 	      <preamble>Following is a non-normative example of a
@@ -2145,7 +2214,11 @@
 		the <spanx style="verb">access_token</spanx> 
 		with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
 		<spanx style="verb">alg</spanx> header parameter
-		in the ID Token's <xref target="JWS">JWS</xref> header.</t>
+		in the ID Token's <xref target="JWS">JWS</xref> header.
+		For instance, if the <spanx style="verb">alg</spanx> is
+		<spanx style="verb">RS256</spanx>,
+		the hash algorithm used is SHA-256.
+		</t>
 
 		<t>Take the left-most half of the hash and base64url encode it.</t>
 		<t>
@@ -2279,7 +2352,7 @@
 	      <t>Client receives a response that contains an ID Token
 	      and Access Token in the response body.</t>
 
-	      <t>Client validates the tokens and retrieves the End-User's
+	      <t>Client validates the ID Token and retrieves the End-User's
 	      Subject Identifier.</t>
 
 	    </list>
@@ -2325,6 +2398,8 @@
 	    <figure>
 	      <preamble>
 		The following is a non-normative example request using the Hybrid Flow
+		that would be sent by the User Agent to the Authorization Server
+		in response to a corresponding 302 redirect response by the Client
 		(with line wraps within values for display purposes only):
 	      </preamble>
 
@@ -2511,7 +2586,11 @@
 		the <spanx style="verb">code</spanx> 
 		with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
 		<spanx style="verb">alg</spanx> header parameter
-		in the ID Token's <xref target="JWS">JWS</xref> header.</t>
+		in the ID Token's <xref target="JWS">JWS</xref> header.
+		For instance, if the <spanx style="verb">alg</spanx> is
+		<spanx style="verb">RS256</spanx>,
+		the hash algorithm used is SHA-256.
+		</t>
 
 		<t>Take the left-most half of the hash and base64url encode it.</t>
 
@@ -2687,15 +2766,15 @@
 	      <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 	      the <spanx style="verb">iss</spanx> and <spanx style="verb">sub</spanx>
 	      Claim values MUST be identical in both ID Tokens.
-	      All Claims about the authentication event present in either
+	      All Claims about the Authentication event present in either
 	      SHOULD be present in both.
 	      If either ID Token contains Claims about the End-User,
 	      any that are present in both SHOULD have the same values in both.
 	      Note that the OP MAY choose to return fewer Claims about the End-User
 	      from the Authorization Endpoint, for instance, for privacy reasons.
-	      It is acceptable for <spanx style="verb">at_hash</spanx>
+	      The <spanx style="verb">at_hash</spanx>
 	      and <spanx style="verb">c_hash</spanx> Claims
-	      to be omitted from the ID Token returned from the Token Endpoint
+	      MAY be omitted from the ID Token returned from the Token Endpoint
 	      even when these Claims are
 	      present in the ID Token returned from the Authorization Endpoint.
 	    </t>
@@ -2798,12 +2877,12 @@
     <section anchor="Claims" title="Claims">
       <t>
 	This section specifies how the Client can obtain Claims about the End-User
-	and the authentication that was performed
-	and defines a standard set of basic profile Claims.
-	Pre-defined sets of claims can be requested using specific scope values
-	or individual claims can be requested using the
+	and the Authentication event.
+	It also defines a standard set of basic profile Claims.
+	Pre-defined sets of Claims can be requested using specific scope values
+	or individual Claims can be requested using the
 	<spanx style="verb">claims</spanx> request parameter.
-	The claims can come directly from the OpenID Provider
+	The Claims can come directly from the OpenID Provider
 	or from distributed sources as well.
       </t>
 
@@ -2980,9 +3059,10 @@
 	  <spanx style="verb">janedoe</spanx> or <spanx style="verb">j.doe</spanx>. 
 	  This value MAY be any valid JSON string including 
 	  special characters such as <spanx style="verb">@</spanx>, 
-	  <spanx style="verb">/</spanx>, or whitespace. This value MUST NOT
-	  be relied upon to be unique by the RP. 
-	  (See <xref target="ClaimStability"></xref>.)</c>
+	  <spanx style="verb">/</spanx>, or whitespace.
+	  The RP MUST NOT rely upon this value being unique,
+	  as discussed in <xref target="ClaimStability"></xref>.
+	  </c>
 
 	  <c>profile</c>
 	  <c>string</c>
@@ -3018,7 +3098,7 @@
 	    End-User's preferred e-mail address.
 	    Its value MUST conform to the <xref target="RFC5322">RFC 5322</xref>
 	    addr-spec syntax.
-	    This value MUST NOT be relied upon to be unique by the RP,
+	    The RP MUST NOT rely upon this value being unique,
 	    as discussed in <xref target="ClaimStability"></xref>.
 	  </c>
 
@@ -3070,7 +3150,7 @@
 	  <spanx style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>.
 	  As a compatibility note, some implementations have used an underscore
 	  as the separator rather than a dash, for example,
-	  <spanx style="verb">en_US</spanx>; Implementations MAY choose to
+	  <spanx style="verb">en_US</spanx>; Relying Parties MAY choose to
 	  accept this locale syntax as well.</c>
 
 	  <c>phone_number</c>
@@ -3115,55 +3195,10 @@
 	  <c>number</c>
 	  <c>
 	    Time the End-User's information was last updated.
-	    The time is represented as the number of seconds from
+	    Its value is a JSON number representing the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	  </c>
 	</texttable>
-
-	<t>For privacy reasons, OpenID Providers MAY elect to not return
-	values for some requested Claims.</t>
-
-	<t>The <spanx style="verb">sub</spanx> (subject) Claim in the UserInfo Endpoint response MUST exactly match the 
-	<spanx style="verb">sub</spanx> Claim in the ID Token, before using additional UserInfo Endpoint Claims.</t>
-
-	<t>The UserInfo Endpoint MUST return Claims in JSON format unless a
-	different format was specified during Registration
-	<xref target="OpenID.Registration"/>.
-	The UserInfo Endpoint MAY return Claims in
-	JWT format, which can be signed and/or encrypted.
-	The UserInfo Endpoint MUST return a content-type header to indicate
-	which format is being returned. The following are accepted content
-	types:</t>
-
-	<texttable style="all">
-	  <ttcol>Content-Type</ttcol>
-
-	  <ttcol>Format Returned</ttcol>
-
-	  <c>application/json</c>
-
-	  <c>plain text JSON object</c>
-
-	  <c>application/jwt</c>
-
-	  <c>JSON Web Token (JWT)</c>
-	</texttable>
-
-	<figure>
-	  <preamble>The following is a non-normative example
-	  of a UserInfo Response body:</preamble>
-	  <artwork><![CDATA[
-  {
-   "sub": "248289761001",
-   "name": "Jane Doe",
-   "given_name": "Jane",
-   "family_name": "Doe",
-   "preferred_username": "j.doe",
-   "email": "janedoe@example.com",
-   "picture": "http://example.com/janedoe/me.jpg"
-  }
-]]></artwork>
-	</figure>
 
 	<section anchor="AddressClaim" title="Address Claim">
 	  <t>
@@ -3192,7 +3227,10 @@
 	      <t hangText="formatted">
 		Full mailing address, 
 		formatted for display or use on a mailing label. 
-		This field MAY contain multiple lines, separated by newline characters.
+		This field MAY contain multiple lines, separated by newlines.
+		Newlines can be represented either as
+		a carriage return/line feed pair ("\r\n") or as
+		a single line feed character ("\n").
 	      </t>
 
 	      <t hangText="street_address">
@@ -3200,7 +3238,10 @@
 		which MAY include house number, street name, 
 		Post Office Box, and multi-line extended street 
 		address information.
-		This field MAY contain multiple lines, separated by newline characters.
+		This field MAY contain multiple lines, separated by newlines.
+		Newlines can be represented either as
+		a carriage return/line feed pair ("\r\n") or as
+		a single line feed character ("\n").
 	      </t>
 
 	      <t hangText="locality">City or locality component.</t>
@@ -3281,7 +3322,8 @@
 
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) and
-	    <spanx style="verb">iss</spanx> (issuer) Claims are the only Claims that a Client
+	    <spanx style="verb">iss</spanx> (issuer) Claims, used together,
+	    are the only Claims that a Client
 	    can rely upon as a stable identifier for the End-User,
 	    since the <spanx style="verb">sub</spanx>
 	    Claim MUST be locally unique and never reassigned within the Issuer
@@ -3341,9 +3383,12 @@
 	  See <xref target="TLSRequirements"/> for more information on using TLS.
 	</t>
 
-	<t>The UserInfo Endpoint MUST support the use of the HTTP <spanx style="verb">GET</spanx> and HTTP
-	<spanx style="verb">POST</spanx> methods defined in <xref target="RFC2616">RFC 2616</xref> at the
-	UserInfo Endpoint. </t>
+	<t>
+	  The UserInfo Endpoint MUST support the use of the
+	  HTTP <spanx style="verb">GET</spanx> and
+	  HTTP <spanx style="verb">POST</spanx> methods
+	  defined in <xref target="RFC2616">RFC 2616</xref>.
+	</t>
 
 	<t>The UserInfo Endpoint MUST accept Access Tokens as
 	<xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.</t>
@@ -3356,16 +3401,17 @@
 
 	  <t>
 	    The Client sends the UserInfo Request using either
-	    HTTPS <spanx style="verb">GET</spanx> or HTTPS <spanx style="verb">POST</spanx>.
-	    It is RECOMMENDED that the Client use the
-	    <spanx style="verb">Authorization</spanx> header field
-	    method for all requests and that they use the <spanx style="verb">GET</spanx> method.
+	    HTTP <spanx style="verb">GET</spanx> or HTTP <spanx style="verb">POST</spanx>.
+	    The Access Token obtained
+	    from an OpenID Connect Authentication Request MUST be sent as a Bearer Token,
+	    per Section 2 of <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
 	  </t>
-
-	  <t>The Access Token obtained
-	  from an OpenID Connect Authentication Request MUST be sent as a Bearer Token.
-	  Section 2 of the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>
-	  specification documents the permissible methods of sending the Access Token.</t> 
+	  <t>
+	    It is RECOMMENDED that the request use the 
+	    HTTP <spanx style="verb">GET</spanx> method and the
+	    the Access Token be sent using the
+	    <spanx style="verb">Authorization</spanx> header field.
+	  </t>
 
 	  <figure>
 	    <preamble>
@@ -3388,6 +3434,10 @@
 	    as can additional Claims not specified there.
 	  </t>
 	  <t>
+	    For privacy reasons, OpenID Providers MAY elect to not return
+	    values for some requested Claims.
+	  </t>
+	  <t>
 	    If a Claim is not returned, that Claim Name SHOULD be
 	    omitted from the JSON object representing the Claims; it
 	    SHOULD NOT be present with a null or empty string value.
@@ -3397,13 +3447,15 @@
 	    MUST always be returned in the UserInfo Response.
 	  </t>
 	  <t>
-	    NOTE: The UserInfo Endpoint response is not guaranteed to be about the
+	    NOTE:  Due to the possibility of token substitution attacks
+	    (see <xref target="TokenSubstitution"/>),
+	    the UserInfo Response is not guaranteed to be about the
 	    End-User identified by the <spanx style="verb">sub</spanx> (subject)
 	    element of the ID Token.
-	    The <spanx style="verb">sub</spanx> Claim in the UserInfo Endpoint response
+	    The <spanx style="verb">sub</spanx> Claim in the UserInfo Response
 	    MUST be verified to exactly match the
-	    <spanx style="verb">sub</spanx> Claim in the ID Token
-	    before using additional UserInfo Endpoint Claims.
+	    <spanx style="verb">sub</spanx> Claim in the ID Token;
+	    if they do not match, the UserInfo Response values MUST NOT be used.
 	  </t>
 	  <t>
 	    Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
@@ -3412,13 +3464,23 @@
 	    body unless a
 	    different format was specified during Registration
 	    <xref target="OpenID.Registration"/>.
-	    The content-type of the HTTP response MUST be set to <spanx
+	    The UserInfo Endpoint MUST return a content-type header to indicate
+	    which format is being returned.
+	    The content-type of the HTTP response MUST be <spanx
 	    style="verb">application/json</spanx> if the response body is a text
-	    JSON structure;
+	    JSON object;
 	    the response body SHOULD be encoded using UTF-8.
 	    If the JSON response is
 	    signed or encrypted, then the
-	    content-type MUST be set to <spanx style="verb">application/jwt</spanx>.
+	    content-type MUST be <spanx style="verb">application/jwt</spanx>.
+	  </t>
+	  <t>
+	    If signed, the UserInfo Response
+	    SHOULD contain the Claims
+	    <spanx style="verb">iss</spanx> (issuer)
+	    and <spanx style="verb">aud</spanx> (audience) as members.
+	    The <spanx style="verb">iss</spanx> value SHOULD be the OP's Issuer Identifier URL.
+	    The <spanx style="verb">aud</spanx> value SHOULD be or include the RP's Client ID value.
 	  </t>
 
 	  <figure>
@@ -3434,6 +3496,7 @@
    "name": "Jane Doe",
    "given_name": "Jane",
    "family_name": "Doe",
+   "preferred_username": "j.doe",
    "email": "janedoe@example.com",
    "picture": "http://example.com/janedoe/me.jpg"
   }
@@ -3447,7 +3510,7 @@
 	    When an error condition occurs, the UserInfo Endpoint returns
 	    an Error Response as defined in Section 3 of
 	    <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>.
-	    (HTTP errors unrelated to RFC 6750 are returned using the
+	    (HTTP errors unrelated to RFC 6750 are returned to the User Agent using the
 	    appropriate HTTP status code.)
 	  </t>
 
@@ -3569,8 +3632,8 @@
 	    <t>
 	      When the <spanx style="verb">userinfo</spanx> member is used,
 	      the request MUST also use a <spanx style="verb">response_type</spanx>
-	      value that results in an Access Token being issued
-	      to use at the UserInfo Endpoint.
+	      value that results in an Access Token being issued to the Client
+	      for use at the UserInfo Endpoint.
 	    </t>
 
 	    <t hangText="id_token">
@@ -3579,7 +3642,8 @@
 	      in the ID Token.
 	      If present, the listed Claims are being requested to be added to
 	      the default Claims in the ID Token.
-	      If not present, the default ID Token Claims are requested.
+	      If not present, the default ID Token Claims are requested,
+	      as defined in <xref target="IDToken"/>. <!-- TBD and the per-flow ID Token sections -->
 	    </t>
 
 	  </list>
@@ -4170,7 +4234,7 @@
 	  When the <spanx style="verb">request</spanx> parameter is used,
 	  the OpenID Connect request parameter values contained in the JWT
 	  supersede those passed using the OAuth 2.0 request syntax.
-	  However, some parameters MAY be passed using the OAuth 2.0 request syntax
+	  However, parameters MAY also be passed using the OAuth 2.0 request syntax
 	  even when a Request Object is used;
 	  this would typically be done to enable a cached,
 	  pre-signed (and possibly pre-encrypted) Request Object value
@@ -4193,9 +4257,11 @@
 	  in the JWS header.  If signed, the Request Object
 	  SHOULD contain the Claims
 	  <spanx style="verb">iss</spanx> (issuer)
-	  and <spanx style="verb">aud</spanx> (audience) as members,
-	  with their semantics being as defined in the
-	  <xref target="JWT">JWT</xref> specification.
+	  and <spanx style="verb">aud</spanx> (audience) as members.
+	  The <spanx style="verb">iss</spanx> value SHOULD be the Client ID of the RP,
+	  unless it was signed by a different party than the RP.
+	  The <spanx style="verb">aud</spanx> value SHOULD be or include
+	  the OP's Issuer Identifier URL.
 	</t>
 	<t>
 	  The Request Object MAY also be encrypted using <xref target="JWE">JWE</xref>,
@@ -4217,6 +4283,8 @@
 
 	    <artwork><![CDATA[
   {
+   "iss": "s6BhdRkqt3",
+   "aud": "https://server.example.com",
    "response_type": "code id_token",
    "client_id": "s6BhdRkqt3",
    "redirect_uri": "https://client.example.org/cb",
@@ -4269,7 +4337,7 @@
   q9JBCEzzaLRzjevYEPMaoLAOjb8LPuYOYTBqshRMUxy4Z380-FJ2Lc7VSfSu6HcB2nL
   SjiKrrfI35xkRJsaSSmjasMYeDZarYCl7r4o17rFclk5KacYMYgAs-JYFkwab6Dd56Z
   rAzakHt9cExMpg04lQIux56C-Qk6dAsB6W6W91AQ    
-]]></artwork>
+]]></artwork> <!-- TBD Update this value -->
 	  </figure>
 	  <figure>
 	    <preamble>
@@ -4359,7 +4427,7 @@
 	  When the <spanx style="verb">request_uri</spanx> parameter is used,
 	  the OpenID Connect request parameter values contained in the referenced JWT
 	  supersede those passed using the OAuth 2.0 request syntax.
-	  However, some parameters MAY be passed using the OAuth 2.0 request syntax
+	  However, parameters MAY also be passed using the OAuth 2.0 request syntax
 	  even when a <spanx style="verb">request_uri</spanx> is used;
 	  this would typically be done to enable a cached,
 	  pre-signed (and possibly pre-encrypted) Request Object value
@@ -4442,7 +4510,7 @@
 	  <t>
 	    The Client stores the Request Object resource either
 	    locally or remotely at a URL the Server can access.
-	    This is the Request URI, <spanx style="verb">request_uri</spanx>.
+	    This URL is the Request URI, <spanx style="verb">request_uri</spanx>.
 	  </t>
 	  <t>
 	    If the Request Object includes requested values for Claims,
@@ -4491,8 +4559,8 @@
 
 	<section anchor="GetRequestUri" title="Authorization Server Fetches Request Object">
 	  <t>Upon receipt of the Request, the Authorization Server MUST
-	  send a <spanx style="verb">GET</spanx> request to the <spanx style="verb">request_uri</spanx>
-	  to retrieve the content unless it is already cached and parse it
+	  send an HTTP <spanx style="verb">GET</spanx> request to the <spanx style="verb">request_uri</spanx>
+	  to retrieve the referenced Request Object, unless it is already cached, and parse it
 	  to recreate the Authorization Request parameters.</t>
 
 	  <t>Note that the RP SHOULD use a unique URI for each
@@ -4637,7 +4705,7 @@
 
       <t>
 	OpenID Connect supports Self-Issued OpenID Providers -
-	personal OPs that issue self-signed ID Tokens.
+	personal, self-hosted OPs that issue self-signed ID Tokens.
 	Self-Issued OPs use the special Issuer Identifier
 	<spanx style="verb">https://self-issued.me</spanx>.
       </t>
@@ -4748,10 +4816,10 @@
 	  </t>
 	  <t>
 	    The <spanx style="verb">registration</spanx> parameter value is represented
-	    in an OAuth 2.0 request as UTF-8 encoded JSON
+	    in an OAuth 2.0 request as a UTF-8 encoded JSON object
 	    (which ends up being form-urlencoded when passed as an OAuth parameter).
 	    When used in a Request Object value, per <xref target="RequestObject"/>,
-	    the JSON is used as the value of the
+	    the JSON object is used as the value of the
 	    <spanx style="verb">registration</spanx> member.
 	  </t>
 	  <t>
@@ -4839,7 +4907,9 @@
 	<figure>
 	  <preamble>
 	    The following is a non-normative example
-	    response
+	    302 redirect response by the Client, which triggers
+	    the User Agent to make an Authentication Request
+	    to the Self-Issued OpenID Provider
 	    (with line wraps within values for display purposes only):
 	  </preamble>
 	  <artwork><![CDATA[
@@ -4850,7 +4920,7 @@
     &scope=openid%20profile
     &state=af0ifjsldkj
     &nonce=n-0S6_WzA2Mj
-    registration=&%7B%22logo_uri%22%3A%22https%3A%2F%2F
+    &registration=%7B%22logo_uri%22%3A%22https%3A%2F%2F
       client.example.org%2Flogo.png%22%7D
 ]]></artwork>
 	</figure> 
@@ -4968,7 +5038,7 @@
 	      <spanx style="verb">y</spanx> are concatenated in that order.
 	    </t>
 	    <t>
-	      The current time MUST be less than the value of the 
+	      The current time MUST be before the time represented by the 
 	      <spanx style="verb">exp</spanx> Claim
 	      (possibly allowing for some small leeway to account for clock skew).
 	    </t>
@@ -5020,25 +5090,32 @@
     </section>
 
     <section anchor="SubjectIDTypes" title="Subject Identifier Types">
-      <t>The OpenID Provider's Discovery document SHOULD list
-      its supported identifier types in the 
-      <spanx style="verb">subject_types_supported</spanx> element.
-      If there is more than one type listed in the array, the Client MAY elect to
-      provide its preferred identifier type using the
-      <spanx style="verb">subject_type</spanx> parameter during Registration.
-      The types supported by this specification are:</t>
-
       <t>
+	A Subject Identifier is a locally unique and never
+	reassigned identifier within the Issuer for the End-User, 
+	which is intended to be consumed by the Client.
+	Two Subject Identifier types are defined by this specification:
+
 	<list style="hanging">
 	  <t hangText="public">
-	    This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients. It is the default if
-	  the provider has no <spanx style="verb">subject_types_supported</spanx> element in its discovery document.</t>
+	    This provides the same <spanx style="verb">sub</spanx> (subject) value to all Clients.
+	    It is the default if the provider has no <spanx style="verb">subject_types_supported</spanx>
+	    element in its discovery document.
+	  </t>
 	  <t hangText="pairwise">
 	    This provides a different <spanx style="verb">sub</spanx>
 	    value to each Client, so as not to enable Clients to correlate
 	    the End-User's activities without permission.
 	  </t>
 	</list>
+      </t>
+      <t>
+	The OpenID Provider's Discovery document SHOULD list
+	its supported Subject Identifier types in the
+	<spanx style="verb">subject_types_supported</spanx> element.
+	If there is more than one type listed in the array, the Client MAY elect to
+	provide its preferred identifier type using the
+	<spanx style="verb">subject_type</spanx> parameter during Registration.
       </t>
 
       <section anchor="PairwiseAlg" title="Pairwise Identifier Algorithm">
@@ -5047,7 +5124,7 @@
 	  When pairwise Subject Identifiers are used,
 	  the OpenID Provider MUST calculate a unique
 	  <spanx style="verb">sub</spanx> (subject) value for each
-	  Sector Identifier.  The subject value MUST NOT be reversible
+	  Sector Identifier.  The Subject Identifier value MUST NOT be reversible
 	  by any party other than the OpenID Provider.
 	</t>
 
@@ -5082,12 +5159,29 @@
 	a JSON file containing an array of
 	<spanx style="verb">redirect_uri</spanx> values.
 	The values of the registered <spanx style="verb">redirect_uris</spanx>
-	MUST be included in the elements of the array,
-	or the registration MUST fail.</t>
+	MUST be included in the elements of the array.
+	</t>
 
 	<t>
-	  A number of algorithms can be used by OpenID Providers to
-	  calculate pairwise identifiers.
+	  Any algorithm with the following properties
+	  can be used by OpenID Providers to
+	  calculate pairwise Subject Identifiers:
+
+	  <list style="symbols">
+	    <t>
+	      The Subject Identifier value MUST NOT be reversible
+	      by any party other than the OpenID Provider.
+	    </t>
+	    <t>
+	      Distinct Sector Identifier values MUST result in
+	      distinct Subject Identifier values.
+	    </t>
+	    <t>
+	      The algorithm MUST be deterministic.
+	    </t>
+	  </list>
+	</t>
+	<t>
 	  Three example methods are:
 
 	  <list style="numbers">
@@ -5097,7 +5191,7 @@
 	      value that is kept secret by the Provider. The concatenated string is then 
 	      hashed using an appropriate algorithm.
 	      <vspace blankLines="1"/>
-	      Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier | local_account_id | salt ).
+	      Calculate <spanx style="verb">sub</spanx> = SHA-256 ( sector_identifier || local_account_id || salt ).
 	      <vspace blankLines="1"/>
 	    </t>
 
@@ -5106,7 +5200,7 @@
 	      value that is kept secret by the Provider. The concatenated string is then 
 	      encrypted using an appropriate algorithm.
 	      <vspace blankLines="1"/>
-	      Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier | local_account_id | salt ).
+	      Calculate <spanx style="verb">sub</spanx> = AES-128 ( sector_identifier || local_account_id || salt ).
 	      <vspace blankLines="1"/>
 	    </t>
 
@@ -5123,18 +5217,23 @@
 
     <section anchor="ClientAuthentication" title="Client Authentication">
 
-      <t>During Client Registration, the RP (Client) MAY register an authentication method.
-      If no method is registered, the default method of <spanx style="verb">client_secret_basic</spanx> MUST be used.</t>
-      <t>The Supported options are:</t>
+      <t>
+	This section defines a set of Client Authentication methods
+	that are used by Clients to authenticate to the Authorization Server
+	when using the Token Endpoint.
+	During Client Registration, the RP (Client) MAY register a Client Authentication method.
+	If no method is registered, the default method is <spanx style="verb">client_secret_basic</spanx>.
+      </t>
+      <t>These Client Authentication methods are:</t>
 
       <t>
 	<list style="hanging">
 
 	  <t hangText="client_secret_basic"> 
 	    Clients that have received a <spanx style='verb'>client_secret</spanx> value
-	    from the Authorization Server, authenticate with the Authorization Server
+	    from the Authorization Server authenticate with the Authorization Server
 	    in accordance with Section 3.2.1 of <xref
-	    target="RFC6749">OAuth 2.0</xref> using HTTP Basic authentication scheme.
+	    target="RFC6749">OAuth 2.0</xref> using the HTTP Basic authentication scheme.
 	  </t>
 
 	  <t hangText="client_secret_post">
@@ -5293,6 +5392,12 @@
 ]]></artwork>
 	    </figure>
 	  </t>
+
+	  <t hangText="none">
+	    The Client does not authenticate itself at the Token Endpoint,
+	    either because it uses only the Implicit Flow (and so does not use the Token Endpoint)
+	    or because it is a Public Client with no Client Secret or other authentication mechanism.
+	  </t>
 	</list>
       </t>
 
@@ -5317,207 +5422,46 @@
       specified for JWTs <xref target="JWT"/>.
       Note that all JWE encryption methods perform integrity checking.</t>
 
-      <section anchor="SigEncAlg" title="Supported Algorithms">
-	<t>The server advertises its supported signing and encryption algorithms
-	in its discovery document.
-	The algorithm identifiers are specified in <xref target="JWA">JWA</xref>.
-	The related elements are:</t>
-
-	<t>
-	  <list style="hanging">
-	    <t hangText="userinfo_signing_alg_values_supported">
-	      JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
-	      (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
-	      supported by the UserInfo Endpoint
-	    to encode the Claims in a JWT <xref target="JWT" />.</t>
-
-	    <t hangText="userinfo_encryption_alg_values_supported">
-	      JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
-	      (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
-	      supported by the UserInfo Endpoint
-	    to encode the Claims in a JWT <xref target="JWT" />.</t>
-
-	    <t hangText="userinfo_encryption_enc_values_supported">
-	      JSON array containing a list of the JWE encryption algorithms
-	      (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
-	      supported by the UserInfo Endpoint
-	    to encode the Claims in a JWT <xref target="JWT" />.</t>
-
-	    <t hangText="id_token_signing_alg_values_supported">
-	      JSON array containing a list of the JWS signing algorithms
-	      (<spanx style="verb">alg</spanx> values)
-	      supported by the Authorization Server for the ID Token
-	    to encode the Claims in a JWT <xref target="JWT" />.</t>
-
-	    <t hangText="id_token_encryption_alg_values_supported">
-	      JSON array containing a list of the JWE encryption algorithms
-	      (<spanx style="verb">alg</spanx> values)
-	      supported by the Authorization Server for the ID Token
-	    to encode the Claims in a JWT <xref target="JWT" />.</t>
-
-	    <t hangText="id_token_encryption_enc_values_supported">
-	      JSON array containing a list of the JWE encryption algorithms
-	      (<spanx style="verb">enc</spanx> values)
-	      supported by the Authorization Server for the ID Token
-	    to encode the Claims in a JWT <xref target="JWT" />.</t>
-
-	    <t hangText="request_object_signing_alg_values_supported">
-	      JSON array containing a list of the JWS signing algorithms
-	      (<spanx style="verb">alg</spanx> values)
-	      supported by the Authorization Server for
-	      Request Object values.
-	      Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.
-	    </t>
-
-	    <t hangText="request_object_encryption_alg_values_supported">
-	      JSON array containing a list of the JWE encryption algorithms
-	      (<spanx style="verb">alg</spanx> values)
-	      supported by the Authorization Server for
-	      Request Object values.
-	    </t>
-
-	    <t hangText="request_object_encryption_enc_values_supported">
-	      JSON array containing a list of the JWE encryption algorithms
-	      (<spanx style="verb">enc</spanx> values)
-	      supported by the Authorization Server for
-	      Request Object values.
-	    </t>
-
-	    <t hangText="token_endpoint_auth_signing_alg_values_supported">
-	      JSON array containing a list of the JWS signing algorithms
-	      (<spanx style="verb">alg</spanx> values)
-	      supported by the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
-	      and <spanx style="verb">client_secret_jwt</spanx> methods
-	      to encode the JWT <xref target="JWT" />.
-	    Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
-
-	  </list>
-	</t>
-
-	<t>The Client registers its REQUIRED algorithms for Signing and Encryption 
-	using the following Registration parameters:</t>
-	<t>
-	  <list style="hanging">
-	    <t hangText="request_object_signing_alg">OPTIONAL.
-	    JWS signature algorithm <xref target="JWA" /> REQUIRED for Request Objects
-	    by the Authorization Server. All Request Objects from
-	    this <spanx style="verb">client_id</spanx> MUST be rejected if not signed by this algorithm.
-	    Servers SHOULD support <spanx style="verb">RS256</spanx>.</t>
-
-	    <t hangText="userinfo_signed_response_alg">OPTIONAL.
-	    JWS signature algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses. 
-	    If this is specified the response will be 
-	    <xref target="JWT">JWT</xref> serialized.</t>
-
-	    <t hangText="userinfo_encrypted_response_alg">OPTIONAL.  
-	    JWE <spanx style="verb">alg</spanx>
-	    algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses.
-	    If this is requested in 
-	    combination with signing, the response 
-	    MUST be signed first then encrypted, per <xref target="SigningOrder"/>.
-	    If this is specified, the response will be 
-	    <xref target="JWT">JWT</xref> serialized.</t>
-
-	    <t hangText="userinfo_encrypted_response_enc">OPTIONAL.
-	    JWE <spanx style="verb">enc</spanx>
-	    algorithm <xref target="JWA" /> REQUIRED for UserInfo Responses.
-	    If <spanx style="verb">userinfo_encrypted_response_alg</spanx> is specified 
-	    the default for this value is <spanx style="verb">A128CBC-HS256</spanx>.
-	    </t>
-
-	    <t hangText="id_token_signed_response_alg">OPTIONAL.
-	    JWS signature algorithm <xref target="JWA" /> REQUIRED 
-	    for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
-	    The default if not specified is <spanx style="verb">RS256</spanx>.
-	    The public key for validating the signature is provided by retrieving the 
-	    JWK Set referenced by the
-	    <spanx style="verb">jwks_uri</spanx> element from Discovery.</t>
-
-	    <t hangText="id_token_encrypted_response_alg">OPTIONAL.  
-	    JWE <spanx style="verb">alg</spanx> algorithm <xref target="JWA" />
-	    REQUIRED for ID Tokens issued to this <spanx style="verb">client_id</spanx>. 
-	    If this is requested, the response MUST be signed then encrypted. 
-	    The default if not specified is no encryption.</t>
-
-	    <t hangText="id_token_encrypted_response_enc">OPTIONAL.  
-	    JWE <spanx style="verb">enc</spanx> 
-	    algorithm <xref target="JWA" /> REQUIRED for 
-	    ID Tokens issued to this <spanx style="verb">client_id</spanx>.
-	    If <spanx style="verb">id_token_encrypted_response_alg</spanx> is specified 
-	    the default for this value is <spanx style="verb">A128CBC-HS256</spanx>.
-	    </t>
-	  </list>
-	</t>
-      </section>
-
-      <section anchor="SigEncKey" title="Keys">
-
-	<t>
-	  The OpenID Provider provides its public keys during Discovery
-	  using the following element:
-	  <list style="hanging">
-	    <t hangText="jwks_uri">
-	      REQUIRED.
-	      URL of the OP's JSON Web Key Set <xref target="JWK"/> document.
-	      This contains the signing key(s) the Client uses to validate signatures from the OP.
-	      The JWK Set MAY also contain the Server's encryption key(s),
-	      which are used by Clients to encrypt requests to the Server.
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  Likewise, the Client can provide its public keys during Registration
-	  using the following element:
-	  <list style="hanging">
-	    <t hangText="jwks_uri">
-	      OPTIONAL.
-	      URL for the Client's JSON Web Key Set <xref target="JWK"/> document.
-	      If the Client signs requests to the Server,
-	      it contains the signing key(s) the Server uses to validate signatures from the Client.
-	      The JWK Set MAY also contain the Client's encryption keys(s),
-	      which are used by the Server to encrypt responses to the Client.
-	    </t>
-	  </list>
-	</t>
-	<t>
-	  When both signing and encryption keys are made available,
-	  the <spanx style="verb">use</spanx> (Key Use) parameter
-	  value is REQUIRED for all keys in the JWK Set referenced by the
-	  <spanx style="verb">jwks_uri</spanx> to indicate each key's intended usage.
-	  Although some algorithms allow the same key to be used for
-	  both signatures and encryption, doing so is
-	  NOT RECOMMENDED, as it is less secure.
-	</t>
-	<t>
-	  In both cases, the JWK <spanx style="verb">x5c</spanx> parameter MAY be used
-	  to provide X.509 representations of keys provided.  When used, the bare key
-	  values MUST still be present and MUST match those in the certificate.
-	</t>
-
-      </section>
+      <t>
+	The OP advertises its supported signing and encryption algorithms
+	in its Discovery document,
+	or may supply this information by other means.
+	The RP declares its required signing and encryption algorithms
+	in its Dynamic Registration request,
+	or may communicate this information by other means.
+      </t>
+      <t>
+	The OP advertises its public keys
+	via its Discovery document,
+	or may supply this information by other means.
+	The RP declares its public keys
+	via its Dynamic Registration request,
+	or may communicate this information by other means.
+      </t>
 
       <section anchor="Signing" title="Signing">
-	<t>The signing party MUST select a signature algorithm 
-	based on the supported algorithms of the recipient in <xref
-	target="SigEncAlg"></xref>.</t>
+	<t>
+	  The signing party MUST select a signature algorithm 
+	  based on the algorithms supported by the recipient.
+	</t>
 
 	<t>
 	  <list style="hanging">
 	    <t hangText="Asymmetric Signatures">
 	      When using RSA or ECDSA Signatures, 
-	      the <spanx style="verb">alg</spanx> header parameter
-	      of the JWS header MUST be set to the appropriate algorithm
+	      the <spanx style="verb">alg</spanx> header parameter value
+	      of the JWS header MUST be set to an appropriate algorithm
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>.
-	      The private key MUST be associated with a
-	      Public Signing Key provided in
-	      <xref target="SigEncKey"/>.
+	      The private key used to sign the content MUST be associated with
+	      a public key used for signature verification published by the sender
+	      in its JWK Set document.
 	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWS header.
-	      The key usage of the respective keys MUST support signature.
+	      The key usage of the respective keys MUST support signing.
 	    </t>
 	    <t hangText="Symmetric Signatures">
 	      When using MAC-based signatures,
-	      the <spanx style="verb">alg</spanx> header parameter
+	      the <spanx style="verb">alg</spanx> header parameter value
 	      of the JWS header MUST be set to a MAC algorithm,
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>. 
 	      The MAC key used is
@@ -5536,14 +5480,14 @@
 	</t>
 	<section anchor="RotateSigKeys" title="Rotation of Asymmetric Signing Keys">
 	  <t>Rotation of signing keys can be accomplished with the following approach. The signer publishes
-	  its keys in a JWK Set at the <spanx style="verb">jwks_uri</spanx> location
+	  its keys in a JWK Set at its <spanx style="verb">jwks_uri</spanx> location
 	  and includes the <spanx style="verb">kid</spanx> of the
 	  signing key in the JWS header of each message
 	  to indicate to the verifier which key is to be used to validate the signature. Keys can be rolled over
-	  by periodically adding new keys to the JWK Set at <spanx style="verb">jwks_uri</spanx>.
+	  by periodically adding new keys to the JWK Set at the <spanx style="verb">jwks_uri</spanx> location.
 	  The signer can begin using a new key at its
 	  discretion and signals the change to the verifier using the <spanx style="verb">kid</spanx> value.
-	  The verifier knows to go back to the <spanx style="verb">jwks_uri</spanx>
+	  The verifier knows to go back to the <spanx style="verb">jwks_uri</spanx> location
 	  to re-retrieve the keys when it sees an unfamiliar
 	  <spanx style="verb">kid</spanx> value. The JWK Set document at the <spanx style="verb">jwks_uri</spanx>
 	  SHOULD retain recently decommissioned signing keys for a reasonable period of time to facilitate a
@@ -5554,18 +5498,19 @@
       </section>
 
       <section anchor="Encryption" title="Encryption">
-	<t>The encrypting party MUST select an encryption algorithm
-	based on the supported algorithms of the recipient in <xref
-	target="SigEncAlg"></xref>.
-	All JWTs MUST be signed before encryption
-	to enable verification of the Issuer.</t>
-
+	<t>
+	  The encrypting party MUST select an encryption algorithm
+	  based on the algorithms supported by the recipient in.
+	  All JWTs MUST be signed before encryption
+	  to enable verification of the Issuer.
+	</t>
 	<t>
 	  <list style="hanging">
 
 	    <t hangText="Asymmetric Encryption: RSA">
-	      Use the link registered/discovered in <xref target="SigEncKey"></xref>
-	      to retrieve the relevant keys.
+	      The public key to which the content was encrypted MUST be
+	      a public key used for encryption published by the recipient
+	      in its JWK Set document.
 	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
 	      Use the supported RSA encryption algorithm to encrypt a random 
@@ -5575,9 +5520,10 @@
 	    </t>
 	    <t hangText="Asymmetric Encryption: Elliptic Curve">
 	      Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
-	      element of the JWE header. 
-	      Use the link registered/discovered in <xref target="SigEncKey"></xref>
-	      to retrieve the relevant keys.
+	      element of the JWE header.
+	      The other public key used for the key agreement computation MUST be
+	      a public key published by the recipient
+	      in its JWK Set document.
 	      If there are multiple keys in the referenced JWK Set document, a
 	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
 	      Use the ECDH-ES algorithm to agree upon a
@@ -5608,24 +5554,31 @@
 	</t>
 
 	<section anchor="RotateEncKeys" title="Rotation of Asymmetric Encryption Keys">
-	  <t>Rotating encryption keys is necessarily a different process than for signing keys because
-	  the encrypting party starts the process and thus cannot rely on
-	  a change in <spanx style="verb">kid</spanx> as a signal
-	  that keys need to change. The encrypting party
-	  still uses the <spanx style="verb">kid</spanx> header parameter in the JWE
-	  to tell the decrypting party which private key to use to decrypt, however, the encrypting party
-	  needs to first select the most appropriate key from those provided in the JWK Set at
-	  <spanx style="verb">jwks_uri</spanx>. To rotate keys, the decrypting party can publish new keys
-	  at <spanx style="verb">jwks_uri</spanx> and remove from the JWK Set those that are being decommissioned.
-	  The <spanx style="verb">jwks_uri</spanx> SHOULD include a <spanx style="verb">Cache-Control</spanx>
-	  header in the response that contains a <spanx style="verb">max-age</spanx> directive,
-	  as defined in <xref target="RFC2616">RFC 2616</xref>,
-	  which enables the encrypting party to safely cache the JWK Set and not have to re-retrieve
-	  the document for every encryption event. The decrypting party SHOULD remove decommissioned keys
-	  from the JWK Set at <spanx style="verb">jwks_uri</spanx> but retain them internally for some reasonable
-	  period of time, coordinated with the cache duration, to facilitate a smooth transition between keys
-	  by allowing the encrypting party some time to obtain the new keys. The cache duration SHOULD also
-	  be coordinated with the issuance of new signing keys as described in <xref target="RotateSigKeys"/>.</t>
+	  <t>
+	    Rotating encryption keys necessarily uses a different process than the one for signing keys because
+	    the encrypting party starts the process and thus cannot rely on
+	    a change in <spanx style="verb">kid</spanx> as a signal
+	    that keys need to change. The encrypting party
+	    still uses the <spanx style="verb">kid</spanx> header parameter in the JWE
+	    to tell the decrypting party which private key to use to decrypt, however, the encrypting party
+	    needs to first select the most appropriate key from those provided in the JWK Set at
+	    the recipient's <spanx style="verb">jwks_uri</spanx> location.
+	  </t>
+	  <t>
+	    To rotate keys, the decrypting party can publish new keys
+	    at its <spanx style="verb">jwks_uri</spanx> location
+	    and remove from the JWK Set those that are being decommissioned.
+	    The <spanx style="verb">jwks_uri</spanx> SHOULD include a <spanx style="verb">Cache-Control</spanx>
+	    header in the response that contains a <spanx style="verb">max-age</spanx> directive,
+	    as defined in <xref target="RFC2616">RFC 2616</xref>,
+	    which enables the encrypting party to safely cache the JWK Set and not have to re-retrieve
+	    the document for every encryption event. The decrypting party SHOULD remove decommissioned keys
+	    from the JWK Set referenced by <spanx style="verb">jwks_uri</spanx>
+	    but retain them internally for some reasonable
+	    period of time, coordinated with the cache duration, to facilitate a smooth transition between keys
+	    by allowing the encrypting party some time to obtain the new keys. The cache duration SHOULD also
+	    be coordinated with the issuance of new signing keys, as described in <xref target="RotateSigKeys"/>.
+	  </t>
 	</section>
 
       </section>
@@ -5647,7 +5600,7 @@
       <t>
 	When offline access is requested, a <spanx style="verb">prompt</spanx>
 	parameter value of <spanx style="verb">consent</spanx> MUST be used
-	unless other conditions for processing permitting offline access
+	unless other conditions for processing the request permitting offline access
 	to the requested resources are in place.
 	The OP MUST always obtain consent to returning a Refresh Token
 	that enables offline access to the requested resources.
@@ -5659,9 +5612,9 @@
 
 	<list style="symbols">
 	  <t>
-	    MUST ensure that the prompt parameter contains <spanx
-	    style="verb">consent</spanx> unless other
-	    conditions for processing permitting offline access
+	    MUST ensure that the prompt parameter contains
+	    <spanx style="verb">consent</spanx>
+	    unless other conditions for processing the request permitting offline access
 	    to the requested resources are in place;
 	    unless one or both of these conditions are fulfilled, then
 	    it MUST ignore the <spanx style="verb">offline_access</spanx> request,
@@ -5707,7 +5660,7 @@
 	  authenticate to the Token Endpoint using the authentication method registered
 	  for its <spanx style="verb">client_id</spanx>, as documented in
 	  <xref target="ClientAuthentication"/>.
-	  The Client sends the parameters via HTTPS <spanx style="verb">POST</spanx>
+	  The Client sends the parameters via HTTP <spanx style="verb">POST</spanx>
 	  to the Token Endpoint using
 	  Form Serialization, per <xref target="FormSerialization"/>.
 	</t>
@@ -5733,7 +5686,10 @@
 	</figure>
 
 	<t>
-	  The Authorization Server MUST validate the Refresh Token.
+	  The Authorization Server MUST validate the Refresh Token,
+	  MUST verify that it was issued to the Client,
+	  and must verify that the Client successfully authenticated
+	  it has a Client Authentication method.
 	</t>
       </section>
 
@@ -5885,10 +5841,17 @@
       </section>
 
       <section anchor="JSONSerialization" title="JSON Serialization">
-	<t>The parameters are serialized into a JSON structure by adding each
-	parameter at the highest structure level. Parameter names and string
-	values are included as JSON strings. Numerical values are included as
-	JSON numbers. Each parameter MAY have a JSON structure as its value.</t>
+	<t>
+	  The parameters are serialized into a JSON object structure by adding each
+	  parameter at the highest structure level. Parameter names and string
+	  values are represented as JSON strings.
+	  Numerical values are represented as JSON numbers.
+	  Boolean values are represented as JSON booleans.
+	  Omitted parameters and parameters with no with no value SHOULD be omitted
+	  from the object and not represented by
+	  a JSON <spanx style="verb">null</spanx> value, unless otherwise specified.
+	  A parameter MAY have a JSON object or a JSON array as its value.
+	</t>
 
 	<figure>
           <preamble>
@@ -5942,8 +5905,8 @@
       </t>
       <t>
 	In several places, this specification uses space delimited
-	lists of strings.  In all such cases, the ASCII space
-	character (0x20) MUST be the only character used for this purpose.
+	lists of strings.  In all such cases, a single ASCII space
+	character (0x20) MUST be used as the delimiter.
       </t>
 
     </section>
@@ -6098,7 +6061,7 @@
 	  such as whether it is a Confidential Client, capable of keeping secrets,
 	  in which case the Authorization Code Flow may be appropriate,
 	  or whether it is a Public Client, for instance, a
-	  User-Agent Based Application or a Native Application,
+	  User Agent Based Application or a statically registered Native Application,
 	  in which case the Implicit Flow may be appropriate.
 	</t>
 	<t>
@@ -6271,7 +6234,7 @@
 	use of <spanx style="verb">request</spanx> or <spanx style="verb">request_uri</spanx>
 	parameters, where the content of the <spanx style="verb">request</spanx>
 	is an encrypted JWT with the appropriate key and cipher.  
-	This protects even against a compromised User-Agent
+	This protects even against a compromised User Agent
 	in the case of indirect request.</t>
       </section>
 
@@ -6402,8 +6365,8 @@
 	       title=" Eavesdropping or Leaking Authorization Codes (Secondary Authenticator Capture)">
 	<t>In addition to the attack patterns described in
 	Section 4.4.1.1 of <xref target="RFC6819"/>,
-	an Authorization Code can be captured in the User-Agent where the TLS
-	session is terminated if the User-Agent is infected by malware.
+	an Authorization Code can be captured in the User Agent where the TLS
+	session is terminated if the User Agent is infected by malware.
 	However, capturing it is not useful as long as either
 	Client Authentication or an encrypted response are used.
 	</t>
@@ -6426,7 +6389,7 @@
 	  process as a form of delegated End-User authentication to the
 	  Client MUST NOT use the Implicit Flow without employing
 	  additional security mechanisms that enable the Client to
-	  determine whether the Access Token was issued for its use.
+	  determine whether the ID Token and Access Token were issued for its use.
 	</t>
 	<t>
 	  In OpenID Connect, this is mitigated through mechanisms
@@ -6442,13 +6405,15 @@
 	</t>
 	<t>
 	  The <spanx style="verb">c_hash</spanx> in the ID Token enables
-	  Clients to prevent <spanx style="verb">code</spanx> substitution.
+	  Clients to prevent Authorization Code substitution.
+	  The <spanx style="verb">at_hash</spanx> in the ID Token enables
+	  Clients to prevent Access Token substitution.
 	</t>
 	<t>
 	  Also, a malicious user may attempt to impersonate a more
 	  privileged user by subverting the communication channel
 	  between the Authorization Endpoint and Client, or the Token Endpoint
-	  and Client, for example by swapping the <spanx style="verb">code</spanx>
+	  and Client, for example by swapping the Authorization Code
 	  or reordering the messages, to convince the Token Endpoint
 	  that the attacker's authorization grant corresponds to a grant
 	  sent on behalf of a more privileged user.
@@ -6505,30 +6470,30 @@
       </section>
 
       <section anchor="IssuerIdentifier" title="Issuer Identifier">
-	<t>OpenID Connect supports multiple issuers per Host and Port combination.
+	<t>OpenID Connect supports multiple Issuers per Host and Port combination.
 	The issuer returned by discovery MUST exactly match the value of 
 	<spanx style="verb">iss</spanx> in the ID Token.</t>
 
-	<t>OpenID Connect treats the path component of any URI as
-	part of the user identifier.  For instance, the subject
-	"1234" with an issuer of "https://example.com" is not
-	equivalent to the subject "1234" with an issuer of
-	"https://example.com/sales".
-	</t>
-
 	<t>
-	  It is RECOMMENDED that only a single issuer per host be used.
+	  OpenID Connect treats the path component of any Issuer URI as
+	  being part of the Issuer Identifier.  For instance, the subject
+	  "1234" with an Issuer Identifier of "https://example.com" is not
+	  equivalent to the subject "1234" with an Issuer Identifier of
+	  "https://example.com/sales".
+	</t>
+	<t>
+	  It is RECOMMENDED that only a single Issuer per host be used.
 	  However, if a host supports multiple tenants,
-	  multiple issuers for that host may be needed.
+	  multiple Issuers for that host may be needed.
 	</t>
       </section>		
 
       <section anchor="ImplicitFlowThreats" title="Implicit Flow Threats">
         <t>In the Implicit Flow, the Access Token is returned in the
         fragment component of the Client's <spanx style="verb">redirect_uri</spanx> through HTTPS, thus it is
-        protected between the OP and the User-Agent, and between the User-Agent and the
-        RP. The only place it can be captured is the User-Agent where the
-        TLS session is terminated, which is possible if the User-Agent is
+        protected between the OP and the User Agent, and between the User Agent and the
+        RP. The only place it can be captured is the User Agent where the
+        TLS session is terminated, which is possible if the User Agent is
         infected by malware or under the control of a malicious party.</t>
       </section>
 
@@ -6563,16 +6528,18 @@
 	Access Token lifetimes SHOULD therefore be kept to single use or 
 	very short lifetimes.</t>
 
-	<t>If access to the UserInfo Endpoint or other protected resources is required,
-	a Refresh Token SHOULD be used. The Client MAY then exchange the Refresh Token at
-	the Token Endpoint for a fresh short-lived Access Token that can be used to 
-	access the resource.</t>
+	<t>
+	  If ongoing access to the UserInfo Endpoint or other Protected Resources is required,
+	  a Refresh Token can be used. The Client can then exchange the Refresh Token at
+	  the Token Endpoint for a fresh short-lived Access Token that can be used to 
+	  access the resource.
+	</t>
 
 	<t>
 	  The Authorization Server SHOULD clearly identify long-term grants to the User
 	  during Authorization.
 	  The Authorization Server SHOULD provide a mechanism for the End-User to revoke
-	  Refresh Tokens granted to a Client.
+	  Access Tokens and Refresh Tokens granted to a Client.
 	</t>
       </section>
 
@@ -6654,10 +6621,11 @@
 	  offline access to resources.
 	  This specification mandates the use of the <spanx style="verb">prompt</spanx>
 	  parameter to obtain consent unless it is already known that the
-	  request complies with the conditions for processing in each jurisdiction.
+	  request complies with the conditions for processing the request in each jurisdiction.
 	</t>
 	<t>
-	  When an Access Token is returned in the front channel, there is
+	  When an Access Token is returned via the User Agent
+	  using the Implicit Flow or Hybrid Flow, there is
 	  a greater risk of it being exposed to an attacker, who could
 	  later use it to access the UserInfo endpoint.
 	  If the Access Token does not enable offline access and the server
@@ -6665,17 +6633,18 @@
 	  offline or online, the risk will be substantially reduced.
 	  Therefore, this specification mandates ignoring
 	  the offline access request when the Access Token is
-	  transmitted in the front channel.
+	  transmitted through the User Agent.
 	  Note that differentiating between online and offline access
 	  from the server can be difficult especially for native clients.
 	  The server may well have to rely on heuristics.
 	  Also, the risk of exposure for the Access Token delivered
-	  in the front channel for the response types of
+	  through the User Agent for the response types of
 	  <spanx style="verb">code&nbsp;token</spanx> and
 	  <spanx style="verb">token</spanx> is the same.
-	  Thus, the implementations should be prepared to detect the
-	  channel from which the Access Token was issued and deny offline access
-	  if the token was issued in the front channel.
+	  Thus, the implementations should be prepared to detect
+	  whether the Access Token was issued through the User Agent
+	  or directly from the Token Endpoint and deny offline access
+	  if the token was issued through the User Agent.
 	</t>
 	<t>
 	  Note that although these provisions require an explicit
@@ -6689,7 +6658,7 @@
 	  and the terms must fair and equitable.
 	  In general, it is advisable for the service to follow the
 	  required privacy principles in each jurisdiction and rely on
-	  other conditions of processing than simply explicit consent,
+	  other conditions for processing the request than simply explicit consent,
 	  as online self-service "explicit consent" often does not
 	  form a valid consent in some jurisdictions.
 	</t>
@@ -7394,7 +7363,7 @@
 
 	  <t>
 	    <list style="symbols">
-	      <t>Error name: <spanx style="verb">session_selection_required</spanx></t>
+	      <t>Error name: <spanx style="verb">account_selection_required</spanx></t>
 
 	      <t>Error usage location: Authorization Endpoint</t>
 
@@ -7563,7 +7532,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="15" month="October" year="2013"/>
+	  <date day="27" month="November" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -7586,7 +7555,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="15" month="October" year="2013"/>
+	  <date day="27" month="November" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -7858,7 +7827,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="15" month="October" year="2013" />
+	  <date day="27" month="November" year="2013" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -7921,7 +7890,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <date day="15" month="October" year="2013"/>
+	  <date day="27" month="November" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -7952,11 +7921,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <author fullname="Edmund Jay" initials="E." surname="Jay">
-	    <organization abbrev="Illumila">Illumila</organization>
-	  </author>
-
-	  <date day="15" month="October" year="2013"/>
+	  <date day="27" month="November" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -7991,7 +7956,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="15" month="October" year="2013"/>
+	  <date day="27" month="November" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -8490,6 +8455,16 @@
 	-15
         <list style="symbols">
 	  <t>
+	    Incorporated review comments from
+	    Brian Campbell,
+	    Torsten Lodderstedt,
+	    George Fletcher,
+	    Tim Bray,
+	    Amanda Anganes,
+	    Nat Sakimura,
+	    and Justin Richer.
+	  </t>
+	  <t>
 	    Fixed #889 - Generalized the descriptions of returning responses from the
 	    Authorization Endpoint to enable non-default Response Modes
 	    to be used.
@@ -8497,6 +8472,21 @@
 	  <t>
 	    Fixed #878 - Generalized description of errors that can be returned
 	    when <spanx style="verb">id_token_hint"</spanx> is used.
+	  </t>
+	  <t>
+	    Specified the <spanx style="verb">iss</spanx> and
+	    <spanx style="verb">aud</spanx> values to be used in signed requests,
+	    and added the use of these claims to the example.
+	  </t>
+	  <t>
+	    Expanded the first Authentication Request example to show both
+	    the 302 redirect response by the Client and the resulting
+	    HTTP GET request sent by the User Agent.
+	  </t>
+	  <t>
+	    Removed the Supported Algorithms and Keys subsections
+	    of the Signatures and Encryption section,
+	    since they duplicated content in Discovery and Registration.
 	  </t>
 	  <t>
 	    Added Claim Description entries to Claim registrations,

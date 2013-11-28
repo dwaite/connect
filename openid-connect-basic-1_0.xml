@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="19" month="November" year="2013" />
+    <date day="27" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -192,7 +192,10 @@
 	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", and "Token Endpoint"
-	  defined by <xref target="RFC6749">OAuth 2.0</xref>.
+	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
+	  the terms "Claim Name" and "Claim Value" defined by
+	  <xref target="JWT">JSON Web Token (JWT)</xref>,
+	  and the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>.
 	</t>
 	<t>
 	  This specification also defines the following terms:
@@ -211,7 +214,7 @@
 	      identified in a context. An End-User is one example of an Entity.
 	    </t>
 	    <t hangText="ID Token">
-	      <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the authentication event.
+	      <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the Authentication event.
 	      It MAY contain other Claims.
 	    </t>
 
@@ -232,8 +235,10 @@
 	    </t>
 
 	    <t hangText="OpenID Provider (OP)">
-              OAuth 2.0 Authorization Server that is capable of 
-              providing Claims to a Relying Party.
+              OAuth 2.0 Authorization Server that is capable of
+	      Authenticating the End-User and
+              providing Claims to a Relying Party
+              about the Authentication event and the End-User. 
 	    </t>
 	    <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
 	      Identifier that identifies the Entity to a Relying Party that cannot be correlated 
@@ -246,7 +251,8 @@
 	      natural person to whom such information relates.
 	    </t>
 	    <t hangText="Relying Party (RP)">
-              OAuth 2.0 Client application requiring Claims from an OpenID Provider. 
+              OAuth 2.0 Client application requiring End-User Authentication
+	      and Claims from an OpenID Provider.
 	    </t>
 	    <t hangText="Subject Identifier">
 	      Locally unique and never
@@ -254,7 +260,7 @@
 	      which is intended to be consumed by the Client.
 	    </t>
 	    <t hangText="UserInfo Endpoint">
-	      Protected resource that, when presented with an Access Token by the Client,
+	      Protected Resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
 	      Authorization Grant.
 	    </t>
@@ -298,7 +304,7 @@
 	even when they cannot ensure the secrecy of the Client Secret value.
 	The Hybrid Flow combines aspects of the Authorization Code Flow
 	and the Implicit Flow.
-	It enables Clients to obtain an ID Token and/or Access Token with only
+	It enables Clients to obtain an ID Token and optionally an Access Token with only
 	one round trip to the Authorization Server, possibly minimizing latency,
 	while still enabling Clients to later get tokens from the Token Endpoint
 	-- especially a Refresh Token.
@@ -423,6 +429,8 @@
 		  as defined in Section 2.1 of OAuth 2.0, and
 		  provided the OP allows the use of
 		  <spanx style="verb">http</spanx> Redirection URIs in this case.
+		  The Redirection URI MAY use an alternate scheme,
+		  such as one that is intended to identify a callback into a native application.
 		</t>
 
 		<t hangText="state">
@@ -471,16 +479,16 @@
 		  <list style="hanging">
 		    <t hangText="page">
 		      The Authorization Server SHOULD display the
-		      authentication and consent UI consistent with a full User-Agent page
+		      authentication and consent UI consistent with a full User Agent page
 		      view. If the display parameter is not specified, this is the
 		      default display mode.
 		    </t>
 
 		    <t hangText="popup">
 		      The Authorization Server SHOULD display the
-		      authentication and consent UI consistent with a popup User-Agent
+		      authentication and consent UI consistent with a popup User Agent
 		      window.
-		      The popup User-Agent window should be of an appropriate size
+		      The popup User Agent window should be of an appropriate size
 		      for a login-focused dialog and should not obscure
 		      the entire window that it is popping up over.
 		    </t>
@@ -488,8 +496,7 @@
 		    <t hangText="touch">
 		      The Authorization Server SHOULD display the
 		      authentication and consent UI consistent with a device that
-		      leverages a touch interface. The Authorization Server MAY attempt
-		      to detect the touch device and further customize the interface.
+		      leverages a touch interface.
 		    </t>
 
 		    <t hangText="wap">
@@ -498,6 +505,9 @@
 		      type display.
 		    </t>
 		  </list>
+
+		  The Authorization Server MAY also attempt to detect the capabilities
+		  of the User Agent and present an appropriate display.
 		</t>
 
 		<t hangText="prompt">
@@ -515,19 +525,25 @@
 		    if an End-User
 		    is not already authenticated or the Client does not have 
 		    pre-configured consent for the requested
-		    Claims or does not fulfill other conditions for processing.
+		    Claims or does not fulfill other conditions for processing the request.
+		    The error code will typically be
+		    <spanx style="verb">login_required</spanx>,
+		    <spanx style="verb">interaction_required</spanx>.
 		    This can be used as a
 		    method to check for existing authentication and/or consent.</t>
 
                     <t hangText="login">
 		      The Authorization Server SHOULD prompt the
 		      End-User for reauthentication.
-		      If it cannot reauthenticate the End-User, it MUST return an error.
+		      If it cannot reauthenticate the End-User, it MUST return an error,
+		      typically <spanx style="verb">login_required</spanx>.
 		    </t>
 
                     <t hangText="consent">
 		      The Authorization Server SHOULD prompt the End-User for consent
 		      before returning information to the Client.
+		      If it cannot obtain consent, it MUST return an error,
+		      typically <spanx style="verb">consent_required</spanx>.
 		    </t>
 
                     <t hangText="select_account">
@@ -537,7 +553,8 @@
 		      to select amongst the multiple accounts that they might have 
 		      current sessions for.
 		      If it cannot obtain an account selection choice made by the End-User,
-		      it MUST return an error.
+		      it MUST return an error,
+		      typically <spanx style="verb">account_selection_required</spanx>.
 		    </t>
 		  </list>
 
@@ -554,7 +571,7 @@
 		  Maximum Authentication Age.
 		  Specifies the allowable elapsed time in seconds
 		  since the last time the End-User was actively
-		  authenticated. If the elapsed time is greater than
+		  authenticated by the OP. If the elapsed time is greater than
 		  this value, the OP MUST attempt to actively
 		  re-authenticate the End-User.
 		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
@@ -642,8 +659,32 @@
           to the Authorization Endpoint using HTTPS.</t>
 
           <figure>
-	    <preamble>Following is a non-normative example using HTTP redirect
-	    (with line wraps within values for display purposes only):</preamble>
+	    <preamble>
+	      The following is a non-normative example
+	      302 redirect response by the Client, which triggers
+	      the User Agent to make an Authentication Request
+	      to the Authorization Endpoint
+	      (with line wraps within values for display purposes only):
+	    </preamble>
+
+            <artwork><![CDATA[
+  HTTP/1.1 302 Found
+  Location: https://server.example.com/authorize?
+    response_type=code
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &scope=openid%20profile
+    &state=af0ifjsldkj
+]]></artwork>
+          </figure>
+
+          <figure>
+	    <preamble>
+	      The following is the non-normative example request
+	      that would be sent by the User Agent to the Authorization Server
+	      in response to the 302 redirect response by the Client above
+	      (with line wraps within values for display purposes only):
+	    </preamble>
 
             <artwork><![CDATA[
   GET /authorize?
@@ -734,11 +775,14 @@
           <section anchor="CodeAuthzError"
 		   title="End-User Denies Authorization or Invalid Request">
 
-            <t>If the End-User denies the authorization or the End-User authentication
-            fails, the Authorization Server MUST return the error
-            Authorization Response as defined in 4.1.2.1 of 
-            <xref target="RFC6749">OAuth 2.0</xref>. No other parameters 
-            SHOULD be returned.</t>
+            <t>
+	      If the End-User denies the authorization or the End-User authentication
+	      fails, the Authorization Server MUST return the error
+	      Authorization Response as defined in 4.1.2.1 of 
+	      <xref target="RFC6749">OAuth 2.0</xref>.
+	      (HTTP errors unrelated to RFC 6749 are returned to the User Agent using the
+	      appropriate HTTP status code.)
+	    </t>
           </section>
         </section>
 
@@ -897,28 +941,25 @@
 	    expiration date/time listed in the value. Implementers MAY
 	    provide for some small leeway, usually no more than a few
 	    minutes, to account for clock skew.
-	    The time is represented as the number of seconds from
+	    Its value is a JSON number representing the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    See <xref target="RFC3339">RFC 3339</xref>
 	    for details regarding date/times in general and UTC in
 	    particular.
-	    The <spanx style="verb">exp</spanx> value is a number.
 	    </t>
 	    
 	    <t hangText="iat">REQUIRED.
 	    Time at which the JWT was issued.
-	    The time is represented as the number of seconds from
+	    Its value is a JSON number representing the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
-	    The <spanx style="verb">iat</spanx> value is a number.
 	    </t>
 
 	    <t hangText="auth_time">
 	    Time when the End-User authentication occurred.
-	    The time is represented as the number of seconds from
+	    Its value is a JSON number representing the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    When a <spanx style="verb">max_age</spanx> request is made
 	    then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
-	    The <spanx style="verb">auth_time</spanx> value is a number.
 	    </t>
 
 	    <t hangText="nonce">
@@ -1085,9 +1126,11 @@
 		is the Claim value.
 	      </t>
 
-	      <t>The current time MUST be less than the value of the
-	      <spanx style="verb">exp</spanx> Claim
-	      (possibly allowing for some small leeway to account for clock skew).</t>
+	      <t>
+		The current time MUST be before the time represented by the
+		<spanx style="verb">exp</spanx> Claim
+		(possibly allowing for some small leeway to account for clock skew).
+	      </t>
 
 	      <t>The <spanx style="verb">iat</spanx> Claim can be used to reject tokens that
 	      were issued too far away from the current time, limiting the amount of
@@ -1138,7 +1181,9 @@
 	    The UserInfo Endpoint is an <xref target="RFC6749">OAuth 2.0</xref>
 	    Protected Resource that complies with the <xref
 	    target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.
-	    The Access Token SHOULD be sent using the
+	    The request SHOULD use the 
+	    HTTP <spanx style="verb">GET</spanx> method and the
+	    the Access Token SHOULD be sent using the
 	    <spanx style="verb">Authorization</spanx> header field.
 	  </t>
 
@@ -1172,13 +1217,14 @@
 	    MUST always be returned in the UserInfo Response.
 	  </t>
 	  <t>
-	    NOTE: The UserInfo Endpoint response is not guaranteed to be about the
+	    NOTE:  Due to the possibility of token substitution attacks,
+	    the UserInfo Response is not guaranteed to be about the
 	    End-User identified by the <spanx style="verb">sub</spanx> (subject)
 	    element of the ID Token.
-	    The <spanx style="verb">sub</spanx> Claim in the UserInfo Endpoint response
+	    The <spanx style="verb">sub</spanx> Claim in the UserInfo Response
 	    MUST be verified to exactly match the
-	    <spanx style="verb">sub</spanx> Claim in the ID Token
-	    before using additional UserInfo Endpoint Claims.
+	    <spanx style="verb">sub</spanx> Claim in the ID Token;
+	    if they do not match, the UserInfo Response values MUST NOT be used.
 	  </t>
 	  <t>
 	    The Client MUST verify that the OP that responded was
@@ -1357,9 +1403,10 @@
 	  <spanx style="verb">janedoe</spanx> or <spanx style="verb">j.doe</spanx>. 
 	  This value MAY be any valid JSON string including 
 	  special characters such as <spanx style="verb">@</spanx>, 
-	  <spanx style="verb">/</spanx>, or whitespace. This value MUST NOT
-	  be relied upon to be unique by the RP. 
-	  (See <xref target="ClaimStability"></xref>.)</c>
+	  <spanx style="verb">/</spanx>, or whitespace.
+	  The RP MUST NOT rely upon this value being unique,
+	  as discussed in <xref target="ClaimStability"></xref>.
+	  </c>
 
 	  <c>profile</c>
 	  <c>string</c>
@@ -1395,7 +1442,7 @@
 	    End-User's preferred e-mail address.
 	    Its value MUST conform to the <xref target="RFC5322">RFC 5322</xref>
 	    addr-spec syntax.
-	    This value MUST NOT be relied upon to be unique by the RP,
+	    The RP MUST NOT rely upon this value being unique,
 	    as discussed in <xref target="ClaimStability"></xref>.
 	  </c>
 
@@ -1447,7 +1494,7 @@
 	  <spanx style="verb">en-US</spanx> or <spanx style="verb">fr-CA</spanx>.
 	  As a compatibility note, some implementations have used an underscore
 	  as the separator rather than a dash, for example,
-	  <spanx style="verb">en_US</spanx>; Implementations MAY choose to
+	  <spanx style="verb">en_US</spanx>; Relying Parties MAY choose to
 	  accept this locale syntax as well.</c>
 
 	  <c>phone_number</c>
@@ -1492,7 +1539,7 @@
 	  <c>number</c>
 	  <c>
 	    Time the End-User's information was last updated.
-	    The time is represented as the number of seconds from
+	    Its value is a JSON number representing the number of seconds from
 	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	  </c>
 	</texttable>
@@ -1559,7 +1606,10 @@
 	      <t hangText="formatted">
 		Full mailing address, 
 		formatted for display or use on a mailing label. 
-		This field MAY contain multiple lines, separated by newline characters.
+		This field MAY contain multiple lines, separated by newlines.
+		Newlines can be represented either as
+		a carriage return/line feed pair ("\r\n") or as
+		a single line feed character ("\n").
 	      </t>
 
 	      <t hangText="street_address">
@@ -1567,7 +1617,10 @@
 		which MAY include house number, street name, 
 		Post Office Box, and multi-line extended street 
 		address information.
-		This field MAY contain multiple lines, separated by newline characters.
+		This field MAY contain multiple lines, separated by newlines.
+		Newlines can be represented either as
+		a carriage return/line feed pair ("\r\n") or as
+		a single line feed character ("\n").
 	      </t>
 
 	      <t hangText="locality">City or locality component.</t>
@@ -1646,7 +1699,8 @@
 
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) and
-	    <spanx style="verb">iss</spanx> (issuer) Claims are the only Claims that a Client
+	    <spanx style="verb">iss</spanx> (issuer) Claims, used together,
+	    are the only Claims that a Client
 	    can rely upon as a stable identifier for the End-User,
 	    since the <spanx style="verb">sub</spanx>
 	    Claim MUST be locally unique and never reassigned within the Issuer
@@ -1887,7 +1941,7 @@
 	  offline access to resources.
 	  This specification mandates the use of the <spanx style="verb">prompt</spanx>
 	  parameter to obtain consent unless it is already known that the
-	  request complies with the conditions for processing in each jurisdiction.
+	  request complies with the conditions for processing the request in each jurisdiction.
 	</t>
 	<t>
 	  When an Access Token is returned in the front channel, there is
@@ -1922,7 +1976,7 @@
 	  and the terms must fair and equitable.
 	  In general, it is advisable for the service to follow the
 	  required privacy principles in each jurisdiction and rely on
-	  other conditions of processing than simply explicit consent,
+	  other conditions for processing the request than simply explicit consent,
 	  as online self-service "explicit consent" often does not
 	  form a valid consent in some jurisdictions.
 	</t>
@@ -2095,7 +2149,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -2122,7 +2176,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2145,7 +2199,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -2239,11 +2293,7 @@
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <author fullname="Edmund Jay" initials="E." surname="Jay">
-            <organization abbrev="Illumila">Illumila</organization>
-          </author>
-
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -2334,7 +2384,7 @@
 	-30
         <list style="symbols">
 	  <t>
-	    Updated <spanx style="verb">response_type</spanx> language.
+	    Updated the <spanx style="verb">response_type</spanx> language.
 	  </t>
 	  <t>
 	    Fixed #878 - Generalized description of errors that can be returned
@@ -2342,6 +2392,11 @@
 	  </t>
 	  <t>
 	    Provided more context in the introduction.
+	  </t>
+	  <t>
+	    Expanded the Authentication Request example to show both
+	    the 302 redirect response by the Client and the resulting
+	    HTTP GET request sent by the User Agent.
 	  </t>
 	</list>
       </t>

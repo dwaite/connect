@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="25" month="November" year="2013" />
+    <date day="27" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -189,7 +189,7 @@
       <t>To start discovery of OpenID endpoints, the End-User supplies an
       Identifier to the Client or Relying Party. The Client applies the
       normalization rules to the Identifier to determine the Resource and Host.
-      Then it makes an HTTPS <spanx style="verb">GET</spanx> request to the Host's
+      Then it makes an HTTP <spanx style="verb">GET</spanx> request to the Host's
       <xref target="RFC7033">WebFinger</xref>
       endpoint with the <spanx style="verb">resource</spanx> and <spanx
       style="verb">rel</spanx> parameters to obtain the location of the
@@ -610,6 +610,12 @@
 	    a <spanx style="verb">use</spanx> (Key Use) parameter
 	    value is REQUIRED for all keys in the referenced JWK Set
 	    to indicate each key's intended usage.
+	    Although some algorithms allow the same key to be used for
+	    both signatures and encryption, doing so is
+	    NOT RECOMMENDED, as it is less secure.
+	    The JWK <spanx style="verb">x5c</spanx> parameter MAY be used
+	    to provide X.509 representations of keys provided.  When used, the bare key
+	    values MUST still be present and MUST match those in the certificate.
 	  </t>
 
 	  <t hangText="registration_endpoint">RECOMMENDED.
@@ -900,8 +906,9 @@
 
       <section anchor="ProviderConfigurationRequest"
 	       title="OpenID Provider Configuration Request">
-        <t>An OpenID Provider Configuration Document MUST be queried using an HTTPS
-        <spanx style="verb">GET</spanx> request at the previously specified path.
+        <t>
+	  An OpenID Provider Configuration Document MUST be queried using an HTTP
+	  <spanx style="verb">GET</spanx> request at the previously specified path.
 	</t>
 
         <t>The Client would make the following request to the 
@@ -1231,7 +1238,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -1356,7 +1363,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1407,7 +1414,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="15" month="October" year="2013" />
+	  <date day="27" month="November" year="2013" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -1442,7 +1449,7 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="15" month="October" year="2013"/>
+          <date day="27" month="November" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"

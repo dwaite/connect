@@ -48,7 +48,7 @@
       </address>
     </author>
 
-    <date day="19" month="November" year="2013" />
+    <date day="27" month="November" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -89,7 +89,8 @@
 	  "Client", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", and "Token Endpoint"
-	  defined by <xref target="RFC6749">OAuth 2.0</xref>.
+	  defined by <xref target="RFC6749">OAuth 2.0</xref>
+	  and the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>.
 	  This specification also defines the following terms:
 	  <list style="hanging">
 	    <t hangText="Client and Server">In the traditional client-server
@@ -180,7 +181,7 @@
 	    </t>
 	    <t hangText="form_post">
 	      In this mode, response parameters are encoded
-	      as HTML form values that are auto-submitted in the user-agent,
+	      as HTML form values that are auto-submitted in the User Agent,
 	      and thus are transmitted via the HTTP POST method to the client,
 	      with the result parameters being encoded in the response body
 	      using the "application/x-www-form-urlencoded" format.
@@ -188,7 +189,7 @@
 	      The method of the form attribute MUST be <spanx style="verb">POST</spanx>.
 	    </t>
 	    <t>
-	      Any technique supported by the user agent MAY be used to cause
+	      Any technique supported by the User Agent MAY be used to cause
 	      the submission of the form, and any form content necessary to support this
 	      MAY be included, such as submit controls and client-side scripting commands.
 	      However, the client MUST be able to process the message without regard for
@@ -230,11 +231,11 @@
 	</t>
 	<t>
 	  For instance, if a response includes fragment encoded parts,
-	  a User-Agent Client component must be involved to complete processing of the response.
-	  If a new query parameter is added to the Client URI, it will cause the User-Agent
+	  a User Agent Client component must be involved to complete processing of the response.
+	  If a new query parameter is added to the Client URI, it will cause the User Agent
 	  to re-fetch the Client URI,
-	  causing discontinuity of operation of the User-Agent based Client components. If
-	  only fragment encoding is used, the User-Agent will simply reactivate the Client
+	  causing discontinuity of operation of the User Agent based Client components. If
+	  only fragment encoding is used, the User Agent will simply reactivate the Client
 	  component, which can then process the fragment and
 	  also convey any parameters to a Client host as necessary, e.g., via XmlHttpRequest.
 	  Therefore, full fragment encoding always results in lower latency for response processing.
@@ -261,7 +262,7 @@
 	  The Authorization Server SHOULD NOT return an OAuth 2.0
 	  Authorization Code, Access Token, or Access Token Type in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
-	  is supplied, the User-Agent SHOULD be redirected
+	  is supplied, the User Agent SHOULD be redirected
           there after granting or denying access.
 	  The request MAY include a <spanx style="verb">state</spanx> parameter,
 	  and if so, the
@@ -302,7 +303,7 @@
 	  Authorization Request, the Authorization Server SHOULD NOT return an OAuth 2.0
 	  Authorization Code, Access Token, Access Token Type, or ID Token in a successful
           response to the grant request. If a <spanx style="verb">redirect_uri</spanx>
-	  is supplied, the User-Agent SHOULD be redirected
+	  is supplied, the User Agent SHOULD be redirected
           there after granting or denying access.
 	  The request MAY include a <spanx style="verb">state</spanx> parameter,
 	  and if so, the
@@ -376,7 +377,7 @@
 	either a successful response or an error response.
       </t>
       <t>
-	A non-normative request/response example as issued/received by the User-Agent
+	A non-normative request/response example as issued/received by the User Agent
 	(with extra line breaks for display purposes only) is:
 	<figure><artwork><![CDATA[
   GET /authorize?
@@ -548,6 +549,7 @@
   <back>
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6749"?>
     </references>
 
@@ -555,7 +557,7 @@
 
       <t>
 	Below is a non-normative request/response/request example as
-	issued/received/issued by the User-Agent
+	issued/received/issued by the User Agent
 	(with extra line breaks for display purposes only)
 	demonstrating an auto-submitted <spanx style="verb">form_post</spanx> encoded response:
       </t>
