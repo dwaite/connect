@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="5" month="December" year="2013" />
+    <date day="8" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -105,7 +105,7 @@
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
 	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
-	  "Resource Owner", "Resource Server", and "Token Endpoint"
+	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
 	  and the terms defined by
 	  <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
@@ -197,7 +197,7 @@
 	    <spanx style="verb">response_type</spanx> values that
 	    the Client is declaring that it will restrict itself to using.
 	    If omitted, the default is that the Client will use only the
-	    <spanx style="verb">code</spanx> response type.
+	    <spanx style="verb">code</spanx> Response Type.
 	  </t>
 
           <t hangText="grant_types">
@@ -376,7 +376,9 @@
 	  <spanx style="verb">client_id</spanx>.
 	  The value <spanx style="verb">none</spanx>
 	  MUST NOT be used as the ID Token <spanx style="verb">alg</spanx> value
-	  unless the Client uses only the Authorization Code Flow.
+	  unless the Client uses only Response Types that return no ID Token from the
+	  Authorization Endpoint
+	  (such as when only using the Authorization Code Flow).
 	  The default if not specified is <spanx style="verb">RS256</spanx>.
 	  The public key for validating the signature is provided by retrieving the 
 	  JWK Set referenced by the
@@ -1297,7 +1299,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="27" month="November" year="2013"/>
+          <date day="8" month="December" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -1324,7 +1326,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="27" month="November" year="2013"/>
+          <date day="8" month="December" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -1462,7 +1464,7 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="27" month="November" year="2013"/>
+          <date day="8" month="December" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"

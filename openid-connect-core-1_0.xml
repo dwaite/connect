@@ -168,7 +168,7 @@
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
 	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
-	  "Resource Owner", "Resource Server", and "Token Endpoint"
+	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
 	  the terms "Claim Name" and "Claim Value" defined by
 	  <xref target="JWT">JSON Web Token (JWT)</xref>,
@@ -1705,9 +1705,9 @@
 	      per <xref target="SigningOrder"/>.
 	      ID Tokens MUST NOT use <spanx style="verb">none</spanx>
 	      as the <spanx style="verb">alg</spanx> value
-	      unless the flow used returns no ID Token from the
+	      unless the Response Type used returns no ID Token from the
 	      Authorization Endpoint
-	      (such as the Authorization Code Flow)
+	      (such as when using the Authorization Code Flow)
 	      and the Client explicitly requested the use of
 	      <spanx style="verb">none</spanx> at registration time.
 	    </t>
@@ -6042,10 +6042,10 @@
 
 	    <t hangText="Response Types">
 	      These OpenID Providers MUST support the
-	      <spanx style="verb">id_token</spanx> response type and
+	      <spanx style="verb">id_token</spanx> Response Type and
 	      all that are not Self-Issued OPs MUST also support the
 	      <spanx style="verb">code</spanx> and
-	      <spanx style="verb">id_token&nbsp;token</spanx> response types.
+	      <spanx style="verb">id_token&nbsp;token</spanx> Response Types.
 	    </t>
 
 	    <t hangText="Discovery">
@@ -6405,13 +6405,13 @@
 	  The server response disclosure can be mitigated in the following two
 	  ways:
 	  <list style="numbers">
-	    <t>Using the <spanx style="verb">code</spanx> response type.
+	    <t>Using the <spanx style="verb">code</spanx> Response Type.
 	    The response is sent over a TLS protected 
 	    channel, where the Client is authenticated by the
 	    <spanx style="verb">client_id</spanx> and 
 	    <spanx style="verb">client_secret</spanx>.</t>
 
-	    <t>For other response types,
+	    <t>For other Response Types,
 	    the signed response can be encrypted with the Client's 
 	    public key or a shared secret as an encrypted JWT
 	    with an appropriate key and cipher.</t>
@@ -6749,7 +6749,7 @@
 	  from the server can be difficult especially for native clients.
 	  The server may well have to rely on heuristics.
 	  Also, the risk of exposure for the Access Token delivered
-	  through the User Agent for the response types of
+	  through the User Agent for the Response Types of
 	  <spanx style="verb">code&nbsp;token</spanx> and
 	  <spanx style="verb">token</spanx> is the same.
 	  Thus, the implementations should be prepared to detect
@@ -7643,7 +7643,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013"/>
+	  <date day="8" month="December" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -7666,7 +7666,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013"/>
+	  <date day="8" month="December" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -7938,7 +7938,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013" />
+	  <date day="8" month="December" year="2013" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -8001,7 +8001,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013"/>
+	  <date day="8" month="December" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -8032,7 +8032,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013"/>
+	  <date day="8" month="December" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-implicit-1_0.html"
@@ -8067,7 +8067,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013"/>
+	  <date day="8" month="December" year="2013"/>
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -8085,10 +8085,10 @@
 	  <date day="5" month="December" year="2007" />
 	</front>
 
-	<format target="http://www.openid.net/specs/openid-authentication-2_0.txt"
+	<format target="http://openid.net/specs/openid-authentication-2_0.txt"
 		type="TXT" />
 
-	<format target="http://www.openid.net/specs/openid-authentication-2_0.html"
+	<format target="http://openid.net/specs/openid-authentication-2_0.html"
 		type="HTML" />
       </reference>
 

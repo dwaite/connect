@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="5" month="December" year="2013" />
+    <date day="8" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -113,7 +113,7 @@
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
 	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
 	  "Protected Resource", "Redirection URI", "Refresh Token",
-	  "Resource Owner", "Resource Server", and "Token Endpoint"
+	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
 	  and the terms defined by
 	  <xref target="OpenID.Core">OpenID Connect Core 1.0</xref> and
@@ -638,7 +638,7 @@
 	  server supports.
 	  Dynamic OpenID Providers MUST support the <spanx style="verb">code</spanx>,
 	  <spanx style="verb">id_token</spanx>, and the <spanx style="verb">token id_token</spanx>
-	  response type values.
+	  Response Type values.
 	  </t>
 
 	  <t hangText="response_modes_supported">
@@ -682,7 +682,10 @@
 	  to encode the Claims in a JWT <xref target="JWT" />.
 	  The algorithm <spanx style="verb">RS256</spanx> MUST be included.
 	  The value <spanx style="verb">none</spanx> MAY be supported,
-	  but MUST only be used with the Authorization Code Flow.
+	  but MUST NOT be used
+	  unless the Response Type used returns no ID Token from the
+	  Authorization Endpoint
+	  (such as when using the Authorization Code Flow).
 	  </t>
 
 	  <t hangText="id_token_encryption_alg_values_supported">OPTIONAL.
@@ -1268,7 +1271,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="27" month="November" year="2013"/>
+          <date day="8" month="December" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -1393,7 +1396,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="27" month="November" year="2013"/>
+          <date day="8" month="December" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1420,7 +1423,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="27" month="November" year="2013" />
+	  <date day="8" month="December" year="2013" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -1455,7 +1458,7 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="27" month="November" year="2013"/>
+          <date day="8" month="December" year="2013"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
