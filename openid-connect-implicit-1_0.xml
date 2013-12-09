@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="5" month="December" year="2013" />
+    <date day="8" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -818,10 +818,16 @@
           <section anchor="ImplicitCallback" 
                    title="Redirect URI Fragment Handling">
 	    <t>
-	      The Client needs to have the User Agent parse the fragment encoded values
+	      Since response parameters are returned in the Redirection URI fragment value,
+	      the Client needs to have the User Agent parse the fragment encoded values
 	      and pass them to on to the Client's processing logic for consumption.
-	      One way to achieve this, if the Client does not run entirely in
-	      the User Agent, is to post them to a Web Server Client for validation.
+	      User Agents that have direct access to cryptographic APIs may be able to be
+	      self-contained, for instance, with all Client code being written in JavaScript.
+	    </t>
+	    <t>
+	      However, if the Client does not run entirely in the User Agent,
+	      one way to achieve this
+	      is to post them to a Web Server Client for validation.
 	    </t>
 
 	    <t>The following is an example of a JavaScript file that a Client might host at its
