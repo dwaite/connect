@@ -7965,7 +7965,6 @@
     <references title="Informative References">
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.4949"?>
-      <?rfc include='http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-appsawg-acct-uri-06.xml' ?>
 
       <reference anchor="OpenID.Basic">
 	<front>
@@ -8241,8 +8240,31 @@
 ]]></artwork>
 	</figure>
 
+	<t>
+	  The value of the <spanx style="verb">id_token</spanx> parameter is the ID Token,
+	  which is a signed JWT,
+	  containing three base64url encoded segments separated by period ('.') characters.
+	  The first segment represents the JWT header.
+	  Base64url decoding it will result in the following set of Header Parameters:
+	</t>
+	<figure>
+	  <artwork><![CDATA[
+  {"kid":"1e9gdk7","alg":"RS256"}
+]]></artwork>
+	</figure>
+	<t>
+	  The <spanx style="verb">alg</spanx> value represents the algorithm
+	  that was used to sign the JWT, in this case
+	  <spanx style="verb">RS256</spanx>, representing RSASSA-PKCS-v1_5 using SHA-256.
+	  The <spanx style="verb">kid</spanx> value is a key identifier used
+	  in identifying the key to be used to verify the signature.
+	  If the <spanx style="verb">kid</spanx> value is unknown to the RP,
+	  it needs to retrieve the contents of the OP's JWK Set again
+	  to obtain the OP's current set of keys.
+	</t>
 	<figure>
 	  <preamble>
+	    The second segment represents the Claims in the ID Token. 
 	    Verifying and decoding the ID Token will yield the following Claims:
 	  </preamble>
 	  <artwork><![CDATA[
@@ -8263,6 +8285,10 @@
   }
 ]]></artwork>
 	</figure>
+	<t>
+	  The third segment represents the ID Token signature,
+	  which is verified as described in <xref target="JWS"/>.
+	</t>
       </section>
 
       <section anchor="id_token-tokenExample" title="Example using response_type=id_token&nbsp;token">
@@ -8657,6 +8683,9 @@
 	  <t>
 	    Fixed #908 - Moved Redirection URI fragment handling example to
 	    the Implementation Notes section.
+	  </t>
+	  <t>
+	    Fixed #905 - Added a complete ID Token validation example.
 	  </t>
 	</list>
       </t>
