@@ -438,6 +438,228 @@
       </section>
     </section>
 
+    <section anchor="IDToken" title="ID Token">
+
+      <t>
+	The primary extension that OpenID Connect makes to OAuth 2.0
+	to enable End-Users to be Authenticated
+	is the ID Token data structure.
+	The ID Token is a security token that contains Claims about the
+	Authentication of an End-User by an Authorization Server when using a Client,
+	and potentially other requested Claims.
+	The ID Token is represented as a
+	<xref target="JWT">JSON Web Token (JWT)</xref>.
+      </t>
+      <t>
+	The following Claims are used within the ID Token for all OAuth 2.0 flows:
+      </t>
+
+      <t>
+	<list style="hanging">
+	  <t hangText="iss">
+	    REQUIRED.
+	    Issuer Identifier for the Issuer of the response.
+	    The <spanx style="verb">iss</spanx> value is a case sensitive URL
+	    using the <spanx style="verb">https</spanx> scheme that
+	    contains scheme, host, and OPTIONALLY, port number and path
+	    components and no query or fragment components.
+	  </t>
+
+	  <t hangText="sub">
+	    REQUIRED.
+	    Subject Identifier.  A locally unique and never
+	    reassigned identifier within the Issuer for the End-User, 
+	    which is intended to be consumed by the Client,
+	    e.g., <spanx style="verb">24400320</spanx>
+	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
+	    It MUST NOT exceed 255 ASCII characters in length.
+	    The <spanx style="verb">sub</spanx> value is a case sensitive string.
+	  </t>
+
+	  <t hangText="aud">
+	    REQUIRED.
+	    Audience(s) that this ID Token is intended for.
+	    It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
+	    of the Relying Party as an audience value.
+	    It MAY also contain identifiers for other audiences.
+	    In the general case,
+	    the <spanx style="verb">aud</spanx> value is an array of
+	    case sensitive strings.
+	    In the common special case when there is one audience,
+	    the <spanx style="verb">aud</spanx> value MAY be a single
+	    case sensitive string.
+	  </t>
+
+	  <t hangText="exp">REQUIRED.
+	  Expiration time on or after which the ID Token MUST NOT be
+	  accepted for processing. The processing of this parameter
+	  requires that the current date/time MUST be before the
+	  expiration date/time listed in the value. Implementers MAY
+	  provide for some small leeway, usually no more than a few
+	  minutes, to account for clock skew.
+	  Its value is a JSON number representing the number of seconds from
+	  1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	  See <xref target="RFC3339">RFC 3339</xref>
+	  for details regarding date/times in general and UTC in
+	  particular.
+	  </t>
+	  
+	  <t hangText="iat">REQUIRED.
+	  Time at which the JWT was issued.
+	  Its value is a JSON number representing the number of seconds from
+	  1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	  </t>
+
+	  <t hangText="auth_time">
+	    Time when the End-User authentication occurred.
+	    Its value is a JSON number representing the number of seconds from
+	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    When a <spanx style="verb">max_age</spanx> request is made
+	    or when <spanx style="verb">auth_time</spanx> is requested
+	    as an Essential Claim,
+	    then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
+	    (The <spanx style="verb">auth_time</spanx> Claim semantically
+	    corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
+	    <spanx style="verb">auth_time</spanx> response parameter.)
+	  </t>
+
+	  <t hangText="nonce">
+	    String value used to associate a Client session 
+	    with an ID Token, and to mitigate replay attacks. 
+	    The value is passed through unmodified from the Authentication Request to the ID Token.
+	    If present in the ID Token,
+	    Clients MUST verify that
+	    the <spanx style="verb">nonce</spanx> Claim Value is equal to
+	    the value of the <spanx style="verb">nonce</spanx>
+	    parameter sent in the Authentication Request.
+	    If present in the Authentication Request, Authorization Servers
+	    MUST include a <spanx style="verb">nonce</spanx> Claim in the
+	    ID Token with the Claim Value
+	    being the nonce value sent in the Authentication Request.
+	    Authorization Servers SHOULD perform no other processing
+	    on <spanx style="verb">nonce</spanx> values used.
+	    The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+	  </t>
+
+	  <t hangText="acr">
+	    OPTIONAL.
+	    Authentication Context Class Reference.
+	    String specifying an Authentication Context Class Reference value
+	    that identifies the Authentication Context Class that the
+	    authentication performed satisfied.
+	    The value "0" indicates the End-User authentication
+	    did not meet the requirements of
+	    <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
+	    Authentication using a long-lived browser cookie, for instance, is one 
+	    example where the use of "level 0" is appropriate. Authentications with 
+	    level 0 SHOULD NOT be used to authorize access to any resource of any 
+	    monetary value.  
+	    (This corresponds to the OpenID 2.0
+	    <xref target="OpenID.PAPE">PAPE</xref> 
+	    <spanx style="verb">nist_auth_level</spanx> 0.)
+	    An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
+	    registered name
+	    SHOULD be used as the <spanx style="verb">acr</spanx> value;
+	    registered names MUST NOT be used with a different meaning than
+	    that which is registered.
+	    Parties using this claim will need to agree upon the meanings of
+	    the values used, which may be context-specific.
+	    The <spanx style="verb">acr</spanx> value is a case sensitive string.
+	  </t>
+
+	  <t hangText="amr">
+	    OPTIONAL.
+	    Authentication Methods References.
+	    JSON array of strings that are identifiers for authentication methods
+	    used in the authentication.
+	    For instance, values might indicate that both password and OTP
+	    authentication methods were used.
+	    The definition of particular values to be used in the
+	    <spanx style="verb">amr</spanx> Claim
+	    is beyond the scope of this specification.
+	    Parties using this claim will need to agree upon the meanings of
+	    the values used, which may be context-specific.
+	    The <spanx style="verb">amr</spanx> value is an array of
+	    case sensitive strings.
+	  </t>
+
+	  <t hangText="azp">
+	    OPTIONAL.
+	    Authorized party - the party to which the ID Token was issued.
+	    If present, it MUST contain the OAuth 2.0
+	    Client ID of this party.
+	    This Claim is only needed when
+	    the ID Token has a single audience value
+	    and that audience is different than the authorized party.
+	    It MAY be included even when the authorized party is the same
+	    as the sole audience.
+	    The <spanx style="verb">azp</spanx> value is a case sensitive string
+	    containing a StringOrURI value.
+	  </t>
+
+	</list>
+      </t>
+
+      <t>
+	ID Tokens MAY contain other Claims.
+	Any Claims used that are not understood MUST be ignored.
+	See Sections
+	<xref target="CodeIDToken" format="counter"/>,
+	<xref target="HybridIDToken" format="counter"/>,
+	<xref target="StandardClaims" format="counter"/>, and
+	<xref target="SelfIssuedResponse" format="counter"/>
+	for additional Claims defined by this specification.
+      </t>
+      <t>
+	ID Tokens MUST be signed using <xref
+	target="JWS">JWS</xref> and OPTIONALLY both signed and then
+	encrypted using <xref target="JWS">JWS</xref> and <xref
+	target="JWE">JWE</xref> respectively, thereby providing
+	authentication, integrity,
+	non-repudiation, and optionally, confidentiality,
+	per <xref target="SigningOrder"/>.
+	ID Tokens MUST NOT use <spanx style="verb">none</spanx>
+	as the <spanx style="verb">alg</spanx> value
+	unless the Response Type used returns no ID Token from the
+	Authorization Endpoint
+	(such as when using the Authorization Code Flow)
+	and the Client explicitly requested the use of
+	<spanx style="verb">none</spanx> at registration time.
+      </t>
+      <t>
+	ID Tokens SHOULD NOT use the JWS or JWE
+	<spanx style="verb">x5u</spanx>,
+	<spanx style="verb">x5c</spanx>,
+	<spanx style="verb">jku</spanx>, or
+	<spanx style="verb">jwk</spanx>
+	header parameter fields.
+	Instead, references to keys used are
+	communicated in advance using Discovery and Registration parameters,
+	per <xref target="SigEnc"/>.
+      </t>
+
+      <figure>
+	<preamble>
+	  The following is a non-normative example of
+	  the set of Claims (the JWT Claims Set) in an ID Token:
+	</preamble>
+
+	<artwork><![CDATA[
+  {
+   "iss": "https://server.example.com",
+   "sub": "24400320",
+   "aud": "s6BhdRkqt3",
+   "nonce": "n-0S6_WzA2Mj",
+   "exp": 1311281970,
+   "iat": 1311280970,
+   "auth_time": 1311280969,
+   "acr": "urn:mace:incommon:iap:silver"
+  }
+]]></artwork>
+      </figure>
+
+    </section>
+
     <section anchor="Authentication" title="Authentication">
       <t>
 	OpenID Connect performs authentication to log in the End-User
@@ -995,7 +1217,6 @@
 		  are present
 		  and their usage conforms to this specification.
 		</t>
-		<!-- These steps count on claims features -->
 		<t>
 		  If the <spanx style="verb">sub</spanx> (subject) Claim
 		  is requested with a specific value for the ID Token, 
@@ -1084,7 +1305,7 @@
 	      or by establishing consent via conditions for processing the request or
 	      other means (for example, via previous administrative consent).
 	      Sections <xref target="IDToken" format="counter"/> and
-	      <xref target="Claims" format="counter"/> describe
+	      <xref target="UserInfo" format="counter"/> describe
 	      information release mechanisms.
 	    </t>
 
@@ -1512,106 +1733,15 @@
 
 	  </section>
 
-          <section anchor="IDToken" title="ID Token">
+          <section anchor="CodeIDToken" title="ID Token">
 
-            <t>
-	      The ID Token is a security token that contains Claims about the
-	      authentication of an End-User by an Authorization Server when using a Client,
-	      and potentially other requested Claims.
-	      The ID Token is represented as a
-	      <xref target="JWT">JSON Web Token (JWT)</xref>.
+	    <t>
+	      The contents of the ID Token are as described in <xref target="IDToken"/>.
+	      When using the Authorization Code Flow,
+	      these additional requirements for the following ID Token Claims apply:
 	    </t>
-            <t>
-	      The following Claims are used within the ID Token
-	      when using this flow:
-	    </t>
-
             <t>
 	      <list style="hanging">
-                <t hangText="iss">
-		  REQUIRED.
-		  Issuer Identifier for the Issuer of the response.
-		  The <spanx style="verb">iss</spanx> value is a case sensitive URL
-		  using the <spanx style="verb">https</spanx> scheme that
-		  contains scheme, host, and OPTIONALLY, port number and path
-		  components and no query or fragment components.
-		</t>
-
-                <t hangText="sub">
-		  REQUIRED.
-		  Subject Identifier.  A locally unique and never
-		  reassigned identifier within the Issuer for the End-User, 
-		  which is intended to be consumed by the Client,
-		  e.g., <spanx style="verb">24400320</spanx>
-		  or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-		  It MUST NOT exceed 255 ASCII characters in length.
-		  The <spanx style="verb">sub</spanx> value is a case sensitive string.
-		</t>
-
-                <t hangText="aud">
-		  REQUIRED.
-		  Audience(s) that this ID Token is intended for.
-		  It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
-		  of the Relying Party as an audience value.
-		  It MAY also contain identifiers for other audiences.
-		  In the general case,
-		  the <spanx style="verb">aud</spanx> value is an array of
-		  case sensitive strings.
-		  In the common special case when there is one audience,
-		  the <spanx style="verb">aud</spanx> value MAY be a single
-		  case sensitive string.
-		</t>
-
-                <t hangText="exp">REQUIRED.
-                Expiration time on or after which the ID Token MUST NOT be
-                accepted for processing. The processing of this parameter
-                requires that the current date/time MUST be before the
-                expiration date/time listed in the value. Implementers MAY
-                provide for some small leeway, usually no more than a few
-                minutes, to account for clock skew.
-		Its value is a JSON number representing the number of seconds from
-		1970-01-01T0:0:0Z as measured in UTC until the date/time.
-		See <xref target="RFC3339">RFC 3339</xref>
-                for details regarding date/times in general and UTC in
-                particular.
-		</t>
-                
-                <t hangText="iat">REQUIRED.
-		Time at which the JWT was issued.
-                Its value is a JSON number representing the number of seconds from
-		1970-01-01T0:0:0Z as measured in UTC until the date/time.
-		</t>
-
-                <t hangText="auth_time">
-                  Time when the End-User authentication occurred.
-		  Its value is a JSON number representing the number of seconds from
-		  1970-01-01T0:0:0Z as measured in UTC until the date/time.
-                  When a <spanx style="verb">max_age</spanx> request is made
-                  or when <spanx style="verb">auth_time</spanx> is requested
-                  as an Essential Claim,
-                  then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
-                  (The <spanx style="verb">auth_time</spanx> Claim semantically
-                  corresponds to the OpenID 2.0 <xref target="OpenID.PAPE">PAPE</xref> 
-                  <spanx style="verb">auth_time</spanx> response parameter.)
-                </t>
-
-                <t hangText="nonce">
-		  String value used to associate a Client session 
-		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authentication Request to the ID Token.
-		  If present in the ID Token,
-		  Clients MUST verify that
-		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
-		  the value of the <spanx style="verb">nonce</spanx>
-		  parameter sent in the Authentication Request.
-		  If present in the Authentication Request, Authorization Servers
-		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
-		  ID Token with the Claim Value
-		  being the nonce value sent in the Authentication Request.
-		  Authorization Servers SHOULD perform no other processing
-		  on <spanx style="verb">nonce</spanx> values used.
-		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
-		</t>
 
                 <t hangText="at_hash">
 		  OPTIONAL. 
@@ -1629,117 +1759,8 @@
 		  The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
 		</t>
 
-                <t hangText="acr">
-		  OPTIONAL.
-		  Authentication Context Class Reference.
-		  String specifying an Authentication Context Class Reference value
-		  that identifies the Authentication Context Class that the
-		  authentication performed satisfied.
-		  The value "0" indicates the End-User authentication
-		  did not meet the requirements of
-		  <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
-		  Authentication using a long-lived browser cookie, for instance, is one 
-		  example where the use of "level 0" is appropriate. Authentications with 
-		  level 0 SHOULD NOT be used to authorize access to any resource of any 
-		  monetary value.  
-		  (This corresponds to the OpenID 2.0
-		  <xref target="OpenID.PAPE">PAPE</xref> 
-		  <spanx style="verb">nist_auth_level</spanx> 0.)
-		  An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
-		  registered name
-		  SHOULD be used as the <spanx style="verb">acr</spanx> value;
-		  registered names MUST NOT be used with a different meaning than
-		  that which is registered.
-		  Parties using this claim will need to agree upon the meanings of
-		  the values used, which may be context-specific.
-		  The <spanx style="verb">acr</spanx> value is a case sensitive string.
-                </t>
-
-                <t hangText="amr">
-		  OPTIONAL.
-		  Authentication Methods References.
-		  JSON array of strings that are identifiers for authentication methods
-		  used in the authentication.
-		  For instance, values might indicate that both password and OTP
-		  authentication methods were used.
-		  The definition of particular values to be used in the
-		  <spanx style="verb">amr</spanx> Claim
-		  is beyond the scope of this specification.
-		  Parties using this claim will need to agree upon the meanings of
-		  the values used, which may be context-specific.
-		  The <spanx style="verb">amr</spanx> value is an array of
-		  case sensitive strings.
-		</t>
-
-		<t hangText="azp">
-		  OPTIONAL.
-		  Authorized party - the party to which the ID Token was issued.
-		  If present, it MUST contain the OAuth 2.0
-		  Client ID of this party.
-		  This Claim is only needed when
-		  the ID Token has a single audience value
-		  and that audience is different than the authorized party.
-		  It MAY be included even when the authorized party is the same
-		  as the sole audience.
-		  The <spanx style="verb">azp</spanx> value is a case sensitive string
-		  containing a StringOrURI value.
-		</t>
-
               </list>
 	    </t>
-
-	    <t>
-	      ID Tokens MAY contain other Claims.
-	      Any Claims used that are not understood MUST be ignored.
-	      See Sections <xref target="HybridIDToken" format="counter"/>,
-	      <xref target="StandardClaims" format="counter"/>, and
-	      <xref target="SelfIssuedResponse" format="counter"/>
-	      for additional Claims defined by this specification.
-	    </t>
-            <t>
-	      ID Tokens MUST be signed using <xref
-	      target="JWS">JWS</xref> and OPTIONALLY both signed and then
-	      encrypted using <xref target="JWS">JWS</xref> and <xref
-	      target="JWE">JWE</xref> respectively, thereby providing
-	      authentication, integrity,
-	      non-repudiation, and optionally, confidentiality,
-	      per <xref target="SigningOrder"/>.
-	      ID Tokens MUST NOT use <spanx style="verb">none</spanx>
-	      as the <spanx style="verb">alg</spanx> value
-	      unless the Response Type used returns no ID Token from the
-	      Authorization Endpoint
-	      (such as when using the Authorization Code Flow)
-	      and the Client explicitly requested the use of
-	      <spanx style="verb">none</spanx> at registration time.
-	    </t>
-	    <t>
-	      ID Tokens SHOULD NOT use the JWS or JWE
-	      <spanx style="verb">x5u</spanx>,
-	      <spanx style="verb">x5c</spanx>,
-	      <spanx style="verb">jku</spanx>, or
-	      <spanx style="verb">jwk</spanx>
-	      header parameter fields.
-	      Instead, keys used for ID Tokens are
-	      communicated in advance using Discovery and Registration parameters.
-	    </t>
-
-	    <figure>
-	      <preamble>The following is a non-normative example of an
-	      ID Token claims set:</preamble>
-
-	      <artwork><![CDATA[
-  {
-   "iss": "https://server.example.com",
-   "sub": "24400320",
-   "aud": "s6BhdRkqt3",
-   "nonce": "n-0S6_WzA2Mj",
-   "exp": 1311281970,
-   "iat": 1311280970,
-   "auth_time": 1311280969,
-   "acr": "urn:mace:incommon:iap:silver"
-  }
-]]></artwork>
-	    </figure>
 
 	  </section>
 
@@ -2183,34 +2204,18 @@
 	  </section>
 
           <section anchor="ImplicitIDToken" title="ID Token">
-	    <t>
-	      When using the Implicit Flow, the contents of the ID Token are
-	      the same as for the Authorization Code Flow,
-	      as defined in <xref target="IDToken"/>,
-	      with the exception of the differences specified in this section.
-	    </t>
 
-            <t>
-	      The requirements for using the following Claims are as follows
-	      when using the Implicit Flow:
+	    <t>
+	      The contents of the ID Token are as described in <xref target="IDToken"/>.
+	      When using the Implicit Flow,
+	      these additional requirements for the following ID Token Claims apply:
 	    </t>
             <t>
 	      <list style="hanging">
 
                 <t hangText="nonce">
-		  REQUIRED.
-		  String value used to associate a Client session 
-		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authentication Request to the ID Token.
-		  Clients MUST verify that
-		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
-		  the value of the <spanx style="verb">nonce</spanx>
-		  parameter sent in the Authentication Request.
-		  Authorization Servers
-		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
-		  ID Token with the Claim Value
-		  being the nonce value sent in the Authentication Request.
-		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+		  Use of the <spanx style="verb">nonce</spanx> Claim is REQUIRED
+		  for this flow.
 		</t>
 
                 <t hangText="at_hash">
@@ -2229,10 +2234,13 @@
 		</t>
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with an 
-		  <spanx style="verb">access_token</spanx>,
-		  which is the case with the <spanx style="verb">response_type</spanx> value
+		  <spanx style="verb">access_token</spanx> value,
+		  which is the case for the <spanx style="verb">response_type</spanx> value
 		  <spanx style="verb">id_token&nbsp;token</spanx>,
-		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
+		  this is REQUIRED;
+		  it MAY NOT be used when no Access Token is issued,
+		  which is the case for the <spanx style="verb">response_type</spanx> value
+		  <spanx style="verb">id_token</spanx>.
 		</t>
 
 	      </list>
@@ -2559,34 +2567,17 @@
           <section anchor="HybridIDToken" title="ID Token">
 
 	    <t>
-	      When using the Hybrid Flow, the contents of the ID Token
-	      returned from the Authorization Endpoint are
-	      the same as for the Implicit Flow,
-	      as defined in <xref target="ImplicitIDToken"/>,
-	      with the exception of the differences specified in this section.
-	    </t>
-
-            <t>
-	      The requirements for using the following Claims are as follows
-	      when using the Hybrid Flow:
+	      The contents of the ID Token are as described in <xref target="IDToken"/>.
+	      When using the Hybrid Flow,
+	      these additional requirements for the following ID Token Claims apply
+	      to an ID Token returned from the Authorization Endpoint:
 	    </t>
             <t>
 	      <list style="hanging">
 
                 <t hangText="nonce">
-		  REQUIRED.
-		  String value used to associate a Client session 
-		  with an ID Token, and to mitigate replay attacks. 
-		  The value is passed through unmodified from the Authentication Request to the ID Token.
-		  Clients MUST verify that
-		  the <spanx style="verb">nonce</spanx> Claim Value is equal to
-		  the value of the <spanx style="verb">nonce</spanx>
-		  parameter sent in the Authentication Request.
-		  Authorization Servers
-		  MUST include a <spanx style="verb">nonce</spanx> Claim in the
-		  ID Token with the Claim Value
-		  being the nonce value sent in the Authentication Request.
-		  The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+		  Use of the <spanx style="verb">nonce</spanx> Claim is REQUIRED
+		  for this flow.
 		</t>
 
                 <t hangText="at_hash">
@@ -2605,8 +2596,8 @@
 		</t>
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with an 
-		  <spanx style="verb">access_token</spanx>,
-		  which is the case with the <spanx style="verb">response_type</spanx> value
+		  <spanx style="verb">access_token</spanx> value,
+		  which is the case for the <spanx style="verb">response_type</spanx> value
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
 		</t>
@@ -2628,7 +2619,7 @@
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with a
 		  <spanx style="verb">code</spanx>,
-		  which is the case with the <spanx style="verb">response_type</spanx> values
+		  which is the case for the <spanx style="verb">response_type</spanx> values
 		  <spanx style="verb">code&nbsp;id_token</spanx> and
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 		  this is REQUIRED; otherwise, its inclusion is OPTIONAL.
@@ -2641,7 +2632,7 @@
 	  <section anchor="HybridIDTValidation" title="ID Token Validation">
 
 	    <t>
-	      When using the Hybrid Flow, the contents of the ID Token
+	      When using the Hybrid Flow, the contents of an ID Token
 	      returned from the Authorization Endpoint MUST be validated
 	      in the same manner as for the Implicit Flow,
 	      as defined in <xref target="ImplicitIDTValidation"/>.
@@ -2707,16 +2698,16 @@
           <section anchor="HybridIDToken2" title="ID Token">
 
 	    <t>
-	      When using the Hybrid Flow, the contents of the ID Token
+	      When using the Hybrid Flow, the contents of an ID Token
 	      returned from the Token Endpoint are
-	      the same as for the ID Token returned from the Authorization Endpoint,
+	      the same as for an ID Token returned from the Authorization Endpoint,
 	      as defined in <xref target="HybridIDToken"/>,
 	      with the exception of the differences specified in this section.
 	    </t>
 	    <t>
 	      If an ID Token is returned from both the Authorization Endpoint
 	      and from the Token Endpoint,
-	      which is the case with the <spanx style="verb">response_type</spanx> values
+	      which is the case for the <spanx style="verb">response_type</spanx> values
 	      <spanx style="verb">code&nbsp;id_token</spanx> and
 	      <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 	      the <spanx style="verb">iss</spanx> and <spanx style="verb">sub</spanx>
@@ -2731,14 +2722,17 @@
 	      and <spanx style="verb">c_hash</spanx> Claims
 	      MAY be omitted from the ID Token returned from the Token Endpoint
 	      even when these Claims are
-	      present in the ID Token returned from the Authorization Endpoint.
+	      present in the ID Token returned from the Authorization Endpoint,
+	      because the ID Token and Access Token values returned from
+	      the Token Endpoint are already cryptographically bound together
+	      by the TLS encryption performed by the Token Endpoint.
 	    </t>
 	  </section>
 
 	  <section anchor="HybridIDTValidation2" title="ID Token Validation">
 
 	    <t>
-	      When using the Hybrid Flow, the contents of the ID Token
+	      When using the Hybrid Flow, the contents of an ID Token
 	      returned from the Token Endpoint MUST be validated
 	      in the same manner as for the Authorization Code Flow,
 	      as defined in <xref target="IDTokenValidation"/>.
@@ -2750,7 +2744,7 @@
 	    <t>
 	      If an Access Token is returned from both the Authorization Endpoint
 	      and from the Token Endpoint,
-	      which is the case with the <spanx style="verb">response_type</spanx> values
+	      which is the case for the <spanx style="verb">response_type</spanx> values
 	      <spanx style="verb">code&nbsp;token</spanx> and
 	      <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>,
 	      their values MAY be the same
@@ -3567,7 +3561,12 @@
 	      If present, the listed Claims are being requested to be added to
 	      the default Claims in the ID Token.
 	      If not present, the default ID Token Claims are requested,
-	      as defined in <xref target="IDToken"/>. <!-- TBD and possibly reference the per-flow ID Token sections -->
+	      as per the ID Token definition in <xref target="IDToken"/>
+	      and per the additional per-flow ID Token requirements in Sections
+	      <xref target="CodeIDToken" format="counter"/>,
+	      <xref target="ImplicitIDToken" format="counter"/>,
+	      <xref target="HybridIDToken" format="counter"/>,
+	      and <xref target="HybridIDToken2" format="counter"/>.
 	    </t>
 
 	  </list>
