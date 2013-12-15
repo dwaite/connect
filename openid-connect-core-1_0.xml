@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="11" month="December" year="2013" />
+    <date day="14" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -172,7 +172,9 @@
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
 	  the terms "Claim Name" and "Claim Value" defined by
 	  <xref target="JWT">JSON Web Token (JWT)</xref>,
-	  and the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>.
+	  the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>,
+	  and the term "Response Mode" defined by
+	  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
         </t>
         <t>
           This specification also defines the following terms:
@@ -318,21 +320,6 @@
               OAuth 2.0 Client application requiring End-User Authentication
 	      and Claims from an OpenID Provider.
             </t>
-
-	    <t hangText="Response Mode">
-	      Means of specifying how the Authorization Server
-	      returns result parameters from the Authorization Endpoint.
-	      Non-default modes are specified using the
-	      <spanx style="verb">response_mode</spanx> request parameter.
-	    </t>
-
-	    <t hangText="Response Type">
-	      Means of specifying what parameters are returned
-	      from the endpoints used.
-	      The Client informs the
-	      Authorization Server of the desired authorization processing flow using the
-	      <spanx style="verb">response_type</spanx> request parameter.
-	    </t>
 
 	    <t hangText="Sector Identifier">
 	      Host component of a URL used by the Relying Party's organization
@@ -933,7 +920,7 @@
 		<t hangText="response_mode">
 		  OPTIONAL.
 		  Informs the Authorization Server of the mechanism to be used
-		  when returning parameters from the Authorization Endpoint.
+		  for returning parameters from the Authorization Endpoint.
 		  This use of this parameter is NOT RECOMMENDED when the Response Mode
 		  that would be requested is the default mode specified for the Response Type.
 		</t>
@@ -1325,7 +1312,7 @@
 	      <xref target="RFC6749">OAuth 2.0</xref>
 	      by adding them as query parameters to the
 	      <spanx style="verb">redirect_uri</spanx> specified in the Authorization Request
-	      using the "application/x-www-form-urlencoded" format,
+	      using the <spanx style="verb">application/x-www-form-urlencoded</spanx> format,
 	      unless a different Response Mode was specified.
 	    </t>
 
@@ -6260,21 +6247,30 @@
       <section anchor="RelatedSpecs" title="Related Specifications and Implementer's Guides">
 
 	<t>
-	  These related OpenID Connect specifications MAY be used in
+	  These related OPTIONAL specifications MAY be used in
 	  combination with this specification to provide additional functionality:
 
 	  <list style="symbols">
 
-	    <t><xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> -
-	    Dynamic discovery for user and Authorization Server 
-	    endpoints and information</t>
-
-	    <t><xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> -
-	    Dynamic registration of OpenID Connect
-	    Clients with OpenID Providers</t>
-
-	    <t><xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
-	    Session management for OpenID Connect, including logout functionality</t>
+	    <t>
+	      <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref> -
+	      Defines how Relying Parties dynamically discover information about OpenID Providers
+	    </t>
+	    <t>
+	      <xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref> -
+	      Defines how Relying Parties dynamically register with OpenID Providers
+	    </t>
+	    <t>
+	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
+	      Defines how to manage OpenID Connect sessions, including logout functionality
+	    </t>
+	    <t>
+	      <xref target="OAuth.Post">OAuth 2.0 Form Post Response Mode</xref> -
+	      Defines how to return OAuth 2.0 Authorization Response parameters
+	      (including OpenID Connect Authentication Response parameters)
+	      using HTML form values that are auto-submitted by the User Agent
+	      using HTTP <spanx style="verb">POST</spanx>
+	    </t>
 
 	  </list>
 	</t>
@@ -6338,7 +6334,7 @@
       <section anchor="ServerMasquerading" title="Server Masquerading">
 	<t>A malicious Server might masquerade as the legitimate server 
 	using various means. To detect such an attack, the Client needs to authenticate 
-	the server. </t>
+	the server.</t>
 	<t>In addition to what is stated in Section 5.1.2 of <xref target="RFC6819" />, 
 	this standard provides a way to authenticate the Server through either the 
 	use of Signed or Encrypted JWTs 
@@ -6455,7 +6451,7 @@
 	to ensure that the token is currently valid.</t>
 
 	<t>Alternatively, the server MAY record the state of the use of 
-	the token and check the status for each request. </t>
+	the token and check the status for each request.</t>
       </section>
 
       <section anchor="AuthCodeCapture"
@@ -6538,7 +6534,7 @@
 	differences in the code paths taken by successful and unsuccessful decryption operations or
 	successful and unsuccessful signature validation of a message. 
 	It can be used to reduce the effective key length of the
-	cipher used. </t>
+	cipher used.</t>
 	<t>Implementations SHOULD NOT terminate the validation process 
 	at the instant of the finding an error but SHOULD continue 
 	running until all the octets have been processed to avoid this attack.</t>
@@ -7927,7 +7923,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="8" month="December" year="2013" />
+	  <date day="14" month="December" year="2013" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -8059,6 +8055,25 @@
 	</front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
+		type="HTML" />
+      </reference>
+
+      <reference anchor="OAuth.Post">
+        <front>
+	  <title>OAuth 2.0 Form Post Response Mode</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+	  <author fullname="Brian Campbell" initials="B." surname="Campbell">
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
+	  </author>
+
+	  <date day="14" month="December" year="2013" />
+        </front>
+
+	<format target="http://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html"
 		type="HTML" />
       </reference>
 
@@ -8541,10 +8556,10 @@
       refer to Appendix C of OpenID Authentication 2.0 for the full list of
       the contributors for that specification.</t>
 
-      <t>In addition, the OpenID Community would like to thank the following
-      people for the work they have done in the drafting and editing of this
-      specification.</t>
-
+      <t>
+	In addition, the OpenID Community would like to thank the following people for
+	their contributions to this specification:
+      </t>
       <t>
 	<list style="empty">
 	  <t>Naveen Agarwal (naa@google.com), Google</t>
