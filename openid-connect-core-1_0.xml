@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 15</title>
+    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 16</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -55,7 +55,7 @@
       </address>
     </author>
 
-    <date day="14" month="December" year="2013" />
+    <date day="16" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -170,8 +170,8 @@
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
-	  the terms "Claim Name" and "Claim Value" defined by
-	  <xref target="JWT">JSON Web Token (JWT)</xref>,
+	  the terms "Claim Name", "Claim Value", "JSON Web Token (JWT)", and "Nested JWT"
+	  defined by <xref target="JWT">JSON Web Token (JWT)</xref>,
 	  the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>,
 	  and the term "Response Mode" defined by
 	  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
@@ -605,6 +605,8 @@
 	authentication, integrity,
 	non-repudiation, and optionally, confidentiality,
 	per <xref target="SigningOrder"/>.
+	If the ID Token is encrypted, it MUST be signed then encrypted,
+	with the result being a Nested JWT, as defined in <xref target="JWT"/>.
 	ID Tokens MUST NOT use <spanx style="verb">none</spanx>
 	as the <spanx style="verb">alg</spanx> value
 	unless the Response Type used returns no ID Token from the
@@ -3237,7 +3239,7 @@
 
 	  <figure>
 	    <preamble>
-	      The following is a non-normative example of a UserInfo request:
+	      The following is a non-normative example of a UserInfo Request:
 	    </preamble>
 
 	    <artwork><![CDATA[
@@ -3280,8 +3282,8 @@
 	    if they do not match, the UserInfo Response values MUST NOT be used.
 	  </t>
 	  <t>
-	    Upon receipt of the UserInfo request, the UserInfo Endpoint MUST
-	    return the JSON Serialization of the UserInfo response as in
+	    Upon receipt of the UserInfo Request, the UserInfo Endpoint MUST
+	    return the JSON Serialization of the UserInfo Response as in
 	    <xref target="JSONSerialization"/> in the HTTP response
 	    body unless a
 	    different format was specified during Registration
@@ -3292,9 +3294,15 @@
 	    style="verb">application/json</spanx> if the response body is a text
 	    JSON object;
 	    the response body SHOULD be encoded using UTF-8.
-	    If the JSON response is
-	    signed or encrypted, then the
+	  </t>
+	  <t>
+	    If the UserInfo Response is
+	    signed and/or encrypted, then the Claims are returned in a JWT and the
 	    content-type MUST be <spanx style="verb">application/jwt</spanx>.
+	    The response MAY be encrypted without also being signed.
+	    If both signing and encryption are requested,
+	    the response MUST be signed then encrypted,
+	    with the result being a Nested JWT, as defined in <xref target="JWT"/>.
 	  </t>
 	  <t>
 	    If signed, the UserInfo Response
@@ -4127,7 +4135,7 @@
 	    OPTIONAL.
 	    This parameter enables
 	    OpenID Connect requests to be passed in a single,
-	    self-contained parameter and to be signed and optionally encrypted.
+	    self-contained parameter and to be optionally signed and/or encrypted.
 	    The parameter value is a Request Object value,
 	    as specified in <xref target="RequestObject"/>.
 	    It represents the request as a JWT whose Claims
@@ -4157,7 +4165,7 @@
 	<t>
 	  The <spanx style="verb">request</spanx> Authorization Request parameter
 	  enables OpenID Connect requests to be passed in a single,
-	  self-contained parameter and to be signed and optionally encrypted.
+	  self-contained parameter and to be optionally signed and/or encrypted.
 	  It represents the request as a JWT whose Claims are the request parameters
 	  specified in <xref target="AuthorizationEndpoint"/>.
 	  This JWT is called a Request Object.
@@ -4212,9 +4220,10 @@
 	  the OP's Issuer Identifier URL.
 	</t>
 	<t>
-	  The Request Object MAY also be encrypted using <xref target="JWE">JWE</xref>,
-	  with nested signing and encryption
-	  performed as described in the JWT <xref target="JWT"/> specification.
+	  The Request Object MAY also be encrypted using <xref target="JWE">JWE</xref>
+	  and MAY be encrypted without also being signed.
+	  If both signing and encryption are performed, it MUST be signed then encrypted,
+	  with the result being a Nested JWT, as defined in <xref target="JWT"/>.
 	</t>
 	<t>
 	  <spanx style="verb">request</spanx> and
@@ -5431,14 +5440,12 @@
 	To achieve message confidentiality, these values can also use
 	<xref target="JWE">JSON Web Encryption (JWE)</xref> to encrypt their contents.
       </t>
-
-      <t>When the message is both signed and 
-      encrypted, it MUST be
-      signed first and then encrypted, per <xref target="SigningOrder"/>,
-      with nesting performed in the same manner as
-      specified for JWTs <xref target="JWT"/>.
-      Note that all JWE encryption methods perform integrity checking.</t>
-
+      <t>
+	When the message is both signed and encrypted, it MUST be
+	signed first and then encrypted, per <xref target="SigningOrder"/>,
+	with the result being a Nested JWT, as specified in <xref target="JWT"/>.
+	Note that all JWE encryption methods perform integrity checking.
+      </t>
       <t>
 	The OP advertises its supported signing and encryption algorithms
 	in its Discovery document,
@@ -5517,9 +5524,7 @@
       <section anchor="Encryption" title="Encryption">
 	<t>
 	  The encrypting party MUST select an encryption algorithm
-	  based on the algorithms supported by the recipient in.
-	  All JWTs MUST be signed before encryption
-	  to enable verification of the Issuer.
+	  based on the algorithms supported by the recipient.
 	</t>
 	<t>
 	  <list style="hanging">
@@ -6557,9 +6562,10 @@
 	  in many jurisdictions.
 	  Therefore, for integrity and non-repudiation,
 	  this specification requires signing 
-	  the plain text JSON Claims.
-	  If encryption is also desired, it is performed on
-	  the JWS containing the signed Claims.
+	  the plain text JSON Claims, when signing is performed.
+	  If both signing and encryption are desired, it is performed on
+	  the JWS containing the signed Claims,
+	  with the result being a Nested JWT, as specified in <xref target="JWT"/>.
 	  Note that since all JWE encryption algorithms provide integrity protection,
 	  there is no need to separately sign the encrypted content.
 	</t>
@@ -8639,6 +8645,18 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>
+	-16
+        <list style="symbols">
+	  <t>
+	    Clarified that content that is signed and encrypted results in a Nested JWT.
+	  </t>
+	  <t>
+	    Clarified that UserInfo Responses and Request Objects may be encrypted
+	    without also being signed.
+	  </t>
+	</list>
+      </t>
       <t>
 	-15
         <list style="symbols">
