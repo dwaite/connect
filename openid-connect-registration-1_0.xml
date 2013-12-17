@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="16" month="December" year="2013" />
+    <date day="17" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -707,12 +707,10 @@
 	</t>
 
 	<t>
-	  The response should use an HTTP 201 Created status code.
-	</t>
-
-        <t>
-	  All of the response items are returned in
-	  a JSON <xref target="RFC4627"/> document with the following fields as
+	  A successful response SHOULD use the HTTP 201 Created status code
+	  and return a JSON document <xref target="RFC4627"/>
+	  using the <spanx style="verb">application/json</spanx> content type
+	  with the following fields as
 	  top-level members of the root JSON object:
 	</t>
 
@@ -811,7 +809,7 @@
 	the <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref> specification.</t>
 	
 	<t>When a registration error condition occurs, the Client Registration Endpoint returns
-	a HTTP 400 Bad request status code
+	a HTTP 400 Bad Request status code
 	including a JSON object describing the error in the response body.</t>
 
 	<t>The JSON object contains two members:</t>
@@ -942,11 +940,10 @@
         value in this response unless they have been updated.</t>
 
 	<t>
-	  The response should use an HTTP 200 OK status code.
-	</t>
-
-        <t>The response is a JSON Document <xref target="RFC4627"/> with
-        the Client Metadata as top-level members of a JSON object.
+	  A successful response SHOULD use the HTTP 200 OK status code
+	  and return a JSON document <xref target="RFC4627"/>
+	  using the <spanx style="verb">application/json</spanx> content type with
+	  the Client Metadata values as top-level members of the root JSON object.
 
         <figure>
           <preamble>
@@ -1003,11 +1000,11 @@
 	<t>
 	  If the Client does not exist on this server, the Client is invalid,
 	  or the Registration Access Token used is invalid,
-	  the server MUST respond with HTTP 401 Unauthorized.
+	  the server MUST respond with the HTTP 401 Unauthorized status code.
 	  If the Client does not have permission to read its record,
 	  the server MUST return an HTTP 403 Forbidden.
 	  Note that for security reasons, to inhibit brute force attacks,
-	  endpoints MUST NOT return 404 Not Found error codes.
+	  endpoints MUST NOT return the HTTP 404 Not Found status code.
 	</t>
 	
 	<t>
