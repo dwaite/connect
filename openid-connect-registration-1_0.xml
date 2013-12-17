@@ -104,7 +104,7 @@
 	  This specification uses the terms "Access Token", "Authorization Code",
 	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
 	  "Client", "Client Authentication", "Client Identifier", "Client Secret",
-	  "Protected Resource", "Redirection URI", "Refresh Token",
+	  "Grant Type", "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
 	  the terms "JSON Web Token (JWT)" and "Nested JWT"
@@ -184,8 +184,7 @@
 
 	  <t hangText="redirect_uris">
 	    REQUIRED.
-	    Array of Redirection URI values used in the Authorization Code and
-	    Implicit grant types.
+	    Array of Redirection URI values used by the Client.
 	    One of these registered Redirection URI values MUST exactly match
 	    the <spanx style="verb">redirect_uri</spanx> parameter
 	    value used in each Authorization Request,
@@ -204,18 +203,18 @@
 
           <t hangText="grant_types">
 	    OPTIONAL.
-	    JSON array containing a list of the OAuth 2.0 grant types that
+	    JSON array containing a list of the OAuth 2.0 Grant Types that
 	    the Client is declaring that it will restrict itself to using.
-	    The grant type values used by OpenID Connect are:
+	    The Grant Type values used by OpenID Connect are:
 
 	    <list style="symbols">
 	      <t><spanx style="verb">authorization_code</spanx>: The
-	      Authorization Code Grant described in OAuth 2.0 Section 4.1.</t>
+	      Authorization Code Grant Type described in OAuth 2.0 Section 4.1.</t>
 
-	      <t><spanx style="verb">implicit</spanx>: The Implicit Grant
+	      <t><spanx style="verb">implicit</spanx>: The Implicit Grant Type
 	      described in OAuth 2.0 Section 4.2.</t>
 
-	      <t><spanx style="verb">refresh_token</spanx>: The Refresh Token Grant
+	      <t><spanx style="verb">refresh_token</spanx>: The Refresh Token Grant Type
 	      described in OAuth 2.0 Section 6.</t>
             </list>
 
@@ -257,7 +256,7 @@
 	    </list>
 
 	    If omitted, the default is that the Client will use only the
-	    <spanx style="verb">authorization_code</spanx> grant type.
+	    <spanx style="verb">authorization_code</spanx> Grant Type.
 	  </t>
 
 	  <t hangText="application_type">OPTIONAL.
@@ -266,7 +265,7 @@
 	  <spanx style="verb">web</spanx>.  The defined values are
 	  <spanx style="verb">native</spanx>
 	  or <spanx style="verb">web</spanx>.
-	  Web Clients using the OAuth implicit grant type
+	  Web Clients using the OAuth Implicit Grant Type
 	  MUST only register URLs using the <spanx style="verb">https</spanx> scheme as
 	  <spanx style="verb">redirect_uris</spanx>;
 	  they MUST NOT use <spanx style="verb">localhost</spanx> as the hostname.
@@ -814,7 +813,7 @@
 
 	    <artwork><![CDATA[
   HTTP/1.1 400 Bad Request
-  WWW-Authenticate: error="invalid_redirect_uri",
+  WWW-Authenticate: Bearer error="invalid_redirect_uri",
     error_description="One or more redirect_uri values are invalid"
   Cache-Control: no-store
   Pragma: no-cache
@@ -1010,7 +1009,7 @@
 
 	    <artwork><![CDATA[
   HTTP/1.1 401 Unauthorized
-  WWW-Authenticate: error="invalid_token",
+  WWW-Authenticate: Bearer error="invalid_token",
     error_description="The access token expired"
   Cache-Control: no-store
   Pragma: no-cache
