@@ -353,6 +353,26 @@
 	    values MUST still be present and MUST match those in the certificate.
 	  </t>
 
+	  <t hangText="jwks">
+	    OPTIONAL.
+	    Client's JSON Web Key Set <xref target="JWK"/> document, passed by value.
+	    The semantics of the <spanx style="verb">jwk</spanx> parameter are the same
+	    as the <spanx style="verb">jwk_uri</spanx> parameter, other than that
+	    The JWK Set is passed by value, rather than by reference.
+	    This parameter is intended only to be used by Clients that, for some reason,
+	    are unable to use the <spanx style="verb">jwk_uri</spanx> parameter,
+	    for instance, by native applications that might not have a location
+	    to host the contents of the JWK Set.
+	    If a Client can use <spanx style="verb">jwk_uri</spanx>,
+	    it MUST NOT use <spanx style="verb">jwk</spanx>.
+	    One significant downside of <spanx style="verb">jwk</spanx> is that it
+	    does not enable key rotation
+	    (which <spanx style="verb">jwk_uri</spanx> does, as described in
+	    Section 10 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>).
+	    The <spanx style="verb">jwk_uri</spanx> and <spanx style="verb">jwk</spanx>
+	    parameters MAY NOT be used together.
+	  </t>
+
 	  <t hangText="sector_identifier_uri">OPTIONAL.
 	  URL using the <spanx style="verb">https</spanx> scheme to be used in
 	  calculating Pseudonymous Identifiers by the OP. The URL references a
@@ -1557,6 +1577,10 @@
 	<list style="symbols">
 	  <t>
 	    Applied Registration review comments from George Fletcher.
+	  </t>
+	  <t>
+	    Fixed #903 - Added the <spanx style="verb">jwk</spanx> Registration parameter
+	    to enable the Client's JWK Set to be passed by value, if necessary.
 	  </t>
 	  <t>
 	    Corrected error response examples to use WWW-Authenticate.
