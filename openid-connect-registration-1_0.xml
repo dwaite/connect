@@ -711,8 +711,8 @@
 	    It MUST NOT be currently valid for any other registered
             Client.</t>
 
-            <t hangText="client_secret"><vspace/>OPTIONAL. Client secret.
-            This MUST be unique for each <spanx style="verb">client_id</spanx>.
+            <t hangText="client_secret"><vspace/>OPTIONAL. Client Secret.
+            The same Client Secret value MUST NOT be assigned to multiple Clients.
             This value is used by Confidential Clients to authenticate to the
             Token Endpoint as described in OAuth 2.0 Section 2.3.1.
 	    It is not needed for
@@ -841,32 +841,6 @@
 	  </figure>
 	</t>
       </section>
-    </section>
-
-    <section anchor="StatelessRegistration" title="Stateless Dynamic Client Registration">
-      <t>
-	In some deployments, it is advantageous to enable Clients to obtain
-	the information necessary to interact with the Authorization Server,
-	such as a Client Identifier,
-	without the requirement that state about the Client be stored at the
-	Authorization Server.
-	The interfaces defined by this specification can be used for
-	stateless dynamic client registration.
-      </t>
-      <t>
-	One means of doing this is to encode necessary registration information
-	about the Client into the <spanx style="verb">client_id</spanx>
-	value returned by the initial registration of the Client.
-	This has the effect of having the Client store this information,
-	rather than the Authorization Server.
-	The particular encodings used by different Authorization Servers will differ.
-      </t>
-      <t>
-	When stateless dynamic client registration is used by the Authorization Server,
-	read operations are likely to not be possible.
-	In that case, no Client Configuration Endpoint or Registration Access Token
-	will be returned by the initial registration of the Client.
-      </t>
     </section>
 
     <section anchor="ClientConfigurationEndpoint" title="Client Configuration Endpoint">
@@ -1180,6 +1154,34 @@
 	  to the final versions, unless using a possible future
 	  OpenID Connect profile or specification that
 	  updates some or all of these references.
+	</t>
+      </section>
+
+      <section anchor="StatelessRegistration" title="Implementation Notes on Stateless Dynamic Client Registration">
+	<t>
+	  In some deployments, it is advantageous to enable Clients to obtain
+	  the information necessary to interact with the Authorization Server,
+	  such as a Client Identifier,
+	  without the requirement that state about the Client be stored at the
+	  Authorization Server.
+	  The interfaces defined by this specification can be used for
+	  stateless dynamic client registration.
+	</t>
+	<t>
+	  One means of doing this is to encode necessary registration information
+	  about the Client into the <spanx style="verb">client_id</spanx>
+	  value returned by the initial registration of the Client.
+	  This has the effect of having the Client store this information,
+	  rather than the Authorization Server.
+	  The particular encodings used by different Authorization Servers will differ.
+	</t>
+	<t>
+	  When stateless dynamic client registration is used by the Authorization Server,
+	  read operations are likely to not be possible,
+	  because issuing a Registration Access Token might require
+	  per-Client state at the Authorization Server.
+	  In that case, no Client Configuration Endpoint or Registration Access Token
+	  will be returned by the initial registration of the Client.
 	</t>
       </section>
 
@@ -1576,7 +1578,8 @@
 	-22
 	<list style="symbols">
 	  <t>
-	    Applied Registration review comments from George Fletcher.
+	    Applied Registration review comments from George Fletcher
+	    and Torsten Lodderstedt.
 	  </t>
 	  <t>
 	    Fixed #903 - Added the <spanx style="verb">jwk</spanx> Registration parameter
