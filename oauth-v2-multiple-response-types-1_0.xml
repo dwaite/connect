@@ -176,10 +176,10 @@
 	<t>
 	  For purposes of this specification, the default Response Mode for the
 	  OAuth 2.0 <spanx style="verb">code</spanx>
-	  Response Type is the query encoding.
+	  Response Type is the <spanx style="verb">query</spanx> encoding.
 	  For purposes of this specification, the default Response Mode for the
 	  OAuth 2.0 <spanx style="verb">token</spanx>
-	  Response Type is the fragment encoding.
+	  Response Type is the <spanx style="verb">fragment</spanx> encoding.
 	</t>
 	<t>
 	  See <xref target="OAuth.Post">OAuth 2.0 Form Post Response Mode</xref>
@@ -552,6 +552,37 @@
       </reference>
     </references>
 
+    <section anchor="FragmentExample" title="Example using Multiple-Valued Response Type">
+      <t>
+	The following is non-normative example of an Authorization Request using
+	the Multiple-Valued Response Type <spanx style="verb">code&nbsp;token</spanx>
+	and a resulting Authorization Response.
+	The response uses the <spanx style="verb">fragment</spanx> Response Mode,
+	which is the default for this Response Type.
+	Line wraps within values are for display purposes only.
+      </t>
+
+      <figure>
+	<artwork><![CDATA[
+  GET /authorize?
+    response_type=code%20token
+    &client_id=s6BhdRkqt3
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
+    &state=af0ifjsldkj HTTP/1.1
+  Host: server.example.com
+
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
+    access_token=2YotnFZFEjr1zCsicMWpAA
+    &token_type=Bearer
+    &code=SplxlOBeZQQYbYS6WxSbIA
+    &state=af0ifjsldkj
+    &expires_in=3600
+]]></artwork>
+      </figure>
+
+    </section>
+
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>
 	The OpenID Community would like to thank the following people for
@@ -563,7 +594,9 @@
           <t>Naveen Agarwal (naa@google.com), Google</t>
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
 	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
+	  <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+	  <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>Breno de Medeiros (breno@google.com), Google</t>
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
           <t>David Recordon (dr@fb.com), Facebook</t>
@@ -622,7 +655,11 @@
 	-11
         <list style="symbols">
           <t>
-	    Applied review comments by George Fletcher.
+	    Applied review comments by George Fletcher and Torsten Lodderstedt.
+	  </t>
+	  <t>
+	    Added an example using a Multiple-Valued Response Type and
+	    the <spanx style="verb">fragment</spanx> Response Mode.
 	  </t>
 	</list>
       </t>
