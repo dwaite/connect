@@ -199,9 +199,11 @@
       </t>
 
       <t>
-	The Issuer MUST be returned in the response.
-	This includes a URI scheme (which MUST be <spanx style="verb">https</spanx>),
-	a Host, and OPTIONALLY, a port.
+	The Issuer MUST be returned in the WebFinger response.
+	The Issuer includes a URI scheme (which MUST be <spanx style="verb">https</spanx>),
+	a Host, and optionally, a port.
+	(Per Section 7 of <xref target="RFC7033">WebFinger</xref>, obtaining the
+	WebFinger response may first involve following some redirects.)
       </t>
 
       <section anchor="IdentifierNormalization" title="Identifier Normalization">
@@ -632,6 +634,9 @@
 	  target="RFC6749">OAuth 2.0 </xref> scope values that this server
 	  supports. The server MUST support the <spanx style="verb">openid</spanx>
 	  scope value.
+	  Servers MAY choose not to advertise some supported scope values
+	  even when this parameter is used, alghough those defined in
+	  <xref target="OpenID.Core"/> SHOULD be listed, if supported.
 	  </t>
 
 	  <t hangText="response_types_supported">REQUIRED.
@@ -1576,6 +1581,9 @@
       <t>
 	-20
 	<list style="symbols">
+	  <t>
+	    Applied Discovery review comments from George Fletcher.
+	  </t>
 	  <t>
 	    Incorporated terms defined by the JWT specification.
 	  </t>
