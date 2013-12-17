@@ -57,9 +57,12 @@
       obtain basic profile information about the End-User in an interoperable and 
       REST-like manner.</t>
 
-      <t>This specification provides a mechanism for the OpenID Connect 
-      Client to discover the End-User's OpenID Provider as well as the necessary 
-      endpoints used by the OpenID Connect protocol suite.</t>
+      <t>
+	This specification defines a mechanism for an OpenID Connect Relying Party
+	to discover the End-User's OpenID Provider
+	and obtain information needed to interact with it,
+	including its OAuth 2.0 endpoint locations.
+      </t>
     </abstract>
   </front>
 
@@ -74,14 +77,20 @@
 	obtain basic profile information about the End-User in an interoperable and 
 	REST-like manner.
       </t>
-      <t>In order for an OpenID Client to utilize OpenID Connect services for
-      an End-User, the Client needs to know where the OpenID Provider is. OpenID
-      Connect uses <xref target="RFC7033">WebFinger</xref> to locate
-      the OpenID Provider for an End-User.</t>
-
-      <t>Once an OpenID Provider is identified, the endpoint and other
-      configuration information for that OP is retrieved from a well-known
-      location as a JSON document.</t>
+      <t>
+	In order for an OpenID Connect Relying Party to utilize OpenID Connect services for
+	an End-User, the RP needs to know where the OpenID Provider is.
+	OpenID Connect uses <xref target="RFC7033">WebFinger</xref> to locate
+	the OpenID Provider for an End-User.
+	This process is described in <xref target="IssuerDiscovery"/>.
+      </t>
+      <t>
+	Once the OpenID Provider has been identified,
+	the configuration information for that OP
+	is retrieved from a well-known location as a JSON document,
+	including its OAuth 2.0 endpoint locations.
+	This process is described in <xref target="ProviderConfig"/>.
+      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -196,6 +205,8 @@
       endpoint with the <spanx style="verb">resource</spanx> and <spanx
       style="verb">rel</spanx> parameters to obtain the location of the
       requested service.
+      All WebFinger communication MUST utlize TLS
+      in the manner described in <xref target="TLSRequirements"/>.
       </t>
 
       <t>
@@ -254,7 +265,7 @@
             or 
             <spanx style="verb">authority path-abempty [ "?" query ] [ "#" fragment ]</spanx>
 	    or
-	    <spanx style="verb">scheme ":" path-rootless</spanx> 
+	    <spanx style="verb">scheme ":" path-rootless</spanx>,
             per <xref target="RFC3986">RFC 3986</xref>. 
               </t>
             </list>
@@ -291,36 +302,57 @@
             <list style="numbers">
               <t>
                 If the user input Identifier does not have an 
-                <xref target="RFC3986">RFC 3986</xref> scheme portion, 
+                <xref target="RFC3986">RFC 3986</xref> scheme component, 
                 the string is interpreted as 
                 <spanx style="verb">[userinfo "@"] host [":" port] path-abempty [ "?" query ] [ "#" fragment ]</spanx>
-                per <xref target="RFC3986">RFC 3986</xref>.</t>
-
-                <t>If the userinfo component is present and all of the
-		scheme component, path component,
-		query component, and port component are empty, 
+                per <xref target="RFC3986">RFC 3986</xref>.
+		Examples are
+		<spanx style="verb">example.com</spanx>,
+		<spanx style="verb">joe@example.com</spanx>,
+		<spanx style="verb">example.com/joe</spanx>, and
+		<spanx style="verb">example.com:8080</spanx>.
+	      </t>
+	      <t>
+		If the userinfo and host components are present and all of the
+		scheme, path, query, port, and fragment components are absent, 
                 the <spanx style="verb">acct</spanx> scheme is assumed. 
                 In this case, the normalized URI is formed by 
                 prefixing <spanx style="verb">acct:</spanx> to the string as the scheme.
                 Per <xref target="I-D.ietf-appsawg-acct-uri">The 'acct' URI Scheme</xref>, 
                 if there is an at-sign character ('@') in the userinfo component, it needs to be 
-                percent-encoded as described in <xref target="RFC3986">RFC 3986</xref>.</t>
-
-                <t>For all other inputs without a scheme portion,
+                percent-encoded, as described in <xref target="RFC3986">RFC 3986</xref>.
+		Examples are
+		<spanx style="verb">joe@example.com</spanx> and
+		<spanx style="verb">Jane.Doe@example.com</spanx>.
+	      </t>
+	      <t>
+		For all other inputs without a scheme component,
 		the <spanx style="verb">https</spanx> scheme is assumed, 
                 and the normalized URI is formed by 
-                prefixing <spanx style="verb">https://</spanx> to the string as the scheme. 
+                prefixing <spanx style="verb">https://</spanx> to the string as the scheme.
+		Examples are
+		<spanx style="verb">example.com</spanx>,
+		<spanx style="verb">example.com/joe</spanx>,
+		<spanx style="verb">example.com:8080</spanx>, and
+		<spanx style="verb">joe@example.com:8080</spanx>.
               </t>
 	      <t>
 		When the input contains an explicit scheme such as
-		<spanx style="verb">acct</spanx> that matches the RFC 3986
+		<spanx style="verb">acct</spanx> or <spanx style="verb">https</spanx>
+		that matches the RFC 3986
 		<spanx style="verb">scheme ":" path-rootless</spanx> syntax,
 		no input normalization is performed.
+		Examples are
+		<spanx style="verb">https://example.com</spanx>,
+		<spanx style="verb">https://example.com/joe</spanx>,
+		<spanx style="verb">https://joe@example.com:8080</spanx>, and
+		<spanx style="verb">acct:joe@example.com</spanx>.
 	      </t>
-
-              <t>If the resulting URI contains a fragment portion, it MUST be
-              stripped off together with the fragment delimiter
-              character "#".</t>
+              <t>
+		If the resulting URI contains a fragment component, it MUST be
+		stripped off, together with the fragment delimiter
+		character "#".
+	      </t>
             </list>
           </t>
           <t>
@@ -557,7 +589,7 @@
 	    contributors about the syntax that should be used when discovering
 	    information about such accounts with WebFinger.
 	    The current thinking seems to be that such accounts would be represented
-	    by quoting the '@' character in the userinfo portion of the account
+	    by quoting the '@' character in the userinfo component of the account
 	    identifier when constructing the <spanx style="verb">acct:</spanx> URI
 	    representing the account.
 	    Such an example is
@@ -581,8 +613,8 @@
 	  <t hangText="issuer">REQUIRED.
 	  URL using the <spanx style="verb">https</spanx> scheme with no query or fragment component that the OP asserts as its
 	  Issuer Identifier.
-	  If Issuer discovery <xref target="IssuerDiscovery"/> is supported,
-	  this MUST be identical to the issuer value returned by WebFinger.
+	  If Issuer discovery is supported (see <xref target="IssuerDiscovery"/>),
+	  this value MUST be identical to the issuer value returned by WebFinger.
 	  This also MUST be identical to the <spanx style="verb">iss</spanx> Claim value
 	  in ID Tokens issued from this Issuer.
 	  </t>
@@ -685,7 +717,7 @@
 	  <t hangText="id_token_signing_alg_values_supported">REQUIRED.
 	  JSON array containing a list of the JWS signing algorithms
 	  (<spanx style="verb">alg</spanx> values)
-	  supported by the Authorization Server for the ID Token
+	  supported by the OP for the ID Token
 	  to encode the Claims in a JWT <xref target="JWT" />.
 	  The algorithm <spanx style="verb">RS256</spanx> MUST be included.
 	  The value <spanx style="verb">none</spanx> MAY be supported,
@@ -698,14 +730,14 @@
 	  <t hangText="id_token_encryption_alg_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">alg</spanx> values)
-	  supported by the Authorization Server for the ID Token
+	  supported by the OP for the ID Token
 	  to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
 	  <t hangText="id_token_encryption_enc_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">enc</spanx> values)
-	  supported by the Authorization Server for the ID Token
+	  supported by the OP for the ID Token
 	  to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
@@ -734,7 +766,7 @@
 	  <t hangText="request_object_signing_alg_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWS signing algorithms
 	  (<spanx style="verb">alg</spanx> values)
-	  supported by the Authorization Server for the Request Object described in
+	  supported by the OP for the Request Object described in
 	  Section 6.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  These algorithms are used both when the Request Object is passed by value
 	  (using the <spanx style="verb">request</spanx> parameter)
@@ -746,7 +778,7 @@
 	  <t hangText="request_object_encryption_alg_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">alg</spanx> values)
-	  supported by the Authorization Server for the Request Object described in
+	  supported by the OP for the Request Object described in
 	  Section 6.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  These algorithms are used both when the Request Object is passed by value
 	  and when it is passed by reference.
@@ -755,7 +787,7 @@
 	  <t hangText="request_object_encryption_enc_values_supported">OPTIONAL.
 	  JSON array containing a list of the JWE encryption algorithms
 	  (<spanx style="verb">enc</spanx> values)
-	  supported by the Authorization Server for the Request Object described in
+	  supported by the OP for the Request Object described in
 	  Section 6.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  These algorithms are used both when the Request Object is passed by value
 	  and when it is passed by reference.
@@ -892,8 +924,6 @@
 
     <section anchor="ProviderConfig"
              title="Obtaining OpenID Provider Configuration Information">
-      <t>This step is OPTIONAL. The OpenID Provider endpoints and
-      configuration information may be obtained via other mechanisms.</t>
 
       <t>Using the Issuer discovered in <xref
       target="IssuerDiscovery"></xref> or through direct configuration, the OpenID
@@ -909,11 +939,6 @@
       when it contains no path component. <spanx style="verb">openid-configuration</spanx>
       MUST point to a JSON document compliant with this specification and
       MUST be returned using the <spanx style="verb">application/json</spanx> content type.
-      </t>
-
-      <t>
-	OpenID Providers supporting discovery MUST support receiving WebFinger requests via TLS.
-	See <xref target="TLSRequirements"/> for more information on using TLS.
       </t>
 
       <section anchor="ProviderConfigurationRequest"
@@ -1582,7 +1607,7 @@
 	-20
 	<list style="symbols">
 	  <t>
-	    Applied Discovery review comments from George Fletcher.
+	    Applied Discovery review comments from George Fletcher and Torsten Lodderstedt.
 	  </t>
 	  <t>
 	    Incorporated terms defined by the JWT specification.

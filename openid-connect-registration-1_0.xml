@@ -52,8 +52,13 @@
       obtain basic profile information about the End-User in an interoperable and 
       REST-like manner.</t>
 
-      <t>This specification describes how an OpenID Client can obtain the necessary
-       Client Credentials required by the OpenID Connect protocol suite.</t>
+      <t>
+	This specification defines how an OpenID Connect Relying Party
+	can dynamically register with the End-User's OpenID Provider,
+	providing information about itself to the OpenID Provider,
+	and obtaining information needed to use it,
+	including the OAuth 2.0 Client ID for this Relying Party.
+      </t>
     </abstract>
   </front>
 
@@ -68,12 +73,16 @@
 	obtain basic profile information about the End-User in an interoperable and 
 	REST-like manner.
       </t>
-      <t>In order for an OpenID Connect Client to utilize OpenID services for
-      an End-User, the Client needs to register with the OpenID Provider to acquire
-      a Client ID and other pertinent information.
-      This document describes how a new Client
-      can register with the OP, and how registration information
-      for the Client can be retrieved.</t>
+      <t>
+	In order for an OpenID Connect Relying Party to utilize OpenID Connect services for
+	an End-User, the RP needs to register with the OpenID Provider
+	to provide the OP information about itself and
+	to obtain information needed to use it,
+	including an OAuth 2.0 Client ID.
+	This document describes how a new Client
+	can register with an OP, and how registration information
+	for the Client can be retrieved.
+      </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
 	<t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -457,14 +466,14 @@
 	  <t hangText="request_object_signing_alg">OPTIONAL.
 	  <xref target="JWS">JWS</xref> <spanx style="verb">alg</spanx>
 	  algorithm <xref target="JWA" /> that MUST be used for
-	  signing Request Objects sent to the Authorization Server.
+	  signing Request Objects sent to the OP.
 	  All Request Objects from
 	  this Client MUST be rejected
 	  if not signed with this algorithm.
 	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
 	  The value <spanx style="verb">none</spanx> MAY be used.
 	  The default, if omitted, is that any algorithm supported by
-	  the Authorization Server and the Client MAY be used.
+	  the OP and the RP MAY be used.
 	  </t>
 
 	  <t hangText="token_endpoint_auth_method">OPTIONAL.
@@ -494,7 +503,7 @@
 	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
 	  The value <spanx style="verb">none</spanx> MUST NOT be used.
 	  The default, if omitted, is that any algorithm supported by
-	  the Authorization Server and the Client MAY be used.
+	  the OP and the RP MAY be used.
 	  </t>
 
 	  <t hangText="default_max_age">OPTIONAL.
@@ -517,7 +526,7 @@
 	    Default requested Authentication Context Class Reference values. 
 	    Array of strings that 
 	    specifies the default <spanx style="verb">acr</spanx>
-	    values that the Authorization Server is being requested to use 
+	    values that the OP is being requested to use 
 	    for processing requests from this Client,
 	    with the values appearing in order of preference.
 	    The Authentication Context Class satisfied by the authentication
@@ -534,8 +543,8 @@
 	  </t>
 
 	  <t hangText="initiate_login_uri">OPTIONAL. 
-	  URI using the <spanx style="verb">https</spanx> scheme that the Authorization Server can call
-	  to initiate a login at the Client, as specified in
+	  URI using the <spanx style="verb">https</spanx> scheme that a third party
+	  can use to initiate a login by the RP, as specified in
 	  Section 4 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  The URI MUST accept requests via both <spanx style="verb">GET</spanx> and <spanx style="verb">POST</spanx>.
 	  The Client MUST understand the 
@@ -546,7 +555,7 @@
 	  <t hangText="request_uris">
 	    OPTIONAL.
 	    Array of <spanx style="verb">request_uri</spanx> values that are
-	    pre-registered by the Client for use at the Authorization Server.
+	    pre-registered by the RP for use at the OP.
 	    Servers MAY cache the contents of the files referenced by these URIs and not
 	    retrieve them at the time they are used in a request.
 	    OPs can require that <spanx style="verb">request_uri</spanx> values used
@@ -620,16 +629,18 @@
       specification.</t>
 
       <section anchor="RegistrationRequest" title="Client Registration Request">
-        <t>To register a new Client to the Authorization Server, the Client
-        sends an HTTP <spanx style="verb">POST</spanx> message to the Client Registration Endpoint with
-	any Client Metadata parameters
-	that the Client chooses
-        to specify for itself during the registration.
-	The Authorization Server assigns this Client a unique Client
-        Identifier, optionally assigns a Client Secret, and associates the
-        Metadata given in the request with the issued Client Identifier. The
-        Authorization Server MAY provision default values for any items
-        omitted in the Client Metadata.</t>
+        <t>
+	  To register a new Client at the Authorization Server, the Client
+	  sends an HTTP <spanx style="verb">POST</spanx> message to the Client Registration Endpoint with
+	  any Client Metadata parameters
+	  that the Client chooses
+	  to specify for itself during the registration.
+	  The Authorization Server assigns this Client a unique Client
+	  Identifier, optionally assigns a Client Secret, and associates the
+	  Metadata given in the request with the issued Client Identifier. The
+	  Authorization Server MAY provision default values for any items
+	  omitted in the Client Metadata.
+	</t>
         <t>
 	  The Client sends an HTTP <spanx style="verb">POST</spanx> to the Client Registration Endpoint
 	  with a content type of <spanx style="verb">application/json</spanx>
