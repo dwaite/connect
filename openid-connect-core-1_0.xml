@@ -798,7 +798,7 @@
 	      <t>Client prepares an Authentication Request containing the desired
 	      request parameters.</t>
 
-	      <t>Client sends a request to the Authorization Server.</t>
+	      <t>Client sends the request to the Authorization Server.</t>
 
 	      <t>Authorization Server Authenticates the End-User.</t>
 
@@ -1910,7 +1910,7 @@
 	      <t>Client prepares an Authentication Request containing the desired
 	      request parameters.</t>
 
-	      <t>Client sends a request to the Authorization Server.</t>
+	      <t>Client sends the request to the Authorization Server.</t>
 
 	      <t>Authorization Server Authenticates the End-User.</t>
 
@@ -2083,7 +2083,7 @@
 		  OAuth 2.0 state value.
 		  REQUIRED if the 
 		  <spanx style="verb">state</spanx> parameter is present in the
-		  Client Authorization Request. Clients MUST verify that the 
+		  Authorization Request. Clients MUST verify that the 
 		  <spanx style="verb">state</spanx> value is equal to the 
 		  value of <spanx style="verb">state</spanx> parameter in the 
 		  Authorization Request.
@@ -2293,7 +2293,7 @@
 	      <t>Client prepares an Authentication Request containing the desired
 	      request parameters.</t>
 
-	      <t>Client sends a request to the Authorization Server.</t>
+	      <t>Client sends the request to the Authorization Server.</t>
 
 	      <t>Authorization Server Authenticates the End-User.</t>
 
@@ -3472,9 +3472,9 @@
 
 	<t>In some cases, the End-User will be given the option to
 	have the OpenID Provider decline to provide some or all
-	information requested by Clients.
+	information requested by RPs.
 	To minimize the amount of information that the End-User is being asked
-	to disclose, a Client can elect to
+	to disclose, an RP can elect to
 	only request a subset of the information available from the
 	UserInfo Endpoint.</t>
 
@@ -3658,11 +3658,11 @@
 		    The default is <spanx style="verb">false</spanx>.
 		  </t>
 		  <t>
-		    By requesting Claims as Essential Claims
-		    the Client indicates to the End-User 
-		    that releasing these Claims will ensure a smooth authorization 
+		    By requesting Claims as Essential Claims,
+		    the RP indicates to the End-User
+		    that releasing these Claims will ensure a smooth authorization
 		    for the specific task requested by the End-User.
-		    Note that even if the Claims are not available because 
+		    Note that even if the Claims are not available because
 		    the End-User did not authorize their release or they are not present,
 		    the Authorization Server MUST NOT generate an error when
 		    Claims are not returned, whether they are Essential or Voluntary,
@@ -3768,7 +3768,7 @@
 	      treat that outcome as a failed authentication attempt.
 	    </t>
 	    <t>
-	      Note that the Client MAY request the <spanx style="verb">acr</spanx>
+	      Note that the RP MAY request the <spanx style="verb">acr</spanx>
 	      Claim as a Voluntary Claim
 	      by using the <spanx style="verb">acr_values</spanx> request parameter
 	      or by not including "essential": true in an individual
@@ -3930,11 +3930,11 @@
 		      protocol. Claims SHOULD be requested using
 		      the Authorization Request header field and Claims Providers
 		      MUST support this method. If the Access Token
-		      is not available, Clients MAY need to retrieve the
+		      is not available, RPs MAY need to retrieve the
 		      Access Token out of band or use an Access Token
 		      that was pre-negotiated between the Claims Provider and
-		      Client, or the Claims Provider MAY reauthenticate the
-		      End-User and/or reauthorize the Client.</t>
+		      RP, or the Claims Provider MAY reauthenticate the
+		      End-User and/or reauthorize the RP.</t>
 		    </list>
 		  </t>
 		  <t>
@@ -4102,7 +4102,7 @@
 	<t>
 	  The <spanx style="verb">sub</spanx> (subject) and
 	  <spanx style="verb">iss</spanx> (issuer) Claims, used together,
-	  are the only Claims that a Client
+	  are the only Claims that an RP
 	  can rely upon as a stable identifier for the End-User,
 	  since the <spanx style="verb">sub</spanx>
 	  Claim MUST be locally unique and never reassigned within the Issuer
@@ -4772,7 +4772,7 @@
 	  NOTE:  The OpenID Foundation plans to host the OpenID Provider site
 	  <spanx style="verb">https://self-issued.me/</spanx>,
 	  including its WebFinger service, so that performing discovery on it
-	  returns the above static discovery information, enabling Clients
+	  returns the above static discovery information, enabling RPs
 	  to not need any special processing for discovery of the Self-Issued OP.
 	  This site will be hosted on an experimental basis.
 	  Production implementations should not take a dependency upon it
@@ -4801,7 +4801,7 @@
 	<t>
 	  NOTE:  The OpenID Foundation plans to host the (stateless) endpoint
 	  <spanx style="verb">https://self-issued.me/registration/1.0/</spanx> 
-	  that returns the response above, enabling Clients to not need
+	  that returns the response above, enabling RPs to not need
 	  any special processing for registration with the Self-Issued OP.
 	  This site will be hosted on an experimental basis.
 	  Production implementations should not take a dependency upon it

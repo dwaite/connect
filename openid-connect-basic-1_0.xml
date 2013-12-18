@@ -132,6 +132,10 @@
 	Use of this extension is requested by Clients by including
 	the <spanx style="verb">openid</spanx> scope value
 	in the Authorization Request.
+	An Authorization Request using these extensions
+	is called an Authentication Request.
+      </t>
+      <t>
 	Information about the authentication performed is returned
 	in a <xref target="JWT">JSON Web Token (JWT)</xref>
 	called an ID Token (see <xref target="IDToken"/>).
@@ -200,6 +204,16 @@
 	<t>
 	  This specification also defines the following terms:
 	  <list style="hanging">
+            <t hangText="Authentication">
+	      Process used to achieve sufficient confidence in the binding
+	      between the Entity and the presented Identity.
+	    </t>
+            <t hangText="Authentication Request">
+	      OAuth 2.0 Authorization Request using extension parameters and scopes
+	      defined by OpenID Connect to request that the End-User be authenticated
+	      by the Authorization Server, which is an OpenID Connect Provider,
+	      to the Client, which is an OpenID Connect Relying Party.
+	    </t>
             <t hangText="Claim">
 	      Piece of information asserted about an Entity.
 	    </t>
@@ -340,7 +354,7 @@
 
     <section anchor="ProtocolElements" title="Protocol Elements">
       <t>
-	Authorization Requests can follow one of three paths:
+	Authentication Requests can follow one of three paths:
 	the Authorization Code Flow,
 	the Implicit Flow, or
 	the Hybrid Flow.
@@ -368,10 +382,10 @@
         <t>The Code Flow consists of the following steps:</t>
         <t>
           <list style="numbers">
-            <t>Client prepares an Authorization Request containing the desired
+            <t>Client prepares an Authentication Request containing the desired
             request parameters.</t>
 
-            <t>Client sends a request to the Authorization Server.</t>
+            <t>Client sends the request to the Authorization Server.</t>
 
             <t>Authorization Server authenticates the End-User.</t>
 
@@ -388,11 +402,13 @@
           </list>
         </t>
 
-        <section anchor="AuthorizationRequest" title="Client Prepares Authorization Request">
-          <t>When the Client wishes to access a Protected Resource and the
-          End-User Authorization has not yet been obtained, the Client
-          prepares an Authorization Request to the Authorization Endpoint.</t>
-
+        <section anchor="AuthenticationRequest" title="Client Prepares Authentication Request">
+          <t>
+	    When the RP wishes to Authenticate the End-User
+	    or determine whether the End-User is already Authenticated,
+	    the Client prepares an Authentication Request
+	    to be sent to the Authorization Endpoint.
+	  </t>
 	  <t>
 	    Communication with the Authorization Endpoint MUST utilize TLS.
 	    See <xref target="TLSRequirements"/> for more information on using TLS.
@@ -414,7 +430,7 @@
 
           <figure>
             <preamble>The following is a non-normative example of an
-            Authorization Request URL
+            Authentication Request URL
 	    (with line wraps within values for display purposes only):</preamble>
 
             <artwork><![CDATA[
@@ -505,7 +521,7 @@
 		  OPTIONAL.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks.
-		  The value is passed through unmodified from the Authorization Request to the ID Token. 
+		  The value is passed through unmodified from the Authentication Request to the ID Token. 
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
 		  attackers from guessing values.
@@ -704,7 +720,7 @@
 
         <section anchor="CodeRequest"
 		 title="Client Sends Request to Authorization Server">
-          <t>Having constructed the Authorization Request, the Client sends it
+          <t>Having constructed the Authentication Request, the Client sends it
           to the Authorization Endpoint using HTTPS.</t>
 
           <figure>
@@ -798,9 +814,9 @@
 		
                 <t hangText="state">
 		  OAuth 2.0 state value.
-		  REQUIRED if the
+		  REQUIRED if the 
 		  <spanx style="verb">state</spanx> parameter is present in the
-		  Client Authorization Request. Clients MUST verify that the 
+		  Authorization Request. Clients MUST verify that the 
 		  <spanx style="verb">state</spanx> value is equal to the 
 		  value of <spanx style="verb">state</spanx> parameter in the 
 		  Authorization Request.
@@ -1015,15 +1031,15 @@
 	      OPTIONAL.
 	      String value used to associate a Client session 
 	      with an ID Token, and to mitigate replay attacks. 
-	      The value is passed through unmodified from the Authorization Request to the ID Token.
+	      The value is passed through unmodified from the Authentication Request to the ID Token.
 	      The Client MUST verify that
 	      the <spanx style="verb">nonce</spanx> Claim Value is equal to
 	      the value of the <spanx style="verb">nonce</spanx>
-	      parameter sent in the Authorization Request.
-	      If present in the Authorization Request, Authorization Servers
+	      parameter sent in the Authentication Request.
+	      If present in the Authentication Request, Authorization Servers
 	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
 	      ID Token with the Claim Value
-	      being the nonce value sent in the Authorization Request.
+	      being the nonce value sent in the Authentication Request.
 	      The <spanx style="verb">nonce</spanx> value is a case sensitive string.
 	    </t>
 
@@ -1373,9 +1389,9 @@
 
         <t>In some cases, the End-User will be given the option to
         have the OpenID Provider decline to provide some or all
-        information requested by Clients.
+        information requested by RPs.
         To minimize the amount of information that the End-User is being asked
-	to disclose, a Client can elect to
+	to disclose, an RP can elect to
         only request a subset of the information available from the
         UserInfo Endpoint.</t>
 
@@ -1751,7 +1767,7 @@
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) and
 	    <spanx style="verb">iss</spanx> (issuer) Claims, used together,
-	    are the only Claims that a Client
+	    are the only Claims that an RP
 	    can rely upon as a stable identifier for the End-User,
 	    since the <spanx style="verb">sub</spanx>
 	    Claim MUST be locally unique and never reassigned within the Issuer
@@ -2434,8 +2450,12 @@
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>
-	-11
+	-31
         <list style="symbols">
+	  <t>
+	    Fixed #896 - Replaced the term Authorization Request with
+	    Authentication Request, where applicable.
+	  </t>
 	  <t>
 	    Incorporated terms defined by the JWT specification.
 	  </t>
