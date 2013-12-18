@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 17</title>
+    Session Management 1.0 - draft 18</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -582,6 +582,13 @@
 	  requests from any other source origin,
 	  to prevent cross-site scripting attacks.
 	</t>
+	<t>
+	  The <spanx style="verb">id_token_hint</spanx> parameter to a logout request
+	  can be used to determine which RP initiated the logout request.
+	  Logout requests without a valid <spanx style="verb">id_token_hint</spanx> value
+	  are a potential means of denial of service; therefore,
+	  OPs may want to require explicit user confirmation before acting upon them.
+	</t>
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -774,6 +781,17 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-18
+        <list style="symbols">
+	  <t>
+	    Described that logout requests without a valid
+	    <spanx style="verb">id_token_hint</spanx> are a potential means
+	    of denial of service.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-17
