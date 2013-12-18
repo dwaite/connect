@@ -115,24 +115,24 @@
 	in the Authorization Request.
 	Information about the authentication performed is returned
 	in a <xref target="JWT">JSON Web Token (JWT)</xref>
-	called an ID Token <xref target="IDToken"/>.
+	called an ID Token (see <xref target="IDToken"/>).
 	OAuth 2.0 Authentication Servers implementing OpenID Connect
 	are also referred to as OpenID Providers (OPs).
 	OAuth 2.0 Clients using OpenID Connect
 	are also referred to as Relying Parties (RPs).
       </t>
       <t>
-	This specification assumes that the Client has already obtained
-	the locations of the OpenID Provider's endpoints, including its
-	Authorization Endpoint and Token Endpoint.
-	These URLs are normally obtained via Discovery,
+	This specification assumes that the Relying Party has already obtained
+	configuration information about the OpenID Provider, including its
+	Authorization Endpoint and Token Endpoint locations.
+	This information is normally obtained via Discovery,
 	as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
 	or may be obtained via other mechanisms.
       </t>
       <t>
-	Likewise, this specification assumes that the Client has already obtained
-	sufficient credentials to interact with the OpenID Provider.
-	These credentials are normally obtained via Dynamic Registration,
+	Likewise, this specification assumes that the Relying Party has already obtained
+	sufficient credentials and provided information needed to use the OpenID Provider.
+	This is normally done via Dynamic Registration,
 	as described in
 	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
 	or may be obtained via other mechanisms.
@@ -380,6 +380,7 @@
       </section>
 
       <section anchor="Overview" title="Overview">
+
 	<t>The OpenID Connect protocol, in abstract, follows the following
 	steps.</t>
 
@@ -387,8 +388,7 @@
 	  <list style="numbers">
 	    <t>The RP (Client) sends a request to the OpenID Provider (OP).</t>
 
-	    <t>The OP authenticates the End-User and obtains 
-	    appropriate authorization.</t>
+	    <t>The OP authenticates the End-User and obtains authorization.</t>
 
 	    <t>The OP responds with an ID Token and usually an Access Token.</t>
 	    
@@ -442,7 +442,8 @@
 	<xref target="JWT">JSON Web Token (JWT)</xref>.
       </t>
       <t>
-	The following Claims are used within the ID Token for all OAuth 2.0 flows:
+	The following Claims are used within the ID Token
+	for all OAuth 2.0 flows used by OpenID Connect:
       </t>
 
       <t>
@@ -617,7 +618,7 @@
 	Authorization Endpoint
 	(such as when using the Authorization Code Flow)
 	and the Client explicitly requested the use of
-	<spanx style="verb">none</spanx> at registration time.
+	<spanx style="verb">none</spanx> at Registration time.
       </t>
       <t>
 	ID Tokens SHOULD NOT use the JWS or JWE
@@ -663,7 +664,8 @@
 	For this reason, the Client is called Relying Party (RP) in this case.
       </t>
       <t>
-	The Authentication result is returned in an ID Token <xref target="IDToken"/>.
+	The Authentication result is returned in an
+	ID Token, as defined in <xref target="IDToken"/>.
 	It has Claims expressing such information as the Issuer,
 	the Subject Identifier, when the authentication expires, etc.
       </t>
@@ -1150,7 +1152,7 @@
 	    <figure>
 	      <preamble>
 		The following is a non-normative example
-		302 redirect response by the Client, which triggers
+		HTTP 302 redirect response by the Client, which triggers
 		the User Agent to make an Authentication Request
 		to the Authorization Endpoint
 		(with line wraps within values for display purposes only):
@@ -1171,7 +1173,7 @@
 	      <preamble>
 		The following is the non-normative example request
 		that would be sent by the User Agent to the Authorization Server
-		in response to the 302 redirect response by the Client above
+		in response to the HTTP 302 redirect response by the Client above
 		(with line wraps within values for display purposes only):
 	      </preamble>
 
@@ -1992,7 +1994,7 @@
 	      <preamble>
 		The following is a non-normative example request using the Implicit Flow
 		that would be sent by the User Agent to the Authorization Server
-		in response to a corresponding 302 redirect response by the Client
+		in response to a corresponding HTTP 302 redirect response by the Client
 		(with line wraps within values for display purposes only):
 	      </preamble>
 
@@ -2353,7 +2355,7 @@
 	      <preamble>
 		The following is a non-normative example request using the Hybrid Flow
 		that would be sent by the User Agent to the Authorization Server
-		in response to a corresponding 302 redirect response by the Client
+		in response to a corresponding HTTP 302 redirect response by the Client
 		(with line wraps within values for display purposes only):
 	      </preamble>
 
@@ -2776,7 +2778,7 @@
 	RPs supporting
 	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
 	register this endpoint value using the
-	<spanx style="verb">initiate_login_uri</spanx> registration parameter.
+	<spanx style="verb">initiate_login_uri</spanx> Registration parameter.
       </t>
       <t>
 	The party initiating the login request does so by redirecting
@@ -4625,13 +4627,13 @@
 		representing a particular fixed set of request parameters.)
 	      </t>
 	      <t>
-		Pre-registering a fixed set of request parameters at registration time
+		Pre-registering a fixed set of request parameters at Registration time
 		enables OPs to cache and pre-validate the request parameters at
-		registration time, meaning they need not be retrieved at request time.
+		Registration time, meaning they need not be retrieved at request time.
 	      </t>
 	      <t>
 		Pre-registering a fixed set of request parameters at
-		registration time enables OPs to vet the contents of
+		Registration time enables OPs to vet the contents of
 		the request from consumer protection and other points
 		of views, either itself or by utilizing a third party.
 	      </t>
@@ -4928,7 +4930,7 @@
 	<figure>
 	  <preamble>
 	    The following is a non-normative example
-	    302 redirect response by the Client, which triggers
+	    HTTP 302 redirect response by the Client, which triggers
 	    the User Agent to make an Authentication Request
 	    to the Self-Issued OpenID Provider
 	    (with line wraps within values for display purposes only):
@@ -8597,7 +8599,7 @@
 	  <t>Justin Richer (jricher@mitre.org), MITRE</t>
 	  <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
 	  <t>Luke Shepard (lshepard@fb.com), Facebook</t>
-	  <t>Andreas Akre Solberg (andreas.solberg@uninett.no), UNINET</t>
+	  <t>Andreas &Aring;kre Solberg (andreas.solberg@uninett.no), UNINET</t>
 	  <t>Paul Tarjan (pt@fb.com), Facebook</t>
 	</list>
       </t>
@@ -8657,6 +8659,9 @@
 	  <t>
 	    Clarified that UserInfo Responses and Request Objects may be encrypted
 	    without also being signed.
+	  </t>
+	  <t>
+	    Applied proofreading corrections by Michael B. Jones.
 	  </t>
 	</list>
       </t>

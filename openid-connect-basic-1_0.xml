@@ -134,24 +134,24 @@
 	in the Authorization Request.
 	Information about the authentication performed is returned
 	in a <xref target="JWT">JSON Web Token (JWT)</xref>
-	called an ID Token <xref target="IDToken"/>.
+	called an ID Token (see <xref target="IDToken"/>).
 	OAuth 2.0 Authentication Servers implementing OpenID Connect
 	are also referred to as OpenID Providers (OPs).
 	OAuth 2.0 Clients using OpenID Connect
 	are also referred to as Relying Parties (RPs).
       </t>
       <t>
-	This specification assumes that the Client has already obtained
-	the locations of the OpenID Provider's endpoints, including its
-	Authorization Endpoint and Token Endpoint.
-	These URLs are normally obtained via Discovery,
+	This specification assumes that the Relying Party has already obtained
+	configuration information about the OpenID Provider, including its
+	Authorization Endpoint and Token Endpoint locations.
+	This information is normally obtained via Discovery,
 	as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
 	or may be obtained via other mechanisms.
       </t>
       <t>
-	Likewise, this specification assumes that the Client has already obtained
-	sufficient credentials to interact with the OpenID Provider.
-	These credentials are normally obtained via Dynamic Registration,
+	Likewise, this specification assumes that the Relying Party has already obtained
+	sufficient credentials and provided information needed to use the OpenID Provider.
+	This is normally done via Dynamic Registration,
 	as described in
 	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
 	or may be obtained via other mechanisms.
@@ -286,6 +286,55 @@
 	  Whenever the reader encounters them, their definitions
 	  found in this section must be followed.
 	</t>
+      </section>
+
+      <section anchor="Overview" title="Overview">
+
+	<t>The OpenID Connect protocol, in abstract, follows the following
+	steps.</t>
+
+	<t>
+	  <list style="numbers">
+	    <t>The RP (Client) sends a request to the OpenID Provider (OP).</t>
+
+	    <t>The OP authenticates the End-User and obtains authorization.</t>
+
+	    <t>The OP responds with an ID Token and usually an Access Token.</t>
+	    
+	    <t>The RP can send a request with the Access Token to the UserInfo Endpoint.</t>
+
+	    <t>The UserInfo Endpoint returns Claims about the End-User.</t>
+
+	  </list>
+	</t>
+	
+	<figure>
+	  <preamble>
+	    These steps are illustrated in the following diagram:
+	  </preamble>
+
+	  <artwork><![CDATA[
++--------+                                   +--------+ 
+|        |                                   |        |
+|        |---------(1) AuthN Request-------->|        |
+|        |                                   |        |
+|        |  +--------+                       |        |
+|        |  |        |                       |        |
+|        |  |  End-  |<--(2) AuthN & AuthZ-->|        |
+|        |  |  User  |                       |        |
+|   RP   |  |        |                       |   OP   |
+|        |  +--------+                       |        |
+|        |                                   |        |
+|        |<--------(3) AuthN Response--------|        |
+|        |                                   |        |
+|        |---------(4) UserInfo Request----->|        |
+|        |                                   |        |
+|        |<--------(5) UserInfo Response-----|        |
+|        |                                   |        |
++--------+                                   +--------+
+]]></artwork>
+	</figure>
+
       </section>
     </section>
 
@@ -661,7 +710,7 @@
           <figure>
 	    <preamble>
 	      The following is a non-normative example
-	      302 redirect response by the Client, which triggers
+	      HTTP 302 redirect response by the Client, which triggers
 	      the User Agent to make an Authentication Request
 	      to the Authorization Endpoint
 	      (with line wraps within values for display purposes only):
@@ -682,7 +731,7 @@
 	    <preamble>
 	      The following is the non-normative example request
 	      that would be sent by the User Agent to the Authorization Server
-	      in response to the 302 redirect response by the Client above
+	      in response to the HTTP 302 redirect response by the Client above
 	      (with line wraps within values for display purposes only):
 	    </preamble>
 
@@ -1069,8 +1118,10 @@
 	</t>
 
 	<figure>
-	  <preamble>The following is a non-normative example of a base64url decoded 
-	  ID Token:</preamble>
+	  <preamble>
+	    The following is a non-normative example of
+	    the Claims from a base64url decoded ID Token payload:
+	  </preamble>
 
 	  <artwork><![CDATA[
   {
@@ -1331,7 +1382,7 @@
         <t>
           <figure>
             <preamble>The following is a non-normative example of a <spanx style="verb">scope</spanx>
-            Request.</preamble>
+            Request:</preamble>
 
             <artwork><![CDATA[
   scope=openid profile email phone
@@ -2331,7 +2382,7 @@
           <t>Justin Richer (jricher@mitre.org), MITRE</t>
           <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
           <t>Luke Shepard (lshepard@fb.com), Facebook</t>
-          <t>Andreas Akre Solberg (andreas.solberg@uninett.no), UNINET</t>
+          <t>Andreas &Aring;kre Solberg (andreas.solberg@uninett.no), UNINET</t>
           <t>Paul Tarjan (pt@fb.com), Facebook</t>
         </list>
       </t>
@@ -2387,6 +2438,9 @@
         <list style="symbols">
 	  <t>
 	    Incorporated terms defined by the JWT specification.
+	  </t>
+	  <t>
+	    Applied proofreading corrections by Michael B. Jones.
 	  </t>
 	</list>
       </t>

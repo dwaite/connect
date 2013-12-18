@@ -79,9 +79,9 @@
 	to provide the OP information about itself and
 	to obtain information needed to use it,
 	including an OAuth 2.0 Client ID.
-	This document describes how a new Client
+	This document describes how an RP
 	can register with an OP, and how registration information
-	for the Client can be retrieved.
+	for the RP can be retrieved.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -573,7 +573,8 @@
 	</list>
       </t>
       <t>
-	Other Client Metadata values are also defined by other specifications,
+	Additional Client Metadata parameters MAY also be used.
+	Some are defined by other specifications,
 	such as
 	<xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>.
       </t>
@@ -644,15 +645,12 @@
         <t>
 	  The Client sends an HTTP <spanx style="verb">POST</spanx> to the Client Registration Endpoint
 	  with a content type of <spanx style="verb">application/json</spanx>
-	  and all parameters as top-level members of a JSON object.
+	  with the parameters represented as top-level members of the root JSON object.
 	</t>
         <t>
-	  For example, a Client could send the
-	  following registration request to the Client Registration Endpoint:</t>
-
-          <t><figure>
+	  <figure>
 	    <preamble>
-	      The following is a non-normative example request
+	      The following is a non-normative example registration request
 	      (with line wraps within values for display purposes only):
 	    </preamble>
           
@@ -684,7 +682,9 @@
      ["https://client.example.org/rf.txt
        #qpXaRLh_n93TTR9F252ValdatUQvQiJi5BDub2BeznA"]
   }
-]]></artwork></figure></t>
+]]></artwork>
+	  </figure>
+	</t>
       </section>
 
       <section anchor="RegistrationResponse" title="Client Registration Response">
@@ -710,7 +710,7 @@
 	  A successful response SHOULD use the HTTP 201 Created status code
 	  and return a JSON document <xref target="RFC4627"/>
 	  using the <spanx style="verb">application/json</spanx> content type
-	  with the following fields as
+	  with the following fields and the Client Metadata parameters as
 	  top-level members of the root JSON object:
 	</t>
 
@@ -758,7 +758,7 @@
 
         <t><figure>
           <preamble>
-	    The following is a non-normative example response
+	    The following is a non-normative example registration response
 	    (with line wraps within values for display purposes only):
 	  </preamble>
 	  <artwork><![CDATA[
@@ -812,17 +812,21 @@
 	a HTTP 400 Bad Request status code
 	including a JSON object describing the error in the response body.</t>
 
-	<t>The JSON object contains two members:</t>
-
-	<t><list style="hanging">
-	  <t hangText="error">Error code.</t>
-
-	  <t hangText="error_description">Additional text description of the error for debugging.</t>
-	</list></t>
-	
-	<t>This specification defines the following error codes:</t>
-
 	<t>
+	  The JSON object describing the error contains two members:
+
+	  <list style="hanging">
+	    <t hangText="error">Error code.</t>
+
+	    <t hangText="error_description">Additional text description of the error for debugging.</t>
+	  </list>
+
+	  Other members MAY also be used.
+	</t>
+	
+	<t>
+	  This specification defines the following error codes:
+
 	  <list style="hanging">
 	    <t hangText="invalid_redirect_uri">The value of one or
 	    more <spanx style="verb">redirect_uris</spanx> is invalid.</t>
@@ -832,7 +836,10 @@
             is invalid and the server has rejected this request. Note that an
             Authorization Server MAY choose to substitute a valid value for
             any requested parameter of a Client's Metadata.</t>
-	</list></t>
+	  </list>
+
+	  Other error codes MAY also be used.
+	</t>
 
 	<t>
 	  <figure>
@@ -913,7 +920,7 @@
 
         <figure>
           <preamble>
-	    The following is a non-normative example request:
+	    The following is a non-normative example read request:
 	  </preamble>
 
           <artwork><![CDATA[
@@ -947,7 +954,7 @@
 
         <figure>
           <preamble>
-	    The following is a non-normative example response
+	    The following is a non-normative example read response
 	    (with line wraps within values for display purposes only):
 	  </preamble>
 
@@ -1050,12 +1057,12 @@
       <t><figure>
 	<preamble>
 	  The following is a non-normative example request to and reply from
-	  a <spanx style="verb">sector_identifier_uri</spanx>.
+	  a <spanx style="verb">sector_identifier_uri</spanx>:
 	</preamble>
 	<artwork><![CDATA[
-  GET https://other.example.net/file_of_redirect_uris.json HTTP/1.1
+  GET /file_of_redirect_uris.json HTTP/1.1
   Accept: application/json
-  Host: client.example.org
+  Host: other.example.net
 
   HTTP/1.1 200 OK
   Content-Type: application/json
@@ -1125,7 +1132,7 @@
       <t>
 	As of the time of this writing,
 	this specification is compatible with the current version of
-	<xref target="I-D.ietf-oauth-dyn-reg">OAuth 2.0 Dynamic Client Registration Protocol</xref>.
+	<xref target="I-D.ietf-oauth-dyn-reg">OAuth 2.0 Dynamic Client Registration Protocol</xref>, draft -14.
 	The Dynamic Client Registration work is still ongoing at the IETF
 	and changes may or may not be made there
 	that cause it to diverge from this specification
@@ -1202,27 +1209,32 @@
       See <xref target="TLSRequirements"/> for more information on using TLS.
       </t>
 
-      <t>
-        A rogue RP might use the logo for the legitimate RP, which it
-        is trying to impersonate. An OP needs to take steps to
-        mitigate this phishing risk, since the logo could confuse
-        users into thinking they're logging in to the legitimate
-        RP. An OP could also warn if the domain/site of the logo
-        doesn't match the domain/site of registered Redirection URIs. An OP can also
-        make warnings against untrusted RPs in all cases, especially
-        if they're dynamically registered, have not been trusted by
-        any users at the OP before, and want to use the logo feature.
-      </t>
-      
-      <t>In a situation where the Authorization Server is supporting open Client 
-      registration, 
-      it needs to be extremely careful with any URL provided by the Client that will 
-      be displayed to the End-User (e.g. <spanx style="verb">logo_uri</spanx> and
-      <spanx style="verb">policy_uri</spanx>). A rogue Client could 
-      specify a registration request with a reference to a drive-by download in the 
-      <spanx style="verb">policy_uri</spanx>. The Authorization Server SHOULD check to see if the
-      <spanx style="verb">logo_uri</spanx> and <spanx style="verb">policy_uri</spanx> have the 
-      same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.</t>
+      <section anchor="Impersonation" title="Impersonation">
+
+	<t>
+	  A rogue RP might use the logo for the legitimate RP, which it
+	  is trying to impersonate. An OP needs to take steps to
+	  mitigate this phishing risk, since the logo could confuse
+	  users into thinking they're logging in to the legitimate
+	  RP. An OP could also warn if the domain/site of the logo
+	  doesn't match the domain/site of registered Redirection URIs. An OP can also
+	  make warnings against untrusted RPs in all cases, especially
+	  if they're dynamically registered, have not been trusted by
+	  any users at the OP before, and want to use the logo feature.
+	</t>
+	<t>
+	  In a situation where the Authorization Server is supporting open Client 
+	  registration, 
+	  it needs to be extremely careful with any URL provided by the Client that will 
+	  be displayed to the End-User (e.g. <spanx style="verb">logo_uri</spanx> and
+	  <spanx style="verb">policy_uri</spanx>). A rogue Client could 
+	  specify a registration request with a reference to a drive-by download in the 
+	  <spanx style="verb">policy_uri</spanx>. The Authorization Server SHOULD check to see if the
+	  <spanx style="verb">logo_uri</spanx> and <spanx style="verb">policy_uri</spanx> have the 
+	  same host as the hosts defined in the array of <spanx style="verb">redirect_uris</spanx>.
+	</t>
+
+      </section>
 
       <section anchor="NativeCodeLeakage" title="Native Code Leakage">
 
@@ -1599,6 +1611,9 @@
 	  </t>
 	  <t>
 	    Incorporated terms defined by the JWT specification.
+	  </t>
+	  <t>
+	    Applied proofreading corrections by Michael B. Jones.
 	  </t>
 	</list>
       </t>
