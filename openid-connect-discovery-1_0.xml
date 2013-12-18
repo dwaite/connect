@@ -217,11 +217,26 @@
       </t>
 
       <t>
-	The Issuer MUST be returned in the WebFinger response.
-	The Issuer includes a URI scheme (which MUST be <spanx style="verb">https</spanx>),
-	a Host, and optionally, a port.
+	The Issuer location MUST be returned in the WebFinger response
+	as the value of the <spanx style="verb">href</spanx> member of
+	a <spanx style="verb">links</spanx> array element
+	with <spanx style="verb">rel</spanx> member value
+	<spanx style="verb">http://openid.net/specs/connect/1.0/issuer</spanx>.
 	(Per Section 7 of <xref target="RFC7033">WebFinger</xref>, obtaining the
 	WebFinger response may first involve following some redirects.)
+      </t>
+      <t>
+	The returned Issuer location MUST be a URI <xref target="RFC3986">RFC 3986</xref>
+	with a scheme component that MUST be <spanx style="verb">https</spanx>,
+	a host component, and optionally, port and path components
+	and no query or fragment components.
+	Note that since the Host and Resource values determined from
+	the user input Identifier,
+	as described in <xref target="IdentifierNormalization"/>,
+	are used as input to a WebFinger request,
+	which can return an Issuer value using a completely different
+	scheme, host, port, and path, no relationship can be assumed between
+	the user input Identifier string and the resulting Issuer location.
       </t>
 
       <section anchor="IdentifierNormalization" title="Identifier Normalization">
@@ -1113,10 +1128,6 @@
 	  the Issuer URL that was directly used to retrieve the configuration information.
 	  This MUST also be identical to the <spanx style="verb">iss</spanx> Claim value
 	  in ID Tokens issued from this Issuer.
-	  Since the discovery process allows for multiple levels of
-	  redirection, this Issuer
-	  URL MAY be different from the one originally used to begin the
-	  discovery process.
 	</t>
       </section>
     </section>
