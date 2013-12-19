@@ -476,6 +476,26 @@
 	  the OP and the RP MAY be used.
 	  </t>
 
+	  <t hangText="request_object_encryption_alg">OPTIONAL.
+	  <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
+	  algorithm <xref target="JWA" /> the RP is declaring that it will use for
+	  encrypting Request Objects sent to the OP.
+	  If both signing and encryption are requested,
+	  the Request Object will be signed then encrypted,
+	  with the result being a Nested JWT, as defined in <xref target="JWT"/>.
+	  The default, if omitted, is that the RP will not encrypt Request Objects.
+	  </t>
+	  
+	  <t hangText="request_object_encryption_enc">OPTIONAL.
+	  JWE <spanx style="verb">enc</spanx>
+	  algorithm <xref target="JWA" /> the RP is declaring that it will use for
+	  encrypting Request Objects sent to the OP.
+	  If <spanx style="verb">request_object_encryption_alg</spanx> is specified,
+	  the default for this value is <spanx style="verb">A128CBC-HS256</spanx>.
+	  When <spanx style="verb">request_object_encryption_enc</spanx> is included,
+	  <spanx style="verb">request_object_encryption_alg</spanx> MUST also be provided.
+	  </t>
+
 	  <t hangText="token_endpoint_auth_method">OPTIONAL.
 	  Requested Client Authentication method for the Token Endpoint.
 	  The options are 
@@ -723,10 +743,15 @@
             <t hangText="client_secret"><vspace/>OPTIONAL. Client Secret.
             The same Client Secret value MUST NOT be assigned to multiple Clients.
             This value is used by Confidential Clients to authenticate to the
-            Token Endpoint as described in OAuth 2.0 Section 2.3.1.
+            Token Endpoint, as described in Section 2.3.1 of OAuth 2.0,
+	    and for the derivation of symmetric encryption key values,
+	    as described in
+	    Section 10.2 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	    It is not needed for
 	    Clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
-	    <spanx style="verb">private_key_jwt</spanx>.</t>
+	    <spanx style="verb">private_key_jwt</spanx>
+	    unless symmetric encryption of Request Objects will be performed.
+	    </t>
 
             <t hangText="registration_access_token"><vspace/>OPTIONAL.
 	    Registration Access Token that can be used at the Client Configuration Endpoint to
@@ -1607,7 +1632,11 @@
 	    to enable the Client's JWK Set to be passed by value, if necessary.
 	  </t>
 	  <t>
-	    Corrected error response examples to use WWW-Authenticate.
+	    Modified an error response example to use WWW-Authenticate.
+	  </t>
+	  <t>
+	    Added missing <spanx style="verb">request_object_encryption_alg</spanx> and
+	    <spanx style="verb">request_object_encryption_enc</spanx> parameters.
 	  </t>
 	  <t>
 	    Incorporated terms defined by the JWT specification.

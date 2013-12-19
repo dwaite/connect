@@ -5561,13 +5561,17 @@
 	    <t hangText="Symmetric Encryption">
 	      The symmetric encryption key is derived from the
 	      <spanx style="verb">client_secret</spanx> value by
-	      using a left truncated SHA-256 hash of
+	      using a left truncated SHA-2 hash of
 	      the octets of the UTF-8 representation of
 	      the <spanx style="verb">client_secret</spanx>.
-	      The SHA-256 value MUST be left truncated to the appropriate bit length 
-	      for the AES key wrapping algorithm used,
-	      for instance, to 128 bits for <spanx style="verb">A128KW</spanx>.
-	      If a key wrapping key with greater than 256 bits is needed, a different method
+	      For keys of 256 or fewer bits, SHA-256 is used;
+	      for keys of 257-384 bits, SHA-384 is used;
+	      for keys of 385-512 bits, SHA-512 is used.
+	      The hash value MUST be left truncated to the appropriate bit length 
+	      for the AES key wrapping or direct encryption algorithm used,
+	      for instance, truncating the SHA-256 hash
+	      to 128 bits for <spanx style="verb">A128KW</spanx>.
+	      If a symmetric key with greater than 512 bits is needed, a different method
 	      of deriving the key from the <spanx style="verb">client_secret</spanx>
 	      would have to be defined by an extension.
 	      Symmetric encryption MUST NOT be used by public (non-confidential) Clients
