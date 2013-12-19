@@ -13,7 +13,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 20</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 21</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="18" month="December" year="2013" />
+    <date day="19" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1235,6 +1235,35 @@
 	  MUST be performed, per <xref target="RFC6125">RFC 6125</xref>.
 	</t>
       </section>
+
+      <section anchor="Impersonation" title="Impersonation Attacks">
+	<t>
+	  TLS certificate checking MUST be performed by the RP,
+	  as described in <xref target="TLSRequirements"/>,
+	  when making an OpenID Provider Configuration Request.
+	  Checking that the server certificate is valid for the Issuer URL
+	  prevents man-in-middle and DNS-based attacks.
+	  These attacks could cause an RP to be tricked into using an attacker's
+	  keys and endpoints, which would enable impersonation of the legitimate Issuer.
+	  If an attacker can accomplish this, they can access the accounts
+	  of any existing users at the affected RP that can be logged into
+	  using the OP that they are impersonating.
+	</t>
+	<t>
+	  An attacker may also attempt to impersonate an OpenID Provider by publishing
+	  a Discovery document that contains an <spanx style="verb">issuer</spanx> Claim
+	  using the Issuer URL of the OP being impersonated,
+	  but with its own endpoints and signing keys.
+	  This would enable it to issue ID Tokens as that OP, if accepted by the RP.
+	  To prevent this, RPs MUST ensure that the Issuer URL they are using
+	  for the Configuration Request exactly matches the value of
+	  the <spanx style="verb">issuer</spanx> Claim
+	  in the OP Metadata document received by the RP
+	  and that this also exactly matches the <spanx style="verb">iss</spanx> Claim
+	  value in ID Tokens that are supposed to be from that Issuer.
+	</t>
+      </section>
+
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
@@ -1636,6 +1665,14 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>
+	-21
+	<list style="symbols">
+	  <t>
+	    Fixed #41 - Added additional Security Considerations.
+	  </t>
+	</list>
+      </t>
       <t>
 	-20
 	<list style="symbols">
