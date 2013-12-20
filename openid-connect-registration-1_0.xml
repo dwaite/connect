@@ -960,6 +960,8 @@
 	  the current configuration of the Client on the Authorization Server
 	  can be read by making an HTTP <spanx style="verb">GET</spanx> request to the
 	  Client Configuration Endpoint with the Registration Access Token.
+	  This operation SHOULD be idempotent --
+	  not causing changes to the client configuration.
 	</t>
 
         <figure>
@@ -981,8 +983,12 @@
 	  Upon a successful read operation, the Authorization Server
 	  SHOULD return all registered Metadata about this Client, including
 	  any fields provisioned by the Authorization Server itself.
-	  Some values, including the <spanx style="verb">client_secret</spanx>
+	  Note that some values, including the <spanx style="verb">client_secret</spanx>
 	  value, might have been updated since the initial registration.
+	  The mechanisms for such updates are beyond the scope of this specification.
+	  However, since Read operations are intended to be idempotent,
+	  the Client Read Request itself SHOULD NOT cause changes
+	  to the Client's registered Metadata values.
 	</t>
 
         <t>The Authorization Server need not include the
