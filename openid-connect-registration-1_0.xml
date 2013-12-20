@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 22</title>
+    Dynamic Client Registration 1.0 - draft 23</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="18" month="December" year="2013" />
+    <date day="19" month="December" year="2013" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -468,8 +468,14 @@
 	  algorithm <xref target="JWA" /> that MUST be used for
 	  signing Request Objects sent to the OP.
 	  All Request Objects from
-	  this Client MUST be rejected
+	  this Client MUST be rejected,
 	  if not signed with this algorithm.
+	  Request Objects are described in
+	  Section 6.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	  This algorithm MUST be used both when the Request Object is passed by value
+	  (using the <spanx style="verb">request</spanx> parameter)
+	  and when it is passed by reference
+	  (using the <spanx style="verb">request_uri</spanx> parameter).
 	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
 	  The value <spanx style="verb">none</spanx> MAY be used.
 	  The default, if omitted, is that any algorithm supported by
@@ -478,17 +484,24 @@
 
 	  <t hangText="request_object_encryption_alg">OPTIONAL.
 	  <xref target="JWE">JWE</xref> <spanx style="verb">alg</spanx> 
-	  algorithm <xref target="JWA" /> the RP is declaring that it will use for
+	  algorithm <xref target="JWA" /> the RP is declaring that it may use for
 	  encrypting Request Objects sent to the OP.
+	  This parameter SHOULD be included when symmetric encryption will be used,
+	  since this signals to the OP that a <spanx style="verb">client_secret</spanx>
+	  value needs to be returned from which the symmetric key will be derived,
+	  that might not otherwise be returned.
+	  The RP MAY still use other supported encryption algorithms
+	  or send unencrypted Request Objects, even when this parameter is present.
 	  If both signing and encryption are requested,
 	  the Request Object will be signed then encrypted,
 	  with the result being a Nested JWT, as defined in <xref target="JWT"/>.
-	  The default, if omitted, is that the RP will not encrypt Request Objects.
+	  The default, if omitted, is that the RP is not declaring whether
+	  it might encrypt any Request Objects.
 	  </t>
 	  
 	  <t hangText="request_object_encryption_enc">OPTIONAL.
 	  JWE <spanx style="verb">enc</spanx>
-	  algorithm <xref target="JWA" /> the RP is declaring that it will use for
+	  algorithm <xref target="JWA" /> the RP is declaring that it may use for
 	  encrypting Request Objects sent to the OP.
 	  If <spanx style="verb">request_object_encryption_alg</spanx> is specified,
 	  the default for this value is <spanx style="verb">A128CBC-HS256</spanx>.
@@ -518,7 +531,7 @@
 	  at the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
 	  and <spanx style="verb">client_secret_jwt</spanx> authentication methods.
 	  All Token Requests using these authentication methods from
-	  this Client MUST be rejected
+	  this Client MUST be rejected,
 	  if the JWT is not signed with this algorithm.
 	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
 	  The value <spanx style="verb">none</spanx> MUST NOT be used.
@@ -532,14 +545,20 @@
 	  End-User was authenticated longer ago than the specified number of seconds.
 	  The <spanx style="verb">max_age</spanx> request parameter
 	  overrides this default value.
+	  If omitted, no default Maximum Authentication Age is specified.
 	  </t>
 	  
 	  <t hangText="require_auth_time">OPTIONAL.
 	  Boolean value specifying whether the <spanx style="verb">auth_time</spanx> 
-	  Claim in the <spanx style="verb">id_token</spanx> is REQUIRED.
+	  Claim in the ID Token is REQUIRED.
 	  It is REQUIRED when the value is <spanx style="verb">true</spanx>.
-	  The <spanx style="verb">auth_time</spanx> Claim request
-	  in the Request Object overrides this setting.</t>
+	  (If this is <spanx style="verb">false</spanx>, the
+	  <spanx style="verb">auth_time</spanx> Claim can still be dynamically requested
+	  as an individual Claim for the ID Token
+	  using the <spanx style="verb">claims</spanx> request parameter described in
+	  Section 5.5.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.)
+	  If omitted, the default value is <spanx style="verb">false</spanx>.
+	  </t>
 	  
 	  <t hangText="default_acr_values">
 	    OPTIONAL.
@@ -750,7 +769,7 @@
 	    It is not needed for
 	    Clients selecting a <spanx style="verb">token_endpoint_auth_method</spanx> of
 	    <spanx style="verb">private_key_jwt</spanx>
-	    unless symmetric encryption of Request Objects will be performed.
+	    unless symmetric encryption will be used.
 	    </t>
 
             <t hangText="registration_access_token"><vspace/>OPTIONAL.
@@ -1620,6 +1639,15 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>
+	-23
+	<list style="symbols">
+	  <t>
+	    Refined description of
+	    the <spanx style="verb">request_object_encryption_alg</spanx> parameter.
+	  </t>
+	</list>
+      </t>
       <t>
 	-22
 	<list style="symbols">
