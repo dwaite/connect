@@ -10,11 +10,11 @@
   <?rfc sortrefs="yes"?>
   <?rfc strict="yes" ?>
   <?rfc iprnotified="no" ?>
-  <?rfc private="Draft" ?>
+  <?rfc private="Final" ?>
 
   <front>
     <title abbrev="OAuth 2.0 Multiple Response Types">
-      OAuth 2.0 Multiple Response Type Encoding Practices - draft 11
+      OAuth 2.0 Multiple Response Type Encoding Practices
     </title>
 
     <author fullname="Breno de Medeiros" initials="B." role="editor" surname="de Medeiros">
@@ -48,7 +48,7 @@
       </address>
     </author>
 
-    <date day="18" month="December" year="2013" />
+    <date day="25" month="February" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -100,7 +100,9 @@
 	  This specification also defines the following terms:
 	  <list style="hanging">
 
-	    <t hangText="Multiple-Valued Response Types">The OAuth 2.0 specification allows
+	    <t hangText="Multiple-Valued Response Types">
+	      <vspace/>
+	      The OAuth 2.0 specification allows
 	      for registration of space-separated <spanx style="verb">response_type</spanx> parameter values. 
 	      If a Response Type contains one of more space characters (%20), it is
 	      compared as a space-delimited list of values in which the order of
@@ -108,6 +110,7 @@
 	    </t>
 
 	    <t hangText="Response Mode">
+	      <vspace/>
 	      The Response Mode determines how the Authorization Server
 	      returns result parameters from the Authorization Endpoint.
 	      Non-default modes are specified using the
@@ -145,6 +148,7 @@
 
 	<list style="hanging">
 	  <t hangText="response_mode">
+	    <vspace/>
 	    OPTIONAL.
 	    Informs the Authorization Server of the mechanism to be used
 	    for returning Authorization Response parameters from the Authorization Endpoint.
@@ -162,11 +166,13 @@
 	<t>
 	  <list style="hanging">
 	    <t hangText="query">
+	      <vspace/>
 	      In this mode, Authorization Response parameters are encoded in
 	      the query string added to the <spanx style="verb">redirect_uri</spanx>
 	      when redirecting back to the Client.
 	    </t>
 	    <t hangText="fragment">
+	      <vspace/>
 	      In this mode, Authorization Response parameters are encoded in
 	      the fragment added to the <spanx style="verb">redirect_uri</spanx>
 	      when redirecting back to the Client.
@@ -235,6 +241,7 @@
       <t>
 	<list style="hanging">
         <t hangText="id_token">
+	  <vspace/>
 	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
           Authorization Request, a successful response MUST include the parameter
           <spanx style="verb">id_token</spanx>.
@@ -278,6 +285,7 @@
       <t>
 	<list style="hanging">
         <t hangText="none">
+	  <vspace/>
 	  When supplied as the <spanx style="verb">response_type</spanx> parameter in an OAuth 2.0
 	  Authorization Request, the Authorization Server SHOULD NOT return an OAuth 2.0
 	  Authorization Code, Access Token, Access Token Type, or ID Token in a successful
@@ -308,6 +316,7 @@
 	<t>
 	  <list style="hanging">
 	    <t hangText="code&nbsp;token">
+	      <vspace/>
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Access Token, an Access Token Type,
@@ -318,6 +327,7 @@
 	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t>
 	    <t hangText="code&nbsp;id_token">
+	      <vspace/>
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      both an Authorization Code and an <spanx style="verb">id_token</spanx>.
@@ -327,6 +337,7 @@
 	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t>
 	    <t hangText="id_token&nbsp;token">
+	      <vspace/>
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Access Token, an Access Token Type,
@@ -337,6 +348,7 @@
 	      Response Mode, or if none is supplied, using the default Response Mode.
 	    </t>
 	    <t hangText="code&nbsp;id_token&nbsp;token">
+	      <vspace/>
 	      When supplied as the value for the <spanx style="verb">response_type</spanx>
 	      parameter, a successful response MUST include
 	      an Authorization Code, an <spanx style="verb">id_token</spanx>,
@@ -544,7 +556,7 @@
 	    <organization abbrev="Ping Identity">Ping Identity</organization>
 	  </author>
 
-	  <date day="18" month="December" year="2013" />
+	  <date day="25" month="February" year="2014" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html"
@@ -607,7 +619,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2013 The OpenID Foundation.</t>
+      <t>Copyright (c) 2014 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -648,113 +660,5 @@
       </t>
     </section>
 
-    <section anchor="History" title="Document History">
-      <t>[[ To be removed from the final specification ]]</t>
-
-      <t>
-	-11
-        <list style="symbols">
-          <t>
-	    Applied review comments by George Fletcher, Torsten Lodderstedt,
-	    and Brian Campbell.
-	  </t>
-	  <t>
-	    Added an example using a Multiple-Valued Response Type and
-	    the <spanx style="verb">fragment</spanx> Response Mode.
-	  </t>
-	</list>
-      </t>
-      <t>
-	-10
-        <list style="symbols">
-          <t>
-	    Fixed #889 - Differentiated between Response Types,
-	    which specify what is returned,
-	    and Response Modes, which specify how it is returned.
-	    Defined the <spanx style="verb">response_mode</spanx> request parameter
-	    for specifying non-default Response Modes.
-	  </t>
-	  <t>
-	    Fixed #890 - Defined the <spanx style="verb">form_post</spanx> Response Mode.
-	  </t>
-	  <t>
-	    Added Security Considerations section.
-	  </t>
-	  <t>
-	    Moved the
-	    <spanx style="verb">form_post</spanx> Response Mode definition to the
-	    OAuth 2.0 Form Post Response Mode specification.
-	  </t>
-        </list>
-      </t>
-
-      <t>
-	-09
-        <list style="symbols">
-          <t>
-	    Clarified that the response types <spanx style="verb">none</spanx>
-	    and <spanx style="verb">id_token</spanx> do not return
-	    Authorization Code, Access Token, or Access Token Type values.
-	  </t>
-	  <t>
-	    Clarified that an Access Token Type value MUST be returned in the same cases
-	    that an Access Token is.
-	  </t>
-	  <t>
-	    Clarified that the <spanx style="verb">state</spanx> value must be
-	    included in both successful responses and error responses,
-	    when present in the request.
-	  </t>
-	  <t>
-	    Fixed #887 - Clarified the reasons that some parameters
-	    are described as "SHOULD be fragment encoded"
-	    and stated that these "MUST NOT be query encoded".
-	  </t>
-        </list>
-      </t>
-
-      <t>
-	-08
-        <list style="symbols">
-          <t>
-	    Corrected RFC 2119 keyword usage.
-	  </t>
-        </list>
-      </t>
-
-      <t>-07 <list style="symbols">
-          <t>
-	    Fixed #817 - Removed duplicate definition of "Authorization Endpoint".
-	  </t>
-	  <t>
-	    Fixed #818 - Corrected HTTP GET example.
-	  </t>
-        </list></t>
-
-      <t>-06 <list style="symbols">
-          <t>Added registry contents to IANA Considerations section</t>
-          <t>Referenced OAuth 2.0 RFC -- RFC 6749</t>
-        </list></t>
-
-      <t>-05 <list style="symbols">
-          <t>Changed client.example.com to client.example.org, per issue #251</t>
-        </list></t>
-
-      <t>-04 <list style="symbols">
-          <t>Updated Notices</t>
-        </list></t>
-
-      <t>-03 <list style="symbols">
-          <t>Use same section number structure as the OpenID Connect specs</t>
-        </list></t>
-
-      <t>-02 <list style="symbols">
-          <t>Editorial corrections</t>
-        </list></t>
-
-      <t>-01 <list style="symbols">
-          <t>Initial draft</t>
-        </list></t>
-    </section>
   </back>
 </rfc>

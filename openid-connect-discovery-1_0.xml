@@ -10,10 +10,10 @@
   <?rfc sortrefs="yes"?>
   <?rfc strict="yes" ?>
   <?rfc iprnotified="no" ?>
-  <?rfc private="Draft" ?>
+  <?rfc private="Final" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 21</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -46,7 +46,7 @@
       </address>
     </author>
 
-    <date day="19" month="December" year="2013" />
+    <date day="25" month="February" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -135,12 +135,15 @@
 	  <list style="hanging">
 
 	    <t hangText="Resource">
+	      <vspace/>
 	      Entity that is the target of a request in WebFinger.
 	    </t>
 	    <t hangText="Host">
+	      <vspace/>
 	      Server where a WebFinger service is hosted.
 	    </t>
             <t hangText="Identifier">
+	      <vspace/>
 	     Value that uniquely characterizes an Entity in a specific context.
 	    </t>
 	    <t>
@@ -179,15 +182,18 @@
 
       <t><list style="hanging">
           <t hangText="resource">
+	    <vspace/>
 	    Identifier for the target End-User that is the
 	    subject of the discovery request.
 	  </t>
 
           <t hangText="host">
+	    <vspace/>
 	    Server where a WebFinger service is hosted.
 	  </t>
 
           <t hangText="rel">
+	    <vspace/>
 	    URI identifying the type of service whose location is being requested.
 	  </t>
         </list></t>
@@ -634,28 +640,33 @@
 
 	<list style="hanging">
 
-	  <t hangText="issuer">REQUIRED.
-	  URL using the <spanx style="verb">https</spanx> scheme with no query or fragment component that the OP asserts as its
-	  Issuer Identifier.
-	  If Issuer discovery is supported (see <xref target="IssuerDiscovery"/>),
-	  this value MUST be identical to the issuer value returned by WebFinger.
-	  This also MUST be identical to the <spanx style="verb">iss</spanx> Claim value
-	  in ID Tokens issued from this Issuer.
+	  <t hangText="issuer">
+	    <vspace/>
+	    REQUIRED.
+	    URL using the <spanx style="verb">https</spanx> scheme with no query or fragment component that the OP asserts as its
+	    Issuer Identifier.
+	    If Issuer discovery is supported (see <xref target="IssuerDiscovery"/>),
+	    this value MUST be identical to the issuer value returned by WebFinger.
+	    This also MUST be identical to the <spanx style="verb">iss</spanx> Claim value
+	    in ID Tokens issued from this Issuer.
 	  </t>
 
 	  <t hangText="authorization_endpoint">
+	    <vspace/>
 	    REQUIRED.
 	    URL of the OP's OAuth 2.0 Authorization Endpoint
 	    <xref target="OpenID.Core"/>.
 	  </t>
 
 	  <t hangText="token_endpoint">
+	    <vspace/>
 	    URL of the OP's OAuth 2.0 Token Endpoint
 	    <xref target="OpenID.Core"/>.
 	    This is REQUIRED unless only the Implicit Flow is used.
 	  </t>
 	  
 	  <t hangText="userinfo_endpoint">
+	    <vspace/>
 	    RECOMMENDED.
 	    URL of the OP's UserInfo Endpoint <xref target="OpenID.Core"/>.
 	    This URL MUST use the <spanx style="verb">https</spanx> scheme and MAY contain
@@ -663,6 +674,7 @@
 	  </t>
 
 	  <t hangText="jwks_uri">
+	    <vspace/>
 	    REQUIRED.
 	    URL of the OP's JSON Web Key Set <xref target="JWK"/> document.
 	    This contains the signing key(s) the RP uses to validate signatures from the OP.
@@ -680,31 +692,38 @@
 	    values MUST still be present and MUST match those in the certificate.
 	  </t>
 
-	  <t hangText="registration_endpoint">RECOMMENDED.
-	  URL of the OP's Dynamic Client Registration Endpoint <xref
-	  target="OpenID.Registration"></xref>.
+	  <t hangText="registration_endpoint">
+	    <vspace/>
+	    RECOMMENDED.
+	    URL of the OP's Dynamic Client Registration Endpoint <xref
+	    target="OpenID.Registration"></xref>.
 	  </t>
 
-	  <t hangText="scopes_supported">RECOMMENDED.
-	  JSON array containing a list of the <xref
-	  target="RFC6749">OAuth 2.0 </xref> scope values that this server
-	  supports. The server MUST support the <spanx style="verb">openid</spanx>
-	  scope value.
-	  Servers MAY choose not to advertise some supported scope values
-	  even when this parameter is used, although those defined in
-	  <xref target="OpenID.Core"/> SHOULD be listed, if supported.
+	  <t hangText="scopes_supported">
+	    <vspace/>
+	    RECOMMENDED.
+	    JSON array containing a list of the <xref
+	    target="RFC6749">OAuth 2.0 </xref> scope values that this server
+	    supports. The server MUST support the <spanx style="verb">openid</spanx>
+	    scope value.
+	    Servers MAY choose not to advertise some supported scope values
+	    even when this parameter is used, although those defined in
+	    <xref target="OpenID.Core"/> SHOULD be listed, if supported.
 	  </t>
 
-	  <t hangText="response_types_supported">REQUIRED.
-	  JSON array containing a list of the OAuth 2.0 
-	  <spanx style="verb">response_type</spanx> values that this
-	  OP supports.
-	  Dynamic OpenID Providers MUST support the <spanx style="verb">code</spanx>,
-	  <spanx style="verb">id_token</spanx>, and the <spanx style="verb">token id_token</spanx>
-	  Response Type values.
+	  <t hangText="response_types_supported">
+	    <vspace/>
+	    REQUIRED.
+	    JSON array containing a list of the OAuth 2.0 
+	    <spanx style="verb">response_type</spanx> values that this
+	    OP supports.
+	    Dynamic OpenID Providers MUST support the <spanx style="verb">code</spanx>,
+	    <spanx style="verb">id_token</spanx>, and the <spanx style="verb">token id_token</spanx>
+	    Response Type values.
 	  </t>
 
 	  <t hangText="response_modes_supported">
+	    <vspace/>
 	    OPTIONAL.
 	    JSON array containing a list of the OAuth 2.0 
 	    <spanx style="verb">response_mode</spanx> values that this
@@ -715,6 +734,7 @@
 	  </t>
 
 	  <t hangText="grant_types_supported">
+	    <vspace/>
 	    OPTIONAL.
 	    JSON array containing a list of the OAuth 2.0 
 	    Grant Type values that this
@@ -726,165 +746,204 @@
 	    <spanx style="verb">["authorization_code", "implicit"]</spanx>.
 	  </t>
 
-	  <t hangText="acr_values_supported">OPTIONAL.
-	  JSON array containing a list of the Authentication Context Class References
-	  that this OP supports.
+	  <t hangText="acr_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the Authentication Context Class References
+	    that this OP supports.
 	  </t>
 
-	  <t hangText="subject_types_supported">REQUIRED.
-	  JSON array containing a list of the Subject Identifier types that
-	  this OP supports. Valid types include
-	  <spanx style="verb">pairwise</spanx> and
-	  <spanx style="verb">public</spanx>.
+	  <t hangText="subject_types_supported">
+	    <vspace/>
+	    REQUIRED.
+	    JSON array containing a list of the Subject Identifier types that
+	    this OP supports. Valid types include
+	    <spanx style="verb">pairwise</spanx> and
+	    <spanx style="verb">public</spanx>.
 	  </t>
 
-	  <t hangText="id_token_signing_alg_values_supported">REQUIRED.
-	  JSON array containing a list of the JWS signing algorithms
-	  (<spanx style="verb">alg</spanx> values)
-	  supported by the OP for the ID Token
-	  to encode the Claims in a JWT <xref target="JWT" />.
-	  The algorithm <spanx style="verb">RS256</spanx> MUST be included.
-	  The value <spanx style="verb">none</spanx> MAY be supported,
-	  but MUST NOT be used
-	  unless the Response Type used returns no ID Token from the
-	  Authorization Endpoint
-	  (such as when using the Authorization Code Flow).
+	  <t hangText="id_token_signing_alg_values_supported">
+	    <vspace/>
+	    REQUIRED.
+	    JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the OP for the ID Token
+	    to encode the Claims in a JWT <xref target="JWT" />.
+	    The algorithm <spanx style="verb">RS256</spanx> MUST be included.
+	    The value <spanx style="verb">none</spanx> MAY be supported,
+	    but MUST NOT be used
+	    unless the Response Type used returns no ID Token from the
+	    Authorization Endpoint
+	    (such as when using the Authorization Code Flow).
 	  </t>
 
-	  <t hangText="id_token_encryption_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE encryption algorithms
-	  (<spanx style="verb">alg</spanx> values)
-	  supported by the OP for the ID Token
-	  to encode the Claims in a JWT <xref target="JWT" />.
+	  <t hangText="id_token_encryption_alg_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the OP for the ID Token
+	    to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
-	  <t hangText="id_token_encryption_enc_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE encryption algorithms
-	  (<spanx style="verb">enc</spanx> values)
-	  supported by the OP for the ID Token
-	  to encode the Claims in a JWT <xref target="JWT" />.
+	  <t hangText="id_token_encryption_enc_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values)
+	    supported by the OP for the ID Token
+	    to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
-	  <t hangText="userinfo_signing_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
-	  (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
-	  supported by the UserInfo Endpoint
-	  to encode the Claims in a JWT <xref target="JWT" />.
-	  The value <spanx style="verb">none</spanx> MAY be included.
+	  <t hangText="userinfo_signing_alg_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWS <xref target="JWS" /> signing algorithms
+	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+	    supported by the UserInfo Endpoint
+	    to encode the Claims in a JWT <xref target="JWT" />.
+	    The value <spanx style="verb">none</spanx> MAY be included.
 	  </t>
 
-	  <t hangText="userinfo_encryption_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
-	  (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
-	  supported by the UserInfo Endpoint
-	  to encode the Claims in a JWT <xref target="JWT" />.
+	  <t hangText="userinfo_encryption_alg_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWE <xref target="JWE" /> encryption algorithms
+	    (<spanx style="verb">alg</spanx> values) <xref target="JWA" />
+	    supported by the UserInfo Endpoint
+	    to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
-	  <t hangText="userinfo_encryption_enc_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE encryption algorithms
-	  (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
-	  supported by the UserInfo Endpoint
-	  to encode the Claims in a JWT <xref target="JWT" />.
+	  <t hangText="userinfo_encryption_enc_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values) <xref target="JWA" />
+	    supported by the UserInfo Endpoint
+	    to encode the Claims in a JWT <xref target="JWT" />.
 	  </t>
 
-	  <t hangText="request_object_signing_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWS signing algorithms
-	  (<spanx style="verb">alg</spanx> values)
-	  supported by the OP for Request Objects, which are described in
-	  Section 6.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
-	  These algorithms are used both when the Request Object is passed by value
-	  (using the <spanx style="verb">request</spanx> parameter)
-	  and when it is passed by reference
-	  (using the <spanx style="verb">request_uri</spanx> parameter).
-	  Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.
+	  <t hangText="request_object_signing_alg_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the OP for Request Objects, which are described in
+	    Section 6.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	    These algorithms are used both when the Request Object is passed by value
+	    (using the <spanx style="verb">request</spanx> parameter)
+	    and when it is passed by reference
+	    (using the <spanx style="verb">request_uri</spanx> parameter).
+	    Servers SHOULD support <spanx style="verb">none</spanx> and <spanx style="verb">RS256</spanx>.
 	  </t>
 
-	  <t hangText="request_object_encryption_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE encryption algorithms
-	  (<spanx style="verb">alg</spanx> values)
-	  supported by the OP for Request Objects.
-	  These algorithms are used both when the Request Object is passed by value
-	  and when it is passed by reference.
+	  <t hangText="request_object_encryption_alg_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the OP for Request Objects.
+	    These algorithms are used both when the Request Object is passed by value
+	    and when it is passed by reference.
 	  </t>
 
-	  <t hangText="request_object_encryption_enc_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWE encryption algorithms
-	  (<spanx style="verb">enc</spanx> values)
-	  supported by the OP for Request Objects.
-	  These algorithms are used both when the Request Object is passed by value
-	  and when it is passed by reference.
+	  <t hangText="request_object_encryption_enc_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWE encryption algorithms
+	    (<spanx style="verb">enc</spanx> values)
+	    supported by the OP for Request Objects.
+	    These algorithms are used both when the Request Object is passed by value
+	    and when it is passed by reference.
 	  </t>
 
-	  <t hangText="token_endpoint_auth_methods_supported">OPTIONAL.
-	  JSON array containing a list of Client Authentication
-	  methods supported by this Token Endpoint. The options are
-	  <spanx style="verb">client_secret_post</spanx>, 
-	  <spanx style="verb">client_secret_basic</spanx>,
-	  <spanx style="verb">client_secret_jwt</spanx>, and
-	  <spanx style="verb">private_key_jwt</spanx>, as described in
-	  Section 9 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
-	  Other authentication methods MAY be defined by extensions.
-	  If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
-	  the HTTP Basic Authentication Scheme specified in
-	  Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
+	  <t hangText="token_endpoint_auth_methods_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of Client Authentication
+	    methods supported by this Token Endpoint. The options are
+	    <spanx style="verb">client_secret_post</spanx>, 
+	    <spanx style="verb">client_secret_basic</spanx>,
+	    <spanx style="verb">client_secret_jwt</spanx>, and
+	    <spanx style="verb">private_key_jwt</spanx>, as described in
+	    Section 9 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	    Other authentication methods MAY be defined by extensions.
+	    If omitted, the default is <spanx style="verb">client_secret_basic</spanx> --
+	    the HTTP Basic Authentication Scheme specified in
+	    Section 2.3.1 of <xref target="RFC6749">OAuth 2.0</xref>.
 	  </t>
 
-	  <t hangText="token_endpoint_auth_signing_alg_values_supported">OPTIONAL.
-	  JSON array containing a list of the JWS signing algorithms
-	  (<spanx style="verb">alg</spanx> values)
-	  supported by the Token Endpoint for the signature on
-	  the JWT <xref target="JWT" /> used to authenticate the Client
-	  at the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
-	  and <spanx style="verb">client_secret_jwt</spanx> authentication methods.
-	  Servers SHOULD support <spanx style="verb">RS256</spanx>.
-	  The value <spanx style="verb">none</spanx> MUST NOT be used.
+	  <t hangText="token_endpoint_auth_signing_alg_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the JWS signing algorithms
+	    (<spanx style="verb">alg</spanx> values)
+	    supported by the Token Endpoint for the signature on
+	    the JWT <xref target="JWT" /> used to authenticate the Client
+	    at the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
+	    and <spanx style="verb">client_secret_jwt</spanx> authentication methods.
+	    Servers SHOULD support <spanx style="verb">RS256</spanx>.
+	    The value <spanx style="verb">none</spanx> MUST NOT be used.
 	  </t>
 
-	  <t hangText="display_values_supported">OPTIONAL.
-	  JSON array containing a list of the <spanx style="verb">display</spanx>
-	  parameter values that the OpenID Provider supports.
-	  These values are described in
-	  Section 3.1.2.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	  <t hangText="display_values_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the <spanx style="verb">display</spanx>
+	    parameter values that the OpenID Provider supports.
+	    These values are described in
+	    Section 3.1.2.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	  </t>
 
-	  <t hangText="claim_types_supported">OPTIONAL.
-	  JSON array containing a list of the Claim Types
-	  that the OpenID Provider supports.
-	  These Claim Types are described in
-	  Section 5.6 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
-	  Values defined by this specification are <spanx style="verb">normal</spanx>,
-	  <spanx style="verb">aggregated</spanx>, and <spanx style="verb">distributed</spanx>.
-	  If omitted, the implementation supports
-	  only <spanx style="verb">normal</spanx> Claims.
+	  <t hangText="claim_types_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    JSON array containing a list of the Claim Types
+	    that the OpenID Provider supports.
+	    These Claim Types are described in
+	    Section 5.6 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
+	    Values defined by this specification are <spanx style="verb">normal</spanx>,
+	    <spanx style="verb">aggregated</spanx>, and <spanx style="verb">distributed</spanx>.
+	    If omitted, the implementation supports
+	    only <spanx style="verb">normal</spanx> Claims.
 	  </t>
 
-	  <t hangText="claims_supported">RECOMMENDED.
-	  JSON array containing a list of the Claim Names of the Claims
-	  that the OpenID Provider MAY be able to supply values for.
-	  Note that for privacy or other reasons, this might not be an exhaustive list.
+	  <t hangText="claims_supported">
+	    <vspace/>
+	    RECOMMENDED.
+	    JSON array containing a list of the Claim Names of the Claims
+	    that the OpenID Provider MAY be able to supply values for.
+	    Note that for privacy or other reasons, this might not be an exhaustive list.
 	  </t>
 
-	  <t hangText="service_documentation">OPTIONAL.
-	  URL of a page containing human-readable information that
-	  developers might want or need to know when using the OpenID Provider.
-	  In particular, if the OpenID Provider does not support Dynamic Client Registration,
-	  then information on how to register Clients needs to be provided in this documentation.
+	  <t hangText="service_documentation">
+	    <vspace/>
+	    OPTIONAL.
+	    URL of a page containing human-readable information that
+	    developers might want or need to know when using the OpenID Provider.
+	    In particular, if the OpenID Provider does not support Dynamic Client Registration,
+	    then information on how to register Clients needs to be provided in this documentation.
 	  </t>
 
-	  <t hangText="claims_locales_supported">OPTIONAL.
-	  Languages and scripts supported for values in Claims being returned, 
-	  represented as a JSON array of
-	  <xref target="RFC5646">BCP47</xref> language tag values.
-	  Not all languages and scripts are necessarily supported for all Claim values.
+	  <t hangText="claims_locales_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    Languages and scripts supported for values in Claims being returned, 
+	    represented as a JSON array of
+	    <xref target="RFC5646">BCP47</xref> language tag values.
+	    Not all languages and scripts are necessarily supported for all Claim values.
 	  </t>
 
-	  <t hangText="ui_locales_supported">OPTIONAL.
-	  Languages and scripts supported for the user interface, 
-	  represented as a JSON array of
-	  <xref target="RFC5646">BCP47</xref> language tag values.
+	  <t hangText="ui_locales_supported">
+	    <vspace/>
+	    OPTIONAL.
+	    Languages and scripts supported for the user interface, 
+	    represented as a JSON array of
+	    <xref target="RFC5646">BCP47</xref> language tag values.
 	  </t>
 
 	  <t hangText="claims_parameter_supported">
+	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP supports use of the
 	    <spanx style="verb">claims</spanx> parameter,
@@ -893,6 +952,7 @@
 	  </t>
 
 	  <t hangText="request_parameter_supported">
+	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP supports use of the
 	    <spanx style="verb">request</spanx> parameter,
@@ -901,6 +961,7 @@
 	  </t>
 
 	  <t hangText="request_uri_parameter_supported">
+	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP supports use of the
 	    <spanx style="verb">request_uri</spanx> parameter,
@@ -909,6 +970,7 @@
 	  </t>
 
 	  <t hangText="require_request_uri_registration">
+	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP requires any
 	    <spanx style="verb">request_uri</spanx> values used to be pre-registered
@@ -918,6 +980,7 @@
 	  </t>
 
 	  <t hangText="op_policy_uri">
+	    <vspace/>
 	    OPTIONAL.
 	    URL that the OpenID Provider provides to the person registering
 	    the Client to read about the OP's requirements on how
@@ -927,6 +990,7 @@
 	  </t>
 
 	  <t hangText="op_tos_uri">
+	    <vspace/>
 	    OPTIONAL.
 	    URL that the OpenID Provider provides to the person registering
 	    the Client to read about OpenID Provider's terms of service.
@@ -1363,7 +1427,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -1488,7 +1552,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -1515,7 +1579,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="14" month="December" year="2013" />
+	  <date day="25" month="February" year="2014" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -1550,7 +1614,7 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-session-1_0.html"
@@ -1619,7 +1683,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2013 The OpenID Foundation.</t>
+      <t>Copyright (c) 2014 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -1660,395 +1724,5 @@
       </t>
     </section>
 
-    <section anchor="History" title="Document History">
-      <t>[[ To be removed from the final specification ]]</t>
-
-      <t>
-	-21
-	<list style="symbols">
-	  <t>
-	    Fixed #41 - Added additional Security Considerations.
-	  </t>
-	</list>
-      </t>
-      <t>
-	-20
-	<list style="symbols">
-	  <t>
-	    Applied Discovery review comments from George Fletcher and Torsten Lodderstedt.
-	  </t>
-	  <t>
-	    Incorporated terms defined by the JWT specification.
-	  </t>
-	  <t>
-	    Applied proofreading corrections by Michael B. Jones.
-	  </t>
-	</list>
-      </t>
-      <t>
-	-19
-	<list style="symbols">
-	  <t>
-	    Harmonized statements about functionality that servers must support
-	    with Server MTI statements in Core.
-	  </t>
-	  <t>
-	    Fixed #889 - Added <spanx style="verb">response_modes_supported</spanx>.
-	  </t>
-	  <t>
-	    Fixed #899 - Removed urn:ietf:params:oauth:grant-type:jwt-bearer.
-	  </t>
-	  <t>
-	    Added Pre-Final IETF Specifications section.
-	  </t>
-	</list>
-      </t>
-
-      <t>
-	-18
-	<list style="symbols">
-	  <t>
-	    Fixed #868 - Clarified when "alg":"none" can and cannot be used.
-	  </t>
-	  <t>
-	    Replaced uses of the OpenID Connect Messages and OpenID Connect Standard
-	    specifications with OpenID Connect Core.
-	  </t>
-	  <t>
-	    Fixed #885 - Removed normative Session Management definitions.
-	    When Session Management is supported, the Session Management
-	    discovery parameters defined in that specification are used.
-	  </t>
-	</list>
-      </t>
-
-      <t>
-	-17
-	<list style="symbols">
-	  <t>
-	    Required that the OpenID Provider configuration information be returned
-	    using the <spanx style="verb">application/json</spanx> content type.
-	  </t>
-	  <t>
-	    Updated the acct: URI reference to draft-ietf-appsawg-acct-uri-05.
-	  </t>
-	  <t>
-	    Updated normative text so that e-mail addresses use the acct: scheme.
-	  </t>
-	  <t>
-	    Added an example for the acct: scheme.
-	  </t>
-	  <t>
-	    Fixed #856 - Updated normative text to clarify that no input normalization
-	    is performed when the input contains an explicit scheme such as
-	    <spanx style="verb">acct</spanx> that matches the RFC 3986
-	    <spanx style="verb">scheme ":" path-rootless</spanx> syntax.
-	  </t>
-	  <t>
-	    Fixed #859 - Added IMPORTANT NOTE TO READERS about the terminology
-	    definitions being a normative part of the specification.
-	  </t>
-	</list>
-      </t>
-
-      <t>-16
-        <list style="symbols">
-	  <t>
-	    Removed the <spanx style="verb">version</spanx> discovery element.
-	  </t>
-	  <t>
-	    Added a note about the future possibility of acct: URIs like
-	    <spanx style="verb">acct:joe%40example.com@example.org</spanx>
-	    when e-mail addresses are used as local account identifiers at sites.
-	  </t>
-	  <t>
-	    Stated that the JWS Compact Serialization and the JWE Compact Serialization
-	    are always used for JWS and JWE data structures.
-	  </t>
-	</list>
-      </t>
-
-      <t>-15
-        <list style="symbols">
-	  <t>
-	    Fixed #820 - Removed assumption that Clients that want encrypted responses also sign requests.
-	  </t>
-	</list>
-      </t>
-
-      <t>-14
-	<list style="symbols">
-	  <t>
-	    Fixed #801 - Removed <spanx style="verb">schema</spanx> and <spanx style="verb">id</spanx>
-	    parameters to UserInfo Endpoint.
-	  </t>
-	</list>
-      </t>
-
-      <t>-13
-        <list style="symbols">
-	  <t>
-	    Added Security Considerations section about TLS version requirements and usage.
-	  </t>
-	  <t>
-	    Removed language about supporting other transport-layer
-	    mechanisms with equivalent security to TLS.
-	  </t>
-	  <t>
-	    State that when any validations fail, any operations requiring
-	    the information that failed to correctly validate MUST be aborted and
-	    the information that failed to validate MUST NOT be used.
-	  </t>
-	  <t>
-	    Change from Content-Type application/json to application/jrd+json,
-	    tracking the change made in WebFinger.
-	  </t>
-	  <t>
-	    Fixed #768 - Added required <spanx style="verb">version</spanx> value to example response.
-	  </t>
-	  <t>
-	    Fixed #771 - Added required <spanx style="verb">x509_url</spanx> value to example response.
-	  </t>
-	  <t>
-	    Fixed #769 - Added Claim Type identifiers and definition.
-	  </t>
-	  <t>
-	    Fixed #770 - Added <spanx style="verb">claims_locales_supported</spanx>
-	    and <spanx style="verb">ui_locales_supported</spanx>.
-	  </t>
-	  <t>
-	    Fixed #781 - Added <spanx style="verb">require_request_uri_registration</spanx>
-	    discovery parameter.
-	  </t>
-	  <t>
-	    Fixed #772 - Added <spanx style="verb">op_policy_url</spanx>
-	    and <spanx style="verb">op_tos_url</spanx>.
-	  </t>
-	  <t>
-	    Fixed #782 - Changed uses of "_url" in identifiers to "_uri".
-	  </t>
-	  <t>
-	    Fixed #703 - Added the PKIX JWK key type
-	    for X.509 certificates and consolidated the
-	    <spanx style="verb">x509_uri</spanx>,
-	    <spanx style="verb">x509_encryption_uri</spanx>, and
-	    <spanx style="verb">jwk_encryption_uri</spanx> parameters into
-	    a combined <spanx style="verb">jwk_uri</spanx> parameter.
-	  </t>
-	  <t>
-	    Fixed #786 - Changed the name of <spanx style="verb">jwk_uri</spanx>
-	    to <spanx style="verb">jwks_uri</spanx>.
-	  </t>
-	  <t>
-	    Moved OP metadata list to its own section.
-	  </t>
-	  <t>
-	    Added the <spanx style="verb">grant_types_supported</spanx>
-	    discovery parameter.
-	  </t>
- 	  <t>
-	    Added the <spanx style="verb">claims_parameter_supported</spanx>,
-	    <spanx style="verb">request_parameter_supported</spanx>,
-	    and <spanx style="verb">request_uri_parameter_supported</spanx>
-	    discovery parameters.
-	  </t>
-	  <t>
-	    Fixed #788 - Renamed "OpenID Request Object" to "Request Object".
-	  </t>
-	  <t>
-	    Use legal <spanx style="verb">acr</spanx> values in examples.
-	  </t>
-        </list>
-      </t>
-
-      <t>-12
-        <list style="symbols">
-	  <t>
-	    Made the OpenID Foundation Artifact Binding Working Group the change controller for
-	    the values registered with IANA.
-	  </t>
-	  <t>
-	    Added
-	    <spanx style="verb">display_values_supported</spanx>,
-	    <spanx style="verb">claim_types_supported</spanx>, and
-	    <spanx style="verb">claims_supported</spanx>
-	    discovery elements, fixing issue #656.
-	  </t>
-	  <t>
-	    Added Implementation Considerations section.
-	  </t>
-	  <t>
-	    Fixed #656 - Changed
-	    <spanx style="verb">token_endpoint_auth_type</spanx> to
-	    <spanx style="verb">token_endpoint_auth_method</spanx> and
-	    <spanx style="verb">token_endpoint_auth_types_supported</spanx> to
-	    <spanx style="verb">token_endpoint_auth_methods_supported</spanx>.
-	  </t>
-	  <t>
-	    Fixed #697 - Added <spanx style="verb">service_documentation</spanx>
-	    to enable OPs not supporting dynamic registration to say how to register clients.
-	  </t>
-	  <t>
-	    Fixed #698 - Inconsistent use of articles.
-	  </t>
-	  <t>
-	    Fixed #628 - Defined REQUIRED, RECOMMENDED, and OPTIONAL discovery elements.
-	  </t>
-	  <t>
-	    Naming consistency changes.  Renamed
-	    <spanx style="verb">check_session_iframe_url</spanx> to
-	    <spanx style="verb">check_session_iframe</spanx> and
-	    <spanx style="verb">end_session_endpoint_url</spanx> back to
-	    <spanx style="verb">end_session_endpoint</spanx>.
-	  </t>
-	  <t>
-	    Fixed #705 - Switched from using Simple Web Discovery to
-	    WebFinger.
-	    This also means that Identifiers using e-mail address syntax
-	    are prefixed by the <spanx style="verb">acct:</spanx> scheme
-	    when passed as <spanx style="verb">resource</spanx> parameters
-	    to WebFinger.
-	  </t>
-        </list>
-      </t>
-      
-      <t>-11
-        <list style="symbols">
-	  <t>
-	    Fixed #687 - Inconsistency between <spanx style="verb">user_id</spanx>
-	    and <spanx style="verb">prn</spanx> claims.  The fix changed these names:
-	    user_id -> sub, user_id_types_supported -> subject_types_supported,
-	    user_id_type -> subject_type, and prn -> sub.
-	  </t>
-	  <t>
-	    Renamed <spanx style="verb">acrs_supported</spanx> to
-	    <spanx style="verb">acr_values_supported</spanx> for naming consistency.
-	  </t>
-          <t>
-	    Fixed #676 Allow port number to be specified for e-mail syntax identifiers.
-	  </t>
-          <t>
-	    Improved the fix for #625 Scheme extraction.
-	  </t>
-	  <t>
-	    Clarified that <spanx style="verb">jwk_url</spanx> and
-	    <spanx style="verb">jwk_encryption_url</spanx> refer to
-	    documents containing JWK Sets - not single JWK keys.
-	  </t>
-        </list>
-      </t>
-      
-      <t>-10
-        <list style="symbols">
-          <t>Fixed #621 Changed Identifier definition</t>
-          <t>Fixed #625 Scheme extraction</t>
-          <t>Fixed #652 Identifier normalization</t>
-          <t>Fixed #640 Added check_session_endpoint and end_session_endpoint</t>
-          <t>Fixed #627 Configuration response must be 200 OK</t>
-          <t>updated OAuth reference</t>
-          <t>Clarify the use of .well-known as part of a path for multi-tenant</t>
-          <t>Fixes #665 Add client_secret_jwt to token_endpoint_auth_algs_supported</t>
-	  <t>
-	    Fixed #614 - Discovery - 3.2 Distinguishing between signature and integrity parameters for HMAC algorithms.
-	    This fix tracks the parameter changes made to the JWE spec in draft-ietf-jose-json-web-encryption-06.
-	    It deletes the parameters {userinfo,id_token}_encrypted_response_int.
-	    It replaces the parameters {userinfo,id_token,request_object,token_endpoint}_algs_supported
-	    with {userinfo,id_token,request_object,token_endpoint}_signing_alg_values_supported
-	    and {userinfo,id_token,request_object,token_endpoint}_encryption_{alg,enc}_values_supported.
-	  </t>
-	  <t>Fixed #666 - JWS signature validation vs. verification.</t>
-	  <t>
-	    Removed section on Redirection, since it was removed from Simple Web Discovery
-	    in favor of the "simple-web-discovery" domain prefix.
-	  </t>
-          <t>Referenced OAuth 2.0 RFC -- RFC 6749.</t>
-        </list>
-      </t>
-
-      <t>-09<list style="symbols">
-	  <t>Removed Check ID Endpoint, per issue #570</t>
-          <t>Added PAPE Reference to the Informative References, per issue #574</t>
-          <t>Added "id_token" response type as being MTI for OpenID Providers</t>
-	  <t>Changed default OpenID Request Object signing algorithm to RS256, per issue #571</t>
-	  <t>Use standards track version of JSON Web Token spec
-	  (draft-ietf-oauth-json-web-token)</t>
-	</list></t>
-
-      <t>-08<list style="symbols">
-	  <t>Remove the no path component restriction from issuer, per issue #513</t>
-	  <t>Updated Notices</t>
-	  <t>Updated References</t>
-	</list></t>
-
-      <t>-07<list style="symbols">
-          <t>Rename iso29115_supported to acrs_supported</t>
-	  <t>Rename jwk_document to jwk_url</t>
-	  <t>specify full email address to be used for the principal parameter</t>
-	  <t>Added token_endpoint_auth_types_supported for list of Token Endpoint authentication types</t>
-	  <t>Added token_endpoint_auth_algs_supported for Token Endpoint supported authentication algorithms</t>
-	  <t>Added 'pairwise' and 'public' to supported identifier types</t>
-	  <t>Added valid signature and encryption algorithms for OpenID Request Object </t>
-	  <t>Added URLs for JWK and X509 encryption keys</t>
-	  <t>Use RFC 6125 to verify TLS endpoints</t>
-	  <t>Removed fallback mechanism when discovery endpoint is unreachable</t>
-	  <t>Removed Account URI scheme</t>
-	  <t>Changed 'contact' to 'contacts', 'redirect_uri' to 'redirect_uris'</t>
-	  <t>Added section about string comparison rules needed</t>
-	  <t>Allows extensions to identifier normalization via specifications</t>
-	  <t>Clarifies the host in a URL</t>
-      <t>Update John Bradley email and affiliation for Implementer's Draft</t>
-      <t>Change flows_supported to response_types_supported</t>
-          <t>Register openid-configuration .well-known path in IANA Considerations</t>
-	  <t>Corrected instances of x509_url_encryption to x509_encryption_url
-	  and jwk_url_encryption to jwk_encryption_url</t>
-        </list></t>
-
-      <t>-06<list style="symbols">
-          <t>Changed Check Session Endpoint to Check ID Endpoint to match
-          Basic.</t>
-
-          <t>Changed certs_url to x509_url to match registration and JWE
-          format.</t>
-        </list></t>
-
-      <t>-05<list style="symbols">
-          <t>Ticket #46 Added text to 3.3</t>
-
-          <t>Deleted duplicate check session endpoint from 4.2</t>
-
-          <t>Ticket #40 Added clarification of issuer url to 4.2</t>
-
-          <t>Ticket #39 Cleaned up issuer examples and added verification
-          text.</t>
-        </list></t>
-
-      <t>-04 <list style="symbols">
-          <t>Changes associated with renaming "Lite" to "Basic Client" and
-          replacing "Core" and "Framework" with "Messages" and "Standard".</t>
-
-          <t>Numerous cleanups, including updating references.</t>
-        </list></t>
-
-      <t>-03 <list style="symbols">
-          <t>Corrected examples.</t>
-        </list></t>
-
-      <t>-02 <list style="symbols">
-          <t>Correct issues raised by Johnny Bufu and discussed on the
-          7-Jul-11 working group call.</t>
-        </list></t>
-
-      <t>-01 <list style="symbols">
-          <t>Incorporate working group decisions from 5-Jul-11 spec call.</t>
-
-          <t>Consistency and cleanup pass, including removing unused
-          references.</t>
-        </list></t>
-
-      <t>-00 <list style="symbols">
-          <t>Initial version based upon former openid-connect-swd-1_0
-          spec.</t>
-        </list></t>
-    </section>
   </back>
 </rfc>

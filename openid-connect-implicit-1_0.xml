@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Guide 1.0">OpenID Connect
-    Implicit Client Implementer's Guide 1.0 - draft 14</title>
+    Implicit Client Implementer's Guide 1.0 - draft 15</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="18" month="December" year="2013" />
+    <date day="25" month="February" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -205,42 +205,52 @@
 	  This specification also defines the following terms:
           <list style="hanging">
             <t hangText="Authentication">
+	      <vspace/>
 	      Process used to achieve sufficient confidence in the binding
 	      between the Entity and the presented Identity.
 	    </t>
             <t hangText="Authentication Request">
+	      <vspace/>
 	      OAuth 2.0 Authorization Request using extension parameters and scopes
 	      defined by OpenID Connect to request that the End-User be authenticated
 	      by the Authorization Server, which is an OpenID Connect Provider,
 	      to the Client, which is an OpenID Connect Relying Party.
 	    </t>
             <t hangText="Claim">
+	      <vspace/>
 	      Piece of information asserted about an Entity.
 	    </t>
             <t hangText="Claims Provider">
+	      <vspace/>
               Server that can return Claims about an Entity.
             </t>
             <t hangText="End-User">
+	      <vspace/>
               Human participant.
             </t>
             <t hangText="Entity">
+	      <vspace/>
               Something that has a separate and distinct existence and that can be
 	      identified in a context. An End-User is one example of an Entity.
             </t>
             <t hangText="ID Token">
+	      <vspace/>
               <xref target="JWT">JSON Web Token (JWT)</xref> that contains Claims about the Authentication event.
 	      It MAY contain other Claims.
             </t>
 
             <t hangText="Identifier">
+	      <vspace/>
 	     Value that uniquely characterizes an Entity in a specific context.
 	    </t>
 
             <t hangText="Issuer">
+	      <vspace/>
               Entity that issues a set of Claims. 
             </t>
 
             <t hangText="Issuer Identifier">
+	      <vspace/>
 	      Verifiable Identifier for an Issuer.
 	      An Issuer Identifier is a case sensitive URL
 	      using the <spanx style="verb">https</spanx> scheme that
@@ -249,45 +259,55 @@
 	    </t>
 
             <t hangText="OpenID Provider (OP)">
+	      <vspace/>
               OAuth 2.0 Authorization Server that is capable of
 	      Authenticating the End-User and
               providing Claims to a Relying Party
               about the Authentication event and the End-User. 
             </t>
-            <t hangText="Pairwise Pseudonymous Identifier (PPID)"> 
+            <t hangText="Pairwise Pseudonymous Identifier (PPID)">
+	      <vspace/> 
               Identifier that identifies the Entity to a Relying Party that cannot be correlated 
               with the Entity's PPID at another Relying Party.
             </t>
             <t hangText="Personally Identifiable Information (PII)">
+	      <vspace/>
               Information that (a) can be used to identify the natural person
               to whom such information relates, or
               (b) is or might be directly or indirectly linked to a
               natural person to whom such information relates.
             </t>
             <t hangText="Relying Party (RP)">
+	      <vspace/>
               OAuth 2.0 Client application requiring End-User Authentication
 	      and Claims from an OpenID Provider.
             </t>
 	    <t hangText="Self-Issued OpenID Provider">
+	      <vspace/>
 	      Personal, self-hosted OpenID Provider that issues self-signed ID Tokens.
 	    </t>
 	    <t hangText="Subject Identifier">
+	      <vspace/>
 	      Locally unique and never
 	      reassigned identifier within the Issuer for the End-User, 
 	      which is intended to be consumed by the Client.
 	    </t>
             <t hangText="UserInfo Endpoint">
+	      <vspace/>
               Protected Resource that, when presented with an Access Token by the Client,
 	      returns authorized information about the End-User represented by the corresponding 
               Authorization Grant.
             </t>
             <t hangText="Validation">
+	      <vspace/>
 	      Process intended to establish the soundness or correctness of a construct.
 	    </t>
             <t hangText="Verification">
+	      <vspace/>
 	      Process intended to test or prove the truth or accuracy of a fact or value.
 	    </t>
             <t hangText="Voluntary Claim">
+	      <vspace/>
               Claim specified by the Client as being useful but not Essential
               for the specific task requested by the End-User.
             </t>
@@ -453,6 +473,7 @@
 	    <t>
 	      <list style="hanging">
 		<t hangText="response_type">
+		  <vspace/>
 		  REQUIRED.
 		  This value consists of <spanx style="verb">id_token</spanx> and
 		  <spanx style="verb">token</spanx>, as a space delimited list.
@@ -462,12 +483,14 @@
 		</t>
 
 		<t hangText="client_id">
+		  <vspace/>
 		  REQUIRED.
 		  OAuth 2.0 Client Identifier
 		  valid at the Authorization Server.
 		</t>
 
 		<t hangText="scope">
+		  <vspace/>
                   REQUIRED.
 		  OpenID Connect requests MUST contain the <spanx style="verb">openid</spanx> scope value.
 		  OPTIONAL scope values of
@@ -481,6 +504,7 @@
 		</t>
 
                 <t hangText="redirect_uri">
+		  <vspace/>
                   REQUIRED.
                   Redirection URI to which the response will be sent.
 		  This URI MUST exactly match one of the Redirection URI values
@@ -495,6 +519,7 @@
                 </t>
 
 		<t hangText="state">
+		  <vspace/>
 		  RECOMMENDED.
 		  Opaque value used
 		  to maintain state between the request and the callback.
@@ -514,6 +539,7 @@
               <list style="hanging">
 
 		<t hangText="nonce">
+		  <vspace/>
 		  REQUIRED.
 		  String value used to associate a Client session 
 		  with an ID Token, and to mitigate replay attacks. 
@@ -530,6 +556,7 @@
 		</t>
 
 		<t hangText="display">
+		  <vspace/>
 		  OPTIONAL.
 		  ASCII string value that specifies
 		  how the Authorization Server displays the authentication and
@@ -538,6 +565,7 @@
 
 		  <list style="hanging">
 		    <t hangText="page">
+		      <vspace/>
 		      The Authorization Server SHOULD display the
 		      authentication and consent UI consistent with a full User Agent page
 		      view. If the display parameter is not specified, this is the
@@ -545,6 +573,7 @@
 		    </t>
 
 		    <t hangText="popup">
+		      <vspace/>
 		      The Authorization Server SHOULD display the
 		      authentication and consent UI consistent with a popup User Agent
 		      window.
@@ -554,12 +583,14 @@
 		    </t>
 
 		    <t hangText="touch">
+		      <vspace/>
 		      The Authorization Server SHOULD display the
 		      authentication and consent UI consistent with a device that
 		      leverages a touch interface.
 		    </t>
 
 		    <t hangText="wap">
+		      <vspace/>
 		      The Authorization Server SHOULD display the
 		      authentication and consent UI consistent with a "feature phone"
 		      type display.
@@ -571,6 +602,7 @@
 		</t>
 
 		<t hangText="prompt">
+		  <vspace/>
 		  OPTIONAL.
 		  Space delimited, case sensitive list of ASCII string values
 		  that specifies whether the Authorization Server prompts
@@ -578,21 +610,25 @@
 		  The defined values are:
 
 		  <list style="hanging">
-		    <t hangText="none">The Authorization Server
-		    MUST NOT display any authentication or consent
-		    user interface pages.
-		    An error is returned
-		    if an End-User
-		    is not already authenticated or the Client does not have 
-		    pre-configured consent for the requested
-		    Claims or does not fulfill other conditions for processing the request.
-		    The error code will typically be
-		    <spanx style="verb">login_required</spanx>,
-		    <spanx style="verb">interaction_required</spanx>.
-		    This can be used as a
-		    method to check for existing authentication and/or consent.</t>
+		    <t hangText="none">
+		      <vspace/>
+		      The Authorization Server
+		      MUST NOT display any authentication or consent
+		      user interface pages.
+		      An error is returned
+		      if an End-User
+		      is not already authenticated or the Client does not have 
+		      pre-configured consent for the requested
+		      Claims or does not fulfill other conditions for processing the request.
+		      The error code will typically be
+		      <spanx style="verb">login_required</spanx>,
+		      <spanx style="verb">interaction_required</spanx>.
+		      This can be used as a
+		      method to check for existing authentication and/or consent.
+		    </t>
 
                     <t hangText="login">
+		      <vspace/>
 		      The Authorization Server SHOULD prompt the
 		      End-User for reauthentication.
 		      If it cannot reauthenticate the End-User, it MUST return an error,
@@ -600,6 +636,7 @@
 		    </t>
 
                     <t hangText="consent">
+		      <vspace/>
 		      The Authorization Server SHOULD prompt the End-User for consent
 		      before returning information to the Client.
 		      If it cannot obtain consent, it MUST return an error,
@@ -607,6 +644,7 @@
 		    </t>
 
                     <t hangText="select_account">
+		      <vspace/>
 		      The Authorization Server SHOULD
 		      prompt the End-User to select a user account.  This enables 
 		      an End-User who has multiple accounts at the Authorization Server
@@ -627,6 +665,7 @@
 		</t>
 
 		<t hangText="max_age">
+		  <vspace/>
 		  OPTIONAL.
 		  Maximum Authentication Age.
 		  Specifies the allowable elapsed time in seconds
@@ -639,6 +678,7 @@
 		</t>
 
 		<t hangText="ui_locales">
+		  <vspace/>
 		  OPTIONAL.
 		  End-User's preferred languages and scripts for the user interface,
 		  represented as a space-separated list of
@@ -653,6 +693,7 @@
 		</t>
 
 		<t hangText="claims_locales">
+		  <vspace/>
 		  OPTIONAL.
 		  End-User's preferred languages and scripts for Claims being returned, 
 		  represented as a space-separated list of
@@ -663,6 +704,7 @@
 		</t>
 
 		<t hangText="id_token_hint">
+		  <vspace/>
 		  OPTIONAL.
 		  ID Token previously issued by the Authorization Server
 		  being passed as a hint about the End-User's current or past
@@ -683,6 +725,7 @@
 		</t>
 
 		<t hangText="login_hint">
+		  <vspace/>
 		  OPTIONAL.
 		  Hint to the Authorization Server
 		  about the login identifier the End-User might use to log in (if necessary).
@@ -696,6 +739,7 @@
 		</t>
 
 		<t hangText="acr_values">
+		  <vspace/>
                   OPTIONAL.
                   Requested Authentication Context Class Reference values. 
 		  Space-separated string that specifies the <spanx style="verb">acr</spanx>
@@ -710,6 +754,7 @@
 		</t>
 		
 		<t hangText="registration">
+		  <vspace/>
                   OPTIONAL.
 		  This parameter is used by the Client to provide information about itself
 		  to a Self-Issued OP that would normally be provided to an OP during
@@ -817,11 +862,15 @@
 
             <t>
 	      <list style="hanging">
-                <t hangText="access_token">REQUIRED.
-		Access Token for the
-                UserInfo Endpoint.</t>
+                <t hangText="access_token">
+		  <vspace/>
+		  REQUIRED.
+		  Access Token for the
+		  UserInfo Endpoint.
+		</t>
 
                 <t hangText="token_type">
+		  <vspace/>
 		  REQUIRED.
 		  OAuth 2.0 Token Type value.
 		  The value MUST be <spanx style="verb">Bearer</spanx>, as specified in
@@ -829,10 +878,14 @@
 		  for Clients using this subset.
 		</t>
 
-                <t hangText="id_token">REQUIRED.
-		ID Token.</t>
+                <t hangText="id_token">
+		  <vspace/>
+		  REQUIRED.
+		  ID Token.
+		</t>
 
                 <t hangText="state">
+		  <vspace/>
 		  OAuth 2.0 state value.
 		  REQUIRED if the 
 		  <spanx style="verb">state</spanx> parameter is present in the
@@ -842,9 +895,12 @@
 		  Authorization Request.
 		</t>
 
-                <t hangText="expires_in">OPTIONAL.
-		Expiration time of the Access Token in seconds
-		since the response was generated.</t>
+                <t hangText="expires_in">
+		  <vspace/>
+		  OPTIONAL.
+		  Expiration time of the Access Token in seconds
+		  since the response was generated.
+		</t>
               </list>
 	    </t>
 
@@ -966,6 +1022,7 @@
 	<t>
 	  <list style="hanging">
 	    <t hangText="iss">
+	      <vspace/>
 	      REQUIRED.
 	      Issuer Identifier for the Issuer of the response.
 	      The <spanx style="verb">iss</spanx> value is a case sensitive URL
@@ -975,6 +1032,7 @@
 	    </t>
 
 	    <t hangText="sub">
+	      <vspace/>
 	      REQUIRED.
 	      Subject Identifier. Locally unique and never
 	      reassigned identifier within the Issuer for the End-User, 
@@ -986,6 +1044,7 @@
 	    </t>
 
 	    <t hangText="aud">
+	      <vspace/>
 	      REQUIRED.
 	      Audience(s) that this ID Token is intended for.
 	      It MUST contain the OAuth 2.0 <spanx style="verb">client_id</spanx>
@@ -999,35 +1058,41 @@
 	      case sensitive string.
 	    </t>
 
-	    <t hangText="exp">REQUIRED.
-	    Expiration time on or after which the ID Token MUST NOT be
-	    accepted for processing. The processing of this parameter
-	    requires that the current date/time MUST be before the
-	    expiration date/time listed in the value. Implementers MAY
-	    provide for some small leeway, usually no more than a few
-	    minutes, to account for clock skew.
-	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
-	    See <xref target="RFC3339">RFC 3339</xref>
-	    for details regarding date/times in general and UTC in
-	    particular.
+	    <t hangText="exp">
+	      <vspace/>
+	      REQUIRED.
+	      Expiration time on or after which the ID Token MUST NOT be
+	      accepted for processing. The processing of this parameter
+	      requires that the current date/time MUST be before the
+	      expiration date/time listed in the value. Implementers MAY
+	      provide for some small leeway, usually no more than a few
+	      minutes, to account for clock skew.
+	      Its value is a JSON number representing the number of seconds from
+	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      See <xref target="RFC3339">RFC 3339</xref>
+	      for details regarding date/times in general and UTC in
+	      particular.
 	    </t>
-	    
-	    <t hangText="iat">REQUIRED.
-	    Time at which the JWT was issued.
-	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+
+	    <t hangText="iat">
+	      <vspace/>
+	      REQUIRED.
+	      Time at which the JWT was issued.
+	      Its value is a JSON number representing the number of seconds from
+	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
 	    </t>
 
 	    <t hangText="auth_time">
-	    Time when the End-User authentication occurred.
-	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
-	    When a <spanx style="verb">max_age</spanx> request is made
-	    then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
+	      <vspace/>
+	      Time when the End-User authentication occurred.
+	      Its value is a JSON number representing the number of seconds from
+	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      When a <spanx style="verb">max_age</spanx> request is made
+	      then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
 	    </t>
 
 	    <t hangText="nonce">
+	      <vspace/>
 	      REQUIRED.
 	      String value used to associate a Client session 
 	      with an ID Token, and to mitigate replay attacks. 
@@ -1044,6 +1109,7 @@
 	    </t>
 
 	    <t hangText="at_hash">
+	      <vspace/>
 	      REQUIRED.
 	      Access Token hash value.
 	      If the ID Token is issued with an <spanx style="verb">access_token</spanx>
@@ -1063,6 +1129,7 @@
 	    </t>
 
 	    <t hangText="acr">
+	      <vspace/>
 	      OPTIONAL.
 	      Authentication Context Class Reference.
 	      String specifying an Authentication Context Class Reference value
@@ -1086,6 +1153,7 @@
 	    </t>
 
 	    <t hangText="amr">
+	      <vspace/>
 	      OPTIONAL.
 	      Authentication Methods References.
 	      JSON array of strings that are identifiers for authentication methods
@@ -1102,6 +1170,7 @@
 	    </t>
 
 	    <t hangText="azp">
+	      <vspace/>
 	      OPTIONAL.
 	      Authorized party - the party to which the ID Token was issued.
 	      If present, it MUST contain the OAuth 2.0
@@ -1116,6 +1185,7 @@
 	    </t>
 
 	    <t hangText="sub_jwk">
+	      <vspace/>
 	      Public key used to check the signature of an ID Token
 	      issued by a Self-Issued OpenID Provider,
 	      as specified in <xref target="SelfIssued"/>.
@@ -1390,47 +1460,63 @@
         <t>OpenID Connect defines the following <spanx style="verb">scope</spanx> values:</t>
         <t>
           <list style="hanging">
-            <t hangText="openid">REQUIRED. Informs the Authorization Server
-	    that the Client is making an OpenID Connect request. If the
-	    <spanx style="verb">openid</spanx> scope value is not present,
-	    the behavior is entirely unspecified.
+            <t hangText="openid">
+	      <vspace/>
+	      REQUIRED. Informs the Authorization Server
+	      that the Client is making an OpenID Connect request. If the
+	      <spanx style="verb">openid</spanx> scope value is not present,
+	      the behavior is entirely unspecified.
 	    </t>
 
-            <t hangText="profile">OPTIONAL. This scope value 
-	    requests access to the End-User's default profile Claims,
-	    which are:
+            <t hangText="profile">
+	      <vspace/>
+	      OPTIONAL. This scope value 
+	      requests access to the End-User's default profile Claims,
+	      which are:
 
-	    <spanx style="verb">name</spanx>,
-	    <spanx style="verb">family_name</spanx>,
-	    <spanx style="verb">given_name</spanx>,
-	    <spanx style="verb">middle_name</spanx>,
-	    <spanx style="verb">nickname</spanx>,
-	    <spanx style="verb">preferred_username</spanx>,
-	    <spanx style="verb">profile</spanx>,
-	    <spanx style="verb">picture</spanx>,
-	    <spanx style="verb">website</spanx>,
-	    <spanx style="verb">gender</spanx>,
-	    <spanx style="verb">birthdate</spanx>,
-	    <spanx style="verb">zoneinfo</spanx>,
-	    <spanx style="verb">locale</spanx>, and
-	    <spanx style="verb">updated_at</spanx>.</t>
+	      <spanx style="verb">name</spanx>,
+	      <spanx style="verb">family_name</spanx>,
+	      <spanx style="verb">given_name</spanx>,
+	      <spanx style="verb">middle_name</spanx>,
+	      <spanx style="verb">nickname</spanx>,
+	      <spanx style="verb">preferred_username</spanx>,
+	      <spanx style="verb">profile</spanx>,
+	      <spanx style="verb">picture</spanx>,
+	      <spanx style="verb">website</spanx>,
+	      <spanx style="verb">gender</spanx>,
+	      <spanx style="verb">birthdate</spanx>,
+	      <spanx style="verb">zoneinfo</spanx>,
+	      <spanx style="verb">locale</spanx>, and
+	      <spanx style="verb">updated_at</spanx>.
+	    </t>
 
-            <t hangText="email">OPTIONAL. This scope value requests access to
-	    the <spanx style="verb">email</spanx> and
-	    <spanx style="verb">email_verified</spanx> Claims.</t>
+            <t hangText="email">
+	      <vspace/>
+	      OPTIONAL. This scope value requests access to
+	      the <spanx style="verb">email</spanx> and
+	      <spanx style="verb">email_verified</spanx> Claims.
+	    </t>
 
-            <t hangText="address">OPTIONAL. This scope value requests access to
-	    the <spanx style="verb">address</spanx> Claim.</t>
+            <t hangText="address">
+	      <vspace/>OPTIONAL. This scope value requests access to
+	      the <spanx style="verb">address</spanx> Claim.
+	    </t>
 
-            <t hangText="phone">OPTIONAL. This scope value requests access to
-	    the <spanx style="verb">phone_number</spanx> and
-	    <spanx style="verb">phone_number_verified</spanx> Claims.</t>
+            <t hangText="phone">
+	      <vspace/>
+	      OPTIONAL. This scope value requests access to
+	      the <spanx style="verb">phone_number</spanx> and
+	      <spanx style="verb">phone_number_verified</spanx> Claims.
+	    </t>
 
-	    <t hangText="offline_access">This scope value MUST NOT be used with the
-	    OpenID Connect Implicit Client Implementer's Guide 1.0.
-	    See the
-	    <xref target="OpenID.Basic">OpenID Connect Basic Client Implementer's Guide 1.0</xref>
-	    for its usage in that subset of OpenID Connect.</t>
+	    <t hangText="offline_access">
+	      <vspace/>
+	      This scope value MUST NOT be used with the
+	      OpenID Connect Implicit Client Implementer's Guide 1.0.
+	      See the
+	      <xref target="OpenID.Basic">OpenID Connect Basic Client Implementer's Guide 1.0</xref>
+	      for its usage in that subset of OpenID Connect.
+	    </t>
 
           </list>
         </t>
@@ -1733,6 +1819,7 @@
 	  <t>
 	    <list style="hanging">
 	      <t hangText="formatted">
+		<vspace/>
 		Full mailing address, 
 		formatted for display or use on a mailing label. 
 		This field MAY contain multiple lines, separated by newlines.
@@ -1742,6 +1829,7 @@
 	      </t>
 
 	      <t hangText="street_address">
+		<vspace/>
 		Full street address component, 
 		which MAY include house number, street name, 
 		Post Office Box, and multi-line extended street 
@@ -1752,15 +1840,26 @@
 		a single line feed character ("\n").
 	      </t>
 
-	      <t hangText="locality">City or locality component.</t>
+	      <t hangText="locality">
+		<vspace/>
+		City or locality component.
+	      </t>
 
-	      <t hangText="region">State, province, 
-	      prefecture, or region component.</t>
+	      <t hangText="region">
+		<vspace/>
+		State, province, 
+		prefecture, or region component.
+	      </t>
 
-	      <t hangText="postal_code">Zip code or 
+	      <t hangText="postal_code">
+		<vspace/>
+		Zip code or 
 	      postal code component.</t>
 
-	      <t hangText="country">Country name component.</t>
+	      <t hangText="country">
+		<vspace/>
+		Country name component.
+	      </t>
 	    </list>
 	  </t>
 	</section>
@@ -1917,9 +2016,11 @@
         <t>
 	  <list style="hanging">
 	    <t hangText="client_id">
+	      <vspace/>
 	      <spanx style="verb">redirect_uri</spanx> value of the Client. 
 	    </t>
 	    <t hangText="client_secret_expires_at">
+	      <vspace/>
 	      0
 	    </t>
 	  </list>
@@ -1946,6 +2047,7 @@
 	    <list style="hanging">
 
 	      <t hangText="registration">
+		<vspace/>
 		OPTIONAL.
 		This parameter is used by the Client to provide information about itself
 		to a Self-Issued OP that would normally be provided to an OP during
@@ -1986,9 +2088,11 @@
 	with the following parameters:</t>
         <t><list style="hanging">
           <t hangText="response_type">
+	    <vspace/>
             REQUIRED. Constant string value <spanx style="verb">id_token</spanx>.
           </t>
           <t hangText="client_id">
+	    <vspace/>
 	    REQUIRED.
 	    Client ID value for the Client, which in this case contains the
 	    <spanx style="verb">redirect_uri</spanx> value of the Client.
@@ -1999,16 +2103,19 @@
             is NOT REQUIRED to also be included in the request.
           </t>
           <t hangText="scope">
+	    <vspace/>
             REQUIRED.
 	    <spanx style="verb">scope</spanx> parameter value,
             as defined in <xref target="RequestParameters"/>.
           </t>
 	  <t hangText="id_token_hint">
+	    <vspace/>
 	    OPTIONAL.
 	    <spanx style="verb">id_token_hint</spanx> parameter value,
 	    as specified in <xref target="RequestParameters"/>.
 	  </t>
 	  <t hangText="registration">
+	    <vspace/>
 	    OPTIONAL.
 	    This parameter is used by the Client to provide information about itself
 	    to a Self-Issued OP that would normally be provided to an OP during
@@ -2557,7 +2664,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -2584,7 +2691,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-discovery-1_0.html"
@@ -2607,7 +2714,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-registration-1_0.html"
@@ -2711,7 +2818,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="18" month="December" year="2013" />
+	  <date day="25" month="February" year="2014" />
         </front>
 
 	<format target="http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html"
@@ -2758,7 +2865,7 @@
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="18" month="December" year="2013"/>
+          <date day="25" month="February" year="2014"/>
         </front>
 
 	<format target="http://openid.net/specs/openid-connect-basic-1_0.html"
@@ -2803,7 +2910,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2013 The OpenID Foundation.</t>
+      <t>Copyright (c) 2014 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -2847,6 +2954,14 @@
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
+      <t>
+	-15
+        <list style="symbols">
+          <t>
+	    Updated dates for final OpenID Connect specifications.
+	  </t>
+	</list>
+      </t>
       <t>
 	-14
         <list style="symbols">
