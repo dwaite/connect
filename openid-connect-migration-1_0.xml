@@ -335,50 +335,6 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
 
     <section anchor="ImplementationConsiderations"
              title="Implementation Considerations">
-      <section title="Bulk conversion">
-        <t>This standard is intended for a per user migration. If it is known
-        out of band that users do not mind the correlation and the mapping is
-        one-to-one, then bulk conversion is possible but using this standard
-        for the purpose is rather inefficient. </t>
-
-        <t>For a bulk conversion, another protocol that is capable of handling
-        the batch conversion such as sending the list of OpenID 2.0
-        identifiers and getting the OpenID Connect identifiers in response
-        should be considered. </t>
-
-        <t>[Editor&rsquo;s note: Do we want to standardize it as well?</t>
-
-        <figure>
-          <preamble>(preamble)</preamble>
-
-          <artwork><![CDATA[Request
---------------
-Post a JSON like this: 
-
-{
-  "realm":"http://example.com/",
-  "openid2":["userid1","userid2", ... , "useridN"]
-}
-
-Response
-----------------
-
-{
-  "iss":"https://example.com/", 
-  {
-    "userid1":"newuid1",
-    "userid2":"newuid2", 
-   ... 
-    "useridN":"newuidN"
-  }
-}]]></artwork>
-        </figure>
-
-        <t>NOTE: for this kind of operation, the limit per a batch request
-        should be considered. More robust client authentication can be
-        achieved by encrypting the response.</t>
-      </section>
-
       <section title="After EOL of OpenID 2.0 OP">
         <t>This standard allows the RP to verify the authenticity of the
         OpenID 2.0 Identifier through ID Token even after the OpenID 2.0 OP is
