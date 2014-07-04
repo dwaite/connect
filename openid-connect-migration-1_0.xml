@@ -2,8 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
-<rfc category="std" docName="openid-connect-openid2-migration-1_0"
-     ipr="trust200902">
+<rfc category="std" docName="openid-connect-openid2-migration-1_0" ipr="oidf">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="5" ?>
@@ -16,11 +15,9 @@
 
   <?rfc iprnotified="no" ?>
 
-  <?rfc private="Draft" ?>
-
   <front>
     <title abbrev="Openid 2.0 to OpenID Connect Migration 1.0">OpenID 2.0 to
-    OpenID Connect Migration 1.0</title>
+    OpenID Connect Migration 1.0 - draft 01</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -63,7 +60,7 @@
       </address>
     </author>
 
-    <date day="08" month="June" year="2014" />
+    <date day="04" month="July" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -193,7 +190,7 @@ The contents of the ID Token after decoding are:
      "nonce": "n-0S6_WzA2Mj",
      "exp": 1311281970,
      "iat": 1311280970,
-     "open_id": "https://openid2.example.com/user359390872112"
+     "openid2_id": "https://openid2.example.com/user359390872112"
   }
 
 To verify the ID Token signature, get the public JWK from the OpenID 2.0 
@@ -242,7 +239,7 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
       with the following claim name:</t>
 
       <t><list style="hanging">
-          <t hangText="open_id "><vspace /> REQUIRED. OpenID 2.0 Identifier.
+          <t hangText="openid_id "><vspace /> REQUIRED. OpenID 2.0 Identifier.
           It MUST be represented as a JSON string.</t>
         </list>For XRI, OpenID 2.0 Identifier MUST be created as <spanx
       style="verb">https://xri.net/</spanx> + user&rsquo;s verified XRI
@@ -260,7 +257,7 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
  "nonce": "n-0S6_WzA2Mj",
  "exp": 1311281970,
  "iat": 1311280970,
- "open_id": "https://openid2.example.com/user359390872112"
+ "openid2_id": "https://openid2.example.com/user359390872112"
 }]]></artwork>
       </figure>
 
@@ -277,12 +274,12 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
 
         <section title="No Associated OpenID 2.0 Identifier found">
           <t>If a corresponding OpenID 2.0 Identifier is not found for the
-          authenticated user, the <spanx style="verb">open_id</spanx> claim in
-          the ID Token MUST have the value <spanx style="verb">NOT FOUND</spanx>.</t>
+          authenticated user, the <spanx style="verb">openid2_id</spanx> claim
+          in the ID Token MUST have the value <spanx style="verb">NOT FOUND</spanx>.</t>
 
-          <t>NOTE: Even if the <spanx style="verb">open_id</spanx> claim value
-          is <spanx style="verb">NOT FOUND</spanx>, the overall ID Token can
-          still be valid.</t>
+          <t>NOTE: Even if the <spanx style="verb">openid2_id</spanx> claim
+          value is <spanx style="verb">NOT FOUND</spanx>, the overall ID Token
+          can still be valid.</t>
         </section>
       </section>
     </section>
@@ -324,7 +321,7 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
              title="Associating the existing OpenID 2.0 account with the OpenID Connect identifier">
       <t>As the association between iss/sub and openid.claimed_id has been
       verified, the RP SHOULD associate the existing OpenID 2.0 account with
-      the OpenID Connect account. </t>
+      the OpenID Connect account.</t>
 
       <t><spanx style="strong">NOTE</spanx>: At some point in the future, the
       OpenID Connect server may drop the support for <spanx style="verb">openid2</spanx>
@@ -339,18 +336,18 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
         <t>This standard allows the RP to verify the authenticity of the
         OpenID 2.0 Identifier through ID Token even after the OpenID 2.0 OP is
         taken down. To enable this, the OP MUST publish the public keys that
-        were used to sign the ID Token with open_id claim at the URI that this
-        OpenID 2.0 Identifier points to. </t>
+        were used to sign the ID Token with <spanx style="verb">openid2_id</spanx>
+        claim at the URI that this OpenID 2.0 Identifier points to.</t>
 
         <t>NOTE: The OpenID 2.0 Identifiers can be mapped to a static file
         containing the keys, so maintaining such can require minimal overhead
-        compaired to maintaining the full OpenID 2.0 OP. </t>
+        compaired to maintaining the full OpenID 2.0 OP.</t>
       </section>
     </section>
 
     <section anchor="PrivacyConsiderations" title="Privacy Considerations">
       <t>This section considers the Privacy-Specific threats outlayed in
-      section 5.2 of <xref target="RFC6973">RFC6973</xref>. </t>
+      section 5.2 of <xref target="RFC6973">RFC6973</xref>.</t>
 
       <section title="Correlation">
         <t>This standard essentially is a correlation specification. It
@@ -360,7 +357,7 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
         expecting that those identifiers to be correlated silently. However,
         if the OPs looks very different, then some users may prefer not to be
         correlated. As such, the OP SHOULD make sure that to ask the user if
-        the user wants to correlate. </t>
+        the user wants to correlate.</t>
 
         <t>When multiple accounts are available for the user, then the OP MUST
         make sure that the user picks the intended identity.</t>
@@ -522,6 +519,50 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
       | UA |  | Resource |  | Redirect URI | | AuthzEP |  |OpenID2URI| 
       +----+  +----------+  +--------------+ +---------+  +----------+]]></artwork>
       </figure>
+    </section>
+
+    <section title="Difference to Google&rsquo;s migration guide as of June 3, 2014 ">
+      <t>In this appendix, the differences between this spec and the
+      Google&rsquo;s migration guide as of June 3, 2014 is expalined. The
+      differences are categorized in accordance with the section number of
+      this specification. Google's migration guide is available at <spanx
+      style="verb">https://developers.google.com/accounts/docs/OpenID#openid-connect</spanx>
+      . These differences should be discussed and determined whether it should
+      be aligned with the Google's guide before finalizing this specification.
+      </t>
+
+      <t><spanx>3. Requesting the OpenID 2.0 Identifier and Connect iss/sub pair together</spanx></t>
+
+      <t>Google uses <spanx style="verb">openid.realm</spanx> instead. Since
+      OpenID Connect uses param_name style instead of <spanx style="verb">param.name</spanx>,
+      as well as the name <spanx style="verb">openid.realm</spanx> may mislead
+      the user that it is a Connect parameter proper, it has been changed to
+      <spanx style="verb">openid2_realm</spanx>.</t>
+
+      <t>Google uses the existence of openid.realm parameter to switch the
+      behavior at the Connect OP. New scope value <spanx style="verb">openid2</spanx>
+      has been introduced in this spec to make it more explicit and
+      semantically in-line that it is asking for a resource.</t>
+
+      <t><spanx>4. Verification of the Relying Party by the OP </spanx></t>
+
+      <t>Google does not perform RP verification.</t>
+
+      <t><spanx>5. Returning OpenID 2.0 Identifier </spanx></t>
+
+      <t>Google uses <spanx style="verb">openid_id</spanx> instead of <spanx
+      style="verb">openid2_id</spanx> . It was changed to <spanx style="verb">openid2_id</spanx>
+      because <spanx style="verb">openid_id</spanx> may cause confusion among
+      people that it is the Connect identifier. Since this spec allows
+      providing <spanx style="verb">openid2_id</spanx> even after the OpenID
+      2.0 OP has been taken down, this claim may persists much longer than the
+      OpenID 2.0 OP. Thus, the chance of confusion should be minimized. </t>
+
+      <t>Google does not take care of XRI while this standard does.</t>
+
+      <t><spanx>6. Verification of the authority </spanx></t>
+
+      <t>Google does not perform authority verification.</t>
     </section>
 
     <section anchor="Notices" title="Notices">
