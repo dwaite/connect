@@ -15,7 +15,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0</title>
+    Dynamic Client Registration 1.0 + Errata - draft 25</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -391,21 +391,21 @@
 	    <vspace/>
 	    OPTIONAL.
 	    Client's JSON Web Key Set <xref target="JWK"/> document, passed by value.
-	    The semantics of the <spanx style="verb">jwk</spanx> parameter are the same
-	    as the <spanx style="verb">jwk_uri</spanx> parameter, other than that
-	    The JWK Set is passed by value, rather than by reference.
+	    The semantics of the <spanx style="verb">jwks</spanx> parameter are the same
+	    as the <spanx style="verb">jwks_uri</spanx> parameter, other than that
+	    the JWK Set is passed by value, rather than by reference.
 	    This parameter is intended only to be used by Clients that, for some reason,
-	    are unable to use the <spanx style="verb">jwk_uri</spanx> parameter,
+	    are unable to use the <spanx style="verb">jwks_uri</spanx> parameter,
 	    for instance, by native applications that might not have a location
 	    to host the contents of the JWK Set.
-	    If a Client can use <spanx style="verb">jwk_uri</spanx>,
-	    it MUST NOT use <spanx style="verb">jwk</spanx>.
-	    One significant downside of <spanx style="verb">jwk</spanx> is that it
+	    If a Client can use <spanx style="verb">jwks_uri</spanx>,
+	    it MUST NOT use <spanx style="verb">jwks</spanx>.
+	    One significant downside of <spanx style="verb">jwks</spanx> is that it
 	    does not enable key rotation
-	    (which <spanx style="verb">jwk_uri</spanx> does, as described in
+	    (which <spanx style="verb">jwks_uri</spanx> does, as described in
 	    Section 10 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>).
-	    The <spanx style="verb">jwk_uri</spanx> and <spanx style="verb">jwk</spanx>
-	    parameters MAY NOT be used together.
+	    The <spanx style="verb">jwks_uri</spanx> and <spanx style="verb">jwks</spanx>
+	    parameters MUST NOT be used together.
 	  </t>
 
 	  <t hangText="sector_identifier_uri">
@@ -1727,6 +1727,32 @@
 	that may cover technology that may be required to practice 
 	this specification.
       </t>
+    </section>
+
+    <section anchor="History" title="Document History">
+      <t>[[ To be removed from the approved errata ]]</t>
+
+      <t>
+	-25
+        <list style="symbols">
+	  <t>
+	    Applied the following corrections for errata identified in the final specification:
+	  </t>
+	  <t>
+	    Fixed #925 - Typos (jwk vs jwks) in jwks client metadata parameter definition.
+	  </t>
+	</list>
+      </t>
+
+      <t>
+	-24
+        <list style="symbols">
+	  <t>
+	    Final specification.
+	  </t>
+	</list>
+      </t>
+
     </section>
 
   </back>
