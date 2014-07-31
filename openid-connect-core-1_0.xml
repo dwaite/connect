@@ -2641,8 +2641,9 @@
 		<t>
 		  Follow the Authorization Code validation rules in <xref target="CodeValidation"/>
 		  when the <spanx style="verb">response_type</spanx> value used is
-		  <spanx style="verb">code&nbsp;id_token</spanx>,
-		  <spanx style="verb">code&nbsp;token</spanx>, or
+		  <spanx style="verb">code&nbsp;id_token</spanx> or
+		  <!-- <spanx style="verb">code&nbsp;token</spanx>
+		       is not included because Authorization Code validation requires an ID Token -->
 		  <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx>.
 		</t>
 	      </list>
@@ -8925,6 +8926,11 @@
 	  </t>
           <t>
 	    Fixed #926 - Typo in Self-Issued ID Token Validation.
+	  </t>
+	  <t>
+	     Authorization Code validation is not done when using the response type
+	     <spanx style="verb">code&nbsp;token</spanx> because
+	     the validation process requires an ID Token.
 	  </t>
 	</list>
       </t>
