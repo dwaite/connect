@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="30" month="July" year="2014" />
+    <date day="31" month="July" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -2167,19 +2167,22 @@
 	  </t>
 	  <t>
 	    The <spanx style="verb">sub</spanx> (subject) Claim
-	    value is the base64url encoded SHA-256 hash of 
-            the concatenation of the octets of the UTF-8 representations of
-	    the base64url encoded key values in the
-	    <spanx style="verb">sub_jwk</spanx> Claim.
-	    When the <spanx style="verb">kty</spanx> value is
-	    <spanx style="verb">RSA</spanx>, the key values
-	    <spanx style="verb">n</spanx> and 
-            <spanx style="verb">e</spanx> are concatenated in that order.
-	    When the <spanx style="verb">kty</spanx> value is
-	    <spanx style="verb">EC</spanx>, the key values
-	    <spanx style="verb">crv</spanx>,
-	    <spanx style="verb">x</spanx>, and 
-            <spanx style="verb">y</spanx> are concatenated in that order.
+	    value is the base64url encoded representation of
+	    the JWK Thumbprint <xref target="JWK.Thumbprint"/> of
+	    the key in the <spanx style="verb">sub_jwk</spanx> Claim.
+	    (The JWK Thumbprint value is computed as
+	    the SHA-256 hash of
+	    the octets of the UTF-8 representation of
+	    a JWK continaing only the REQUIRED members to represent the key,
+	    with the member names sorted into lexicographic order,
+	    and with no white space or line breaks.
+	    For instance,
+	    when the <spanx style="verb">kty</spanx> value is
+	    <spanx style="verb">RSA</spanx>, the member names in
+	    the JWK Thumbprint computation appear in the order
+	    <spanx style="verb">e</spanx>,
+	    <spanx style="verb">kty</spanx>,
+	    <spanx style="verb">n</spanx>.)
 	  </t>
 	  <t>
 	    No Access Token is returned for accessing a UserInfo Endpoint,
@@ -2222,20 +2225,10 @@
 	      It MAY also be <spanx style="verb">ES256</spanx>.
 	    </t>
 	    <t>
-	      The Client MUST validate that the <spanx style="verb">sub</spanx> (subject) Claim
-	      value is the base64url encoded SHA-256 hash of 
-	      the concatenation of the octets of the UTF-8 representations of
-	      the base64url encoded key values in the
-	      <spanx style="verb">sub_jwk</spanx> Claim.
-	      When the <spanx style="verb">kty</spanx> value is
-	      <spanx style="verb">RSA</spanx>, the key values
-	      <spanx style="verb">n</spanx> and 
-	      <spanx style="verb">e</spanx> are concatenated in that order.
-	      When the <spanx style="verb">kty</spanx> value is
-	      <spanx style="verb">EC</spanx>, the key values
-	      <spanx style="verb">crv</spanx>,
-	      <spanx style="verb">x</spanx>, and 
-	      <spanx style="verb">y</spanx> are concatenated in that order.
+	      The Client MUST validate that the <spanx style="verb">sub</spanx> Claim
+	      value is the base64url encoded representation of
+	      the JWK Thumbprint <xref target="JWK.Thumbprint"/> of
+	      the key in the <spanx style="verb">sub_jwk</spanx> Claim.
 	    </t>
 	    <t>
 	      The current time MUST be before the time represented by the 
@@ -2838,6 +2831,26 @@
 		type="TXT" />
       </reference>
 
+      <reference anchor="JWK.Thumbprint">
+	<front>
+	  <title>JSON Web Key (JWK) Thumbprint</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization>Microsoft</organization>
+	    <address>
+	      <email>mbj@microsoft.com</email>
+	      <uri>http://self-issued.info/</uri>
+	    </address>
+	  </author>
+
+	  <date day="23" month="July" year="2014" />
+	</front>
+
+	<seriesInfo value="draft-jones-jose-jwk-thumbprint" name="Internet-Draft"/>
+	<format target="http://tools.ietf.org/html/draft-jones-jose-jwk-thumbprint-01"
+		type="HTML" />
+      </reference>
+
     </references>
     <references title="Informative References">
 
@@ -2959,6 +2972,9 @@
         <list style="symbols">
           <t>
 	    Fixed #926 - Typo in Self-Issued ID Token Validation.
+	  </t>
+	  <t>
+	    Fixed #920 - Attack identified against self-issued "sub" values.
 	  </t>
 	  <t>
 	    Changed uses of "this specification" to "this document".
