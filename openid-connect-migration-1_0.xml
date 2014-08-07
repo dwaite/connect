@@ -16,8 +16,8 @@
   <?rfc iprnotified="no" ?>
 
   <front>
-    <title abbrev="Openid 2.0 to OpenID Connect Migration 1.0">OpenID 2.0 to
-    OpenID Connect Migration 1.0 - draft 01</title>
+    <title abbrev="OID2 to OIDC Migration 1.0">OpenID 2.0 to
+    OpenID Connect Migration 1.0 - draft 02</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -60,7 +60,7 @@
       </address>
     </author>
 
-    <date day="04" month="July" year="2014" />
+    <date day="07" month="August" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -193,32 +193,24 @@ The contents of the ID Token after decoding are:
      "openid2_id": "https://openid2.example.com/user359390872112"
   }
 
-To verify the ID Token signature, get the public JWK from the OpenID 2.0 
-Identifier URL.
+To verify the issuer in the ID Token is authoritative for 
+openid2_id, get the issuer from the OpenID 2.0 
+Identifier URL. 
 
    GET /user359390872112 HTTP/1.1
    Host: openid2.example.com
-   Accept: application/jwk-set+json
+   Accept: application/json
 
  
    HTTP /1.1 200 OK
-   Content-Type: application/jwk-set+json
-   {"keys":[
-     {
-       "kty":"RSA",
-       "kid":"Key001",
-       "n":"w7Zdfmece8iaB0kiTY8pCtiBtzbptJmP28nSWwtdjRu0f2GFpajvWE4VhfJA
-            jEsOcwYzay7XGN0b-X84BfC8hmCTOj2b2eHT7NsZegFPKRUQzJ9wW8ipn_aD
-            JWMGDuB1XyqT1E7DYqjUCEOD1b4FLpy_xPn6oV_TYOfQ9fZdbE5HGxJUzeku
-            GcOKqOQ8M7wfYHhHHLxGpQVgL0apWuP2gDDOdTtpuld4D2LK1MZK99s9gaSj
-            RHE8JDb1Z4IGhEcEyzkxswVdPndUWzfvWBBWXWxtSUvQGBRkuy1BHOa4sP6F
-            KjWEeeF7gm7UMs2Nm2QUgNZw6xvEDGaLk4KASdIxRQ",
-       "e":"AQAB"
-     }]
+   Content-Type: application/json
+   {
+       "iss": "http://server.example.com"
    }
 
 
-Verify the ID Token signature with the corresponding JWK.]]></artwork>
+Verify the iss of ID Token exactly matches the iss of this 
+response.]]></artwork>
       </figure>
     </section>
 
@@ -286,11 +278,7 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
 
     <section anchor="VerifyIDToken" title="Verification of the ID Token">
       <t>The RP MUST verify the ID Token as specified in 3.1.3.7 of <xref
-      target="OpenID.Core">OpenID Connect Core 1.0</xref>. If public key
-      matching is used to verify the authoritativeness of the Connect OP over
-      the OpenID 2.0 Identifier, then the signature verification MUST be
-      performed in the step 6 of section 3.1.3.7 of <xref
-      target="OpenID.Core">OpenID Connect Core 1.0</xref>.</t>
+      target="OpenID.Core">OpenID Connect Core 1.0</xref>. </t>
     </section>
 
     <section anchor="VerifyOPAuthority"
@@ -310,9 +298,13 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
 
           <t>If they are not (or when a higher confidence is sought), RP MUST
           make a GET call to the obtained verified claimed ID with an Accept
-          header set to <spanx style="verb">application/jwk-set+json</spanx>
-          and verify that the resulting public key matches the key used to
-          sign the ID Token.</t>
+          header set to <spanx style="verb">application/json</spanx>. 
+          The server SHOULD return a JSON with <spanx style="verb">iss</spanx> 
+          as its top level member. 
+          The value of this member MUST exactly match the 
+          <spanx style="verb">iss</spanx> 
+          in the ID Token. 
+          </t>
         </list>If both fails, it is a failure and the RP MUST NOT accept the
       OpenID 2.0 Identifier.</t>
     </section>
@@ -409,8 +401,6 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
 
       <?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
 
-      <?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6973"?>
-
       <reference anchor="OpenID.Core">
         <front>
           <title>OpenID Connect Core 1.0</title>
@@ -462,6 +452,9 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
                 type="HTML" />
       </reference>
     </references>
+    <references title="Informative References">
+        <?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6973"?>
+    </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
       <t>In addition to the authors, the OpenID Community would like to thank
@@ -476,11 +469,14 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
 
           <t>Nov Matake (nov@matake.jp), Independent</t>
 
-          <t>Naveen Agarwal (naa@google.com), Google</t>
-
           <t>Allan Foster(allan.foster@forgerock.com), ForgeRock</t>
 
           <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
+          
+          <t>Torsten Lodderstedt (torsten@lodderstedt.net), Deutche Telekom</t>
+          
+          <t>Justin Richer (jricher@mitre.org), Mitre Corporation</t>
+          
         </list></t>
     </section>
 
@@ -510,9 +506,9 @@ Verify the ID Token signature with the corresponding JWK.]]></artwork>
         |          |               |------+       |              |     
         |          |Get OpenID2URI |      |       |              |     
         |          |from ID Token  | <----+       |              |     
-        |          |               | GET w/Accept: application/jwk+json
+        |          |               | GET w/Accept: application/json
         |          |               +---------------------------> +     
-        |          |               | Pub key in JWKS format      |     
+        |          |               | iss in JSON                 |     
         |          |               | <------------+--------------+     
         |          |               |              |              |     
       +-+--+  +----+-----+  +------+-------+ +----+----+  +------+---+ 
