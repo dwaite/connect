@@ -65,7 +65,7 @@
     <workgroup>OpenID Connect Working Group</workgroup>
 
     <abstract>
-      <t>This specification defines how an OpenID Authentication 2.0 relyin
+      <t>This specification defines how an OpenID Authentication 2.0 relying
       party can migrate the user from OpenID 2.0 identifier to OpenID Connect
       Identifier by using an ID Token that includes the OpenID 2.0 verified
       claimed ID. In this specification, the method to request such an
@@ -100,10 +100,10 @@
       </section>
 
       <section anchor="Terminology" title="Terminology">
-        <t>For the purpose of this specificaiton, the terms defined in<xref
+        <t>For the purpose of this specification, the terms defined in<xref
         target="OpenID.Core"> OpenID Connect Core 1.0</xref> and <xref
-        target="OpenID.2.0">OpenID Authentcation 2.0</xref> is used. Where a
-        same term is defined in both sepcifications, the term defined in
+        target="OpenID.2.0">OpenID Authentication 2.0</xref> is used. Where a
+        same term is defined in both specifications, the term defined in
         OpenID Connect Core takes precedence.</t>
 
         <t>This specification also defines the following terms: <list
@@ -122,7 +122,8 @@
       Connect Authentication Request by adding <spanx style="verb">openid2</spanx>
       as an additional scope value.</t>
 
-      <t>If PPID was used to obtain the OpenID 2.0 Identifier, openid.realm
+      <t>If PPID was used to obtain the OpenID 2.0 Identifier, 
+      <spanx style="verb">openid.realm</spanx>
       has to be sent to the OP with the request. For this purpose, a new
       authentication request parameter <spanx style="verb">openid2_realm</spanx>
       is defined.</t>
@@ -133,16 +134,19 @@
           <xref target="OpenID.2.0">OpenID 2.0</xref></t>
         </list>If the authority section of Authorization Endpoint URI is
       different from the authority section of the OpenID 2.0 OP&rsquo;s OP
-      Endpoint URL, the ID Token returned from the authentication request MUST
-      be signed using the OP&rsquo;s private key. The OP's corresponding
-      public key MUST be published through the OpenID 2.0 Identifier URL with
-      <spanx style="verb">application/jwk-set+json</spanx> mime-type in
-      response to a GET request with an Accept header set to <spanx
-      style="verb">application/jwk-set+json</spanx>.</t>
+      Endpoint URL, the client MUST issue a GET request to it with 
+      an Accept header set to <spanx style="verb">application/json</spanx> 
+      to obtain the value of 
+      <spanx style="verb">iss</spanx> claim in it. 
+      The value of the <spanx style="verb">iss</spanx> claim 
+      obtained this way and the value of 
+      the <spanx style="verb">iss</spanx> 
+      claim in the ID Token MUST exactly match.
+      </t>
 
       <t><spanx style="strong">Note</spanx>: This is similar to YADIS. In case
       of YADIS, it is using Accept header with its value set to
-      application/xml+xrds.</t>
+      <spanx style="verb">application/xml+xrds.</spanx></t>
 
       <figure>
         <preamble>The following is a non-normative example of an
@@ -311,7 +315,8 @@ response.]]></artwork>
 
     <section anchor="AssociateIdentifiers"
              title="Associating the existing OpenID 2.0 account with the OpenID Connect identifier">
-      <t>As the association between iss/sub and openid.claimed_id has been
+      <t>As the association between iss/sub and 
+      <spanx style="verb">openid.claimed_id</spanx> has been
       verified, the RP SHOULD associate the existing OpenID 2.0 account with
       the OpenID Connect account.</t>
 
@@ -333,12 +338,12 @@ response.]]></artwork>
 
         <t>NOTE: The OpenID 2.0 Identifiers can be mapped to a static file
         containing the keys, so maintaining such can require minimal overhead
-        compaired to maintaining the full OpenID 2.0 OP.</t>
+        compared to maintaining the full OpenID 2.0 OP.</t>
       </section>
     </section>
 
     <section anchor="PrivacyConsiderations" title="Privacy Considerations">
-      <t>This section considers the Privacy-Specific threats outlayed in
+      <t>This section considers the Privacy-Specific threats outlaid in
       section 5.2 of <xref target="RFC6973">RFC6973</xref>.</t>
 
       <section title="Correlation">
@@ -385,7 +390,7 @@ response.]]></artwork>
 
     <section anchor="Security" title="Security Considerations">
       <t>In addition to correctly implementing the usual OpenID Connect
-      security measures, the RP MUST carefull follow and correctly
+      security measures, the RP MUST carefully follow and correctly
       implementing section 7. If in doubt, skipping step 1 and just doing step
       2 is safer.</t>
     </section>
@@ -458,7 +463,7 @@ response.]]></artwork>
 
     <section title="Sequence Diagrams">
       <figure>
-        <preamble>Migration Sequece Diagram for Implici Flow</preamble>
+        <preamble>Migration Sequence Diagram for Implicit Flow</preamble>
 
         <artwork><![CDATA[      +----+  +----------+   +--------------+ +---------+  +----------+
       | UA |  | Resource |   | Redirect URI | | AuthzEP |  |OpenID2URI|
@@ -495,7 +500,7 @@ response.]]></artwork>
 
     <section title="Difference to Google&rsquo;s migration guide as of June 3, 2014 ">
       <t>In this appendix, the differences between this spec and the
-      Google&rsquo;s migration guide as of June 3, 2014 is expalined. The
+      Google&rsquo;s migration guide as of June 3, 2014 is explained. The
       differences are categorized in accordance with the section number of
       this specification. Google's migration guide is available at <spanx
       style="verb">https://developers.google.com/accounts/docs/OpenID#openid-connect</spanx>
@@ -511,7 +516,8 @@ response.]]></artwork>
       the user that it is a Connect parameter proper, it has been changed to
       <spanx style="verb">openid2_realm</spanx>.</t>
 
-      <t>Google uses the existence of openid.realm parameter to switch the
+      <t>Google uses the existence of 
+      <spanx style="verb">openid.realm</spanx> parameter to switch the
       behavior at the Connect OP. New scope value <spanx style="verb">openid2</spanx>
       has been introduced in this spec to make it more explicit and
       semantically in-line that it is asking for a resource.</t>
