@@ -151,10 +151,12 @@
       <figure>
         <preamble>The following is a non-normative example of an
         authentication request to request the OpenID 2.0 Identifier (with line
-        wraps within values for display purposes only)</preamble>
+        wraps within values for display purposes only). 
+        NOTE: This example assumes that the OpenID 2.0 OP Identifier 
+        is <spanx style="verb">https://openid2.example.com</spanx>.
+        </preamble>
 
-        <artwork><![CDATA[This example assumes that the OpenID 2.0 OP Identifier 
-is https://openid2.example.com
+        <artwork><![CDATA[
 
   GET /authorize?response_type=id_token
            &scope=openid%20openid2
@@ -164,10 +166,15 @@ is https://openid2.example.com
            &openid2_realm=https%3A%2F%2Fopenid2.example.com
            &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
   Host: server.example.com
+		]]></artwork>
 
-The End-User performs authentication and authorization at 
-the Connect OP which then returns the authentication response:
-
+      </figure>
+      <figure>
+         <preamble>The End-User performs authentication and 
+         authorization at the Connect OP which then returns 
+         the authentication response:
+         </preamble>
+        <artwork><![CDATA[
   HTTP /1.1 200 OK
   Location: https://client.example.com/cb#
     id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IktleTAwMSJ9.ew0KIC
@@ -184,9 +191,13 @@ the Connect OP which then returns the authentication response:
     36PowpRodp7VHKO0RoyhOFGFrDDA4z_mCE4Yopx-tWPZFPO8sekrz-H9
     670UAZUOBux2CYGEw&
     state=af0ifjsldkj
-
-The contents of the ID Token after decoding are:
-
+		]]></artwork>
+      </figure>
+      <figure>
+      	<preamble>The contents of the ID Token 
+      	after decoding are:
+      	</preamble>
+        <artwork><![CDATA[      	
   {
      "iss": "http://server.example.com",
      "sub": "248289761001",
@@ -196,25 +207,28 @@ The contents of the ID Token after decoding are:
      "iat": 1311280970,
      "openid2_id": "https://openid2.example.com/user359390872112"
   }
+		]]></artwork>
+      </figure>
 
-To verify the issuer in the ID Token is authoritative for 
-openid2_id, get the issuer from the OpenID 2.0 
-Identifier URL. 
-
+      <figure>
+      	<preamble>To verify the issuer in the ID Token is 
+      	authoritative for openid2_id, get the issuer from 
+      	the OpenID 2.0 Identifier URL. 
+      	</preamble>
+        <artwork><![CDATA[      	
    GET /user359390872112 HTTP/1.1
    Host: openid2.example.com
    Accept: application/json
-
  
    HTTP /1.1 200 OK
    Content-Type: application/json
    {
        "iss": "http://server.example.com"
    }
-
-
-Verify the iss of ID Token exactly matches the iss of this 
-response.]]></artwork>
+		]]></artwork>
+		<postamble>Verify the iss of ID Token exactly matches 
+		the iss of this response.
+		</postamble>
       </figure>
     </section>
 
