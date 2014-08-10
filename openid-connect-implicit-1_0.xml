@@ -14,7 +14,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Guide 1.0">OpenID Connect
-    Implicit Client Implementer's Guide 1.0 - draft 16</title>
+    Implicit Client Implementer's Guide 1.0 - draft 17</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="31" month="July" year="2014" />
+    <date day="10" month="August" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -2156,39 +2156,43 @@
 	response with the following refinements.  Since it is an Implicit Flow
 	response, the response parameters will be returned in the URL fragment component.
         </t>
-        <t><list style="numbers">
-          <t>
-	    The <spanx style="verb">iss</spanx> (issuer) Claim Value is 
-            <spanx style="verb">https://self-issued.me</spanx>.
-	  </t>
-	  <t>
-	    A <spanx style="verb">sub_jwk</spanx> Claim is present, with its value being
-	    the public key used to check the signature of the ID Token.
-	  </t>
-	  <t>
-	    The <spanx style="verb">sub</spanx> (subject) Claim
-	    value is the base64url encoded representation of
-	    the JWK Thumbprint <xref target="JWK.Thumbprint"/> of
-	    the key in the <spanx style="verb">sub_jwk</spanx> Claim.
-	    (The JWK Thumbprint value is computed as
-	    the SHA-256 hash of
-	    the octets of the UTF-8 representation of
-	    a JWK continaing only the REQUIRED members to represent the key,
-	    with the member names sorted into lexicographic order,
-	    and with no white space or line breaks.
-	    For instance,
-	    when the <spanx style="verb">kty</spanx> value is
-	    <spanx style="verb">RSA</spanx>, the member names in
-	    the JWK Thumbprint computation appear in the order
-	    <spanx style="verb">e</spanx>,
-	    <spanx style="verb">kty</spanx>,
-	    <spanx style="verb">n</spanx>.)
-	  </t>
-	  <t>
-	    No Access Token is returned for accessing a UserInfo Endpoint,
-	    so all Claims returned MUST be in the ID Token.
-	  </t>
-	</list></t>
+        <t>
+	  <list style="numbers">
+	    <t>
+	      The <spanx style="verb">iss</spanx> (issuer) Claim Value is 
+	      <spanx style="verb">https://self-issued.me</spanx>.
+	    </t>
+	    <t>
+	      A <spanx style="verb">sub_jwk</spanx> Claim is present, with its value being
+	      the public key used to check the signature of the ID Token.
+	    </t>
+	    <t>
+	      The <spanx style="verb">sub</spanx> (subject) Claim
+	      value is the base64url encoded representation of
+	      the thumbprint of
+	      the key in the <spanx style="verb">sub_jwk</spanx> Claim.
+	      This thumbprint value is computed as
+	      the SHA-256 hash of
+	      the octets of the UTF-8 representation of
+	      a JWK constructed continaing only the REQUIRED members to represent the key,
+	      with the member names sorted into lexicographic order,
+	      and with no white space or line breaks.
+	      For instance,
+	      when the <spanx style="verb">kty</spanx> value is
+	      <spanx style="verb">RSA</spanx>, the member names in
+	      the constructed JWK used in the thumbprint computation appear in the order
+	      <spanx style="verb">e</spanx>,
+	      <spanx style="verb">kty</spanx>,
+	      <spanx style="verb">n</spanx>.
+	      This thumbprint calculation is the same as that defined in
+	      the JWK Thumbprint <xref target="JWK.Thumbprint"/> specification.
+	    </t>
+	    <t>
+	      No Access Token is returned for accessing a UserInfo Endpoint,
+	      so all Claims returned MUST be in the ID Token.
+	    </t>
+	  </list>
+	</t>
       </section>
 
       <section anchor="SelfIssuedValidation" title="Self-Issued ID Token Validation">
@@ -2227,8 +2231,9 @@
 	    <t>
 	      The Client MUST validate that the <spanx style="verb">sub</spanx> Claim
 	      value is the base64url encoded representation of
-	      the JWK Thumbprint <xref target="JWK.Thumbprint"/> of
-	      the key in the <spanx style="verb">sub_jwk</spanx> Claim.
+	      the thumbprint of
+	      the key in the <spanx style="verb">sub_jwk</spanx> Claim,
+	      as specified in <xref target="SelfIssuedResponse"/>.
 	    </t>
 	    <t>
 	      The current time MUST be before the time represented by the 
@@ -2831,26 +2836,6 @@
 		type="TXT" />
       </reference>
 
-      <reference anchor="JWK.Thumbprint">
-	<front>
-	  <title>JSON Web Key (JWK) Thumbprint</title>
-
-	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-	    <organization>Microsoft</organization>
-	    <address>
-	      <email>mbj@microsoft.com</email>
-	      <uri>http://self-issued.info/</uri>
-	    </address>
-	  </author>
-
-	  <date day="23" month="July" year="2014" />
-	</front>
-
-	<seriesInfo value="draft-jones-jose-jwk-thumbprint" name="Internet-Draft"/>
-	<format target="http://tools.ietf.org/html/draft-jones-jose-jwk-thumbprint-01"
-		type="HTML" />
-      </reference>
-
     </references>
     <references title="Informative References">
 
@@ -2883,6 +2868,26 @@
 
 	<format target="http://openid.net/specs/openid-connect-basic-1_0.html"
                 type="HTML" />
+      </reference>
+
+      <reference anchor="JWK.Thumbprint">
+	<front>
+	  <title>JSON Web Key (JWK) Thumbprint</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization>Microsoft</organization>
+	    <address>
+	      <email>mbj@microsoft.com</email>
+	      <uri>http://self-issued.info/</uri>
+	    </address>
+	  </author>
+
+	  <date day="23" month="July" year="2014" />
+	</front>
+
+	<seriesInfo value="draft-jones-jose-jwk-thumbprint" name="Internet-Draft"/>
+	<format target="http://tools.ietf.org/html/draft-jones-jose-jwk-thumbprint-01"
+		type="HTML" />
       </reference>
 
     </references>
@@ -2966,6 +2971,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final document ]]</t>
+
+      <t>
+	-17
+        <list style="symbols">
+          <t>
+	    Changed the JWK Thumbprint reference from being normative to informative.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-16
