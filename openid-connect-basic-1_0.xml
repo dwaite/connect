@@ -197,8 +197,11 @@
 	  "Grant Type", "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
-	  the terms "Claim Name", "Claim Value", and "JSON Web Token (JWT)"
+	  the terms "Claim Name", "Claim Value", "JSON Web Token (JWT)",
+	  and "JWT Claims Set"
 	  defined by <xref target="JWT">JSON Web Token (JWT)</xref>,
+	  the terms "Header Parameter" and "JOSE Header"
+	  defined by <xref target="JWS">JSON Web Signature (JWS)</xref>,
 	  and the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>.
 	</t>
 	<t>
@@ -1130,8 +1133,8 @@
 	      hash of the octets of the ASCII representation of the
 	      <spanx style="verb">access_token</spanx> value,
 	      where the hash algorithm used is the hash algorithm
-	      used in the <spanx style="verb">alg</spanx> parameter
-	      of the ID Token's <xref target="JWS">JWS</xref> header.
+	      used in the <spanx style="verb">alg</spanx> Header Parameter
+	      of the ID Token's JOSE Header.
 	      For instance, if the <spanx style="verb">alg</spanx> is
 	      <spanx style="verb">RS256</spanx>, hash the
 	      <spanx style="verb">access_token</spanx> value
@@ -1208,7 +1211,7 @@
 	  <spanx style="verb">x5c</spanx>,
 	  <spanx style="verb">jku</spanx>, or
 	  <spanx style="verb">jwk</spanx>
-	  header parameter fields.
+	  Header Parameter fields.
 	  Instead, keys used for ID Tokens are
 	  communicated in advance using Discovery and Registration parameters.
 	</t>
@@ -1216,7 +1219,7 @@
 	<figure>
 	  <preamble>
 	    The following is a non-normative example of
-	    the Claims from a base64url decoded ID Token payload:
+	    the set of Claims (the JWT Claims Set) base64url decoded from an ID Token:
 	  </preamble>
 
 	  <artwork><![CDATA[
@@ -2568,6 +2571,10 @@
 	  </t>
 	  <t>
 	    Updated references to pre-final IETF specs.
+	  </t>
+	  <t>
+	    Replaced uses of the terms JWS Header, JWE Header, and JWT Header with
+	    the JOSE Header term that replaced them in the JOSE and JWT specifications.
 	  </t>
 	</list>
       </t>

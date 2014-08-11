@@ -170,8 +170,11 @@
 	  "Grant Type", "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
-	  the terms "Claim Name", "Claim Value", "JSON Web Token (JWT)", and "Nested JWT"
+	  the terms "Claim Name", "Claim Value", "JSON Web Token (JWT)",
+	  "JWT Claims Set", and "Nested JWT"
 	  defined by <xref target="JWT">JSON Web Token (JWT)</xref>,
+	  the terms "Header Parameter" and "JOSE Header"
+	  defined by <xref target="JWS">JSON Web Signature (JWS)</xref>,
 	  the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>,
 	  and the term "Response Mode" defined by
 	  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
@@ -677,7 +680,7 @@
 	<spanx style="verb">x5c</spanx>,
 	<spanx style="verb">jku</spanx>, or
 	<spanx style="verb">jwk</spanx>
-	header parameter fields.
+	Header Parameter fields.
 	Instead, references to keys used are
 	communicated in advance using Discovery and Registration parameters,
 	per <xref target="SigEnc"/>.
@@ -1850,8 +1853,8 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">access_token</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> parameter
-		  of the ID Token's <xref target="JWS">JWS</xref> header.
+		  used in the <spanx style="verb">alg</spanx> Header Parameter
+		  of the ID Token's JOSE Header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
@@ -1915,7 +1918,7 @@
 		  checking the token signature.
 		  The Client MUST validate the signature of all other ID Tokens according to
 		  <xref target="JWS">JWS</xref> using the algorithm specified in the 
-		  JWT <spanx style="verb">alg</spanx> header parameter.
+		  JWT <spanx style="verb">alg</spanx> Header Parameter.
 		  The Client MUST use the keys provided by the Issuer.
 		</t>
 
@@ -1925,7 +1928,7 @@
 		in the <spanx style="verb">id_token_signed_response_alg</spanx> parameter 
 		during Registration.</t>
 
-		<t>If the JWT <spanx style="verb">alg</spanx> header parameter
+		<t>If the JWT <spanx style="verb">alg</spanx> Header Parameter
 		uses a MAC based algorithm such as 
 		<spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
 		or <spanx style="verb">HS512</spanx>,
@@ -2299,8 +2302,8 @@
 		<t>Hash the octets of the ASCII representation of
 		the <spanx style="verb">access_token</spanx> 
 		with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-		<spanx style="verb">alg</spanx> header parameter
-		in the ID Token's <xref target="JWS">JWS</xref> header.
+		<spanx style="verb">alg</spanx> Header Parameter
+		of the ID Token's JOSE Header.
 		For instance, if the <spanx style="verb">alg</spanx> is
 		<spanx style="verb">RS256</spanx>,
 		the hash algorithm used is SHA-256.
@@ -2338,8 +2341,8 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">access_token</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> header parameter
-		  of the ID Token's <xref target="JWS">JWS</xref> header.
+		  used in the <spanx style="verb">alg</spanx> Header Parameter
+		  of the ID Token's JOSE Header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
@@ -2373,7 +2376,7 @@
 		<t>
 		  The Client MUST validate the signature of the ID Token according to
 		  <xref target="JWS">JWS</xref> using the algorithm specified in the 
-		  <spanx style="verb">alg</spanx> parameter of the JWT header.
+		  <spanx style="verb">alg</spanx> Header Parameter of the JOSE Header.
 		</t>
 
 		<t>
@@ -2670,8 +2673,8 @@
 		<t>Hash the octets of the ASCII representation of
 		the <spanx style="verb">code</spanx> 
 		with the hash algorithm specified in <xref target="JWA">JWA</xref> for the
-		<spanx style="verb">alg</spanx> header parameter
-		in the ID Token's <xref target="JWS">JWS</xref> header.
+		<spanx style="verb">alg</spanx> Header Parameter
+		of the ID Token's JOSE Header.
 		For instance, if the <spanx style="verb">alg</spanx> is
 		<spanx style="verb">RS256</spanx>,
 		the hash algorithm used is SHA-256.
@@ -2710,8 +2713,8 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">access_token</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> header parameter
-		  of the ID Token's <xref target="JWS">JWS</xref> header.
+		  used in the <spanx style="verb">alg</spanx> Header Parameter
+		  of the ID Token's JOSE Header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
@@ -2733,8 +2736,8 @@
 		  hash of the octets of the ASCII representation of the
 		  <spanx style="verb">code</spanx> value,
 		  where the hash algorithm used is the hash algorithm
-		  used in the <spanx style="verb">alg</spanx> header parameter
-		  of the ID Token's <xref target="JWS">JWS</xref> header.
+		  used in the <spanx style="verb">alg</spanx> Header Parameter
+		  of the ID Token's JOSE Header.
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">HS512</spanx>, hash the
 		  <spanx style="verb">code</spanx> value
@@ -4411,7 +4414,7 @@
 	  The Request Object MAY be signed or unsigned (plaintext).
 	  When it is plaintext, this is indicated by use of the
 	  <spanx style="verb">none</spanx> algorithm <xref target="JWA" />
-	  in the JWS header.  If signed, the Request Object
+	  in the JOSE Header.  If signed, the Request Object
 	  SHOULD contain the Claims
 	  <spanx style="verb">iss</spanx> (issuer)
 	  and <spanx style="verb">aud</spanx> (audience) as members.
@@ -4881,7 +4884,7 @@
 
 	  <t>
 	    To perform Signature Validation, 
-	    the <spanx style="verb">alg</spanx> parameter in the JWS header MUST match the value
+	    the <spanx style="verb">alg</spanx> Header Parameter in the JOSE Header MUST match the value
 	    of the <spanx style="verb">request_object_signing_alg</spanx> set during
 	    Client Registration <xref target="OpenID.Registration"/> or a value that was
 	    pre-registered by other means.
@@ -5246,7 +5249,7 @@
 	    <t>
 	      The Client MUST validate the signature of the ID Token according to
 	      <xref target="JWS">JWS</xref> using the algorithm specified in the 
-	      <spanx style="verb">alg</spanx> parameter of the JWT header <xref target="JWT"/>,  
+	      <spanx style="verb">alg</spanx> Header Parameter of the JOSE Header,
 	      using the key in the <spanx style="verb">sub_jwk</spanx> Claim;
 	      the key is a bare key in JWK format
 	      (not an X.509 certificate value).
@@ -5715,21 +5718,21 @@
 	    <t hangText="Asymmetric Signatures">
 	      <vspace/>
 	      When using RSA or ECDSA Signatures, 
-	      the <spanx style="verb">alg</spanx> header parameter value
-	      of the JWS header MUST be set to an appropriate algorithm
+	      the <spanx style="verb">alg</spanx> Header Parameter value
+	      of the JOSE Header MUST be set to an appropriate algorithm
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>.
 	      The private key used to sign the content MUST be associated with
 	      a public key used for signature verification published by the sender
 	      in its JWK Set document.
 	      If there are multiple keys in the referenced JWK Set document, a
-	      <spanx style="verb">kid</spanx> value MUST be provided in the JWS header.
+	      <spanx style="verb">kid</spanx> value MUST be provided in the JOSE Header.
 	      The key usage of the respective keys MUST support signing.
 	    </t>
 	    <t hangText="Symmetric Signatures">
 	      <vspace/>
 	      When using MAC-based signatures,
-	      the <spanx style="verb">alg</spanx> header parameter value
-	      of the JWS header MUST be set to a MAC algorithm,
+	      the <spanx style="verb">alg</spanx> Header Parameter value
+	      of the JOSE Header MUST be set to a MAC algorithm,
 	      as defined in <xref target="JWA">JSON Web Algorithms</xref>. 
 	      The MAC key used is
 	      the octets of the UTF-8 representation of
@@ -5749,7 +5752,7 @@
 	  <t>Rotation of signing keys can be accomplished with the following approach. The signer publishes
 	  its keys in a JWK Set at its <spanx style="verb">jwks_uri</spanx> location
 	  and includes the <spanx style="verb">kid</spanx> of the
-	  signing key in the JWS header of each message
+	  signing key in the JOSE Header of each message
 	  to indicate to the verifier which key is to be used to validate the signature. Keys can be rolled over
 	  by periodically adding new keys to the JWK Set at the <spanx style="verb">jwks_uri</spanx> location.
 	  The signer can begin using a new key at its
@@ -5778,7 +5781,7 @@
 	      a public key used for encryption published by the recipient
 	      in its JWK Set document.
 	      If there are multiple keys in the referenced JWK Set document, a
-	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
+	      <spanx style="verb">kid</spanx> value MUST be provided in the JOSE Header.
 	      Use the supported RSA encryption algorithm to encrypt a random 
 	      Content Encryption Key to be used for encrypting 
 	      the signed JWT.
@@ -5787,12 +5790,12 @@
 	    <t hangText="Asymmetric Encryption: Elliptic Curve">
 	      <vspace/>
 	      Create an ephemeral Elliptic Curve public key for the <spanx style="verb">epk</spanx>
-	      element of the JWE header.
+	      element of the JOSE Header.
 	      The other public key used for the key agreement computation MUST be
 	      a public key published by the recipient
 	      in its JWK Set document.
 	      If there are multiple keys in the referenced JWK Set document, a
-	      <spanx style="verb">kid</spanx> value MUST be provided in the JWE header.
+	      <spanx style="verb">kid</spanx> value MUST be provided in the JOSE Header.
 	      Use the ECDH-ES algorithm to agree upon a
 	      Content Encryption Key to be used for encrypting 
 	      the signed JWT.
@@ -5831,7 +5834,7 @@
 	    the encrypting party starts the process and thus cannot rely on
 	    a change in <spanx style="verb">kid</spanx> as a signal
 	    that keys need to change. The encrypting party
-	    still uses the <spanx style="verb">kid</spanx> header parameter in the JWE
+	    still uses the <spanx style="verb">kid</spanx> Header Parameter in the JWE
 	    to tell the decrypting party which private key to use to decrypt, however, the encrypting party
 	    needs to first select the most appropriate key from those provided in the JWK Set at
 	    the recipient's <spanx style="verb">jwks_uri</spanx> location.
@@ -8549,7 +8552,7 @@
 	  The value of the <spanx style="verb">id_token</spanx> parameter is the ID Token,
 	  which is a signed JWT,
 	  containing three base64url encoded segments separated by period ('.') characters.
-	  The first segment represents the JWT header.
+	  The first segment represents the JOSE Header.
 	  Base64url decoding it will result in the following set of Header Parameters:
 	</t>
 	<figure>
@@ -8941,6 +8944,10 @@
 	  </t>
 	  <t>
 	    Updated references to pre-final IETF specs.
+	  </t>
+	  <t>
+	    Replaced uses of the terms JWS Header, JWE Header, and JWT Header with
+	    the JOSE Header term that replaced them in the JOSE and JWT specifications.
 	  </t>
 	</list>
       </t>
