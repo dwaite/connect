@@ -266,10 +266,17 @@
 	  It also has to be able to
 	  receive the postMessage back from the OP iframe. The received data
 	  will either be <spanx style='verb'>changed</spanx> or
-	  <spanx style='verb'>unchanged</spanx>.  Upon receipt of
+	  <spanx style='verb'>unchanged</spanx>
+	  unless the syntax of the message sent was determined by the OP to be malformed,
+	  in which case the received data will be <spanx style='verb'>error</spanx>.
+	  Upon receipt of
 	  <spanx style='verb'>changed</spanx>, the RP MUST perform re-authentication with 
 	  <spanx style='verb'>prompt=none</spanx> to obtain the current 
 	  session state at the OP.
+	  Upon receipt of
+	  <spanx style='verb'>error</spanx>, the RP MUST NOT perform re-authentication
+	  with <spanx style='verb'>prompt=none</spanx>, so as to not cause potential
+	  infinite loops that generate network traffic to the OP.
 	</t>
 
         <t>
@@ -358,6 +365,10 @@
 	  The OP iframe MUST recalculate it from the previously
 	  obtained Client ID, the source origin URL (from the
 	  postMessage), and the current OP Browser state.
+	  If the postMessage received is syntactically malformed in such a way
+	  that the posted Client ID and origin URL cannot be determined
+	  or are syntactically invalid, then the OP iframe SHOULD
+	  postMessage the string <spanx style='verb'>error</spanx> back to the source.
 	  If the received value and the
 	  calculated value do not match, then the OP iframe MUST postMessage
 	  the string <spanx style='verb'>changed</spanx> back to the source.
@@ -379,6 +390,8 @@
     client_id = message.split(' ')[0];
     session_state = message.split(' ')[1];
     var salt = session_state.split('.')[1];
+
+    // if message syntactically invalid, postMessage('error', e.origin) and return
 
     // get_op_browser_state() is an OP defined function
     // that returns the browser's login status at the OP.
@@ -807,6 +820,10 @@
         <list style="symbols">
           <t>
 	    Updated dates for specs containing errata updates.
+	  </t>
+	  <t>
+	    Fixed #930 - Added "error" return from OP iframe to respond to
+	    syntactically invalid postMessage values received.
 	  </t>
 	</list>
       </t>
