@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
-<rfc category="std" docName="openid-connect-openid2-migration-1_0" ipr="oidf">
+<rfc category="std" docName="openid-connect-openid2-migration-1_0" ipr="none">
   <?rfc toc="yes" ?>
 
   <?rfc tocdepth="5" ?>
@@ -14,6 +14,8 @@
   <?rfc strict="yes" ?>
 
   <?rfc iprnotified="no" ?>
+  
+  <?rfc private="draft" ?>
 
   <front>
     <title abbrev="OpenID 2.0 to OpenID Connect Migration 1.0">OpenID 2.0 to
@@ -119,7 +121,7 @@
     </section>
 
     <section anchor="RequestOpenid2Id"
-             title="Requesting the OpenID 2.0 Identifier and OpenID Connect Issuer and Subject Pair Together">
+             title="Requesting the OpenID 2.0 Identifier and OpenID Connect Identifier Together">
       <t>To obtain the OpenID 2.0 Identifier, the RP sends a modified OpenID
       Connect Authentication Request by adding <spanx style="verb">openid2</spanx>
       as an additional scope value.</t>
@@ -215,8 +217,8 @@
 
       <figure>
       	<preamble>To verify the issuer in the ID Token is 
-      	authoritative for openid2_id, get the issuer from 
-      	the OpenID 2.0 Identifier URL. 
+      	authoritative for <spanx style="verb">openid2_id</spanx>, get the issuer from 
+      	the OpenID 2.0 Identifier URI. 
       	</preamble>
         <artwork><![CDATA[      	
    GET /user359390872112 HTTP/1.1
@@ -229,8 +231,8 @@
        "iss": "http://server.example.com"
    }
 		]]></artwork>
-		<postamble>Verify the iss of ID Token exactly matches 
-		the iss of this response.
+		<postamble>Verify the value of <spanx style="verb">iss</spanx> claim of ID Token 
+		exactly matches the value of <spanx style="verb">iss</spanx> claim of this response.
 		</postamble>
       </figure>
     </section>
@@ -332,7 +334,7 @@
 
     <section anchor="AssociateIdentifiers"
              title="Associating the Existing OpenID 2.0 Account with the OpenID Connect Identifier">
-      <t>As the association between <spanx style="verb">iss/sub</spanx> and 
+      <t>As the association between OpenID Connect Identifier and 
       OpenID 2.0 Identifier has been
       verified, the RP SHOULD associate the existing OpenID 2.0 account with
       the OpenID Connect account.</t>
@@ -480,7 +482,7 @@
         <preamble>Migration Sequence Diagram for Implicit Flow</preamble>
 
         <artwork><![CDATA[      +----+  +----------+   +--------------+ +----------+  +----------+
-      | UA |  | Resource |   | Redirect URI | | Authz EP |  |OpenID2URI|
+      | UA |  | Resource |   | Redirect URI | | AuthZ EP |  |OpenID2URI|
       +-+--+  +----+-----+   +-----+--------+ +---+------+  +-----+----+
    Click|AuthN Link|               |              |               |
         +--------> |               |              |               |
@@ -507,7 +509,7 @@
         |          |               | <----------------------------+
         |          |               |              |               |
       +-+--+  +----+-----+  +------+-------+ +----+-----+  +------+---+
-      | UA |  | Resource |  | Redirect URI | | Authz EP |  |OpenID2URI|
+      | UA |  | Resource |  | Redirect URI | | AuthZ EP |  |OpenID2URI|
       +----+  +----------+  +--------------+ +----------+  +----------+]]></artwork>
       </figure>
     </section>
