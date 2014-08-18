@@ -5220,12 +5220,20 @@
 	      and with no white space or line breaks.
 	      For instance,
 	      when the <spanx style="verb">kty</spanx> value is
-	      <spanx style="verb">RSA</spanx>, the member names in
-	      the constructed JWK used in the thumbprint computation appear in the order
+	      <spanx style="verb">RSA</spanx>, the member names
 	      <spanx style="verb">e</spanx>,
+	      <spanx style="verb">kty</spanx>, and
+	      <spanx style="verb">n</spanx>
+	      are the ones present in the constructed JWK used
+	      in the thumbprint computation and appear in that order;
+	      when the <spanx style="verb">kty</spanx> value is
+	      <spanx style="verb">EC</spanx>, the member names
+	      <spanx style="verb">crv</spanx>,
 	      <spanx style="verb">kty</spanx>,
-	      <spanx style="verb">n</spanx>.
-	      This thumbprint calculation is the same as that defined in
+	      <spanx style="verb">x</spanx>, and
+	      <spanx style="verb">y</spanx>
+	      are present in that order.
+	      Note that this thumbprint calculation is the same as that defined in
 	      the JWK Thumbprint <xref target="JWK.Thumbprint"/> specification.
 	    </t>
 	    <t>
@@ -8948,6 +8956,9 @@
         <list style="symbols">
 	  <t>
 	    Added errata set number to title.
+	  </t>
+	  <t>
+	    Fixed #947 - Added "kty":"EC" case back to Self-Issued OpenID Provider Response.
 	  </t>
 	</list>
       </t>
