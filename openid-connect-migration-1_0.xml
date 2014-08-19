@@ -2,6 +2,16 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN"
 "http://xml.resource.org/authoring/rfc2629.dtd">
+<!--
+  NOTE:  This XML file is input used to produce the authoritative copy of an
+  OpenID Foundation specification.  The authoritative copy is the HTML output.
+  This XML source file is not authoritative.  The statement ipr="none" is
+  present only to satisfy the document compilation tool and is not indicative
+  of the IPR status of this specification.  The IPR for this specification is
+  described in the "Notices" section.  This is a public OpenID Foundation
+  document and not a private document, as the private="..." declaration could
+  be taken to indicate.
+-->
 <rfc category="std" docName="openid-connect-openid2-migration-1_0" ipr="none">
   <?rfc toc="yes" ?>
 
@@ -81,9 +91,9 @@
       <t>OpenID Authentication 2.0 is a popular authentication federation
       protocol through which the relying party can obtain the user&rsquo;s
       verified identifier from the OpenID Provider (OP) to which the user was
-      authenticated. OpenID Connect is a new version of OpenId Authentication but the
+      authenticated. OpenID Connect is a new version of OpenID Authentication but the
       identifier format is different and thus relying parties need to migrate
-      those user identifiers to continue accepting these users.</t>
+      those user identifiers to continue serving these users.</t>
 
       <t>In this specification, a standard method for this kind of migration
       on a per-user basis is described.</t>
@@ -104,9 +114,9 @@
       <section anchor="Terminology" title="Terminology">
         <t>For the purpose of this specification, the terms defined in <xref
         target="OpenID.Core"> OpenID Connect Core 1.0</xref> and <xref
-        target="OpenID.2.0">OpenID Authentication 2.0</xref> is used. Where a
-        same term is defined in both specifications, the term defined in
-        OpenID Connect Core takes precedence.</t>
+        target="OpenID.2.0">OpenID Authentication 2.0</xref> are used by this
+        specification. Where a same term is defined in both specifications,
+        the term defined in OpenID Connect Core takes precedence.</t>
 
         <t>This specification also defines the following terms: <list
             style="hanging">
@@ -150,9 +160,10 @@
       claim in the ID Token MUST exactly match.
       </t>
 
-      <t><spanx style="strong">Note</spanx>: This is similar to YADIS. In case
-      of YADIS, it is using Accept header with its value set to
-      <spanx style="verb">application/xml+xrds.</spanx></t>
+      <t><spanx style="strong">Note</spanx>: This is similar to <xref
+      target="Yadis">Yadis</xref>. In case
+      of <xref target="Yadis">Yadis</xref>, it is using Accept header with
+      its value set to <spanx style="verb">application/xml+xrds.</spanx></t>
 
       <figure>
         <preamble>The following is a non-normative example of an
@@ -364,7 +375,7 @@
 
     <section anchor="PrivacyConsiderations" title="Privacy Considerations">
       <t>This section considers the Privacy Specific Threats described in
-      Section 5.2 of <xref target="RFC6973">RFC6973</xref>.</t>
+      Section 5.2 of <xref target="RFC6973">RFC 6973</xref>.</t>
 
       <section anchor="Correlation" title="Correlation">
         <t>This standard essentially is a correlation specification. It
@@ -476,6 +487,19 @@
     </references>
     <references title="Informative References">
         <?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6973"?>
+
+        <reference anchor="Yadis">
+            <front>
+                <title>Yadis Specification 1.0</title>
+                <author initials='J.M' surname='Miller' fullname="Joaquin Miller">
+                    <organization>NetMesh</organization>
+                </author>
+                <date year="2005"/>
+            </front>
+            <format type='PDF' target="http://openid.net/specs/yadis-v1.0.pdf" />
+            <format type='ODT' target="http://openid.net/specs/yadis-v1.0.odt" />
+        </reference>
+
     </references>
 
     <section anchor="SequenceDiagram1" title="Sequence Diagrams">
@@ -515,7 +539,7 @@
       </figure>
     </section>
 
-    <section anchor="GoogleDifference" title="Difference from Google&rsquo;s Migration Guide as of June 3, 2014 ">
+    <section anchor="GoogleDifference" title="Differences from Google&rsquo;s Migration Guide as of June 3, 2014 ">
       <t>In this appendix, the differences between this spec and
       Google&rsquo;s migration guide as of June 3, 2014 are explained. The
       differences are categorized in accordance with the section number of
