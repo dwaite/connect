@@ -164,6 +164,11 @@
       In the Yadis case, it is using an Accept header with
       its value set to <spanx style="verb">application/xml+xrds.</spanx></t>
 
+      <t>NOTE: If the value of <spanx style="verb">openid2_id</spanx> is a
+      <xref target="XRI_Syntax_2.0">XRI</xref>, the mechanism for verifying the
+      <spanx style="verb">iss</spanx> in the ID Token is still TBD.
+      This may involve work by xri.net or individual i-Brokers.</t>
+
       <figure>
         <preamble>The following is a non-normative example of an
         authentication request to request the OpenID 2.0 Identifier (with line
@@ -266,17 +271,15 @@
       <t><list style="hanging">
           <t hangText="openid2_id "><vspace /> REQUIRED. OpenID 2.0 Identifier.
           It MUST be represented as a JSON string.</t>
-        </list>For <xref target="XRI_Syntax_2.0">XRI</xref>, OpenID 2.0 Identifier
-        MUST be created as <spanx style="verb">https://xri.net/</spanx> concatenated
-        with the user&rsquo;s verified XRI without the
-        <spanx style="verb">xri://</spanx> scheme.</t>
+        </list></t>
 
       <figure>
-        <preamble>The following is a non-normative example of an ID Token with
+        <preamble>The following are non-normative examples of ID Tokens with
         an OpenID 2.0 Identifier claim (with line wraps within values for
         display purposes only)</preamble>
 
-        <artwork><![CDATA[{
+        <artwork><![CDATA[URL Identifier :
+{
  "iss": "http://server.example.com",
  "sub": "248289761001",
  "aud": "s6BhdRkqt3",
@@ -284,6 +287,18 @@
  "exp": 1311281970,
  "iat": 1311280970,
  "openid2_id": "https://openid2.example.com/user359390872112"
+}
+
+
+XRI Identifier :
+{
+ "iss": "http://server.example.com",
+ "sub": "248289761001",
+ "aud": "s6BhdRkqt3",
+ "nonce": "n-0S6_WzA2Mj",
+ "exp": 1311281970,
+ "iat": 1311280970,
+ "openid2_id": "=!91F2.8153.F600.AE24"
 }]]></artwork>
       </figure>
 
@@ -342,6 +357,12 @@
           </t>
         </list>If both fails, it is a failure and the RP MUST NOT accept the
       OpenID 2.0 Identifier.</t>
+
+    <t>NOTE: If the OpenID 2.0 Identifier is a
+    <xref target="XRI_Syntax_2.0">XRI</xref>, the mechanism for verifying that the
+    Connect OP is authoritative for the OpenID 2.0 Identifier is still TBD.
+    This may involve work by xri.net or individual i-Brokers.</t>
+
     </section>
 
     <section anchor="AssociateIdentifiers"
