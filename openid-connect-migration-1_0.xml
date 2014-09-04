@@ -450,6 +450,17 @@
 
     <section anchor="ImplementationConsiderations"
              title="Implementation Considerations">
+      <t>There are OpenID 2.0 libraries that use <spanx style="verb">openid.identity</spanx>
+      instead of <spanx style="verb">openid.claimed_id</spanx> to link to the user account at
+      the RP. This is a bug as <spanx style="verb">openid.identity</spanx> may be recycled.
+      However, there are not many OpenID 2.0 providers who use different values for
+      <spanx style="verb">openid.identity</spanx> and <spanx style="verb">openid.claimed_id</spanx>.
+      Yahoo! and Yahoo! Japan seems to be the only large scale providers that fall under this
+      category. In their case, by stripping out the fragment from the
+      <spanx style="verb">openid.claimed_id</spanx>, you can get
+      <spanx style="verb">openid.identity</spanx>. For implementations that are using these
+      buggy OpenID 2.0 libraries, they can adopt this strategy to link Yahoo! and Yahoo! Japan
+      users to their local account. </t>
       <section anchor="AfterEOL" title="After End-Of-Life of the OpenID 2.0 OP">
         <t>This standard allows the RP to verify the authenticity of the
         OpenID 2.0 Identifier through ID Token even after the OpenID 2.0 OP is
