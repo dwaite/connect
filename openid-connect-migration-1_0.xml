@@ -28,7 +28,7 @@
   <?rfc private="draft" ?>
 
   <front>
-    <title abbrev="OpenID 2.0 to OpenID Connect Migration 1.0">OpenID 2.0 to
+    <title abbrev="OpenID 2.0 to OpenID Connect Migration">OpenID 2.0 to
     OpenID Connect Migration 1.0 - draft 06</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
@@ -72,7 +72,7 @@
       </address>
     </author>
 
-    <date day="27" month="August" year="2014" />
+    <date day="04" month="September" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -276,9 +276,9 @@
       <figure>
         <preamble>The following are non-normative examples of ID Tokens with
         an OpenID 2.0 Identifier claim (with line wraps within values for
-        display purposes only)</preamble>
+        display purposes only) for URL Identifier :</preamble>
 
-        <artwork><![CDATA[URL Identifier :
+        <artwork><![CDATA[
 {
  "iss": "http://server.example.com",
  "sub": "248289761001",
@@ -287,10 +287,13 @@
  "exp": 1311281970,
  "iat": 1311280970,
  "openid2_id": "https://openid2.example.com/user359390872112"
-}
-
-
-XRI Identifier :
+}]]></artwork>
+      </figure>
+      <figure>
+        <preamble>The following are non-normative examples of ID Tokens with
+        an OpenID 2.0 Identifier claim (with line wraps within values for
+        display purposes only) for XRI Identifier :</preamble>
+		<artwork><![CDATA[
 {
  "iss": "http://server.example.com",
  "sub": "248289761001",
@@ -355,13 +358,79 @@ XRI Identifier :
           <spanx style="verb">iss</spanx> 
           in the ID Token. 
           </t>
-        </list>If both fails, it is a failure and the RP MUST NOT accept the
+          
+          <t>If the <spanx style="verb">openid2_id</spanx> does not start 
+          with <spanx style="verb">http</spanx>, it is an 
+          <xref target="XRI_Syntax_2.0">XRI</xref>.  
+          In this case, the RP needs to construct the 
+          verification URI by concatenating 
+          <spanx style="verb">https://xri.net/</spanx> 
+          and the value of 
+          <spanx style="verb">openid2_id</spanx> and 
+          <spanx style="verb">/(+openid_iss)</spanx>. 
+          Requesting the resulting URI with GET will 
+          result in a series of HTTP 302 redirects. 
+          The RP MUST follow the redirects until 
+          HTTP status code <spanx style="verb">200 OK</spanx> 
+          comes back. The URI which resulted in 
+          <spanx style="verb">200 OK</spanx> is the 
+          authoritative issuer for the XRI. 
+          This URI MUST exactly match the 
+          <spanx style="verb">iss</spanx> 
+          in the ID Token except the potential trailing 
+          slash (<spanx style="verb">/</spanx>). 
+          </t>
+        </list>If all three fails, it is a failure and the RP MUST NOT accept the
       OpenID 2.0 Identifier.</t>
 
-    <t>NOTE: If the OpenID 2.0 Identifier is a
-    <xref target="XRI_Syntax_2.0">XRI</xref>, the mechanism for verifying that the
-    Connect OP is authoritative for the OpenID 2.0 Identifier is still TBD.
-    This may involve work by xri.net or individual i-Brokers.</t>
+    <t>NOTE: XRI users need to configure its forwarding service 
+    and define (+openid_iss) themselves.  
+    </t>
+	<figure>
+      	<preamble>Following is a non-normative example of obtaining  
+      	the authoritative issuer from 
+      	the OpenID 2.0 Identifier URI. 
+      	</preamble>
+        <artwork><![CDATA[      	
+   GET /user359390872112 HTTP/1.1
+   Host: openid2.example.com
+   Accept: application/json
+ 
+   HTTP /1.1 200 OK
+   Content-Type: application/json
+   {
+       "iss": "http://server.example.com"
+   }
+		]]></artwork>
+	</figure>
+
+	<figure>
+      	<preamble>Following is a non-normative example of obtaining  
+      	the authoritative issuer from 
+      	the OpenID 2.0 Identifier XRI. 
+      	</preamble>
+        <artwork><![CDATA[      	
+   GET /=!91F2.8153.F600.AE24/(+openid_iss) HTTP/1.1
+   Host: xri.net
+
+   HTTP/1.1 302 Moved Temporarily
+   Location: http://forwarding.fullxri.com/forwarding/=!91F2.8153.F600.AE24/(+openid_iss)
+   
+   GET /forwarding/=!91F2.8153.F600.AE24/(+openid_iss) HTTP/1.1
+   Host: forwarding.fullxri.com
+   HTTP/1.1 302 Found
+   Location: https://forwarding.fullxri.com/forwarding/=!91F2.8153.F600.AE24/(+openid_iss)
+
+   HTTP/1.1 302 Found
+   Location: https://server.example.com/
+   
+   GET / HTTP/1.1
+   Host: server.example.com
+
+   HTTP /1.1 200 OK
+   Content-Type: text/html
+		]]></artwork>
+	</figure>
 
     </section>
 
