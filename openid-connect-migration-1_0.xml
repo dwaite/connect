@@ -164,7 +164,7 @@
       In the Yadis case, it is using an Accept header with
       its value set to <spanx style="verb">application/xml+xrds.</spanx></t>
 
-      <t>NOTE: If the value of <spanx style="verb">openid2_id</spanx> is a
+      <t>NOTE: If the value of <spanx style="verb">openid2_id</spanx> is an
       <xref target="XRI_Syntax_2.0">XRI</xref>, the mechanism for verifying the
       <spanx style="verb">iss</spanx> in the ID Token is still TBD.
       This may involve work by xri.net or individual i-Brokers.</t>
@@ -186,7 +186,7 @@
            &openid2_realm=https%3A%2F%2Fopenid2.example.com
            &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
   Host: server.example.com
-		]]></artwork>
+]]></artwork>
 
       </figure>
       <figure>
@@ -211,7 +211,7 @@
     p6DjW0gqcGVJAag_T_Bb4uykizeyP_c8ghVRd3WCtF-kSZcbNn-WTLKw
     5vO8I27_tneA6mBXeKw&
     state=af0ifjsldkj
-		]]></artwork>
+]]></artwork>
       </figure>
       <figure>
       	<preamble>The contents of the ID Token 
@@ -227,7 +227,7 @@
      "iat": 1311280970,
      "openid2_id": "https://openid2.example.com/user359390872112"
   }
-		]]></artwork>
+]]></artwork>
       </figure>
 
       <figure>
@@ -245,7 +245,7 @@
    {
        "iss": "https://server.example.com"
    }
-		]]></artwork>
+]]></artwork>
 		<postamble>Verify the value of <spanx style="verb">iss</spanx> claim of ID Token 
 		exactly matches the value of <spanx style="verb">iss</spanx> claim of this response.
 		</postamble>
@@ -274,9 +274,9 @@
         </list></t>
 
       <figure>
-        <preamble>The following are non-normative examples of ID Tokens with
+        <preamble>The following is a non-normative example of ID Token claims with
         an OpenID 2.0 Identifier claim (with line wraps within values for
-        display purposes only) for URL Identifier :</preamble>
+        display purposes only) whose value is a URL:</preamble>
 
         <artwork><![CDATA[
 {
@@ -287,12 +287,13 @@
  "exp": 1311281970,
  "iat": 1311280970,
  "openid2_id": "https://openid2.example.com/user359390872112"
-}]]></artwork>
+}
+]]></artwork>
       </figure>
       <figure>
-        <preamble>The following are non-normative examples of ID Tokens with
+        <preamble>The following is a non-normative examples of ID Token claims with
         an OpenID 2.0 Identifier claim (with line wraps within values for
-        display purposes only) for XRI Identifier :</preamble>
+        display purposes only) whose value is an XRI Identifier:</preamble>
 		<artwork><![CDATA[
 {
  "iss": "https://server.example.com",
@@ -302,7 +303,8 @@
  "exp": 1311281970,
  "iat": 1311280970,
  "openid2_id": "=!91F2.8153.F600.AE24"
-}]]></artwork>
+}
+]]></artwork>
       </figure>
 
       <section anchor="ErrorResponses" title="Error Responses">
@@ -360,36 +362,36 @@
           </t>
           
           <t>If the <spanx style="verb">openid2_id</spanx> does not start 
-          with <spanx style="verb">http</spanx>, it is an 
+          with <spanx style="verb">http</spanx> or <spanx style="verb">http</spanx>, it is an 
           <xref target="XRI_Syntax_2.0">XRI</xref>.  
           In this case, the RP needs to construct the 
           verification URI by concatenating 
-          <spanx style="verb">https://xri.net/</spanx> 
-          and the value of 
-          <spanx style="verb">openid2_id</spanx> and 
+          <spanx style="verb">https://xri.net/</spanx>,
+          the value of the
+          <spanx style="verb">openid2_id</spanx> claim, and 
           <spanx style="verb">/(+openid_iss)</spanx>. 
           Requesting the resulting URI with GET will 
           result in a series of HTTP 302 redirects. 
           The RP MUST follow the redirects until 
           HTTP status code <spanx style="verb">200 OK</spanx> 
-          comes back. The URI which resulted in 
+          comes back. The URI that resulted in 
           <spanx style="verb">200 OK</spanx> is the 
           authoritative issuer for the XRI. 
           This URI MUST exactly match the 
           <spanx style="verb">iss</spanx> 
-          in the ID Token except the potential trailing 
-          slash (<spanx style="verb">/</spanx>). 
+          in the ID Token except for the potential trailing 
+          slash (<spanx style="verb">/</spanx>) character. 
           </t>
-        </list>If all three fails, it is a failure and the RP MUST NOT accept the
+        </list>If all three fail, the verification has failed and the RP MUST NOT accept the
       OpenID 2.0 Identifier.</t>
 
-    <t>NOTE: XRI users need to configure its forwarding service 
-    and define (+openid_iss) themselves.  
+    <t>NOTE: XRI users may need to configure the forwarding service 
+    and define (+openid_iss) themselves.
     </t>
 	<figure>
-      	<preamble>Following is a non-normative example of obtaining  
+      	<preamble>The following is a non-normative example of obtaining  
       	the authoritative issuer from 
-      	the OpenID 2.0 Identifier URI. 
+      	an OpenID 2.0 Identifier URI:
       	</preamble>
         <artwork><![CDATA[      	
    GET /user359390872112 HTTP/1.1
@@ -401,25 +403,27 @@
    {
        "iss": "https://server.example.com"
    }
-		]]></artwork>
+]]></artwork>
 	</figure>
 
 	<figure>
-      	<preamble>Following is a non-normative example of obtaining  
-      	the authoritative issuer from 
-      	the OpenID 2.0 Identifier XRI. 
+      	<preamble>The following is a non-normative example of obtaining  
+      	the authoritative issuer from an OpenID 2.0 Identifier XRI
+	(with line wraps within values for display purposes only):
       	</preamble>
         <artwork><![CDATA[      	
    GET /=!91F2.8153.F600.AE24/(+openid_iss) HTTP/1.1
    Host: xri.net
 
    HTTP/1.1 302 Moved Temporarily
-   Location: http://forwarding.fullxri.com/forwarding/=!91F2.8153.F600.AE24/(+openid_iss)
+   Location: http://forwarding.fullxri.com/forwarding/
+     =!91F2.8153.F600.AE24/(+openid_iss)
    
    GET /forwarding/=!91F2.8153.F600.AE24/(+openid_iss) HTTP/1.1
    Host: forwarding.fullxri.com
    HTTP/1.1 302 Found
-   Location: https://forwarding.fullxri.com/forwarding/=!91F2.8153.F600.AE24/(+openid_iss)
+   Location: https://forwarding.fullxri.com/forwarding/
+     =!91F2.8153.F600.AE24/(+openid_iss)
 
    HTTP/1.1 302 Found
    Location: https://server.example.com/
@@ -429,7 +433,7 @@
 
    HTTP /1.1 200 OK
    Content-Type: text/html
-		]]></artwork>
+]]></artwork>
 	</figure>
 
     </section>
@@ -455,12 +459,12 @@
       the RP. This is a bug as <spanx style="verb">openid.identity</spanx> may be recycled.
       However, there are not many OpenID 2.0 providers who use different values for
       <spanx style="verb">openid.identity</spanx> and <spanx style="verb">openid.claimed_id</spanx>.
-      Yahoo! and Yahoo! Japan seems to be the only large scale providers that fall under this
+      Yahoo! and Yahoo! Japan seem to be the only large scale providers that fall under this
       category. In their case, by stripping out the fragment from the
       <spanx style="verb">openid.claimed_id</spanx>, you can get
       <spanx style="verb">openid.identity</spanx>. For implementations that are using these
       buggy OpenID 2.0 libraries, they can adopt this strategy to link Yahoo! and Yahoo! Japan
-      users to their local account. </t>
+      users to their local accounts.</t>
       <section anchor="AfterEOL" title="After End-Of-Life of the OpenID 2.0 OP">
         <t>This standard allows the RP to verify the authenticity of the
         OpenID 2.0 Identifier through ID Token even after the OpenID 2.0 OP is
@@ -628,7 +632,8 @@
       <figure>
         <preamble>Migration Sequence Diagram for Implicit Flow</preamble>
 
-        <artwork><![CDATA[      +----+  +----------+   +--------------+ +----------+  +----------+
+        <artwork><![CDATA[
+      +----+  +----------+   +--------------+ +----------+  +----------+
       | UA |  |    RP    |   | Redirect URI | | AuthZ EP |  |OpenID2URI|
       +-+--+  +----+-----+   +-----+--------+ +---+------+  +-----+----+
    Click|AuthN Link|               |              |               |
@@ -657,7 +662,8 @@
         |          |               |              |               |
       +-+--+  +----+-----+  +------+-------+ +----+-----+  +------+---+
       | UA |  |    RP    |  | Redirect URI | | AuthZ EP |  |OpenID2URI|
-      +----+  +----------+  +--------------+ +----------+  +----------+]]></artwork>
+      +----+  +----------+  +--------------+ +----------+  +----------+
+]]></artwork>
       </figure>
     </section>
 
@@ -792,6 +798,10 @@
           <t>
             Fixed #954 - Added "NOT RECOMMENDED" to the list of RFC 2119 terms.
           </t>
+	  <t>
+	    Use XRI forwarding of <spanx style="verb">/(+openid_iss)</spanx>
+	    to obtain the OpenID Connect issuer.
+	  </t>
         </list>
       </t>
 
