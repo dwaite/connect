@@ -143,7 +143,7 @@
       is defined.</t>
 
       <t><list style="hanging">
-          <t hangText="openid2_realm"><vspace />OPTIONAL. The <spanx
+          <t hangText="openid2_realm"><vspace />REQUIRED. The <spanx
           style="verb">openid.realm</spanx> value as defined in Section 9.1 of
           <xref target="OpenID.2.0">OpenID 2.0</xref></t>
         </list>If the authority section of Authorization Endpoint URI is
@@ -163,11 +163,6 @@
       <t>NOTE: This is similar to <xref target="Yadis">Yadis</xref>.
       In the Yadis case, it is using an Accept header with
       its value set to <spanx style="verb">application/xml+xrds.</spanx></t>
-
-      <t>NOTE: If the value of <spanx style="verb">openid2_id</spanx> is an
-      <xref target="XRI_Syntax_2.0">XRI</xref>, the mechanism for verifying the
-      <spanx style="verb">iss</spanx> in the ID Token is still TBD.
-      This may involve work by xri.net or individual i-Brokers.</t>
 
       <figure>
         <preamble>The following is a non-normative example of an
@@ -468,13 +463,8 @@
       <section anchor="AfterEOL" title="After End-Of-Life of the OpenID 2.0 OP">
         <t>This standard allows the RP to verify the authenticity of the
         OpenID 2.0 Identifier through ID Token even after the OpenID 2.0 OP is
-        taken down. To enable this, the OP MUST publish the public keys that
-        were used to sign the ID Token with <spanx style="verb">openid2_id</spanx>
-        claim at the URI that this OpenID 2.0 Identifier points to.</t>
+        taken down.</t>
 
-        <t>NOTE: The OpenID 2.0 Identifiers can be mapped to a static file
-        containing the keys, so maintaining such can require minimal overhead
-        compared to maintaining the full OpenID 2.0 OP.</t>
       </section>
     </section>
 
@@ -779,6 +769,14 @@
     </section>
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final version ]]</t>
+	  <t>
+	    -07
+		<list style="symbols">
+		<t>Removed old text re: XRI TBD.</t>
+		<t>Made openid2_real REQUIRED.</t>
+		<t>Removed outdated text from implementation consideration. </t>
+		</list>
+	  </t>
 
       <t>
         -06
