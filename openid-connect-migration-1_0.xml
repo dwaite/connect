@@ -267,6 +267,9 @@
           <t hangText="openid2_id "><vspace /> REQUIRED. OpenID 2.0 Identifier.
           It MUST be represented as a JSON string.</t>
         </list></t>
+        
+      <t>If the associated OpenID 2.0 Identiifer for the user is not found, 
+      then the OP MUST NOT include this claim in the response.</t>
 
       <figure>
         <preamble>The following is a non-normative example of ID Token claims with
@@ -306,12 +309,6 @@
         <t>In addition to the error conditions defined in <xref
         target="OpenID.Core">OpenID Connect Core 1.0</xref>, the following error
         conditions are defined in this standard.</t>
-
-        <section anchor="Openid2NotSupported" title="Scope &quot;openid2&quot; Not Supported">
-          <t>If the <spanx style="verb">openid2</spanx> scope is not supported, the error <spanx
-          style="verb">invalid_scope</spanx> as defined in 4.1.2.1 of <xref
-          target="RFC6749">OAuth</xref> SHOULD be returned.</t>
-        </section>
 
         <section anchor="NoOpenid2.0Association" title="No Associated OpenID 2.0 Identifier Found">
           <t>If a corresponding OpenID 2.0 Identifier is not found for the
@@ -439,12 +436,6 @@
       OpenID 2.0 Identifier has been
       verified, the RP SHOULD associate the existing OpenID 2.0 account with
       the OpenID Connect account.</t>
-
-      <t><spanx style="strong">NOTE</spanx>: At some point in the future, the
-      OpenID Connect server may drop the support for <spanx style="verb">openid2</spanx>
-      scope. In this case, the OP will return the <spanx style="verb">invalid_scope</spanx>
-      in the error as defined in <xref
-      target="ErrorResponses" />.</t>
     </section>
 
     <section anchor="ImplementationConsiderations"
