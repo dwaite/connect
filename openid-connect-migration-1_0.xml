@@ -72,7 +72,7 @@
       </address>
     </author>
 
-    <date day="20" month="January" year="2015" />
+    <date day="8" month="November" year="2014" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -135,12 +135,8 @@
       <t>To obtain the OpenID 2.0 Identifier, the RP sends a modified OpenID
       Connect Authentication Request by adding <spanx style="verb">openid2</spanx>
       as an additional scope value.</t>
-      
-      <t>NOTE: If the OP does not support <spanx style="verb">openid2</spanx> scope, 
-      it SHOULD ignore it as specified in Section 3.1.2.1 of 
-      <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.</t>
 
-      <t>If a pairwise pseudonymous identifier (PPID) was used to obtain the OpenID 2.0 Identifier,
+      <t>If PPID was used to obtain the OpenID 2.0 Identifier, 
       <spanx style="verb">openid.realm</spanx>
       has to be sent to the OP with the request. For this purpose, a new
       authentication request parameter <spanx style="verb">openid2_realm</spanx>
@@ -167,17 +163,13 @@
       <t>NOTE: This is similar to <xref target="Yadis">Yadis</xref>.
       In the Yadis case, it is using an Accept header with
       its value set to <spanx style="verb">application/xml+xrds.</spanx></t>
-      
-      <t>The following is a non-normative example of an 
-      authentication request to request the OpenID 2.0 Identifier (with line
-      wraps within values for display purposes only). 
-      </t>
-      
-      <t>NOTE: This example assumes that the OpenID 2.0 OP Identifier 
-      is <spanx style="verb">https://openid2.example.com</spanx>.</t>
 
       <figure>
-        <preamble>
+        <preamble>The following is a non-normative example of an
+        authentication request to request the OpenID 2.0 Identifier (with line
+        wraps within values for display purposes only). 
+        NOTE: This example assumes that the OpenID 2.0 OP Identifier 
+        is <spanx style="verb">https://openid2.example.com</spanx>.
         </preamble>
 
         <artwork><![CDATA[
@@ -186,7 +178,7 @@
            &client_id=s6BhdRkqt3
            &state=af0ifjsldkj
            &nonce=n-0S6_WzA2Mj
-           &openid2_realm=https%3A%2F%client.example.org
+           &openid2_realm=https%3A%2F%2Fopenid2.example.com
            &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
   Host: server.example.com
 ]]></artwork>
@@ -198,8 +190,8 @@
          the authentication response:
          </preamble>
         <artwork><![CDATA[
-  HTTP/1.1 302 Found
-  Location: https://client.example.org/cb#
+  HTTP /1.1 200 OK
+  Location: https://client.example.com/cb#
     id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IktleTAwMSJ9.ew0KIC
     Jpc3MiOiAiaHR0cHM6Ly9zZXJ2ZXIuZXhhbXBsZS5jb20iLA0KICJzdW
     IiOiAiMjQ4Mjg5NzYxMDAxIiwNCiAiYXVkIjogInM2QmhkUmtxdDMiLA
@@ -243,7 +235,7 @@
    Host: openid2.example.com
    Accept: application/json
  
-   HTTP/1.1 200 OK
+   HTTP /1.1 200 OK
    Content-Type: application/json
    {
        "iss": "https://server.example.com"
@@ -268,16 +260,13 @@
              title="Returning the OpenID 2.0 Identifier">
       <t>If the verification of the Relying Party was successful and an
       associated OpenID 2.0 Identifier for the user is found, then the OP MUST
-      include the OpenID 2.0 Identifier in the ID Token
+      include the OpenID 2.0 Identifier in the asymmetrically signed ID Token
       with the following claim name:</t>
 
       <t><list style="hanging">
-          <t hangText="openid2_id "><vspace />OpenID 2.0 Identifier.
+          <t hangText="openid2_id "><vspace /> REQUIRED. OpenID 2.0 Identifier.
           It MUST be represented as a JSON string.</t>
         </list></t>
-        
-      <t>If the associated OpenID 2.0 Identifier for the user is not found, 
-      then the OP MUST NOT include this claim in the response.</t>
 
       <figure>
         <preamble>The following is a non-normative example of ID Token claims with
@@ -297,7 +286,7 @@
 ]]></artwork>
       </figure>
       <figure>
-        <preamble>The following is a non-normative example of ID Token claims with
+        <preamble>The following is a non-normative examples of ID Token claims with
         an OpenID 2.0 Identifier claim (with line wraps within values for
         display purposes only) whose value is an XRI Identifier:</preamble>
 		<artwork><![CDATA[
@@ -314,8 +303,25 @@
       </figure>
 
       <section anchor="ErrorResponses" title="Error Responses">
-        <t>This specification does not define any additional Error Responses to <xref
-        target="OpenID.Core">OpenID Connect Core 1.0</xref>. </t>
+        <t>In addition to the error conditions defined in <xref
+        target="OpenID.Core">OpenID Connect Core 1.0</xref>, the following error
+        conditions are defined in this standard.</t>
+
+        <section anchor="Openid2NotSupported" title="Scope &quot;openid2&quot; Not Supported">
+          <t>If the <spanx style="verb">openid2</spanx> scope is not supported, the error <spanx
+          style="verb">invalid_scope</spanx> as defined in 4.1.2.1 of <xref
+          target="RFC6749">OAuth</xref> SHOULD be returned.</t>
+        </section>
+
+        <section anchor="NoOpenid2.0Association" title="No Associated OpenID 2.0 Identifier Found">
+          <t>If a corresponding OpenID 2.0 Identifier is not found for the
+          authenticated user, the <spanx style="verb">openid2_id</spanx> claim
+          in the ID Token MUST have the value <spanx style="verb">NOT FOUND</spanx>.</t>
+
+          <t>NOTE: Even if the <spanx style="verb">openid2_id</spanx> claim
+          value is <spanx style="verb">NOT FOUND</spanx>, the overall ID Token
+          can still be valid.</t>
+        </section>
       </section>
     </section>
 
@@ -433,6 +439,12 @@
       OpenID 2.0 Identifier has been
       verified, the RP SHOULD associate the existing OpenID 2.0 account with
       the OpenID Connect account.</t>
+
+      <t><spanx style="strong">NOTE</spanx>: At some point in the future, the
+      OpenID Connect server may drop the support for <spanx style="verb">openid2</spanx>
+      scope. In this case, the OP will return the <spanx style="verb">invalid_scope</spanx>
+      in the error as defined in <xref
+      target="ErrorResponses" />.</t>
     </section>
 
     <section anchor="ImplementationConsiderations"
@@ -543,7 +555,7 @@
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="25" month="February" year="2014" />
+          <date day="8" month="November" year="2014" />
         </front>
 
         <format target="http://openid.net/specs/openid-connect-core-1_0.html"
@@ -700,21 +712,27 @@
       the following people for their contributions to this specification:</t>
 
       <t><list style="empty">
-          <t>Allan Foster (allan.foster@forgerock.com), ForgeRock</t>
           <t>Breno de Medeiros (breno@google.com), Google</t>
-          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
-          <t>James Manger (James.H.Manger@team.telstra.com), Telstra</t>
-          <t>Justin Richer (jricher@mitre.org), MITRE Corporation</t>
-          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
-          <t>Nov Matake (nov@matake.jp), Independent</t>
+
           <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
+
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+
+          <t>Nov Matake (nov@matake.jp), Independent</t>
+
+          <t>Allan Foster (allan.foster@forgerock.com), ForgeRock</t>
+
+          <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
+          
           <t>Torsten Lodderstedt (torsten@lodderstedt.net), Deutsche Telekom</t>
+          
+          <t>Justin Richer (jricher@mitre.org), MITRE Corporation</t>
                    
         </list></t>
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2015 The OpenID Foundation.</t>
+      <t>Copyright (c) 2014 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -751,14 +769,16 @@
     </section>
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final version ]]</t>
+
       <t>
         -07
         <list style="symbols">
-          <t>#963 openid2 scope should be ignored if not supported. </t>
-          <t>#962 "NOT FOUND" special value for openid2_id removed. </t>
-          <t>#965 Typo in example redirect URI. </t>
+          <t>
+            Referenced OpenID Connect Core 1.0 incorporating errata set 1.
+          </t>
         </list>
       </t>
+
       <t>
         -06
         <list style="symbols">
