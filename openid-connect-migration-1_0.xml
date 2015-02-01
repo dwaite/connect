@@ -29,7 +29,7 @@
 
   <front>
     <title abbrev="OpenID 2.0 to OpenID Connect Migration">OpenID 2.0 to
-    OpenID Connect Migration 1.0 - draft 07</title>
+    OpenID Connect Migration 1.0 - draft 08</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute,
@@ -72,13 +72,13 @@
       </address>
     </author>
 
-    <date day="8" month="November" year="2014" />
+    <date day="1" month="February" year="2015" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
     <abstract>
-      <t>This specification defines how an OpenID Authentication 2.0 relying
-      party can migrate the user from OpenID 2.0 identifier to OpenID Connect
+      <t>This specification defines how an OpenID Authentication 2.0 Relying
+      Party can migrate the user from OpenID 2.0 identifier to OpenID Connect
       Identifier by using an ID Token that includes the OpenID 2.0 verified
       claimed ID. In this specification, the method to request such an
       additional claim and the method for the verification of the resulting ID
@@ -89,10 +89,10 @@
   <middle>
     <section anchor="Introduction" title="Introduction">
       <t>OpenID Authentication 2.0 is a popular authentication federation
-      protocol through which the relying party can obtain the user&rsquo;s
+      protocol through which the Relying Party can obtain the user&rsquo;s
       verified identifier from the OpenID Provider (OP) to which the user was
       authenticated. OpenID Connect is a new version of OpenID Authentication but the
-      identifier format is different and thus relying parties need to migrate
+      identifier format is different and thus Relying Parties need to migrate
       those user identifiers to continue serving these users.</t>
 
       <t>In this specification, a standard method for this kind of migration
@@ -135,8 +135,12 @@
       <t>To obtain the OpenID 2.0 Identifier, the RP sends a modified OpenID
       Connect Authentication Request by adding <spanx style="verb">openid2</spanx>
       as an additional scope value.</t>
+      
+      <t>NOTE: If the OP does not support the <spanx style="verb">openid2</spanx> scope, 
+      it SHOULD ignore it, as specified in Section 3.1.2.1 of 
+      <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.</t>
 
-      <t>If PPID was used to obtain the OpenID 2.0 Identifier, 
+      <t>If a pairwise pseudonymous identifier (PPID) was used to obtain the OpenID 2.0 Identifier,
       <spanx style="verb">openid.realm</spanx>
       has to be sent to the OP with the request. For this purpose, a new
       authentication request parameter <spanx style="verb">openid2_realm</spanx>
@@ -163,13 +167,17 @@
       <t>NOTE: This is similar to <xref target="Yadis">Yadis</xref>.
       In the Yadis case, it is using an Accept header with
       its value set to <spanx style="verb">application/xml+xrds.</spanx></t>
+      
+      <t>The following is a non-normative example of an 
+      authentication request to request the OpenID 2.0 Identifier (with line
+      wraps within values for display purposes only). 
+      </t>
+      
+      <t>NOTE: This example assumes that the OpenID 2.0 OP Identifier 
+      is <spanx style="verb">https://openid2.example.com</spanx>.</t>
 
       <figure>
-        <preamble>The following is a non-normative example of an
-        authentication request to request the OpenID 2.0 Identifier (with line
-        wraps within values for display purposes only). 
-        NOTE: This example assumes that the OpenID 2.0 OP Identifier 
-        is <spanx style="verb">https://openid2.example.com</spanx>.
+        <preamble>
         </preamble>
 
         <artwork><![CDATA[
@@ -178,7 +186,7 @@
            &client_id=s6BhdRkqt3
            &state=af0ifjsldkj
            &nonce=n-0S6_WzA2Mj
-           &openid2_realm=https%3A%2F%2Fopenid2.example.com
+           &openid2_realm=https%3A%2F%2Fclient.example.org
            &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb HTTP/1.1
   Host: server.example.com
 ]]></artwork>
@@ -190,8 +198,8 @@
          the authentication response:
          </preamble>
         <artwork><![CDATA[
-  HTTP /1.1 200 OK
-  Location: https://client.example.com/cb#
+  HTTP/1.1 302 Found
+  Location: https://client.example.org/cb#
     id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IktleTAwMSJ9.ew0KIC
     Jpc3MiOiAiaHR0cHM6Ly9zZXJ2ZXIuZXhhbXBsZS5jb20iLA0KICJzdW
     IiOiAiMjQ4Mjg5NzYxMDAxIiwNCiAiYXVkIjogInM2QmhkUmtxdDMiLA
@@ -235,7 +243,7 @@
    Host: openid2.example.com
    Accept: application/json
  
-   HTTP /1.1 200 OK
+   HTTP/1.1 200 OK
    Content-Type: application/json
    {
        "iss": "https://server.example.com"
@@ -260,13 +268,16 @@
              title="Returning the OpenID 2.0 Identifier">
       <t>If the verification of the Relying Party was successful and an
       associated OpenID 2.0 Identifier for the user is found, then the OP MUST
-      include the OpenID 2.0 Identifier in the asymmetrically signed ID Token
+      include the OpenID 2.0 Identifier in the ID Token
       with the following claim name:</t>
 
       <t><list style="hanging">
-          <t hangText="openid2_id "><vspace /> REQUIRED. OpenID 2.0 Identifier.
+          <t hangText="openid2_id "><vspace />OpenID 2.0 Identifier.
           It MUST be represented as a JSON string.</t>
         </list></t>
+        
+      <t>If the associated OpenID 2.0 Identifier for the user is not found, 
+      then the OP MUST NOT include this claim in the response.</t>
 
       <figure>
         <preamble>The following is a non-normative example of ID Token claims with
@@ -286,7 +297,7 @@
 ]]></artwork>
       </figure>
       <figure>
-        <preamble>The following is a non-normative examples of ID Token claims with
+        <preamble>The following is a non-normative example of ID Token claims with
         an OpenID 2.0 Identifier claim (with line wraps within values for
         display purposes only) whose value is an XRI Identifier:</preamble>
 		<artwork><![CDATA[
@@ -303,25 +314,9 @@
       </figure>
 
       <section anchor="ErrorResponses" title="Error Responses">
-        <t>In addition to the error conditions defined in <xref
-        target="OpenID.Core">OpenID Connect Core 1.0</xref>, the following error
-        conditions are defined in this standard.</t>
-
-        <section anchor="Openid2NotSupported" title="Scope &quot;openid2&quot; Not Supported">
-          <t>If the <spanx style="verb">openid2</spanx> scope is not supported, the error <spanx
-          style="verb">invalid_scope</spanx> as defined in 4.1.2.1 of <xref
-          target="RFC6749">OAuth</xref> SHOULD be returned.</t>
-        </section>
-
-        <section anchor="NoOpenid2.0Association" title="No Associated OpenID 2.0 Identifier Found">
-          <t>If a corresponding OpenID 2.0 Identifier is not found for the
-          authenticated user, the <spanx style="verb">openid2_id</spanx> claim
-          in the ID Token MUST have the value <spanx style="verb">NOT FOUND</spanx>.</t>
-
-          <t>NOTE: Even if the <spanx style="verb">openid2_id</spanx> claim
-          value is <spanx style="verb">NOT FOUND</spanx>, the overall ID Token
-          can still be valid.</t>
-        </section>
+        <t>This specification does not define any additional Error Responses to
+	augment those defined in <xref
+        target="OpenID.Core">OpenID Connect Core 1.0</xref>. </t>
       </section>
     </section>
 
@@ -435,16 +430,10 @@
 
     <section anchor="AssociateIdentifiers"
              title="Associating the Existing OpenID 2.0 Account with the OpenID Connect Identifier">
-      <t>As the association between OpenID Connect Identifier and 
+      <t>Once the association between the OpenID Connect Identifier and 
       OpenID 2.0 Identifier has been
       verified, the RP SHOULD associate the existing OpenID 2.0 account with
       the OpenID Connect account.</t>
-
-      <t><spanx style="strong">NOTE</spanx>: At some point in the future, the
-      OpenID Connect server may drop the support for <spanx style="verb">openid2</spanx>
-      scope. In this case, the OP will return the <spanx style="verb">invalid_scope</spanx>
-      in the error as defined in <xref
-      target="ErrorResponses" />.</t>
     </section>
 
     <section anchor="ImplementationConsiderations"
@@ -452,7 +441,7 @@
       <t>There are OpenID 2.0 libraries that use <spanx style="verb">openid.identity</spanx>
       instead of <spanx style="verb">openid.claimed_id</spanx> to link to the user account at
       the RP. This is a bug as <spanx style="verb">openid.identity</spanx> may be recycled.
-      However, there are not many OpenID 2.0 providers who use different values for
+      However, there are not many OpenID 2.0 Providers that use different values for
       <spanx style="verb">openid.identity</spanx> and <spanx style="verb">openid.claimed_id</spanx>.
       Yahoo! and Yahoo! Japan seem to be the only large scale providers that fall under this
       category. In their case, by stripping out the fragment from the
@@ -478,11 +467,11 @@
         In the usual case where the user has only one account and the Connect
         and OpenID 2.0 OPs look similar, then the user probably would be
         expecting that those identifiers to be correlated silently. However,
-        if the OPs looks very different, then some users may prefer not to be
+        if the OPs look very different, then some users may prefer not to be
         correlated. As such, the OP SHOULD make sure that to ask the user if
         the user wants to correlate.</t>
 
-        <t>When multiple accounts are available for the user, then the OP MUST
+        <t>When multiple accounts are available for the user, the OP MUST
         make sure that the user picks the intended identity.</t>
       </section>
 
@@ -534,8 +523,7 @@
           <title>OpenID Connect Core 1.0</title>
 
           <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NRI">Nomura Research Institute,
-            Ltd.</organization>
+            <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
           </author>
 
           <author fullname="John Bradley" initials="J." surname="Bradley">
@@ -546,19 +534,18 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <author fullname="Breno de Medeiros" initials="B."
-                  surname="de Medeiros">
+          <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-            <organization abbrev="Salesforce">Salesforce</organization>
-          </author>
+	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+	    <organization abbrev="Salesforce">Salesforce</organization>
+	  </author>
 
-          <date day="8" month="November" year="2014" />
+          <date day="8" month="November" year="2014"/>
         </front>
 
-        <format target="http://openid.net/specs/openid-connect-core-1_0.html"
+	<format target="http://openid.net/specs/openid-connect-core-1_0.html"
                 type="HTML" />
       </reference>
 
@@ -638,7 +625,7 @@
 |       |          | Credential    |              |               |    |
 |       +---------------------------------------> |               |    |
 +----------------------------------------------------------------------+
-        |          |302 to RedirectURI            |               |
+        |          |302 to Redirect URI           |               |
         | <------------------------+--------------+               |
         |          |ID Token       |              |               |
         +------------------------> |              |               |
@@ -670,17 +657,17 @@
       <t><xref target="RequestOpenid2Id" format="counter" />. 
       <xref target="RequestOpenid2Id" format="title" /></t>
 
-      <t>Google uses <spanx style="verb">openid.realm</spanx> instead. Since
-      OpenID Connect uses param_name style instead of <spanx style="verb">param.name</spanx>,
-      as well as the name <spanx style="verb">openid.realm</spanx> may mislead
-      the user that it is a Connect parameter proper, it has been changed to
+      <t>Google uses <spanx style="verb">openid.realm</spanx> instead of <spanx style="verb">openid2_realm</spanx>. Since
+      OpenID Connect uses <spanx style="verb">param_name</spanx> style names instead of <spanx style="verb">param.name</spanx> style
+      and the name <spanx style="verb">openid.realm</spanx> might mislead
+      users into thinking that it is a Connect parameter proper, it has been changed to
       <spanx style="verb">openid2_realm</spanx>.</t>
 
-      <t>Google uses the existence of 
+      <t>Google uses the existence of the
       <spanx style="verb">openid.realm</spanx> parameter to switch the
-      behavior at the Connect OP. New scope value <spanx style="verb">openid2</spanx>
+      behavior at the Connect OP. The new scope value <spanx style="verb">openid2</spanx>
       has been introduced in this spec to make it more explicit and
-      semantically in-line that it is asking for a resource.</t>
+      semantically consistent that it is asking for a resource.</t>
 
       <t><xref target="VerifyRP" format="counter" />. 
       <xref target="VerifyRP" format="title" /></t>
@@ -691,7 +678,7 @@
       <xref target="ReturnOpenID2ID" format="title" /></t>
 
       <t>Google uses the claim name <spanx style="verb">openid_id</spanx> instead of <spanx
-      style="verb">openid2_id</spanx> . It was changed to <spanx style="verb">openid2_id</spanx>
+      style="verb">openid2_id</spanx>. It was changed to <spanx style="verb">openid2_id</spanx>
       because <spanx style="verb">openid_id</spanx> may cause confusion among
       people that it is the Connect identifier. Since this spec allows
       providing <spanx style="verb">openid2_id</spanx> even after the OpenID
@@ -711,28 +698,23 @@
       <t>In addition to the authors, the OpenID Community would like to thank
       the following people for their contributions to this specification:</t>
 
-      <t><list style="empty">
-          <t>Breno de Medeiros (breno@google.com), Google</t>
-
-          <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
-
-          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
-
-          <t>Nov Matake (nov@matake.jp), Independent</t>
-
+      <t>
+	<list style="empty">
           <t>Allan Foster (allan.foster@forgerock.com), ForgeRock</t>
-
+          <t>Breno de Medeiros (breno@google.com), Google</t>
           <t>Chuck Mortimore (cmortimore@salesforce.com), Salesforce</t>
-          
-          <t>Torsten Lodderstedt (torsten@lodderstedt.net), Deutsche Telekom</t>
-          
+          <t>James Manger (James.H.Manger@team.telstra.com), Telstra</t>
           <t>Justin Richer (jricher@mitre.org), MITRE Corporation</t>
-                   
-        </list></t>
+          <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+          <t>Nov Matake (nov@matake.jp), Independent</t>
+          <t>Ryo Ito (ryo.ito@mixi.co.jp), mixi, Inc.</t>
+          <t>Torsten Lodderstedt (torsten@lodderstedt.net), Deutsche Telekom</t>
+        </list>
+      </t>
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2014 The OpenID Foundation.</t>
+      <t>Copyright (c) 2015 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -771,14 +753,28 @@
       <t>[[ To be removed from the final version ]]</t>
 
       <t>
-        -07
+        -08
         <list style="symbols">
+          <t>#963 openid2 scope should be ignored if not supported. </t>
+          <t>#962 "NOT FOUND" special value for openid2_id removed. </t>
+          <t>#965 Typo in example redirect URI. </t>
+	  <t>
+	    Applied grammar and proofreading corrections.
+	  </t>
           <t>
-            Referenced OpenID Connect Core 1.0 incorporating errata set 1.
+            This is a proposed final specification.
           </t>
         </list>
       </t>
 
+      <t>
+        -07
+        <list style="symbols">
+	  <t>
+	    Referenced OpenID Connect Core 1.0 incorporating errata set 1.
+	  </t>
+        </list>
+      </t>
       <t>
         -06
         <list style="symbols">
