@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 22</title>
+    Session Management 1.0 - draft 23</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="8" month="November" year="2014" />
+    <date day="5" month="March" year="2015" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -129,7 +129,7 @@
 	  "Protected Resource", "Redirection URI", "Refresh Token",
 	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
-	  the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>,
+	  the term "User Agent" defined by <xref target="RFC7230">RFC 7230</xref>,
 	  and the terms defined by
 	  <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
 	</t>
@@ -208,8 +208,8 @@
 	out how to obtain an ID Token and validate it. 
 	When the OP supports session management, it MUST also return the Session State
 	as an additional <spanx style="verb">session_state</spanx> parameter
-	in the Authorization Response.
-	The OpenID Connect Authorization Response is specified in Section 3.1.2.5 of
+	in the Authentication Response.
+	The OpenID Connect Authentication Response is specified in Section 3.1.2.5 of
 	OpenID Connect Core 1.0.
       </t>
 
@@ -228,6 +228,14 @@
 	  </t>
         </list>
       </t>
+      <t>
+	The Session State value is initially calculated on the server.
+	The same Session State value is also recalculated by the OP iframe in the browser client.
+	The generation of suitable Session State values is specified in <xref target="OPiframe"/>,
+	and is based on a salted cryptographic hash of Client ID, origin URL, and OP browser state.
+	For the origin URL, the server can use the origin URL of the Authentication Response,
+	following the algorithm specified in Section 4 of <xref target="RFC6454">RFC 6454</xref>.
+      </t>
     </section>
 
     <section anchor="ChangeNotification" title="Session Status Change Notification">
@@ -239,12 +247,12 @@
 	the OP.
       </t>
       <t>
-	To do so, it is possible to repeat the authentication request with
+	To do so, it is possible to repeat the Authentication Request with
 	<spanx style="verb">prompt=none</spanx>.
 	However, this causes network traffic and this is
 	problematic on the mobile devices that are becoming increasingly
 	popular. Therefore, once the session is established with the
-	authentication request and response, it is desirable to be able to check
+	Authentication Request and Response, it is desirable to be able to check
 	the login status at the OP without causing network traffic by polling
 	a hidden OP iframe from an RP iframe with an origin restricted postMessage
 	as follows.
@@ -340,7 +348,7 @@
 	</t>
 	<t>
 	  Note that the session state is origin bound.
-	  Session state SHOULD be returned upon an authorization failure.
+	  Session state SHOULD be returned upon an authentication failure.
 	</t>
       </section>
 
@@ -397,8 +405,8 @@
   function receiveMessage(e){ // e has client_id and session_state
 
     // Validate message origin
-    client_id = message.split(' ')[0];
-    session_state = message.split(' ')[1];
+    client_id = e.data.split(' ')[0];
+    session_state = e.data.split(' ')[1];
     var salt = session_state.split('.')[1];
 
     // if message syntactically invalid
@@ -431,7 +439,7 @@
 	  cookie or HTML5 local storage.  It is origin bound to the
 	  Authorization Server.  It captures meaningful events such as
 	  logins, logouts, change of user,
-	  change of authorization status for Clients being used by the End-User,
+	  change of authentication status for Clients being used by the End-User,
 	  etc.  Thus, the OP SHOULD
 	  update the value of the browser state in response to such
 	  meaningful events. As a result, the next call to
@@ -444,14 +452,14 @@
 	</t>
 	<t>
 	  The computation of the session state returned in response to
-	  unsuccessful Authorization Requests SHOULD, in addition to
+	  unsuccessful Authentication Requests SHOULD, in addition to
 	  the browser state, incorporate sufficient randomness in the
 	  form of a salt so as to prevent identification of an End-User
 	  across successive calls to the OP's Authorization Endpoint.
 	</t>
 	<t>
 	  In the case of an authorized Client (successful
-	  Authorization Response), the OP SHOULD change the value of
+	  Authentication Response), the OP SHOULD change the value of
 	  the session state returned to the Client under one of the
 	  following events:
 
@@ -461,7 +469,7 @@
 	      (login, logout, session add).
 	    </t>
 	    <t>
-	      The authorization status of Clients being used by the End-User changes.
+	      The authentication status of Clients being used by the End-User changes.
 	    </t>
 	  </list>
 	</t>
@@ -476,13 +484,13 @@
 	  notifications.
 	</t>
 	<t>
-	  In the case of an unsuccessful Authorization Request, the
+	  In the case of an unsuccessful Authentication Request, the
 	  value of the session state returned SHOULD vary with each
 	  request. However, the browser session state need not change
 	  unless a meaningful event happens. In particular, many
 	  values of session state can be simultaneously valid, for
 	  instance by the introduction of random salt in the session
-	  states issued in response to unsuccessful Authorization Requests.
+	  states issued in response to unsuccessful Authentication Requests.
 	</t>
 	<t>
 	  If a cookie is used to maintain the OP browser state,
@@ -673,8 +681,9 @@
   <back>
     <references title="Normative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119"?>
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6454"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7230"?>
 
       <reference anchor="OpenID.Core">
         <front>
@@ -777,6 +786,7 @@
           <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
           <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+	  <t>Todd Lainhart (lainhart@us.ibm.com), IBM</t>
           <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
           <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
           <t>Axel Nennker (axel.nennker@telekom.de), Deutsche Telekom</t>
@@ -787,7 +797,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2014 The OpenID Foundation.</t>
+      <t>Copyright (c) 2015 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -825,6 +835,18 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+        -23
+        <list style="symbols">
+	  <t>
+	    Fixed issue #915 - Computation of OP session_state in the IdP requires origin URI.
+	  </t>
+          <t>
+            Updated the RFC 2616 reference to RFC 7230.
+          </t>
+        </list>
+      </t>
 
       <t>
         -22
