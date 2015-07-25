@@ -402,11 +402,11 @@
             <artwork><![CDATA[
   window.addEventListener("message", receiveMessage, false);
 
-  function receiveMessage(e){ // e has client_id and session_state
+  function receiveMessage(e){ // e.data has client_id and session_state
 
     // Validate message origin
-    client_id = e.data.split(' ')[0];
-    session_state = e.data.split(' ')[1];
+    var client_id = e.data.split(' ')[0];
+    var session_state = e.data.split(' ')[1];
     var salt = session_state.split('.')[1];
 
     // if message syntactically invalid
@@ -421,9 +421,10 @@
     // but it is entirely up to the OP how to do it under the 
     // requirements defined in this specification. 
     var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' +
-      opbs + [' ' + salt]) [+ "." + salt];
+      opbs + ' ' + salt) + "." + salt;
 
-    if (e.session_state == ss) {
+    var stat = '';
+    if (session_state == ss) {
       stat = 'unchanged';
     } else {
       stat = 'changed';
@@ -848,6 +849,9 @@
 	    Stated that post-logout redirection is only done when the logout
 	    is RP-initiated and that otherwise it is not done.
           </t>
+	  <t>
+	    Fixed #967 - Errors in the Javascript example for the OP iframe
+	  </t>
         </list>
       </t>
       <t>
