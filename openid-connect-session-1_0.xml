@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 24</title>
+    Session Management 1.0 - draft 25</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="24" month="July" year="2015" />
+    <date day="29" month="July" year="2015" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -309,7 +309,7 @@
 
   function check_session()
   {
-    var targetOrigin  = "http://server.example.com";
+    var targetOrigin  = "https://server.example.com";
     var win = window.parent.document.getElementById("op").
                 contentWindow;
     win.postMessage( mes, targetOrigin);
@@ -325,7 +325,7 @@
 
   function receiveMessage(e)
   {
-    var targetOrigin  = "http://server.example.com";
+    var targetOrigin  = "https://server.example.com";
     if (e.origin !== targetOrigin ) {return;}
     stat = e.data;
 
@@ -834,7 +834,16 @@
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>
-        -23
+        -25
+        <list style="symbols">
+	  <t>
+	    Changed instances of http://server.example.com to https://server.example.com.
+	  </t>
+        </list>
+      </t>
+
+      <t>
+        -24
         <list style="symbols">
 	  <t>
 	    Stated that post-logout redirection is only done when the logout
