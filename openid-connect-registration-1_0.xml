@@ -895,7 +895,7 @@
 	  <artwork><![CDATA[
   HTTP/1.1 201 Created
   Content-Type: application/json
-  Cache-Control: no-store
+  Cache-Control: no-cache, no-store
   Pragma: no-cache
 
   {
@@ -993,7 +993,7 @@
 	    <artwork><![CDATA[
   HTTP/1.1 400 Bad Request
   Content-Type: application/json
-  Cache-Control: no-store
+  Cache-Control: no-cache, no-store
   Pragma: no-cache
    
   {
@@ -1110,8 +1110,9 @@
           <artwork><![CDATA[
   HTTP/1.1 200 OK
   Content-Type: application/json
-  Cache-Control: no-store
+  Cache-Control: no-cache, no-store
   Pragma: no-cache
+
   {
    "client_id": "s6BhdRkqt3",
    "client_secret":
@@ -1173,7 +1174,7 @@
   HTTP/1.1 401 Unauthorized
   WWW-Authenticate: Bearer error="invalid_token",
     error_description="The access token expired"
-  Cache-Control: no-store
+  Cache-Control: no-cache, no-store
   Pragma: no-cache
 ]]></artwork>
 	  </figure>
@@ -1215,7 +1216,7 @@
 
   HTTP/1.1 200 OK
   Content-Type: application/json
-  Cache-Control: no-store
+  Cache-Control: no-cache, no-store
   Pragma: no-cache
 
   [ "https://client.example.org/callback",
@@ -1714,6 +1715,9 @@
 	  </t>
 	  <t>
 	    Fixed issue #971 - Clarified default *_encrypted_response_enc and request_object_encryption_enc values.
+	  </t>
+	  <t>
+	    Changed to use "Cache-Control: no-cache, no-store" and "Pragma: no-cache" in examples.
 	  </t>
 	</list>
       </t>
