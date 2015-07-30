@@ -2483,6 +2483,18 @@
 		  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
 		</t>
 
+		<t hangText="nonce">
+		  <vspace/>
+		  REQUIRED.
+		  String value used to associate a Client session 
+		  with an ID Token, and to mitigate replay attacks. 
+		  The value is passed through unmodified from the Authentication Request to the ID Token.
+		  Sufficient entropy MUST be present in the
+		  <spanx style="verb">nonce</spanx> values used to prevent
+		  attackers from guessing values.
+		  For implementation notes, see <xref target="NonceNotes"/>.
+		</t>
+
 	      </list>
 	    </t>
 
@@ -8864,7 +8876,13 @@
 	-23
         <list style="symbols">
 	  <t>
-	    TBD
+	    Referenced completed RFCs.
+	  </t>
+	  <t>
+	    Removed compatibility note about Google issuer value.
+	  </t>
+	  <t>
+	    Fixed issue #972 - Nonce requirement in hybrid auth request.
 	  </t>
 	</list>
       </t>
