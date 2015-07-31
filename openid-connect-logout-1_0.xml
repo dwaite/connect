@@ -171,7 +171,7 @@
 	    OPTIONAL.
 	    RP URL that will cause the RP to log itself out
 	    when rendered in an iframe by the OP.
-	    A <spanx style="verb">sid</spanx> (Session ID) query parameter MAY be included
+	    A <spanx style="verb">sid</spanx> (session ID) query parameter MAY be included
 	    by the OP to enable the RP to validate the request and to determine
 	    which of the potentially multiple sessions is to be logged out.
 	  </t>
@@ -186,7 +186,7 @@
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the RP requires that
-	    a <spanx style="verb">sid</spanx> (Session ID)
+	    a <spanx style="verb">sid</spanx> (session ID)
 	    query parameter be included to identify the RP session at the OP
 	    when the <spanx style="verb">logout_uri</spanx> is used.
 	    If omitted, the default value is <spanx style="verb">false</spanx>.
@@ -230,7 +230,7 @@
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP can pass
-	    a <spanx style="verb">sid</spanx> (Session ID)
+	    a <spanx style="verb">sid</spanx> (session ID)
 	    query parameter to identify the RP session at the OP
 	    when the <spanx style="verb">logout_uri</spanx> is used.
 	    If supported, the <spanx style="verb">sid</spanx> claim is also included
@@ -240,12 +240,12 @@
 	</list>
       </t>
       <t>
-	The <spanx style="verb">sid</spanx> (Session ID) claim used in ID Tokens and
+	The <spanx style="verb">sid</spanx> (session ID) claim used in ID Tokens and
 	as a <spanx style="verb">logout_uri</spanx> parameter has the following definition:
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="sid (Session ID)">
+	  <t hangText="sid (session ID)">
 	    <vspace/>
 	    OPTIONAL.
 	    String identifier for a Session - a pairing of an OP
@@ -323,9 +323,35 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>
-	This specification makes no requests of IANA.
-      </t>
+
+      <section anchor="ClaimsRegistry" title="JSON Web Token Claims Registration">
+	<t>
+	  This specification registers the following claim in the IANA
+	  "JSON Web Token Claims" registry <xref target="IANA.JWT.Claims"/>
+	  established by <xref target="JWT"/>.
+	</t>
+
+	<section anchor='ClaimsContents' title='Registry Contents'>
+	  <t> <?rfc subcompact="yes"?>
+	  <list style='symbols'>
+	    <t>
+	      Claim Name: <spanx style="verb">sid</spanx>
+	    </t>
+	    <t>
+	      Claim Description: Session ID
+	    </t>
+	    <t>
+	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	    </t>
+	    <t>
+	      Specification Document(s): <xref target="OPLogout"/> of this document
+	    </t>
+	  </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+      </section>
+
     </section>
 
   </middle>
@@ -440,6 +466,16 @@
 	</front>
       </reference>
 
+      <reference anchor="IANA.JWT.Claims" target="http://www.iana.org/assignments/jwt">
+        <front>
+          <title>JSON Web Token Claims</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+
     </references>
 
     <!-- <references title="Informative References"> -->
@@ -505,7 +541,10 @@
 	-02
 	<list style="symbols">
           <t>
-	    TBD
+	    Tracked terminology changes made in the referenced IETF specs since errata set 1.
+	  </t>
+	  <t>
+	    Registered the <spanx style="verb">sid</spanx> (session ID) claim.
 	  </t>
         </list>
       </t>

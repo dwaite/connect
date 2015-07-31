@@ -212,7 +212,7 @@
 	  defined by <xref target="JWT">JSON Web Token (JWT)</xref>,
 	  the terms "Header Parameter" and "JOSE Header"
 	  defined by <xref target="JWS">JSON Web Signature (JWS)</xref>,
-	  and the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>.
+	  and the term "User Agent" defined by <xref target="RFC7230">RFC 7230</xref>.
 	</t>
 	<t>
 	  This document also defines the following terms:
@@ -265,7 +265,7 @@
             <t hangText="Issuer Identifier">
 	      <vspace/>
 	      Verifiable Identifier for an Issuer.
-	      An Issuer Identifier is a case sensitive URL
+	      An Issuer Identifier is a case-sensitive URL
 	      using the <spanx style="verb">https</spanx> scheme that
 	      contains scheme, host, and optionally, port number and path
 	      components and no query or fragment components.
@@ -449,7 +449,7 @@
           <t>Clients MAY construct the request using the HTTP
           <spanx style="verb">GET</spanx> or the HTTP 
           <spanx style="verb">POST</spanx> method as defined in 
-          <xref target="RFC2616">RFC 2616</xref>.</t>
+          <xref target="RFC7231">RFC 7231</xref>.</t>
 
           <t>If using the HTTP <spanx style="verb">GET</spanx> method, the
           parameters are serialized using
@@ -575,7 +575,7 @@
 		<t hangText="display">
 		  <vspace/>
 		  OPTIONAL.
-		  ASCII string value that specifies
+		  ASCII <xref target="RFC20"/> string value that specifies
 		  how the Authorization Server displays the authentication and
 		  consent user interface pages to the End-User.
 		  The defined values are:
@@ -621,7 +621,7 @@
 		<t hangText="prompt">
 		  <vspace/>
 		  OPTIONAL.
-		  Space delimited, case sensitive list of ASCII string values
+		  Space-delimited, case-sensitive list of ASCII string values
 		  that specifies whether the Authorization Server prompts
 		  the End-User for reauthentication and consent.
 		  The defined values are:
@@ -966,7 +966,7 @@
 	    <t>
 	      The Client receives a response with the following parameters
 	      as described in Section 4.1.4 of <xref target="RFC6749">OAuth 2.0</xref>.
-	      The response SHOULD be encoded using UTF-8.
+	      The response SHOULD be encoded using UTF-8 <xref target="RFC3629"/>.
 	    </t>
             <t>
               <list style="hanging">
@@ -1050,7 +1050,7 @@
 	      <vspace/>
 	      REQUIRED.
 	      Issuer Identifier for the Issuer of the response.
-	      The <spanx style="verb">iss</spanx> value is a case sensitive URL
+	      The <spanx style="verb">iss</spanx> value is a case-sensitive URL
 	      using the <spanx style="verb">https</spanx> scheme that
 	      contains scheme, host, and optionally, port number and path
 	      components and no query or fragment components.
@@ -1065,7 +1065,7 @@
 	      e.g., <spanx style="verb">24400320</spanx>
 	      or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
 	      It MUST NOT exceed 255 ASCII characters in length.
-	      The <spanx style="verb">sub</spanx> value is a case sensitive string.
+	      The <spanx style="verb">sub</spanx> value is a case-sensitive string.
 	    </t>
 
 	    <t hangText="aud">
@@ -1077,10 +1077,10 @@
 	      It MAY also contain identifiers for other audiences.
 	      In the general case,
 	      the <spanx style="verb">aud</spanx> value is an array of
-	      case sensitive strings.
+	      case-sensitive strings.
 	      In the common special case when there is one audience,
 	      the <spanx style="verb">aud</spanx> value MAY be a single
-	      case sensitive string.
+	      case-sensitive string.
 	    </t>
 
 	    <t hangText="exp">
@@ -1092,8 +1092,8 @@
 	      expiration date/time listed in the value. Implementers MAY
 	      provide for some small leeway, usually no more than a few
 	      minutes, to account for clock skew.
-	      Its value is a JSON number representing the number of seconds from
-	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      Its value is a JSON <xref target="RFC7159"/> number representing the number of seconds from
+	      1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	      See <xref target="RFC3339">RFC 3339</xref>
 	      for details regarding date/times in general and UTC in
 	      particular.
@@ -1104,14 +1104,14 @@
 	      REQUIRED.
 	      Time at which the JWT was issued.
 	      Its value is a JSON number representing the number of seconds from
-	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	    </t>
 
 	    <t hangText="auth_time">
 	      <vspace/>
 	      Time when the End-User authentication occurred.
 	      Its value is a JSON number representing the number of seconds from
-	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	      When a <spanx style="verb">max_age</spanx> request is made
 	      then this Claim is REQUIRED; otherwise, its inclusion is OPTIONAL.
 	    </t>
@@ -1130,7 +1130,7 @@
 	      MUST include a <spanx style="verb">nonce</spanx> Claim in the
 	      ID Token with the Claim Value
 	      being the nonce value sent in the Authentication Request.
-	      The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+	      The <spanx style="verb">nonce</spanx> value is a case-sensitive string.
 	    </t>
 
 	    <t hangText="at_hash">
@@ -1149,8 +1149,8 @@
 	      For instance, if the <spanx style="verb">alg</spanx> is
 	      <spanx style="verb">RS256</spanx>, hash the
 	      <spanx style="verb">access_token</spanx> value
-	      with SHA-256, then take the left-most 128 bits and base64url encode them.
-	      The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
+	      with SHA-256, then take the left-most 128 bits and base64url-encode them.
+	      The <spanx style="verb">at_hash</spanx> value is a case-sensitive string.
 	    </t>
 
 	    <t hangText="acr">
@@ -1173,8 +1173,8 @@
 	      registered names MUST NOT be used with a different meaning than
 	      that which is registered.
 	      Parties using this claim will need to agree upon the meanings of
-	      the values used, which may be context-specific.
-	      The <spanx style="verb">acr</spanx> value is a case sensitive string.
+	      the values used, which may be context specific.
+	      The <spanx style="verb">acr</spanx> value is a case-sensitive string.
 	    </t>
 
 	    <t hangText="amr">
@@ -1189,9 +1189,9 @@
 	      <spanx style="verb">amr</spanx> Claim
 	      is beyond the scope of this document.
 	      Parties using this claim will need to agree upon the meanings of
-	      the values used, which may be context-specific.
+	      the values used, which may be context specific.
 	      The <spanx style="verb">amr</spanx> value is an array of
-	      case sensitive strings.
+	      case-sensitive strings.
 	    </t>
 
 	    <t hangText="azp">
@@ -1205,7 +1205,7 @@
 	      and that audience is different than the authorized party.
 	      It MAY be included even when the authorized party is the same
 	      as the sole audience.
-	      The <spanx style="verb">azp</spanx> value is a case sensitive string
+	      The <spanx style="verb">azp</spanx> value is a case-sensitive string
 	      containing a StringOrURI value.
 	    </t>
 
@@ -1230,7 +1230,7 @@
 	<figure>
 	  <preamble>
 	    The following is a non-normative example of
-	    the set of Claims (the JWT Claims Set) base64url decoded from an ID Token:
+	    the set of Claims (the JWT Claims Set) base64url-decoded from an ID Token:
 	  </preamble>
 
 	  <artwork><![CDATA[
@@ -1485,8 +1485,10 @@
           </list>
         </t>
 
-        <t>Multiple scope values MAY be used by creating a space delimited, case
-        sensitive list of ASCII scope values.</t>
+        <t>
+	  Multiple scope values MAY be used by creating a space-delimited,
+	  case-sensitive list of ASCII scope values.
+	</t>
 
 	<t>
 	  The Claims requested by the
@@ -1632,7 +1634,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this e-mail address was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which an e-mail address is verified is context-specific,
+	    The means by which an e-mail address is verified is context specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	  </c>
@@ -1696,7 +1698,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this phone number was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which a phone number is verified is context-specific,
+	    The means by which a phone number is verified is context specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	    When true, the <spanx style="verb">phone_number</spanx>
@@ -1718,7 +1720,7 @@
 	  <c>
 	    Time the End-User's information was last updated.
 	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	  </c>
 	</texttable>
 
@@ -1848,13 +1850,13 @@
 	    Since Claim Names are case sensitive, it is strongly RECOMMENDED
 	    that language tag values used in Claim Names be spelled using the
 	    character case with which they are registered in the
-	    <xref target="IANA.Language">IANA Language Subtag Registry</xref>.
+	    IANA "Language Subtag Registry" <xref target="IANA.Language"/>.
 	    In particular, normally language names are spelled with lowercase characters,
 	    region names are spelled with uppercase characters, and
 	    scripts are spelled with mixed case characters.
 	    However, since BCP47 language tag values are case insensitive,
 	    implementations SHOULD interpret the language tag values supplied
-	    in a case insensitive manner.
+	    in a case-insensitive manner.
 	  </t>
 	  <t>
 	    Per the recommendations in BCP47, language tag values for Claims
@@ -1992,7 +1994,7 @@
 	values in the messages to known values. For example, the Claim
 	Names returned by the UserInfo Endpoint might be compared to
 	specific Claim Names such as <spanx
-	style="verb">sub</spanx>.  Comparing Unicode strings,
+	style="verb">sub</spanx>.  Comparing Unicode <xref target="UNICODE"/> strings,
 	however, has significant security implications.
       </t>
       <t>
@@ -2016,7 +2018,7 @@
 	</list>
       </t>
       <t>
-	In several places, this document uses space delimited
+	In several places, this document uses space-delimited
 	lists of strings.  In all such cases, the ASCII space
 	character (0x20) MUST be the only character used for this purpose.
       </t>
@@ -2185,8 +2187,8 @@
     <references title="Normative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2246"?>
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3339"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3629"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3966"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4627"?>
@@ -2197,6 +2199,9 @@
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6711"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6750"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7230"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7231"?>
 
       <?rfc include='http://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
@@ -2426,10 +2431,39 @@
         <front>
           <title>Language Subtag Registry</title>
           <author>
-            <organization>Internet Assigned Numbers Authority (IANA)</organization>
+            <organization>IANA</organization>
           </author>
 	  <date/>
         </front>
+      </reference>
+
+      <reference anchor="RFC20" target="http://www.rfc-editor.org/info/rfc20">
+	<front>
+	  <title>ASCII format for Network Interchange</title>
+	  <author fullname="Vint Cerf" surname="Cerf" initials="V.">
+	    <organization>University California Los Angeles (UCLA)</organization>
+	  </author>
+	  <date month="October" year="1969"/>
+	</front>
+	<seriesInfo name="STD" value="80"/>
+	<seriesInfo name="RFC" value="20"/>
+	<seriesInfo name="DOI" value="10.17487/RFC0020"/>
+      </reference>
+
+      <reference anchor="UNICODE" target="http://www.unicode.org/versions/latest/">
+	<front>
+	  <title abbrev="Unicode">The Unicode Standard</title>
+	  <author>
+	    <organization>The Unicode Consortium</organization>
+	    <address />
+	  </author>
+	  <date />
+	</front>
+	<!--
+	  Note that this reference is to the latest version of Unicode,
+	  rather than to a specific release.  It is not expected that future changes in
+	  the UNICODE specification will impact the syntax of JSON or the UTF-8 encoding.
+	-->
       </reference>
 
     </references>
@@ -2557,6 +2591,12 @@
 	  <t>
 	    Changed to use "Cache-Control: no-cache, no-store" and "Pragma: no-cache" in examples.
 	  </t>
+	  <t>
+	    Tracked terminology changes made in the referenced IETF specs since errata set 1.
+	  </t>
+          <t>
+            Updated the RFC 2616 references to RFC 7230 or RFC 7231, as appropriate.
+          </t>
         </list>
       </t>
 

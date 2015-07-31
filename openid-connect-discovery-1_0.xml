@@ -97,7 +97,7 @@
       <t>
 	Once the OpenID Provider has been identified,
 	the configuration information for that OP
-	is retrieved from a well-known location as a JSON document,
+	is retrieved from a well-known location as a JSON <xref target="RFC7159"/> document,
 	including its OAuth 2.0 endpoint locations.
 	This process is described in <xref target="ProviderConfig"/>.
       </t>
@@ -686,12 +686,12 @@
 	  <t hangText="jwks_uri">
 	    <vspace/>
 	    REQUIRED.
-	    URL of the OP's JSON Web Key Set <xref target="JWK"/> document.
+	    URL of the OP's JWK Set <xref target="JWK"/> document.
 	    This contains the signing key(s) the RP uses to validate signatures from the OP.
 	    The JWK Set MAY also contain the Server's encryption key(s),
 	    which are used by RPs to encrypt requests to the Server.
 	    When both signing and encryption keys are made available,
-	    a <spanx style="verb">use</spanx> (Key Use) parameter
+	    a <spanx style="verb">use</spanx> (public key use) parameter
 	    value is REQUIRED for all keys in the referenced JWK Set
 	    to indicate each key's intended usage.
 	    Although some algorithms allow the same key to be used for
@@ -1211,7 +1211,7 @@
 	values in the messages to known values. For example, the
 	member names in the provider configuration response might be
 	compared to specific member names such as <spanx
-	style="verb">issuer</spanx>.  Comparing Unicode strings,
+	style="verb">issuer</spanx>.  Comparing Unicode <xref target="UNICODE"/> strings,
 	however, has significant security implications.
       </t>
       <t>
@@ -1326,8 +1326,8 @@
 	<t>
 	  This specification registers the well-known URI defined in
 	  <xref target="ProviderConfig"/> in the IANA
-	  Well-Known URI registry
-	  defined in <xref target="RFC5785">RFC 5785</xref>.
+	  "Well-Known URIs" registry <xref target="IANA.well-known"/>
+	  established by <xref target="RFC5785">RFC 5785</xref>.
 	</t>
 
 	<section anchor='WellKnownContents' title='Registry Contents'>
@@ -1367,6 +1367,7 @@
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7033"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7565"?>
 
       <reference anchor="USA15" target="http://www.unicode.org/reports/tr15/">
@@ -1562,6 +1563,32 @@
         </front>
       </reference>
 
+      <reference anchor="IANA.well-known" target="http://www.iana.org/assignments/well-known-uris">
+        <front>
+          <title>Well-Known URIs</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+
+      <reference anchor="UNICODE" target="http://www.unicode.org/versions/latest/">
+	<front>
+	  <title abbrev="Unicode">The Unicode Standard</title>
+	  <author>
+	    <organization>The Unicode Consortium</organization>
+	    <address />
+	  </author>
+	  <date />
+	</front>
+	<!--
+	  Note that this reference is to the latest version of Unicode,
+	  rather than to a specific release.  It is not expected that future changes in
+	  the UNICODE specification will impact the syntax of JSON or the UTF-8 encoding.
+	-->
+      </reference>
+
     </references>
 
     <references title="Informative References">
@@ -1702,6 +1729,9 @@
 	  </t>
 	  <t>
 	    Added missing URLs in references.
+	  </t>
+	  <t>
+	    Tracked terminology changes made in the referenced IETF specs since errata set 1.
 	  </t>
 	</list>
       </t>

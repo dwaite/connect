@@ -162,7 +162,7 @@
 	    OAuth 2.0 Access Token optionally issued by an Authorization Server
 	    granting access to its Client Registration Endpoint.
 	    The contents
-	    of this token are service-specific and are out of scope for this 
+	    of this token are service specific and are out of scope for this 
             specification. The means by which the Authorization Server issues this
             token and the means by which the Registration Endpoint validates
             it are also out of scope.
@@ -218,7 +218,7 @@
 	  <t hangText="response_types">
 	    <vspace/>
 	    OPTIONAL.
-	    JSON array containing a list of the OAuth 2.0
+	    JSON <xref target="RFC7159"/> array containing a list of the OAuth 2.0
 	    <spanx style="verb">response_type</spanx> values that
 	    the Client is declaring that it will restrict itself to using.
 	    If omitted, the default is that the Client will use only the
@@ -379,13 +379,13 @@
 	  <t hangText="jwks_uri">
 	    <vspace/>
 	    OPTIONAL.
-	    URL for the Client's JSON Web Key Set <xref target="JWK"/> document.
+	    URL for the Client's JWK Set <xref target="JWK"/> document.
 	    If the Client signs requests to the Server,
 	    it contains the signing key(s) the Server uses to validate signatures from the Client.
 	    The JWK Set MAY also contain the Client's encryption keys(s),
 	    which are used by the Server to encrypt responses to the Client.
 	    When both signing and encryption keys are made available,
-	    a <spanx style="verb">use</spanx> (Key Use) parameter
+	    a <spanx style="verb">use</spanx> (public key use) parameter
 	    value is REQUIRED for all keys in the referenced JWK Set
 	    to indicate each key's intended usage.
 	    Although some algorithms allow the same key to be used for
@@ -399,7 +399,7 @@
 	  <t hangText="jwks">
 	    <vspace/>
 	    OPTIONAL.
-	    Client's JSON Web Key Set <xref target="JWK"/> document, passed by value.
+	    Client's JWK Set <xref target="JWK"/> document, passed by value.
 	    The semantics of the <spanx style="verb">jwks</spanx> parameter are the same
 	    as the <spanx style="verb">jwks_uri</spanx> parameter, other than that
 	    the JWK Set is passed by value, rather than by reference.
@@ -491,7 +491,7 @@
 	    If this is specified, the response will be 
 	    <xref target="JWT">JWT</xref> serialized, and signed using JWS.
 	    The default, if omitted, is for the UserInfo Response to
-	    return the Claims as a UTF-8 encoded JSON object using the
+	    return the Claims as a UTF-8 <xref target="RFC3629"/> encoded JSON object using the
 	    <spanx style="verb">application/json</spanx> content-type.
 	  </t>
 
@@ -677,7 +677,7 @@
 	  </t>
 	  <t>
 	    If the contents of the request file could ever change,
-	    these URI values SHOULD include the base64url encoded SHA-256 hash value of
+	    these URI values SHOULD include the base64url-encoded SHA-256 hash value of
 	    the file contents referenced by the URI as the value of the URI fragment.
 	    If the fragment value used for a URI changes, that signals the server
 	    that its cached value for that URI with the old fragment value
@@ -874,7 +874,7 @@
 	      OPTIONAL.
 	      Time at which the Client Identifier was issued.
 	      Its value is a JSON number representing the number of seconds from
-	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	    </t>
 
             <t hangText="client_secret_expires_at">
@@ -883,7 +883,7 @@
 	      Time at which the <spanx style="verb">client_secret</spanx> will expire
 	      or 0 if it will not expire.
 	      Its value is a JSON number representing the number of seconds from
-	      1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	      1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	    </t>
           </list></t>
 
@@ -1014,7 +1014,7 @@
       OAuth 2.0 Bearer Token <xref target="RFC6750"/>.</t>
 
       <t>Operations on this endpoint are switched through the use of different
-      HTTP methods <xref target="RFC2616"/>.
+      HTTP methods <xref target="RFC7231"/>.
       The only method defined for use at this endpoint by this specification
       is the HTTP <spanx style="verb">GET</spanx> method.</t>
 
@@ -1233,7 +1233,7 @@
 	values in the messages to known values. For example, the
 	member names in the Client registration response might be
 	compared to specific member names such as <spanx
-	style="verb">client_id</spanx>.  Comparing Unicode strings,
+	style="verb">client_id</spanx>.  Comparing Unicode <xref target="UNICODE"/> strings,
 	however, has significant security implications.
        </t>
       <t>
@@ -1420,7 +1420,7 @@
     <references title="Normative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2246"?>
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3629"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5246"?>
@@ -1428,6 +1428,8 @@
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6125"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6750"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7231"?>
 
       <reference anchor="USA15" target="http://www.unicode.org/reports/tr15/">
 	<front>
@@ -1602,6 +1604,22 @@
 	<seriesInfo name="DOI" value="10.17487/RFC7517"/>
       </reference>
 
+      <reference anchor="UNICODE" target="http://www.unicode.org/versions/latest/">
+	<front>
+	  <title abbrev="Unicode">The Unicode Standard</title>
+	  <author>
+	    <organization>The Unicode Consortium</organization>
+	    <address />
+	  </author>
+	  <date />
+	</front>
+	<!--
+	  Note that this reference is to the latest version of Unicode,
+	  rather than to a specific release.  It is not expected that future changes in
+	  the UNICODE specification will impact the syntax of JSON or the UTF-8 encoding.
+	-->
+      </reference>
+
     </references>
 
     <references title="Informative References">
@@ -1722,6 +1740,12 @@
 	  <t>
 	    Changed to use "Cache-Control: no-cache, no-store" and "Pragma: no-cache" in examples.
 	  </t>
+	  <t>
+	    Tracked terminology changes made in the referenced IETF specs since errata set 1.
+	  </t>
+          <t>
+            Updated the RFC 2616 reference to RFC 7231.
+          </t>
 	</list>
       </t>
 

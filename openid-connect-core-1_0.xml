@@ -185,7 +185,7 @@
 	  defined by <xref target="JWT">JSON Web Token (JWT)</xref>,
 	  the terms "Header Parameter" and "JOSE Header"
 	  defined by <xref target="JWS">JSON Web Signature (JWS)</xref>,
-	  the term "User Agent" defined by <xref target="RFC2616">RFC 2616</xref>,
+	  the term "User Agent" defined by <xref target="RFC7230">RFC 7230</xref>,
 	  and the term "Response Mode" defined by
 	  <xref target="OAuth.Responses">OAuth 2.0 Multiple Response Type Encoding Practices</xref>.
         </t>
@@ -314,7 +314,7 @@
             <t hangText="Issuer Identifier">
 	      <vspace/>
 	      Verifiable Identifier for an Issuer.
-	      An Issuer Identifier is a case sensitive URL
+	      An Issuer Identifier is a case-sensitive URL
 	      using the <spanx style="verb">https</spanx> scheme that
 	      contains scheme, host, and optionally, port number and path
 	      components and no query or fragment components.
@@ -504,7 +504,7 @@
 	    <vspace/>
 	    REQUIRED.
 	    Issuer Identifier for the Issuer of the response.
-	    The <spanx style="verb">iss</spanx> value is a case sensitive URL
+	    The <spanx style="verb">iss</spanx> value is a case-sensitive URL
 	    using the <spanx style="verb">https</spanx> scheme that
 	    contains scheme, host, and optionally, port number and path
 	    components and no query or fragment components.
@@ -518,8 +518,8 @@
 	    which is intended to be consumed by the Client,
 	    e.g., <spanx style="verb">24400320</spanx>
 	    or <spanx style="verb">AItOawmwtWwcT0k51BayewNvutrJUqsvl6qs7A4</spanx>.
-	    It MUST NOT exceed 255 ASCII characters in length.
-	    The <spanx style="verb">sub</spanx> value is a case sensitive string.
+	    It MUST NOT exceed 255 ASCII <xref target="RFC20"/> characters in length.
+	    The <spanx style="verb">sub</spanx> value is a case-sensitive string.
 	  </t>
 
 	  <t hangText="aud">
@@ -531,10 +531,10 @@
 	    It MAY also contain identifiers for other audiences.
 	    In the general case,
 	    the <spanx style="verb">aud</spanx> value is an array of
-	    case sensitive strings.
+	    case-sensitive strings.
 	    In the common special case when there is one audience,
 	    the <spanx style="verb">aud</spanx> value MAY be a single
-	    case sensitive string.
+	    case-sensitive string.
 	  </t>
 
 	  <t hangText="exp">
@@ -546,8 +546,8 @@
 	    expiration date/time listed in the value. Implementers MAY
 	    provide for some small leeway, usually no more than a few
 	    minutes, to account for clock skew.
-	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    Its value is a JSON <xref target="RFC7159"/> number representing the number of seconds from
+	    1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	    See <xref target="RFC3339">RFC 3339</xref>
 	    for details regarding date/times in general and UTC in
 	    particular.
@@ -558,14 +558,14 @@
 	    REQUIRED.
 	    Time at which the JWT was issued.
 	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	  </t>
 
 	  <t hangText="auth_time">
 	    <vspace/>
 	    Time when the End-User authentication occurred.
 	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	    When a <spanx style="verb">max_age</spanx> request is made
 	    or when <spanx style="verb">auth_time</spanx> is requested
 	    as an Essential Claim,
@@ -591,7 +591,7 @@
 	    being the nonce value sent in the Authentication Request.
 	    Authorization Servers SHOULD perform no other processing
 	    on <spanx style="verb">nonce</spanx> values used.
-	    The <spanx style="verb">nonce</spanx> value is a case sensitive string.
+	    The <spanx style="verb">nonce</spanx> value is a case-sensitive string.
 	  </t>
 
 	  <t hangText="acr">
@@ -617,8 +617,8 @@
 	    registered names MUST NOT be used with a different meaning than
 	    that which is registered.
 	    Parties using this claim will need to agree upon the meanings of
-	    the values used, which may be context-specific.
-	    The <spanx style="verb">acr</spanx> value is a case sensitive string.
+	    the values used, which may be context specific.
+	    The <spanx style="verb">acr</spanx> value is a case-sensitive string.
 	  </t>
 
 	  <t hangText="amr">
@@ -633,9 +633,9 @@
 	    <spanx style="verb">amr</spanx> Claim
 	    is beyond the scope of this specification.
 	    Parties using this claim will need to agree upon the meanings of
-	    the values used, which may be context-specific.
+	    the values used, which may be context specific.
 	    The <spanx style="verb">amr</spanx> value is an array of
-	    case sensitive strings.
+	    case-sensitive strings.
 	  </t>
 
 	  <t hangText="azp">
@@ -649,7 +649,7 @@
 	    and that audience is different than the authorized party.
 	    It MAY be included even when the authorized party is the same
 	    as the sole audience.
-	    The <spanx style="verb">azp</spanx> value is a case sensitive string
+	    The <spanx style="verb">azp</spanx> value is a case-sensitive string
 	    containing a StringOrURI value.
 	  </t>
 
@@ -906,7 +906,7 @@
 	    </t>
 
 	    <t>Authorization Servers MUST support the use of the HTTP <spanx style="verb">GET</spanx> and 
-	    <spanx style="verb">POST</spanx> methods defined in <xref target="RFC2616">RFC 2616</xref> at the
+	    <spanx style="verb">POST</spanx> methods defined in <xref target="RFC7231">RFC 7231</xref> at the
 	    Authorization Endpoint.
 	    Clients MAY use the HTTP <spanx style="verb">GET</spanx> or
 	    <spanx style="verb">POST</spanx> methods to send the
@@ -1072,7 +1072,7 @@
 		<t hangText="prompt">
 		  <vspace/>
 		  OPTIONAL.
-		  Space delimited, case sensitive list of ASCII string values
+		  Space-delimited, case-sensitive list of ASCII string values
 		  that specifies whether the Authorization Server prompts
 		  the End-User for reauthentication and consent.
 		  The defined values are:
@@ -1868,8 +1868,8 @@
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
-		  with SHA-256, then take the left-most 128 bits and base64url encode them.
-		  The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
+		  with SHA-256, then take the left-most 128 bits and base64url-encode them.
+		  The <spanx style="verb">at_hash</spanx> value is a case-sensitive string.
 		</t>
 
               </list>
@@ -1942,7 +1942,7 @@
 		uses a MAC based algorithm such as 
 		<spanx style="verb">HS256</spanx>, <spanx style="verb">HS384</spanx>,
 		or <spanx style="verb">HS512</spanx>,
-		the octets of the UTF-8 representation of
+		the octets of the UTF-8 <xref target="RFC3629"/> representation of
 		the <spanx style="verb">client_secret</spanx> corresponding to the 
 		<spanx style="verb">client_id</spanx> contained in the 
 		<spanx style="verb">aud</spanx> (audience) Claim are used as the key
@@ -2319,7 +2319,7 @@
 		the hash algorithm used is SHA-256.
 		</t>
 
-		<t>Take the left-most half of the hash and base64url encode it.</t>
+		<t>Take the left-most half of the hash and base64url-encode it.</t>
 		<t>
 		  The value of <spanx style="verb">at_hash</spanx> in the ID Token MUST
 		  match the value produced in the previous step.
@@ -2356,8 +2356,8 @@
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
-		  with SHA-256, then take the left-most 128 bits and base64url encode them.
-		  The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
+		  with SHA-256, then take the left-most 128 bits and base64url-encode them.
+		  The <spanx style="verb">at_hash</spanx> value is a case-sensitive string.
 		</t>
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with an 
@@ -2702,7 +2702,7 @@
 		the hash algorithm used is SHA-256.
 		</t>
 
-		<t>Take the left-most half of the hash and base64url encode it.</t>
+		<t>Take the left-most half of the hash and base64url-encode it.</t>
 
 		<t>The value of <spanx style="verb">c_hash</spanx> in the ID Token MUST
 		match the value produced in the previous step if <spanx style="verb">c_hash</spanx>
@@ -2740,8 +2740,8 @@
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">RS256</spanx>, hash the
 		  <spanx style="verb">access_token</spanx> value
-		  with SHA-256, then take the left-most 128 bits and base64url encode them.
-		  The <spanx style="verb">at_hash</spanx> value is a case sensitive string.
+		  with SHA-256, then take the left-most 128 bits and base64url-encode them.
+		  The <spanx style="verb">at_hash</spanx> value is a case-sensitive string.
 		</t>
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with an 
@@ -2763,8 +2763,8 @@
 		  For instance, if the <spanx style="verb">alg</spanx> is
 		  <spanx style="verb">HS512</spanx>, hash the
 		  <spanx style="verb">code</spanx> value
-		  with SHA-512, then take the left-most 256 bits and base64url encode them.
-		  The <spanx style="verb">c_hash</spanx> value is a case sensitive string.
+		  with SHA-512, then take the left-most 256 bits and base64url-encode them.
+		  The <spanx style="verb">c_hash</spanx> value is a case-sensitive string.
 		</t>
 		<t>
 		  If the ID Token is issued from the Authorization Endpoint with a
@@ -3118,7 +3118,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this e-mail address was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which an e-mail address is verified is context-specific,
+	    The means by which an e-mail address is verified is context specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	  </c>
@@ -3182,7 +3182,7 @@
 	    this  means that the OP took affirmative steps
 	    to ensure that this phone number was controlled by the End-User
 	    at the time the verification was performed.
-	    The means by which a phone number is verified is context-specific,
+	    The means by which a phone number is verified is context specific,
 	    and dependent upon the trust framework or contractual agreements
 	    within which the parties are operating.
 	    When true, the <spanx style="verb">phone_number</spanx>
@@ -3204,7 +3204,7 @@
 	  <c>
 	    Time the End-User's information was last updated.
 	    Its value is a JSON number representing the number of seconds from
-	    1970-01-01T0:0:0Z as measured in UTC until the date/time.
+	    1970-01-01T00:00:00Z as measured in UTC until the date/time.
 	  </c>
 	</texttable>
 
@@ -3318,13 +3318,13 @@
 	  Since Claim Names are case sensitive, it is strongly RECOMMENDED
 	  that language tag values used in Claim Names be spelled using the
 	  character case with which they are registered in the
-	  <xref target="IANA.Language">IANA Language Subtag Registry</xref>.
+	  IANA "Language Subtag Registry" <xref target="IANA.Language"/>.
 	  In particular, normally language names are spelled with lowercase characters,
 	  region names are spelled with uppercase characters, and
 	  scripts are spelled with mixed case characters.
 	  However, since BCP47 language tag values are case insensitive,
 	  implementations SHOULD interpret the language tag values supplied
-	  in a case insensitive manner.
+	  in a case-insensitive manner.
 	</t>
 	<t>
 	  Per the recommendations in BCP47, language tag values for Claims
@@ -3393,7 +3393,7 @@
 	  The UserInfo Endpoint MUST support the use of the
 	  HTTP <spanx style="verb">GET</spanx> and
 	  HTTP <spanx style="verb">POST</spanx> methods
-	  defined in <xref target="RFC2616">RFC 2616</xref>.
+	  defined in <xref target="RFC7231">RFC 7231</xref>.
 	</t>
 
 	<t>The UserInfo Endpoint MUST accept Access Tokens as
@@ -3639,8 +3639,10 @@
 	  </list>
 	</t>
 
-	<t>Multiple scope values MAY be used by creating a space delimited, case
-	sensitive list of ASCII scope values.</t>
+	<t>
+	  Multiple scope values MAY be used by creating a space-delimited,
+	  case-sensitive list of ASCII scope values.
+	</t>
 
 	<t>
 	  The Claims requested by the
@@ -4433,8 +4435,8 @@
 	  underlying OAuth 2.0 logic that this is an OpenID Connect request.
 	</t>
 	<t>
-	  The Request Object MAY be signed or unsigned (plaintext).
-	  When it is plaintext, this is indicated by use of the
+	  The Request Object MAY be signed or unsigned (unsecured).
+	  When it is unsecured, this is indicated by use of the
 	  <spanx style="verb">none</spanx> algorithm <xref target="JWA" />
 	  in the JOSE Header.  If signed, the Request Object
 	  SHOULD contain the Claims
@@ -4461,7 +4463,7 @@
 	  <figure>
 	    <preamble>
 	      The following is a non-normative example of the Claims in
-	      a Request Object before base64url encoding and signing:
+	      a Request Object before base64url-encoding and signing:
 	    </preamble>
 
 	    <artwork><![CDATA[
@@ -4688,7 +4690,7 @@
 	<t>
 	  Servers MAY cache the contents of the resources referenced by Request URIs.
 	  If the contents of the referenced resource could ever change,
-	  the URI SHOULD include the base64url encoded SHA-256 hash of the
+	  the URI SHOULD include the base64url-encoded SHA-256 hash of the
 	  referenced resource contents as the fragment component of the URI.
 	  If the fragment value used for a URI changes, that signals the server
 	  that any cached value for that URI with the old fragment value
@@ -4892,7 +4894,7 @@
 	  <t>
 	    The Authorization Server MUST decrypt the JWT in accordance with
 	    the <xref target="JWE">JSON Web Encryption</xref> specification.
-	    The result MAY be either a signed or unsigned (plaintext) Request Object. 
+	    The result MAY be either a signed or unsigned (unsecured) Request Object. 
 	    In the former case, signature validation MUST be performed 
 	    as defined in <xref target="SignedRequestObject"/>.
 	  </t>
@@ -5120,7 +5122,7 @@
 	      If the ID Token is encrypted to the Self-Issued OP,
 	      the <spanx style="verb">sub</spanx> (subject)
 	      of the signed ID Token MUST be sent as the
-	      <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	      <spanx style="verb">kid</spanx> (key ID) of the JWE.
 	      Encrypting content to Self-Issued OPs is currently only supported when
 	      the OP's JWK key type is <spanx style="verb">RSA</spanx> and the encryption
 	      algorithm used is <spanx style="verb">RSA1_5</spanx>.
@@ -5146,7 +5148,7 @@
 	      The Request Object MAY be encrypted to the Self-Issued OP by the Client.
 	      In this case, the <spanx style="verb">sub</spanx> (subject) of
 	      a previously issued ID Token for this Client
-	      MUST be sent as the <spanx style="verb">kid</spanx> (Key ID) of the JWE.
+	      MUST be sent as the <spanx style="verb">kid</spanx> (key ID) of the JWE.
 	      Encrypting content to Self-Issued OPs is currently only supported when
 	      the OP's JWK key type is <spanx style="verb">RSA</spanx> and the encryption
 	      algorithm used is <spanx style="verb">RSA1_5</spanx>.
@@ -5221,7 +5223,7 @@
 	    </t>
 	    <t>
 	      The <spanx style="verb">sub</spanx> (subject) Claim
-	      value is the base64url encoded representation of
+	      value is the base64url-encoded representation of
 	      the thumbprint of
 	      the key in the <spanx style="verb">sub_jwk</spanx> Claim.
 	      This thumbprint value is computed as
@@ -5229,7 +5231,7 @@
 	      the octets of the UTF-8 representation of
 	      a JWK constructed containing only the REQUIRED members to represent the key,
 	      with the member names sorted into lexicographic order,
-	      and with no white space or line breaks.
+	      and with no whitespace or line breaks.
 	      For instance,
 	      when the <spanx style="verb">kty</spanx> value is
 	      <spanx style="verb">RSA</spanx>, the member names
@@ -5291,7 +5293,7 @@
 	    </t>
 	    <t>
 	      The Client MUST validate that the <spanx style="verb">sub</spanx> Claim
-	      value is the base64url encoded representation of
+	      value is the base64url-encoded representation of
 	      the thumbprint of
 	      the key in the <spanx style="verb">sub_jwk</spanx> Claim,
 	      as specified in <xref target="SelfIssuedResponse"/>.
@@ -5319,7 +5321,7 @@
 	  </list>
 	</t>
 	<figure>
-	  <preamble>The following is a non-normative example of a base64url decoded 
+	  <preamble>The following is a non-normative example of a base64url-decoded
 	  Self-Issued ID Token
 	  (with line wraps within values for display purposes only):</preamble>
 
@@ -5875,7 +5877,7 @@
 	    and remove from the JWK Set those that are being decommissioned.
 	    The <spanx style="verb">jwks_uri</spanx> SHOULD include a <spanx style="verb">Cache-Control</spanx>
 	    header in the response that contains a <spanx style="verb">max-age</spanx> directive,
-	    as defined in <xref target="RFC2616">RFC 2616</xref>,
+	    as defined in <xref target="RFC7234">RFC 7234</xref>,
 	    which enables the encrypting party to safely cache the JWK Set and not have to re-retrieve
 	    the document for every encryption event. The decrypting party SHOULD remove decommissioned keys
 	    from the JWK Set referenced by <spanx style="verb">jwks_uri</spanx>
@@ -6186,7 +6188,7 @@
 	values in the messages to known values. For example, the Claim
 	Names returned by the UserInfo Endpoint might be compared to
 	specific Claim Names such as <spanx
-	style="verb">sub</spanx>.  Comparing Unicode strings,
+	style="verb">sub</spanx>.  Comparing Unicode <xref target="UNICODE"/> strings,
 	however, has significant security implications.
       </t>
       <t>
@@ -6212,7 +6214,7 @@
 	</list>
       </t>
       <t>
-	In several places, this specification uses space delimited
+	In several places, this specification uses space-delimited
 	lists of strings.  In all such cases, a single ASCII space
 	character (0x20) MUST be used as the delimiter.
       </t>
@@ -6690,7 +6692,7 @@
 	the Client using a key that supports non-repudiation. 
 	The Server SHOULD validate
 	the digital signature to verify that it was issued by a legitimate
-	Client and the integrity is intact.</t>
+	Client and its integrity is intact.</t>
       </section>
 
       <section anchor="AccessTokenRedirect" title="Access Token Redirect">
@@ -7032,8 +7034,8 @@
 	<t>
 	  This specification registers the Claims defined in
 	  <xref target="StandardClaims"/> and <xref target="IDToken"/> in the IANA
-	  JSON Web Token Claims registry
-	  defined in <xref target="JWT"/>.
+	  "JSON Web Token Claims" registry <xref target="IANA.JWT.Claims"/>
+	  established by <xref target="JWT"/>.
 	</t>
 
 	<section anchor='ClaimsContents' title='Registry Contents'>
@@ -7478,8 +7480,8 @@
 	<t>
 	  This specification registers the following parameters
 	  in the IANA
-	  OAuth Parameters registry
-	  defined in <xref target="RFC6749">RFC 6749</xref>.
+	  "OAuth Parameters" registry <xref target="IANA.OAuth.Parameters"/>
+	  established by <xref target="RFC6749">RFC 6749</xref>.
 	</t>
 
 	<section anchor='ParametersContents' title='Registry Contents'>
@@ -7689,8 +7691,8 @@
 	<t>
 	  This specification registers the following errors
 	  in the IANA
-	  OAuth Extensions Error registry
-	  defined in <xref target="RFC6749">RFC 6749</xref>.
+	  OAuth Extensions Error registry <xref target="IANA.OAuth.Parameters"/>
+	  established by <xref target="RFC6749">RFC 6749</xref>.
 	</t>
 
 	<section anchor='ErrorContents' title='Registry Contents'>
@@ -7832,9 +7834,9 @@
     <references title="Normative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2246"?>
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4627"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3339"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3629"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3966"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5246"?>
@@ -7845,6 +7847,10 @@
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6750"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6819"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7230"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7231"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7234"?>
 
       <?rfc include='http://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-html401-19991224.xml' ?>
 
@@ -8173,7 +8179,7 @@
         <front>
           <title>Language Subtag Registry</title>
           <author>
-            <organization>Internet Assigned Numbers Authority (IANA)</organization>
+            <organization>IANA</organization>
           </author>
 	  <date/>
         </front>
@@ -8187,6 +8193,55 @@
 	  </author>
 	  <date day="27" month="July" year="2010"></date>
         </front>
+      </reference>
+
+      <reference anchor="IANA.JWT.Claims" target="http://www.iana.org/assignments/jwt">
+        <front>
+          <title>JSON Web Token Claims</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+
+      <reference anchor="IANA.OAuth.Parameters" target="http://www.iana.org/assignments/oauth-parameters">
+        <front>
+          <title>OAuth Parameters</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+
+      <reference anchor="RFC20" target="http://www.rfc-editor.org/info/rfc20">
+	<front>
+	  <title>ASCII format for Network Interchange</title>
+	  <author fullname="Vint Cerf" surname="Cerf" initials="V.">
+	    <organization>University California Los Angeles (UCLA)</organization>
+	  </author>
+	  <date month="October" year="1969"/>
+	</front>
+	<seriesInfo name="STD" value="80"/>
+	<seriesInfo name="RFC" value="20"/>
+	<seriesInfo name="DOI" value="10.17487/RFC0020"/>
+      </reference>
+
+      <reference anchor="UNICODE" target="http://www.unicode.org/versions/latest/">
+	<front>
+	  <title abbrev="Unicode">The Unicode Standard</title>
+	  <author>
+	    <organization>The Unicode Consortium</organization>
+	    <address />
+	  </author>
+	  <date />
+	</front>
+	<!--
+	  Note that this reference is to the latest version of Unicode,
+	  rather than to a specific release.  It is not expected that future changes in
+	  the UNICODE specification will impact the syntax of JSON or the UTF-8 encoding.
+	-->
       </reference>
 
     </references>
@@ -8490,7 +8545,7 @@
 	<t>
 	  The value of the <spanx style="verb">id_token</spanx> parameter is the ID Token,
 	  which is a signed JWT,
-	  containing three base64url encoded segments separated by period ('.') characters.
+	  containing three base64url-encoded segments separated by period ('.') characters.
 	  The first segment represents the JOSE Header.
 	  Base64url decoding it will result in the following set of Header Parameters:
 	</t>
@@ -8502,7 +8557,7 @@
 	<t>
 	  The <spanx style="verb">alg</spanx> value represents the algorithm
 	  that was used to sign the JWT, in this case
-	  <spanx style="verb">RS256</spanx>, representing RSASSA-PKCS-v1_5 using SHA-256.
+	  <spanx style="verb">RS256</spanx>, representing RSASSA-PKCS1-v1_5 using SHA-256.
 	  The <spanx style="verb">kid</spanx> value is a key identifier used
 	  in identifying the key to be used to verify the signature.
 	  If the <spanx style="verb">kid</spanx> value is unknown to the RP,
@@ -8898,6 +8953,12 @@
 	  <t>
 	    Changed to use "Cache-Control: no-cache, no-store" and "Pragma: no-cache" in examples.
 	  </t>
+	  <t>
+	    Tracked terminology changes made in the referenced IETF specs since errata set 1.
+	  </t>
+          <t>
+            Updated the RFC 2616 references to RFC 7230, RFC 7231, or RFC 7234, as appropriate.
+          </t>
 	</list>
       </t>
 
