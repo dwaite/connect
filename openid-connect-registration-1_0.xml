@@ -1411,7 +1411,370 @@
     </section>
 
     <section anchor="IANA" title="IANA Considerations">
-      <t>This document makes no requests of IANA.</t>
+      <section anchor="DynRegRegistrations" title="OAuth Dynamic Client Registration Metadata Registration">
+	<t>
+	  This specification registers the following client metadata names and
+	  descriptions in the IANA "OAuth Dynamic Client Registration Metadata" registry
+	  <xref target="IANA.OAuth.Parameters"/>
+	  established by <xref target="RFC7591"/>:
+	</t>
+
+	<section anchor="DynRegContents" title="Registry Contents">
+	  <t> <?rfc subcompact="yes"?>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">application_type</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: Kind of the application -- "native" or "web"
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>Client Metadata Name: <spanx style="verb">sector_identifier_uri</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: URL using the <spanx style="verb">https</spanx> scheme to be used in
+		calculating Pseudonymous Identifiers by the OP
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">subject_type</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: <spanx style="verb">subject_type</spanx> requested for 
+		responses to this Client -- "pairwise" or "public"
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">id_token_signed_response_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWS <spanx style="verb">alg</spanx>
+		algorithm REQUIRED for signing the ID Token
+		issued to this Client
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">id_token_encrypted_response_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWE <spanx style="verb">alg</spanx>
+		algorithm REQUIRED for encrypting the ID Token
+		issued to this Client
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">id_token_encrypted_response_enc</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWE <spanx style="verb">enc</spanx>
+		algorithm REQUIRED for encrypting the ID Token
+		issued to this Client
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">userinfo_signed_response_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWS <spanx style="verb">alg</spanx>
+		algorithm REQUIRED for signing UserInfo Responses
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">userinfo_encrypted_response_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWE <spanx style="verb">alg</spanx> 
+		algorithm REQUIRED for encrypting UserInfo Responses
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">userinfo_encrypted_response_enc</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWE <spanx style="verb">enc</spanx>
+		algorithm REQUIRED for encrypting UserInfo Responses
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">request_object_signing_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWS <spanx style="verb">alg</spanx>
+		algorithm that MUST be used for
+		signing Request Objects sent to the OP
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">request_object_encryption_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWE <spanx style="verb">alg</spanx> 
+		algorithm the RP is declaring that it may use for
+		encrypting Request Objects sent to the OP
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">request_object_encryption_enc</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWE <spanx style="verb">enc</spanx>
+		algorithm the RP is declaring that it may use for
+		encrypting Request Objects sent to the OP
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">token_endpoint_auth_signing_alg</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: JWS <spanx style="verb">alg</spanx>
+		algorithm that MUST be used for signing
+		the JWT used to authenticate the Client
+		at the Token Endpoint for the <spanx style="verb">private_key_jwt</spanx> 
+		and <spanx style="verb">client_secret_jwt</spanx> authentication methods
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">default_max_age</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: Default Maximum Authentication Age
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">require_auth_time</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: Boolean value specifying whether the <spanx style="verb">auth_time</spanx> 
+		Claim in the ID Token is REQUIRED
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">default_acr_values</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: Default requested Authentication Context Class Reference values
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">initiate_login_uri</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: URI using the <spanx style="verb">https</spanx> scheme that a third party
+		can use to initiate a login by the RP
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">request_uris</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description: Array of <spanx style="verb">request_uri</spanx> values that are
+		pre-registered by the RP for use at the OP
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="ClientMetadata"/> of this document
+	      </t>
+	    </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+      </section>
+
+      <section anchor="TEAMRegistration" title="OAuth Token Endpoint Authentication Methods Registration">
+	<t>
+	  This specification registers the following token endpoint authentication methods
+	  in the IANA "OAuth Token Endpoint Authentication Methods" registry
+	  <xref target="IANA.OAuth.Parameters"/>
+	  established by <xref target="RFC7591"/>:
+	</t>
+        <section anchor="TEAMContents" title="Registry Contents">
+          <t> <?rfc subcompact="yes"?>
+	    <list style="symbols">
+              <t>
+		Token Endpoint Authentication Method Name:
+		<spanx style="verb">client_secret_jwt</spanx>
+	      </t>
+              <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+              <t>
+		Specification Document(s): Section 9 of OpenID Connect Core 1.0 <xref target="OpenID.Core"/>
+	      </t>
+            </list>
+	  </t>
+          <t>
+	    <list style="symbols">
+              <t>
+		Token Endpoint Authentication Method Name:
+		<spanx style="verb">private_key_jwt</spanx>
+	      </t>
+              <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+              <t>
+		Specification Document(s): Section 9 of OpenID Connect Core 1.0 <xref target="OpenID.Core"/>
+	      </t>
+            </list>
+	  </t>
+        </section>
+        <?rfc subcompact="no"?>
+      </section>
+
     </section>
 
   </middle>
@@ -1620,6 +1983,16 @@
 	-->
       </reference>
 
+      <reference anchor="IANA.OAuth.Parameters" target="http://www.iana.org/assignments/oauth-parameters">
+        <front>
+          <title>OAuth Parameters</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+
     </references>
 
     <references title="Informative References">
@@ -1746,6 +2119,10 @@
           <t>
             Updated the RFC 2616 reference to RFC 7231.
           </t>
+	  <t>
+	    Registered the metadata definitions and token endpoint authentication methods
+	    not registered by RFC 7591 in the registries established by RFC 7591.
+	  </t>
 	</list>
       </t>
 
