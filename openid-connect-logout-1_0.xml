@@ -140,29 +140,49 @@
 
     <section anchor="RPLogout" title="Relying Party Logout Functionality">
       <t>
-	RPs supporting HTTP-based logout need to register a logout URL
+	RPs supporting HTTP-based logout register a logout URI
 	with the OP as part of their client registration.
-	The OP renders <spanx style="verb">&lt;iframe src="logout_uri"&gt;</spanx>
-	in a page with the registered logout URL as the source
-	to trigger the logout actions by the RP.
-	Upon receiving a request to render the logout URL in an iframe,
-	the RP clears state associated with the logged-in session,
-	including any cookies and HTML5 local storage.
 	The domain, port, and scheme of this URL MUST be the same as that of
 	a registered Redirection URI value.
       </t>
+      <t>
+	The logout URI MUST be an absolute URI as defined by
+	<xref target='RFC3986' /> Section 4.3. The logout URI MAY include an
+	<spanx style='verb'>application/x-www-form-urlencoded</spanx> formatted
+	query component (<xref target='RFC3986' /> Section 3.4),
+	which MUST be retained when adding additional query parameters.
+	The logout URI MUST NOT include a fragment component.
+      </t>
+      <t>
+	The OP renders <spanx style="verb">&lt;iframe src="logout_uri"&gt;</spanx>
+	in a page with the registered logout URI as the source
+	to trigger the logout actions by the RP.
+	Upon receiving a request to render the logout URI in an iframe,
+	the RP clears state associated with the logged-in session,
+	including any cookies and HTML5 local storage.
+      </t>
+      <t>
+	The RP's response SHOULD include <spanx style="verb">Cache-Control</spanx>
+	directives keeping the response from being cached to prevent cached responses
+	from interfering with future logout requests.
+	It is RECOMMENDED that these directives be used:
+      </t>
+      <figure><artwork><![CDATA[
+  Cache-Control: no-cache, no-store
+  Pragma: no-cache
+]]></artwork></figure>
       <t>
 	In the case that the RP is also an OP serving as an identity provider
 	to downstream logged-in sessions, it is desirable for the logout request
 	to the RP to likewise trigger downstream logout requests.
 	This is achieved by having the RP serve content in the iframe
 	that contains logout requests to the downstream sessions,
-	which themselves are nested iframes rendering the downstream logout URLs.
+	which themselves are nested iframes rendering the downstream logout URIs.
       </t>
       <t>
 	If the RP supports
 	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>,
-	it uses this metadata value to register the logout URL:
+	it uses this metadata value to register the logout URI:
       </t>
       <t>
 	<list style="hanging">
@@ -199,11 +219,11 @@
       <t>
 	OPs supporting HTTP-based logout need to keep track of
 	the set of logged-in RPs so that they know what RPs to contact
-	at their logout URLs to cause them to log out.
+	at their logout URIs to cause them to log out.
 	Some OPs track this state using a "visited sites" cookie.
 	OPs contact them in parallel using a dynamically constructed page
 	with HTML <spanx style="verb">&lt;iframe src="logout_uri"&gt;</spanx> tags
-	rendering each logged-in RP's logout URL.
+	rendering each logged-in RP's logout URI.
       </t>
       <t>
 	If the OP supports
@@ -354,7 +374,7 @@
 
       <section anchor="DynRegRegistrations" title="OAuth Dynamic Client Registration Metadata Registration">
 	<t>
-	  This specification registers the following client metadata definition
+	  This specification registers the following client metadata definitions
 	  in the IANA "OAuth Dynamic Client Registration Metadata" registry
 	  <xref target="IANA.OAuth.Parameters"/>
 	  established by <xref target="RFC7591"/>:
@@ -379,6 +399,26 @@
 	      </t>
 	    </list>
 	  </t>
+	  <t>
+	    <list style="symbols">
+	      <t>
+		Client Metadata Name: <spanx style="verb">logout_session_required</spanx>
+	      </t>
+	      <t>
+		Client Metadata Description:
+		Boolean value specifying whether the RP requires that
+		a <spanx style="verb">sid</spanx> (session ID)
+		query parameter be included to identify the RP session at the OP
+		when the <spanx style="verb">logout_uri</spanx> is used
+	      </t>
+	      <t>
+		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+	      </t>
+	      <t>
+		Specification Document(s): <xref target="RPLogout"/> of this document
+	      </t>
+	    </list>
+	  </t>
 	</section>
 	<?rfc subcompact="no"?>
       </section>
@@ -390,6 +430,7 @@
   <back>
     <references title="Normative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7230"?>
 
@@ -612,8 +653,15 @@
 	    Registered the <spanx style="verb">sid</spanx> (session ID) claim.
 	  </t>
 	  <t>
-	    Registered the <spanx style="verb">logout_uri</spanx>
-	    client metadata value.
+	    Registered the <spanx style="verb">logout_uri</spanx> and
+	    <spanx style="verb">logout_session_required</spanx> client metadata values.
+	  </t>
+	  <t>
+	    Stated that the RP's logout response SHOULD include <spanx style="verb">Cache-Control</spanx>
+	    directives keeping the response from being cached.
+	  </t>
+	  <t>
+	    Added syntax requirements for logout URIs.
 	  </t>
         </list>
       </t>
