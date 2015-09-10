@@ -23,7 +23,7 @@
 
   <front>
     <title abbrev="OpenID Connect HTTP-Based Logout 1.0">OpenID Connect
-    HTTP-Based Logout 1.0 - draft 03</title>
+    HTTP-Based Logout 1.0 - draft 02</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="9" month="September" year="2015" />
+    <date day="3" month="August" year="2015" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -253,23 +253,22 @@
 	    a <spanx style="verb">sid</spanx> (session ID)
 	    query parameter to identify the RP session at the OP
 	    when the <spanx style="verb">logout_uri</spanx> is used.
-	    If supported, the <spanx style="verb">sid</spanx> Claim is also included
+	    If supported, the <spanx style="verb">sid</spanx> claim is also included
 	    in ID Tokens issued by the OP.
 	    If omitted, the default value is <spanx style="verb">false</spanx>.
 	  </t>
 	</list>
       </t>
       <t>
-	The <spanx style="verb">sid</spanx> (session ID) Claim used in ID Tokens and
+	The <spanx style="verb">sid</spanx> (session ID) claim used in ID Tokens and
 	as a <spanx style="verb">logout_uri</spanx> parameter has the following definition:
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="sid (session ID)"> <!-- Should be synchronized with openid-connect-backchannel-1_0.xml -->
+	  <t hangText="sid (session ID)">
 	    <vspace/>
 	    OPTIONAL.
-	    String identifier for a Session.
-	    This represents a Session of an OP at an RP
+	    String identifier for a Session - a pairing of an OP
 	    to a User Agent or device for a logged-in End-User.
 	    Its contents are unique to the OP and opaque to the RP.
 	    It MUST have sufficient entropy to prevent
@@ -345,9 +344,9 @@
 
     <section anchor="IANA" title="IANA Considerations">
 
-      <section anchor="ClaimsRegistration" title="JSON Web Token Claims Registration">
+      <section anchor="ClaimsRegistry" title="JSON Web Token Claims Registration">
 	<t>
-	  This specification registers the following Claim in the IANA
+	  This specification registers the following claim in the IANA
 	  "JSON Web Token Claims" registry <xref target="IANA.JWT.Claims"/>
 	  established by <xref target="JWT"/>.
 	</t>
@@ -373,7 +372,7 @@
 	<?rfc subcompact="no"?>
       </section>
 
-      <section anchor="DynRegRegistration" title="OAuth Dynamic Client Registration Metadata Registration">
+      <section anchor="DynRegRegistrations" title="OAuth Dynamic Client Registration Metadata Registration">
 	<t>
 	  This specification registers the following client metadata definitions
 	  in the IANA "OAuth Dynamic Client Registration Metadata" registry
@@ -598,7 +597,6 @@
         <list style="empty">
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
 	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
-	  <t>Jim des Rivieres (Jim_des_Rivieres@ca.ibm.com), IBM</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
           <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
         </list>
@@ -644,16 +642,6 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
-
-      <t>
-	-03
-	<list style="symbols">
-          <t>
-	    Corrected the definition of Session ID to make it specific to
-	    the OP, RP, End-User, and User Agent or device.
-	  </t>
-        </list>
-      </t>
 
       <t>
 	-02
