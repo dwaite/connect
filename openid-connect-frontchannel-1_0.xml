@@ -11,7 +11,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-logout-1_0" ipr="none">
+<rfc category="std" docName="openid-connect-frontchannel-1_0" ipr="none">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="5" ?>
@@ -22,8 +22,8 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect HTTP-Based Logout 1.0">OpenID Connect
-    HTTP-Based Logout 1.0 - draft 04</title>
+    <title abbrev="OpenID Connect Front-Channel Logout 1.0">OpenID Connect
+    Front-Channel Logout 1.0 - draft 00</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="10" month="September" year="2015" />
+    <date day="18" month="February" year="2016" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -45,7 +45,8 @@
       REST-like manner.</t>
 
       <t>
-	This specification defines an HTTP-based logout mechanism
+	This specification defines a logout mechanism that uses front-channel
+	communication via the User Agent between the OP and RPs being logged out
 	that does not need an OpenID Provider iframe on Relying Party pages.
 	Other protocols have used HTTP GETs to RP URLs that clear login state
 	to achieve this.
@@ -68,15 +69,29 @@
 	REST-like manner.
       </t>
       <t>
-	This specification defines an HTTP-based logout mechanism
-	that does not need an OpenID Provider iframe on Relying Party pages.
+	This specification defines a logout mechanism that uses front-channel
+	communication via the User Agent between the OP and RPs being logged out
+	that does not need an OpenID Provider iframe on Relying Party pages,
+	as <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>
+	does.
 	Other protocols have used HTTP GETs to RP URLs that clear login state
 	to achieve this.
 	This specification does the same thing.
 	It also reuses the RP-initiated logout functionality specified in
-	Section 5 of <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> (RP-Initiated Logout).
+	Section 5 of OpenID Connect Session Management 1.0 (RP-Initiated Logout).
+      </t>
+      <t>
+	In contrast, the
+	<xref target="OpenID.BackChannel">OpenID Connect Back-Channel Logout 1.0</xref>
+	specification uses back-channel
+	communication between the OP and RPs being logged out;
+	this differs from front-channel logout mechanisms,
+	which communicate logout requests from the OP to RPs via the User Agent.
+      </t>
+      <t>
 	This specification can be used separately from or in combination with
-	OpenID Connect Session Management 1.0.
+	OpenID Connect Session Management 1.0 and/or
+	OpenID Connect Back-Channel Logout 1.0.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -178,7 +193,7 @@
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="logout_uri">
+	  <t hangText="frontchannel_logout_uri">
 	    <vspace/>
 	    OPTIONAL.
 	    RP URL that will cause the RP to log itself out
@@ -194,7 +209,7 @@
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="logout_session_required">
+	  <t hangText="frontchannel_logout_session_required">
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the RP requires that
@@ -224,7 +239,7 @@
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="http_logout_supported">
+	  <t hangText="frontchannel_logout_supported">
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP supports HTTP-based logout,
@@ -238,7 +253,7 @@
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="logout_session_supported">
+	  <t hangText="frontchannel_logout_session_supported">
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP can pass
@@ -531,6 +546,22 @@
 	</front>
       </reference>
 
+      <reference anchor="OpenID.BackChannel" target="http://openid.net/specs/openid-connect-backchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Back-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+	  <date day="18" month="February" year="2016" />
+	</front>
+      </reference>
+
       <reference anchor="IANA.JWT.Claims" target="http://www.iana.org/assignments/jwt">
         <front>
           <title>JSON Web Token Claims</title>
@@ -598,7 +629,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2015 The OpenID Foundation.</t>
+      <t>Copyright (c) 2016 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -638,62 +669,17 @@
       <t>[[ To be removed from the final specification ]]</t>
 
       <t>
-	-04
-	<list style="symbols">
-          <t>
-	    Tracked some editorial changes made to the Back-Channel Logout spec.
-	  </t>
-        </list>
-      </t>
-
-      <t>
-	-03
-	<list style="symbols">
-          <t>
-	    Corrected the definition of Session ID to make it specific to
-	    the OP, RP, End-User, and User Agent or device.
-	  </t>
-        </list>
-      </t>
-
-      <t>
-	-02
-	<list style="symbols">
-          <t>
-	    Tracked terminology changes made in the referenced IETF specs since errata set 1.
-	  </t>
-	  <t>
-	    Registered the <spanx style="verb">sid</spanx> (session ID) claim.
-	  </t>
-	  <t>
-	    Registered the <spanx style="verb">logout_uri</spanx> and
-	    <spanx style="verb">logout_session_required</spanx> client metadata values.
-	  </t>
-	  <t>
-	    Stated that the RP's logout response SHOULD include <spanx style="verb">Cache-Control</spanx>
-	    directives keeping the response from being cached.
-	  </t>
-	  <t>
-	    Added syntax requirements for logout URIs.
-	  </t>
-        </list>
-      </t>
-
-      <t>
-	-01
-	<list style="symbols">
-          <t>
-	    Simplified to always use iframes, rather than a combination of
-	    images and iframes.
-	  </t>
-        </list>
-      </t>
-
-      <t>
 	-00
 	<list style="symbols">
           <t>
-	    Wrote the initial version based on the proposal circulated as a Word doc.
+	    Renamed HTTP-Based Logout to Front-Channel Logout.
+	  </t>
+          <t>
+	    Created openid-connect-frontchannel-1_0 from openid-connect-logout-1_0 draft 04.
+	  </t>
+	  <t>
+	    Prefixed identifiers with "frontchannel_" to be parallel with
+	    the Back-Channel Logout specification.
 	  </t>
         </list>
       </t>
