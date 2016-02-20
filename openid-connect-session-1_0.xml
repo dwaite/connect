@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 25</title>
+    Session Management 1.0 - draft 26</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="3" month="August" year="2015" />
+    <date day="19" month="February" year="2016" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -102,6 +102,21 @@
 	login status at the OpenID Provider on an ongoing basis so
 	that the Relying Party can log out an End-User who has
 	logged out of the OpenID Provider.
+      </t>
+      <t>
+	Both this specification and the
+	<xref target="OpenID.FrontChannel">OpenID Connect Front-Channel Logout 1.0</xref>
+	specification use front-channel communication,
+	which communicate logout requests from the OP to RPs via the User Agent.
+	In contrast, the
+	<xref target="OpenID.BackChannel">OpenID Connect Back-Channel Logout 1.0</xref>
+	specification uses direct back-channel
+	communication between the OP and RPs being logged out.
+      </t>
+      <t>
+	This specification can be used separately from or in combination with
+	OpenID Connect Front-Channel Logout 1.0 and/or
+	OpenID Connect Back-Channel Logout 1.0.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -797,6 +812,34 @@
         </front>
       </reference>
 
+      <reference anchor="OpenID.FrontChannel" target="http://openid.net/specs/openid-connect-frontchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Front-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+	  <date day="19" month="February" year="2016" />
+	</front>
+      </reference>
+
+      <reference anchor="OpenID.BackChannel" target="http://openid.net/specs/openid-connect-backchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Back-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+	  <date day="19" month="February" year="2016" />
+	</front>
+      </reference>
+
       <reference anchor="IANA.OAuth.Parameters" target="http://www.iana.org/assignments/oauth-parameters">
         <front>
           <title>OAuth Parameters</title>
@@ -839,7 +882,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2015 The OpenID Foundation.</t>
+      <t>Copyright (c) 2016 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -877,6 +920,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+        -26
+        <list style="symbols">
+	  <t>
+	    Referenced Front-Channel Logout and Back-Channel Logout specifications.
+	  </t>
+        </list>
+      </t>
 
       <t>
         -25
