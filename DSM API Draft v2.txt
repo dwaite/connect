@@ -1,0 +1,198 @@
+Session Management 
+HTTP/REST API
+
+Introduction
+The Distributed Session Management system is meant to allow for the maintaining of session information across multiple parties. 
+It extends the Federated Single Sign-on model, which does not model the concept of sessions, instead modeling assertions about authentication which could be used as the basis of creating independent sessions (SSO) and messages about revoking tokens, which could be used as the basis of invalidating a session backed by said tokens.
+The API described later in this document is meant to allow for many architectures, including single servers, clustered servers, proxy caches, and distributed consensus systems (such as the Swirlds platform). In that sense, it is meant to model session management in general, not just a distributed implementation. It is also meant to be possible input into a session management standardization effort, should such an effort be justifiable from a business perspective.
+System Summary
+A separate document which is not yet ready for release goes into much more detail on the overall system design, as well as the processing model(s) for using this API. We include some details here until the separate document is completed.
+An authentication session is divided into three parts within the distributed session management project:
+1. A long-lived session “Era”, which represents a binding of a user identity from an IDP/OP to a device, browser, or application context, across an indefinite period of time possibly measured in years. 
+
+Examples of eras would include the lifetime of employment by a particular company, relationship with a company, lifetime of a social media account, or of ownership of a particular device. Attributes, authorization and level of assurance are all allowed to fluctuate throughout an Era.
+
+The maintenance and state of an Era is meant to solely be the responsibility of the Authentication Authority, and thus has minimal representation within this API. Amongst existing standards within the authentication/authorization space, eras can perhaps be most easily compared with and contrasted against refresh tokens.
+
+2. Shorter-lived session “Periods”, which an era is conceptually composed of. Session periods are meant to have a lifetime on the order of hours to days.
+
+A period expiring does not necessarily mean that the era has ended, only that a party should no longer honor tokens associated with that period. Periods may expire for many reasons
+• a change in user attributes or authorizations
+• an adaptive authentication system requiring periodic re-authentication to prevent risk,
+• an intelligence system indicating risk and thus requiring some particular additional form of user proofing for continued use
+• device lost/theft
+• attack or compromise by a particular piece of client software, or
+• employee termination. 
+
+In most of these situations, the user should be returned immediately back into work after authentication - and in many cases, such authentication may be transparent to the user. An access token which was invalidated by the end of a period may only mean that the token needs to be refreshed - and that the new token may contain a different set of attributes/authorizations.
+
+Periods may be explicitly invalidated in order to trigger a re-authentication/re-authorization, or may implicitly expire either due to a hard-coded timeout or a timeout due to user inactivity. The protocol defined within allows user activity to be tracked uniformly across multiple parties.
+
+3. User attributes and authorization are still represented and solely asserted via tokens (e.g. SAML assertions, OAuth 2 access/refresh tokens and OpenID Connect identity tokens). Each party in the system may have a different set of user attributes/authorization. A token is good for the lifetime of a “period”. Over the course of an “era”, attributes and authorizations may change several times.
+Periods are ended in one of three ways:
+1. The maximum lifetime of the period is reached
+2. The period is set to monitor liveliness of the session and to be extended by user activity. User inactivity has caused the period to end before the maximum lifetime
+3. A party explicitly invalidated the period and thus tokens associated with the period.
+API Design
+The protocol described here is meant to describe the management of the “periods” of sessions across interested parties, with the idea that the “Era” is tracked solely by the Authentication Authority. No user information/PII is tracked associated with a period within this system - a session identifier is only correlated with user identity, attributes and authorizations via a traditional token. From this point forward, the term “session” within this document is meant to refer to this concept of a “period”.
+
+Communication
+Communication as defined here is over HTTP, between a client and a Distributed Session Management (DSM) protected resource. When using a Swirld, the protected resource in this document is a Swirld participant.
+Except for the web hook for pushing invalidated session events immediately to a client, communication is HTTP request/response from a client to the resource, protected via OAuth2,
+For the purposes of this API we define the Authentication Authority (AA) *also* as a potential client into the DSM protected resource - one with the ability to create and delete session periods. Both may use some other mechanism to communicate into the system, such as directly including Swirld participating functionality, or interacting with a backing database for session information directly.
+There are other potential protocols, such as Websocket-based API for real-time communication on transactions and/or events. However such protocol is not currently defined, and out of scope for this document.
+There are two primary modes of operation for a client in this system:
+1. Client makes an API call on every request to determine whether the session is still valid, sending either a GET (indicating a pure query) or PUT (indicating user activity).
+
+This is by far the simplest mode of operation, but introduces additional network traffic, server load, and latency for every user request.
+2. Client maintains state about sessions it has requested and the current ‘guaranteed’ lifetime, sans explicit invalidation events. PUT requests are sent to indicate activity, but can be done in parallel to handling the user request (as we have been guaranteed the session is still valid). In the event that we do not have a guarantee about lifetime, we degrade to blocking API calls.
+
+This mode of operation is more complex, but allows for a client to exchange caching of session guarantees for significantly less latency and network traffic. Such session guarantees are designed to be catchable inside HTTP cookies.
+
+This mode also requires use of the web hook endpoint for the DSM resource to notify you that a session is invalidated. A list of invalidated sessions is maintained by the client as well, in a fashion somewhat comparable to an in-memory cache of a CRL list.
+Authentication
+Authentication of a client at a resource is via standard OAuth2. 
+Recommended scopes (with mnemonic used below) and API function are as follows:
+• session/read (RD)		- check status on existing session
+• session/update (UP)	- update session with new activity
+• session/create (CR)		- create new session (with no prior activity)
+• session/invalidate (DE)	- invalidate an existing session
+• session/list (LI)		- debug usage, show all known sessions
+Authentication of the web hook is authentication of communication from the resource at the client. For this we do not use OAuth 2, instead using signed JSON (JWS) based on the key provided by the DSM resource at provisioning time.
+
+Proposed Client->Resource API
+HTTP Status Codes
+• 200 OK
+• all successful GET requests. This may also be returned for PUT/POST/DELETE requests which modify the session, in the event that the modification is applied to the returned data.
+• 202 Accepted
+• Requests which modify the session, in the event that the system has to return older data not based on applying the requested change.
+• 304 Not Modified
+• GET/HEAD requests as acceptable for caching purposes.
+• 400 Bad Request
+• May be returned for two reasons:
+• Session resource submitted does not contain all the necessary information
+• Attempt to change invariant values of session via PUT
+• 401 Authorization Required
+• 403 Forbidden
+• reserved for OAuth 2 behavior on client requests to the protected resource. These should include any necessary scopes as defined below for the endpoints.
+• 404 Not Found
+• may be returned for GET, POST, or DELETE against an unknown session id. Note that expired sessions are allowed to be cleared from state after their expiry time is met, which means these may give a 404 at that point.
+• 409 Conflict
+• PUT/POST update on expired/invalidated token
+• 410 Gone
+• GET/DELETE on expired/invalidated token, PUT creation of token known to be expired.
+
+Session Data
+A session has several pieces of metadata. Below are the items, format, and usage:
+1. Session Identifier (Static, Text)
+1. Identifier for the session across all usage. Recommended to be in the form “/session/<id>”
+2. This value is included in the SSO token (SAML Assertion, OIDC id_token)
+3. SSO binds the session identifier to a user session on the client. Without a SSO, the session identifier is meaningless to the client.
+4. Represents an authentication, not an authorization. For mobile scenarios for instance where a single authentication may be reused, all access/id tokens will include the same identifier
+2. Created at (Static, Consensus Time)
+The time of the first use of the session identifier by IDP/OP
+3. Mandatory Expiry/Maximum Session Lifetime (Static, Consensus Time)
+The time at which the session must become inactive, even if there is recent activity. This is set by the party creating the session period as an estimate of when the period should expire based on consensus time.
+4. Inactivity Window (Static, Time duration)
+Amount of time a session can go without activity before it is considered permanently expired.
+5. Last activity (Dynamic, Consensus time)
+indicating the last honored activity as accepted by the network
+6. Dynamic expiry (Dynamic, Consensus time)
+The earliest of last activity + window and mandatory expiry.
+7. Expiry time (Dynamic, server time + consensus time)
+Indicating the time at which the IDP/OP explicitly expired the session. Note that invalidating of tokens takes place is represented immediately on receipt, and does not wait for consensus on state. Thus, the order of creates/updates and invalidated session events and thus consensus state may differ across multiple resources temporarily.
+Session identifiers are required to be unique within the created at to mandatory expiry time window. 
+
+
+The entity format for sessions is considerably pared down:
+1. Session identifier does not need to be included in the entity, as it is already equivalent to the local path
+2. Created at/Mandatory Expiry are not required for successful use by a client
+3. Inactivity Window, Last activity, and Dynamic expiry are returned as headers (and usable for caching)
+4. Invalidation of sessions is indicated via HTTP status codes 
+(eg 409 Conflict, 410 Gone)
+This means there is no required information in the session entity whatsoever. However, we may want to include created at/mandatory expiry for use by the client, as well as whether the session is considered expired.
+API Methods
+The following lists the HTTP method, path, and in parenthesis required scope(s), followed by a behavioral description
+GET /session/ (LI) 
+Returns list of all known valid sessions by local (relative) URI. This is meant primarily for debug purposes, as a client will most likely not have or need knowledge for most of these sessions.
+OPTIONS /session/
+OPTIONS /session/<id>
+Supplied to allow for CORS support. Require no OAuth scopes
+
+GET /session/<id> (RD)
+Used to retrieve the status of a current session 
+(current consensus plus invalidated sessions not yet part of consensus)
+Success returns 200 OK and the session entity as described above
+The use of this method is not considered activity against a session.
+HTTP cache headers are used to represent session validity window:
+• Date for local time of the resource (or predicted consensus time)
+• Last-Modified: represents Last Activity consensus time
+• Expires: represents the Dynamic Expiry consensus time
+May return errors:
+410 Gone
+	session expired or invalidated
+404 Not Found
+	id not known, or past mandatory expiry time
+HEAD /session/<id> (RD)
+Conforming to HTTP-defined behavior and the behavior of the GET method above.
+Specifically called out for its ability to check session activity without transferring the session object again (which is invariant)
+
+PUT /session/<id> (CR or UP)
+With UP scope, has the ability to indicate activity on a session
+With CR scope, has the ability to create a new session
+Session entity must be submitted. Success will return for an updated session, 201 Created or 202 Accepted for a created session.
+Response is equivalent to doing a GET of the resource. This may include caching headers *if* the session entity does not need to be modified from what was sent (including canonicalization of JSON)
+May return:
+200 OK
+	Success if update completed immediately
+201 Created
+	Success if create completed immediately
+202 Accepted
+	Success code for update/complete which are acknowledged but pending. Response will include older state which will indicate the session is valid.
+400 Bad Request
+	session entity is not valid on update. session entity as currently defined is invariant across the lifetime of the session, so included values like maximum lifetime cannot be changed via PUT
+409 Conflict
+	attempt to create a session that exists
+410 Gone
+	attempt to update a session which is expired
+POST /session/<id>;method=<method> (CR, UP, or DE)
+Provided for clients which can only POST - method is either PUT or DELETE
+Content-Location set to current path (/session/<id>)
+POST /session/<id>
+Update a session, similar to PUT. No data is required on the POST, unlike the PUT which needs to receive a copy of the session entity. The response is identical to re-submitting the current server state via the POST /session/<id>;method=PUT (as described above) in order to indicate user activity.
+
+DELETE /session/<id> (DE)
+Expire a session
+Returns 200 OK or 202 Accepted on success
+Error codes include:
+404 Not Found
+	session is unknown
+410 Gone
+	session already expired
+GET /expiry/ (RD) 
+Returns list of known explicitly (early-terminated) expired sessions by ID. This is meant for use by clients to build expiry state when they suspect they may not know of all expiries which are currently active. 
+Clients are meant to restrict use of any access when the associated session is expired. If a client does not wish to request whether a token is valid on every request, this mechanism is used to Each client is effectively maintaining
+Session IDs are removed from this list when they hit maximum session lifetime.
+Resource -> Client API
+POST <webhook>
+Used to indicate a session was expired. Message is sent as a JWS
+Errors include:
+204 No Content
+	invalidated session acknowledged
+4xx
+	attempt to process invalidated session event failed
+5xx
+	server issue, resend event
+
+
+Outstanding issues
+• If clock drift or consensus view on lifetime would result in the session activity response to be ambiguous, the system may block the HTTP response until a more definite answer can given (such as a PUT for session activity being merged into consensus view, or consensus time indicating a session naturally expired). This behavior needs to be further defined and included in the API (in terms which aren’t specific to delayed consensus)
+• The API should allow the use of multiple issuers to be represented on a single DSM resource, such as a SaaS provider with different swirlds across each token issuer. The best way to include such an issuer in the API needs to be defined. Among issues include differing entity ID from issuer ID in SAML vs OIDC connections, suitability for use inside a URL path, volume of additional data in API, and security concerns should the issuer be independent from other metadata values.
+• Define more information about the OAuth AS used to get the access token and provisioning to the resource, specifically in the case where there are multiple issuers.
+• Evaluate the use of pubsub for webhook. We need to guarantee clients don’t become unsubscribed and stop receiving expiry notices, such as with a leasing mechanism. 
+• Evaluate usage by Javascript API more thoroughly
+• As much as possible, support/use existing standards/specifications. The OIDC Session Management draft in particular should be something we are capable of supporting.
+
+
+
+
