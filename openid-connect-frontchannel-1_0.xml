@@ -23,7 +23,7 @@
 
   <front>
     <title abbrev="OpenID Connect Front-Channel Logout 1.0">OpenID Connect
-    Front-Channel Logout 1.0 - draft 00</title>
+    Front-Channel Logout 1.0 - draft 01</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="19" month="February" year="2016" />
+    <date day="19" month="August" year="2016" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -113,11 +113,10 @@
 
       <section anchor="Terminology" title="Terminology">
         <t>
-	  This specification uses the terms "Access Token", "Authorization Code",
-	  "Authorization Endpoint", "Authorization Grant", "Authorization Server",
-	  "Client", "Client Identifier", "Client Secret",
-	  "Protected Resource", "Redirection URI", "Refresh Token",
-	  "Resource Owner", "Resource Server", "Response Type", and "Token Endpoint"
+	  This specification uses the terms
+	  "Authorization Server",
+	  "Client", "Client Identifier",
+	  and "Redirection URI"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
 	  the term "User Agent" defined by <xref target="RFC7230">RFC 7230</xref>,
 	  and the terms defined by
@@ -161,7 +160,7 @@
 	The logout URI MUST NOT include a fragment component.
       </t>
       <t>
-	The OP renders <spanx style="verb">&lt;iframe src="logout_uri"&gt;</spanx>
+	The OP renders <spanx style="verb">&lt;iframe src="frontchannel_logout_uri"&gt;</spanx>
 	in a page with the registered logout URI as the source
 	to trigger the logout actions by the RP.
 	Upon receiving a request to render the logout URI in an iframe,
@@ -198,9 +197,15 @@
 	    OPTIONAL.
 	    RP URL that will cause the RP to log itself out
 	    when rendered in an iframe by the OP.
-	    A <spanx style="verb">sid</spanx> (session ID) query parameter MAY be included
+	    An <spanx style="verb">iss</spanx> (issuer) query parameter and
+	    a <spanx style="verb">sid</spanx> (session ID) query parameter
+	    MAY be included
 	    by the OP to enable the RP to validate the request and to determine
 	    which of the potentially multiple sessions is to be logged out.
+	    If a <spanx style="verb">sid</spanx> (session ID) query parameter
+	    is included,
+	    an <spanx style="verb">iss</spanx> (issuer) query parameter
+	    MUST also be included.
 	  </t>
 	</list>
       </t>
@@ -213,9 +218,10 @@
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the RP requires that
-	    a <spanx style="verb">sid</spanx> (session ID)
-	    query parameter be included to identify the RP session with the OP
-	    when the <spanx style="verb">logout_uri</spanx> is used.
+	    <spanx style="verb">iss</spanx> (issuer)
+	    and <spanx style="verb">sid</spanx> (session ID)
+	    query parameters be included to identify the RP session with the OP
+	    when the <spanx style="verb">frontchannel_logout_uri</spanx> is used.
 	    If omitted, the default value is <spanx style="verb">false</spanx>.
 	  </t>
 	</list>
@@ -229,7 +235,7 @@
 	at their logout URIs to cause them to log out.
 	Some OPs track this state using a "visited sites" cookie.
 	OPs contact them in parallel using a dynamically constructed page
-	with HTML <spanx style="verb">&lt;iframe src="logout_uri"&gt;</spanx> tags
+	with HTML <spanx style="verb">&lt;iframe src="frontchannel_logout_uri"&gt;</spanx> tags
 	rendering each logged-in RP's logout URI.
       </t>
       <t>
@@ -257,9 +263,10 @@
 	    <vspace/>
 	    OPTIONAL.
 	    Boolean value specifying whether the OP can pass
-	    a <spanx style="verb">sid</spanx> (session ID)
-	    query parameter to identify the RP session with the OP
-	    when the <spanx style="verb">logout_uri</spanx> is used.
+	    <spanx style="verb">iss</spanx> (issuer)
+	    and <spanx style="verb">sid</spanx> (session ID)
+	    query parameters to identify the RP session with the OP
+	    when the <spanx style="verb">frontchannel_logout_uri</spanx> is used.
 	    If supported, the <spanx style="verb">sid</spanx> Claim is also included
 	    in ID Tokens issued by the OP.
 	    If omitted, the default value is <spanx style="verb">false</spanx>.
@@ -268,24 +275,55 @@
       </t>
       <t>
 	The <spanx style="verb">sid</spanx> (session ID) Claim used in ID Tokens and
-	as a <spanx style="verb">logout_uri</spanx> parameter has the following definition:
+	as a <spanx style="verb">frontchannel_logout_uri</spanx> parameter has the following definition:
       </t>
       <t>
 	<list style="hanging">
-	  <t hangText="sid (session ID)"> <!-- Should be synchronized with openid-connect-backchannel-1_0.xml -->
+	  <t hangText="sid">
 	    <vspace/>
 	    OPTIONAL.
-	    String identifier for a Session.
+	    Session ID - String identifier for a Session.
 	    This represents a Session of an OP at an RP
 	    to a User Agent or device for a logged-in End-User.
-	    Its contents are unique to the OP and opaque to the RP.
-	    It MUST have sufficient entropy to prevent
-	    collisions between Session IDs generated by different OPs
-	    and to prevent it from being guessed by potential attackers.
+	    Different <spanx style="verb">sid</spanx> values are used to identify
+	    distinct sessions at an OP.
+	    The <spanx style="verb">sid</spanx> value need only be unique
+	    in the context of a particular issuer.
+	    Its contents are opaque to the RP.
 	    Its syntax is the same as an OAuth 2.0 Client Identifier.
 	  </t>
 	</list>
       </t>
+
+      <section anchor="ExampleFrontchannel" title="Example Front-Channel Logout URL Usage">
+	<t>
+	  In this non-normative example,
+	  the RP has registered the <spanx style="verb">frontchannel_logout_uri</spanx>
+	  value <spanx style="verb">https://rp.example.org/frontchannel_logout"</spanx>
+	  with the OP.
+	  In the simple case,
+	  in which <spanx style="verb">frontchannel_logout_session_required</spanx> is false,
+	  the OP causes the front-channel logout to occur by rendering this URL in an iframe:
+	</t>
+	<figure><artwork><![CDATA[
+  https://rp.example.org/frontchannel_logout
+]]></artwork></figure>
+	<t>
+	  In a second example,
+	  in which <spanx style="verb">frontchannel_logout_session_required</spanx> is true,
+	  Issuer and Session ID values are also sent.
+	  This example uses an Issuer value of <spanx style="verb">https://server.example.com</spanx>
+	  and a Session ID value of <spanx style="verb">08a5019c-17e1-4977-8f42-65a12843ea02</spanx>.
+	  In this case,
+	  the OP causes the front-channel logout to occur by rendering this URL in an iframe
+	  (with line breaks for display purposes only):
+	</t>
+	<figure><artwork><![CDATA[
+  https://rp.example.org/frontchannel_logout
+    ?iss=https://server.example.com
+    &sid=08a5019c-17e1-4977-8f42-65a12843ea02
+]]></artwork></figure>
+      </section>
     </section>
 
     <section anchor="RPInitiated" title="RP-Initiated Logout Functionality">
@@ -392,7 +430,7 @@
 	  <t> <?rfc subcompact="yes"?>
 	    <list style="symbols">
 	      <t>
-		Client Metadata Name: <spanx style="verb">logout_uri</spanx>
+		Client Metadata Name: <spanx style="verb">frontchannel_logout_uri</spanx>
 	      </t>
 	      <t>
 		Client Metadata Description:
@@ -417,7 +455,7 @@
 		Boolean value specifying whether the RP requires that
 		a <spanx style="verb">sid</spanx> (session ID)
 		query parameter be included to identify the RP session with the OP
-		when the <spanx style="verb">logout_uri</spanx> is used
+		when the <spanx style="verb">frontchannel_logout_uri</spanx> is used
 	      </t>
 	      <t>
 		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
@@ -542,7 +580,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="19" month="February" year="2016" />
+	  <date day="19" month="August" year="2016" />
 	</front>
       </reference>
 
@@ -558,7 +596,7 @@
             <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
-	  <date day="19" month="February" year="2016" />
+	  <date day="19" month="August" year="2016" />
 	</front>
       </reference>
 
@@ -667,6 +705,21 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-01
+	<list style="symbols">
+          <t>
+	    Scoped Session ID to be Issuer-specific, aligning it with the back-channel logout usage.
+	  </t>
+	  <t>
+	    Finished changing uses of "logout_uri" to "frontchannel_logout_uri".
+	  </t>
+	  <t>
+	    Removed references to terms that are not used.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-00
