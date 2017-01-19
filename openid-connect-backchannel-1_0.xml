@@ -23,7 +23,7 @@
 
   <front>
     <title abbrev="OpenID Connect Back-Channel Logout 1.0">OpenID Connect
-    Back-Channel Logout 1.0 - draft 03</title>
+    Back-Channel Logout 1.0 - draft 04</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="23" month="August" year="2016" />
+    <date day="18" month="January" year="2017" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -199,8 +199,6 @@
 	<t>
 	  Relying Parties supporting back-channel-based logout register a back-channel logout URI
 	  with the OP as part of their client registration.
-	  The domain, port, and scheme of this URL MUST be the same as that of
-	  a registered Redirection URI value.
 	</t>
 	<t>
 	  The back-channel logout URI MUST be an absolute URI as defined by
@@ -274,7 +272,7 @@
 
 	    <t hangText="sub">
 	      <vspace/>
-	      REQUIRED.
+	      OPTIONAL.
 	      Subject Identifier, as specified in Section 2 of <xref target="OpenID.Core"/>.
 	    </t>
 
@@ -299,10 +297,12 @@
 	    <t hangText="events">
 	      <vspace/>
 	      REQUIRED.
-	      Claim whose value is an array of strings,
-	      the first of which is
+	      Claim whose value is a JSON object
+	      containing the member name
 	      <spanx style="verb">http://schemas.openid.net/event/backchannel-logout</spanx>.
 	      This declares that the JWT is a Logout Token.
+	      The corresponding member value MUST be a JSON object and
+	      SHOULD be the empty JSON object <spanx style="verb">{}</spanx>.
 	    </t>
 
 	    <t hangText="sid">
@@ -320,6 +320,10 @@
 	    </t>
 
 	  </list>
+	</t>
+	<t>
+	  A Logout Token MUST contain either a <spanx style="verb">sub</spanx>
+	  or a <spanx style="verb">sid</spanx> claim, and MAY contain both.
 	</t>
 	<t>
 	  The following Claim MUST NOT be used within the Logout Token:
@@ -344,7 +348,7 @@
 	  The same keys are used to sign and encrypt Logout Tokens
 	  as are used for ID Tokens.
 	  NOTE: The Logout Token is compatible with
-	  <xref target="I-D.hunt-idevent-token">Security Event Token (SET)</xref> draft -03.
+	  <xref target="I-D.hunt-idevent-token">Security Event Token (SET)</xref> draft -08.
 	</t>
 	<figure>
 	  <preamble>
@@ -358,7 +362,9 @@
    "iat": 1471566154,
    "jti": "bWJq",
    "sid": "08a5019c-17e1-4977-8f42-65a12843ea02",
-   "events": [ "http://schemas.openid.net/event/backchannel-logout" ]
+   "events": {
+     "http://schemas.openid.net/event/backchannel-logout": {}
+     }
   }
 ]]></artwork>
 	</figure>
@@ -411,7 +417,7 @@
 	    </t>
 	    <t>
 	      Validate the Logout Token signature in the same way that
-	      an ID Token signature is validated.
+	      an ID Token signature is validated, with the following refinements.
 	    </t>
 	    <t>
 	      Validate the <spanx style="verb">iss</spanx>,
@@ -420,10 +426,13 @@
 	      Claims in the same way they are validated in ID Tokens.
 	    </t>
 	    <t>
+	      Verify that the Logout Token contains a <spanx style="verb">sub</spanx> claim,
+	      a <spanx style="verb">sid</spanx> claim, or both.
+	    </t>
+	    <t>
 	      Verify that the Logout Token contains an
 	      <spanx style="verb">events</spanx> Claim
-	      whose value is an array of strings,
-	      the first of which is
+	      whose value is JSON object containing the member name
 	      <spanx style="verb">http://schemas.openid.net/event/backchannel-logout</spanx>.
 	    </t>
 	    <t>
@@ -755,7 +764,7 @@
 
     <references title="Informative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7591"?>
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hunt-idevent-token-03.xml" ?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hunt-idevent-token-08.xml" ?>
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -776,7 +785,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2016 The OpenID Foundation.</t>
+      <t>Copyright (c) 2017 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -814,6 +823,27 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-04
+	<list style="symbols">
+	  <t>
+	    Stated that
+	    a Logout Token MUST contain either a <spanx style="verb">sub</spanx>
+	    or a <spanx style="verb">sid</spanx> claim, and MAY contain both.
+	    This addresses issue #1000.
+	  </t>
+	  <t>
+	    Removed the backchannel_logout_uri requirement that
+	    the domain, port, and scheme of this URL MUST be the same as that of
+	    a registered Redirection URI value.
+	  </t>
+          <t>
+	    Updated the Logout Token syntax to match 
+	    <xref target="I-D.hunt-idevent-token">Security Event Token (SET)</xref> draft -08.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-03
