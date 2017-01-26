@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="18" month="January" year="2017" />
+    <date day="25" month="January" year="2017" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -323,7 +323,11 @@
 	</t>
 	<t>
 	  A Logout Token MUST contain either a <spanx style="verb">sub</spanx>
-	  or a <spanx style="verb">sid</spanx> claim, and MAY contain both.
+	  or a <spanx style="verb">sid</spanx> Claim, and MAY contain both.
+	  If a <spanx style="verb">sid</spanx> Claim is not present,
+	  the intent is that all sessions at the RP
+	  for the End-User identified by the <spanx style="verb">iss</spanx>
+	  and <spanx style="verb">sub</spanx> Claims be logged out.
 	</t>
 	<t>
 	  The following Claim MUST NOT be used within the Logout Token:
@@ -348,7 +352,7 @@
 	  The same keys are used to sign and encrypt Logout Tokens
 	  as are used for ID Tokens.
 	  NOTE: The Logout Token is compatible with
-	  <xref target="I-D.hunt-idevent-token">Security Event Token (SET)</xref> draft -08.
+	  <xref target="I-D.ietf-secevent-token">Security Event Token (SET)</xref> draft -00.
 	</t>
 	<figure>
 	  <preamble>
@@ -426,8 +430,8 @@
 	      Claims in the same way they are validated in ID Tokens.
 	    </t>
 	    <t>
-	      Verify that the Logout Token contains a <spanx style="verb">sub</spanx> claim,
-	      a <spanx style="verb">sid</spanx> claim, or both.
+	      Verify that the Logout Token contains a <spanx style="verb">sub</spanx> Claim,
+	      a <spanx style="verb">sid</spanx> Claim, or both.
 	    </t>
 	    <t>
 	      Verify that the Logout Token contains an
@@ -455,12 +459,12 @@
 
       <section anchor="BCActions" title="Back-Channel Logout Actions">
 	<t>
-	  After receiving a valid Logout Token,
-	  the RP locates the session identified by the
+	  After receiving a valid Logout Token from the OpenID Provider,
+	  the RP locates the session(s) identified by the
 	  <spanx style="verb">iss</spanx> and
 	  <spanx style="verb">sub</spanx> Claims
-	  and optionally the <spanx style="verb">sid</spanx> Claim.
-	  The RP then clears any state associated with the identified session.
+	  and/or the <spanx style="verb">sid</spanx> Claim.
+	  The RP then clears any state associated with the identified session(s).
 	  The mechanism by which the RP achieves this is implementation specific.
 	  If the identified End-User is already logged out at the RP when the logout request
 	  is received, the logout is considered to have succeeded.
@@ -471,6 +475,16 @@
 	  to the RP to likewise trigger downstream logout requests.
 	  This is achieved by having the RP/OP send logout requests to its downstream RPs
 	  as part of its logout actions.
+	</t>
+	<t>
+	  Refresh tokens issued without the <spanx style="verb">offline_access</spanx> property
+	  to a session being logged out SHOULD be revoked.
+	  Refresh tokens issued with the <spanx style="verb">offline_access</spanx> property
+	  normally SHOULD NOT be revoked.
+	  NOTE:  An open issue for the specification is whether to define an additional optional parameter
+	  in the logout token, probably as a value in the event-specific parameters JSON object,
+	  that explicitly signals that <spanx style="verb">offline_access</spanx> refresh tokens
+	  are also to be revoked.
 	</t>
       </section>
 
@@ -670,7 +684,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="23" month="August" year="2016" />
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -702,7 +716,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="23" month="August" year="2016" />
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -764,7 +778,7 @@
 
     <references title="Informative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7591"?>
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-hunt-idevent-token-08.xml" ?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-secevent-token-00.xml" ?>
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -777,8 +791,10 @@
           <t>John Bradley (ve7jtb@ve7jtb.com), Ping Identity</t>
 	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
 	  <t>Pedro Felix (pmhsfelix@gmail.com), individual</t>
+	  <t>Phil Hunt (phil.hunt@oracle.com), Oracle</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
 	  <t>Todd Lainhart (lainhart@us.ibm.com), IBM</t>
+	  <t>Torsten Lodderstedt (t.lodderstedt@telekom.de), Deutsche Telekom</t>
 	  <t>Nat Sakimura (n-sakimura@nri.co.jp), Nomura Research Institute, Ltd.</t>
         </list>
       </t>
@@ -830,17 +846,25 @@
 	  <t>
 	    Stated that
 	    a Logout Token MUST contain either a <spanx style="verb">sub</spanx>
-	    or a <spanx style="verb">sid</spanx> claim, and MAY contain both.
+	    or a <spanx style="verb">sid</spanx> Claim, and MAY contain both.
+	    If a <spanx style="verb">sid</spanx> Claim is not present,
+	    the intent is that all sessions at the RP
+	    for the End-User identified by the <spanx style="verb">iss</spanx>
+	    and <spanx style="verb">sub</spanx> Claims be logged out.
 	    This addresses issue #1000.
 	  </t>
 	  <t>
-	    Removed the backchannel_logout_uri requirement that
-	    the domain, port, and scheme of this URL MUST be the same as that of
-	    a registered Redirection URI value.
+	    Defined logout behaviors for refresh tokens issued with and without
+	    the <spanx style="verb">offline_access</spanx> property.
+	  </t>
+	  <t>
+	    Removed the requirement that the domain, port, and scheme of the
+	    <spanx style="verb">backchannel_logout_uri</spanx> URL
+	    MUST be the same as that of a registered Redirection URI value.
 	  </t>
           <t>
 	    Updated the Logout Token syntax to match 
-	    <xref target="I-D.hunt-idevent-token">Security Event Token (SET)</xref> draft -08.
+	    <xref target="I-D.ietf-secevent-token">Security Event Token (SET)</xref> draft -00.
 	  </t>
         </list>
       </t>
@@ -849,10 +873,9 @@
 	-03
 	<list style="symbols">
           <t>
-	    Changed from using a <spanx style="verb">logout_only</spanx> claim
+	    Changed from using a <spanx style="verb">logout_only</spanx> Claim
 	    to using a logout event in the Logout Token.
-	    The Logout Token is compatible with
-	    <xref target="I-D.hunt-idevent-token">Security Event Token (SET)</xref> draft -03.
+	    The Logout Token is compatible with draft-hunt-idevent-token-03.
 	  </t>
         </list>
       </t>

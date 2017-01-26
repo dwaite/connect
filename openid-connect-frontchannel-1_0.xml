@@ -23,7 +23,7 @@
 
   <front>
     <title abbrev="OpenID Connect Front-Channel Logout 1.0">OpenID Connect
-    Front-Channel Logout 1.0 - draft 01</title>
+    Front-Channel Logout 1.0 - draft 02</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="23" month="August" year="2016" />
+    <date day="25" month="January" year="2017" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -168,6 +168,23 @@
 	including any cookies and HTML5 local storage.
       </t>
       <t>
+	The OP MAY add these query parameters when rendering the logout URI,
+	and if either is included, both MUST be:
+	<list style="hanging">
+
+	  <t hangText="iss">
+	    <vspace/>
+	    Issuer Identifier for the OP issuing the front-channel logout request.
+	  </t>
+
+	  <t hangText="sid">
+	    <vspace/>
+	    Identifier for the Session.
+	  </t>
+
+	</list>
+      </t>
+      <t>
 	The RP's response SHOULD include <spanx style="verb">Cache-Control</spanx>
 	directives keeping the response from being cached to prevent cached responses
 	from interfering with future logout requests.
@@ -201,11 +218,8 @@
 	    a <spanx style="verb">sid</spanx> (session ID) query parameter
 	    MAY be included
 	    by the OP to enable the RP to validate the request and to determine
-	    which of the potentially multiple sessions is to be logged out.
-	    If a <spanx style="verb">sid</spanx> (session ID) query parameter
-	    is included,
-	    an <spanx style="verb">iss</spanx> (issuer) query parameter
-	    MUST also be included.
+	    which of the potentially multiple sessions is to be logged out;
+	    if either is included, both MUST be.
 	  </t>
 	</list>
       </t>
@@ -448,7 +462,7 @@
 	  <t>
 	    <list style="symbols">
 	      <t>
-		Client Metadata Name: <spanx style="verb">logout_session_required</spanx>
+		Client Metadata Name: <spanx style="verb">frontchannel_logout_session_required</spanx>
 	      </t>
 	      <t>
 		Client Metadata Description:
@@ -580,7 +594,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="23" month="August" year="2016" />
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -596,7 +610,7 @@
             <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
-	  <date day="23" month="August" year="2016" />
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -667,7 +681,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2016 The OpenID Foundation.</t>
+      <t>Copyright (c) 2017 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -705,6 +719,17 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-02
+	<list style="symbols">
+          <t>
+	    Added explicit definitions for the <spanx style="verb">iss</spanx> (issuer) 
+	    and <spanx style="verb">sid</spanx> (session ID) query parameters
+	    that are used with the logout URI.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-01

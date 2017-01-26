@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 27</title>
+    Session Management 1.0 - draft 28</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="23" month="August" year="2016" />
+    <date day="25" month="January" year="2017" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -273,12 +273,11 @@
 
       <section anchor="RPiframe" title="RP iframe">
 
-        <t>The RP loads an invisible iframe from itself.
-        This iframe MUST know the ID of the OP iframe,
-	as described in <xref target="OPiframe"/>, so that it can
-        postMessage to the OP iframe.</t>
-
         <t>
+	  The RP loads an invisible iframe from itself.
+	  This iframe MUST know the ID of the OP iframe,
+	  as described in <xref target="OPiframe"/>, so that it can
+	  postMessage to the OP iframe.
 	  The RP iframe polls the OP iframe with postMessage at an interval
 	  suitable for the RP application. With each postMessage, it sends the
 	  session state defined in <xref target="OPiframe"/>.
@@ -322,7 +321,7 @@
 
   function check_session()
   {
-    var targetOrigin  = "https://server.example.com";
+    var targetOrigin = "https://server.example.com";
     var win = window.parent.document.getElementById("op").
                 contentWindow;
     win.postMessage( mes, targetOrigin);
@@ -338,7 +337,7 @@
 
   function receiveMessage(e)
   {
-    var targetOrigin  = "https://server.example.com";
+    var targetOrigin = "https://server.example.com";
     if (e.origin !== targetOrigin ) {return;}
     stat = e.data;
 
@@ -367,13 +366,11 @@
 
       <section anchor="OPiframe" title="OP iframe">
 
-        <t>The RP also loads an invisible OP iframe into itself from the OP's
-        <spanx style='verb'>check_session_iframe</spanx>.</t>
-
-        <t>The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
-        address it, as described above.</t>
-
-	<t>
+        <t>
+	  The RP also loads an invisible OP iframe into itself from the OP's
+	  <spanx style='verb'>check_session_iframe</spanx>.
+	  The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
+	  address it, as described above.
 	  The OP iframe MUST enforce that the caller has the same
 	  origin as its parent frame. It MUST reject postMessage
 	  requests from any other source origin.
@@ -391,11 +388,14 @@
 	  The OP iframe has access to Browser state at the OP (in a
 	  cookie or in HTML5 storage) that it uses to calculate and
 	  compare with the OP session state that was passed by the RP.
-	</t>
-	<t>
 	  The OP iframe MUST recalculate it from the previously
 	  obtained Client ID, the source origin URL (from the
 	  postMessage), and the current OP Browser state.
+	  The session state includes all of this information for privacy reasons,
+	  so that different clients active in the same Browser
+	  have distinct session state values.
+	</t>
+	<t>
 	  If the postMessage received is syntactically malformed in such a way
 	  that the posted Client ID and origin URL cannot be determined
 	  or are syntactically invalid, then the OP iframe SHOULD
@@ -508,7 +508,7 @@
 	</t>
 	<t>
 	  If a cookie is used to maintain the OP browser state,
-	  the HttpOnly flag likely can't be set for this cookie,
+	  the HttpOnly flag likely can't be set for this cookie
 	  because it needs to be accessed from JavaScript.
 	  Therefore, information that can be used for identifying the user
 	  should not be put into the cookie, as it could be read by unrelated JavaScript.
@@ -528,12 +528,12 @@
 
     <section anchor="RPLogout" title="RP-Initiated Logout">
       <t>An RP can notify the OP that the End-User has logged
-      out of the site, and might want to log out of the OP as well. In this
+      out of the site and might want to log out of the OP as well. In this
       case, the RP, after having logged the End-User out of the RP,
       redirects the End-User's User Agent to the OP's logout endpoint URL.
       This URL is normally obtained via the
       <spanx style="verb">end_session_endpoint</spanx> element of the OP's
-      Discovery response, or may be learned via other mechanisms.
+      Discovery response or may be learned via other mechanisms.
       </t>
       <t>
 	This specification also defines the following parameters
@@ -818,7 +818,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="23" month="August" year="2016" />
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -834,7 +834,7 @@
             <organization abbrev="Ping Identity">Ping Identity</organization>
           </author>
 
-	  <date day="23" month="August" year="2016" />
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -880,7 +880,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2016 The OpenID Foundation.</t>
+      <t>Copyright (c) 2017 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -918,6 +918,16 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+        -28
+        <list style="symbols">
+	  <t>
+	    Stated why the client_id is included in the session state calculation,
+	    addressing issue #969.
+	  </t>
+        </list>
+      </t>
 
       <t>
         -27
