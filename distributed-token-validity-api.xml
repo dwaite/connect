@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM 'rfc2629.dtd' []>
+<rfc ipr="none" category="std" docName="distributed-token-validity-api">
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<?rfc private="no"?>
+<?rfc topblock="yes"?>
+<?rfc comments="no"?>
+<front>
+<title abbrev="dtva">Distributed Token Validity API</title>
+
+<author initials="D." surname="Waite" fullname="David Waite">
+<organization></organization>
+<address>
+<postal>
+<street></street>
+<city></city>
+<code></code>
+<country></country>
+<region></region>
+</postal>
+<phone></phone>
+<email>david@alkaline-solutions.com</email>
+<uri></uri>
+</address>
+</author>
+<author initials="J." surname="Miller" fullname="Jeremie Miller">
+<organization></organization>
+<address>
+<postal>
+<street></street>
+<city></city>
+<code></code>
+<country></country>
+<region></region>
+</postal>
+<phone></phone>
+<email>jeremie@jabber.org</email>
+<uri></uri>
+</address>
+</author>
+<author initials="J." surname="Bradley" fullname="John Bradley">
+<organization>Ping Identity</organization>
+<address>
+<postal>
+<street>Casilla 177, Sucursal Talagante</street>
+<city>Talagante</city>
+<code></code>
+<country>Chile</country>
+<region>RM</region>
+</postal>
+<phone>+1.202.630.5272</phone>
+<email>jbradley@pingidentity.com</email>
+<uri>http://www.thread-safe.com/</uri>
+</address>
+</author>
+<date year="2017" month="April" day="21"/>
+
+<area>Connect</area>
+<workgroup>OpenID Connect Working Group</workgroup>
+<keyword>distributed</keyword>
+<keyword>token</keyword>
+<keyword>id_token</keyword>
+<keyword>validity</keyword>
+<keyword>session</keyword>
+
+
+<abstract>
+<t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0 protocol. It enables Clients to verify the identity of the End-User based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the End-User in an interoperable and REST-like manner.
+</t>
+<t>OpenID Connect adds the concept of an identity token (<spanx style="verb">id_token</spanx>) to OAuth token grant responses. Unlike the OAuth 2.0 Access Token, which represents the authorization of a client to a protected resource, the <spanx style="verb">id_token</spanx> represents the authentication of the resource owner to the client.
+</t>
+<t>This document describes an HTTP-based API for management and validation of these tokens that can be deployed in multiple distributed locations/RPs along with a coordination service to maintain a unified view of validity state. It describes a mechanism to dynamically manage and introspect the lifetime and validity for both access and identity tokens. This allows for revocation of tokens by the IDP, as well as the ability to share information around token usage activity to trigger revocation or extend the usage lifetime of tokens.
+</t>
+<t>This document may be used stand-alone or accompanied with others that describe a common coordination service for multiple instances of this API.  When the coordination service can guarantee an eventually consistent view of token validity then the API described in this document can act as a complete solution for token validation.
+</t>
+</abstract>
+
+
+</front>
+
+<middle>
+
+<section anchor="introduction" title="Introduction">
+<t>OpenID Connect 1.0 is a simple identity layer on top of the OAuth 2.0 <xref target="RFC6749"/> protocol. It enables Clients to verify the identity of the End-User based on the authentication performed by an Authorization Server by receiving an identity token, as well as to obtain basic profile information about the End-User in an interoperable and REST-like manner.
+</t>
+<t>This specification complements OpenID Connect Core 1.0 [OpenID.Core] by allowing a Relying Party to monitor whether the identity token they received is still valid according to the OpenID Provider without relying directly on a front- or back-channel polling mechanism to the OP.  It can also provide a common mechanism for protected resources to monitor whether the OAuth 2.0 access tokens they received are still valid.
+</t>
+<t>The expectation is that any invalidated token will only lead a Relying Party to attempt to retrieve a new replacement token.  By providing a local service for indicating tokens are invalid and forcing a Relying Party and/or any protected resources to fetch new tokens, the OpenID Provider can then utilize a coordination service to dynamically enforce authentication policy and to update authorizations.
+</t>
+<t>This enables an Identity Provider to actively maintain its relationship between a user and the relying party or the client and protected resource over the entire lifetime. Examples of Identity Provider behaviors in this regard include issuing a new token with different authentication/authorization or attribute information, challenging the user for additional proof of identity, or immediately refusing to issue a new token for the user or relying party based on a change in IDP policy.  No matter what behavior the Identity Provider wishes to provide, the signal mechanism of invalidating a token remains the same.
+</t>
+<t>This can be compared against existing session management and logout mechanisms in various Single Sign On (SSO) protocols. Previous protocols have focused predominantly in terminating browser sessions as a user or administrator action, with behavior to take in response often established out-of-band. Example behaviors would include deleting cookies, deleting cached data, preventing automatic re-authentication, and/or defining landing pages containing user information.
+</t>
+<t>These previous protocols have also represented such logout requests as a token representing the action, without delivery guarantees. While a temporary failure in allowing SSO to occur may keep valid users out, a temporary failure in processing logout messages could result in invalid users sessions remaining active.
+</t>
+<t>These previous protocols have generally implemented one or both of the following mechanisms:
+</t>
+<t>
+<list style="numbers">
+<t>A &quot;front&quot; channel, where the logout action is indicated through browser actions such as specially-formulated redirects. This channel requires user participation, being inappropriate for cases such as administrator-initiated logout or as part of an access de-provisioning system. Being delivered via the browser, messages can be feasibly blocked by malware, leaving the user agent authenticated.The protocols provide only the most minimal capabilities to catch or diagnose communication issues between the identity provider and relying party. Finally, many deployments due to implementation complexity only delete artifacts such as cookies from the user agent cache as part of logout. If a malicious party captured the appropriate cookies, a logout via this mechanism does nothing to revoke a malicious party's access.</t>
+<t>A &quot;back&quot; channel, where the logout action is indicated through a direct request/response protocol between the identity provider and relying party. This channel potentially solves the administrative-initiated logout, malware blocking, and connectivity diagnosis problems. However, it is significantly more difficult to develop as well as to deploy, resulting in very few known deployments. Most notably, must be some shared state to allow the back channel communication to affect the front channel user agent actions, making environments where state is maintained purely by cookies impossible to integrate with &quot;back&quot; channel mechanisms. Also, the protocols typically do not define logic to retry transmission of logout actions on temporary failures, still allowing invalidated user sessions to retain access. This model is also only usable by relying parties which can support a back channel communication. Mobile applications, for instance, typically cannot support such a mechanism.</t>
+</list>
+</t>
+<t>In comparison, this method does not replace the role of those existing protocols, but instead provides a local stateful system where applications can ask if the tokens which make up the authentication and authorization foundation of the user session are valid. If the tokens are not valid, this does not indicate that the application performs any form of cleanup, but instead that actions requested by the user agent must fail or delay until new, valid tokens are retrieved. The stateful system exposing that API is meant to be resilient in the face of temporary connectivity problems by exposing at least a partial view of sessions, and can independently coordinate state changes across many local instances with eventual consistency.
+</t>
+<t>By providing an API, the stateful system can be used either directly by JavaScript or other client logic, or by back-end systems as part of returning results or rendering content. By providing this API locally, multiple components of a domain (such as mobile clients or microservices) can utilize the API with the domain owner able to take responsibility for the resources to manage the reliability and performance characteristics required.
+</t>
+
+<section anchor="requirements-notations-and-conventions" title="Requirements Notations and Conventions">
+<t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in RFC 2119 <xref target="RFC2119"/>.
+</t>
+</section>
+
+<section anchor="terminology" title="Terminology">
+<t>This specification uses the terms &quot;Authorization Endpoint&quot;, &quot;Authorization Server&quot;, &quot;Client&quot;, and &quot;Client Identifier&quot; defined by OAuth 2.0 <xref target="RFC6749"/>, the term &quot;User Agent&quot; defined by <xref target="RFC7230"/>, and the terms defined by OpenID Connect Core 1.0 [OpenID.Core].
+</t>
+<t>This specification also defines the following term:
+</t>
+<t>
+<list style="symbols">
+<t>Token Issuer
+<list style="symbols">
+<t>A party responsible for issuing cross-domain tokens, such as access tokens and identity tokens.</t>
+</list></t>
+<t>Token Validator
+<list style="symbols">
+<t>A party responsible for validating that a token is still valid, such as a protected resource or relying party.</t>
+</list></t>
+<t>Coordination Service
+<list style="symbols">
+<t>A service that facilitates coordination of state changes between a Token Issuer and distributed Token Validators which can provide guarantees about eventual consistency</t>
+</list></t>
+</list>
+</t>
+</section>
+</section>
+
+<section anchor="endpoint-discovery" title="Endpoint Discovery">
+<t>As the API is local within an identity provider or relying party, there is currently no required endpoint discovery defined for communication between identity provider and relying party for this specification.
+</t>
+<t>In the case where the local API is both protected by and provided as part of an Identity Provider or OAuth 2.0 AS, the following key is defined for use with <xref target="I-D.ietf-oauth-discovery"/>:
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">validity_endpoint</spanx>: The endpoint that local token validators can look up information on an existing token, and local issuers can create a new token validity record. Should be an absolute, secure HTTP URL.</t>
+</list>
+</t>
+<t>Otherwise, this value is expected to be communicated out-of-band as an implementation detail for the local environment that the token issuer or token validator is part of.
+</t>
+</section>
+
+<section anchor="token-lifecycle-model" title="Token Lifecycle Model">
+<t>Token validity is tracked based on the combination of the token issuer and session identifier included in the token.
+If multiple tokens contain the session identifier, then they will share token validity state.
+</t>
+<t>This document defines all tokens which support validity as having a limited lifetime, with a lifecycle defined by:
+</t>
+<t>
+<list style="numbers">
+<t>The token validity begins when the token issuer requests a new session identifier, for the purposes of embedding within a token</t>
+<t>Tokens have an issuance time, before which the token could not have been valid</t>
+<t>The token validity has a hard expiry time, which cannot be extended. After the hard expiry time, the token must be considered invalid</t>
+<t>The token validity may have events against it which affect whether the token is considered valid. As an example, this specification defines an inactivity timeout mechanism which will cause a token to be considered invalid without periodic user activity.</t>
+<t>A token may be invalidated by the token issuer. After this invalidation time, the token is no longer considered valid</t>
+</list>
+</t>
+<t>A token may be made invalid for varied business logic reasons by the token issuer. The reasoning for invalidating a token is not shared with the token validator by this specification. Example reasons for invalidating a token include:
+</t>
+<t>
+<list style="symbols">
+<t>Wanting user interaction via new code flow request</t>
+<t>Wanting to represent new attributes or authorizations via new tokens</t>
+<t>Needing to revoke tokens (for a single user agent, a user, or a relying party) due to some security event</t>
+</list>
+</t>
+
+<section anchor="token-interactivity" title="Token Interactivity">
+<t>There may be communications specifically around token usage and lifetime, meant to either directly influence the interpretation of whether a token is valid, or indirectly affect the token issuer in deciding a token is invalid. Within this specification, there is an inactivity timeout mechanism for tokens. However, since tokens may be used to represent both process and user-initiated actions, the inactivity mechanisms here are designed specifically around representing the concept of user interactivity.
+</t>
+<t>
+<list style="symbols">
+<t>Token interactivity timeout, the maximum time a token can go without reported user interaction before being considered invalid by the issuer.</t>
+<t>Last interactivity, the time of the last user interaction of a token.</t>
+</list>
+</t>
+<t>Not every application usage of a token can be considered to be interactive. For example, a mail client periodically asking for any new mail message headers would be non-interactive, while a request for a mail message body based on a user click would be considered interactive. This document specifies mechanisms for both interactive and non-interactive usage of a token.
+</t>
+<t>When using an access token against protected resources, whether those protective resources indicate that the client activity is interactive or non-interactive is considered part of the design of the system being protected by OAuth 2.0, and is out of scope for this document.
+</t>
+
+<figure align="center"><artwork align="center" type="ascii-art">
+
+ Issuance                                   Hard Expiry
+    .-.                                         +-+
+   (   )---------------------------------------&gt;| |
+    `.'            +-+                          +-+
+    ( )-----------&gt;| |
+     '      .      +-+    +-+
+           ( )-----------&gt;| |
+            '          .  +-+        +-+
+                      ( )-----------&gt;| |
+                       '             +-+
+                     Last       Interactivity
+                Interactivity      Timeout
+
+  -----------------------------------------------------&gt;
+                        Time
+</artwork></figure>
+</section>
+</section>
+
+<section anchor="http-api" title="HTTP API">
+
+<section anchor="system-overview" title="System Overview">
+<t>The API provides the ability for token issuers to issue and revoke tokens, and token validators to both check the validity of a token and to indicate interaction based on a token for the purpose of token keepalive.
+</t>
+<t>Within the tokens, the session identifier (&quot;sid&quot;) attribute is used to correlate an issued token to token validity. The API itself does not know the user attributes or authorizations associated with a token. Instead, the &quot;sid&quot; attribute is used to correlate a token with the validity management being done by the system.
+</t>
+<t>No user information/PII is tracked associated with a period within this system - a session identifier is only correlated with user identity, attributes and authorizations via a traditional token
+</t>
+</section>
+
+<section anchor="communication" title="Communication">
+<t>Communication as defined here is over HTTP, between a client and a set of Distributed Token Validity API (DTVA) resources.
+</t>
+</section>
+
+<section anchor="authorization-to-api" title="Authorization to API">
+<t>It is RECOMMENDED that the HTTP communication between a token validator to the local API be protected via authorization. It is REQUIRED that HTTP communication between a token issuer and the local API be protected via authorization.
+</t>
+<t>One such authentication mechanism would be OAuth 2 bearer tokens. It MAY be considered appropriate to have the access to the local API be considered distinct from the authorization provided by the Identity Provider's access tokens, that a distinct AS is used to control access to the local API as a protected resource.
+</t>
+
+<section anchor="token-validity-location" title="Token Validity Location">
+<t>Requests for a particular token validity are performed initially by HTTP GET against the local token validity URL with an appropriate query attached. The query portion is defined by the request parameters below, and encoded by <eref target="https://www.w3.org/TR/html5/forms.html#application/x-www-form-urlencoded-encoding-algorithm">application/x-www-form-urlencoded</eref>:
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">iss</spanx>: (optional) the identifier of the issuer of the token. If more than one token issuer is supported by the system, this value is required</t>
+<t><spanx style="strong">sid</spanx>: the subject identifier of the token</t>
+</list>
+</t>
+<t>The validity of a particular token MAY be represented by a permanent URL. A request for the token validity URL MUST result in a 308 redirect to a permanent URL, if exists. Implementations SHOULD keep track of the permanent location of the token validity in order to optimize further validations of the given token. The permanent URL for a token validity MAY contain a separate authority from that of the token validity URL. In this case, that authority MUST accept the same authentication as the token validity URL.
+</t>
+</section>
+</section>
+
+<section anchor="http-response-status-codes" title="HTTP Response Status Codes">
+<t>The following list of HTTP status codes are represented within this document as response statuses for the various HTTP requests. Implementations MAY give other error codes as responses which are not covered by this list.
+</t>
+<t>
+<list style="symbols">
+<t>200 <spanx style="strong">OK</spanx>
+<list style="symbols">
+<t>Responses which contain authoritative information. Modifications to token validity (POST or DELETE) may return this status if the returned data represents a state with the change applied.</t>
+</list></t>
+<t>201 <spanx style="strong">Created</spanx>
+<list style="symbols">
+<t>Requests which create a token validity record immediately. The authoritative token validity is represented within the response. The <spanx style="verb">Location</spanx> header MUST contain either the token validation location URL with appropriate parameters encoded, or the permanent URL of any entity created to represent this token validity.</t>
+</list></t>
+<t>202 <spanx style="strong">Accepted</spanx>
+<list style="symbols">
+<t>Requests which create or modify the token validity return this response to represent that the process of creation/modification has been acknowledged, but not yet completed. The <spanx style="verb">Location</spanx> header MUST contain either the token validation location URL, or the permanent URL of any entity created to represent the token validity. Further requests against that location for MUST return either a 200 to indicate authoritative information or 203 to indicate non-authoritative information, from the point of this return to the point where the hard expiry of the token has been reached. Further attempts to modify the record may fail.</t>
+</list></t>
+<t>203 <spanx style="strong">Non-Authoritative Information</spanx>
+<list style="symbols">
+<t>Responses which have known stale or incomplete responses may return this status rather than blocking until authoritative data is available</t>
+</list></t>
+<t>304 <spanx style="strong">Not Modified</spanx>
+<list style="symbols">
+<t>GET/HEAD requests containing cache validators such as If-Modified-Since may return this response to indicate the validity record is up-to-date</t>
+</list></t>
+<t>308 <spanx style="strong">Permanent Redirect</spanx> <xref target="RFC7538"/>
+<list style="symbols">
+<t>Token validator requests against the validity endpoint for token information may result to redirection to a resource representation of a particular token validity.</t>
+</list></t>
+<t>400 <spanx style="strong">Bad Request</spanx>
+<list style="symbols">
+<t>May be returned for one of the following reasons:
+<list style="numbers">
+<t>Token validity entity submitted does not contain all the necessary information</t>
+<t>Token validity creation submitted contains unknown or invalid information</t>
+<t>Attempt to change invariant or unknown values of token validity</t>
+</list></t>
+</list></t>
+<t>401 <spanx style="strong">Authorization Required</spanx>
+<list style="symbols">
+<t>Authorization required for use of this endpoint. It is RECOMMENDED that OAuth 2 be supported as an authentication mechanism</t>
+</list></t>
+<t>403 <spanx style="strong">Forbidden</spanx>
+<list style="symbols">
+<t>Authorization is insufficient for the requested use of this endpoint.</t>
+</list></t>
+<t>404 <spanx style="strong">Not Found</spanx>
+<list style="symbols">
+<t>May be returned for requests for unrecognized token session identifier, including against permanent URLs which do not appear to coordinate to a token session identifier. Tokens which have gone past their hard expiry time MAY return a 404.</t>
+</list></t>
+<t>409 <spanx style="strong">Conflict</spanx>
+<list style="symbols">
+<t>POST update for a token which conflicts with current token validity state</t>
+</list></t>
+<t>410 <spanx style="strong">Gone</spanx>
+<list style="symbols">
+<t>GET/POST/DELETE on an invalidated token</t>
+</list></t>
+</list>
+</t>
+</section>
+
+<section anchor="token-validity-response" title="Token Validity Response">
+<t>The response body of successful token validity requests, including creation and modification, will be a JSON <xref target="RFC7159"/> document.
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">sexp</spanx>: The date/time of hard expiry as enforced by the token validity service. The value is string formatted as a <xref target="RFC3339"/> internet date/time in Z/Zulu timezone offset.</t>
+<t><spanx style="strong">sid</spanx>: The session identifier of token(s) this validity refers to.</t>
+<t><spanx style="strong">issuer</spanx>: identifier of the issuer of the token(s) this validity refers to.</t>
+<t><spanx style="strong">interactivity_timeout</spanx>: (optional) A positive integer number of seconds after the time of last user activity at which a token will be considered irrevocably invalid, if specified</t>
+</list>
+</t>
+<t>The following HTTP caching headers SHOULD be used, and have the indicated meanings:
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">Last-Modified</spanx>: the time that the token record was created</t>
+<t><spanx style="strong">Expires</spanx>: the time after which a token issuer or validator MUST check the system before assuming a token is still valid. This must be less than or equal to the <spanx style="verb">exp</spanx> time. This must also be less than or equal to the interactivity timeout plus time of last activity. The API implementation SHOULD adjust this time to reduce the potential of stale validity data being cached by intermediaries.</t>
+</list>
+</t>
+<t>Invalid tokens as well as errors are RECOMMENDED to use JSON problem details for the body, as defined by <xref target="RFC7807"/>.
+</t>
+</section>
+
+<section anchor="creating-a-new-token-validity-record" title="Creating a new token validity record">
+
+<section anchor="creation-request" title="Creation Request">
+<t>A new record is created by a token issuer POST request against the validity URL. The request document is a JSON document or URL-encoded form containing the following values:
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">sexp</spanx>: The date/time of hard expiry as enforced by the token validity service, after which a token based on the session identifier returned from this create request will never be considered valid for use. The value is string-formatted as a <xref target="RFC3339"/> internet date/time in Z/Zulu timezone offset.</t>
+</list>
+</t>
+<t>If a token indicates a period for which tokens are valid for processing (such as the <spanx style="verb">exp</spanx> attribute in JWT <xref target="RFC7519"/>), tokens MUST NOT be valid for processing after the <spanx style="verb">sexp</spanx> time. If a token indicates that claims are valid for use for a period of time, it is RECOMMENDED that time be less or equal to the <spanx style="verb">sexp</spanx> time, and this token validity spec MUST be considered authoritative.
+</t>
+<t><spanx style="strong">interactivity_timeout</spanx>: (optional) A positive integer number of seconds after the time of last user interactivity at which a token will be considered irrevocably invalid.
+</t>
+<t><spanx style="strong">iss</spanx>: (optional) The name of the token issuer which will be used by the token validation API. If more than one token issuer name is valid within the system, this value MUST be specified. If specified, the token issuer MUST be authenticated, and token issuer authorization MUST be verified to allow them to issue tokens with the specified name.
+</t>
+</section>
+
+<section anchor="creation-response" title="Creation Response">
+<t>If the request was valid, the response will have a status of:
+</t>
+<t>
+<list style="symbols">
+<t>201 <spanx style="strong">Created</spanx></t>
+<t>202 <spanx style="strong">Accepted</spanx></t>
+</list>
+</t>
+</section>
+</section>
+
+<section anchor="validate-token" title="Validate Token">
+<t>Validating a token allows a system to determine whether or not it should still use a token. This is similar to updating a token validity, which not only returns whether the token is valid but also allows providing additional information and can be used to report user activity.
+</t>
+<t>Validation MAY use a cached HTTP response, in particular if the time specified in the <spanx style="verb">Expires</spanx> header has not yet passed.
+</t>
+
+<section anchor="validation-request" title="Validation Request">
+<t>In addition, a request may also include the following caching header:
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">If-Modified-Since</spanx>: the time reported for Last-Modified on a previous token validity response</t>
+</list>
+</t>
+<t>The validity of a particular token MAY be represented by a permanent URL. In this case, a request for the token validity URL may result in a redirect to the authoritative location. Implementations MAY keep track of the permanent location of the token validity if they wish to optimize the process of validating tokens in the future.
+</t>
+</section>
+
+<section anchor="validation-response" title="Validation Response">
+<t>If the request was valid, the response should be either:
+</t>
+<t>
+<list style="symbols">
+<t>200 <spanx style="strong">OK</spanx></t>
+<t>203 <spanx style="strong">Non-Authoritative Information</spanx></t>
+</list>
+</t>
+<t>If the token validation has a permanent URL, the response MUST be:
+- 308 <spanx style="strong">Moved Permanently</spanx>
+</t>
+<t>at which point, the request should be repeated against the permanent URL.
+</t>
+<t>Invalid requests or requests corresponding to invalid tokens may be represented by:
+</t>
+<t>
+<list style="symbols">
+<t>400 <spanx style="strong">Bad Request</spanx></t>
+<t>404 <spanx style="strong">Not Found</spanx></t>
+<t>408 <spanx style="strong">Gone</spanx></t>
+</list>
+</t>
+</section>
+</section>
+
+<section anchor="update-token-validity" title="Update Token Validity">
+<t>This document defines a single type of update to tokens - indicating that user interactivity was detected locally. Future specifications may define other types of updates.
+</t>
+
+<section anchor="update-request" title="Update Request">
+<t>An update request is made via POST to the token validation location, as documented above. The request document MUST be a JSON object, containing at least one key.
+</t>
+<t>The parameters during creation are considered immutable, and MUST NOT be updatable. The following single parameter is defined for updates by this document:
+</t>
+<t>
+<list style="symbols">
+<t><spanx style="strong">interaction_detected</spanx> : indicate that a end user was detected interacting via a user agent with the local environment. If present, must be the boolean value <spanx style="verb">true</spanx>.</t>
+</list>
+</t>
+</section>
+
+<section anchor="update-response" title="Update Response">
+<t>An update may respond successfully with:
+If the request was valid, the response should be either:
+</t>
+<t>
+<list style="symbols">
+<t>200 <spanx style="strong">OK</spanx></t>
+<t>202 <spanx style="strong">Accepted</spanx></t>
+<t>203 <spanx style="strong">Non-Authoritative Information</spanx></t>
+</list>
+</t>
+<t>If the token validation has a permanent URL, the response MUST be:
+- 308 <spanx style="strong">Moved Permanently</spanx>
+</t>
+<t>at which point, the request should be repeated against the permanent URL.
+</t>
+<t>Invalid requests may be represented by:
+</t>
+<t>
+<list style="symbols">
+<t>400 <spanx style="strong">Bad Request</spanx></t>
+<t>404 <spanx style="strong">Not Found</spanx></t>
+<t>409 <spanx style="strong">Conflict</spanx></t>
+<t>410 <spanx style="strong">Gone</spanx></t>
+</list>
+</t>
+<t>The body of the response is a token validation response. Note that the update process MAY be eventually consistent based on the implementation of the API, and may not represent the requested update having been applied. The requested update may also eventually fail to be applied at some point in the future (such as an interactivity seen after the implementation decided the token was invalid).
+</t>
+<t>The response should not be taken to indicate the parameters were or were not taken into account in deciding validity, only that from the perspective of the API that the token continues to be valid for the time being.
+</t>
+</section>
+</section>
+
+<section anchor="indicate-token-is-invalid" title="Indicate Token is Invalid">
+<t>The token issuer can indicate one or more tokens should no longer be used by expiring the corresponding <spanx style="verb">sid</spanx>.
+</t>
+
+<section anchor="invalidation-request" title="Invalidation Request">
+<t>An invalidation request is made via DELETE to the token validation location, as documented above. No other headers or entity is required for this specification.
+</t>
+</section>
+
+<section anchor="invalidation-response" title="Invalidation Response">
+<t>On success, the response status will be one of:
+</t>
+<t>
+<list style="symbols">
+<t>200 <spanx style="strong">OK</spanx></t>
+<t>202 <spanx style="strong">Accepted</spanx></t>
+</list>
+</t>
+<t>The following response statuses are defined for errors:
+- 404 <spanx style="strong">Not Found</spanx>
+- 410 <spanx style="strong">Gone</spanx>
+</t>
+<t>The body of the response is a token validation response.
+</t>
+</section>
+</section>
+</section>
+
+<section anchor="interaction-with-other-specifications" title="Interaction with other specifications">
+
+<section anchor="oauth2-access-token-bearer" title="OAuth2 Access Token Bearer">
+<t>Access tokens represent the authorizations of a client against one or more protected resources.  As access tokens already MUST be verified by the protected resource, and OAuth 2 defines that access tokens may be opaque to the client, a client typically will not use this specification to verify access tokens.  Instead, the protected resource will check the validity of the tokens, either by extracting <spanx style="verb">sid</spanx> from the token and using the API specified in this document, or by using token introspection.
+</t>
+</section>
+
+<section anchor="token-introspection" title="Token introspection">
+<t>In an environment where the AS is participating in distributed token validity, the <eref target="https://tools.ietf.org/html/rfc7662">token introspection endpoint</eref> response MUST indicate the token is not <spanx style="verb">active</spanx> if the token validity API returns that the token is invalid.  Protected resources using token introspection MAY skip checking token validity via other mechanisms.  The token introspection response MUST also include the <spanx style="verb">sid</spanx> property in its response.
+</t>
+<t>If caching is used for the token introspection response, it is RECOMMENDED that the cache duration match the cache duration returned by the token validity API.
+</t>
+</section>
+
+<section anchor="openid-connect" title="OpenID Connect">
+<t>Identity Tokens (id_token) are messages to the client by the Identity Provider about the user.  As the client is expected to maintain authentication based on the validity of this token, a client MUST use either this API or an alternative mechanism to verify the validity of the token.
+</t>
+</section>
+
+<section anchor="frontchannel-logout-backchannel-logout" title="Front-Channel Logout, Back-Channel Logout">
+<t>The <eref target="http://openid.net/specs/openid-connect-frontchannel-1_0.html">OpenID Connect Front-Channel Logout</eref> and
+ <eref target="http://openid.net/specs/openid-connect-backchannel-1_0-04.html">OpenID Connect Back-Channel Logout</eref> draft specifications deal not with the invalidation of a token, but with an action revoking user agent access to the application, either temporarily or permanently.  This includes recommended steps such as session cookie deletion and cache clearing.
+</t>
+<t>This specification does not provide an equivalent explicit signal that access is revoked, only that access requires acquiring a new token - that the token expired prematurely.  The Identity Provider determines what steps, if any, will allow a client to resume access.  The choice to distinctly separate token validity from logout was intentional, enabling Identity Providers a means to manage many different types of token lifecycle events as well as adopt distributed technologies to provide reliable coordination services.
+</t>
+<t>As the signaling to revoke user agent access and expire caching can fail in both of the existing logout specifications, at this time it is suggested instead that such signaling happen out-of-band with this specification. For example, managed devices or applications may receive a message directly telling them to revoke access or even uninstall a client which should no longer have access, which could be triggered during a re-auth after a token invalidation.
+</t>
+</section>
+
+<section anchor="session-management" title="Session management">
+<t>The <eref target="http://openid.net/specs/openid-connect-session-1_0.html">OpenID Connect Session Management 1.0</eref> draft defines a Javascript mechanism using frames and posted messages for monitoring a session at the Identity Provider. The connotation for an expired session is re-authentication and not cache invalidation, which pairs well with this specification.
+</t>
+<t>This specification provides three additional mechanisms for enhancing Session Management.
+</t>
+<t>
+<list style="numbers">
+<t>Rather than using a frame and posted messages, an AJAX API can be used to check token validity.</t>
+<t>Rather than loading a remote frame from an identity provider into an application, session management can be implemented directly in the application with its own local javascript and without frames.</t>
+<t>HTTP caching headers can be used to enforce validity in supported User-Agents.</t>
+</list>
+</t>
+</section>
+
+<section anchor="security-event-tokens" title="Security Event Tokens">
+<t>The Security Event Token (SET) <xref target="I-D.ietf-secevent-token"/> draft defines common semantics for a JWT that can carry session-related events as an underlying common format for any OpenID or other specifications that require communication of modifications to an existing state.
+</t>
+<t>This specification is one step removed from the format of these events, as it only communicates <spanx style="emph">about</spanx> the <spanx style="emph">cached validity state</spanx> of an existing token, not the contents of the token nor any changes to it.  Therefore it is supportive of and additive to systems which have adopted SETs.
+</t>
+<t>Any events that are communicated between an OpenID Provider and Relying Parties using SETs SHOULD be examined for potential modifications to the cache validity of all related tokens.  When the tokens are destroyed as the result of a logout in a SET (either front- or back-channel) then all API requests for the <spanx style="verb">sid</spanx> MUST fail.
+</t>
+</section>
+</section>
+
+<section anchor="security-concerns" title="Security Concerns">
+<t>Lorem Ipsum Time synchronization etc etc.
+</t>
+</section>
+
+</middle>
+<back>
+<references title="Normative References">
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-oauth-discovery.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.3339.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7159.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7230.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7538.xml"?>
+</references>
+<references title="Informative References">
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-secevent-token.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7519.xml"?>
+<?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7807.xml"?>
+</references>
+
+<section anchor="acknowledgements" title="Acknowledgements">
+<t>The author wishes to thank all those poor friends who were kindly forced to read this document and that provided some nifty comments.
+</t>
+</section>
+
+<section anchor="notices" title="Notices">
+<t>Copyright (c) 2017 The OpenID Foundation.
+</t>
+<t>The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.
+</t>
+<t>The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.
+</t>
+</section>
+
+</back>
+</rfc>
