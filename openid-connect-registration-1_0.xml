@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Registration 1.0">OpenID Connect
-    Dynamic Client Registration 1.0 - draft 29 incorporating errata set 2</title>
+    Dynamic Client Registration 1.0 - draft 30 incorporating errata set 2</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -50,7 +50,7 @@
       </address>
     </author>
 
-    <date day="3" month="August" year="2015" />
+    <date day="7" month="April" year="2017" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -259,7 +259,7 @@
 		<spanx style="verb">implicit</spanx>
 	      </t>
 	      <t>
-		<spanx style="verb">token id_token</spanx>:
+		<spanx style="verb">id_token token</spanx>:
 		<spanx style="verb">implicit</spanx>
 	      </t>
 	      <t>
@@ -273,7 +273,7 @@
 		<spanx style="verb">implicit</spanx>
 	      </t>
 	      <t>
-		<spanx style="verb">code token id_token</spanx>:
+		<spanx style="verb">code id_token token</spanx>:
 		<spanx style="verb">authorization_code</spanx>,
 		<spanx style="verb">implicit</spanx>
 	      </t>
@@ -379,7 +379,8 @@
 	  <t hangText="jwks_uri">
 	    <vspace/>
 	    OPTIONAL.
-	    URL for the Client's JWK Set <xref target="JWK"/> document.
+	    URL for the Client's JWK Set <xref target="JWK"/> document,
+	    which MUST use the <spanx style="verb">https</spanx> scheme.
 	    If the Client signs requests to the Server,
 	    it contains the signing key(s) the Server uses to validate signatures from the Client.
 	    The JWK Set MAY also contain the Client's encryption keys(s),
@@ -669,6 +670,8 @@
 	    OPTIONAL.
 	    Array of <spanx style="verb">request_uri</spanx> values that are
 	    pre-registered by the RP for use at the OP.
+	    These URLs MUST use the <spanx style="verb">https</spanx> scheme
+	    unless the target Request Object is signed in a way that is verifiable by the OP.
 	    Servers MAY cache the contents of the files referenced by these URIs and not
 	    retrieve them at the time they are used in a request.
 	    OPs can require that <spanx style="verb">request_uri</spanx> values used
@@ -864,6 +867,7 @@
 	      Location of the Client Configuration Endpoint
 	      where the Registration Access Token can be used to perform subsequent
 	      operations upon the resulting Client registration.
+	      This URL MUST use the <spanx style="verb">https</spanx> scheme.
 	      Implementations MUST either return both
 	      a Client Configuration Endpoint and a Registration Access Token
 	      or neither of them.
@@ -1843,7 +1847,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="3" month="August" year="2015"/>
+          <date day="7" month="April" year="2017"/>
         </front>
       </reference>
 
@@ -1867,7 +1871,7 @@
             <organization abbrev="Illumila">Illumila</organization>
           </author>
 
-          <date day="3" month="August" year="2015"/>
+          <date day="7" month="April" year="2017"/>
         </front>
       </reference>
 
@@ -2026,7 +2030,7 @@
             <organization abbrev="Google">Google</organization>
           </author>
 
-          <date day="3" month="August" year="2015"/>
+          <date day="25" month="January" year="2017"/>
         </front>
       </reference>
 
@@ -2057,7 +2061,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2015 The OpenID Foundation.</t>
+      <t>Copyright (c) 2017 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -2100,6 +2104,18 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the approved errata ]]</t>
+
+      <t>
+	-30
+        <list style="symbols">
+	  <t>
+	    Specified that some URLs MUST use the <spanx style="verb">https</spanx> scheme.
+	  </t>
+	  <t>
+	    Replaced <spanx style="verb">token id_token</spanx> with <spanx style="verb">id_token token</spanx>.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-29
