@@ -23,7 +23,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 27 incorporating errata set 2</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 28 incorporating errata set 2</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="7" month="April" year="2017" />
+    <date day="3" month="August" year="2018" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -1357,6 +1357,342 @@
 	<?rfc subcompact="no"?>
 
       </section>
+
+      <section anchor="MetadataRegistry" title="OAuth Authorization Server Metadata Registry">
+	<t>
+	  This specification registers the following metadata names in the
+	  IANA "OAuth Authorization Server Metadata" registry <xref target="IANA.OAuth.Parameters"/>
+	  established by  <xref target="RFC8414"/>.
+	</t>
+
+	<section anchor='MetadataContents' title='Registry Contents'>
+	  <t>
+	    <?rfc subcompact="yes"?>
+            <list style='symbols'>
+              <t>
+                Metadata Name: userinfo_endpoint
+              </t>
+              <t>
+                Metadata Description:
+		URL of the OP's UserInfo Endpoint
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: acr_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the Authentication Context Class References
+		that this OP supports
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: subject_types_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the Subject Identifier types that
+		this OP supports
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: id_token_signing_alg_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWS "alg" values
+		supported by the OP for the ID Token
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: id_token_encryption_alg_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWE "alg" values
+		supported by the OP for the ID Token
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: id_token_encryption_enc_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWE "enc" values
+		supported by the OP for the ID Token
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: userinfo_signing_alg_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWS "alg" values
+		supported by the UserInfo Endpoint
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: userinfo_encryption_alg_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWE "alg" values
+		supported by the UserInfo Endpoint
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: userinfo_encryption_enc_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWE "enc" values
+		supported by the UserInfo Endpoint
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: request_object_signing_alg_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWS "alg" values
+		supported by the OP for Request Objects
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: request_object_encryption_alg_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWE "alg" values
+		supported by the OP for Request Objects
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: request_object_encryption_enc_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the JWE "enc" values
+		supported by the OP for Request Objects
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: display_values_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the "display"
+		parameter values that the OpenID Provider supports
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: claim_types_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the Claim Types
+		that the OpenID Provider supports
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: claims_supported
+              </t>
+              <t>
+                Metadata Description:
+		JSON array containing a list of the Claim Names of the Claims
+		that the OpenID Provider MAY be able to supply values for
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: claims_locales_supported
+              </t>
+              <t>
+                Metadata Description:
+		Languages and scripts supported for values in Claims being returned, 
+		represented as a JSON array of BCP 47 language tag values
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: claims_parameter_supported
+              </t>
+              <t>
+                Metadata Description:
+		Boolean value specifying whether the OP supports use of the
+		"claims" parameter
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: request_parameter_supported
+              </t>
+              <t>
+                Metadata Description:
+		Boolean value specifying whether the OP supports use of the
+		"request" parameter
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: request_uri_parameter_supported
+              </t>
+              <t>
+                Metadata Description:
+		Boolean value specifying whether the OP supports use of the
+		"request_uri" parameter
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: require_request_uri_registration
+              </t>
+              <t>
+                Metadata Description:
+		Boolean value specifying whether the OP requires any
+		"request_uri" values used to be pre-registered
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="ProviderMetadata"/> of this document
+              </t>
+	    </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+
+      </section>
+
     </section>
 
   </middle>
@@ -1599,6 +1935,8 @@
 
     <references title="Informative References">
 
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8414"?>
+
       <reference anchor="OpenID.Session" target="http://openid.net/specs/openid-connect-session-1_0.html">
         <front>
           <title>OpenID Connect Session Management 1.0</title>
@@ -1642,6 +1980,17 @@
           <date day="14" month="November" year="2005" />
         </front>
       </reference>
+
+      <reference anchor="IANA.OAuth.Parameters" target="http://www.iana.org/assignments/oauth-parameters">
+        <front>
+          <title>OAuth Parameters</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+
     </references>
 
     <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1683,7 +2032,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2017 The OpenID Foundation.</t>
+      <t>Copyright (c) 2018 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -1726,6 +2075,18 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the approved errata ]]</t>
+
+      <t>
+	-28
+        <list style="symbols">
+	  <t>
+	    Register metadata values that are unique to this specification in the
+	    IANA "OAuth Authorization Server Metadata" registry <xref target="IANA.OAuth.Parameters"/>
+	    established by the
+	    OAuth 2.0 Authorization Server Metadata <xref target="RFC8414"/> specification.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-27
