@@ -53,7 +53,7 @@
   </front>
 
   <middle>
-	  <section anchor="AuthError" title="Authentication Error Response">
+	  <section anchor="AuthError" title="Authentication Error Definition">
 
 	    <t>
 	      An Authentication Error Response is an OAuth 2.0 Authorization Error Response
@@ -87,6 +87,39 @@
 	      </list>
 	    </t>
 	  </section>
+	  
+
+    <section anchor="IANA" title="IANA Considerations">
+
+      <section anchor="OAuthErrorRegistry" title="OAuth Extensions Error Registration">
+
+	<t>
+	  This specification registers the following error
+	  in the IANA
+	  OAuth Extensions Error registry <xref target="IANA.OAuth.Parameters"/>
+	  established by <xref target="RFC6749">RFC 6749</xref>.
+	</t>
+
+	<section anchor='ErrorContents' title='Registry Contents'>
+	  <t> <?rfc subcompact="yes"?>
+	    <list style="symbols">
+	      <t>Error name: <spanx style="verb">authentication_failed</spanx></t>
+
+	      <t>Error usage location: Authorization Endpoint</t>
+
+	      <t>Related protocol extension: OpenID Connect</t>
+
+	      <t>Change controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net</t>
+
+	      <t>Specification document(s): <xref target="AuthError"/> of this document</t>
+	    </list>
+	  </t>
+
+	</section>
+
+      </section>
+    </section>
+
 
   </middle>
 
@@ -122,9 +155,21 @@
           <date day="7" month="April" year="2017"/>
         </front>
       </reference>
+      
+  <reference anchor="IANA.OAuth.Parameters" target="http://www.iana.org/assignments/oauth-parameters">
+        <front>
+          <title>OAuth Parameters</title>
+          <author>
+            <organization>IANA</organization>
+          </author>
+	  <date/>
+        </front>
+      </reference>
+      
     </references>
 
 
+      
     <section anchor="Acknowledgements" title="Acknowledgements">
 
       <t>
@@ -137,6 +182,7 @@
 	  <t>Phil Hunt</t>
 	  <t>George Fletcher</t>
 	  <t>Vladimir Dzhuvinov</t>
+	  <t>Mike Jones</t>
 	</list>
       </t>
     </section>
