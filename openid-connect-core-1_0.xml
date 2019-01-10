@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date day="9" month="January" year="2019" />
+    <date day="10" month="January" year="2019" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -2718,17 +2718,16 @@
 	    <t>
 	      The contents of the ID Token are as described in <xref target="IDToken"/>.
 	      When using the Hybrid Flow,
-	      these additional requirements for the following ID Token Claims apply:
+	      these additional requirements for the following ID Token Claims apply
+	      to an ID Token returned from the Authorization Endpoint:
 	    </t>
             <t>
 	      <list style="hanging">
 
                 <t hangText="nonce">
 		  <vspace/>
-		  Use of the <spanx style="verb">nonce</spanx> Claim is REQUIRED
-		  if the Response Type of the request is <spanx style="verb">code&nbsp;id_token</spanx>
-		  or <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx> and OPTIONAL when the Response Type of
-		  the request is <spanx style="verb">code&nbsp;token</spanx>.
+		  If a <spanx style="verb">nonce</spanx> parameter is present in the Authentication Request,
+		  Authorization Servers MUST include a <spanx style="verb">nonce</spanx> Claim in the ID Token.
 		</t>
 
                 <t hangText="at_hash">
