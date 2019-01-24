@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date day="17" month="January" year="2019" />
+    <date day="23" month="January" year="2019" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -6534,15 +6534,23 @@
 	      Defines how Relying Parties dynamically register with OpenID Providers
 	    </t>
 	    <t>
-	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
-	      Defines how to manage OpenID Connect sessions, including logout functionality
-	    </t>
-	    <t>
 	      <xref target="OAuth.Post">OAuth 2.0 Form Post Response Mode</xref> -
 	      Defines how to return OAuth 2.0 Authorization Response parameters
 	      (including OpenID Connect Authentication Response parameters)
 	      using HTML form values that are auto-submitted by the User Agent
 	      using HTTP <spanx style="verb">POST</spanx>
+	    </t>
+	    <t>
+	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
+	      Defines how to manage OpenID Connect sessions, including postMessage-based logout and RP-initiated logout functionality
+	    </t>
+	    <t>
+	      <xref target="OpenID.FrontChannel">OpenID Connect Front-Channel Logout 1.0</xref> -
+	      Defines a front-channel logout mechanism that does not use an OP iframe on RP pages
+	    </t>
+	    <t>
+	      <xref target="OpenID.BackChannel">OpenID Connect Back-Channel Logout 1.0</xref> -
+	      Defines a logout mechanism that uses direct back-channel communication between the OP and RPs being logged out
 	    </t>
 
 	  </list>
@@ -8344,6 +8352,34 @@
 	</front>
       </reference>
 
+      <reference anchor="OpenID.FrontChannel" target="http://openid.net/specs/openid-connect-frontchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Front-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+	  <date day="25" month="January" year="2017" />
+	</front>
+      </reference>
+
+      <reference anchor="OpenID.BackChannel" target="http://openid.net/specs/openid-connect-backchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Back-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+	  <date day="25" month="January" year="2017" />
+	</front>
+      </reference>
+
       <reference anchor="OAuth.Post" target="http://openid.net/specs/oauth-v2-form-post-response-mode-1_0.html">
         <front>
 	  <title>OAuth 2.0 Form Post Response Mode</title>
@@ -8966,6 +9002,9 @@
 	  </t>
 	  <t>
 	    Fixed #994 - Definition of country value within address claim.
+	  </t>
+	  <t>
+	    Fixed #975 - Added additional related specifications.
 	  </t>
 	</list>
       </t>
