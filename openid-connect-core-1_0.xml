@@ -6960,6 +6960,18 @@
 	  to prevent such potentially sensitive information from being revealed.
 	</t>
       </section>
+
+      <section anchor="HTTP307Redirects" title="HTTP 307 Redirects">
+	<t>
+	  HTTP 307 redirects send a POST request to the party being redirected to
+	  that contains all the form data from the previous request.
+	  This can leak credentials intended for the OpenID Provider to the Relying Party.
+	  Therefore, HTTP 307 redirects MUST NOT be used when redirecting to the Redirection URI.
+	  Likewise, while HTTP 302 redirects are typically implemented in a way that does not do this,
+	  the use of HTTP 303 redirect is preferable, as it is defined not to do this.
+	</t>
+      </section>
+
     </section>
     <section anchor="Privacy" title="Privacy Considerations">
 
@@ -7931,7 +7943,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="7" month="April" year="2017"/>
+	  <date day="23" month="January" year="2019" />
 	</front>
       </reference>
 
@@ -9005,6 +9017,9 @@
 	  </t>
 	  <t>
 	    Fixed #975 - Added additional related specifications.
+	  </t>
+	  <t>
+	    Fixed #996 - Explicitly Ban 307 as the authorization response redirect.
 	  </t>
 	</list>
       </t>
