@@ -5850,13 +5850,13 @@
 	      <vspace/>
 	      The symmetric encryption key is derived from the
 	      <spanx style="verb">client_secret</spanx> value by
-	      using a left truncated SHA-2 hash of
+	      using the left-most bits of a truncated SHA-2 hash of
 	      the octets of the UTF-8 representation of
 	      the <spanx style="verb">client_secret</spanx>.
 	      For keys of 256 or fewer bits, SHA-256 is used;
 	      for keys of 257-384 bits, SHA-384 is used;
 	      for keys of 385-512 bits, SHA-512 is used.
-	      The hash value MUST be left truncated to the appropriate bit length 
+	      The hash value MUST be truncated retaining the left-most bits to the appropriate bit length
 	      for the AES key wrapping or direct encryption algorithm used,
 	      for instance, truncating the SHA-256 hash
 	      to 128 bits for <spanx style="verb">A128KW</spanx>.
@@ -9035,6 +9035,9 @@
 	  </t>
 	  <t>
 	    Fixed #1002 - Clarified meaning of "exp" claim in the ID Token.
+	  </t>
+	  <t>
+	    Fixed #1005 - Clarify "left truncated SHA-2 hash" in section on symmetric encryption.
 	  </t>
 	</list>
       </t>
