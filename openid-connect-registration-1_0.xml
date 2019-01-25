@@ -811,7 +811,9 @@
         Client Secret, along with all registered Metadata about this Client,
         including any fields provisioned by the Authorization Server itself.
         The Authorization Server MAY reject or replace any of the Client's
-        requested field values and substitute them with suitable values. If
+        requested field values,
+	other than the <spanx style="verb">redirect_uris</spanx> value,
+	and substitute them with suitable values. If
         this happens, the Authorization Server MUST include these fields in
         the response to the Client.
 	An Authorization Server MAY ignore values provided by the client,
@@ -2115,6 +2117,9 @@
 	  </t>
 	  <t>
 	    Fixed #1007 - jwks / jwks_uri must not contain private key material.
+	  </t>
+	  <t>
+	    Fixed #1016 - Specified that the server cannot change the redirect_uris value.
 	  </t>
 	</list>
       </t>
