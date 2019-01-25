@@ -541,7 +541,8 @@
 	    <vspace/>
 	    REQUIRED.
 	    Expiration time on or after which the ID Token MUST NOT be
-	    accepted for processing. The processing of this parameter
+	    accepted by the RP when performing authentication with the OP.
+	    The processing of this parameter
 	    requires that the current date/time MUST be before the
 	    expiration date/time listed in the value. Implementers MAY
 	    provide for some small leeway, usually no more than a few
@@ -551,6 +552,8 @@
 	    See <xref target="RFC3339">RFC 3339</xref>
 	    for details regarding date/times in general and UTC in
 	    particular.
+	    NOTE:  The ID Token expiration time is unrelated the lifetime of
+	    the authenticated session between the RP and the OP.
 	  </t>
 	  
 	  <t hangText="iat">
@@ -9029,6 +9032,9 @@
 	  </t>
 	  <t>
 	    Fixed #999 - Clarified requirements when invalid Redirection URI supplied.
+	  </t>
+	  <t>
+	    Fixed #1002 - Clarified meaning of "exp" claim in the ID Token.
 	  </t>
 	</list>
       </t>
