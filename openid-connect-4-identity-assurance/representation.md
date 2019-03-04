@@ -2,16 +2,19 @@
 
 This extension to OpenID Connect wants to ensure that RPs cannot mixup verified and unverified claims and incidentally process unverified claims as verified claims. 
 
-The representation proposed therefore provides the RP with the verified claims in a structure `verified_person_data` composed of the verification evidences and the corresponding user claims, which were verified in the respective identify proofing process.
+The representation proposed therefore provides the RP with the verified claims within a structured claim `verified_person_data` composed of the verification evidences related to a certain verification process and the corresponding user claims, which were verified in this process.
 
 The `verified_person_data` claim consists of the following sub-elements:
 
-* `verification`: this element contains all data about the verification process
-* `claims`: This element is a container for the verified user claims. 
+* `verification` This element contains all data about the verification process.
 
-## verification
+* `claims` This element is the container for the verified user claims. 
 
-The verification element consists of the following elements. 
+## verification {#verification}
+
+This element contains the information about the process conducted to verify a person's identity and bind the respective person data to a user account.
+
+The `verification` element consists of the following elements: 
 
 `organization` REQUIRED. String value identifying the organisation that verified the person's identity
 
@@ -22,7 +25,7 @@ The verification element consists of the following elements.
 	* “DE”, “Geldwäschegesetz”
 	* [TBD]
 
-*Note by the editor: It might be reasonable to rename this element to trust_framework to clearly indicate it can also be used to cover NIST SP 800-3A or eIDAS Identity Proofing including the respective assurance levels.*
+Note by the editor: It might be reasonable to rename the `legal_context` element to `trust_framework` or something similar to clearly indicate it can also be used to cover NIST SP 800-3A or eIDAS Identity Proofing including the respective assurance levels.
 
 
 `date` REQUIRED. time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place
@@ -77,11 +80,11 @@ The following elements are contained in an `eID` sub-element:
 
 `identifier` REQUIRED. person identifier obtained by the verifying organization from the eID system
 
-## claims
+## claims {#claimselement}
 
-The `claims` element contains the user claims whose binding to the actual user account was verified by the verification/organization and is attested by the OP. This element may contain at most the claims listed in the following.
+The `claims` element contains the user claims, which were verified by the process and according to the policies determined by the corresponding `verification` element. 
 
-This specification uses the following existing OpenID Connect user claims as defined in [https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims]:
+The `claims` element MUST only contain one or more of the following user claims as defined in Section 5.1 of the OpenID Connect specification [@!OpenID]
 
 * `name`
 * `given_name`
@@ -90,7 +93,7 @@ This specification uses the following existing OpenID Connect user claims as def
 * `birthdate`
 * `address`
 
-Additionally, the following claims defined in this document can be used:
+or of the following claims as defined in Section [User Claims](#userclaims):
 
 * `place_of_birth` 
 * `nationality`
@@ -98,31 +101,31 @@ Additionally, the following claims defined in this document can be used:
 
 ## Examples
 
-The following shows an example of verified_person_data objects for all two verification methods.
+The following shows an example of `verified_person_data` objects for all two verification methods.
 
 ### identity_document
 
 ```JSON
-{   
+{  
    "verified_person_data":{  
       "verification":{  
- 	    "organization":"Bank Y",
-         "legal_context":{
-  "country":"DE",
-  "regulation":"Geldwäschegesetz"
-         }
+         "organization":"Bank Y",
+         "legal_context":{  
+            "country":"DE",
+            "regulation":"Geldwäschegesetz"
+         },
          "date":"2013-02-21",
          "id":"676q3636461467647q8498785747q487",
          "method":"identity_document",
-         "identity_document":{   
+         "identity_document":{  
             "country":"DE",
             "type":"ID Card",
-  "issuer":"Stadt Augsburg",
-       "number":"53554554",
-       "date_of_issuance":"2012-04-23",
-       "date_of_expiry":"2022-04-22",
+            "issuer":"Stadt Augsburg",
+            "number":"53554554",
+            "date_of_issuance":"2012-04-23",
+            "date_of_expiry":"2022-04-22",
             "method":"Physical In-Person Proofing (shop)",
-		  "organization":"Deutsche Post AG",
+            "organization":"Deutsche Post AG",
             "agent":"Steffen Schuster"
          }
       },
@@ -153,17 +156,17 @@ The following shows an example of verified_person_data objects for all two verif
    "verified_person_data":{  
       "verification":{  
          "organization":"Bank Y",
-         "legal_context":{
-  "country":"DE",
-  "regulation":"Geldwäschegesetz"
-         }
+         "legal_context":{  
+            "country":"DE",
+            "regulation":"Geldwäschegesetz"
+         },
          "date":"2013-02-21",
          "id":"676q3636461467647q8498785747q487",
          "method":"eID",
-         "eID":{   
+         "eID":{  
             "country":"DE",
             "type":"ID Card",
-		  "identifier":"???"
+            "identifier":"1d464976-d1fc-4460-a2de-9796d2b120fc"
          }
       },
       "claims":{  

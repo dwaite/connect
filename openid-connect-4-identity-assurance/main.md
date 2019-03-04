@@ -24,7 +24,7 @@ organization="yes.com"
 
 .# Abstract 
 
-This specification defines an extension of OpenID Connect for providing Relying Parties with verified person data, typically used to identify a person according to a certain law. 
+This specification defines an extension of OpenID Connect for providing Relying Parties with verified person data. This extension is intended to be used to verify the identity of a person in compliance with a certain law. 
 
 {mainmatter}
 

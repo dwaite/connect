@@ -4,4 +4,4 @@
    
    -00 (WG document)
 
-   *  turned the Proposal into a WG document
+   *  turned the proposal into a WG document

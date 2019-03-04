@@ -1,5 +1,7 @@
 # Claims {#claims}
 
+## User Claims {#userclaims}
+
 In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data:
 
 * `place_of_birth`: a structured claim representing the end-user’s place of birth. It consists of the following fields:
@@ -14,7 +16,7 @@ Strong identity verification typically requires the participants to keep an audi
 
 This specification supports building an audit trail across the boundaries between OP and RP by introducing the claim `transaction_id`.
 
-The `transaction_id` claim value of type string, which MUST be unique within the context of the respective OP, uniquely identify a certain transaction at the OP, and allow an RP to obtain further transaction details if needed.   
+The `transaction_id` claim is a string value, which MUST be unique within the context of the respective OP, uniquely identify a certain transaction at the OP, and allow an RP to obtain further transaction details if needed.   
 
 The OP MUST maintain a corresponding audit trail for any transaction which lead to the attestation of verified person data. Those details consist of 
 
