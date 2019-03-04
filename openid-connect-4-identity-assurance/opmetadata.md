@@ -33,3 +33,5 @@ This is an example openid-configuration snippet:
 ...
 }
 ```
+
+The OP MUST support the claims parameter and needs to publish this in its openid-configuration using the claim `claims_parameter_supported`. 

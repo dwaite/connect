@@ -66,3 +66,10 @@
    <date month="June" year="2017"/>
   </front>
 </reference>
+
+<reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
+  <front>
+    <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
+   <date day="23" month="July" year="2014"/>
+  </front>
+</reference>

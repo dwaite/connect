@@ -43,13 +43,20 @@ Note: The `claims` sub-element can be omitted, which is equivalent to a claims e
 
 Note: If the `claims` sub-element is empty or contains a claim other than the claims listed in the Section [claims](#claimselement), the OP will abort the transaction with an `invalid_request` error.
 
-## Requesting Data of a certain age
+## Defining constraints on requested data {#constraintedclaims}
 
 The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
 
 This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification]@!OpenID] due to the nested nature of the `verified_person_data` claim.
 
-The RP uses a `max_age` field on the sub-element `date` of the `verification` sub-claim that defines the maximum time elapsed since the verification process took place in seconds. The following is an example:
+Section 5.5.1 of the OpenID Connect Core [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members ("essential", "value" and "values") with special query 
+meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).
+
+This specification introduces a new such member "max_age".
+
+`max_age` OPTIONAL Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
+
+The following is an example:
 
 ```json
 {  
@@ -66,13 +73,13 @@ The RP uses a `max_age` field on the sub-element `date` of the `verification` su
 }
 ```
 
-The IDP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested `max_age`, it SHOULD attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach. 
+The IDP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested `max_age`, it MAY WANT TO CONSIDER attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach. 
 
 If the IDP is unable to fulfill the requirement, there are two possible outcomes of the transaction:
 
 * If the RP did not request `date` as essential claim, the IDP will provide the RP with the data available and the RP may decide how to use the data. 
 
-* If the RP requested `date` as essential claim, the IDP will abort the transaction and respond with the (new) error code `unable_to_meet_requirement`. 
+* If the RP requested `date` as essential claim, the IDP will abort the transaction and respond with the error code `unable_to_meet_requirement`. 
 
 The following is an example of a claims parameter requesting `date` as essential claim.
 
