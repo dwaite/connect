@@ -72,6 +72,8 @@ verified person data.</t>
 </list></t>
 <t><spanx style="verb">nationality</spanx>: represents the user’s nationality in format ISO 3166-1 Alpha-2, e.g. DE</t>
 <t><spanx style="verb">birth_name</spanx>: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
+<t><spanx style="verb">salutation</spanx>: end-user’s salutation, e.g. “Mr.”</t>
+<t><spanx style="verb">title</spanx>: end-user’s title, e.g. “Dr.”</t>
 </list>
 </t>
 </section>
@@ -261,7 +263,7 @@ meanings and allows for other special members to be defined (while stating that 
 <t>
 <list style="symbols">
 <t>If the RP did not request <spanx style="verb">date</spanx> as essential claim, the IDP will provide the RP with the data available and the RP may decide how to use the data.</t>
-<t>If the RP requested <spanx style="verb">date</spanx> as essential claim, the IDP will abort the transaction and respond with the (new) error code <spanx style="verb">unable_to_meet_requirement</spanx>.</t>
+<t>If the RP requested <spanx style="verb">date</spanx> as essential claim, the IDP will abort the transaction and respond with the error code <spanx style="verb">unable_to_meet_requirement</spanx>.</t>
 </list>
 </t>
 <t>The following is an example of a claims parameter requesting <spanx style="verb">date</spanx> as essential claim.</t>
@@ -618,6 +620,13 @@ Specification document(s): Section <eref target="#constraintedclaims">Defining c
 
 <back>
 <references title="Normative References">
+<reference anchor="OpenID">
+  <front>
+    <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
+    <author fullname="Chuck Mortimore" initials="" surname=""></author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
 <reference anchor="OpenID-Discovery">
   <front>
     <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
@@ -626,17 +635,8 @@ Specification document(s): Section <eref target="#constraintedclaims">Defining c
   </front>
 </reference>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6749.xml"?>
-<reference anchor="OpenID">
-  <front>
-    <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
-    <author fullname="Chuck Mortimore" initials="" surname=""></author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
 </references>
 <references title="Informative References">
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 <reference anchor="eIDAS">
   <front>
     <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
@@ -651,6 +651,8 @@ Specification document(s): Section <eref target="#constraintedclaims">Defining c
     <date year="2017" month="June"></date>
   </front>
 </reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 </references>
 
 <section anchor="document-history" title="Document History">
@@ -660,6 +662,7 @@ Specification document(s): Section <eref target="#constraintedclaims">Defining c
 <list style="symbols">
 <t>turned the proposal into a WG document</t>
 <t>added several examples (ID Token vs User Info, non-verified &amp; verified claims, aggregated &amp; distributed claims)</t>
+<t>added IANA registration for new error code <spanx style="verb">unable_to_meet_requirement</spanx></t>
 </list>
 </t>
 </section>
