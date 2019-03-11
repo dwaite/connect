@@ -19,7 +19,16 @@ fullname="Torsten Lodderstedt"
 organization="yes.com"
     [author.address]
     email = "torsten@lodderstedt.net"
-    
+
+[[author]]
+initials="D."
+surname="Fett"
+fullname="Daniel Fett"
+organization="yes.com"
+    [author.address]
+    email = "mail@danielfett.de"
+
+
 %%%
 
 .# Abstract 

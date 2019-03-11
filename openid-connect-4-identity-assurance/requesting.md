@@ -6,7 +6,7 @@ Verified person data can be requested on the level of individual user claims by 
 
 Bassically, the claim `verified_person_data` is added to the section "userinfo" or "id_token" of the `claims` parameter. 
 
-Since `verified_person_data` contains the effective user claims in a nested `claims` element, the syntax is extended to include expression on nested elements as follows. The `verified_person_data` element includes a `claims`element, which in turn includes the desired user claims as keys with a `null` value. An example is shown in the following:
+Since `verified_person_data` contains the effective user claims in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired user claims as keys with a `null` value. An example is shown in the following:
 
 ```json
 {  
@@ -25,7 +25,7 @@ Since `verified_person_data` contains the effective user claims in a nested `cla
 }
 ```
 
-Use of the `claims` parameter allows the RP to exactly select the user claims needed for their use case, this extension therefore allows RPs to fulfill the requirement for data minimization.
+Use of the `claims` parameter allows the RP to exactly select the user claims needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.
 
 Note: A `claims` sub-element with value `null` is interpreted as a request for all possible claims. An example is shown in the following:
 
@@ -54,7 +54,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 This specification introduces a new such member "max_age".
 
-`max_age` OPTIONAL Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
+`max_age`: OPTIONAL Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
 
 The following is an example:
 
@@ -73,7 +73,7 @@ The following is an example:
 }
 ```
 
-The IDP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested `max_age`, it MAY WANT TO CONSIDER attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach. 
+The IDP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested `max_age`, the IDP MAY attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach. 
 
 If the IDP is unable to fulfill the requirement, there are two possible outcomes of the transaction:
 

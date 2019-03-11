@@ -18,15 +18,19 @@ Strong identity verification typically requires the participants to keep an audi
 
 This specification supports building an audit trail across the boundaries between OP and RP by introducing the claim `transaction_id`.
 
-The `transaction_id` claim is a string value, which MUST be unique within the context of the respective OP, uniquely identify a certain transaction at the OP, and allow an RP to obtain further transaction details if needed.   
+The `transaction_id` claim is a string value which 
 
-The OP MUST maintain a corresponding audit trail for any transaction which lead to the attestation of verified person data. Those details consist of 
+* MUST be unique within the context of the respective OP, 
+* MUST uniquely identify a certain transaction at the OP, and 
+* MUST allow an RP to obtain further transaction details if needed.
 
-* the transaction id
-* the authentication methods employed
-* the transaction type (e.g. scope values)
+The OP MUST maintain a corresponding audit trail for any transaction which leads to the attestation of verified person data. Those details consist of 
 
-The OP MUST store the transaction data as long as it is required to store transaction data for auditing purposes by its respective regulation. 
+* the transaction id,
+* the authentication methods employed, and
+* the transaction type (e.g. scope values).
+
+The OP MUST store the transaction data as long as it is required to store transaction data for auditing purposes by respective regulations. 
 
 The RP requests this claim like any other claim via the claims parameter or as part of a default claim set identified by a scope value. 
 
