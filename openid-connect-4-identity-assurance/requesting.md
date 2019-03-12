@@ -2,9 +2,9 @@
 
 ## Requesting User Claims
 
-Verified person data can be requested on the level of individual user claims by utilzing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification]@!OpenID]. 
+Verified person data can be requested on the level of individual user claims by utilzing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
 
-Bassically, the claim `verified_person_data` is added to the section "userinfo" or "id_token" of the `claims` parameter. 
+Bassically, the claim `verified_person_data` is added to the section `userinfo` or `id_token` of the `claims` parameter. 
 
 Since `verified_person_data` contains the effective user claims in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired user claims as keys with a `null` value. An example is shown in the following:
 
@@ -47,14 +47,14 @@ Note: If the `claims` sub-element is empty or contains a claim other than the cl
 
 The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
 
-This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification]@!OpenID] due to the nested nature of the `verified_person_data` claim.
+This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect Core specification [@!OpenID] due to the nested nature of the `verified_person_data` claim.
 
-Section 5.5.1 of the OpenID Connect Core [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members ("essential", "value" and "values") with special query 
+Section 5.5.1 of the OpenID Connect Core specification [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (`essential`, `value` and `values`) with special query 
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).
 
-This specification introduces a new such member "max_age".
+This specification introduces a new such member `max_age`.
 
-`max_age`: OPTIONAL Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
+`max_age`: OPTIONAL. Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
 
 The following is an example:
 

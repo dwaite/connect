@@ -2,7 +2,7 @@
 
 This specification defines an extension to OpenID Connect [@!OpenID] to address the use case of strong identity verification of a natural person in accordance with certain laws. Examples include Anti Money Laundering Laws, Telecommunication Acts, Anti Terror Laws, and regulations on trust services, such as eIDAS [@?eIDAS].
 
-In such use cases, the Relying Parties (RPs) need to know the assurance level of the user claims attested by the OpenID Connect Providers (OPs) along with evidences related to the identity verification process. 
+In such use cases, the Relying Parties (RPs) need to know the assurance level of the user claims attested by the OpenID Connect Providers (OPs) along with evidences related to the identity verification process (identity assurance). 
 
 Identity assurance signficantly differs from authentication assurance, which requires a different, currently unsupported, representation in the OpenID Connect protocol.
 

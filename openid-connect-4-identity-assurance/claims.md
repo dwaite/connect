@@ -14,7 +14,7 @@ In order to fulfill the requirements of some jurisdictions on identity assurance
 
 ## transaction_id
 
-Strong identity verification typically requires the participants to keep an audit trail of the whole process, in order to be able to trace it back to its origins in case of a dispute or an audit. 
+Strong identity verification typically requires the participants to keep an audit trail of the whole process. 
 
 This specification supports building an audit trail across the boundaries between OP and RP by introducing the claim `transaction_id`.
 

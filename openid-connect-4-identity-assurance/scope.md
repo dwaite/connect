@@ -6,7 +6,7 @@ The extension specified in this document shall
 * allow an OP to attest identity data obtained and maintained in accordance with a certain law, and
 * allow the RP to map the data obtained from the OP to other laws, e.g. it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfill requirements defined by eIDAS.
 
-The scope of the extension is to define mechanisms to assert person data only. 
+The scope of the extension is to define mechanisms to assert verified person data. 
 
 It SHALL be possible to use existing OpenID Connect claims and other extensions defined beside this extension within the same OpenID Connect transaction and especially to render the same ID token or other representations utilized to convey user claims. For example, OpenID Connect already defines additional claims to inform the RP of the verification status of the `phone_number` and `email` claims.
 
