@@ -9,7 +9,9 @@
    *  allow other user claims in the `claims` sub element (issue 1079)
    *  changed legal_context to trust_framework
    *  added explanation how the content of the verification element is determined by the trust framework
-   
+   *  added URI-based identifiers for trust_framework, identity_document and (verification) method
+   *  added example attestation for notified/regulated eID system
+   *  adopted OP metadata section accordingly 
    
    -00 (WG document)
 

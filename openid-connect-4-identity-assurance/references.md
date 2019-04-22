@@ -77,3 +77,14 @@
    <date day="23" month="July" year="2014"/>
   </front>
 </reference>
+
+<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
+  <front>
+    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
+    <author initials="P" surname="Cane" fullname="P. Cane">
+    </author>
+    <author initials="Mary F." surname="Conaghan" fullname="J. Conaghan">
+    </author>
+   <date year="2008"/>
+  </front>
+</reference>

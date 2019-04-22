@@ -19,7 +19,7 @@ The `verification` element consists of the following elements:
 
 An example value is "https://openid.net/trust_frameworks/eidas/loa_high", which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
 
-Standardized values are defined in [trust_framework](#predefined_values_tf).
+Standardized values are defined in [Trust Frameworks](#predefined_values_tf).
 
 The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law ("https://openid.net/trust_frameworks/de/aml").
 
@@ -39,11 +39,9 @@ The following elements are contained in an `identity_document` sub-element.
 
 `country`: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. "DE".
 
-`type`: REQUIRED. String denoting the type of the id document, standardized values are:
+`type`: REQUIRED. String denoting the type of the id document, standardized values are defined in [Identity Documents](#predefined_values_idd).
 
-* "ID Card": national ID Card
-* "Passport": Passport
-It is also possible to set `type` to country-specific types (free text). In this case, RPs will either just store this value for audit purposes or apply bespoke business logic to it.
+The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoke business logic to it.
 
 `issuer`: REQUIRED. String representing the issuer of the identity document
 
