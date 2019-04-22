@@ -12,6 +12,10 @@
    *  added URI-based identifiers for trust_framework, identity_document and (verification) method
    *  added example attestation for notified/regulated eID system
    *  adopted OP metadata section accordingly 
+   *  changed error behavior for `max_age` member to alig with OpenID Core
+   *  Added feature to let the RP express requirements for verification data (trust framework, identity documents, verification method)
+   *  Added privacy consideration section and added text on legal basis for data exchange
+   *  Added explanation about regulated and un-regulated eID systems
    
    -00 (WG document)
 

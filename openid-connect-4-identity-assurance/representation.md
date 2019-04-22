@@ -15,7 +15,7 @@ This element contains the information about the process conducted to verify a pe
 
 The `verification` element consists of the following elements: 
 
-`trust_framework`: REQUIRED. URI determing the trust framework governing the identification verification process and the identity assurance level of the OP. 
+`trust_framework`: REQUIRED. URI determing the trust framework governing the identity verification process and the identity assurance level of the OP. 
 
 An example value is "https://openid.net/trust_frameworks/eidas/loa_high", which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
 
@@ -23,15 +23,14 @@ Standardized values are defined in [Trust Frameworks](#predefined_values_tf).
 
 The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law ("https://openid.net/trust_frameworks/de/aml").
 
-`date`: REQUIRED. Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place.
+`date`: CONDITIONALLY REQUIRED. Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place.
 
-`id`: REQUIRED. Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP.
+`id`: CONDITIONALLY REQUIRED. Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP.
 
-`method`: REQUIRED. Method utilized for identity verification - Depending on the value of "method", there will be different additional sub-elements with the name of the method in the verification element - possible values are
+`method`: CONDITIONALLY REQUIRED. Method utilized for identity verification - Depending on the value of "method", there will be different additional sub-elements with the name of the method in the verification element - possible values are
 
 * "identity_document": verification of a physical document 
 * "eID": verification using an electronic ID Card
-* [TBD]
 
 ### Method-specific elements
 
@@ -41,7 +40,7 @@ The following elements are contained in an `identity_document` sub-element.
 
 `type`: REQUIRED. String denoting the type of the id document, standardized values are defined in [Identity Documents](#predefined_values_idd).
 
-The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoke business logic to it.
+The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.
 
 `issuer`: REQUIRED. String representing the issuer of the identity document
 
@@ -51,12 +50,7 @@ The OP MAY use other than the predefined values in which case the RPs will eithe
 
 `date_of_expiry`: CONDITIONALLY REQUIRED. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.
 
-`method`: The method used to verify the document, standardized values are:
-
-* "Physical In-Person Proofing (bank)"
-* "Physical In-Person Proofing (shop)"
-* "Physical In-Person Proofing (courier)"
-* "Supervised remote In-Person Proofing"
+`method`: The method used to verify the document, predefined values are given in  [Verification Methods](#predefined_values_vm)
 
 `organization`: CONDITIONALLY REQUIRED. String denoting the organization which performed the verification on behalf of the OP. Can be omitted if this is the OP itself.
 
@@ -66,10 +60,7 @@ The following elements are contained in an `eID` sub-element:
 
 `country`: REQUIRED. Country where the eID was issued: ISO 3166-1 Alpha-2, e.g. DE
 
-`type`: type of the eID, standardized value is:
-
-* "ID Card": national ID Card
-* It is also possible to set type to country-specific designations
+`type`: String denoting the type of eID, standardized values are defined in [Identity Documents](#predefined_values_idd).
 
 `identifier`: REQUIRED. person identifier obtained by the OP from the eID system
 

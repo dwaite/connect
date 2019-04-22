@@ -5,11 +5,11 @@ ipr = "trust200902"
 workgroup = "connect"
 keyword = ["security", "openid", "identity assurance"]
 
-date = 2019-03-13T00:00:00Z
+date = 2019-04-22T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "openid-connect-4-identity-assurance-00"
+value = "openid-connect-4-identity-assurance-01"
 status = "standard"
 
 [[author]]
@@ -38,7 +38,6 @@ This specification defines an extension of OpenID Connect for providing Relying 
 {mainmatter}
 
 {{mainmatter.md}}
-{{predefined_values.md}}
 {{references.md}}
 
 {backmatter}

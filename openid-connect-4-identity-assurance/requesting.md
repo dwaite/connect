@@ -16,9 +16,6 @@ Since `verified_person_data` contains the effective user claims in a nested `cla
             "given_name":null,
             "family_name":null,
             "birthdate":null,
-            "place_of_birth":null,
-            "nationality":null,
-            "address":null
          }
       }
    }	
@@ -26,6 +23,22 @@ Since `verified_person_data` contains the effective user claims in a nested `cla
 ```
 
 Use of the `claims` parameter allows the RP to exactly select the user claims needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.
+
+RPs MAY indicate that a certain claim is essential to the sucessful completion of the user journey by utilizing the `essential` field as defined in Section 5.5.1. of the OpenID Connect specification [@!OpenID]. The following example designates both given as well as family name as being essential.
+
+```json
+{  
+   "userinfo":{  
+      "verified_person_data":{  
+         "claims":{  
+            "given_name":{"essential": true},
+            "family_name":{"essential": true},
+            "birthdate":null,
+         }
+      }
+   }	
+}
+```
 
 Note: A `claims` sub-element with value `null` is interpreted as a request for all possible claims. An example is shown in the following:
 
@@ -45,14 +58,48 @@ Note: If the `claims` sub-element is empty or contains a claim other than the cl
 
 ## Defining constraints on requested data {#constraintedclaims}
 
-The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
+The RP MAY express requirements regarding the elements in the verification sub-element.
 
 This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect Core specification [@!OpenID] due to the nested nature of the `verified_person_data` claim.
 
 Section 5.5.1 of the OpenID Connect Core specification [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (`essential`, `value` and `values`) with special query 
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).
 
-This specification introduces a new such member `max_age`.
+This specification re-uses this mechanics and introduces a new such member `max_age` (see below).
+
+To start with, the RP may limit the possible values of the elements `trust_framework`, `identity_document`, and `identity_document/method` by utilizing the `value` or `values` fields. 
+
+The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.
+
+```json
+{  
+   "userinfo":{  
+      "https://www.yes.com/claims/verified_person_data":{  
+         "verification":{  
+            "trust_framework":{  
+               "value":"https://openid.net/trust_frameworks/de/aml"
+            },
+            "identity_document":{  
+               "type":{  
+                  "values":[  
+                     "https://yes.com/id_documents/idcard",
+                     "https://yes.com/id_documents/passport"
+                  ]
+               },
+               "method":{  
+                  "value":"https://yes.com/verification_method/pipp_bank"
+               }
+            }
+         },
+         "claims":null
+      }
+   }
+}
+```
+
+The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
+
+This specification therefore defines a new member `max_age`.
 
 `max_age`: OPTIONAL. Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
 
@@ -73,28 +120,7 @@ The following is an example:
 }
 ```
 
-The IDP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested `max_age`, the IDP MAY attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach. 
+The OP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested `max_age`, the OP MAY attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach. 
 
-If the IDP is unable to fulfill the requirement, there are two possible outcomes of the transaction:
-
-* If the RP did not request `date` as essential claim, the IDP will provide the RP with the data available and the RP may decide how to use the data. 
-
-* If the RP requested `date` as essential claim, the IDP will abort the transaction and respond with the error code `unable_to_meet_requirement`. 
-
-The following is an example of a claims parameter requesting `date` as essential claim.
-
-```json
-{  
-   "userinfo":{  
-      "verified_person_data":{  
-         "verification":{  
-            "date":{  
-               "max_age":"63113852",
-               "essential":true
-            }
-         }
-      }
-   }
-}
-```
+If the OP is unable to fulfill the requirement (even in case it is marked as being `essential`), it will provide the RP with the data available and the RP may decide how to use the data. The OP MUST NOT return an error in case it cannot return all claims requested as essential claims.
 

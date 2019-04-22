@@ -2,7 +2,7 @@
 
 ## User Claims {#userclaims}
 
-In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data:
+In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data (in addition to the claims defined in the OpenID Connect specification [@!OpenID]:
 
 * `place_of_birth`: a structured claim representing the end-user’s place of birth. It consists of the following fields:
 	* `country`: ISO 3166-1 Alpha-2, e.g. DE, or ISO 3166-3
