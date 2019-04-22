@@ -38,6 +38,7 @@ This specification defines an extension of OpenID Connect for providing Relying 
 {mainmatter}
 
 {{mainmatter.md}}
+{{predefined_values.md}}
 {{references.md}}
 
 {backmatter}

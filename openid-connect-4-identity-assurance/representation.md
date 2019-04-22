@@ -15,23 +15,17 @@ This element contains the information about the process conducted to verify a pe
 
 The `verification` element consists of the following elements: 
 
-`organization`: REQUIRED. String value identifying the organisation that verified the person's identity.
+`trust_framework`: REQUIRED. URI determing the trust framework governing the identification verification process and the identity assurance level of the OP. 
 
-`legal_context`: REQUIRED. JSON Object determing the legal context governing the identification verification process conducted by the `organisation`. This object consists of the following fields:
+An example value is "https://openid.net/trust_frameworks/eidas/loa_high", which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
 
-* `country`: OPTIONAL. ISO 3166-1 Alpha-2, e.g. "DE".
-* `regulation`: Designation of the act or set of acts or directives, e.g. "Geldwäschegesetz". 
+Standardized values are defined in [trust_framework](#predefined_values_tf).
 
-Standardized values are: 
-* "DE", "Geldwäschegesetz"
-* [TBD]
-
-Note by the editor: It might be reasonable to rename the `legal_context` element to `trust_framework` or something similar to clearly indicate it can also be used to cover NIST SP 800-3A or eIDAS Identity Proofing including the respective assurance levels.
-
+The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law ("https://openid.net/trust_frameworks/de/aml").
 
 `date`: REQUIRED. Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place.
 
-`id`: REQUIRED. Unique reference to the identity verification process as performed by the verifying `organization`. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP.
+`id`: REQUIRED. Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP.
 
 `method`: REQUIRED. Method utilized for identity verification - Depending on the value of "method", there will be different additional sub-elements with the name of the method in the verification element - possible values are
 
@@ -66,7 +60,7 @@ It is also possible to set `type` to country-specific types (free text). In this
 * "Physical In-Person Proofing (courier)"
 * "Supervised remote In-Person Proofing"
 
-`organization`: CONDITIONALLY REQUIRED. String denoting the organization which performed the verification on behalf of the organisation denoted in the enclosing `verification` element. Can be omitted if this is the same organisation as in the enclosing `verification` element.
+`organization`: CONDITIONALLY REQUIRED. String denoting the organization which performed the verification on behalf of the OP. Can be omitted if this is the OP itself.
 
 `agent`: OPTIONAL. Agent (person) who conducted the verification. The agent may be identified by Name or an identifier which can be resolved into the agent’s name during an audit.
 
@@ -79,13 +73,13 @@ The following elements are contained in an `eID` sub-element:
 * "ID Card": national ID Card
 * It is also possible to set type to country-specific designations
 
-`identifier`: REQUIRED. person identifier obtained by the verifying organization from the eID system
+`identifier`: REQUIRED. person identifier obtained by the OP from the eID system
 
 ## claims Element {#claimselement}
 
 The `claims` element contains the user claims which were verified by the process and according to the policies determined by the corresponding `verification` element. 
 
-The `claims` element MUST only contain one or more of the following user claims as defined in Section 5.1 of the OpenID Connect specification [@!OpenID]
+The `claims` element MAY contain one or more of the following user claims as defined in Section 5.1 of the OpenID Connect specification [@!OpenID]
 
 * `name`
 * `given_name`
@@ -99,3 +93,5 @@ or of the following claims as defined in Section [User Claims](#userclaims):
 * `place_of_birth` 
 * `nationality`
 * `birth_name`
+
+The `claims` element MAY also contain other claims given the value of the respective claim was verified in the verification process represented by the sibling `verification` element. 
