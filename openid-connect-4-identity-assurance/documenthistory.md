@@ -2,7 +2,12 @@
 
    [[ To be removed from the final specification ]]
    
-   -01 (WG document)
+   -02
+   
+   * simplified/reduced number of verification methods
+   * changed all namespaces to openid.net
+   
+   -01 
 
    *  fixed some typos
    *  remove organization element (redundant) (issue 1080)

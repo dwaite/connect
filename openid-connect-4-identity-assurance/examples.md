@@ -53,7 +53,7 @@ Subsequent sections contain examples of different channels and combinations of v
             "number":"53554554",
             "date_of_issuance":"2012-04-23",
             "date_of_expiry":"2022-04-22",
-            "method":"https://openid.net/verification_method/pipp_shop",
+            "method":"https://openid.net/verification_method/pipp",
             "organization":"Deutsche Post AG",
             "agent":"Steffen Schuster"
          }
@@ -164,7 +164,7 @@ Content-Type: application/json
             "number":"53554554",
             "date_of_issuance":"2012-04-23",
             "date_of_expiry":"2022-04-22",
-            "method":"https://openid.net/verification_method/pipp_bank",
+            "method":"https://openid.net/verification_method/pipp",
             "organization":"Deutsche Post AG",
             "agent":"Steffen Schuster"
          }
@@ -233,7 +233,7 @@ The respective ID Token could be
             "number":"53554554",
             "date_of_issuance":"2012-04-23",
             "date_of_expiry":"2022-04-22",
-            "method":"https://openid.net/verification_method/pipp_shop",
+            "method":"https://openid.net/verification_method/pipp",
             "organization":"Deutsche Post AG",
             "agent":"Steffen Schuster"
          }

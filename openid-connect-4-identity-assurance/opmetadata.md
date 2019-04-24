@@ -28,10 +28,8 @@ This is an example openid-configuration snippet:
    "verification_methods_supported":[  
       {  
          "identity_document":[  
-            "https://openid.net/verification_method/pipp_bank",
-            "https://yes.com/verification_method/pipp_shop",
-            "https://yes.com/verification_method/pipp_courier",
-            "https://yes.com/verification_method/srip"
+            "https://openid.net/verification_method/pipp",
+            "https://openid.net/verification_method/srip"
          ]
       },
       "eID"

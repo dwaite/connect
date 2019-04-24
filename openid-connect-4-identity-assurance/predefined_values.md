@@ -35,13 +35,8 @@ This section defines identity doccument identifiers for use with this specificat
 
 This section defines identity doccument identifiers for use with this specification.
 
-
-* Identifier: https://openid.net/verification_method/pipp_bank
-* Definition: Physical In-Person Proofing (bank)
-* Identifier: https://yes.com/verification_method/pipp_shop
-* Definition: Physical In-Person Proofing (shop)
-* Identifier: https://yes.com/verification_method/pipp_courier
-* Definition: Physical In-Person Proofing (courier)
-* Identifier: https://yes.com/verification_method/srip
+* Identifier: https://openid.net/verification_method/pipp
+* Definition: Physical In-Person Proofing
+* Identifier: https://openid.net/verification_method/srip
 * Definition: Supervised remote In-Person Proofing
 

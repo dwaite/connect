@@ -74,7 +74,7 @@ The following example shows that the RP wants to obtain an attestation based on 
 ```json
 {  
    "userinfo":{  
-      "https://www.yes.com/claims/verified_person_data":{  
+      "verified_person_data":{  
          "verification":{  
             "trust_framework":{  
                "value":"https://openid.net/trust_frameworks/de/aml"
@@ -82,12 +82,12 @@ The following example shows that the RP wants to obtain an attestation based on 
             "identity_document":{  
                "type":{  
                   "values":[  
-                     "https://yes.com/id_documents/idcard",
-                     "https://yes.com/id_documents/passport"
+                     "https://openid.net/id_document/idcard",
+                     "https://openid.net/id_document/passport"
                   ]
                },
                "method":{  
-                  "value":"https://yes.com/verification_method/pipp_bank"
+                  "value":"https://openid.net/verification_method/pipp"
                }
             }
          },

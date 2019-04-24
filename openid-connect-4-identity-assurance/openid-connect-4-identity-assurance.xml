@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM 'rfc2629.dtd' []>
-<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-01">
+<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-02">
 <?rfc toc="yes"?><?rfc symrefs="yes"?><?rfc sortrefs="yes"?><?rfc compact="yes"?><?rfc subcompact="no"?><?rfc comments="no"?>
 <front>
 <title abbrev="openid-connect-4-identity-assurance">OpenID Connect for Identity Assurance</title><author initials="T." surname="Lodderstedt" fullname="Torsten Lodderstedt"><organization>yes.com</organization><address><postal><street></street>
@@ -10,7 +10,7 @@
 <author initials="D." surname="Fett" fullname="Daniel Fett"><organization>yes.com</organization><address><postal><street></street>
 </postal><email>mail@danielfett.de</email>
 </address></author>
-<date year="2019" month="April" day="22"></date>
+<date year="2019" month="April" day="24"></date>
 <area>Internet</area><workgroup>connect</workgroup><keyword>security</keyword>
 <keyword>openid</keyword>
 <keyword>identity assurance</keyword>
@@ -242,7 +242,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
-      &quot;https://www.yes.com/claims/verified_person_data&quot;:{  
+      &quot;verified_person_data&quot;:{  
          &quot;verification&quot;:{  
             &quot;trust_framework&quot;:{  
                &quot;value&quot;:&quot;https://openid.net/trust_frameworks/de/aml&quot;
@@ -250,12 +250,12 @@ meanings and allows for other special members to be defined (while stating that 
             &quot;identity_document&quot;:{  
                &quot;type&quot;:{  
                   &quot;values&quot;:[  
-                     &quot;https://yes.com/id_documents/idcard&quot;,
-                     &quot;https://yes.com/id_documents/passport&quot;
+                     &quot;https://openid.net/id_document/idcard&quot;,
+                     &quot;https://openid.net/id_document/passport&quot;
                   ]
                },
                &quot;method&quot;:{  
-                  &quot;value&quot;:&quot;https://yes.com/verification_method/pipp_bank&quot;
+                  &quot;value&quot;:&quot;https://openid.net/verification_method/pipp&quot;
                }
             }
          },
@@ -340,7 +340,7 @@ meanings and allows for other special members to be defined (while stating that 
             &quot;number&quot;:&quot;53554554&quot;,
             &quot;date_of_issuance&quot;:&quot;2012-04-23&quot;,
             &quot;date_of_expiry&quot;:&quot;2022-04-22&quot;,
-            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp_shop&quot;,
+            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp&quot;,
             &quot;organization&quot;:&quot;Deutsche Post AG&quot;,
             &quot;agent&quot;:&quot;Steffen Schuster&quot;
          }
@@ -449,7 +449,7 @@ Content-Type: application/json
             &quot;number&quot;:&quot;53554554&quot;,
             &quot;date_of_issuance&quot;:&quot;2012-04-23&quot;,
             &quot;date_of_expiry&quot;:&quot;2022-04-22&quot;,
-            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp_bank&quot;,
+            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp&quot;,
             &quot;organization&quot;:&quot;Deutsche Post AG&quot;,
             &quot;agent&quot;:&quot;Steffen Schuster&quot;
          }
@@ -518,7 +518,7 @@ Content-Type: application/json
             &quot;number&quot;:&quot;53554554&quot;,
             &quot;date_of_issuance&quot;:&quot;2012-04-23&quot;,
             &quot;date_of_expiry&quot;:&quot;2022-04-22&quot;,
-            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp_shop&quot;,
+            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp&quot;,
             &quot;organization&quot;:&quot;Deutsche Post AG&quot;,
             &quot;agent&quot;:&quot;Steffen Schuster&quot;
          }
@@ -616,10 +616,8 @@ Content-Type: application/json
    &quot;verification_methods_supported&quot;:[  
       {  
          &quot;identity_document&quot;:[  
-            &quot;https://openid.net/verification_method/pipp_bank&quot;,
-            &quot;https://yes.com/verification_method/pipp_shop&quot;,
-            &quot;https://yes.com/verification_method/pipp_courier&quot;,
-            &quot;https://yes.com/verification_method/srip&quot;
+            &quot;https://openid.net/verification_method/pipp&quot;,
+            &quot;https://openid.net/verification_method/srip&quot;
          ]
       },
       &quot;eID&quot;
@@ -632,7 +630,7 @@ Content-Type: application/json
 </section>
 
 <section anchor="Acknowledgements" title="Acknowledgements">
-<t>The following people at yes.com and partner companies contributed to the concept described in this document: Lukas Stiebig, Sven Manz, Waldemar Zimpfer, Willi Wiedergold, Fabian Hoffmann, Daniel Keijsers, Ralf Wagner, Sebastian Ebling, Peter Eisenhofer.</t>
+<t>The following people at yes.com and partner companies contributed to the concept described in this document: Karsten Buch, Lukas Stiebig, Sven Manz, Waldemar Zimpfer, Willi Wiedergold, Fabian Hoffmann, Daniel Keijsers, Ralf Wagner, Sebastian Ebling, Peter Eisenhofer.</t>
 <t>I would like to thank Marcus Sanz, Tom Jones, Mike Pegman, and Jeff Lombardo for their valuable feedback that helped to further shape this specification.</t>
 </section>
 
@@ -682,13 +680,9 @@ Content-Type: application/json
 <t>This section defines identity doccument identifiers for use with this specification.</t>
 <t>
 <list style="symbols">
-<t>Identifier: <eref target="https://openid.net/verification_method/pipp_bank">https://openid.net/verification_method/pipp_bank</eref></t>
-<t>Definition: Physical In-Person Proofing (bank)</t>
-<t>Identifier: <eref target="https://yes.com/verification_method/pipp_shop">https://yes.com/verification_method/pipp_shop</eref></t>
-<t>Definition: Physical In-Person Proofing (shop)</t>
-<t>Identifier: <eref target="https://yes.com/verification_method/pipp_courier">https://yes.com/verification_method/pipp_courier</eref></t>
-<t>Definition: Physical In-Person Proofing (courier)</t>
-<t>Identifier: <eref target="https://yes.com/verification_method/srip">https://yes.com/verification_method/srip</eref></t>
+<t>Identifier: <eref target="https://openid.net/verification_method/pipp">https://openid.net/verification_method/pipp</eref></t>
+<t>Definition: Physical In-Person Proofing</t>
+<t>Identifier: <eref target="https://openid.net/verification_method/srip">https://openid.net/verification_method/srip</eref></t>
 <t>Definition: Supervised remote In-Person Proofing</t>
 </list>
 </t>
@@ -699,24 +693,6 @@ Content-Type: application/json
 
 <back>
 <references title="Normative References">
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
-  <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
-    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-      <organization>NRI</organization>
-    </author>
-    <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
-    </author>
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization>Google</organization>
-    </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
-    </author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
     <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
@@ -738,8 +714,34 @@ Content-Type: application/json
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+  <front>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization>NRI</organization>
+    </author>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
+    </author>
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization>Google</organization>
+    </author>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
+    </author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
 </references>
 <references title="Informative References">
+<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
+  <front>
+    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
+    <author fullname="P. Cane" initials="P" surname="Cane"></author>
+    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
+    <date year="2008"></date>
+  </front>
+</reference>
 <reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
   <front>
     <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
@@ -778,19 +780,18 @@ Content-Type: application/json
 </reference>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
-<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
-  <front>
-    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
-    <author fullname="P. Cane" initials="P" surname="Cane"></author>
-    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
-    <date year="2008"></date>
-  </front>
-</reference>
 </references>
 
 <section anchor="document-history" title="Document History">
 <t>[[ To be removed from the final specification ]]</t>
-<t>-01 (WG document)</t>
+<t>-02</t>
+<t>
+<list style="symbols">
+<t>simplified/reduced number of verification methods</t>
+<t>changed all namespaces to openid.net</t>
+</list>
+</t>
+<t>-01</t>
 <t>
 <list style="symbols">
 <t>fixed some typos</t>
@@ -803,6 +804,8 @@ Content-Type: application/json
 <t>adopted OP metadata section accordingly</t>
 <t>changed error behavior for <spanx style="verb">max_age</spanx> member to alig with OpenID Core</t>
 <t>Added feature to let the RP express requirements for verification data (trust framework, identity documents, verification method)</t>
+<t>Added privacy consideration section and added text on legal basis for data exchange</t>
+<t>Added explanation about regulated and un-regulated eID systems</t>
 </list>
 </t>
 <t>-00 (WG document)</t>
