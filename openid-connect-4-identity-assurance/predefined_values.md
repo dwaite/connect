@@ -3,40 +3,40 @@
 ## Trust Frameworks {#predefined_values_tf}
 This section defines trust framework identifiers for use with this specification.
 
-* Identifier: https://openid.net/trust_frameworks/de/aml
+* Identifier: `de_aml`
 * Definition: The OP verifies and maintains user identities in conforms with the German Anti-Money Laundering Law.
 
-* Identifier: https://openid.net/trust_frameworks/eidas/loa_substantial
+* Identifier: `eidas_loa_substantial`
 * Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance "Substantial".
 
-* Identifier: https://openid.net/trust_frameworks/eidas/loa_high
+* Identifier: `eidas_loa_high`
 * Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance "High".
 
-* Identifier: https://openid.net/trust_frameworks/nist-800-63A/ial_2
+* Identifier: `nist_800_63A_ial_2`
 * Definition: The OP is able to attest user identities in accordance with the NIST Special Publication 800-63A at the Identity Assurance Level 2.
 
-* Identifier: https://openid.net/trust_frameworks/nist-800-63A/ial_3
+* Identifier: `nist_800_63A_ial_3`
 * Definition: The OP is able to attest user identities in accordance with the NIST Special Publication 800-63A at the Identity Assurance Level 3.
 
 ## Identity Documents {#predefined_values_idd}
 
 This section defines identity doccument identifiers for use with this specification.
 
-* Identifier: https://openid.net/id_document/idcard
+* Identifier: idcard
 * Definition: An identity document issued by a country's government for the purpose of identifying a citizen. 
 
-* Identifier: https://openid.net/id_document/passport
+* Identifier: passport
 * Definition: A passport is a travel document, usually issued by a country's government, that certifies the identity and nationality of its holder primarily for the purpose of international travel.[@?OxfordPassport]
 
-* Identifier: https://openid.net/id_document/driving_permit
+* Identifier: driving_permit
 * Definition: Offical document permitting an individual to operate motorized vehicles. In the absence of a formal identity document, a driver's license may be accepted in many countries for identity verification.
 
 ## Verification Methods {#predefined_values_vm}
 
 This section defines identity doccument identifiers for use with this specification.
 
-* Identifier: https://openid.net/verification_method/pipp
+* Identifier: pipp
 * Definition: Physical In-Person Proofing
-* Identifier: https://openid.net/verification_method/srip
+* Identifier: sripp
 * Definition: Supervised remote In-Person Proofing
 

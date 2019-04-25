@@ -122,10 +122,10 @@ verified person data.</t>
 <section anchor="verification" title="verification Element">
 <t>This element contains the information about the process conducted to verify a person's identity and bind the respective person data to a user account.</t>
 <t>The <spanx style="verb">verification</spanx> element consists of the following elements:</t>
-<t><spanx style="verb">trust_framework</spanx>: REQUIRED. URI determing the trust framework governing the identity verification process and the identity assurance level of the OP.</t>
-<t>An example value is &quot;<eref target="https://openid.net/trust_frameworks/eidas/loa_high&quot;">https://openid.net/trust_frameworks/eidas/loa_high"</eref>, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance &quot;High&quot;.</t>
+<t><spanx style="verb">trust_framework</spanx>: REQUIRED. String determing the trust framework governing the identity verification process and the identity assurance level of the OP.</t>
+<t>An example value is <spanx style="verb">eidas_loa_high</spanx>, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance &quot;High&quot;.</t>
 <t>Standardized values are defined in <eref target="#predefined_values_tf">Trust Frameworks</eref>.</t>
-<t>The <spanx style="verb">trust_framework</spanx> value determines what further data is provided to the RP in the <spanx style="verb">verification</spanx> element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (&quot;<eref target="https://openid.net/trust_frameworks/de/aml&quot;">https://openid.net/trust_frameworks/de/aml"</eref>).</t>
+<t>The <spanx style="verb">trust_framework</spanx> value determines what further data is provided to the RP in the <spanx style="verb">verification</spanx> element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (<spanx style="verb">de_aml</spanx>).</t>
 <t><spanx style="verb">date</spanx>: CONDITIONALLY REQUIRED. Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place.</t>
 <t><spanx style="verb">id</spanx>: CONDITIONALLY REQUIRED. Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim <spanx style="verb">transaction_id</spanx> refers to the transaction leading the OP to attest the user's verified identity data towards a RP.</t>
 <t><spanx style="verb">method</spanx>: CONDITIONALLY REQUIRED. Method utilized for identity verification - Depending on the value of &quot;method&quot;, there will be different additional sub-elements with the name of the method in the verification element - possible values are</t>
@@ -245,17 +245,17 @@ meanings and allows for other special members to be defined (while stating that 
       &quot;verified_person_data&quot;:{  
          &quot;verification&quot;:{  
             &quot;trust_framework&quot;:{  
-               &quot;value&quot;:&quot;https://openid.net/trust_frameworks/de/aml&quot;
+               &quot;value&quot;:&quot;de_aml&quot;
             },
             &quot;identity_document&quot;:{  
                &quot;type&quot;:{  
                   &quot;values&quot;:[  
-                     &quot;https://openid.net/id_document/idcard&quot;,
-                     &quot;https://openid.net/id_document/passport&quot;
+                     &quot;idcard&quot;,
+                     &quot;passport&quot;
                   ]
                },
                &quot;method&quot;:{  
-                  &quot;value&quot;:&quot;https://openid.net/verification_method/pipp&quot;
+                  &quot;value&quot;:&quot;pipp&quot;
                }
             }
          },
@@ -291,56 +291,27 @@ meanings and allows for other special members to be defined (while stating that 
 
 <section anchor="examples" title="Examples">
 <t>The following sections show examples of <spanx style="verb">verified_person_data</spanx> objects.</t>
-<t>The first section illustrate the contents of this object in case of a notified eID system.</t>
-<t>The second and third section show JSON snippets of the identity assurance by an unregulated OP, providing the RP with verification evidences for different verification methods along with the actual user claims.</t>
-<t>Subsequent sections contain examples of different channels and combinations of verified and non-verified user claims.</t>
+<t>The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidences for different verification methods along with the actual user claims.</t>
+<t>The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidences of the identity verification process to the RP.</t>
+<t>Subsequent sections contain examples for using the <spanx style="verb">verified_person_data</spanx> claim on different channels and in combination with other (non-verified) user claims.</t>
 
-<section anchor="notified-eid-system" title="Notified eID system">
-
-<figure><artwork type="JSON">{  
-   &quot;verified_person_data&quot;:{  
-      &quot;verification&quot;:{  
-         &quot;trust_framework&quot;:&quot;https://openid.net/trust_frameworks/eidas/loa_substantial&quot;
-      },
-      &quot;claims&quot;:{  
-         &quot;given_name&quot;:&quot;Max&quot;,
-         &quot;family_name&quot;:&quot;Meier&quot;,
-         &quot;birthdate&quot;:&quot;1956-01-28&quot;,
-         &quot;place_of_birth&quot;:{  
-            &quot;country&quot;:&quot;DE&quot;,
-            &quot;locality&quot;:&quot;Musterstadt&quot;
-         },
-         &quot;nationality&quot;:&quot;DE&quot;,
-         &quot;address&quot;:{  
-            &quot;locality&quot;:&quot;Maxstadt&quot;,
-            &quot;postal_code&quot;:&quot;12344&quot;,
-            &quot;country&quot;:&quot;DE&quot;,
-            &quot;street&quot;:&quot;An der Sanddüne 22&quot;
-         }
-      }
-   }
-}
-</artwork></figure>
-
-</section>
-
-<section anchor="unregulated-eid-system-identity-document" title="Unregulated eID system (identity_document)">
+<section anchor="identity-document" title="identity_document">
 
 <figure><artwork type="JSON">{  
    &quot;verified_person_data&quot;:{  
       &quot;verification&quot;:{  
-         &quot;trust_framework&quot;:&quot;https://openid.net/trust_frameworks/de/aml&quot;,
+         &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
          &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;method&quot;:&quot;identity_document&quot;,
          &quot;identity_document&quot;:{  
             &quot;country&quot;:&quot;DE&quot;,
-            &quot;type&quot;:&quot;https://openid.net/id_document/idcard&quot;,
+            &quot;type&quot;:&quot;idcard&quot;,
             &quot;issuer&quot;:&quot;Stadt Augsburg&quot;,
             &quot;number&quot;:&quot;53554554&quot;,
             &quot;date_of_issuance&quot;:&quot;2012-04-23&quot;,
             &quot;date_of_expiry&quot;:&quot;2022-04-22&quot;,
-            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp&quot;,
+            &quot;method&quot;:&quot;pipp&quot;,
             &quot;organization&quot;:&quot;Deutsche Post AG&quot;,
             &quot;agent&quot;:&quot;Steffen Schuster&quot;
          }
@@ -367,20 +338,49 @@ meanings and allows for other special members to be defined (while stating that 
 
 </section>
 
-<section anchor="unregulated-eid-system-eid" title="Unregulated eID system (eID)">
+<section anchor="eid" title="eID">
 
 <figure><artwork type="JSON">{  
    &quot;verified_person_data&quot;:{  
       &quot;verification&quot;:{  
-         &quot;trust_framework&quot;:&quot;https://openid.net/trust_frameworks/de/aml&quot;,
+         &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
          &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;method&quot;:&quot;eID&quot;,
          &quot;eID&quot;:{  
             &quot;country&quot;:&quot;DE&quot;,
-            &quot;type&quot;:&quot;https://openid.net/id_document/idcard&quot;,
+            &quot;type&quot;:&quot;idcard&quot;,
             &quot;identifier&quot;:&quot;1d464976-d1fc-4460-a2de-9796d2b120fc&quot;
          }
+      },
+      &quot;claims&quot;:{  
+         &quot;given_name&quot;:&quot;Max&quot;,
+         &quot;family_name&quot;:&quot;Meier&quot;,
+         &quot;birthdate&quot;:&quot;1956-01-28&quot;,
+         &quot;place_of_birth&quot;:{  
+            &quot;country&quot;:&quot;DE&quot;,
+            &quot;locality&quot;:&quot;Musterstadt&quot;
+         },
+         &quot;nationality&quot;:&quot;DE&quot;,
+         &quot;address&quot;:{  
+            &quot;locality&quot;:&quot;Maxstadt&quot;,
+            &quot;postal_code&quot;:&quot;12344&quot;,
+            &quot;country&quot;:&quot;DE&quot;,
+            &quot;street&quot;:&quot;An der Sanddüne 22&quot;
+         }
+      }
+   }
+}
+</artwork></figure>
+
+</section>
+
+<section anchor="notified-eid-system-eidas" title="Notified eID system (eIDAS)">
+
+<figure><artwork type="JSON">{  
+   &quot;verified_person_data&quot;:{  
+      &quot;verification&quot;:{  
+         &quot;trust_framework&quot;:&quot;eidas_loa_substantial&quot;
       },
       &quot;claims&quot;:{  
          &quot;given_name&quot;:&quot;Max&quot;,
@@ -433,23 +433,24 @@ meanings and allows for other special members to be defined (while stating that 
 Content-Type: application/json
 
 {  
+   &quot;iss&quot;:&quot;https://server.example.com&quot;,
    &quot;sub&quot;:&quot;248289761001&quot;,
    &quot;email&quot;:&quot;janedoe@example.com&quot;,
    &quot;email_verified&quot;:true,
    &quot;verified_person_data&quot;:{  
       &quot;verification&quot;:{  
-         &quot;trust_framework&quot;:&quot;https://openid.net/trust_frameworks/de/aml&quot;,
+         &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
          &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;method&quot;:&quot;identity_document&quot;,
          &quot;identity_document&quot;:{  
             &quot;country&quot;:&quot;DE&quot;,
-            &quot;type&quot;:&quot;https://openid.net/id_document/idcard&quot;,
+            &quot;type&quot;:&quot;idcard&quot;,
             &quot;issuer&quot;:&quot;Stadt Augsburg&quot;,
             &quot;number&quot;:&quot;53554554&quot;,
             &quot;date_of_issuance&quot;:&quot;2012-04-23&quot;,
             &quot;date_of_expiry&quot;:&quot;2022-04-22&quot;,
-            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp&quot;,
+            &quot;method&quot;:&quot;pipp&quot;,
             &quot;organization&quot;:&quot;Deutsche Post AG&quot;,
             &quot;agent&quot;:&quot;Steffen Schuster&quot;
          }
@@ -507,18 +508,18 @@ Content-Type: application/json
    &quot;picture&quot;:&quot;http://example.com/janedoe/me.jpg&quot;,
    &quot;verified_person_data&quot;:{  
       &quot;verification&quot;:{  
-         &quot;trust_framework&quot;:&quot;https://openid.net/trust_frameworks/de/aml&quot;,
+         &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
          &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;method&quot;:&quot;identity_document&quot;,
          &quot;identity_document&quot;:{  
             &quot;country&quot;:&quot;DE&quot;,
-            &quot;type&quot;:&quot;https://openid.net/id_document/idcard&quot;,
+            &quot;type&quot;:&quot;idcard&quot;,
             &quot;issuer&quot;:&quot;Stadt Augsburg&quot;,
             &quot;number&quot;:&quot;53554554&quot;,
             &quot;date_of_issuance&quot;:&quot;2012-04-23&quot;,
             &quot;date_of_expiry&quot;:&quot;2022-04-22&quot;,
-            &quot;method&quot;:&quot;https://openid.net/verification_method/pipp&quot;,
+            &quot;method&quot;:&quot;pipp&quot;,
             &quot;organization&quot;:&quot;Deutsche Post AG&quot;,
             &quot;agent&quot;:&quot;Steffen Schuster&quot;
          }
@@ -541,7 +542,8 @@ Content-Type: application/json
 <figure><artwork type="http">HTTP/1.1 200 OK
 Content-Type: application/json
 
-{  
+{ 
+   &quot;iss&quot;:&quot;https://server.example.com&quot;, 
    &quot;sub&quot;:&quot;248289761001&quot;,
    &quot;email&quot;:&quot;janedoe@example.com&quot;,
    &quot;email_verified&quot;:true,
@@ -550,17 +552,10 @@ Content-Type: application/json
    },
    &quot;_claim_sources&quot;:{  
       &quot;src1&quot;:{  
-      &quot;JWT&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6ey
-J2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJhbWV3b3JrIjoiaHR0cHM6Ly9vcGVuaWQubmV0L3RydXN0X2ZyYW
-1ld29ya3MvZGUvYW1sIiwiZGF0ZSI6IjIwMTMtMDItMjEiLCJpZCI6IjY3NnEzNjM2NDYxNDY3NjQ3cTg0OT
-g3ODU3NDdxNDg3IiwibWV0aG9kIjoiaWRlbnRpdHlfZG9jdW1lbnQiLCJpZGVudGl0eV9kb2N1bWVudCI6ey
-Jjb3VudHJ5IjoiREUiLCJ0eXBlIjoiaHR0cHM6Ly9vcGVuaWQubmV0L2lkX2RvY3VtZW50L2lkY2FyZCIsIm
-lzc3VlciI6IlN0YWR0IEF1Z3NidXJnIiwibnVtYmVyIjoiNTM1NTQ1NTQiLCJkYXRlX29mX2lzc3VhbmNlIj
-oiMjAxMi0wNC0yMyIsImRhdGVfb2ZfZXhwaXJ5IjoiMjAyMi0wNC0yMiIsIm1ldGhvZCI6Imh0dHBzOi8vb3
-BlbmlkLm5ldC92ZXJpZmljYXRpb25fbWV0aG9kL3BpcHMiLCJvcmdhbml6YXRpb24iOiJEZXV0c2NoZSBQb3
-N0IEFHIiwiYWdlbnQiOiJTdGVmZmVuIFNjaHVzdGVyIn19LCJjbGFpbXMiOnsiZ2l2ZW5fbmFtZSI6Ik1heC
-IsImZhbWlseV9uYW1lIjoiTWVpZXIiLCJiaXJ0aGRhdGUiOiIxOTU2LTAxLTI4In19fQ.snH3ADJDFwJ_7AM
-lA3FNTbpmBIp0AMJZLRgnhY8caIk&quot;
+      &quot;JWT&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
+GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJhb
+WV3b3JrIjoiZWlkYXNfbG9hX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4IiwiZ
+mFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.sPDOj44--OdSwilFFVhpXZTSjmrGpEDSb2pSocitMsk&quot;
       }
    }
 }
@@ -573,7 +568,8 @@ lA3FNTbpmBIp0AMJZLRgnhY8caIk&quot;
 <figure><artwork type="http">HTTP/1.1 200 OK
 Content-Type: application/json
 
-{  
+{
+   &quot;iss&quot;:&quot;https://server.example.com&quot;,  
    &quot;sub&quot;:&quot;248289761001&quot;,
    &quot;email&quot;:&quot;janedoe@example.com&quot;,
    &quot;email_verified&quot;:true,
@@ -582,8 +578,8 @@ Content-Type: application/json
    },
    &quot;_claim_sources&quot;:{  
       &quot;src1&quot;:{  
-         &quot;endpoint&quot;:&quot;https://bank.example.com/claim_source&quot;,
-         &quot;access_token&quot;:&quot;ksj3n283dke&quot;
+         &quot;endpoint&quot;:&quot;https://server.yetanotheridp.com/claim_source&quot;,
+         &quot;access_token&quot;:&quot;ksj3n283dkeafb76cdef&quot;
       }
    }
 }
@@ -596,14 +592,15 @@ Content-Type: application/json
 <t>The OP advertises its capabilities with respect to verified person data in its openid-configuration (see <xref target="OpenID-Discovery"></xref>) using the following new elements:</t>
 <t><spanx style="verb">trust_frameworks_supported</spanx> This is a JSON array containing all supported trust frameworks and assurance levels.</t>
 <t><spanx style="verb">verified_person_data_supported</spanx> This JSON array contains all claims supported within <spanx style="verb">verified_person_data</spanx>.</t>
+<t><spanx style="verb">identity_documents_supported</spanx> This JSON array contains all identity documents utilized by the OP for identity verification.</t>
 <t><spanx style="verb">verification_methods_supported</spanx> This element is a JSON array containing at the top level the verification methods as defined in Section <eref target="#verification">verification</eref>. <spanx style="verb">eID</spanx> is  a simple JSON string whereas <spanx style="verb">identity_document</spanx> is contained in a JSON object and is itself an array containing all identity document proofing methods employed by the respective OP.</t>
 <t>This is an example openid-configuration snippet:</t>
 
 <figure><artwork type="json">{  
 ...
    &quot;trust_frameworks_supported&quot;:[
-     &quot;https://openid.net/trust_frameworks/nist-800-63A/ial_2&quot;,
-     &quot;https://openid.net/trust_frameworks/nist-800-63A/ial_3&quot;
+     &quot;nist_800_63A_ial_2&quot;,
+     &quot;nist_800_63A_ial_3&quot;
    ]
    &quot;verified_person_data_supported&quot;:[  
       &quot;given_name&quot;,
@@ -613,11 +610,16 @@ Content-Type: application/json
       &quot;nationality&quot;,
       &quot;address&quot;
    ],
+   &quot;identity_documents_supported&quot;:[  
+       &quot;idcard&quot;,
+       &quot;passport&quot;,
+       &quot;driving_permit&quot;
+   ]
    &quot;verification_methods_supported&quot;:[  
       {  
          &quot;identity_document&quot;:[  
-            &quot;https://openid.net/verification_method/pipp&quot;,
-            &quot;https://openid.net/verification_method/srip&quot;
+            &quot;pipp&quot;,
+            &quot;sripp&quot;
          ]
       },
       &quot;eID&quot;
@@ -627,6 +629,15 @@ Content-Type: application/json
 </artwork></figure>
 
 <t>The OP MUST support the claims parameter and needs to publish this in its openid-configuration using the claim <spanx style="verb">claims_parameter_supported</spanx>.</t>
+</section>
+
+<section anchor="purpose" title="Transaction-specific Purpose">
+<t>This specification introduces the request parameter <spanx style="verb">purpose</spanx> to allow a RP
+to state the purpose for the transfer of user data it is asking for.</t>
+<t><spanx style="verb">purpose</spanx> OPTIONAL. String describing the purpose for obtaining certain user data from the OP. The purpose MUST NOT be shorter than 3 characters and MUST NOT be longer than 300 characters. If these rules are violated, the authentication request MUST fail and the OP returns an error <spanx style="verb">invalid_request</spanx> to the RP.</t>
+<t>The OP MUST display this purpose in the respective user consent screen(s) in order to inform the user about the designated use of the data to be transferred or the authorization to be approved.</t>
+<t>If the parameter <spanx style="verb">purpose</spanx> is not present in the request, the OP MAY utilize a description that was pre-configured for the respective RP.</t>
+<t>Note: In order to prevent injection attacks, the IDP MUST escape the text appropriately before it will be shown in a user interface. The IDP MUST expect special characters in the URL decoded purpose text provided by the RP. The IDP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g. cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
 </section>
 
 <section anchor="Acknowledgements" title="Acknowledgements">
@@ -648,15 +659,15 @@ Content-Type: application/json
 <t>This section defines trust framework identifiers for use with this specification.</t>
 <t>
 <list style="symbols">
-<t>Identifier: <eref target="https://openid.net/trust_frameworks/de/aml">https://openid.net/trust_frameworks/de/aml</eref></t>
+<t>Identifier: <spanx style="verb">de_aml</spanx></t>
 <t>Definition: The OP verifies and maintains user identities in conforms with the German Anti-Money Laundering Law.</t>
-<t>Identifier: <eref target="https://openid.net/trust_frameworks/eidas/loa_substantial">https://openid.net/trust_frameworks/eidas/loa_substantial</eref></t>
+<t>Identifier: <spanx style="verb">eidas_loa_substantial</spanx></t>
 <t>Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance &quot;Substantial&quot;.</t>
-<t>Identifier: <eref target="https://openid.net/trust_frameworks/eidas/loa_high">https://openid.net/trust_frameworks/eidas/loa_high</eref></t>
+<t>Identifier: <spanx style="verb">eidas_loa_high</spanx></t>
 <t>Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance &quot;High&quot;.</t>
-<t>Identifier: <eref target="https://openid.net/trust_frameworks/nist-800-63A/ial_2">https://openid.net/trust_frameworks/nist-800-63A/ial_2</eref></t>
+<t>Identifier: <spanx style="verb">nist_800_63A_ial_2</spanx></t>
 <t>Definition: The OP is able to attest user identities in accordance with the NIST Special Publication 800-63A at the Identity Assurance Level 2.</t>
-<t>Identifier: <eref target="https://openid.net/trust_frameworks/nist-800-63A/ial_3">https://openid.net/trust_frameworks/nist-800-63A/ial_3</eref></t>
+<t>Identifier: <spanx style="verb">nist_800_63A_ial_3</spanx></t>
 <t>Definition: The OP is able to attest user identities in accordance with the NIST Special Publication 800-63A at the Identity Assurance Level 3.</t>
 </list>
 </t>
@@ -666,11 +677,11 @@ Content-Type: application/json
 <t>This section defines identity doccument identifiers for use with this specification.</t>
 <t>
 <list style="symbols">
-<t>Identifier: <eref target="https://openid.net/id_document/idcard">https://openid.net/id_document/idcard</eref></t>
+<t>Identifier: idcard</t>
 <t>Definition: An identity document issued by a country's government for the purpose of identifying a citizen.</t>
-<t>Identifier: <eref target="https://openid.net/id_document/passport">https://openid.net/id_document/passport</eref></t>
+<t>Identifier: passport</t>
 <t>Definition: A passport is a travel document, usually issued by a country's government, that certifies the identity and nationality of its holder primarily for the purpose of international travel.<xref target="OxfordPassport"></xref></t>
-<t>Identifier: <eref target="https://openid.net/id_document/driving_permit">https://openid.net/id_document/driving_permit</eref></t>
+<t>Identifier: driving_permit</t>
 <t>Definition: Offical document permitting an individual to operate motorized vehicles. In the absence of a formal identity document, a driver's license may be accepted in many countries for identity verification.</t>
 </list>
 </t>
@@ -680,9 +691,9 @@ Content-Type: application/json
 <t>This section defines identity doccument identifiers for use with this specification.</t>
 <t>
 <list style="symbols">
-<t>Identifier: <eref target="https://openid.net/verification_method/pipp">https://openid.net/verification_method/pipp</eref></t>
+<t>Identifier: pipp</t>
 <t>Definition: Physical In-Person Proofing</t>
-<t>Identifier: <eref target="https://openid.net/verification_method/srip">https://openid.net/verification_method/srip</eref></t>
+<t>Identifier: sripp</t>
 <t>Definition: Supervised remote In-Person Proofing</t>
 </list>
 </t>
@@ -693,6 +704,24 @@ Content-Type: application/json
 
 <back>
 <references title="Normative References">
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+  <front>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization>NRI</organization>
+    </author>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
+    </author>
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization>Google</organization>
+    </author>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
+    </author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
     <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
@@ -714,26 +743,10 @@ Content-Type: application/json
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
-  <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
-    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-      <organization>NRI</organization>
-    </author>
-    <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
-    </author>
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization>Google</organization>
-    </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
-    </author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
 </references>
 <references title="Informative References">
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 <reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
   <front>
     <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
@@ -778,8 +791,6 @@ Content-Type: application/json
     <date year="2017" month="June"></date>
   </front>
 </reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 </references>
 
 <section anchor="document-history" title="Document History">
@@ -787,8 +798,11 @@ Content-Type: application/json
 <t>-02</t>
 <t>
 <list style="symbols">
+<t>added new request parameter <spanx style="verb">purpose</spanx></t>
 <t>simplified/reduced number of verification methods</t>
-<t>changed all namespaces to openid.net</t>
+<t>simplfied identifiers</t>
+<t>added <spanx style="verb">identity_documents_supported</spanx> to metadata section</t>
+<t>improved examples</t>
 </list>
 </t>
 <t>-01</t>

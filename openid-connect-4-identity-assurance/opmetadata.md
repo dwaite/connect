@@ -6,6 +6,8 @@ The OP advertises its capabilities with respect to verified person data in its o
 
 `verified_person_data_supported` This JSON array contains all claims supported within `verified_person_data`.
 
+`identity_documents_supported` This JSON array contains all identity documents utilized by the OP for identity verification.
+
 `verification_methods_supported` This element is a JSON array containing at the top level the verification methods as defined in Section [verification](#verification). `eID` is  a simple JSON string whereas `identity_document` is contained in a JSON object and is itself an array containing all identity document proofing methods employed by the respective OP. 
 
 This is an example openid-configuration snippet:
@@ -14,8 +16,8 @@ This is an example openid-configuration snippet:
 {  
 ...
    "trust_frameworks_supported":[
-     "https://openid.net/trust_frameworks/nist-800-63A/ial_2",
-     "https://openid.net/trust_frameworks/nist-800-63A/ial_3"
+     "nist_800_63A_ial_2",
+     "nist_800_63A_ial_3"
    ]
    "verified_person_data_supported":[  
       "given_name",
@@ -25,11 +27,16 @@ This is an example openid-configuration snippet:
       "nationality",
       "address"
    ],
+   "identity_documents_supported":[  
+       "idcard",
+       "passport",
+       "driving_permit"
+   ]
    "verification_methods_supported":[  
       {  
          "identity_document":[  
-            "https://openid.net/verification_method/pipp",
-            "https://openid.net/verification_method/srip"
+            "pipp",
+            "sripp"
          ]
       },
       "eID"

@@ -15,13 +15,13 @@ This element contains the information about the process conducted to verify a pe
 
 The `verification` element consists of the following elements: 
 
-`trust_framework`: REQUIRED. URI determing the trust framework governing the identity verification process and the identity assurance level of the OP. 
+`trust_framework`: REQUIRED. String determing the trust framework governing the identity verification process and the identity assurance level of the OP. 
 
-An example value is "https://openid.net/trust_frameworks/eidas/loa_high", which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
+An example value is `eidas_loa_high`, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
 
 Standardized values are defined in [Trust Frameworks](#predefined_values_tf).
 
-The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law ("https://openid.net/trust_frameworks/de/aml").
+The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (`de_aml`).
 
 `date`: CONDITIONALLY REQUIRED. Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place.
 

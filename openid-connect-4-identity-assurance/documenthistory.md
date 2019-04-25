@@ -4,8 +4,11 @@
    
    -02
    
+   * added new request parameter `purpose`
    * simplified/reduced number of verification methods
-   * changed all namespaces to openid.net
+   * simplfied identifiers
+   * added `identity_documents_supported` to metadata section
+   * improved examples
    
    -01 
 

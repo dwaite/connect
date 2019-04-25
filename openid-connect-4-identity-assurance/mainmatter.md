@@ -13,6 +13,9 @@
 
 {{opmetadata.md}}
 
+{{purpose.md}}
+
+
 # Acknowledgements {#Acknowledgements}
       
 The following people at yes.com and partner companies contributed to the concept described in this document: Karsten Buch, Lukas Stiebig, Sven Manz, Waldemar Zimpfer, Willi Wiedergold, Fabian Hoffmann, Daniel Keijsers, Ralf Wagner, Sebastian Ebling, Peter Eisenhofer.

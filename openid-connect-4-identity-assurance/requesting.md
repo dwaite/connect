@@ -77,17 +77,17 @@ The following example shows that the RP wants to obtain an attestation based on 
       "verified_person_data":{  
          "verification":{  
             "trust_framework":{  
-               "value":"https://openid.net/trust_frameworks/de/aml"
+               "value":"de_aml"
             },
             "identity_document":{  
                "type":{  
                   "values":[  
-                     "https://openid.net/id_document/idcard",
-                     "https://openid.net/id_document/passport"
+                     "idcard",
+                     "passport"
                   ]
                },
                "method":{  
-                  "value":"https://openid.net/verification_method/pipp"
+                  "value":"pipp"
                }
             }
          },
