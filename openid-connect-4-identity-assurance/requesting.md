@@ -15,7 +15,7 @@ Since `verified_person_data` contains the effective user claims in a nested `cla
          "claims":{  
             "given_name":null,
             "family_name":null,
-            "birthdate":null,
+            "birthdate":null
          }
       }
    }	
@@ -33,7 +33,7 @@ RPs MAY indicate that a certain claim is essential to the sucessful completion o
          "claims":{  
             "given_name":{"essential": true},
             "family_name":{"essential": true},
-            "birthdate":null,
+            "birthdate":null
          }
       }
    }	

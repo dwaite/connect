@@ -17,7 +17,7 @@ The `verification` element consists of the following elements:
 
 `trust_framework`: REQUIRED. String determing the trust framework governing the identity verification process and the identity assurance level of the OP. 
 
-An example value is `eidas_loa_high`, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
+An example value is `eidas_ial_high`, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
 
 Standardized values are defined in [Trust Frameworks](#predefined_values_tf).
 

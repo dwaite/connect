@@ -6,10 +6,10 @@ This section defines trust framework identifiers for use with this specification
 * Identifier: `de_aml`
 * Definition: The OP verifies and maintains user identities in conforms with the German Anti-Money Laundering Law.
 
-* Identifier: `eidas_loa_substantial`
+* Identifier: `eidas_ial_substantial`
 * Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance "Substantial".
 
-* Identifier: `eidas_loa_high`
+* Identifier: `eidas_ial_high`
 * Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance "High".
 
 * Identifier: `nist_800_63A_ial_2`

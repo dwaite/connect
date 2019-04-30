@@ -2,6 +2,11 @@
 
    [[ To be removed from the final specification ]]
    
+   -03
+   
+   * changed `eidas_loa_substantial/high` to `eidas_ial_substantial/high` 
+   * fixed typos in examples
+   
    -02
    
    * added new request parameter `purpose`

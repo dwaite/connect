@@ -92,7 +92,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
 {  
    "verified_person_data":{  
       "verification":{  
-         "trust_framework":"eidas_loa_substantial"
+         "trust_framework":"eidas_ial_substantial"
       },
       "claims":{  
          "given_name":"Max",
