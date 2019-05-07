@@ -7,10 +7,10 @@ This section defines trust framework identifiers for use with this specification
 * Definition: The OP verifies and maintains user identities in conforms with the German Anti-Money Laundering Law.
 
 * Identifier: `eidas_ial_substantial`
-* Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance "Substantial".
+* Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the identitfication assurance level "Substantial".
 
 * Identifier: `eidas_ial_high`
-* Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the level of assurance "High".
+* Definition: The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the identitfication assurance level "High".
 
 * Identifier: `nist_800_63A_ial_2`
 * Definition: The OP is able to attest user identities in accordance with the NIST Special Publication 800-63A at the Identity Assurance Level 2.
