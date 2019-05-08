@@ -4,8 +4,10 @@
    
    -03
    
+   * added more identity document definitions
    * changed `eidas_loa_substantial/high` to `eidas_ial_substantial/high` 
    * fixed typos in examples
+   * uppercased all editorial occurences of the term `claims` to align with OpenID Connect Core
    
    -02
    

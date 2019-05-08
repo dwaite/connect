@@ -6,8 +6,8 @@ The representation proposed therefore provides the RP with the verified claims w
 
 The `verified_person_data` claim consists of the following sub-elements:
 
-* `verification`: This element contains all data about the verification process.
-* `claims`: This element is the container for the verified user claims. 
+* `verification`: REQUIRED. Object that contains all data about the verification process.
+* `claims`: REQUIRED. Object that is the container for the verified user claims. 
 
 ## verification Element {#verification}
 
@@ -23,11 +23,11 @@ Standardized values are defined in [Trust Frameworks](#predefined_values_tf).
 
 The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (`de_aml`).
 
-`date`: CONDITIONALLY REQUIRED. Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place.
+`date`: Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks. 
 
-`id`: CONDITIONALLY REQUIRED. Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP.
+`id`: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP. Presence of this element might be required for certain trust frameworks. 
 
-`method`: CONDITIONALLY REQUIRED. Method utilized for identity verification - Depending on the value of "method", there will be different additional sub-elements with the name of the method in the verification element - possible values are
+`method`: Method utilized for identity verification. Presence of this element might be required for certain trust frameworks. Depending on the value of "method", there will be different additional sub-elements with the name of the method in the verification element - possible values are
 
 * "identity_document": verification of a physical document 
 * "eID": verification using an electronic ID Card

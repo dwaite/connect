@@ -2,7 +2,7 @@
 
 ## User Claims {#userclaims}
 
-In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data (in addition to the claims defined in the OpenID Connect specification [@!OpenID]:
+In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data in addition to the claims defined in the OpenID Connect specification [@!OpenID]:
 
 * `place_of_birth`: a structured claim representing the end-user’s place of birth. It consists of the following fields:
 	* `country`: ISO 3166-1 Alpha-2, e.g. DE, or ISO 3166-3
@@ -24,7 +24,7 @@ The `transaction_id` claim is a string value which
 * MUST uniquely identify a certain transaction at the OP, and 
 * MUST allow an RP to obtain further transaction details if needed.
 
-The OP MUST maintain a corresponding audit trail for any transaction which leads to the attestation of verified person data. Those details consist of 
+If the OP issues a transaction_id, it MUST maintain a corresponding audit trail, which at least consists of the following details: 
 
 * the transaction id,
 * the authentication methods employed, and
