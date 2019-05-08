@@ -23,7 +23,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 24 incorporating errata set 2</title>
+    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 25 incorporating errata set 2</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date day="7" month="April" year="2017" />
+    <date day="24" month="January" year="2019" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -541,7 +541,8 @@
 	    <vspace/>
 	    REQUIRED.
 	    Expiration time on or after which the ID Token MUST NOT be
-	    accepted for processing. The processing of this parameter
+	    accepted by the RP when performing authentication with the OP.
+	    The processing of this parameter
 	    requires that the current date/time MUST be before the
 	    expiration date/time listed in the value. Implementers MAY
 	    provide for some small leeway, usually no more than a few
@@ -551,6 +552,8 @@
 	    See <xref target="RFC3339">RFC 3339</xref>
 	    for details regarding date/times in general and UTC in
 	    particular.
+	    NOTE:  The ID Token expiration time is unrelated the lifetime of
+	    the authenticated session between the RP and the OP.
 	  </t>
 	  
 	  <t hangText="iat">
@@ -604,8 +607,9 @@
 	    The value "0" indicates the End-User authentication
 	    did not meet the requirements of
 	    <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
-	    Authentication using a long-lived browser cookie, for instance, is one 
-	    example where the use of "level 0" is appropriate. Authentications with 
+	    For historic reasons, the value "0" is used to indicate that
+	    there is no confidence that the same person is actually there.
+	    Authentications with
 	    level 0 SHOULD NOT be used to authorize access to any resource of any 
 	    monetary value.  
 	    (This corresponds to the OpenID 2.0
@@ -1147,6 +1151,8 @@
 		  <spanx style="verb">max_auth_age</spanx> request parameter.)
 		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
 		  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
+		  Note that <spanx style="verb">max_age=0</spanx> is equivalent
+		  to <spanx style="verb">prompt=login</spanx>.
 		</t>
 
 		<t hangText="ui_locales">
@@ -1455,6 +1461,9 @@
 	      the Redirection URI specified in the Authorization Request
 	      with the appropriate error and state parameters.
 	      Other parameters SHOULD NOT be returned.
+	      If the Redirection URI is invalid,
+	      the Authorization Server MUST NOT redirect
+	      the User Agent to the invalid Redirection URI.
 	    </t>
 	    <t>
 	      In addition to the error codes defined in Section 4.1.2.1 of
@@ -1729,6 +1738,7 @@
 	      unless another Token Type has been negotiated with the Client.
 	      Servers SHOULD support the <spanx style="verb">Bearer</spanx> Token Type;
 	      use of other Token Types is outside the scope of this specification.
+	      Note that the <spanx style="verb">token_type</spanx> value is case insensitive.
 	    </t>
 	    <t>
 	      In addition to the response parameters specified by OAuth 2.0, the following
@@ -2485,9 +2495,11 @@
 
 		<t hangText="nonce">
 		  <vspace/>
-		  REQUIRED.
-		  String value used to associate a Client session 
-		  with an ID Token, and to mitigate replay attacks. 
+		  REQUIRED if the Response Type of the request is <spanx style="verb">code&nbsp;id_token</spanx>
+		  or <spanx style="verb">code&nbsp;id_token&nbsp;token</spanx> and OPTIONAL when the Response Type of
+		  the request is <spanx style="verb">code&nbsp;token</spanx>.
+		  It is a string value used to associate a Client session
+		  with an ID Token, and to mitigate replay attacks.
 		  The value is passed through unmodified from the Authentication Request to the ID Token.
 		  Sufficient entropy MUST be present in the
 		  <spanx style="verb">nonce</spanx> values used to prevent
@@ -2724,8 +2736,8 @@
 
                 <t hangText="nonce">
 		  <vspace/>
-		  Use of the <spanx style="verb">nonce</spanx> Claim is REQUIRED
-		  for this flow.
+		  If a <spanx style="verb">nonce</spanx> parameter is present in the Authentication Request,
+		  Authorization Servers MUST include a <spanx style="verb">nonce</spanx> Claim in the ID Token.
 		</t>
 
                 <t hangText="at_hash">
@@ -2928,8 +2940,8 @@
 	or another party, rather than the Relying Party.
 	In this case, the initiator redirects to the RP at its login initiation endpoint,
 	which requests that the RP send an Authentication Request to a specified OP.
-	This login initiation endpoint can be a deep link at the RP,
-	rather than a default landing page.
+	Note that this login initiation endpoint can be a different page at the RP
+	than the RP's default landing page.
 	RPs supporting
 	<xref target="OpenID.Registration">OpenID Connect Dynamic Client Registration 1.0</xref>
 	register this endpoint value using the
@@ -3532,7 +3544,7 @@
 
 	    <artwork><![CDATA[
   HTTP/1.1 401 Unauthorized
-  WWW-Authenticate: error="invalid_token",
+  WWW-Authenticate: Bearer error="invalid_token",
     error_description="The Access Token expired"
 ]]></artwork>
 	  </figure>
@@ -4061,6 +4073,7 @@
 	  <figure>
 	    <artwork><![CDATA[
   {
+   "sub": "248289761001",
    "name": "Jane Doe",
    "given_name": "Jane",
    "family_name": "Doe",
@@ -4197,7 +4210,7 @@
      "locality": "Los Angeles",
      "region": "CA",
      "postal_code": "90210",
-     "country": "US"},
+     "country": "United States of America"},
    "phone_number": "+1 (310) 123-4567"
   }
 ]]></artwork>
@@ -4218,6 +4231,7 @@
 		</preamble>
 		<artwork><![CDATA[
   {
+   "sub": "248289761001",
    "name": "Jane Doe",
    "given_name": "Jane",
    "family_name": "Doe",
@@ -4259,7 +4273,7 @@
      "locality": "Los Angeles",
      "region": "CA",
      "postal_code": "90210",
-     "country": "US"},
+     "country": "United States of America"},
    "payment_info": "Some_Card 1234 5678 9012 3456",
    "phone_number": "+1 (310) 123-4567"
   }
@@ -4291,6 +4305,7 @@
 		</preamble>
 		<artwork><![CDATA[
   {
+   "sub": "248289761001",
    "name": "Jane Doe",
    "given_name": "Jane",
    "family_name": "Doe",
@@ -4709,7 +4724,7 @@
 	  discovery parameter.
 	</t>
 	<t>
-	  The entire Request URI MUST NOT exceed 512 ASCII characters.
+	  The entire Request URI SHOULD NOT exceed 512 ASCII characters.
 	</t>
 	<t>
 	  The contents of the resource referenced by the URL MUST be a Request Object.
@@ -5374,7 +5389,7 @@
 	</list>
       </t>
       <t>
-	The OpenID Provider's Discovery document SHOULD list
+	The OpenID Provider's Discovery document MUST list
 	its supported Subject Identifier types in the
 	<spanx style="verb">subject_types_supported</spanx> element.
 	If there is more than one type listed in the array, the Client MAY elect to
@@ -5568,7 +5583,7 @@
 	      <t hangText="exp">
 		<vspace/>
 		REQUIRED.
-		Expiration time on or after which the ID Token MUST NOT be
+		Expiration time on or after which the JWT MUST NOT be
 		accepted for processing.
 	      </t>
 
@@ -5647,7 +5662,7 @@
 	      <t hangText="exp">
 		<vspace/>
 		REQUIRED.
-		Expiration time on or after which the ID Token MUST NOT be
+		Expiration time on or after which the JWT MUST NOT be
 		accepted for processing.
 	      </t>
 
@@ -5838,13 +5853,13 @@
 	      <vspace/>
 	      The symmetric encryption key is derived from the
 	      <spanx style="verb">client_secret</spanx> value by
-	      using a left truncated SHA-2 hash of
+	      using the left-most bits of a truncated SHA-2 hash of
 	      the octets of the UTF-8 representation of
 	      the <spanx style="verb">client_secret</spanx>.
 	      For keys of 256 or fewer bits, SHA-256 is used;
 	      for keys of 257-384 bits, SHA-384 is used;
 	      for keys of 385-512 bits, SHA-512 is used.
-	      The hash value MUST be left truncated to the appropriate bit length 
+	      The hash value MUST be truncated retaining the left-most bits to the appropriate bit length
 	      for the AES key wrapping or direct encryption algorithm used,
 	      for instance, truncating the SHA-256 hash
 	      to 128 bits for <spanx style="verb">A128KW</spanx>.
@@ -6354,7 +6369,7 @@
 	      These OPs MUST support requests made using a Request Object value
 	      that is retrieved from a Request URI that is provided
 	      with the <spanx style="verb">request_uri</spanx> parameter,
-	      as defined in <xref target="AuthorizationEndpoint"/>.
+	      as defined in <xref target="RequestUriParameter"/>.
 	    </t>
 
 	  </list>
@@ -6528,15 +6543,23 @@
 	      Defines how Relying Parties dynamically register with OpenID Providers
 	    </t>
 	    <t>
-	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
-	      Defines how to manage OpenID Connect sessions, including logout functionality
-	    </t>
-	    <t>
 	      <xref target="OAuth.Post">OAuth 2.0 Form Post Response Mode</xref> -
 	      Defines how to return OAuth 2.0 Authorization Response parameters
 	      (including OpenID Connect Authentication Response parameters)
 	      using HTML form values that are auto-submitted by the User Agent
 	      using HTTP <spanx style="verb">POST</spanx>
+	    </t>
+	    <t>
+	      <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref> -
+	      Defines how to manage OpenID Connect sessions, including postMessage-based logout and RP-initiated logout functionality
+	    </t>
+	    <t>
+	      <xref target="OpenID.FrontChannel">OpenID Connect Front-Channel Logout 1.0</xref> -
+	      Defines a front-channel logout mechanism that does not use an OP iframe on RP pages
+	    </t>
+	    <t>
+	      <xref target="OpenID.BackChannel">OpenID Connect Back-Channel Logout 1.0</xref> -
+	      Defines a logout mechanism that uses direct back-channel communication between the OP and RPs being logged out
 	    </t>
 
 	  </list>
@@ -6946,6 +6969,18 @@
 	  to prevent such potentially sensitive information from being revealed.
 	</t>
       </section>
+
+      <section anchor="HTTP307Redirects" title="HTTP 307 Redirects">
+	<t>
+	  HTTP 307 redirects send a POST request to the party being redirected to
+	  that contains all the form data from the previous request.
+	  This can leak credentials intended for the OpenID Provider to the Relying Party.
+	  Therefore, HTTP 307 redirects MUST NOT be used when redirecting to the Redirection URI.
+	  Likewise, while HTTP 302 redirects are typically implemented in a way that does not do this,
+	  the use of HTTP 303 redirect is preferable, as it is defined not to do this.
+	</t>
+      </section>
+
     </section>
     <section anchor="Privacy" title="Privacy Considerations">
 
@@ -7897,7 +7932,7 @@
 	    <organization abbrev="Illumila">Illumila</organization>
 	  </author>
 
-	  <date day="7" month="April" year="2017"/>
+	  <date day="24" month="January" year="2019"/>
 	</front>
       </reference>
 
@@ -7917,7 +7952,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="7" month="April" year="2017"/>
+	  <date day="24" month="January" year="2019" />
 	</front>
       </reference>
 
@@ -8274,7 +8309,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <date day="7" month="April" year="2017"/>
+	  <date day="17" month="January" year="2019"/>
 	</front>
       </reference>
 
@@ -8302,7 +8337,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-	  <date day="7" month="April" year="2017"/>
+	  <date day="17" month="January" year="2019"/>
 	</front>
       </reference>
 
@@ -8335,6 +8370,34 @@
 	  </author>
 
 	  <date day="25" month="January" year="2017"/>
+	</front>
+      </reference>
+
+      <reference anchor="OpenID.FrontChannel" target="http://openid.net/specs/openid-connect-frontchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Front-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+	  <date day="25" month="January" year="2017" />
+	</front>
+      </reference>
+
+      <reference anchor="OpenID.BackChannel" target="http://openid.net/specs/openid-connect-backchannel-1_0.html">
+	<front>
+	  <title>OpenID Connect Back-Channel Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+          <author fullname="John Bradley" initials="J." surname="Bradley">
+            <organization abbrev="Ping Identity">Ping Identity</organization>
+          </author>
+
+	  <date day="25" month="January" year="2017" />
 	</front>
       </reference>
 
@@ -8887,7 +8950,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2017 The OpenID Foundation.</t>
+      <t>Copyright (c) 2019 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -8930,6 +8993,63 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the approved errata ]]</t>
+
+      <t>
+	-25
+        <list style="symbols">
+	  <t>
+	    Fixed #972 - Clarified nonce requirement in hybrid authentication request.
+	  </t>
+	  <t>
+	    Fixed #997 - Incorrect reference in Section 15.2.
+	  </t>
+	  <t>
+	    Fixed #970 - ID Token acr claim incorrectly specifies the level 0 of assurance.
+	  </t>
+	  <t>
+	    Fixed #982 - Error in JWT claim definitions for client authentication.
+	  </t>
+	  <t>
+	    Fixed #985 - Noted that the token_type value is case insensitive.
+	  </t>
+	  <t>
+	    Fixed #990 - UserInfo Error Response Example missing "Bearer" auth-scheme.
+	  </t>
+	  <t>
+	    Fixed #986 - Softening the 512 ASCII characters restriction.
+	  </t>
+	  <t>
+	    Fixed #993 - How to treat a zero max_age request parameter?
+	  </t>
+	  <t>
+	    Fixed #994 - Definition of country value within address claim.
+	  </t>
+	  <t>
+	    Fixed #975 - Added additional related specifications.
+	  </t>
+	  <t>
+	    Fixed #996 - Explicitly Ban 307 as the authorization response redirect.
+	  </t>
+	  <t>
+	    Fixed #998 - Reconciled subject_types_supported descriptions.
+	  </t>
+	  <t>
+	    Fixed #999 - Clarified requirements when invalid Redirection URI supplied.
+	  </t>
+	  <t>
+	    Fixed #1002 - Clarified meaning of "exp" claim in the ID Token.
+	  </t>
+	  <t>
+	    Fixed #1005 - Clarify "left truncated SHA-2 hash" in section on symmetric encryption.
+	  </t>
+	  <t>
+	    Fixed #1006 - Clairify text in Third Party Initiated Login.
+	  </t>
+	  <t>
+	    Fixed #1018 - Missing "sub" in examples of aggregated and distributed claims.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-24

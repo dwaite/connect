@@ -23,7 +23,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 28 incorporating errata set 2</title>
+    <title abbrev="OpenID Connect Discovery 1.0">OpenID Connect Discovery 1.0 - draft 29 incorporating errata set 2</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <date day="3" month="August" year="2018" />
+    <date day="24" month="January" year="2019" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -705,6 +705,7 @@
 	    The JWK <spanx style="verb">x5c</spanx> parameter MAY be used
 	    to provide X.509 representations of keys provided.  When used, the bare key
 	    values MUST still be present and MUST match those in the certificate.
+	    The JWK Set MUST NOT contain private or symmetric key values.
 	  </t>
 
 	  <t hangText="registration_endpoint">
@@ -1051,7 +1052,7 @@
       <section anchor="ProviderConfigurationRequest"
 	       title="OpenID Provider Configuration Request">
         <t>
-	  An OpenID Provider Configuration Document MUST be queried using an HTTP
+	  An OpenID Provider's configuration information MUST be retrieved using an HTTP
 	  <spanx style="verb">GET</spanx> request at the previously specified path.
 	</t>
 
@@ -1077,7 +1078,7 @@
 	  <spanx style="verb">/.well-known/openid-configuration</spanx>.
 	  The RP would make the following request to the
 	  Issuer <spanx style="verb">https://example.com/issuer1</spanx>
-	  to obtain its Configuration information,
+	  to obtain its configuration information,
 	  since the Issuer contains a path component:
 	</t>
         <t>
@@ -1758,7 +1759,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="7" month="April" year="2017"/>
+          <date day="24" month="January" year="2019"/>
         </front>
       </reference>
       
@@ -1877,7 +1878,7 @@
             <organization abbrev="Microsoft">Microsoft</organization>
           </author>
 
-          <date day="7" month="April" year="2017"/>
+          <date day="24" month="January" year="2019"/>
         </front>
       </reference>
 
@@ -2032,7 +2033,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2018 The OpenID Foundation.</t>
+      <t>Copyright (c) 2019 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -2075,6 +2076,18 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the approved errata ]]</t>
+
+      <t>
+	-29
+        <list style="symbols">
+	  <t>
+	    Fixed #1007 - jwks / jwks_uri must not contain private key material.
+	  </t>
+	  <t>
+	    Fixed #1014 - Addressed lack of definition for "Configuration Document".
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-28

@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Implicit Client Guide 1.0">OpenID Connect
-    Implicit Client Implementer's Guide 1.0 - draft 21</title>
+    Implicit Client Implementer's Guide 1.0 - draft 22</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="7" month="April" year="2017" />
+    <date day="17" month="January" year="2019" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -688,6 +688,8 @@
 		  re-authenticate the End-User.
 		  When <spanx style="verb">max_age</spanx> is used, the ID Token returned
 		  MUST include an <spanx style="verb">auth_time</spanx> Claim Value.
+		  Note that <spanx style="verb">max_age=0</spanx> is equivalent
+		  to <spanx style="verb">prompt=login</spanx>.
 		</t>
 
 		<t hangText="ui_locales">
@@ -889,6 +891,7 @@
 		  The value MUST be <spanx style="verb">Bearer</spanx>, as specified in
 		  <xref target="RFC6750">OAuth 2.0 Bearer Token Usage</xref>,
 		  for Clients using this subset.
+		  Note that the <spanx style="verb">token_type</spanx> value is case insensitive.
 		</t>
 
                 <t hangText="id_token">
@@ -1151,8 +1154,9 @@
 	      The value "0" indicates the End-User authentication
 	      did not meet the requirements of
 	      <xref target="ISO29115">ISO/IEC 29115</xref> level 1.
-	      Authentication using a long-lived browser cookie, for instance, is one 
-	      example where the use of "level 0" is appropriate. Authentications with 
+	      For historic reasons, the value "0" is used to indicate that
+	      there is no confidence that the same person is actually there.
+	      Authentications with
 	      level 0 SHOULD NOT be used to authorize access to any resource of any 
 	      monetary value.  
 	      An absolute URI or an <xref target="RFC6711">RFC 6711</xref>
@@ -2678,7 +2682,7 @@
 	    <organization abbrev="Salesforce">Salesforce</organization>
 	  </author>
 
-          <date day="7" month="April" year="2017"/>
+	  <date day="17" month="January" year="2019"/>
         </front>
       </reference>
       
@@ -2892,7 +2896,7 @@
             <organization abbrev="Salesforce">Salesforce</organization>
           </author>
 
-          <date day="7" month="April" year="2017"/>
+	  <date day="17" month="January" year="2019"/>
         </front>
       </reference>
 
@@ -2961,7 +2965,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2017 The OpenID Foundation.</t>
+      <t>Copyright (c) 2019 The OpenID Foundation.</t>
       <t>
 	The OpenID Foundation (OIDF) grants to any Contributor, developer, 
 	implementer, or other interested party a non-exclusive, royalty free, 
@@ -3004,6 +3008,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final document ]]</t>
+
+      <t>
+	-22
+        <list style="symbols">
+	  <t>
+	    Tracked corresponding errata changes to Core draft -25.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-21
