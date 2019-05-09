@@ -43,7 +43,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street":"An der Sanddüne 22"
+            "street_address":"An der Sanddüne 22"
          }
       }
    }
@@ -79,7 +79,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street":"An der Sanddüne 22"
+            "street_address":"An der Sanddüne 22"
          }
       }
    }
@@ -107,7 +107,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street":"An der Sanddüne 22"
+            "street_address":"An der Sanddüne 22"
          }
       }
    }

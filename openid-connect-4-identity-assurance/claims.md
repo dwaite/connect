@@ -6,6 +6,7 @@ In order to fulfill the requirements of some jurisdictions on identity assurance
 
 * `place_of_birth`: a structured claim representing the end-user’s place of birth. It consists of the following fields:
 	* `country`: ISO 3166-1 Alpha-2, e.g. DE, or ISO 3166-3
+	* `region`: State, province, prefecture, or region component
 	* `locality`: city or other locality
 * `nationality`: represents the user’s nationality in format ISO 3166-1 Alpha-2, e.g. DE
 * `birth_name`: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.
