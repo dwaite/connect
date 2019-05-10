@@ -47,7 +47,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street":"An der Sanddüne 22"
+            "street_address":"An der Sanddüne 22"
          }
       }
    }
@@ -103,7 +103,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street":"An der Sanddüne 22"
+            "street_address":"An der Sanddüne 22"
          }
       }
    }
@@ -143,7 +143,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
 
 ### Request
 
-In this example we assume the RP uses the scope parameter to request the email address and , additionally, the claims parameter, to request verified person data. 
+In this example we assume the RP uses the scope parameter to request the email address and, additionally, the claims parameter, to request verified person data. 
 
 The scope value is: `scope=openid email`
 
@@ -221,14 +221,14 @@ The `claims` parameter value is
       "email":null,
       "preferred_username":null,
       "picture":null,
-       "verified_person_data":{  
+      "verified_person_data":{  
          "claims":{  
             "given_name":null,
             "family_name":null,
             "birthdate":null
          }
       }
-   }	
+   }
 }
 ```
 
@@ -298,10 +298,10 @@ Content-Type: application/json
    "_claim_sources":{  
       "src1":{  
       "JWT":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
-GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJhb
-WV3b3JrIjoiZWlkYXNfbG9hX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4IiwiZ
-mFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.sPDOj44--OdSwilFFVhp
-XZTSjmrGpEDSb2pSocitMsk"
+GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJh
+bWV3b3JrIjoiZWlkYXNfaWFsX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4Iiw
+iZmFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.aRrgmBWQTJPqMgmkg
+WGyqNu1QlDjtQ8YuXoHjUzJbq4"
       }
    }
 }

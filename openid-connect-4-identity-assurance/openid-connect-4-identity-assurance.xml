@@ -144,7 +144,7 @@ verified person data.</t>
 
 <section anchor="id-document" title="id_document">
 <t>The following elements are contained in an <spanx style="verb">id_document</spanx> evidence sub-element.</t>
-<t><spanx style="verb">method</spanx>: The method used to verify the id document, predefined values are given in  <eref target="#predefined_values_vm">Verification Methods</eref></t>
+<t><spanx style="verb">method</spanx>: REQUIRED. The method used to verify the id document, predefined values are given in  <eref target="#predefined_values_vm">Verification Methods</eref></t>
 <t><spanx style="verb">verifier</spanx>: OPTIONAL. A JSON object denoting the legal entity that performed the identity verification on behalf of the OP. This object SHOULD only be included if the IDP did not perform the identity verification itself. This object consists of the following properties:</t>
 <t>
 <list style="symbols">
@@ -170,23 +170,21 @@ verified person data.</t>
 
 <section anchor="utility-bill" title="utility_bill">
 <t>The following elements are contained in a <spanx style="verb">utility_bill</spanx> evidence sub-element.</t>
-<t><spanx style="verb">provider</spanx>: A JSON object identifying the respective provider that issued the bill. The object consists of the following properties:</t>
+<t><spanx style="verb">provider</spanx>: REQUIRED. A JSON object identifying the respective provider that issued the bill. The object consists of the following properties:</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">name</spanx>: A String designating the provider.</t>
-<t><spanx style="verb">country</spanx>. A String denoting the country where the provider resides, format: ISO 3166-1 Alpha-2, e.g. &quot;DE&quot;.</t>
-<t><spanx style="verb">region</spanx>: see respective property of <spanx style="verb">address</spanx> Claim (<xref target="OpenID"></xref>)</t>
-<t><spanx style="verb">street_address</spanx>: see respective property of <spanx style="verb">address</spanx> Claim (<xref target="OpenID"></xref>)</t>
+<t>All elements of the OpenID Connect <spanx style="verb">address</spanx> Claim (<xref target="OpenID"></xref>)</t>
 </list>
 </t>
-<t><spanx style="verb">date</spanx> A ISO 8601:2004 YYYY-MM-DD formated string containing the date when this bill was issued.</t>
+<t><spanx style="verb">date</spanx>: A ISO 8601:2004 YYYY-MM-DD formated string containing the date when this bill was issued.</t>
 </section>
 
 <section anchor="qes" title="qes">
 <t>The following elements are contained in a <spanx style="verb">qes</spanx> evidence sub-element.</t>
-<t><spanx style="verb">issuer</spanx>: A String denoting the trust service provider that created the eletronic signatue.</t>
-<t><spanx style="verb">issued_at</spanx>: The date the signature was created as ISO 8601:2004 YYYY-MM-DD format</t>
-<t><spanx style="verb">serial_number</spanx>: String containing the serial number of the certificate used to sign.</t>
+<t><spanx style="verb">issuer</spanx>: REQUIRED. A String denoting the trust service provider that created the eletronic signatue.</t>
+<t><spanx style="verb">issued_at</spanx>: REQUIRED. The date the signature was created as ISO 8601:2004 YYYY-MM-DD format</t>
+<t><spanx style="verb">serial_number</spanx>: REQUIRED. String containing the serial number of the certificate used to sign.</t>
 </section>
 </section>
 </section>
@@ -300,18 +298,15 @@ meanings and allows for other special members to be defined (while stating that 
          &quot;claims&quot;:null
       }
    }
-}```
+}
+</artwork></figure>
 
-The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
+<t>The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the <spanx style="verb">verification</spanx> element has taken place.</t>
+<t>This specification therefore defines a new member <spanx style="verb">max_age</spanx>.</t>
+<t><spanx style="verb">max_age</spanx>: OPTIONAL. Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
+<t>The following is an example:</t>
 
-This specification therefore defines a new member `max_age`.
-
-`max_age`: OPTIONAL. Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
-
-The following is an example:
-
-```json
-{  
+<figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
       &quot;verified_person_data&quot;:{  
          &quot;verification&quot;:{  
@@ -374,7 +369,7 @@ The following is an example:
             &quot;locality&quot;:&quot;Maxstadt&quot;,
             &quot;postal_code&quot;:&quot;12344&quot;,
             &quot;country&quot;:&quot;DE&quot;,
-            &quot;street&quot;:&quot;An der Sanddüne 22&quot;
+            &quot;street_address&quot;:&quot;An der Sanddüne 22&quot;
          }
       }
    }
@@ -431,7 +426,7 @@ The following is an example:
             &quot;locality&quot;:&quot;Maxstadt&quot;,
             &quot;postal_code&quot;:&quot;12344&quot;,
             &quot;country&quot;:&quot;DE&quot;,
-            &quot;street&quot;:&quot;An der Sanddüne 22&quot;
+            &quot;street_address&quot;:&quot;An der Sanddüne 22&quot;
          }
       }
    }
@@ -626,10 +621,10 @@ Content-Type: application/json
    &quot;_claim_sources&quot;:{  
       &quot;src1&quot;:{  
       &quot;JWT&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
-GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJhb
-WV3b3JrIjoiZWlkYXNfbG9hX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4IiwiZ
-mFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.sPDOj44--OdSwilFFVhp
-XZTSjmrGpEDSb2pSocitMsk&quot;
+GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJh
+bWV3b3JrIjoiZWlkYXNfaWFsX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4Iiw
+iZmFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.aRrgmBWQTJPqMgmkg
+WGyqNu1QlDjtQ8YuXoHjUzJbq4&quot;
       }
    }
 }
@@ -753,32 +748,29 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <t>This section defines identity doccument identifiers for use with this specification.</t>
 <t>
 <list style="symbols">
-<t>Identifier: idcard</t>
+<t>Identifier: <spanx style="verb">idcard</spanx></t>
 <t>Definition: An identity document issued by a country's government for the purpose of identifying a citizen.</t>
-<t>Identifier: passport</t>
+<t>Identifier: <spanx style="verb">passport</spanx></t>
 <t>Definition: A passport is a travel document, usually issued by a country's government, that certifies the identity and nationality of its holder primarily for the purpose of international travel.<xref target="OxfordPassport"></xref></t>
-<t>Identifier: driving_permit</t>
+<t>Identifier: <spanx style="verb">driving_permit</spanx></t>
 <t>Definition: Offical document permitting an individual to operate motorized vehicles. In the absence of a formal identity document, a driver's license may be accepted in many countries for identity verification.</t>
-<t>Identitfier: utility_bill</t>
-<t>Definition: Bill issued by a utility company.</t>
-<t>Identifier: de<spanx style="emph">idcard</spanx>foreigners</t>
+<t>Identifier: <spanx style="verb">de_idcard_foreigners</spanx></t>
 <t>Definition: ID Card issued by the German government to foreign nationals.</t>
-<t>Identifier: de<spanx style="emph">emergency</spanx>idcard</t>
+<t>Identifier: <spanx style="verb">de_emergency_idcard</spanx></t>
 <t>Definition: ID Card issued by the German government to foreign nationals as passports replacement</t>
-<t>Identifier: de_erp</t>
+<t>Identifier: <spanx style="verb">de_erp</spanx></t>
 <t>Definition: Electronic Resident Permit issued by the German government to foreign nationals</t>
-<t>Identifier: de<spanx style="emph">erp</spanx>replacement_idcard</t>
+<t>Identifier: <spanx style="verb">de_erp_replacement_idcard</spanx></t>
 <t>Definition: Electronic Resident Permit issued by the German government to foreign nationals as replacement for another identity document</t>
-<t></t>
-<t>Identifier: de<spanx style="emph">idcard</spanx>refugees</t>
+<t>Identifier: <spanx style="verb">de_idcard_refugees</spanx></t>
 <t>Definition: ID Card issued by the German government to refugees as passports replacement</t>
-<t>Identifier: de<spanx style="emph">idcard</spanx>apatrids</t>
+<t>Identifier: <spanx style="verb">de_idcard_apatrids</spanx></t>
 <t>Defintion: ID Card issued by the German government to apatrids as passports replacement</t>
-<t>Identifier: de<spanx style="emph">certificate</spanx>of<spanx style="emph">suspension</spanx>of_deportation</t>
+<t>Identifier: <spanx style="verb">de_certificate_of_suspension_of_deportation</spanx></t>
 <t>Definition: identity document issued to refugees in case of suspension of deportation that are marked as &quot;id card replacement&quot;</t>
-<t>Identifier: de<spanx style="emph">permission</spanx>to_reside</t>
+<t>Identifier: <spanx style="verb">de_permission_to_reside</spanx></t>
 <t>Definition: permission to reside issued by the German governed to foreign nationals appliying for asylum</t>
-<t>Identifier: de<spanx style="emph">replacement</spanx>idcard</t>
+<t>Identifier: <spanx style="verb">de_replacement_idcard</spanx></t>
 <t>Defintion: ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)</t>
 </list>
 </t>
@@ -788,11 +780,11 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <t>This section defines identity doccument identifiers for use with this specification.</t>
 <t>
 <list style="symbols">
-<t>Identifier: pipp</t>
+<t>Identifier: <spanx style="verb">pipp</spanx></t>
 <t>Definition: Physical In-Person Proofing</t>
-<t>Identifier: sripp</t>
+<t>Identifier: <spanx style="verb">sripp</spanx></t>
 <t>Definition: Supervised remote In-Person Proofing</t>
-<t>* Identifier: eid</t>
+<t>Identifier: <spanx style="verb">eid</spanx></t>
 <t>Definition: Online ID card verification function</t>
 </list>
 </t>
@@ -1019,6 +1011,24 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+  <front>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization>NRI</organization>
+    </author>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
+    </author>
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization>Google</organization>
+    </author>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
+    </author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
     <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
@@ -1036,24 +1046,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
     </author>
     <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
       <organization>Salesforce</organization>
-    </author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
-  <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
-    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-      <organization>NRI</organization>
-    </author>
-    <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
-    </author>
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization>Google</organization>
-    </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
     </author>
     <date year="2014" month="Nov" day="8"></date>
   </front>

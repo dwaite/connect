@@ -43,7 +43,7 @@ The following types of evidences are defined:
 
 The following elements are contained in an `id_document` evidence sub-element. 
 
-`method`: The method used to verify the id document, predefined values are given in  [Verification Methods](#predefined_values_vm)
+`method`: REQUIRED. The method used to verify the id document, predefined values are given in  [Verification Methods](#predefined_values_vm)
 
 `verifier`: OPTIONAL. A JSON object denoting the legal entity that performed the identity verification on behalf of the OP. This object SHOULD only be included if the IDP did not perform the identity verification itself. This object consists of the following properties:
 
@@ -53,7 +53,7 @@ The following elements are contained in an `id_document` evidence sub-element.
 `document`: A JSON object representing the id document used to perform the id verification. It consists of the following properties:
 
 * `type`: REQUIRED. String denoting the type of the id document, standardized values are defined in [Identity Documents](#predefined_values_idd). The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.
-* `number`: String representing the number of the identity document
+* `number`: String representing the number of the identity document.
 * `issuer`: A JSON object containg information about the government agency that issued this identity document. This object consists of the following properties:
 	*  `name`: REQUIRED. Designation of the issuer of the identity document
 	*  `country`: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. "DE".
@@ -64,24 +64,22 @@ The following elements are contained in an `id_document` evidence sub-element.
 
 The following elements are contained in a `utility_bill` evidence sub-element. 
 
-`provider`: A JSON object identifying the respective provider that issued the bill. The object consists of the following properties:
+`provider`: REQUIRED. A JSON object identifying the respective provider that issued the bill. The object consists of the following properties:
 
 * `name`: A String designating the provider.
-* `country`. A String denoting the country where the provider resides, format: ISO 3166-1 Alpha-2, e.g. "DE".
-* `region`: see respective property of `address` Claim ([@!OpenID])
-* `street_address`: see respective property of `address` Claim ([@!OpenID])
+* All elements of the OpenID Connect `address` Claim ([@!OpenID])
 
-`date` A ISO 8601:2004 YYYY-MM-DD formated string containing the date when this bill was issued.
+`date`: A ISO 8601:2004 YYYY-MM-DD formated string containing the date when this bill was issued.
 
 #### qes
 
 The following elements are contained in a `qes` evidence sub-element. 
 
-`issuer`: A String denoting the trust service provider that created the eletronic signatue. 
+`issuer`: REQUIRED. A String denoting the trust service provider that created the eletronic signatue. 
 
-`issued_at`: The date the signature was created as ISO 8601:2004 YYYY-MM-DD format
+`issued_at`: REQUIRED. The date the signature was created as ISO 8601:2004 YYYY-MM-DD format
 
-`serial_number`: String containing the serial number of the certificate used to sign.
+`serial_number`: REQUIRED. String containing the serial number of the certificate used to sign.
 
 
 ## claims Element {#claimselement}

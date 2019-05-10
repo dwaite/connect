@@ -2,31 +2,27 @@
 
 The OP advertises its capabilities with respect to verified person data in its openid-configuration (see [@!OpenID-Discovery]) using the following new elements:
 
-`trust_frameworks_supported` This is a JSON array containing all supported trust frameworks and assurance levels.
+`verified_person_data_supported`: Boolean value indicating support for the `verified_person_data`, i.e. the OpenID Connect for Identity Assurance extension. 
 
-`verified_person_data_supported` This JSON array contains all claims supported within `verified_person_data`.
+`trust_frameworks_supported` This is a JSON array containing all supported trust frameworks.
 
 `evidences_supported` This JSON array contains all types of identity evidences the OP uses.
 
 `id_documents_supported` This JSON array contains all identity documents utilized by the OP for identity verification.
 
 `id_documents_verification_methods_supported` This element is a JSON array containing the id document verification methods a OP supports as defined in Section [verification](#verification). 
+
+`verified_person_data_supported` This JSON array contains all claims supported within `verified_person_data`.
+
 This is an example openid-configuration snippet:
 
 ```json
 {  
 ...
+   "verified_person_data_supported":true,
    "trust_frameworks_supported":[
      "nist_800_63A_ial_2",
      "nist_800_63A_ial_3"
-   ]
-   "verified_person_data_supported":[  
-      "given_name",
-      "family_name",
-      "birthdate",
-      "place_of_birth",
-      "nationality",
-      "address"
    ],
    "evidences_supported":[
       "id_document",
@@ -43,6 +39,14 @@ This is an example openid-configuration snippet:
        "sripp",
        "eid"
    ]
+   "verified_person_data_supported":[  
+      "given_name",
+      "family_name",
+      "birthdate",
+      "place_of_birth",
+      "nationality",
+      "address"
+   ],
 ...
 }
 ```

@@ -54,15 +54,15 @@ Note: A `claims` sub-element with value `null` is interpreted as a request for a
 
 Note: The `claims` sub-element can be omitted, which is equivalent to a claims element whose value is `null`.
 
-Note: If the `claims` sub-element is empty or contains a claim other than the claims listed in the Section [claims](#claimselement), the OP will abort the transaction with an `invalid_request` error.
+Note: If the `claims` sub-element is empty or contains a claim not fulfilling the requirements defined in Section [claims](#claimselement), the OP will abort the transaction with an `invalid_request` error.
 
 ## Defining constraints on requested data {#constraintedclaims}
 
 The RP MAY express requirements regarding the elements in the verification sub-element.
 
-This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect Core specification [@!OpenID] due to the nested nature of the `verified_person_data` claim.
+This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification [@!OpenID] due to the nested nature of the `verified_person_data` claim.
 
-Section 5.5.1 of the OpenID Connect Core specification [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (`essential`, `value` and `values`) with special query 
+Section 5.5.1 of the OpenID Connect specification [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (`essential`, `value` and `values`) with special query 
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).
 
 This specification re-uses this mechanics and introduces a new such member `max_age` (see below).
@@ -96,13 +96,14 @@ The following example shows that the RP wants to obtain an attestation based on 
          "claims":null
       }
    }
-}```
+}
+```
 
 The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
 
 This specification therefore defines a new member `max_age`.
 
-`max_age`: OPTIONAL. Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
+`max_age`: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
 
 The following is an example:
 
