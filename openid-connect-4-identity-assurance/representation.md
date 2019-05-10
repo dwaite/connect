@@ -4,6 +4,8 @@ This extension to OpenID Connect wants to ensure that RPs cannot mixup verified 
 
 The representation proposed therefore provides the RP with the verified claims within a structured claim `verified_person_data`. This structured claim is composed of the verification evidences related to a certain verification process and the corresponding user claims which were verified in this process.
 
+This section explains the structure and meaning of the claim in detail, the syntax is also given as JSON schema in section [JSON Schema](#json_schema).
+
 The `verified_person_data` claim consists of the following sub-elements:
 
 * `verification`: REQUIRED. Object that contains all data about the verification process.
@@ -27,42 +29,60 @@ The `trust_framework` value determines what further data is provided to the RP i
 
 `id`: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim `transaction_id` refers to the transaction leading the OP to attest the user's verified identity data towards a RP. Presence of this element might be required for certain trust frameworks. 
 
-`method`: Method utilized for identity verification. Presence of this element might be required for certain trust frameworks. Depending on the value of "method", there will be different additional sub-elements with the name of the method in the verification element - possible values are
+`evidences` is a JSON array containing the evidences the IDP used to verifiy the user's identity as separate JSON objects. Every object contains the property `type` determining it's respective type. The RP uses this information to process the `evidence` property appropriately. 
 
-* "identity_document": verification of a physical document 
-* "eID": verification using an electronic ID Card
+### Evidences 
 
-### Method-specific elements
+The following types of evidences are defined:
 
-The following elements are contained in an `identity_document` sub-element. 
+* "id_document": verification based on any kind of government issued identity document 
+* "utility_bill": verification based on an utility bill
+* "qes": verification based on a eIDAS Qualified Electronic Signature
 
-`country`: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. "DE".
+#### id_document
 
-`type`: REQUIRED. String denoting the type of the id document, standardized values are defined in [Identity Documents](#predefined_values_idd).
+The following elements are contained in an `id_document` evidence sub-element. 
 
-The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.
+`method`: The method used to verify the id document, predefined values are given in  [Verification Methods](#predefined_values_vm)
 
-`issuer`: REQUIRED. String representing the issuer of the identity document
+`verifier`: OPTIONAL. A JSON object denoting the legal entity that performed the identity verification on behalf of the OP. This object SHOULD only be included if the IDP did not perform the identity verification itself. This object consists of the following properties:
 
-`number`: REQUIRED. String representing the number of the identity document
+* `organization`: String denoting the organization which performed the verification on behalf of the OP. 
+* `agent`: Agent (person) who conducted the verification. The agent may be identified by Name or an identifier which can be resolved into the agent’s name during an audit.
 
-`date_of_issuance`: CONDITIONALLY REQUIRED. The date the document was issued as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.
+`document`: A JSON object representing the id document used to perform the id verification. It consists of the following properties:
 
-`date_of_expiry`: CONDITIONALLY REQUIRED. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.
+* `type`: REQUIRED. String denoting the type of the id document, standardized values are defined in [Identity Documents](#predefined_values_idd). The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.
+* `number`: String representing the number of the identity document
+* `issuer`: A JSON object containg information about the government agency that issued this identity document. This object consists of the following properties:
+	*  `name`: REQUIRED. Designation of the issuer of the identity document
+	*  `country`: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. "DE".
+* `date_of_issuance`: CONDITIONALLY REQUIRED. The date the document was issued as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.
+* `date_of_expiry`: CONDITIONALLY REQUIRED. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.
 
-`method`: The method used to verify the document, predefined values are given in  [Verification Methods](#predefined_values_vm)
+#### utility_bill
 
-`organization`: CONDITIONALLY REQUIRED. String denoting the organization which performed the verification on behalf of the OP. Can be omitted if this is the OP itself.
+The following elements are contained in a `utility_bill` evidence sub-element. 
 
-`agent`: OPTIONAL. Agent (person) who conducted the verification. The agent may be identified by Name or an identifier which can be resolved into the agent’s name during an audit.
+`provider`: A JSON object identifying the respective provider that issued the bill. The object consists of the following properties:
 
-The following elements are contained in an `eID` sub-element:
+* `name`: A String designating the provider.
+* `country`. A String denoting the country where the provider resides, format: ISO 3166-1 Alpha-2, e.g. "DE".
+* `region`: see respective property of `address` Claim ([@!OpenID])
+* `street_address`: see respective property of `address` Claim ([@!OpenID])
 
-`country`: REQUIRED. Country where the eID was issued: ISO 3166-1 Alpha-2, e.g. DE
+`date` A ISO 8601:2004 YYYY-MM-DD formated string containing the date when this bill was issued.
 
-`type`: String denoting the type of eID, standardized values are defined in [Identity Documents](#predefined_values_idd).
+#### qes
 
-`identifier`: REQUIRED. person identifier obtained by the OP from the eID system
+The following elements are contained in a `qes` evidence sub-element. 
+
+`issuer`: A String denoting the trust service provider that created the eletronic signatue. 
+
+`issued_at`: The date the signature was created as ISO 8601:2004 YYYY-MM-DD format
+
+`serial_number`: String containing the serial number of the certificate used to sign.
+
 
 ## claims Element {#claimselement}
 

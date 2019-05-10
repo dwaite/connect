@@ -31,3 +31,5 @@ TBD
 
 {{predefined_values.md}}
 
+{{schema.md}}
+

@@ -6,10 +6,11 @@ The OP advertises its capabilities with respect to verified person data in its o
 
 `verified_person_data_supported` This JSON array contains all claims supported within `verified_person_data`.
 
-`identity_documents_supported` This JSON array contains all identity documents utilized by the OP for identity verification.
+`evidences_supported` This JSON array contains all types of identity evidences the OP uses.
 
-`verification_methods_supported` This element is a JSON array containing at the top level the verification methods as defined in Section [verification](#verification). `eID` is  a simple JSON string whereas `identity_document` is contained in a JSON object and is itself an array containing all identity document proofing methods employed by the respective OP. 
+`id_documents_supported` This JSON array contains all identity documents utilized by the OP for identity verification.
 
+`id_documents_verification_methods_supported` This element is a JSON array containing the id document verification methods a OP supports as defined in Section [verification](#verification). 
 This is an example openid-configuration snippet:
 
 ```json
@@ -27,19 +28,20 @@ This is an example openid-configuration snippet:
       "nationality",
       "address"
    ],
-   "identity_documents_supported":[  
+   "evidences_supported":[
+      "id_document",
+      "utility_bill",
+      "qes"
+   ]
+   "id_documents_supported":[  
        "idcard",
        "passport",
        "driving_permit"
    ]
-   "verification_methods_supported":[  
-      {  
-         "identity_document":[  
-            "pipp",
-            "sripp"
-         ]
-      },
-      "eID"
+   "id_documents_verification_methods_supported":[  
+       "pipp",
+       "sripp",
+       "eid"
    ]
 ...
 }

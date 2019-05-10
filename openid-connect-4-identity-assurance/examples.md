@@ -8,7 +8,7 @@ The third section illustrate how the contents of this object could look like in 
 
 Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (non-verified) user claims.
 
-## identity_document
+## id_document
 
 ```JSON
 {  
@@ -17,18 +17,22 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
          "trust_framework":"de_aml",
          "date":"2013-02-21",
          "id":"676q3636461467647q8498785747q487",
-         "method":"identity_document",
-         "identity_document":{  
-            "country":"DE",
-            "type":"idcard",
-            "issuer":"Stadt Augsburg",
-            "number":"53554554",
-            "date_of_issuance":"2012-04-23",
-            "date_of_expiry":"2022-04-22",
-            "method":"pipp",
-            "organization":"Deutsche Post AG",
-            "agent":"Steffen Schuster"
-         }
+         "evidences":[  
+            {  
+               "type":"id_document",
+               "method":"pipp",
+               "document":{  
+                  "type":"idcard",
+                  "issuer":{  
+                     "name":"Stadt Augsburg",
+                     "country":"DE"
+                  },
+                  "number":"53554554",
+                  "date_of_issuance":"2012-04-23",
+                  "date_of_expiry":"2022-04-22"
+               }
+            }
+         ]
       },
       "claims":{  
          "given_name":"Max",
@@ -43,14 +47,14 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street_address":"An der Sanddüne 22"
+            "street":"An der Sanddüne 22"
          }
       }
    }
 }
 ```
 
-## eID
+## id_document + utility bill
 
 ```JSON
 {  
@@ -59,12 +63,32 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
          "trust_framework":"de_aml",
          "date":"2013-02-21",
          "id":"676q3636461467647q8498785747q487",
-         "method":"eID",
-         "eID":{  
-            "country":"DE",
-            "type":"idcard",
-            "identifier":"1d464976-d1fc-4460-a2de-9796d2b120fc"
-         }
+         "evidences":[  
+            {  
+               "type":"id_document",
+               "method":"pipp",
+               "document":{  
+                  "document_type":"de_erp_replacement_idcard",
+                  "issuer":{  
+                     "name":"Stadt Augsburg",
+                     "country":"DE"
+                  },
+                  "number":"53554554",
+                  "date_of_issuance":"2012-04-23",
+                  "date_of_expiry":"2022-04-22"
+               }
+            },
+            {  
+               "type":"utility_bill",
+               "provider":{  
+                  "name":"Stadtwerke Musterstadt",
+                  "country":"DE",
+                  "region":"Thüringen",
+                  "street_address":"Energiestrasse 33"
+               },
+               "date":"2013-01-31"
+            }
+         ]
       },
       "claims":{  
          "given_name":"Max",
@@ -79,7 +103,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
             "locality":"Maxstadt",
             "postal_code":"12344",
             "country":"DE",
-            "street_address":"An der Sanddüne 22"
+            "street":"An der Sanddüne 22"
          }
       }
    }
@@ -157,18 +181,22 @@ Content-Type: application/json
          "trust_framework":"de_aml",
          "date":"2013-02-21",
          "id":"676q3636461467647q8498785747q487",
-         "method":"identity_document",
-         "identity_document":{  
-            "country":"DE",
-            "type":"idcard",
-            "issuer":"Stadt Augsburg",
-            "number":"53554554",
-            "date_of_issuance":"2012-04-23",
-            "date_of_expiry":"2022-04-22",
-            "method":"pipp",
-            "organization":"Deutsche Post AG",
-            "agent":"Steffen Schuster"
-         }
+         "evidences":[  
+            {  
+               "type":"id_document",
+               "method":"pipp",
+               "document":{  
+                  "type":"idcard",
+                  "issuer":{  
+                     "name":"Stadt Augsburg",
+                     "country":"DE"
+                  },
+                  "number":"53554554",
+                  "date_of_issuance":"2012-04-23",
+                  "date_of_expiry":"2022-04-22"
+               }
+            }
+         ]
       },
       "claims":{  
          "given_name":"Max",
@@ -226,18 +254,22 @@ The respective ID Token could be
          "trust_framework":"de_aml",
          "date":"2013-02-21",
          "id":"676q3636461467647q8498785747q487",
-         "method":"identity_document",
-         "identity_document":{  
-            "country":"DE",
-            "type":"idcard",
-            "issuer":"Stadt Augsburg",
-            "number":"53554554",
-            "date_of_issuance":"2012-04-23",
-            "date_of_expiry":"2022-04-22",
-            "method":"pipp",
-            "organization":"Deutsche Post AG",
-            "agent":"Steffen Schuster"
-         }
+         "evidences":[  
+            {  
+               "type":"id_document",
+               "method":"pipp",
+               "document":{  
+                  "type":"idcard",
+                  "issuer":{  
+                     "name":"Stadt Augsburg",
+                     "country":"DE"
+                  },
+                  "number":"53554554",
+                  "date_of_issuance":"2012-04-23",
+                  "date_of_expiry":"2022-04-22"
+               }
+            }
+         ]
       },
       "claims":{  
          "given_name":"Max",
@@ -268,7 +300,8 @@ Content-Type: application/json
       "JWT":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
 GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJhb
 WV3b3JrIjoiZWlkYXNfbG9hX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4IiwiZ
-mFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.sPDOj44--OdSwilFFVhpXZTSjmrGpEDSb2pSocitMsk"
+mFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.sPDOj44--OdSwilFFVhp
+XZTSjmrGpEDSb2pSocitMsk"
       }
    }
 }

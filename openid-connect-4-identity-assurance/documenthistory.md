@@ -4,6 +4,8 @@
    
    -03
    
+   * enhanced draft to support multiple evidences
+   * added a JSON Schema for assertions containing the `verified_person_data` Claim
    * added more identity document definitions
    * added `region` field to `place_of_birth` Claim
    * changed `eidas_loa_substantial/high` to `eidas_ial_substantial/high` 

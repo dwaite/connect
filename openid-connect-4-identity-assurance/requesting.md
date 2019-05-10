@@ -67,7 +67,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 This specification re-uses this mechanics and introduces a new such member `max_age` (see below).
 
-To start with, the RP may limit the possible values of the elements `trust_framework`, `identity_document`, and `identity_document/method` by utilizing the `value` or `values` fields. 
+To start with, the RP may limit the possible values of the elements `trust_framework`, `evidences/id_document/document/type`, and `identity_document/method` by utilizing the `value` or `values` fields. 
 
 The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.
 
@@ -79,12 +79,14 @@ The following example shows that the RP wants to obtain an attestation based on 
             "trust_framework":{  
                "value":"de_aml"
             },
-            "identity_document":{  
-               "type":{  
-                  "values":[  
-                     "idcard",
-                     "passport"
-                  ]
+            "id_document":{  
+               "document":{  
+                  "type":{  
+                     "values":[  
+                        "idcard",
+                        "passport"
+                     ]
+                  }
                },
                "method":{  
                   "value":"pipp"
@@ -94,8 +96,7 @@ The following example shows that the RP wants to obtain an attestation based on 
          "claims":null
       }
    }
-}
-```
+}```
 
 The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
 
