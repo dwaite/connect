@@ -156,7 +156,7 @@ verified person data.</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">type</spanx>: REQUIRED. String denoting the type of the id document, standardized values are defined in <eref target="#predefined_values_idd">Identity Documents</eref>. The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.</t>
-<t><spanx style="verb">number</spanx>: String representing the number of the identity document</t>
+<t><spanx style="verb">number</spanx>: String representing the number of the identity document.</t>
 <t><spanx style="verb">issuer</spanx>: A JSON object containg information about the government agency that issued this identity document. This object consists of the following properties:
 <list style="symbols">
 <t><spanx style="verb">name</spanx>: REQUIRED. Designation of the issuer of the identity document</t>
@@ -262,13 +262,13 @@ verified person data.</t>
 </artwork></figure>
 
 <t>Note: The <spanx style="verb">claims</spanx> sub-element can be omitted, which is equivalent to a claims element whose value is <spanx style="verb">null</spanx>.</t>
-<t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim other than the claims listed in the Section <eref target="#claimselement">claims</eref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
+<t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim not fulfilling the requirements defined in Section <eref target="#claimselement">claims</eref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
 </section>
 
 <section anchor="constraintedclaims" title="Defining constraints on requested data">
 <t>The RP MAY express requirements regarding the elements in the verification sub-element.</t>
-<t>This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect Core specification <xref target="OpenID"></xref> due to the nested nature of the <spanx style="verb">verified_person_data</spanx> claim.</t>
-<t>Section 5.5.1 of the OpenID Connect Core specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
+<t>This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref> due to the nested nature of the <spanx style="verb">verified_person_data</spanx> claim.</t>
+<t>Section 5.5.1 of the OpenID Connect specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).</t>
 <t>This specification re-uses this mechanics and introduces a new such member <spanx style="verb">max_age</spanx> (see below).</t>
 <t>To start with, the RP may limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidences/id_document/document/type</spanx>, and <spanx style="verb">identity_document/method</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
@@ -303,7 +303,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 <t>The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the <spanx style="verb">verification</spanx> element has taken place.</t>
 <t>This specification therefore defines a new member <spanx style="verb">max_age</spanx>.</t>
-<t><spanx style="verb">max_age</spanx>: OPTIONAL. Only applicable to claims that contain dates or timestamps. Defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
+<t><spanx style="verb">max_age</spanx>: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
 <t>The following is an example:</t>
 
 <figure><artwork type="json">{  
@@ -467,7 +467,7 @@ meanings and allows for other special members to be defined (while stating that 
 <section anchor="verified-person-data-in-user-info-response" title="Verified Person Data in User Info Response">
 
 <section anchor="request" title="Request">
-<t>In this example we assume the RP uses the scope parameter to request the email address and , additionally, the claims parameter, to request verified person data.</t>
+<t>In this example we assume the RP uses the scope parameter to request the email address and, additionally, the claims parameter, to request verified person data.</t>
 <t>The scope value is: <spanx style="verb">scope=openid email</spanx></t>
 <t>The value of the claims parameter is:</t>
 
@@ -542,14 +542,14 @@ Content-Type: application/json
       &quot;email&quot;:null,
       &quot;preferred_username&quot;:null,
       &quot;picture&quot;:null,
-       &quot;verified_person_data&quot;:{  
+      &quot;verified_person_data&quot;:{  
          &quot;claims&quot;:{  
             &quot;given_name&quot;:null,
             &quot;family_name&quot;:null,
             &quot;birthdate&quot;:null
          }
       }
-   }	
+   }
 }
 </artwork></figure>
 
@@ -659,26 +659,20 @@ Content-Type: application/json
 
 <section anchor="opmetadata" title="OP Metadata">
 <t>The OP advertises its capabilities with respect to verified person data in its openid-configuration (see <xref target="OpenID-Discovery"></xref>) using the following new elements:</t>
-<t><spanx style="verb">trust_frameworks_supported</spanx> This is a JSON array containing all supported trust frameworks and assurance levels.</t>
-<t><spanx style="verb">verified_person_data_supported</spanx> This JSON array contains all claims supported within <spanx style="verb">verified_person_data</spanx>.</t>
+<t><spanx style="verb">verified_person_data_supported</spanx>: Boolean value indicating support for the <spanx style="verb">verified_person_data</spanx>, i.e. the OpenID Connect for Identity Assurance extension.</t>
+<t><spanx style="verb">trust_frameworks_supported</spanx> This is a JSON array containing all supported trust frameworks.</t>
 <t><spanx style="verb">evidences_supported</spanx> This JSON array contains all types of identity evidences the OP uses.</t>
 <t><spanx style="verb">id_documents_supported</spanx> This JSON array contains all identity documents utilized by the OP for identity verification.</t>
-<t><spanx style="verb">id_documents_verification_methods_supported</spanx> This element is a JSON array containing the id document verification methods a OP supports as defined in Section <eref target="#verification">verification</eref>.
-This is an example openid-configuration snippet:</t>
+<t><spanx style="verb">id_documents_verification_methods_supported</spanx> This element is a JSON array containing the id document verification methods a OP supports as defined in Section <eref target="#verification">verification</eref>.</t>
+<t><spanx style="verb">verified_person_data_supported</spanx> This JSON array contains all claims supported within <spanx style="verb">verified_person_data</spanx>.</t>
+<t>This is an example openid-configuration snippet:</t>
 
 <figure><artwork type="json">{  
 ...
+   &quot;verified_person_data_supported&quot;:true,
    &quot;trust_frameworks_supported&quot;:[
      &quot;nist_800_63A_ial_2&quot;,
      &quot;nist_800_63A_ial_3&quot;
-   ]
-   &quot;verified_person_data_supported&quot;:[  
-      &quot;given_name&quot;,
-      &quot;family_name&quot;,
-      &quot;birthdate&quot;,
-      &quot;place_of_birth&quot;,
-      &quot;nationality&quot;,
-      &quot;address&quot;
    ],
    &quot;evidences_supported&quot;:[
       &quot;id_document&quot;,
@@ -695,6 +689,14 @@ This is an example openid-configuration snippet:</t>
        &quot;sripp&quot;,
        &quot;eid&quot;
    ]
+   &quot;verified_person_data_supported&quot;:[  
+      &quot;given_name&quot;,
+      &quot;family_name&quot;,
+      &quot;birthdate&quot;,
+      &quot;place_of_birth&quot;,
+      &quot;nationality&quot;,
+      &quot;address&quot;
+   ],
 ...
 }
 </artwork></figure>
@@ -1052,6 +1054,8 @@ to state the purpose for the transfer of user data it is asking for.</t>
 </reference>
 </references>
 <references title="Informative References">
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 <reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
   <front>
     <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
@@ -1096,8 +1100,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2017" month="June"></date>
   </front>
 </reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 </references>
 
 <section anchor="document-history" title="Document History">
