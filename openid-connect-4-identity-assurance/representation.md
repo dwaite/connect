@@ -21,7 +21,7 @@ The `verification` element consists of the following elements:
 
 An example value is `eidas_ial_high`, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance "High".
 
-Standardized values are defined in [Trust Frameworks](#predefined_values_tf).
+An initial list of standardized values is defined in [Trust Frameworks](#predefined_values_tf). Additional trust framework identifiers can be introduced [how?]. RPs SHOULD ignore `verified_person_data` claims containing a trust framework id they don't know.
 
 The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (`de_aml`).
 

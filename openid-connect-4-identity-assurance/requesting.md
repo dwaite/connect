@@ -2,9 +2,9 @@
 
 ## Requesting User Claims
 
-Verified person data can be requested on the level of individual user claims by utilzing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
+Verified person data can be requested on the level of individual user claims by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
 
-Bassically, the claim `verified_person_data` is added to the section `userinfo` or `id_token` of the `claims` parameter. 
+Basically, the claim `verified_person_data` is added to the section `userinfo` or `id_token` of the `claims` parameter. 
 
 Since `verified_person_data` contains the effective user claims in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired user claims as keys with a `null` value. An example is shown in the following:
 
@@ -58,16 +58,16 @@ Note: If the `claims` sub-element is empty or contains a claim not fulfilling th
 
 ## Defining constraints on requested data {#constraintedclaims}
 
-The RP MAY express requirements regarding the elements in the verification sub-element.
+The RP MAY express requirements regarding the elements in the `verification` sub-element.
 
 This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification [@!OpenID] due to the nested nature of the `verified_person_data` claim.
 
 Section 5.5.1 of the OpenID Connect specification [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (`essential`, `value` and `values`) with special query 
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).
 
-This specification re-uses this mechanics and introduces a new such member `max_age` (see below).
+This specification re-uses that mechanism and introduces a new such member `max_age` (see below).
 
-To start with, the RP may limit the possible values of the elements `trust_framework`, `evidences/id_document/document/type`, and `identity_document/method` by utilizing the `value` or `values` fields. 
+To start with, the RP MAY limit the possible values of the elements `trust_framework`, `evidences/id_document/document/type`, and `identity_document/method` by utilizing the `value` or `values` fields. 
 
 The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.
 
@@ -99,7 +99,7 @@ The following example shows that the RP wants to obtain an attestation based on 
 }
 ```
 
-The RP may also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
+The RP MAY also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the `verification` element has taken place. 
 
 This specification therefore defines a new member `max_age`.
 

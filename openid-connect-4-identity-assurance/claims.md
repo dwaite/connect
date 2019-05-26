@@ -31,7 +31,7 @@ If the OP issues a transaction_id, it MUST maintain a corresponding audit trail,
 * the authentication methods employed, and
 * the transaction type (e.g. scope values).
 
-The OP MUST store the transaction data as long as it is required to store transaction data for auditing purposes by respective regulations. 
+This transaction data MUST be stored as long as it is required to store transaction data for auditing purposes by the respective regulation. 
 
 The RP requests this claim like any other claim via the claims parameter or as part of a default claim set identified by a scope value. 
 

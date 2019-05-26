@@ -20,7 +20,7 @@ This section defines trust framework identifiers for use with this specification
 
 ## Identity Documents {#predefined_values_idd}
 
-This section defines identity doccument identifiers for use with this specification.
+This section defines identity document identifiers for use with this specification.
 
 * Identifier: `idcard`
 * Definition: An identity document issued by a country's government for the purpose of identifying a citizen. 
@@ -61,7 +61,7 @@ This section defines identity doccument identifiers for use with this specificat
 
 ## Verification Methods {#predefined_values_vm}
 
-This section defines identity doccument identifiers for use with this specification.
+This section defines identity document identifiers for use with this specification.
 
 * Identifier: `pipp`
 * Definition: Physical In-Person Proofing

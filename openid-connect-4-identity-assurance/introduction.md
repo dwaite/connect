@@ -16,11 +16,11 @@ Identity assurance therefore requires a way to convey assurance data along with 
 
 This section defines some terms relevant to the topic covered in this documents, heavily inspired by NIST SP 800-63A [@?NIST-SP-800-63a].
 
-* Identity Proofing - process in which a user provides evidence to an OP reliably identifying themselves, thereby allowing the OP to assert that identification at a useful identity assurance level.
+* Identity Proofing - process in which a user provides evidence to an OP or claim provider reliably identifying themselves, thereby allowing the OP to assert that identification at a useful identity assurance level.
 
-* Identify Verification - process conducted by the OP to verify the user's identity.
+* Identify Verification - process conducted by the OP or a claim provider to verify the user's identity.
 
-* Identity Assurance - process in which the OP attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidences of the identity proofing process to the RP.
+* Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidences of the identity verification process to the RP.
 
 * Verified Person Data - Claims about a person whose binding to a particular use account were verified in the course of an identity verification process.
 

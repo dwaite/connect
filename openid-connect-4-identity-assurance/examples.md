@@ -6,7 +6,7 @@ The first and second section show JSON snippets of the general identity assuranc
 
 The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidences of the identity verification process to the RP. 
 
-Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (non-verified) user claims.
+Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (unverified) user claims.
 
 ## id_document
 
