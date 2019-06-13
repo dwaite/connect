@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM 'rfc2629.dtd' []>
-<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-04">
-<?rfc toc="yes"?><?rfc symrefs="yes"?><?rfc sortrefs="yes"?><?rfc compact="yes"?><?rfc subcompact="no"?><?rfc comments="no"?>
+<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-05">
+<?rfc toc="yes"?><?rfc symrefs="yes"?><?rfc sortrefs="yes"?><?rfc private="Draft"?><?rfc compact="yes"?><?rfc subcompact="no"?><?rfc comments="no"?>
 <front>
 <title abbrev="openid-connect-4-identity-assurance">OpenID Connect for Identity Assurance</title><author initials="T." surname="Lodderstedt" fullname="Torsten Lodderstedt"><organization>yes.com</organization><address><postal><street></street>
 </postal><email>torsten@lodderstedt.net</email>
@@ -10,7 +10,7 @@
 <author initials="D." surname="Fett" fullname="Daniel Fett"><organization>yes.com</organization><address><postal><street></street>
 </postal><email>mail@danielfett.de</email>
 </address></author>
-<date year="2019" month="May" day="26"></date>
+<date year="2019" month="June" day="23"></date>
 <area>Internet</area><workgroup>connect</workgroup><keyword>security</keyword>
 <keyword>openid</keyword>
 <keyword>identity assurance</keyword>
@@ -44,26 +44,18 @@
 </section>
 
 <section anchor="scope-and-requirements" title="Scope and Requirements">
-<t>The extension specified in this document SHALL</t>
-<t>
-<list style="symbols">
-<t>allow an OpenID Connect RP to request the minimal identity data set it needs (data minimization) and to express requirements regarding this data and the evidences and processes employed,</t>
-<t>allow an OP to attest identity data obtained and maintained in accordance with a certain law, and</t>
-<t>allow the RP to map the data obtained from the OP to other laws, e.g. it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfill requirements defined by eIDAS.</t>
-</list>
-</t>
-<t>The scope of the extension is to define mechanisms to assert verified person data.</t>
-<t>It SHALL be possible to use existing OpenID Connect claims and other extensions defined beside this extension within the same OpenID Connect transaction and especially to render the same ID Token or other representations utilized to convey user claims. For example, OpenID Connect already defines additional claims to inform the RP of the verification status of the <spanx style="verb">phone_number</spanx> and <spanx style="verb">email</spanx> claims. For the same reason, this extension SHALL allow the OP to attest verified and unverified claims in the same transaction.</t>
-<t>This extension MAY introduce new user claims to cover user attributes not currently covered by OpenID Connect, one example would be the place of birth.</t>
-<t>The representation defined in this specification is intended to be used to provide RPs with verified person data via any appropriate channel. In the context of OpenID Connnect, verified person data can be attested in ID Tokens or as part of the User Info response. It is also possible to utilize the format described here in OAuth Token Introspection responses (see <xref target="RFC7662"></xref> and <xref target="I-D.ietf-oauth-jwt-introspection-response"></xref>) to provide resource servers with
+<t>The scope of the extension is to define a mechanism to assert verified claims, in general, and to introduce new user Claims required in the identity assurance space, for example the place of birth.</t>
+<t>The RP will be able to request the minimal data set it needs (data minimization) and to express requirements regarding this data and the evidence and the identity verification processes employed by the OP.</t>
+<t>This extension will be usable by OPs operating under a certain regulation related to identity assurance, such as eIDAS notified eID systems, as well as other OPs. Strictly regulated OPs can attest identity data without the need to provide further evidence since they are approved to operate according to well-defined rules with clearly defined liability.</t>
+<t>For example in case of eIDAS, the peer review ensures eIDAS compliance and the respective member state takes the liability for the identities asserted by its notified eID systems. Every other OP not operating under such well-defined conditions is typically required to provide the RP data about the identity verification process along with identity evidence to allow the RP to conduct their own risk assessment and to map the data obtained from the OP to other laws. For example, it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfill requirements defined by eIDAS.</t>
+<t>From a technical perspective, this means this specification allows the OP to attest verified user Claims along with information about the respective trust framework (and assurance level) but also supports the externalization of information about the identity verification process.</t>
+<t>The representation defined in this specification can be used to provide RPs with verified person data via any appropriate channel. In the context of OpenID Connnect, verified person data can be attested in ID Tokens or as part of the User Info response. It is also possible to utilize the format described here in OAuth Token Introspection responses (see <xref target="RFC7662"></xref> and <xref target="I-D.ietf-oauth-jwt-introspection-response"></xref>) to provide resource servers with
 verified person data.</t>
-<t>This extension defines a way to assert verified claims only. There is no need to cover unverified claims, or rather Claims without further information about the assurance, since they are already covered by OpenID Connect Core <xref target="OpenID"></xref>.</t>
-<t>Even for asserting verified claims, this extension shall attempt to utilize existing OpenID Connect claims if possible and reasonable. It MUST, however, ensure RPs cannot interpret unverified claims as verified claims.</t>
-<t>The representation defined in this extension SHALL allow RPs to obtain assertions about verified claims from different OPs using different trust frameworks.</t>
-<t>This extension SHALL be usable by OPs operating under a certain regulation related to identity assurance, such as eIDAS notified eID systems, as well as other OPs. Strictly regulated OPs can attest identity data without the need to provide further evidences since they are approved to operate accoriding to well-defined rules with clearly defined liability. For example in case of eIDAS, the peer review ensures eIDAS compliance and the respective member state takes the liability for the identities asserted by its notified eID systems. Every other OP not operating under such well-defined conditions is typically required to provide the RP data about the identity verification process along with identity evidences to allow the RP to conduct their own risk assessment.</t>
-<t>From a technical perspective, this means this specification needs to support cases, where basically verified person data are provided along with the information about the regulatory framework (trust framework) the OP complies with and the respective level of assurance, whereas there shall also be support to externalize information about the identity verification process with the OP to the RP.</t>
-<t>This extension SHALL be trully international and support identity assurance for different and across jurisdictions. It SHALL be extensible to support new trust frameworks, verification methods, and respective identity evidences.</t>
-<t>Note: data transfer between OP and RP requires a legal basis that MUST be established upfront or in the course of the OpenID process.</t>
+<t>This extension is intended to be trully international and support identity assurance for different and across jurisdictions. The extension is therefore extensible to support new trust frameworks, verification methods, and respective identity evidence.</t>
+<t>In order to give implementors as much flexibility as possible, this extension can be used in conjunction with existing OpenID Connect claims and other extensions within the same OpenID Connect assertion (e.g ID Token oder UserInfo response) utilized to convey user Claims.</t>
+<t>For example, OpenID Connect <xref target="OpenID"></xref> defines Claims for representing family name and given name of a user without a verification status. Those Claims can be used in the same OpenID Connect assertion beside verified claims represented accoriding to this extension.</t>
+<t>In the same way, existing claims to inform the RP of the verification status of the <spanx style="verb">phone_number</spanx> and <spanx style="verb">email</spanx> claims can be used together with this extension.</t>
+<t>Even for asserting verified claims, this extension will utilize existing OpenID Connect claims if possible and reasonable. The extension will, however, ensure RPs cannot interpret unverified claims as verified claims.</t>
 </section>
 
 <section anchor="claims" title="Claims">
@@ -714,13 +706,8 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <t>Note: In order to prevent injection attacks, the IDP MUST escape the text appropriately before it will be shown in a user interface. The IDP MUST expect special characters in the URL decoded purpose text provided by the RP. The IDP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g. cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
 </section>
 
-<section anchor="Acknowledgements" title="Acknowledgements">
-<t>The following people at yes.com and partner companies contributed to the concept described in the initial contribution to this specification: Karsten Buch, Lukas Stiebig, Sven Manz, Waldemar Zimpfer, Willi Wiedergold, Fabian Hoffmann, Daniel Keijsers, Ralf Wagner, Sebastian Ebling, Peter Eisenhofer.</t>
-<t>I would like to thank Sebastian Ebling, Marcos Sanz, Tom Jones, Mike Pegman, and Jeff Lombardo for their valuable feedback that helped to evolve this specification.</t>
-</section>
-
 <section anchor="Privacy" title="Privacy Consideration">
-<t>OP and RP MUST establish a legal basis before exchanging any personally identifiable information.</t>
+<t>OP and RP MUST establish a legal basis before exchanging any personally identifiable information. It can be established upfront or in the course of the OpenID process.</t>
 </section>
 
 <section anchor="Security" title="Security Considerations">
@@ -1014,24 +1001,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
-  <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
-    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-      <organization>NRI</organization>
-    </author>
-    <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
-    </author>
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization>Google</organization>
-    </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
-    </author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
     <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
@@ -1049,6 +1018,24 @@ to state the purpose for the transfer of user data it is asking for.</t>
     </author>
     <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
       <organization>Salesforce</organization>
+    </author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+  <front>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization>NRI</organization>
+    </author>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
+    </author>
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization>Google</organization>
+    </author>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
     </author>
     <date year="2014" month="Nov" day="8"></date>
   </front>
@@ -1103,8 +1090,29 @@ to state the purpose for the transfer of user data it is asking for.</t>
 </reference>
 </references>
 
+<section anchor="Acknowledgements" title="Acknowledgements">
+<t>The following people at yes.com and partner companies contributed to the concept described in the initial contribution to this specification: Karsten Buch, Lukas Stiebig, Sven Manz, Waldemar Zimpfer, Willi Wiedergold, Fabian Hoffmann, Daniel Keijsers, Ralf Wagner, Sebastian Ebling, Peter Eisenhofer.</t>
+<t>I would like to thank Sebastian Ebling, Marcos Sanz, Tom Jones, Mike Pegman,
+Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to evolve this specification.</t>
+</section>
+
+<section anchor="notices" title="Notices">
+<t>Copyright (c) 2019 The OpenID Foundation.</t>
+<t>The OpenID Foundation (OIDF) grants to any Contributor, developer, implementer, or other interested party a non-exclusive, royalty free, worldwide copyright license to reproduce, prepare derivative works from, distribute, perform and display, this Implementers Draft or Final Specification solely for the purposes of (i) developing specifications, and (ii) implementing Implementers Drafts and Final Specifications based on such documents, provided that attribution be made to the OIDF as the source of the material, but that such attribution does not indicate an endorsement by the OIDF.</t>
+<t>The technology described in this specification was made available from contributions from various sources, including members of the OpenID Foundation and others. Although the OpenID Foundation has taken steps to help ensure that the technology is available for distribution, it takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this specification or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any independent effort to identify any such rights. The OpenID Foundation and the contributors to this specification make no (and hereby expressly disclaim any) warranties (express, implied, or otherwise), including implied warranties of merchantability, non-infringement, fitness for a particular purpose, or title, related to this specification, and the entire risk as to implementing this specification is assumed by the implementer. The OpenID Intellectual Property Rights policy requires contributors to offer a patent promise not to assert certain patent claims against other contributors and against implementers. The OpenID Foundation invites any interested party to bring to its attention any copyrights, patents, patent applications, or other proprietary rights that may cover technology that may be required to practice this specification.</t>
+</section>
+
 <section anchor="document-history" title="Document History">
 <t>[[ To be removed from the final specification ]]</t>
+<t>-05</t>
+<t>
+<list style="symbols">
+<t>incorporated review feedback by Mike Jones</t>
+<t>Added OIDF Copyright Notices</t>
+<t>Moved Acknowledgements to Appendix A</t>
+<t>Removed RFC 2119 keywords from scope &amp; requirements section and re-wrote whole section</t>
+</list>
+</t>
 <t>-04</t>
 <t>
 <list style="symbols">

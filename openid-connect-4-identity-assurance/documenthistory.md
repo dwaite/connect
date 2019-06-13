@@ -2,6 +2,13 @@
 
    [[ To be removed from the final specification ]]
    
+   -05
+   
+   * incorporated review feedback by Mike Jones
+   * Added OIDF Copyright Notices
+   * Moved Acknowledgements to Appendix A
+   * Removed RFC 2119 keywords from scope & requirements section and re-wrote whole section
+   
    -04
    
    * incorporated review feedback by Marcos Sanz 
