@@ -1,6 +1,6 @@
 %%%
-title = "OpenID Connect for Identity Assurance"
-abbrev = "openid-connect-4-identity-assurance"
+title = "OpenID Connect for Identity Assurance 1.0"
+abbrev = "openid-connect-4-identity-assurance-1_0"
 ipr = "trust200902"
 workgroup = "connect"
 keyword = ["security", "openid", "identity assurance"]
@@ -9,7 +9,7 @@ date = 2019-06-23T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "openid-connect-4-identity-assurance-05"
+value = "openid-connect-4-identity-assurance-1_0-05"
 status = "standard"
 
 [[author]]

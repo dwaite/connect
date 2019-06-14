@@ -2,11 +2,11 @@
 
 The following sections show examples of `verified_person_data` objects. 
 
-The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidences for different verification methods along with the actual user claims.
+The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidence for different verification methods along with the actual Claims about the End-User.
 
-The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidences of the identity verification process to the RP. 
+The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP. 
 
-Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (unverified) user claims.
+Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (unverified) Claims.
 
 ## id_document
 
@@ -16,8 +16,8 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
-         "id":"676q3636461467647q8498785747q487",
-         "evidences":[  
+         "verification_process":"676q3636461467647q8498785747q487",
+         "evidence":[  
             {  
                "type":"id_document",
                "method":"pipp",
@@ -62,8 +62,8 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
-         "id":"676q3636461467647q8498785747q487",
-         "evidences":[  
+         "verification_process":"676q3636461467647q8498785747q487",
+         "evidence":[  
             {  
                "type":"id_document",
                "method":"pipp",
@@ -139,7 +139,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
 ```
 
 
-## Verified Person Data in User Info Response
+## Verified Person Data in UserInfo Response
 
 ### Request
 
@@ -163,9 +163,9 @@ The value of the claims parameter is:
 }
 ```
 
-### User Info Response
+### UserInfo Response
 
-The respective user info response would be
+The respective UserInfo response would be
 
 ```http
 HTTP/1.1 200 OK
@@ -180,8 +180,8 @@ Content-Type: application/json
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
-         "id":"676q3636461467647q8498785747q487",
-         "evidences":[  
+         "verification_process":"676q3636461467647q8498785747q487",
+         "evidence":[  
             {  
                "type":"id_document",
                "method":"pipp",
@@ -211,7 +211,7 @@ Content-Type: application/json
 
 ### Request
 
-In this case, the RP requests verfied person data along with other user claims in the claims parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
+In this case, the RP requests verfied person data along with other Claims about the End-User in the claims parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
 
 The `claims` parameter value is
 
@@ -253,8 +253,8 @@ The respective ID Token could be
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
-         "id":"676q3636461467647q8498785747q487",
-         "evidences":[  
+         "verification_process":"676q3636461467647q8498785747q487",
+         "evidence":[  
             {  
                "type":"id_document",
                "method":"pipp",

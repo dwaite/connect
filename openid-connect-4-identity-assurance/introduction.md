@@ -2,15 +2,15 @@
 
 This specification defines an extension to OpenID Connect [@!OpenID] to address the use case of strong identity verification of a natural person in accordance with certain laws. Examples include Anti Money Laundering Laws, Telecommunication Acts, Anti Terror Laws, and regulations on trust services, such as eIDAS [@?eIDAS].
 
-In such use cases, the Relying Parties (RPs) need to know the assurance level of the user Claims attested by the OpenID Connect Providers (OPs) along with evidences related to the identity verification process (identity assurance). 
+In such use cases, the Relying Parties (RPs) need to know the assurance level of the Claims about the End-User attested by the OpenID Connect Providers (OPs) along with evidence related to the identity verification process´. 
 
-Identity assurance significantly differs from authentication assurance, which requires a different representation in the OpenID Connect protocol that is defined in this specification.
+The `acr` Claim, as defined in Section 2 of the OpenID Connect specification [@!OpenID], is suited to attest information about the authentication performed in a OpenID Connect transaction, but identity assurance requires a different representation. 
 
-The assurance level for authentication is a property of a certain OpenID Connect transaction, determined by the authentication means employed and the underlying user account management processes. The `acr` Claim as defined in Section 2 of the OpenID Connect specification [@!OpenID] is sufficient to convey this information. 
+The reason is authentication is an aspect of an OpenID Connect transaction while identity assurance is a property of a certain Claim or a group of Claims and several of them will typically be conveyed to the RP as the result of an OpenID Connect transaction.  
 
-The identity assurance for user Claims, i.e. the binding of a certain Claim value to the person controlling the respective user account, typically varies among the different user Claims. For example, the assurance an OP typically will be able to attest for an e-mail address will be “self-asserted”, “verified by opt-in”, or “verified by the respective e-mail provider via an attribute exchange protocol”. The family name of a user, in contrast, might have been verified in accordance with the respective Anti Money Laundering Law by showing an ID Card to a trained employee of the OP operator. 
+For example, the assurance an OP typically will be able to attest for an e-mail address will be “self-asserted” or “verified by opt-in or similar mechanism”. The family name of a user, in contrast, might have been verified in accordance with the respective Anti Money Laundering Law by showing an ID Card to a trained employee of the OP operator. 
 
-Identity assurance therefore requires a way to convey assurance data along with and coupled to the respective user Claims. This specification proposes a suitable representation and mechanisms the RP will utilize to request verified person data and accompanying identity assurance data. 
+Identity assurance therefore requires a way to convey assurance data along with and coupled to the respective Claims about the End-User. This specification proposes a suitable representation and mechanisms the RP will utilize to request verified person data and accompanying identity assurance data and for the OP to represent the identity assurance data. 
 
 ## Terminology 
 
@@ -20,7 +20,7 @@ This section defines some terms relevant to the topic covered in this documents,
 
 * Identify Verification - process conducted by the OP or a claim provider to verify the user's identity.
 
-* Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidences of the identity verification process to the RP.
+* Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidence of the identity verification process to the RP.
 
 * Verified Person Data - Claims about a person whose binding to a particular use account were verified in the course of an identity verification process.
 

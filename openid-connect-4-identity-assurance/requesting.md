@@ -1,12 +1,12 @@
 # Requesting Verified Person Data
 
-## Requesting User Claims
+## Requesting Verified Claims
 
-Verified person data can be requested on the level of individual user claims by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
+Verified person data can be requested on the level of individual Claims about the End-User by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
 
-Basically, the claim `verified_person_data` is added to the section `userinfo` or `id_token` of the `claims` parameter. 
+The claim `verified_person_data` is added to the `userinfo` or `id_token` element of the `claims` parameter. 
 
-Since `verified_person_data` contains the effective user claims in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired user claims as keys with a `null` value. An example is shown in the following:
+Since `verified_person_data` contains the effective Claims about the End-User in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired Claims as keys with a `null` value. An example is shown in the following:
 
 ```json
 {  
@@ -22,7 +22,7 @@ Since `verified_person_data` contains the effective user claims in a nested `cla
 }
 ```
 
-Use of the `claims` parameter allows the RP to exactly select the user claims needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.
+Use of the `claims` parameter allows the RP to exactly select the Claims about the End-User needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.
 
 RPs MAY indicate that a certain claim is essential to the sucessful completion of the user journey by utilizing the `essential` field as defined in Section 5.5.1. of the OpenID Connect specification [@!OpenID]. The following example designates both given as well as family name as being essential.
 
@@ -54,7 +54,7 @@ Note: A `claims` sub-element with value `null` is interpreted as a request for a
 
 Note: The `claims` sub-element can be omitted, which is equivalent to a claims element whose value is `null`.
 
-Note: If the `claims` sub-element is empty or contains a claim not fulfilling the requirements defined in Section [claims](#claimselement), the OP will abort the transaction with an `invalid_request` error.
+Note: If the `claims` sub-element is empty or contains a claim not fulfilling the requirements defined in (#claimselement), the OP will abort the transaction with an `invalid_request` error.
 
 ## Defining constraints on requested data {#constraintedclaims}
 
@@ -67,7 +67,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 This specification re-uses that mechanism and introduces a new such member `max_age` (see below).
 
-To start with, the RP MAY limit the possible values of the elements `trust_framework`, `evidences/id_document/document/type`, and `identity_document/method` by utilizing the `value` or `values` fields. 
+To start with, the RP MAY limit the possible values of the elements `trust_framework`, `evidence/id_document/document/type`, and `identity_document/method` by utilizing the `value` or `values` fields. 
 
 The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.
 
@@ -113,7 +113,7 @@ The following is an example:
       "verified_person_data":{  
          "verification":{  
             "date":{  
-               "max_age":"63113852"
+               "max_age":63113852
             }
          },
          "claims":null

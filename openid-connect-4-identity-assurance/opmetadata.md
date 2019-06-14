@@ -6,11 +6,11 @@ The OP advertises its capabilities with respect to verified person data in its o
 
 `trust_frameworks_supported` This is a JSON array containing all supported trust frameworks.
 
-`evidences_supported` This JSON array contains all types of identity evidences the OP uses.
+`evidence_supported` This JSON array contains all types of identity evidence the OP uses.
 
 `id_documents_supported` This JSON array contains all identity documents utilized by the OP for identity verification.
 
-`id_documents_verification_methods_supported` This element is a JSON array containing the id document verification methods a OP supports as defined in Section [verification](#verification). 
+`id_documents_verification_methods_supported` This element is a JSON array containing the id document verification methods a OP supports as defined in (#verification). 
 
 `verified_person_data_supported` This JSON array contains all claims supported within `verified_person_data`.
 
@@ -24,7 +24,7 @@ This is an example openid-configuration snippet:
      "nist_800_63A_ial_2",
      "nist_800_63A_ial_3"
    ],
-   "evidences_supported":[
+   "evidence_supported":[
       "id_document",
       "utility_bill",
       "qes"

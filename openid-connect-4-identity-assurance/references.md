@@ -78,6 +78,41 @@
   </front>
 </reference>
 
+<reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
+	<front>
+	  <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -
+	  Representation of dates and times</title>
+	  <author fullname="International Organization for Standardization">
+	    <organization abbrev="ISO">International Organization for
+	    Standardization</organization>
+	  </author>
+	  <date year="2004" />
+	</front>
+</reference>
+
+<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
+	<front>
+	  <title>ISO 3166-1:1997. Codes for the representation of names of
+	  countries and their subdivisions -- Part 1: Country codes</title>
+	  <author fullname="International Organization for Standardization">
+	    <organization abbrev="ISO">International Organization for
+	    Standardization</organization>
+	  </author>
+	  <date year="2013" />
+	</front>
+</reference>
+
+<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
+	<front>
+	  <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
+	  <author fullname="International Organization for Standardization">
+	    <organization abbrev="ISO">International Organization for
+	    Standardization</organization>
+	  </author>
+	  <date year="2013" />
+	</front>
+</reference>
+
 <reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
   <front>
     <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
@@ -88,3 +123,5 @@
    <date year="2008"/>
   </front>
 </reference>
+
+

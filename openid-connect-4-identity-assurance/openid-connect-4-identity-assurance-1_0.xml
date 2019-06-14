@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM 'rfc2629.dtd' []>
-<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-05">
+<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-1_0-05">
 <?rfc toc="yes"?><?rfc symrefs="yes"?><?rfc sortrefs="yes"?><?rfc private="Draft"?><?rfc compact="yes"?><?rfc subcompact="no"?><?rfc comments="no"?>
 <front>
-<title abbrev="openid-connect-4-identity-assurance">OpenID Connect for Identity Assurance</title><author initials="T." surname="Lodderstedt" fullname="Torsten Lodderstedt"><organization>yes.com</organization><address><postal><street></street>
+<title abbrev="openid-connect-4-identity-assurance-1_0">OpenID Connect for Identity Assurance 1.0</title><author initials="T." surname="Lodderstedt" fullname="Torsten Lodderstedt"><organization>yes.com</organization><address><postal><street></street>
 </postal><email>torsten@lodderstedt.net</email>
 </address></author>
 <author initials="D." surname="Fett" fullname="Daniel Fett"><organization>yes.com</organization><address><postal><street></street>
@@ -24,11 +24,11 @@
 
 <section anchor="Introduction" title="Introduction">
 <t>This specification defines an extension to OpenID Connect <xref target="OpenID"></xref> to address the use case of strong identity verification of a natural person in accordance with certain laws. Examples include Anti Money Laundering Laws, Telecommunication Acts, Anti Terror Laws, and regulations on trust services, such as eIDAS <xref target="eIDAS"></xref>.</t>
-<t>In such use cases, the Relying Parties (RPs) need to know the assurance level of the user Claims attested by the OpenID Connect Providers (OPs) along with evidences related to the identity verification process (identity assurance).</t>
-<t>Identity assurance significantly differs from authentication assurance, which requires a different representation in the OpenID Connect protocol that is defined in this specification.</t>
-<t>The assurance level for authentication is a property of a certain OpenID Connect transaction, determined by the authentication means employed and the underlying user account management processes. The <spanx style="verb">acr</spanx> Claim as defined in Section 2 of the OpenID Connect specification <xref target="OpenID"></xref> is sufficient to convey this information.</t>
-<t>The identity assurance for user Claims, i.e. the binding of a certain Claim value to the person controlling the respective user account, typically varies among the different user Claims. For example, the assurance an OP typically will be able to attest for an e-mail address will be “self-asserted”, “verified by opt-in”, or “verified by the respective e-mail provider via an attribute exchange protocol”. The family name of a user, in contrast, might have been verified in accordance with the respective Anti Money Laundering Law by showing an ID Card to a trained employee of the OP operator.</t>
-<t>Identity assurance therefore requires a way to convey assurance data along with and coupled to the respective user Claims. This specification proposes a suitable representation and mechanisms the RP will utilize to request verified person data and accompanying identity assurance data.</t>
+<t>In such use cases, the Relying Parties (RPs) need to know the assurance level of the Claims about the End-User attested by the OpenID Connect Providers (OPs) along with evidence related to the identity verification process´.</t>
+<t>The <spanx style="verb">acr</spanx> Claim, as defined in Section 2 of the OpenID Connect specification <xref target="OpenID"></xref>, is suited to attest information about the authentication performed in a OpenID Connect transaction, but identity assurance requires a different representation.</t>
+<t>The reason is authentication is an aspect of an OpenID Connect transaction while identity assurance is a property of a certain Claim or a group of Claims and several of them will typically be conveyed to the RP as the result of an OpenID Connect transaction.</t>
+<t>For example, the assurance an OP typically will be able to attest for an e-mail address will be “self-asserted” or “verified by opt-in or similar mechanism”. The family name of a user, in contrast, might have been verified in accordance with the respective Anti Money Laundering Law by showing an ID Card to a trained employee of the OP operator.</t>
+<t>Identity assurance therefore requires a way to convey assurance data along with and coupled to the respective Claims about the End-User. This specification proposes a suitable representation and mechanisms the RP will utilize to request verified person data and accompanying identity assurance data and for the OP to represent the identity assurance data.</t>
 
 <section anchor="terminology" title="Terminology">
 <t>This section defines some terms relevant to the topic covered in this documents, heavily inspired by NIST SP 800-63A <xref target="NIST-SP-800-63a"></xref>.</t>
@@ -36,7 +36,7 @@
 <list style="symbols">
 <t>Identity Proofing - process in which a user provides evidence to an OP or claim provider reliably identifying themselves, thereby allowing the OP to assert that identification at a useful identity assurance level.</t>
 <t>Identify Verification - process conducted by the OP or a claim provider to verify the user's identity.</t>
-<t>Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidences of the identity verification process to the RP.</t>
+<t>Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidence of the identity verification process to the RP.</t>
 <t>Verified Person Data - Claims about a person whose binding to a particular use account were verified in the course of an identity verification process.</t>
 </list>
 </t>
@@ -44,15 +44,15 @@
 </section>
 
 <section anchor="scope-and-requirements" title="Scope and Requirements">
-<t>The scope of the extension is to define a mechanism to assert verified claims, in general, and to introduce new user Claims required in the identity assurance space, for example the place of birth.</t>
+<t>The scope of the extension is to define a mechanism to assert verified claims, in general, and to introduce new Claims about the End-User required in the identity assurance space; one example would be the place of birth.</t>
 <t>The RP will be able to request the minimal data set it needs (data minimization) and to express requirements regarding this data and the evidence and the identity verification processes employed by the OP.</t>
 <t>This extension will be usable by OPs operating under a certain regulation related to identity assurance, such as eIDAS notified eID systems, as well as other OPs. Strictly regulated OPs can attest identity data without the need to provide further evidence since they are approved to operate according to well-defined rules with clearly defined liability.</t>
-<t>For example in case of eIDAS, the peer review ensures eIDAS compliance and the respective member state takes the liability for the identities asserted by its notified eID systems. Every other OP not operating under such well-defined conditions is typically required to provide the RP data about the identity verification process along with identity evidence to allow the RP to conduct their own risk assessment and to map the data obtained from the OP to other laws. For example, it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfill requirements defined by eIDAS.</t>
-<t>From a technical perspective, this means this specification allows the OP to attest verified user Claims along with information about the respective trust framework (and assurance level) but also supports the externalization of information about the identity verification process.</t>
-<t>The representation defined in this specification can be used to provide RPs with verified person data via any appropriate channel. In the context of OpenID Connnect, verified person data can be attested in ID Tokens or as part of the User Info response. It is also possible to utilize the format described here in OAuth Token Introspection responses (see <xref target="RFC7662"></xref> and <xref target="I-D.ietf-oauth-jwt-introspection-response"></xref>) to provide resource servers with
+<t>For example in the case of eIDAS, the peer review ensures eIDAS compliance and the respective member state takes the liability for the identities asserted by its notified eID systems. Every other OP not operating under such well-defined conditions is typically required to provide the RP data about the identity verification process along with identity evidence to allow the RP to conduct their own risk assessment and to map the data obtained from the OP to other laws. For example, it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfill requirements defined by eIDAS.</t>
+<t>From a technical perspective, this means this specification allows the OP to attest verified Claims along with information about the respective trust framework (and assurance level) but also supports the externalization of information about the identity verification process.</t>
+<t>The representation defined in this specification can be used to provide RPs with verified person data via any appropriate channel. In the context of OpenID Connnect, verified person data can be attested in ID Tokens or as part of the UserInfo response. It is also possible to utilize the format described here in OAuth Token Introspection responses (see <xref target="RFC7662"></xref> and <xref target="I-D.ietf-oauth-jwt-introspection-response"></xref>) to provide resource servers with
 verified person data.</t>
 <t>This extension is intended to be trully international and support identity assurance for different and across jurisdictions. The extension is therefore extensible to support new trust frameworks, verification methods, and respective identity evidence.</t>
-<t>In order to give implementors as much flexibility as possible, this extension can be used in conjunction with existing OpenID Connect claims and other extensions within the same OpenID Connect assertion (e.g ID Token oder UserInfo response) utilized to convey user Claims.</t>
+<t>In order to give implementors as much flexibility as possible, this extension can be used in conjunction with existing OpenID Connect claims and other extensions within the same OpenID Connect assertion (e.g ID Token oder UserInfo response) utilized to convey Claims about End-Users.</t>
 <t>For example, OpenID Connect <xref target="OpenID"></xref> defines Claims for representing family name and given name of a user without a verification status. Those Claims can be used in the same OpenID Connect assertion beside verified claims represented accoriding to this extension.</t>
 <t>In the same way, existing claims to inform the RP of the verification status of the <spanx style="verb">phone_number</spanx> and <spanx style="verb">email</spanx> claims can be used together with this extension.</t>
 <t>Even for asserting verified claims, this extension will utilize existing OpenID Connect claims if possible and reasonable. The extension will, however, ensure RPs cannot interpret unverified claims as verified claims.</t>
@@ -60,36 +60,30 @@ verified person data.</t>
 
 <section anchor="claims" title="Claims">
 
-<section anchor="userclaims" title="User Claims">
+<section anchor="userclaims" title="Claims about End-Users">
 <t>In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data in addition to the claims defined in the OpenID Connect specification <xref target="OpenID"></xref>:</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">place_of_birth</spanx>: a structured claim representing the end-user’s place of birth. It consists of the following fields:
 <list style="symbols">
-<t><spanx style="verb">country</spanx>: ISO 3166-1 Alpha-2, e.g. DE, or ISO 3166-3</t>
+<t><spanx style="verb">country</spanx>: <xref target="ISO3166-1"></xref> Alpha-2 , e.g. DE, or <xref target="ISO3166-3"></xref></t>
 <t><spanx style="verb">region</spanx>: State, province, prefecture, or region component</t>
 <t><spanx style="verb">locality</spanx>: city or other locality</t>
 </list></t>
-<t><spanx style="verb">nationality</spanx>: represents the user’s nationality in format ISO 3166-1 Alpha-2, e.g. DE</t>
-<t><spanx style="verb">birth_name</spanx>: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
+<t><spanx style="verb">nationality</spanx>: represents the user’s nationality in format <xref target="ISO3166-1"></xref> Alpha-2 , e.g. DE</t>
+<t><spanx style="verb">birth_familiy_name</spanx>: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
+<t><spanx style="verb">birth_given_name</spanx>: given name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
+<t><spanx style="verb">birth_middle_name</spanx>: middle name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
 <t><spanx style="verb">salutation</spanx>: end-user’s salutation, e.g. “Mr.”</t>
 <t><spanx style="verb">title</spanx>: end-user’s title, e.g. “Dr.”</t>
 </list>
 </t>
 </section>
 
-<section anchor="transaction-id" title="transaction_id">
+<section anchor="txn" title="txn">
 <t>Strong identity verification typically requires the participants to keep an audit trail of the whole process.</t>
-<t>This specification supports building an audit trail across the boundaries between OP and RP by introducing the claim <spanx style="verb">transaction_id</spanx>.</t>
-<t>The <spanx style="verb">transaction_id</spanx> claim is a string value which</t>
-<t>
-<list style="symbols">
-<t>MUST be unique within the context of the respective OP,</t>
-<t>MUST uniquely identify a certain transaction at the OP, and</t>
-<t>MUST allow an RP to obtain further transaction details if needed.</t>
-</list>
-</t>
-<t>If the OP issues a transaction_id, it MUST maintain a corresponding audit trail, which at least consists of the following details:</t>
+<t>The <spanx style="verb">txn</spanx> Claim as defined in <xref target="RFC8417"></xref> is used in the context of this extension to build audit trails across the parties involved in an OpenID Connect transaction.</t>
+<t>If the OP issues a <spanx style="verb">txn</spanx>, it MUST maintain a corresponding audit trail, which at least consists of the following details:</t>
 <t>
 <list style="symbols">
 <t>the transaction id,</t>
@@ -98,35 +92,40 @@ verified person data.</t>
 </list>
 </t>
 <t>This transaction data MUST be stored as long as it is required to store transaction data for auditing purposes by the respective regulation.</t>
-<t>The RP requests this claim like any other claim via the claims parameter or as part of a default claim set identified by a scope value.</t>
+<t>The RP requests this claim like any other claim via the <spanx style="verb">claims</spanx> parameter or as part of a default claim set identified by a scope value.</t>
+<t>The <spanx style="verb">txn</spanx> value MUST allow an RP to obtain these transaction details if needed.</t>
+<t>Note: the mechanism to obtain the transaction details from the OP and their format is out of scope of this specification.</t>
 </section>
 </section>
 
 <section anchor="verified-data-representation" title="Verified Data Representation">
-<t>This extension to OpenID Connect wants to ensure that RPs cannot mixup verified and unverified claims and incidentally process unverified claims as verified claims.</t>
-<t>The representation proposed therefore provides the RP with the verified claims within a structured claim <spanx style="verb">verified_person_data</spanx>. This structured claim is composed of the verification evidences related to a certain verification process and the corresponding user claims which were verified in this process.</t>
-<t>This section explains the structure and meaning of the claim in detail, the syntax is also given as JSON schema in section <eref target="#json_schema">JSON Schema</eref>.</t>
+<t>This extension to OpenID Connect wants to ensure that RPs cannot mix up verified and unverified claims and incidentally process unverified claims as verified claims.</t>
+<t>The representation proposed therefore provides the RP with the verified claims within a structured claim <spanx style="verb">verified_person_data</spanx>. This structured claim is composed of the verification evidence related to a certain verification process and the corresponding Claims about the End-User which were verified in this process.</t>
+<t>This section explains the structure and meaning of the claim in detail. A machine-readable syntax definition is given as JSON schema in <xref target="json_schema"></xref>. It can be used to automatically validate JSON documents containing the <spanx style="verb">verified_person_data</spanx> claim.</t>
 <t>The <spanx style="verb">verified_person_data</spanx> claim consists of the following sub-elements:</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">verification</spanx>: REQUIRED. Object that contains all data about the verification process.</t>
-<t><spanx style="verb">claims</spanx>: REQUIRED. Object that is the container for the verified user claims.</t>
+<t><spanx style="verb">claims</spanx>: REQUIRED. Object that is the container for the verified Claims about the End-User.</t>
 </list>
 </t>
+<t>Note: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification.</t>
 
 <section anchor="verification" title="verification Element">
 <t>This element contains the information about the process conducted to verify a person's identity and bind the respective person data to a user account.</t>
 <t>The <spanx style="verb">verification</spanx> element consists of the following elements:</t>
 <t><spanx style="verb">trust_framework</spanx>: REQUIRED. String determing the trust framework governing the identity verification process and the identity assurance level of the OP.</t>
-<t>An example value is <spanx style="verb">eidas_ial_high</spanx>, which denotes a notified eID system under eIDAS providing identity assurance at level of assurance &quot;High&quot;.</t>
-<t>An initial list of standardized values is defined in <eref target="#predefined_values_tf">Trust Frameworks</eref>. Additional trust framework identifiers can be introduced [how?]. RPs SHOULD ignore <spanx style="verb">verified_person_data</spanx> claims containing a trust framework id they don't know.</t>
-<t>The <spanx style="verb">trust_framework</spanx> value determines what further data is provided to the RP in the <spanx style="verb">verification</spanx> element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidences in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (<spanx style="verb">de_aml</spanx>).</t>
-<t><spanx style="verb">date</spanx>: Time stamp in ISO 8601:2004 YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks.</t>
-<t><spanx style="verb">id</spanx>: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Note: In contrast to this field, the claim <spanx style="verb">transaction_id</spanx> refers to the transaction leading the OP to attest the user's verified identity data towards a RP. Presence of this element might be required for certain trust frameworks.</t>
-<t><spanx style="verb">evidences</spanx> is a JSON array containing the evidences the IDP used to verifiy the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> determining it's respective type. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
+<t>An example value is <spanx style="verb">eidas_ial_high</spanx>, which denotes a notified eID system under eIDAS <xref target="eIDAS"></xref> providing identity assurance at level of assurance &quot;High&quot;.</t>
+<t>An initial list of standardized values is defined in <eref target="#predefined_values_tf">Trust Frameworks</eref>. Additional trust framework identifiers can be introduced [how?]. RPs SHOULD ignore <spanx style="verb">verified_person_data</spanx> claims containing a trust framework id they don't understand.</t>
+<t>The <spanx style="verb">trust_framework</spanx> value determines what further data is provided to the RP in the <spanx style="verb">verification</spanx> element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidence in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (<spanx style="verb">de_aml</spanx>).</t>
+<t><spanx style="verb">date</spanx>: Time stamp in ISO 8601:2004 <xref target="ISO8601-2004"></xref> YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks.</t>
+<t><spanx style="verb">verification_process</spanx>: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks.</t>
+<t>Note: While <spanx style="verb">id</spanx> referes to the identity verification process at the OP, the <spanx style="verb">txn</spanx> claim refers to a particular OpenID Connect transaction in which the OP to attested the user's verified identity data towards a RP.</t>
+<t><spanx style="verb">evidence</spanx> is a JSON array containing the evidence the IDP used to verifiy the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> determining it's respective type. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
+<t>Note: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification.</t>
 
-<section anchor="evidences" title="Evidences">
-<t>The following types of evidences are defined:</t>
+<section anchor="evidence" title="Evidence">
+<t>The following types of evidence are defined:</t>
 <t>
 <list style="symbols">
 <t>&quot;id_document&quot;: verification based on any kind of government issued identity document</t>
@@ -155,8 +154,8 @@ verified person data.</t>
 <t><spanx style="verb">name</spanx>: REQUIRED. Designation of the issuer of the identity document</t>
 <t><spanx style="verb">country</spanx>: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. &quot;DE&quot;.</t>
 </list></t>
-<t><spanx style="verb">date_of_issuance</spanx>: CONDITIONALLY REQUIRED. The date the document was issued as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.</t>
-<t><spanx style="verb">date_of_expiry</spanx>: CONDITIONALLY REQUIRED. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format, if this attribute exists for the particular type of document.</t>
+<t><spanx style="verb">date_of_issuance</spanx>: REQUIRED if this attribute exists for the particular type of document. The date the document was issued as ISO 8601:2004 YYYY-MM-DD format.</t>
+<t><spanx style="verb">date_of_expiry</spanx>: REQUIRED if this attribute exists for the particular type of document. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format.</t>
 </list>
 </t>
 </section>
@@ -183,8 +182,8 @@ verified person data.</t>
 </section>
 
 <section anchor="claimselement" title="claims Element">
-<t>The <spanx style="verb">claims</spanx> element contains the user claims which were verified by the process and according to the policies determined by the corresponding <spanx style="verb">verification</spanx> element.</t>
-<t>The <spanx style="verb">claims</spanx> element MAY contain one or more of the following user claims as defined in Section 5.1 of the OpenID Connect specification <xref target="OpenID"></xref></t>
+<t>The <spanx style="verb">claims</spanx> element contains the claims about the End-User which were verified by the process and according to the policies determined by the corresponding <spanx style="verb">verification</spanx> element.</t>
+<t>The <spanx style="verb">claims</spanx> element MAY contain one or more of the following Claims as defined in Section 5.1 of the OpenID Connect specification <xref target="OpenID"></xref></t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">name</spanx></t>
@@ -195,24 +194,17 @@ verified person data.</t>
 <t><spanx style="verb">address</spanx></t>
 </list>
 </t>
-<t>or of the following claims as defined in Section <eref target="#userclaims">User Claims</eref>:</t>
-<t>
-<list style="symbols">
-<t><spanx style="verb">place_of_birth</spanx></t>
-<t><spanx style="verb">nationality</spanx></t>
-<t><spanx style="verb">birth_name</spanx></t>
-</list>
-</t>
+<t>or the claims defined in <xref target="userclaims"></xref>.</t>
 <t>The <spanx style="verb">claims</spanx> element MAY also contain other claims given the value of the respective claim was verified in the verification process represented by the sibling <spanx style="verb">verification</spanx> element.</t>
 </section>
 </section>
 
 <section anchor="requesting-verified-person-data" title="Requesting Verified Person Data">
 
-<section anchor="requesting-user-claims" title="Requesting User Claims">
-<t>Verified person data can be requested on the level of individual user claims by utilizing the <spanx style="verb">claims</spanx> parameter as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref>.</t>
-<t>Basically, the claim <spanx style="verb">verified_person_data</spanx> is added to the section <spanx style="verb">userinfo</spanx> or <spanx style="verb">id_token</spanx> of the <spanx style="verb">claims</spanx> parameter.</t>
-<t>Since <spanx style="verb">verified_person_data</spanx> contains the effective user claims in a nested <spanx style="verb">claims</spanx> element, the syntax is extended to include expressions on nested elements as follows. The <spanx style="verb">verified_person_data</spanx> element includes a <spanx style="verb">claims</spanx> element, which in turn includes the desired user claims as keys with a <spanx style="verb">null</spanx> value. An example is shown in the following:</t>
+<section anchor="requesting-verified-claims" title="Requesting Verified Claims">
+<t>Verified person data can be requested on the level of individual Claims about the End-User by utilizing the <spanx style="verb">claims</spanx> parameter as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref>.</t>
+<t>The claim <spanx style="verb">verified_person_data</spanx> is added to the <spanx style="verb">userinfo</spanx> or <spanx style="verb">id_token</spanx> element of the <spanx style="verb">claims</spanx> parameter.</t>
+<t>Since <spanx style="verb">verified_person_data</spanx> contains the effective Claims about the End-User in a nested <spanx style="verb">claims</spanx> element, the syntax is extended to include expressions on nested elements as follows. The <spanx style="verb">verified_person_data</spanx> element includes a <spanx style="verb">claims</spanx> element, which in turn includes the desired Claims as keys with a <spanx style="verb">null</spanx> value. An example is shown in the following:</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
@@ -227,7 +219,7 @@ verified person data.</t>
 }
 </artwork></figure>
 
-<t>Use of the <spanx style="verb">claims</spanx> parameter allows the RP to exactly select the user claims needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.</t>
+<t>Use of the <spanx style="verb">claims</spanx> parameter allows the RP to exactly select the Claims about the End-User needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.</t>
 <t>RPs MAY indicate that a certain claim is essential to the sucessful completion of the user journey by utilizing the <spanx style="verb">essential</spanx> field as defined in Section 5.5.1. of the OpenID Connect specification <xref target="OpenID"></xref>. The following example designates both given as well as family name as being essential.</t>
 
 <figure><artwork type="json">{  
@@ -255,7 +247,7 @@ verified person data.</t>
 </artwork></figure>
 
 <t>Note: The <spanx style="verb">claims</spanx> sub-element can be omitted, which is equivalent to a claims element whose value is <spanx style="verb">null</spanx>.</t>
-<t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim not fulfilling the requirements defined in Section <eref target="#claimselement">claims</eref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
+<t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim not fulfilling the requirements defined in <xref target="claimselement"></xref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
 </section>
 
 <section anchor="constraintedclaims" title="Defining constraints on requested data">
@@ -264,7 +256,7 @@ verified person data.</t>
 <t>Section 5.5.1 of the OpenID Connect specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).</t>
 <t>This specification re-uses that mechanism and introduces a new such member <spanx style="verb">max_age</spanx> (see below).</t>
-<t>To start with, the RP MAY limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidences/id_document/document/type</spanx>, and <spanx style="verb">identity_document/method</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
+<t>To start with, the RP MAY limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidence/id_document/document/type</spanx>, and <spanx style="verb">identity_document/method</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
 <t>The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.</t>
 
 <figure><artwork type="json">{  
@@ -304,7 +296,7 @@ meanings and allows for other special members to be defined (while stating that 
       &quot;verified_person_data&quot;:{  
          &quot;verification&quot;:{  
             &quot;date&quot;:{  
-               &quot;max_age&quot;:&quot;63113852&quot;
+               &quot;max_age&quot;:63113852
             }
          },
          &quot;claims&quot;:null
@@ -320,9 +312,9 @@ meanings and allows for other special members to be defined (while stating that 
 
 <section anchor="examples" title="Examples">
 <t>The following sections show examples of <spanx style="verb">verified_person_data</spanx> objects.</t>
-<t>The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidences for different verification methods along with the actual user claims.</t>
-<t>The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidences of the identity verification process to the RP.</t>
-<t>Subsequent sections contain examples for using the <spanx style="verb">verified_person_data</spanx> claim on different channels and in combination with other (unverified) user claims.</t>
+<t>The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidence for different verification methods along with the actual Claims about the End-User.</t>
+<t>The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP.</t>
+<t>Subsequent sections contain examples for using the <spanx style="verb">verified_person_data</spanx> claim on different channels and in combination with other (unverified) Claims.</t>
 
 <section anchor="id-document-1" title="id_document">
 
@@ -331,8 +323,8 @@ meanings and allows for other special members to be defined (while stating that 
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
-         &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
-         &quot;evidences&quot;:[  
+         &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
+         &quot;evidence&quot;:[  
             {  
                &quot;type&quot;:&quot;id_document&quot;,
                &quot;method&quot;:&quot;pipp&quot;,
@@ -378,8 +370,8 @@ meanings and allows for other special members to be defined (while stating that 
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
-         &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
-         &quot;evidences&quot;:[  
+         &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
+         &quot;evidence&quot;:[  
             {  
                &quot;type&quot;:&quot;id_document&quot;,
                &quot;method&quot;:&quot;pipp&quot;,
@@ -457,7 +449,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 </section>
 
-<section anchor="verified-person-data-in-user-info-response" title="Verified Person Data in User Info Response">
+<section anchor="verified-person-data-in-userinfo-response" title="Verified Person Data in UserInfo Response">
 
 <section anchor="request" title="Request">
 <t>In this example we assume the RP uses the scope parameter to request the email address and, additionally, the claims parameter, to request verified person data.</t>
@@ -479,8 +471,8 @@ meanings and allows for other special members to be defined (while stating that 
 
 </section>
 
-<section anchor="user-info-response" title="User Info Response">
-<t>The respective user info response would be</t>
+<section anchor="userinfo-response" title="UserInfo Response">
+<t>The respective UserInfo response would be</t>
 
 <figure><artwork type="http">HTTP/1.1 200 OK
 Content-Type: application/json
@@ -494,8 +486,8 @@ Content-Type: application/json
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
-         &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
-         &quot;evidences&quot;:[  
+         &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
+         &quot;evidence&quot;:[  
             {  
                &quot;type&quot;:&quot;id_document&quot;,
                &quot;method&quot;:&quot;pipp&quot;,
@@ -527,7 +519,7 @@ Content-Type: application/json
 <section anchor="verified-person-data-in-id-tokens" title="Verified Person Data in ID Tokens">
 
 <section anchor="request-1" title="Request">
-<t>In this case, the RP requests verfied person data along with other user claims in the claims parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type <spanx style="verb">code</spanx>).</t>
+<t>In this case, the RP requests verfied person data along with other Claims about the End-User in the claims parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type <spanx style="verb">code</spanx>).</t>
 <t>The <spanx style="verb">claims</spanx> parameter value is</t>
 
 <figure><artwork type="json">{  
@@ -567,8 +559,8 @@ Content-Type: application/json
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
          &quot;date&quot;:&quot;2013-02-21&quot;,
-         &quot;id&quot;:&quot;676q3636461467647q8498785747q487&quot;,
-         &quot;evidences&quot;:[  
+         &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
+         &quot;evidence&quot;:[  
             {  
                &quot;type&quot;:&quot;id_document&quot;,
                &quot;method&quot;:&quot;pipp&quot;,
@@ -654,9 +646,9 @@ Content-Type: application/json
 <t>The OP advertises its capabilities with respect to verified person data in its openid-configuration (see <xref target="OpenID-Discovery"></xref>) using the following new elements:</t>
 <t><spanx style="verb">verified_person_data_supported</spanx>: Boolean value indicating support for the <spanx style="verb">verified_person_data</spanx>, i.e. the OpenID Connect for Identity Assurance extension.</t>
 <t><spanx style="verb">trust_frameworks_supported</spanx> This is a JSON array containing all supported trust frameworks.</t>
-<t><spanx style="verb">evidences_supported</spanx> This JSON array contains all types of identity evidences the OP uses.</t>
+<t><spanx style="verb">evidence_supported</spanx> This JSON array contains all types of identity evidence the OP uses.</t>
 <t><spanx style="verb">id_documents_supported</spanx> This JSON array contains all identity documents utilized by the OP for identity verification.</t>
-<t><spanx style="verb">id_documents_verification_methods_supported</spanx> This element is a JSON array containing the id document verification methods a OP supports as defined in Section <eref target="#verification">verification</eref>.</t>
+<t><spanx style="verb">id_documents_verification_methods_supported</spanx> This element is a JSON array containing the id document verification methods a OP supports as defined in <xref target="verification"></xref>.</t>
 <t><spanx style="verb">verified_person_data_supported</spanx> This JSON array contains all claims supported within <spanx style="verb">verified_person_data</spanx>.</t>
 <t>This is an example openid-configuration snippet:</t>
 
@@ -667,7 +659,7 @@ Content-Type: application/json
      &quot;nist_800_63A_ial_2&quot;,
      &quot;nist_800_63A_ial_3&quot;
    ],
-   &quot;evidences_supported&quot;:[
+   &quot;evidence_supported&quot;:[
       &quot;id_document&quot;,
       &quot;utility_bill&quot;,
       &quot;qes&quot;
@@ -702,6 +694,7 @@ Content-Type: application/json
 to state the purpose for the transfer of user data it is asking for.</t>
 <t><spanx style="verb">purpose</spanx> OPTIONAL. String describing the purpose for obtaining certain user data from the OP. The purpose MUST NOT be shorter than 3 characters and MUST NOT be longer than 300 characters. If these rules are violated, the authentication request MUST fail and the OP returns an error <spanx style="verb">invalid_request</spanx> to the RP.</t>
 <t>The OP MUST display this purpose in the respective user consent screen(s) in order to inform the user about the designated use of the data to be transferred or the authorization to be approved.</t>
+<t>In order to ensure a consistent UX, the RP MAY send the <spanx style="verb">purpose</spanx> in a certain language and request the OP to use the same language using the <spanx style="verb">ui_locales</spanx> parameter.</t>
 <t>If the parameter <spanx style="verb">purpose</spanx> is not present in the request, the OP MAY utilize a description that was pre-configured for the respective RP.</t>
 <t>Note: In order to prevent injection attacks, the IDP MUST escape the text appropriately before it will be shown in a user interface. The IDP MUST expect special characters in the URL decoded purpose text provided by the RP. The IDP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g. cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
 </section>
@@ -784,214 +777,196 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <section anchor="json_schema" title="JSON Schema">
 <t>This section contains the JSON Schema of assertions containing the <spanx style="verb">verified_person_data</spanx> claim.</t>
 
-<figure><artwork type="JSON">{  
-   &quot;definitions&quot;:{  
-      &quot;qes&quot;:{  
-         &quot;type&quot;:&quot;object&quot;,
-         &quot;properties&quot;:{  
-            &quot;type&quot;:{  
-               &quot;type&quot;:&quot;string&quot;,
-               &quot;enum&quot;:[  
-                  &quot;qes&quot;
-               ]
-            },
-            &quot;issuer&quot;:{  
-               &quot;type&quot;:&quot;string&quot;
-            },
-            &quot;issued_at&quot;:{  
-               &quot;type&quot;:&quot;string&quot;,
-               &quot;format&quot;:&quot;date&quot;
-            },
-            &quot;serial_number&quot;:{  
-               &quot;type&quot;:&quot;string&quot;
-            }
-         },
-         &quot;required&quot;:[  
-            &quot;type&quot;,
-            &quot;issuer&quot;,
-            &quot;serial_number&quot;,
-            &quot;issued_at&quot;
-         ]
+<figure><artwork type="JSON">{
+  &quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
+  &quot;definitions&quot;:{
+    &quot;qes&quot;:{
+      &quot;type&quot;:&quot;object&quot;,
+      &quot;properties&quot;:{
+        &quot;type&quot;:{
+          &quot;type&quot;:&quot;string&quot;,
+          &quot;enum&quot;:[
+            &quot;qes&quot;
+          ]
+        },
+        &quot;issuer&quot;:{
+          &quot;type&quot;:&quot;string&quot;
+        },
+        &quot;issued_at&quot;:{
+          &quot;type&quot;:&quot;string&quot;,
+          &quot;format&quot;:&quot;date&quot;
+        },
+        &quot;serial_number&quot;:{
+          &quot;type&quot;:&quot;string&quot;
+        }
       },
-      &quot;utility_bill&quot;:{  
-         &quot;type&quot;:&quot;object&quot;,
-         &quot;properties&quot;:{  
-            &quot;type&quot;:{  
-               &quot;type&quot;:&quot;string&quot;,
-               &quot;enum&quot;:[  
-                  &quot;utility_bill&quot;
-               ]
+      &quot;required&quot;: [&quot;type&quot;,&quot;issuer&quot;,&quot;serial_number&quot;,&quot;issued_at&quot;]
+    },
+    &quot;utility_bill&quot;:{
+      &quot;type&quot;:&quot;object&quot;,
+      &quot;properties&quot;:{
+        &quot;type&quot;:{
+          &quot;type&quot;:&quot;string&quot;,
+          &quot;enum&quot;:[
+            &quot;utility_bill&quot;
+          ]
+        },
+        &quot;provider&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;properties&quot;:{
+            &quot;name&quot;:{
+              &quot;type&quot;:&quot;string&quot;
             },
-            &quot;provider&quot;:{  
-               &quot;type&quot;:&quot;object&quot;,
-               &quot;properties&quot;:{  
-                  &quot;name&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  },
-                  &quot;country&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  },
-                  &quot;region&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  },
-                  &quot;street_address&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  }
-               }
+            &quot;country&quot;:{
+              &quot;type&quot;:&quot;string&quot;
             },
-            &quot;date&quot;:{  
-               &quot;type&quot;:&quot;string&quot;
+            &quot;region&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;street_address&quot;:{
+              &quot;type&quot;:&quot;string&quot;
             }
-         },
-         &quot;required&quot;:[  
-            &quot;type&quot;,
-            &quot;provider&quot;,
-            &quot;date&quot;
-         ]
+          }
+        },
+        &quot;date&quot;:{
+          &quot;type&quot;:&quot;string&quot;
+        }
       },
-      &quot;id_document&quot;:{  
-         &quot;type&quot;:&quot;object&quot;,
-         &quot;properties&quot;:{  
-            &quot;type&quot;:{  
-               &quot;type&quot;:&quot;string&quot;,
-               &quot;enum&quot;:[  
-                  &quot;id_document&quot;
-               ]
-            },
-            &quot;method&quot;:{  
-               &quot;type&quot;:&quot;string&quot;,
-               &quot;enum&quot;:[  
-                  &quot;pipp&quot;,
-                  &quot;sripp&quot;,
-                  &quot;eid&quot;
-               ]
-            },
-            &quot;verifier&quot;:{  
-               &quot;type&quot;:&quot;object&quot;,
-               &quot;properties&quot;:{  
-                  &quot;organization&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  },
-                  &quot;agent&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  }
-               }
-            },
-            &quot;document&quot;:{  
-               &quot;type&quot;:&quot;object&quot;,
-               &quot;properties&quot;:{  
-                  &quot;type&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;,
-                     &quot;enum&quot;:[  
-                        &quot;idcard&quot;,
-                        &quot;passport&quot;,
-                        &quot;driving_permit&quot;,
-                        &quot;de_idcard_foreigners&quot;,
-                        &quot;de_emergency_idcard&quot;,
-                        &quot;de_erp&quot;,
-                        &quot;de_erp_replacement_idcard&quot;,
-                        &quot;de_idcard_refugees&quot;,
-                        &quot;de_idcard_apatrids&quot;,
-                        &quot;de_certificate_of_suspension_of_deportation&quot;,
-                        &quot;de_permission_to_reside&quot;,
-                        &quot;de_replacement_idcard&quot;
-                     ]
-                  },
-                  &quot;number&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  },
-                  &quot;issuer&quot;:{  
-                     &quot;type&quot;:&quot;object&quot;,
-                     &quot;properties&quot;:{  
-                        &quot;name&quot;:{  
-                           &quot;type&quot;:&quot;string&quot;
-                        },
-                        &quot;country&quot;:{  
-                           &quot;type&quot;:&quot;string&quot;
-                        }
-                     }
-                  },
-                  &quot;date_of_issuance&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;,
-                     &quot;format&quot;:&quot;date&quot;
-                  },
-                  &quot;date_of_expiry&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;,
-                     &quot;format&quot;:&quot;date&quot;
-                  }
-               }
-            }
-         },
-         &quot;required&quot;:[  
-            &quot;type&quot;,
-            &quot;method&quot;,
+      &quot;required&quot;: [&quot;type&quot;,&quot;provider&quot;,&quot;date&quot;]
+    },
+    &quot;id_document&quot;:{
+      &quot;type&quot;:&quot;object&quot;,
+      &quot;properties&quot;:{
+        &quot;type&quot;:{
+          &quot;type&quot;:&quot;string&quot;,
+          &quot;enum&quot;:[
             &quot;id_document&quot;
-         ]
-      }
-   },
-   &quot;type&quot;:&quot;object&quot;,
-   &quot;properties&quot;:{  
-      &quot;verified_person_data&quot;:{  
-         &quot;type&quot;:&quot;object&quot;,
-         &quot;properties&quot;:{  
-            &quot;verification&quot;:{  
-               &quot;type&quot;:&quot;object&quot;,
-               &quot;properties&quot;:{  
-                  &quot;trust_framework&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;,
-                     &quot;enum&quot;:[  
-                        &quot;de_aml&quot;,
-                        &quot;eidas_ial_substantial&quot;,
-                        &quot;eidas_ial_hig&quot;,
-                        &quot;nist_800_63A_ial_2&quot;,
-                        &quot;nist_800_63A_ial_3&quot;
-                     ]
-                  },
-                  &quot;date&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;,
-                     &quot;format&quot;:&quot;date&quot;
-                  },
-                  &quot;id&quot;:{  
-                     &quot;type&quot;:&quot;string&quot;
-                  },
-                  &quot;evidences&quot;:{  
-                     &quot;type&quot;:&quot;array&quot;,
-                     &quot;minItems&quot;:1,
-                     &quot;items&quot;:{  
-                        &quot;oneOf&quot;:[  
-                           {  
-                              &quot;$ref&quot;:&quot;#/definitions/id_document&quot;
-                           },
-                           {  
-                              &quot;$ref&quot;:&quot;#/definitions/utility_bill&quot;
-                           },
-                           {  
-                              &quot;$ref&quot;:&quot;#/definitions/qes&quot;
-                           }
-                        ]
-                     }
-                  }
-               },
-               &quot;required&quot;:[  
-                  &quot;trust_framework&quot;
-               ],
-               &quot;additionalProperties&quot;:false
+          ]
+        },
+        &quot;method&quot;:{
+          &quot;type&quot;:&quot;string&quot;,
+          &quot;enum&quot;:[&quot;pipp&quot;,&quot;sripp&quot;,&quot;eid&quot;]
+        },
+        &quot;verifier&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;properties&quot;:{
+            &quot;organization&quot;:{
+              &quot;type&quot;:&quot;string&quot;
             },
-            &quot;claims&quot;:{  
-               &quot;type&quot;:&quot;object&quot;,
-               &quot;minProperties&quot;:1
+            &quot;agent&quot;:{
+              &quot;type&quot;:&quot;string&quot;
             }
-         },
-         &quot;required&quot;:[  
-            &quot;verification&quot;,
-            &quot;claims&quot;
-         ],
-         &quot;additionalProperties&quot;:false
-      }
-   },
-   &quot;required&quot;:[  
-      &quot;verified_person_data&quot;
-   ]
+          }
+        },
+        &quot;document&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;properties&quot;:{
+            &quot;type&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;enum&quot;:[
+                &quot;idcard&quot;,
+                &quot;passport&quot;,
+                &quot;driving_permit&quot;,
+                &quot;de_idcard_foreigners&quot;,
+                &quot;de_emergency_idcard&quot;,
+                &quot;de_erp&quot;,
+                &quot;de_erp_replacement_idcard&quot;,
+                &quot;de_idcard_refugees&quot;,
+                &quot;de_idcard_apatrids&quot;,
+                &quot;de_certificate_of_suspension_of_deportation&quot;,
+                &quot;de_permission_to_reside&quot;,
+                &quot;de_replacement_idcard&quot;
+              ]
+            },
+            &quot;number&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;issuer&quot;:{
+              &quot;type&quot;:&quot;object&quot;,
+              &quot;properties&quot;:{
+                &quot;name&quot;:{
+                  &quot;type&quot;:&quot;string&quot;
+                },
+                &quot;country&quot;:{
+                  &quot;type&quot;:&quot;string&quot;
+                }
+              }
+            },
+            &quot;date_of_issuance&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;format&quot;:&quot;date&quot;
+            },
+            &quot;date_of_expiry&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;format&quot;:&quot;date&quot;
+            }
+          }
+        }
+      },
+      &quot;required&quot;:[
+        &quot;type&quot;,
+        &quot;method&quot;,
+        &quot;document&quot;
+      ]
+    }
+  },
+  &quot;type&quot;:&quot;object&quot;,
+  &quot;properties&quot;:{
+    &quot;verified_person_data&quot;:{
+      &quot;type&quot;:&quot;object&quot;,
+      &quot;properties&quot;:{
+        &quot;verification&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;properties&quot;:{
+            &quot;trust_framework&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;enum&quot;:[
+                &quot;de_aml&quot;,
+                &quot;eidas_ial_substantial&quot;,
+                &quot;eidas_ial_hig&quot;,
+                &quot;nist_800_63A_ial_2&quot;,
+                &quot;nist_800_63A_ial_3&quot;
+              ]
+            },
+            &quot;date&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;format&quot;:&quot;date&quot;
+            },
+            &quot;verification_process&quot;:{
+              &quot;type&quot;:&quot;string&quot;
+            },
+            &quot;evidence&quot;:{
+              &quot;type&quot;:&quot;array&quot;,
+              &quot;minItems&quot;: 1,
+              &quot;items&quot;:{
+                &quot;oneOf&quot;:[
+                  {
+                    &quot;$ref&quot;:&quot;#/definitions/id_document&quot;
+                  },
+                  {
+                    &quot;$ref&quot;:&quot;#/definitions/utility_bill&quot;
+                  },
+                  {
+                    &quot;$ref&quot;:&quot;#/definitions/qes&quot;
+                  }
+                ]
+              }
+            }
+          },
+          &quot;required&quot;:[&quot;trust_framework&quot;],
+          &quot;additionalProperties&quot;: false
+        },
+        &quot;claims&quot;:{
+          &quot;type&quot;:&quot;object&quot;,
+          &quot;minProperties&quot;: 1
+        }
+      },
+      &quot;required&quot;:[&quot;verification&quot;,&quot;claims&quot;],
+      &quot;additionalProperties&quot;: false
+    },
+    &quot;txn&quot;: {&quot;type&quot;: &quot;string&quot;}
+  },
+  &quot;required&quot;:[&quot;verified_person_data&quot;]
 }
 </artwork></figure>
 
@@ -1001,6 +976,52 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
+<reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
+  <front>
+    <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -&#xA;&#x9;  Representation of dates and times</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2004"></date>
+  </front>
+</reference>
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+  <front>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization>NRI</organization>
+    </author>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
+    </author>
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization>Google</organization>
+    </author>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
+    </author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
+<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
+  <front>
+    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
+<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
+  <front>
+    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
     <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
@@ -1022,26 +1043,9 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
-  <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
-    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-      <organization>NRI</organization>
-    </author>
-    <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
-    </author>
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization>Google</organization>
-    </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
-    </author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
 </references>
 <references title="Informative References">
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 <reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
   <front>
     <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
@@ -1079,7 +1083,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
   </front>
 </reference>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 <reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
   <front>
     <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
@@ -1110,7 +1113,16 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <t>incorporated review feedback by Mike Jones</t>
 <t>Added OIDF Copyright Notices</t>
 <t>Moved Acknowledgements to Appendix A</t>
-<t>Removed RFC 2119 keywords from scope &amp; requirements section and re-wrote whole section</t>
+<t>Removed RFC 2119 keywords from scope &amp; requirements section and rephrased section</t>
+<t>rephrased introduction</t>
+<t>replaced <spanx style="verb">birth_name</spanx> with <spanx style="verb">birth_family_name</spanx>, <spanx style="verb">birth_given_name</spanx>, and <spanx style="verb">birth_middle_name</spanx></t>
+<t>replaced <spanx style="verb">transaction_id</spanx> with <spanx style="verb">txn</spanx> from RFC 8417</t>
+<t>added references to eIDAS, ISO 3166-1, ISO 3166-3, and ISO 8601-2004</t>
+<t>added note on <spanx style="verb">purpose</spanx> and locales</t>
+<t>changed file name and document title to include 1.0 version id</t>
+<t>corrected evidence plural</t>
+<t>lots of editorial fixes</t>
+<t>Alignment with OpenID Connect Core wording</t>
 </list>
 </t>
 <t>-04</t>
@@ -1122,7 +1134,7 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <t>-03</t>
 <t>
 <list style="symbols">
-<t>enhanced draft to support multiple evidences</t>
+<t>enhanced draft to support multiple evidence</t>
 <t>added a JSON Schema for assertions containing the <spanx style="verb">verified_person_data</spanx> Claim</t>
 <t>added more identity document definitions</t>
 <t>added <spanx style="verb">region</spanx> field to <spanx style="verb">place_of_birth</spanx> Claim</t>
@@ -1146,7 +1158,7 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <list style="symbols">
 <t>fixed some typos</t>
 <t>remove organization element (redundant) (issue 1080)</t>
-<t>allow other user claims in the <spanx style="verb">claims</spanx> sub element (issue 1079)</t>
+<t>allow other Claims about the End-User in the <spanx style="verb">claims</spanx> sub element (issue 1079)</t>
 <t>changed <spanx style="verb">legal_context</spanx> to <spanx style="verb">trust_framework</spanx></t>
 <t>added explanation how the content of the verification element is determined by the trust framework</t>
 <t>added URI-based identifiers for <spanx style="verb">trust_framework</spanx>, <spanx style="verb">identity_document</spanx> and (verification) <spanx style="verb">method</spanx></t>
@@ -1164,7 +1176,7 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <t>turned the proposal into a WG document</t>
 <t>changed name</t>
 <t>added terminology section and reworked introduction</t>
-<t>added several examples (ID Token vs User Info, unverified &amp; verified claims, aggregated &amp; distributed claims)</t>
+<t>added several examples (ID Token vs UserInfo, unverified &amp; verified claims, aggregated &amp; distributed claims)</t>
 <t>incorporated text proposal of Marcos Sanz regarding max_age</t>
 <t>added IANA registration for new error code <spanx style="verb">unable_to_meet_requirement</spanx></t>
 </list>
