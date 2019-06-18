@@ -47,7 +47,7 @@ This section defines identity document identifiers for use with this specificati
 * Definition: ID Card issued by the German government to refugees as passports replacement
 
 * Identifier: `de_idcard_apatrids`
-* Defintion: ID Card issued by the German government to apatrids as passports replacement
+* Definition: ID Card issued by the German government to apatrids as passports replacement
 
 * Identifier: `de_certificate_of_suspension_of_deportation`
 * Definition: identity document issued to refugees in case of suspension of deportation that are marked as "id card replacement"
@@ -56,7 +56,7 @@ This section defines identity document identifiers for use with this specificati
 * Definition: permission to reside issued by the German governed to foreign nationals appliying for asylum
 
 * Identifier: `de_replacement_idcard`
-* Defintion: ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)
+* Definition: ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)
 
 
 ## Verification Methods {#predefined_values_vm}
