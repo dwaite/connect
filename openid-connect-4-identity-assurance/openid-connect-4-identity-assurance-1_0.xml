@@ -121,7 +121,7 @@ verified person data.</t>
 <t><spanx style="verb">date</spanx>: Time stamp in ISO 8601:2004 <xref target="ISO8601-2004"></xref> YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks.</t>
 <t><spanx style="verb">verification_process</spanx>: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks.</t>
 <t>Note: While <spanx style="verb">id</spanx> referes to the identity verification process at the OP, the <spanx style="verb">txn</spanx> claim refers to a particular OpenID Connect transaction in which the OP to attested the user's verified identity data towards a RP.</t>
-<t><spanx style="verb">evidence</spanx> is a JSON array containing the evidence the IDP used to verifiy the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> determining it's respective type. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
+<t><spanx style="verb">evidence</spanx> is a JSON array containing the evidence the OP used to verifiy the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> determining it's respective type. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
 <t>Note: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification.</t>
 
 <section anchor="evidence" title="Evidence">
@@ -136,8 +136,8 @@ verified person data.</t>
 
 <section anchor="id-document" title="id_document">
 <t>The following elements are contained in an <spanx style="verb">id_document</spanx> evidence sub-element.</t>
-<t><spanx style="verb">method</spanx>: REQUIRED. The method used to verify the id document, predefined values are given in  <eref target="#predefined_values_vm">Verification Methods</eref></t>
-<t><spanx style="verb">verifier</spanx>: OPTIONAL. A JSON object denoting the legal entity that performed the identity verification on behalf of the OP. This object SHOULD only be included if the IDP did not perform the identity verification itself. This object consists of the following properties:</t>
+<t><spanx style="verb">method</spanx>: REQUIRED. The method used to verify the id document. Predefined values are given in  <eref target="#predefined_values_vm">Verification Methods</eref></t>
+<t><spanx style="verb">verifier</spanx>: OPTIONAL. A JSON object denoting the legal entity that performed the identity verification on behalf of the OP. This object SHOULD only be included if the OP did not perform the identity verification itself. This object consists of the following properties:</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">organization</spanx>: String denoting the organization which performed the verification on behalf of the OP.</t>
@@ -147,7 +147,7 @@ verified person data.</t>
 <t><spanx style="verb">document</spanx>: A JSON object representing the id document used to perform the id verification. It consists of the following properties:</t>
 <t>
 <list style="symbols">
-<t><spanx style="verb">type</spanx>: REQUIRED. String denoting the type of the id document, standardized values are defined in <eref target="#predefined_values_idd">Identity Documents</eref>. The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.</t>
+<t><spanx style="verb">type</spanx>: REQUIRED. String denoting the type of the id document. Standardized values are defined in <eref target="#predefined_values_idd">Identity Documents</eref>. The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.</t>
 <t><spanx style="verb">number</spanx>: String representing the number of the identity document.</t>
 <t><spanx style="verb">issuer</spanx>: A JSON object containg information about the government agency that issued this identity document. This object consists of the following properties:
 <list style="symbols">
@@ -199,9 +199,9 @@ verified person data.</t>
 </section>
 </section>
 
-<section anchor="requesting-verified-person-data" title="Requesting Verified Person Data">
-
 <section anchor="requesting-verified-claims" title="Requesting Verified Claims">
+
+<section anchor="requesting-verified-claims-about-the-end-user" title="Requesting Verified Claims about the End-User">
 <t>Verified person data can be requested on the level of individual Claims about the End-User by utilizing the <spanx style="verb">claims</spanx> parameter as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref>.</t>
 <t>The claim <spanx style="verb">verified_person_data</spanx> is added to the <spanx style="verb">userinfo</spanx> or <spanx style="verb">id_token</spanx> element of the <spanx style="verb">claims</spanx> parameter.</t>
 <t>Since <spanx style="verb">verified_person_data</spanx> contains the effective Claims about the End-User in a nested <spanx style="verb">claims</spanx> element, the syntax is extended to include expressions on nested elements as follows. The <spanx style="verb">verified_person_data</spanx> element includes a <spanx style="verb">claims</spanx> element, which in turn includes the desired Claims as keys with a <spanx style="verb">null</spanx> value. An example is shown in the following:</t>
@@ -250,7 +250,7 @@ verified person data.</t>
 <t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim not fulfilling the requirements defined in <xref target="claimselement"></xref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
 </section>
 
-<section anchor="constraintedclaims" title="Defining constraints on requested data">
+<section anchor="constraintedclaims" title="Defining constraints on requested Claims">
 <t>The RP MAY express requirements regarding the elements in the <spanx style="verb">verification</spanx> sub-element.</t>
 <t>This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref> due to the nested nature of the <spanx style="verb">verified_person_data</spanx> claim.</t>
 <t>Section 5.5.1 of the OpenID Connect specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
@@ -288,7 +288,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 <t>The RP MAY also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the <spanx style="verb">verification</spanx> element has taken place.</t>
 <t>This specification therefore defines a new member <spanx style="verb">max_age</spanx>.</t>
-<t><spanx style="verb">max_age</spanx>: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
+<t><spanx style="verb">max_age</spanx>: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The OP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
 <t>The following is an example:</t>
 
 <figure><artwork type="json">{  
@@ -313,7 +313,7 @@ meanings and allows for other special members to be defined (while stating that 
 <section anchor="examples" title="Examples">
 <t>The following sections show examples of <spanx style="verb">verified_person_data</spanx> objects.</t>
 <t>The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidence for different verification methods along with the actual Claims about the End-User.</t>
-<t>The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP.</t>
+<t>The third section illustrates how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP.</t>
 <t>Subsequent sections contain examples for using the <spanx style="verb">verified_person_data</spanx> claim on different channels and in combination with other (unverified) Claims.</t>
 
 <section anchor="id-document-1" title="id_document">
@@ -606,10 +606,10 @@ Content-Type: application/json
    &quot;_claim_sources&quot;:{  
       &quot;src1&quot;:{  
       &quot;JWT&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
-GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJh
-bWV3b3JrIjoiZWlkYXNfaWFsX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4Iiw
-iZmFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.aRrgmBWQTJPqMgmkg
-WGyqNu1QlDjtQ8YuXoHjUzJbq4&quot;
+      Ghlcm9wLmNvbSIsInZlcmlmaWVkX3BlcnNvbl9kYXRhIjp7InZlcmlmaWNhdGlvbiI6eyJ0cnVzdF
+      9mcmFtZXdvcmsiOiJlaWRhc19pYWxfc3Vic3RhbnRpYWwifSwiY2xhaW1zIjp7ImdpdmVuX25hbWU
+      iOiJNYXgiLCJmYW1pbHlfbmFtZSI6Ik1laWVyIiwiYmlydGhkYXRlIjoiMTk1Ni0wMS0yOCJ9fX0.
+      6xBFL69A7LFPf_ISb6ZOHrDN3CTjqYmlSaBn-xATy8k&quot;
       }
    }
 }
@@ -632,7 +632,7 @@ Content-Type: application/json
    },
    &quot;_claim_sources&quot;:{  
       &quot;src1&quot;:{  
-         &quot;endpoint&quot;:&quot;https://server.yetanotheridp.com/claim_source&quot;,
+         &quot;endpoint&quot;:&quot;https://server.yetanotherop.com/claim_source&quot;,
          &quot;access_token&quot;:&quot;ksj3n283dkeafb76cdef&quot;
       }
    }
@@ -696,7 +696,7 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <t>The OP MUST display this purpose in the respective user consent screen(s) in order to inform the user about the designated use of the data to be transferred or the authorization to be approved.</t>
 <t>In order to ensure a consistent UX, the RP MAY send the <spanx style="verb">purpose</spanx> in a certain language and request the OP to use the same language using the <spanx style="verb">ui_locales</spanx> parameter.</t>
 <t>If the parameter <spanx style="verb">purpose</spanx> is not present in the request, the OP MAY utilize a description that was pre-configured for the respective RP.</t>
-<t>Note: In order to prevent injection attacks, the IDP MUST escape the text appropriately before it will be shown in a user interface. The IDP MUST expect special characters in the URL decoded purpose text provided by the RP. The IDP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g. cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
+<t>Note: In order to prevent injection attacks, the OP MUST escape the text appropriately before it will be shown in a user interface. The OP MUST expect special characters in the URL decoded purpose text provided by the RP. The OP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g. cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
 </section>
 
 <section anchor="Privacy" title="Privacy Consideration">
@@ -748,13 +748,13 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <t>Identifier: <spanx style="verb">de_idcard_refugees</spanx></t>
 <t>Definition: ID Card issued by the German government to refugees as passports replacement</t>
 <t>Identifier: <spanx style="verb">de_idcard_apatrids</spanx></t>
-<t>Defintion: ID Card issued by the German government to apatrids as passports replacement</t>
+<t>Definition: ID Card issued by the German government to apatrids as passports replacement</t>
 <t>Identifier: <spanx style="verb">de_certificate_of_suspension_of_deportation</spanx></t>
 <t>Definition: identity document issued to refugees in case of suspension of deportation that are marked as &quot;id card replacement&quot;</t>
 <t>Identifier: <spanx style="verb">de_permission_to_reside</spanx></t>
 <t>Definition: permission to reside issued by the German governed to foreign nationals appliying for asylum</t>
 <t>Identifier: <spanx style="verb">de_replacement_idcard</spanx></t>
-<t>Defintion: ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)</t>
+<t>Definition: ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)</t>
 </list>
 </t>
 </section>
@@ -976,16 +976,16 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
-<reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
+<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
   <front>
-    <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -&#xA;&#x9;  Representation of dates and times</title>
+    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
     <author fullname="International Organization for Standardization">
       <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
     </author>
-    <date year="2004"></date>
+    <date year="2013"></date>
   </front>
 </reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
 <reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
   <front>
     <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
@@ -1002,24 +1002,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
       <organization> Illumila </organization>
     </author>
     <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
-<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
-  <front>
-    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
-    </author>
-    <date year="2013"></date>
-  </front>
-</reference>
-<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
-  <front>
-    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
-    </author>
-    <date year="2013"></date>
   </front>
 </reference>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
@@ -1043,9 +1025,34 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
+<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
+  <front>
+    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
+<reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
+  <front>
+    <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -&#xA;&#x9;  Representation of dates and times</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2004"></date>
+  </front>
+</reference>
 </references>
 <references title="Informative References">
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
+<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
+  <front>
+    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
+    <author fullname="P. Cane" initials="P" surname="Cane"></author>
+    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
+    <date year="2008"></date>
+  </front>
+</reference>
 <reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
   <front>
     <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
@@ -1082,15 +1089,8 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2017" month="June"></date>
   </front>
 </reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
-<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
-  <front>
-    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
-    <author fullname="P. Cane" initials="P" surname="Cane"></author>
-    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
-    <date year="2008"></date>
-  </front>
-</reference>
 </references>
 
 <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1123,6 +1123,7 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <t>corrected evidence plural</t>
 <t>lots of editorial fixes</t>
 <t>Alignment with OpenID Connect Core wording</t>
+<t>Renamed <spanx style="verb">id</spanx> to <spanx style="verb">verification_process</spanx></t>
 </list>
 </t>
 <t>-04</t>

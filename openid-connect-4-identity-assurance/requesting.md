@@ -1,6 +1,6 @@
-# Requesting Verified Person Data
+# Requesting Verified Claims
 
-## Requesting Verified Claims
+## Requesting Verified Claims about the End-User
 
 Verified person data can be requested on the level of individual Claims about the End-User by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
 
@@ -56,7 +56,7 @@ Note: The `claims` sub-element can be omitted, which is equivalent to a claims e
 
 Note: If the `claims` sub-element is empty or contains a claim not fulfilling the requirements defined in (#claimselement), the OP will abort the transaction with an `invalid_request` error.
 
-## Defining constraints on requested data {#constraintedclaims}
+## Defining constraints on requested Claims {#constraintedclaims}
 
 The RP MAY express requirements regarding the elements in the `verification` sub-element.
 
@@ -103,7 +103,7 @@ The RP MAY also express a requirement regarding the age of the verification data
 
 This specification therefore defines a new member `max_age`.
 
-`max_age`: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The IDP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
+`max_age`: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The OP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.
 
 The following is an example:
 

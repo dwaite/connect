@@ -4,7 +4,7 @@ The following sections show examples of `verified_person_data` objects.
 
 The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidence for different verification methods along with the actual Claims about the End-User.
 
-The third section illustrate how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP. 
+The third section illustrates how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP. 
 
 Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (unverified) Claims.
 
@@ -298,10 +298,10 @@ Content-Type: application/json
    "_claim_sources":{  
       "src1":{  
       "JWT":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
-GhlcmlkcC5jb20iLCJ2ZXJpZmllZF9wZXJzb25fZGF0YSI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJh
-bWV3b3JrIjoiZWlkYXNfaWFsX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4Iiw
-iZmFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.aRrgmBWQTJPqMgmkg
-WGyqNu1QlDjtQ8YuXoHjUzJbq4"
+      Ghlcm9wLmNvbSIsInZlcmlmaWVkX3BlcnNvbl9kYXRhIjp7InZlcmlmaWNhdGlvbiI6eyJ0cnVzdF
+      9mcmFtZXdvcmsiOiJlaWRhc19pYWxfc3Vic3RhbnRpYWwifSwiY2xhaW1zIjp7ImdpdmVuX25hbWU
+      iOiJNYXgiLCJmYW1pbHlfbmFtZSI6Ik1laWVyIiwiYmlydGhkYXRlIjoiMTk1Ni0wMS0yOCJ9fX0.
+      6xBFL69A7LFPf_ISb6ZOHrDN3CTjqYmlSaBn-xATy8k"
       }
    }
 }
@@ -323,7 +323,7 @@ Content-Type: application/json
    },
    "_claim_sources":{  
       "src1":{  
-         "endpoint":"https://server.yetanotheridp.com/claim_source",
+         "endpoint":"https://server.yetanotherop.com/claim_source",
          "access_token":"ksj3n283dkeafb76cdef"
       }
    }
