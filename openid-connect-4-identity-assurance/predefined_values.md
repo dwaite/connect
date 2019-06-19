@@ -4,7 +4,7 @@
 This section defines trust framework identifiers for use with this specification.
 
 | Identifier | Definition|
-|------------|-----------|
+|:------------|:-----------|
 |`de_aml`    |The OP verifies and maintains user identities in conforms with the German Anti-Money Laundering Law.|
 |`eidas_ial_substantial`| The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the identitfication assurance level "Substantial".|
 |`eidas_ial_high`|The OP is able to attest user identities in accordance with the EU regulation No 910/2014 (eIDAS) at the identitfication assurance level "High".|
@@ -16,7 +16,7 @@ This section defines trust framework identifiers for use with this specification
 This section defines identity document identifiers for use with this specification.
 
 | Identifier | Definition|
-|------------|-----------|
+|:------------|:-----------|
 |`idcard`|An identity document issued by a country's government for the purpose of identifying a citizen.|
 |`passport`|A passport is a travel document, usually issued by a country's government, that certifies the identity and nationality of its holder primarily for the purpose of international travel.[@?OxfordPassport]|
 |`driving_permit`|Offical document permitting an individual to operate motorized vehicles. In the absence of a formal identity document, a driver's license may be accepted in many countries for identity verification.|
@@ -28,8 +28,7 @@ This section defines identity document identifiers for use with this specificati
 |`de_idcard_apatrids`|ID Card issued by the German government to apatrids as passports replacement|
 |`de_certificate_of_suspension_of_deportation`|identity document issued to refugees in case of suspension of deportation that are marked as "id card replacement"|
 |`de_permission_to_reside`|permission to reside issued by the German governed to foreign nationals appliying for asylum|
-|`de_replacement_idcard`|ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Paragraph 2 i.V.m. § 78a Abs. 4)|
-
+|`de_replacement_idcard`|ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)|
 
 ## Verification Methods {#predefined_values_vm}
 
