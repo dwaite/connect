@@ -1,4 +1,5 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions":{
     "qes":{
       "type":"object",
@@ -78,7 +79,7 @@
             }
           }
         },
-        "id_document":{
+        "document":{
           "type":"object",
           "properties":{
             "type":{
@@ -126,13 +127,13 @@
       "required":[
         "type",
         "method",
-        "id_document"
+        "document"
       ]
     }
   },
   "type":"object",
   "properties":{
-    "verified_person_data":{
+    "verified_claims":{
       "type":"object",
       "properties":{
         "verification":{
@@ -152,10 +153,10 @@
               "type":"string",
               "format":"date"
             },
-            "id":{
+            "verification_process":{
               "type":"string"
             },
-            "evidences":{
+            "evidence":{
               "type":"array",
               "minItems": 1,
               "items":{
@@ -183,7 +184,8 @@
       },
       "required":["verification","claims"],
       "additionalProperties": false
-    }
+    },
+    "txn": {"type": "string"}
   },
-  "required":["verified_person_data"]
+  "required":["verified_claims"]
 }
