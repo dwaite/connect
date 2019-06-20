@@ -5,7 +5,7 @@ ipr = "trust200902"
 workgroup = "connect"
 keyword = ["security", "openid", "identity assurance"]
 
-date = 2019-06-23T00:00:00Z
+date = 2019-06-20T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
@@ -33,7 +33,7 @@ organization="yes.com"
 
 .# Abstract 
 
-This specification defines an extension of OpenID Connect for providing Relying Parties with verified person data. This extension is intended to be used to verify the identity of a person in compliance with a certain law. 
+This specification defines an extension of OpenID Connect for providing Relying Parties with verified Claims about End-Users. This extension is intended to be used to verify the identity of a natural person in compliance with a certain law. 
 
 {mainmatter}
 

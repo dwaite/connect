@@ -1,8 +1,8 @@
 # OP Metadata {#opmetadata}
 
-The OP advertises its capabilities with respect to verified person data in its openid-configuration (see [@!OpenID-Discovery]) using the following new elements:
+The OP advertises its capabilities with respect to verified Claims in its openid-configuration (see [@!OpenID-Discovery]) using the following new elements:
 
-`verified_person_data_supported`: Boolean value indicating support for the `verified_person_data`, i.e. the OpenID Connect for Identity Assurance extension. 
+`verified_claims_supported`: Boolean value indicating support for `verified_claims`, i.e. the OpenID Connect for Identity Assurance extension. 
 
 `trust_frameworks_supported` This is a JSON array containing all supported trust frameworks.
 
@@ -12,14 +12,14 @@ The OP advertises its capabilities with respect to verified person data in its o
 
 `id_documents_verification_methods_supported` This element is a JSON array containing the id document verification methods a OP supports as defined in (#verification). 
 
-`verified_person_data_supported` This JSON array contains all claims supported within `verified_person_data`.
+`verified_claims_supported` This JSON array contains all claims supported within `verified_person_data`.
 
 This is an example openid-configuration snippet:
 
 ```json
 {  
 ...
-   "verified_person_data_supported":true,
+   "verified_claims_supported":true,
    "trust_frameworks_supported":[
      "nist_800_63A_ial_2",
      "nist_800_63A_ial_3"
@@ -39,7 +39,7 @@ This is an example openid-configuration snippet:
        "sripp",
        "eid"
    ]
-   "verified_person_data_supported":[  
+   "verified_claims_supported":[  
       "given_name",
       "family_name",
       "birthdate",

@@ -2,16 +2,16 @@
 
 ## Requesting Verified Claims about the End-User
 
-Verified person data can be requested on the level of individual Claims about the End-User by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
+Verified Claims can be requested on the level of individual Claims about the End-User by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
 
-The claim `verified_person_data` is added to the `userinfo` or `id_token` element of the `claims` parameter. 
+`verified_claims` is added to the `userinfo` or `id_token` element of the `claims` parameter. 
 
-Since `verified_person_data` contains the effective Claims about the End-User in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired Claims as keys with a `null` value. An example is shown in the following:
+Since `verified_claims` contains the effective Claims about the End-User in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired Claims as keys with a `null` value. An example is shown in the following:
 
 ```json
 {  
    "userinfo":{  
-      "verified_person_data":{  
+      "verified_claims":{  
          "claims":{  
             "given_name":null,
             "family_name":null,
@@ -29,7 +29,7 @@ RPs MAY indicate that a certain claim is essential to the sucessful completion o
 ```json
 {  
    "userinfo":{  
-      "verified_person_data":{  
+      "verified_claims":{  
          "claims":{  
             "given_name":{"essential": true},
             "family_name":{"essential": true},
@@ -45,7 +45,7 @@ Note: A `claims` sub-element with value `null` is interpreted as a request for a
 ```json
 {  
    "userinfo":{  
-      "verified_person_data":{  
+      "verified_claims":{  
          "claims":null
       }
    }	
@@ -60,7 +60,7 @@ Note: If the `claims` sub-element is empty or contains a claim not fulfilling th
 
 The RP MAY express requirements regarding the elements in the `verification` sub-element.
 
-This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification [@!OpenID] due to the nested nature of the `verified_person_data` claim.
+This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification [@!OpenID] due to the nested nature of the `verified_claims` claim.
 
 Section 5.5.1 of the OpenID Connect specification [@!OpenID] defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (`essential`, `value` and `values`) with special query 
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).
@@ -74,7 +74,7 @@ The following example shows that the RP wants to obtain an attestation based on 
 ```json
 {  
    "userinfo":{  
-      "verified_person_data":{  
+      "verified_claims":{  
          "verification":{  
             "trust_framework":{  
                "value":"de_aml"
@@ -110,7 +110,7 @@ The following is an example:
 ```json
 {  
    "userinfo":{  
-      "verified_person_data":{  
+      "verified_claims":{  
          "verification":{  
             "date":{  
                "max_age":63113852

@@ -1,12 +1,12 @@
 # Verified Data Representation 
 
-This extension to OpenID Connect wants to ensure that RPs cannot mix up verified and unverified claims and incidentally process unverified claims as verified claims. 
+This extension to OpenID Connect wants to ensure that RPs cannot mix up verified and unverified Claims and incidentally process unverified Claims as verified Claims. 
 
-The representation proposed therefore provides the RP with the verified claims within a structured claim `verified_person_data`. This structured claim is composed of the verification evidence related to a certain verification process and the corresponding Claims about the End-User which were verified in this process.
+The representation proposed therefore provides the RP with the verified Claims within a container element `verified_claims`. This container is composed of the verification evidence related to a certain verification process and the corresponding Claims about the End-User which were verified in this process.
 
-This section explains the structure and meaning of the claim in detail. A machine-readable syntax definition is given as JSON schema in (#json_schema). It can be used to automatically validate JSON documents containing the `verified_person_data` claim. 
+This section explains the structure and meaning of `verified_claims` in detail. A machine-readable syntax definition is given as JSON schema in (#json_schema). It can be used to automatically validate JSON documents containing a  `verified_claims` element. 
 
-The `verified_person_data` claim consists of the following sub-elements:
+`verified_claims` consists of the following sub-elements:
 
 * `verification`: REQUIRED. Object that contains all data about the verification process.
 * `claims`: REQUIRED. Object that is the container for the verified Claims about the End-User. 
@@ -23,7 +23,7 @@ The `verification` element consists of the following elements:
 
 An example value is `eidas_ial_high`, which denotes a notified eID system under eIDAS [@?eIDAS] providing identity assurance at level of assurance "High".
 
-An initial list of standardized values is defined in [Trust Frameworks](#predefined_values_tf). Additional trust framework identifiers can be introduced [how?]. RPs SHOULD ignore `verified_person_data` claims containing a trust framework id they don't understand.
+An initial list of standardized values is defined in [Trust Frameworks](#predefined_values_tf). Additional trust framework identifiers can be introduced [how?]. RPs SHOULD ignore `verified_claims` claims containing a trust framework id they don't understand.
 
 The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidence in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (`de_aml`).
 

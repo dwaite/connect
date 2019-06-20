@@ -18,6 +18,7 @@
    * lots of editorial fixes
    * Alignment with OpenID Connect Core wording
    * Renamed `id` to `verification_process`
+   * Renamed `verified_person_data` to `verified_claims`
    
    -04
    

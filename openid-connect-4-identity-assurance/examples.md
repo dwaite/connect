@@ -1,18 +1,18 @@
 # Examples
 
-The following sections show examples of `verified_person_data` objects. 
+The following sections show examples of `verified_claims`. 
 
 The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidence for different verification methods along with the actual Claims about the End-User.
 
 The third section illustrates how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP. 
 
-Subsequent sections contain examples for using the `verified_person_data` claim on different channels and in combination with other (unverified) Claims.
+Subsequent sections contain examples for using the `verified_claims` claim on different channels and in combination with other (unverified) Claims.
 
 ## id_document
 
 ```JSON
 {  
-   "verified_person_data":{  
+   "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
@@ -58,7 +58,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
 
 ```JSON
 {  
-   "verified_person_data":{  
+   "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
@@ -114,7 +114,7 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
 
 ```JSON
 {  
-   "verified_person_data":{  
+   "verified_claims":{  
       "verification":{  
          "trust_framework":"eidas_ial_substantial"
       },
@@ -139,11 +139,11 @@ Subsequent sections contain examples for using the `verified_person_data` claim 
 ```
 
 
-## Verified Person Data in UserInfo Response
+## Verified Claims in UserInfo Response
 
 ### Request
 
-In this example we assume the RP uses the scope parameter to request the email address and, additionally, the claims parameter, to request verified person data. 
+In this example we assume the RP uses the `scope` parameter to request the email address and, additionally, the `claims` parameter, to request verified Claims. 
 
 The scope value is: `scope=openid email`
 
@@ -152,7 +152,7 @@ The value of the claims parameter is:
 ```json
 {  
    "userinfo":{  
-       "verified_person_data":{  
+       "verified_claims":{  
          "claims":{  
             "given_name":null,
             "family_name":null,
@@ -176,7 +176,7 @@ Content-Type: application/json
    "sub":"248289761001",
    "email":"janedoe@example.com",
    "email_verified":true,
-   "verified_person_data":{  
+   "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
@@ -207,11 +207,11 @@ Content-Type: application/json
 }
 ```
 
-## Verified Person Data in ID Tokens
+## Verified Claims in ID Tokens
 
 ### Request
 
-In this case, the RP requests verfied person data along with other Claims about the End-User in the claims parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
+In this case, the RP requests verfied Claims along with other Claims about the End-User in the `claims` parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
 
 The `claims` parameter value is
 
@@ -221,7 +221,7 @@ The `claims` parameter value is
       "email":null,
       "preferred_username":null,
       "picture":null,
-      "verified_person_data":{  
+      "verified_claims":{  
          "claims":{  
             "given_name":null,
             "family_name":null,
@@ -249,7 +249,7 @@ The respective ID Token could be
    "email":"janedoe@example.com",
    "preferred_username":"j.doe",
    "picture":"http://example.com/janedoe/me.jpg",
-   "verified_person_data":{  
+   "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
          "date":"2013-02-21",
@@ -293,15 +293,15 @@ Content-Type: application/json
    "email":"janedoe@example.com",
    "email_verified":true,
    "_claim_names":{  
-      "verified_person_data":"src1"
+      "verified_claims":"src1"
    },
    "_claim_sources":{  
       "src1":{  
-      "JWT":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vd
-      Ghlcm9wLmNvbSIsInZlcmlmaWVkX3BlcnNvbl9kYXRhIjp7InZlcmlmaWNhdGlvbiI6eyJ0cnVzdF
-      9mcmFtZXdvcmsiOiJlaWRhc19pYWxfc3Vic3RhbnRpYWwifSwiY2xhaW1zIjp7ImdpdmVuX25hbWU
-      iOiJNYXgiLCJmYW1pbHlfbmFtZSI6Ik1laWVyIiwiYmlydGhkYXRlIjoiMTk1Ni0wMS0yOCJ9fX0.
-      6xBFL69A7LFPf_ISb6ZOHrDN3CTjqYmlSaBn-xATy8k"
+      "JWT":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5vdGh
+      lcm9wLmNvbSIsInZlcmlmaWVkX2NsYWltcyI6eyJ2ZXJpZmljYXRpb24iOnsidHJ1c3RfZnJhbWV3b3
+      JrIjoiZWlkYXNfaWFsX3N1YnN0YW50aWFsIn0sImNsYWltcyI6eyJnaXZlbl9uYW1lIjoiTWF4IiwiZ
+      mFtaWx5X25hbWUiOiJNZWllciIsImJpcnRoZGF0ZSI6IjE5NTYtMDEtMjgifX19.M8tTKxzj5LBgqGj
+      UAzFooEiCPJ4wcZVQDrnW5_ooAG4"
       }
    }
 }
@@ -319,7 +319,7 @@ Content-Type: application/json
    "email":"janedoe@example.com",
    "email_verified":true,
    "_claim_names":{  
-      "verified_person_data":"src1"
+      "verified_claims":"src1"
    },
    "_claim_sources":{  
       "src1":{  

@@ -1,6 +1,6 @@
 # JSON Schema {#json_schema}
 
-This section contains the JSON Schema of assertions containing the `verified_person_data` claim. 
+This section contains the JSON Schema of assertions containing the `verified_claims` claim. 
 
 ```JSON
 {
@@ -138,7 +138,7 @@ This section contains the JSON Schema of assertions containing the `verified_per
   },
   "type":"object",
   "properties":{
-    "verified_person_data":{
+    "verified_claims":{
       "type":"object",
       "properties":{
         "verification":{
@@ -192,6 +192,6 @@ This section contains the JSON Schema of assertions containing the `verified_per
     },
     "txn": {"type": "string"}
   },
-  "required":["verified_person_data"]
+  "required":["verified_claims"]
 }
 ```
