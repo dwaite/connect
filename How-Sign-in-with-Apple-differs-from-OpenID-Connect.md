@@ -1,7 +1,7 @@
-How Sign in with Apple differs from OpenID Connect
+How Sign In with Apple differs from OpenID Connect
 ==================================================
 
-This document tracks the differences between Apple’s implementation of “Sign in With Apple” and the OpenID Connect protocol. The former apparently aims to be an implementation of the latter but is not completely aligned (yet). This document - driven by the OpenID Foundation’s Certification team and the identity community at large - may help to close the gap and/or to help developers to cope with the differences.
+This document tracks the differences between Apple’s implementation of “Sign In With Apple” and the OpenID Connect protocol. The former apparently aims to be an implementation of the latter but is not completely aligned (yet). This document - driven by the OpenID Foundation’s Certification team and the identity community at large - may help to close the gap and/or to help developers to cope with the differences.
 
 ### Spec Violations
 
