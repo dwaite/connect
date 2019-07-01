@@ -29,6 +29,7 @@ TODO: Run against the OIDF OpenID Connect certification tool and provide the res
 ### Fixed
 
 The following issues have been addressed by Apple after the initial release of this document
+
 - Exchanging the authorization code according to https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens should present a non-standard `grant_type=authorization_token` but using the standards-compliant `grant_type=authorization_code` actually works whereas the former does not, so the documentation is incorrect.
 
 ### Acknowledgements
