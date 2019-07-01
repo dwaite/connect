@@ -25,6 +25,7 @@ TODO: Run against the OIDF OpenID Connect certification tool and provide the res
 - Using unsupported or wrong parameters (e.g. non-existing `response_type`, `scope`, `client_id`, or `redirect_uri`) always results in the same message in the browser that says “Your request could not be completed because of an error. Please try again later.” without any explanation about what happened, why this is an error, or how to fix it.
 - The Authorization Code grant type (for public Clients) does not use PKCE [RFC 7636] to avoid code injection and code replay attacks.
 - When using the sample app available at https://github.com/aaronpk/sign-in-with-apple-example, adding `openid` as a `scope` (which is used to signal that an OpenID Connect authentication is being requested) leads to an error message and it works just with `name` and `email` as `scope` values; this behavior seems to be inconsistent across Clients: for some it works, or at least does not lead to errors, for others it does not work and ends with an error.
+- The `scope` value of only the very first request by an application is respected. If an application initially requests only the `name` scope, and the user allows it, it is then impossible to later also request the `email` scope. 
 
 ### Fixed
 
@@ -46,3 +47,4 @@ Thanks to the following people for their contributions to this analysis:
 - Nov Matake
 - Nat Sakimura
 - Michael B. Jones
+- Aaron Parecki
