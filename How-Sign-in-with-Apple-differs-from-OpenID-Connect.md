@@ -7,11 +7,14 @@ This document - driven by the OpenID Foundation’s Certification team and the i
 
 ### Spec Violations
 
-- When `nonce` is provided in the `code` or `code id_token` grant types, it isn’t included in the `id_token` returned.  Not having the `nonce` enables known attacks.
-- The `code id_token` response type does not include `c_hash` in the returned `id_token`.
-- The `code id_token` response type returns the response parameters as query parameters, not in the fragment.
-- Providing a `prompt` parameter with any value (e.g. `login` or `consent`) or empty results in a 400 with no body.
-- When `max_age` is requested, the `id_token` does not include an `auth_time` claim.
+- When `nonce` is provided in the `code` or `code id_token` grant types, it isn’t included in the `id_token` returned:  
+    - Not having the `nonce` removes the protocol's ability to thwart Cross Site Request Forgery Attack.
+- The `code id_token` response type does not include `c_hash` in the returned `id_token`: 
+    - It makes it possible for Attackers to insert the authorization code they have obtained (Code Insertion Attack). 
+- The `code id_token` response type returns the response parameters including `id_token` and `code` as query parameters, not in the fragment.
+    - It makes ID Token and Authorization Code potentially leak through referrer etc. ID Token is a set of personal data and leaking it will pose privacy risk. Authorization code obtained by the Attacker this way may be used for the Code Insertion Attack. 
+- Providing a `prompt` parameter with any value (e.g. `login` or `consent`) or empty results in a 400 with no body: Not being able to ask for explicit consent increases privacy risk. 
+- When `max_age` is requested, the `id_token` does not include an `auth_time` claim: The client may want to limit the access to protect the user if the authentication was done too long ago but this bug makes it difficult to make such a decision. 
 
 TODO: Run against the OIDF OpenID Connect certification tool and provide the results and explanation.
 
