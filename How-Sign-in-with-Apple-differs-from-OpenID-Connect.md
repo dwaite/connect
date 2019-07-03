@@ -14,9 +14,11 @@ This document - driven by the OpenID Foundation’s Certification team and the i
 - The `code id_token` response type returns the response parameters including `id_token` and `code` as query parameters, not in the fragment.
     - It makes ID Token and Authorization Code potentially leak through referrer etc. ID Token is a set of personal data and leaking it will pose privacy risk. An authorization code obtained by the attacker in this way may be used for the Code Insertion Attack.
 - Providing a `prompt` parameter with any value (e.g. `login` or `consent`) or empty results in a 400 with no body.
-    - Not being able to ask for explicit consent increases the privacy risk for end users.
+    - Both desensitizing users by asking users too much action and not being able to ask for explicit consent increases the privacy risk for end users. 
+      These parameters are there to enable hitting the right balance but Sign in with Apple just bails harting the interoperability. 
 - When `max_age` is requested, the `id_token` does not include an `auth_time` claim.
-    - The Client may want to limit access to protect the user if the authentication at the Provider was done too long ago but the lack of support for `max_age` does not allow for such a decision.
+    - The Client may want to limit access to protect the user if the authentication at the Provider was done too long ago but the lack of support for `max_age` does not allow for such a decision. 
+      Currently, Sign in with Apple seem to require the re-authentication everytime so auth_time can be inferred but it harms the interoperability. 
 
 TODO: Run against the OIDF OpenID Connect certification tool and provide the results and explanation.
 
