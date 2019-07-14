@@ -24,7 +24,7 @@ Since `verified_claims` contains the effective Claims about the End-User in a ne
 
 Use of the `claims` parameter allows the RP to exactly select the Claims about the End-User needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.
 
-RPs MAY indicate that a certain claim is essential to the sucessful completion of the user journey by utilizing the `essential` field as defined in Section 5.5.1. of the OpenID Connect specification [@!OpenID]. The following example designates both given as well as family name as being essential.
+RPs MAY indicate that a certain claim is essential to the successful completion of the user journey by utilizing the `essential` field as defined in Section 5.5.1. of the OpenID Connect specification [@!OpenID]. The following example designates both given as well as family name as being essential.
 
 ```json
 {  
@@ -37,6 +37,44 @@ RPs MAY indicate that a certain claim is essential to the sucessful completion o
          }
       }
    }	
+}
+```
+
+This specification introduces the additional field `purpose` to allow a RP 
+to state the purpose for the transfer of a certain End-User Claim it is asking for. 
+The field `purpose` can be a member value of each individually requested 
+claim, but a claim cannot have more than one associated purpose.
+
+`purpose` OPTIONAL. String describing the purpose for obtaining a certain End-User Claim from the OP. The purpose MUST NOT be shorter than 3 characters or 
+longer than 300 characters. If this rule is violated, the authentication 
+request MUST fail and the OP returns an error `invalid_request` to the RP.
+The OP MUST display this purpose in the respective user consent screen(s) 
+in order to inform the user about the designated use of the data to be 
+transferred or the authorization to be approved. If the parameter purpose 
+is not present in the request, the OP MAY display a 
+value that was pre-configured for the respective RP. For details on UI 
+localization see (#purpose).
+
+Example:
+
+```json
+{  
+   "userinfo":{  
+      "verified_person_data":{  
+         "claims":{  
+            "given_name":{  
+               "essential":true,
+               "purpose":"To make communication look more personal"
+            },
+            "family_name":{  
+               "essential":true
+            },
+            "birthdate":{  
+               "purpose":"To send you best wishes on your birthday"
+            }
+         }
+      }
+   }
 }
 ```
 

@@ -2,6 +2,12 @@
 
    [[ To be removed from the final specification ]]
    
+   -06
+   
+   * Incorporated review feeback by Marcos Sanz and Adam Cooper
+   * Added text on integrity, authenticity, and confidentiality for data passed between OP and RP to Security Considerations section
+   * added `purpose` field to `claims` parameter
+   
    -05
    
    * incorporated review feedback by Mike Jones

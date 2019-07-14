@@ -211,7 +211,7 @@ Content-Type: application/json
 
 ### Request
 
-In this case, the RP requests verfied Claims along with other Claims about the End-User in the `claims` parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
+In this case, the RP requests verified Claims along with other Claims about the End-User in the `claims` parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
 
 The `claims` parameter value is
 

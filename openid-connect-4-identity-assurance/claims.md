@@ -1,6 +1,6 @@
 # Claims {#claims}
 
-## Claims about End-Users {#userclaims}
+## Additional Claims about End-Users {#userclaims}
 
 In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data in addition to the claims defined in the OpenID Connect specification [@!OpenID]:
 
