@@ -200,7 +200,7 @@ verified Claims.</t>
 
 <section anchor="requesting-verified-claims" title="Requesting Verified Claims">
 
-<section anchor="requesting-verified-claims-about-the-end-user" title="Requesting Verified Claims about the End-User">
+<section anchor="req_claims" title="Requesting End-User Claims">
 <t>Verified Claims can be requested on the level of individual Claims about the End-User by utilizing the <spanx style="verb">claims</spanx> parameter as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref>.</t>
 <t><spanx style="verb">verified_claims</spanx> is added to the <spanx style="verb">userinfo</spanx> or <spanx style="verb">id_token</spanx> element of the <spanx style="verb">claims</spanx> parameter.</t>
 <t>Since <spanx style="verb">verified_claims</spanx> contains the effective Claims about the End-User in a nested <spanx style="verb">claims</spanx> element, the syntax is extended to include expressions on nested elements as follows. The <spanx style="verb">verified_person_data</spanx> element includes a <spanx style="verb">claims</spanx> element, which in turn includes the desired Claims as keys with a <spanx style="verb">null</spanx> value. An example is shown in the following:</t>
@@ -251,7 +251,7 @@ localization see <xref target="purpose"></xref>.</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
-      &quot;verified_person_data&quot;:{  
+      &quot;verified_claims&quot;:{  
          &quot;claims&quot;:{  
             &quot;given_name&quot;:{  
                &quot;essential&quot;:true,
@@ -284,13 +284,77 @@ localization see <xref target="purpose"></xref>.</t>
 <t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim not fulfilling the requirements defined in <xref target="claimselement"></xref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
 </section>
 
-<section anchor="constraintedclaims" title="Defining constraints on requested Claims">
+<section anchor="req_verification" title="Requesting Verification Data">
+<t>The content of the <spanx style="verb">verification</spanx> element is basically determined by the respective <spanx style="verb">trust_framework</spanx> and the Claim source's policy.</t>
+<t>This specification also defines a way for the RP to explicitely request certain data to be present in the <spanx style="verb">verification</spanx> element. The syntax is based on the rules given in <xref target="req_claims"></xref> and extends them for navigation into the structure of the <spanx style="verb">verification</spanx> element.</t>
+<t>Elements within <spanx style="verb">verification</spanx> can be requested in the same way as defined in <xref target="req_claims"></xref> by adding the respective element as shown in the following example:</t>
+
+<figure><artwork type="json">{  
+   &quot;verified_claims&quot;:{  
+      &quot;verification&quot;:{  
+         &quot;date&quot;:null,
+         &quot;evidence&quot;:null
+      },
+      &quot;claims&quot;:null
+   }
+}
+</artwork></figure>
+
+<t>It requests the date of the verification and the available evidence to be present in the issued assertion.</t>
+<t>Note: the RP does not need to explictely request the <spanx style="verb">trust_framework</spanx> field as it is a mandatory element of the <spanx style="verb">verified_claims</spanx> Claim.</t>
+<t>The RP may also dig one step deeper into the structure and request certain data to be present within every <spanx style="verb">evidence</spanx>. A single entry is used as prototype for all entries in the result array:</t>
+
+<figure><artwork type="json">{  
+   &quot;verified_claims&quot;:{  
+      &quot;verification&quot;:{  
+         &quot;date&quot;:null,
+         &quot;evidence&quot;:[  
+            {  
+               &quot;method&quot;:null,
+               &quot;document&quot;:null
+            }
+         ]
+      },
+      &quot;claims&quot;:null
+   }
+}
+</artwork></figure>
+
+<t>This example requests the <spanx style="verb">method</spanx> element and the <spanx style="verb">document</spanx> element for every evidence available for a certain user account.</t>
+<t>Note: the RP does not need to explictely request the <spanx style="verb">type</spanx> field as it is a mandatory element of any <spanx style="verb">evidence</spanx> entry.</t>
+<t>The RP may also request certain data within the <spanx style="verb">document</spanx> element to be present. This again follows the syntax rules used above.</t>
+
+<figure><artwork type="json">{  
+   &quot;verified_claims&quot;:{  
+      &quot;verification&quot;:{  
+         &quot;date&quot;:null,
+         &quot;evidence&quot;:[  
+            {  
+               &quot;method&quot;:null,
+               &quot;document&quot;:{  
+                  &quot;issuer&quot;:null,
+                  &quot;number&quot;:null,
+                  &quot;date_of_issuance&quot;:null
+               }
+            }
+         ]
+      },
+      &quot;claims&quot;:null
+   }
+}
+</artwork></figure>
+
+<t>Note: the RP does not need to explictely request the <spanx style="verb">type</spanx> field as it is a mandatory element of any <spanx style="verb">document</spanx> entry.</t>
+<t>It is at the discretion of the Claim source to decide whether the requested verification data is provided to the RP.</t>
+</section>
+
+<section anchor="constraintedclaims" title="Defining constraints on Verification Data">
 <t>The RP MAY express requirements regarding the elements in the <spanx style="verb">verification</spanx> sub-element.</t>
 <t>This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref> due to the nested nature of the <spanx style="verb">verified_claims</spanx> claim.</t>
 <t>Section 5.5.1 of the OpenID Connect specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).</t>
 <t>This specification re-uses that mechanism and introduces a new such member <spanx style="verb">max_age</spanx> (see below).</t>
-<t>To start with, the RP MAY limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidence/id_document/document/type</spanx>, and <spanx style="verb">identity_document/method</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
+<t>To start with, the RP MAY limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidence/type</spanx>, <spanx style="verb">evidence/method</spanx>, and <spanx style="verb">evidence/document/type</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
 <t>The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.</t>
 
 <figure><artwork type="json">{  
@@ -300,19 +364,24 @@ meanings and allows for other special members to be defined (while stating that 
             &quot;trust_framework&quot;:{  
                &quot;value&quot;:&quot;de_aml&quot;
             },
-            &quot;id_document&quot;:{  
-               &quot;document&quot;:{  
+            &quot;evidence&quot;:[  
+               {  
                   &quot;type&quot;:{  
-                     &quot;values&quot;:[  
-                        &quot;idcard&quot;,
-                        &quot;passport&quot;
-                     ]
+                     &quot;value&quot;:&quot;id_document&quot;
+                  },
+                  &quot;method&quot;:{  
+                     &quot;value&quot;:&quot;pipp&quot;
+                  },
+                  &quot;document&quot;:{  
+                     &quot;type&quot;:{  
+                        &quot;values&quot;:[  
+                           &quot;idcard&quot;,
+                           &quot;passport&quot;
+                        ]
+                     }
                   }
-               },
-               &quot;method&quot;:{  
-                  &quot;value&quot;:&quot;pipp&quot;
                }
-            }
+            ]
          },
          &quot;claims&quot;:null
       }
@@ -683,7 +752,7 @@ Content-Type: application/json
 <t><spanx style="verb">evidence_supported</spanx> This JSON array contains all types of identity evidence the OP uses.</t>
 <t><spanx style="verb">id_documents_supported</spanx> This JSON array contains all identity documents utilized by the OP for identity verification.</t>
 <t><spanx style="verb">id_documents_verification_methods_supported</spanx> This element is a JSON array containing the id document verification methods a OP supports as defined in <xref target="verification"></xref>.</t>
-<t><spanx style="verb">verified_claims_supported</spanx> This JSON array contains all claims supported within <spanx style="verb">verified_person_data</spanx>.</t>
+<t><spanx style="verb">claims_in_verified_claims_supported</spanx> This JSON array contains all claims supported within <spanx style="verb">verified_claims</spanx>.</t>
 <t>This is an example openid-configuration snippet:</t>
 
 <figure><artwork type="json">{  
@@ -708,7 +777,7 @@ Content-Type: application/json
        &quot;sripp&quot;,
        &quot;eid&quot;
    ]
-   &quot;verified_claims_supported&quot;:[  
+   &quot;claims_in_verified_claims_supported&quot;:[  
       &quot;given_name&quot;,
       &quot;family_name&quot;,
       &quot;birthdate&quot;,
@@ -1034,16 +1103,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
-<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
-  <front>
-    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
-    </author>
-    <date year="2013"></date>
-  </front>
-</reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
 <reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
   <front>
     <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -&#xA;&#x9;  Representation of dates and times</title>
@@ -1053,6 +1112,25 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2004"></date>
   </front>
 </reference>
+<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
+  <front>
+    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
+<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
+  <front>
+    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
 <reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
   <front>
     <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
@@ -1092,17 +1170,27 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
-<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
-  <front>
-    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
-    </author>
-    <date year="2013"></date>
-  </front>
-</reference>
 </references>
 <references title="Informative References">
+<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
+  <front>
+    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
+    <author fullname="P. Cane" initials="P" surname="Cane"></author>
+    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
+    <date year="2008"></date>
+  </front>
+</reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
+<reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
+  <front>
+    <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
+    <author surname="European Parliament">
+      <organization>European Parliament</organization>
+    </author>
+    <date year="2014" month="July" day="23"></date>
+  </front>
+</reference>
 <reference anchor="NIST-SP-800-63a" target="https://doi.org/10.6028/NIST.SP.800-63a">
   <front>
     <title>NIST Special Publication 800-63A, Digital Identity Guidelines, Enrollment and Identity Proofing Requirements</title>
@@ -1130,25 +1218,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2017" month="June"></date>
   </front>
 </reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
-<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
-  <front>
-    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
-    <author fullname="P. Cane" initials="P" surname="Cane"></author>
-    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
-    <date year="2008"></date>
-  </front>
-</reference>
-<reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
-  <front>
-    <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
-    <author surname="European Parliament">
-      <organization>European Parliament</organization>
-    </author>
-    <date year="2014" month="July" day="23"></date>
-  </front>
-</reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
 </references>
 
 <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1170,6 +1239,8 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <list style="symbols">
 <t>Incorporated review feeback by Marcos Sanz and Adam Cooper</t>
 <t>Added text on integrity, authenticity, and confidentiality for data passed between OP and RP to Security Considerations section</t>
+<t>added <spanx style="verb">purpose</spanx> field to <spanx style="verb">claims</spanx> parameter</t>
+<t>added feature to let the RP explictely requested certain <spanx style="verb">verification</spanx> data</t>
 </list>
 </t>
 <t>-05</t>

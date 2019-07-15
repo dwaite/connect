@@ -1,6 +1,6 @@
 # Requesting Verified Claims
 
-## Requesting Verified Claims about the End-User
+## Requesting End-User Claims {#req_claims}
 
 Verified Claims can be requested on the level of individual Claims about the End-User by utilizing the `claims` parameter as defined in Section 5.5. of the OpenID Connect specification [@!OpenID]. 
 
@@ -60,7 +60,7 @@ Example:
 ```json
 {  
    "userinfo":{  
-      "verified_person_data":{  
+      "verified_claims":{  
          "claims":{  
             "given_name":{  
                "essential":true,
@@ -94,7 +94,81 @@ Note: The `claims` sub-element can be omitted, which is equivalent to a claims e
 
 Note: If the `claims` sub-element is empty or contains a claim not fulfilling the requirements defined in (#claimselement), the OP will abort the transaction with an `invalid_request` error.
 
-## Defining constraints on requested Claims {#constraintedclaims}
+## Requesting Verification Data {#req_verification}
+
+The content of the `verification` element is basically determined by the respective `trust_framework` and the Claim source's policy. 
+
+This specification also defines a way for the RP to explicitely request certain data to be present in the `verification` element. The syntax is based on the rules given in (#req_claims) and extends them for navigation into the structure of the `verification` element.
+
+Elements within `verification` can be requested in the same way as defined in (#req_claims) by adding the respective element as shown in the following example:
+
+```json
+{  
+   "verified_claims":{  
+      "verification":{  
+         "date":null,
+         "evidence":null
+      },
+      "claims":null
+   }
+}
+```
+
+It requests the date of the verification and the available evidence to be present in the issued assertion. 
+
+Note: the RP does not need to explictely request the `trust_framework` field as it is a mandatory element of the `verified_claims` Claim. 
+
+The RP may also dig one step deeper into the structure and request certain data to be present within every `evidence`. A single entry is used as prototype for all entries in the result array:
+
+```json
+{  
+   "verified_claims":{  
+      "verification":{  
+         "date":null,
+         "evidence":[  
+            {  
+               "method":null,
+               "document":null
+            }
+         ]
+      },
+      "claims":null
+   }
+}
+```
+
+This example requests the `method` element and the `document` element for every evidence available for a certain user account.
+
+Note: the RP does not need to explictely request the `type` field as it is a mandatory element of any `evidence` entry. 
+
+The RP may also request certain data within the `document` element to be present. This again follows the syntax rules used above. 
+
+```json
+{  
+   "verified_claims":{  
+      "verification":{  
+         "date":null,
+         "evidence":[  
+            {  
+               "method":null,
+               "document":{  
+                  "issuer":null,
+                  "number":null,
+                  "date_of_issuance":null
+               }
+            }
+         ]
+      },
+      "claims":null
+   }
+}
+```
+
+Note: the RP does not need to explictely request the `type` field as it is a mandatory element of any `document` entry. 
+
+It is at the discretion of the Claim source to decide whether the requested verification data is provided to the RP.
+
+## Defining constraints on Verification Data {#constraintedclaims}
 
 The RP MAY express requirements regarding the elements in the `verification` sub-element.
 
@@ -105,7 +179,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 This specification re-uses that mechanism and introduces a new such member `max_age` (see below).
 
-To start with, the RP MAY limit the possible values of the elements `trust_framework`, `evidence/id_document/document/type`, and `identity_document/method` by utilizing the `value` or `values` fields. 
+To start with, the RP MAY limit the possible values of the elements `trust_framework`, `evidence/type`, `evidence/method`, and `evidence/document/type` by utilizing the `value` or `values` fields. 
 
 The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.
 
@@ -117,19 +191,24 @@ The following example shows that the RP wants to obtain an attestation based on 
             "trust_framework":{  
                "value":"de_aml"
             },
-            "id_document":{  
-               "document":{  
+            "evidence":[  
+               {  
                   "type":{  
-                     "values":[  
-                        "idcard",
-                        "passport"
-                     ]
+                     "value":"id_document"
+                  },
+                  "method":{  
+                     "value":"pipp"
+                  },
+                  "document":{  
+                     "type":{  
+                        "values":[  
+                           "idcard",
+                           "passport"
+                        ]
+                     }
                   }
-               },
-               "method":{  
-                  "value":"pipp"
                }
-            }
+            ]
          },
          "claims":null
       }
