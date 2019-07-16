@@ -15,7 +15,7 @@ In order to fulfill the requirements of some jurisdictions on identity assurance
 * `salutation`: End-User’s salutation, e.g. “Mr.”
 * `title`: End-User’s title, e.g. “Dr.”
 
-## `txn` Claim
+## txn Claim
 
 Strong identity verification typically requires the participants to keep an audit trail of the whole process. 
 

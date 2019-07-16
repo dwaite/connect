@@ -10,7 +10,7 @@
 <author initials="D." surname="Fett" fullname="Daniel Fett"><organization>yes.com</organization><address><postal><street></street>
 </postal><email>mail@danielfett.de</email>
 </address></author>
-<date year="2019" month="July" day="15"></date>
+<date year="2019" month="July" day="16"></date>
 <area>Internet</area><workgroup>connect</workgroup><keyword>security</keyword>
 <keyword>openid</keyword>
 <keyword>identity assurance</keyword>
@@ -36,7 +36,7 @@
 <t>Identity Proofing - process in which a user provides evidence to an OP or claim provider reliably identifying themselves, thereby allowing the OP to assert that identification at a useful identity assurance level.</t>
 <t>Identify Verification - process conducted by the OP or a claim provider to verify the user's identity.</t>
 <t>Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidence of the identity verification process to the RP.</t>
-<t>Verified Claims - Claims about an End-User, typical a natural person, whose binding to a particular user account were verified in the course of an identity verification process.</t>
+<t>Verified Claims - Claims about an End-User, typically a natural person, whose binding to a particular user account were verified in the course of an identity verification process.</t>
 </list>
 </t>
 </section>
@@ -46,12 +46,12 @@
 <t>The scope of the extension is to define a mechanism to assert verified Claims, in general, and to introduce new Claims about the End-User required in the identity assurance space; one example would be the place of birth.</t>
 <t>The RP will be able to request the minimal data set it needs (data minimization) and to express requirements regarding this data and the evidence and the identity verification processes employed by the OP.</t>
 <t>This extension will be usable by OPs operating under a certain regulation related to identity assurance, such as eIDAS notified eID systems, as well as other OPs. Strictly regulated OPs can attest identity data without the need to provide further evidence since they are approved to operate according to well-defined rules with clearly defined liability.</t>
-<t>For example in the case of eIDAS, the peer review ensures eIDAS compliance and the respective member state takes the liability for the identities asserted by its notified eID systems. Every other OP not operating under such well-defined conditions is typically required to provide the RP data about the identity verification process along with identity evidence to allow the RP to conduct their own risk assessment and to map the data obtained from the OP to other laws. For example, it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfil requirements defined by eIDAS.</t>
+<t>For example in the case of eIDAS, the peer review ensures eIDAS compliance and the respective member state takes the liability for the identities asserted by its notified eID systems. Every other OP not operating under such well-defined conditions is typically required to provide the RP data about the identity verification process along with identity evidence to allow the RP to conduct their own risk assessment and to map the data obtained from the OP to other laws. For example, it shall be possible to use identity data maintained in accordance with the Anti Money Laundering Law to fulfill requirements defined by eIDAS.</t>
 <t>From a technical perspective, this means this specification allows the OP to attest verified Claims along with information about the respective trust framework (and assurance level) but also supports the externalization of information about the identity verification process.</t>
 <t>The representation defined in this specification can be used to provide RPs with verified Claims about the End-User via any appropriate channel. In the context of OpenID Connnect, verified Claims can be attested in ID Tokens or as part of the UserInfo response. It is also possible to utilize the format described here in OAuth Token Introspection responses (see <xref target="RFC7662"></xref> and <xref target="I-D.ietf-oauth-jwt-introspection-response"></xref>) to provide resource servers with
 verified Claims.</t>
 <t>This extension is intended to be truly international and support identity assurance for different and across jurisdictions. The extension is therefore extensible to support additional trust frameworks, verification methods, and identity evidence.</t>
-<t>In order to give implementors as much flexibility as possible, this extension can be used in conjunction with existing OpenID Connect Claims and other extensions within the same OpenID Connect assertion (e.g ID Token or UserInfo response) utilized to convey Claims about End-Users.</t>
+<t>In order to give implementors as much flexibility as possible, this extension can be used in conjunction with existing OpenID Connect Claims and other extensions within the same OpenID Connect assertion (e.g., ID Token or UserInfo response) utilized to convey Claims about End-Users.</t>
 <t>For example, OpenID Connect <xref target="OpenID"></xref> defines Claims for representing family name and given name of a user without a verification status. Those Claims can be used in the same OpenID Connect assertion beside verified Claims represented according to this extension.</t>
 <t>In the same way, existing Claims to inform the RP of the verification status of the <spanx style="verb">phone_number</spanx> and <spanx style="verb">email</spanx> Claims can be used together with this extension.</t>
 <t>Even for asserting verified Claims, this extension utilizes existing OpenID Connect Claims if possible and reasonable. The extension will, however, ensure RPs cannot (accidentally) interpret unverified Claims as verified Claims.</t>
@@ -60,26 +60,26 @@ verified Claims.</t>
 <section anchor="claims" title="Claims">
 
 <section anchor="userclaims" title="Additional Claims about End-Users">
-<t>In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following claims for conveying user data in addition to the claims defined in the OpenID Connect specification <xref target="OpenID"></xref>:</t>
+<t>In order to fulfill the requirements of some jurisdictions on identity assurance, this specification defines the following Claims for conveying user data in addition to the Claims defined in the OpenID Connect specification <xref target="OpenID"></xref>:</t>
 <t>
 <list style="symbols">
-<t><spanx style="verb">place_of_birth</spanx>: a structured claim representing the end-user’s place of birth. It consists of the following fields:
+<t><spanx style="verb">place_of_birth</spanx>: a structured Claim representing the End-User’s place of birth. It consists of the following fields:
 <list style="symbols">
-<t><spanx style="verb">country</spanx>: <xref target="ISO3166-1"></xref> Alpha-2 , e.g. DE, or <xref target="ISO3166-3"></xref></t>
+<t><spanx style="verb">country</spanx>: <xref target="ISO3166-1"></xref> Alpha-2 (e.g., DE) or <xref target="ISO3166-3"></xref></t>
 <t><spanx style="verb">region</spanx>: State, province, prefecture, or region component</t>
 <t><spanx style="verb">locality</spanx>: city or other locality</t>
 </list></t>
-<t><spanx style="verb">nationality</spanx>: represents the user’s nationality in format <xref target="ISO3166-1"></xref> Alpha-2 , e.g. DE</t>
-<t><spanx style="verb">birth_familiy_name</spanx>: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
-<t><spanx style="verb">birth_given_name</spanx>: given name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
-<t><spanx style="verb">birth_middle_name</spanx>: middle name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a man or a woman who changes a name later in life for any reason.</t>
-<t><spanx style="verb">salutation</spanx>: end-user’s salutation, e.g. “Mr.”</t>
-<t><spanx style="verb">title</spanx>: end-user’s title, e.g. “Dr.”</t>
+<t><spanx style="verb">nationality</spanx>: represents the user’s nationality in format <xref target="ISO3166-1"></xref> Alpha-2, e.g., DE</t>
+<t><spanx style="verb">birth_family_name</spanx>: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a person who changes the family name later in life for any reason.</t>
+<t><spanx style="verb">birth_given_name</spanx>: given name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a person who changes the given name later in life for any reason.</t>
+<t><spanx style="verb">birth_middle_name</spanx>: middle name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a person who changes the middle name later in life for any reason.</t>
+<t><spanx style="verb">salutation</spanx>: End-User’s salutation, e.g. “Mr.”</t>
+<t><spanx style="verb">title</spanx>: End-User’s title, e.g. “Dr.”</t>
 </list>
 </t>
 </section>
 
-<section anchor="txn" title="txn">
+<section anchor="txn-claim" title="txn Claim">
 <t>Strong identity verification typically requires the participants to keep an audit trail of the whole process.</t>
 <t>The <spanx style="verb">txn</spanx> Claim as defined in <xref target="RFC8417"></xref> is used in the context of this extension to build audit trails across the parties involved in an OpenID Connect transaction.</t>
 <t>If the OP issues a <spanx style="verb">txn</spanx>, it MUST maintain a corresponding audit trail, which at least consists of the following details:</t>
@@ -91,7 +91,7 @@ verified Claims.</t>
 </list>
 </t>
 <t>This transaction data MUST be stored as long as it is required to store transaction data for auditing purposes by the respective regulation.</t>
-<t>The RP requests this claim like any other claim via the <spanx style="verb">claims</spanx> parameter or as part of a default claim set identified by a scope value.</t>
+<t>The RP requests this Claim like any other Claim via the <spanx style="verb">claims</spanx> parameter or as part of a default Claim set identified by a scope value.</t>
 <t>The <spanx style="verb">txn</spanx> value MUST allow an RP to obtain these transaction details if needed.</t>
 <t>Note: the mechanism to obtain the transaction details from the OP and their format is out of scope of this specification.</t>
 </section>
@@ -119,17 +119,17 @@ verified Claims.</t>
 <t>The <spanx style="verb">trust_framework</spanx> value determines what further data is provided to the RP in the <spanx style="verb">verification</spanx> element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidence in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (<spanx style="verb">de_aml</spanx>).</t>
 <t><spanx style="verb">date</spanx>: Time stamp in ISO 8601:2004 <xref target="ISO8601-2004"></xref> YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks.</t>
 <t><spanx style="verb">verification_process</spanx>: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks.</t>
-<t>Note: While <spanx style="verb">id</spanx> refers to the identity verification process at the OP, the <spanx style="verb">txn</spanx> claim refers to a particular OpenID Connect transaction in which the OP to attested the user's verified identity data towards a RP.</t>
-<t><spanx style="verb">evidence</spanx> is a JSON array containing the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> determining its respective type. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
-<t>Note: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification.</t>
+<t>Note: While <spanx style="verb">id</spanx> refers to the identity verification process at the OP, the <spanx style="verb">txn</spanx> claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP.</t>
+<t><spanx style="verb">evidence</spanx> is a JSON array containing information about the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> which determines the type of the evidence. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
+<t>Important: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification.</t>
 
 <section anchor="evidence" title="Evidence">
 <t>The following types of evidence are defined:</t>
 <t>
 <list style="symbols">
-<t>&quot;id_document&quot;: verification based on any kind of government issued identity document</t>
-<t>&quot;utility_bill&quot;: verification based on a utility bill</t>
-<t>&quot;qes&quot;: verification based on a eIDAS Qualified Electronic Signature</t>
+<t><spanx style="verb">id_document</spanx>: verification based on any kind of government issued identity document</t>
+<t><spanx style="verb">utility_bill</spanx>: verification based on a utility bill</t>
+<t><spanx style="verb">qes</spanx>: verification based on a eIDAS Qualified Electronic Signature</t>
 </list>
 </t>
 
@@ -219,7 +219,7 @@ verified Claims.</t>
 </artwork></figure>
 
 <t>Use of the <spanx style="verb">claims</spanx> parameter allows the RP to exactly select the Claims about the End-User needed for its use case. This extension therefore allows RPs to fulfill the requirement for data minimization.</t>
-<t>RPs MAY indicate that a certain claim is essential to the successful completion of the user journey by utilizing the <spanx style="verb">essential</spanx> field as defined in Section 5.5.1. of the OpenID Connect specification <xref target="OpenID"></xref>. The following example designates both given as well as family name as being essential.</t>
+<t>RPs MAY indicate that a certain Claim is essential to the successful completion of the user journey by utilizing the <spanx style="verb">essential</spanx> field as defined in Section 5.5.1. of the OpenID Connect specification <xref target="OpenID"></xref>. The following example designates both given as well as family name as being essential.</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
@@ -237,13 +237,13 @@ verified Claims.</t>
 <t>This specification introduces the additional field <spanx style="verb">purpose</spanx> to allow a RP
 to state the purpose for the transfer of a certain End-User Claim it is asking for.
 The field <spanx style="verb">purpose</spanx> can be a member value of each individually requested
-claim, but a claim cannot have more than one associated purpose.</t>
+Claim, but a Claim cannot have more than one associated purpose.</t>
 <t><spanx style="verb">purpose</spanx> OPTIONAL. String describing the purpose for obtaining a certain End-User Claim from the OP. The purpose MUST NOT be shorter than 3 characters or
 longer than 300 characters. If this rule is violated, the authentication
 request MUST fail and the OP returns an error <spanx style="verb">invalid_request</spanx> to the RP.
 The OP MUST display this purpose in the respective user consent screen(s)
 in order to inform the user about the designated use of the data to be
-transferred or the authorization to be approved. If the parameter purpose
+transferred or the authorization to be approved. If the parameter <spanx style="verb">purpose</spanx>
 is not present in the request, the OP MAY display a
 value that was pre-configured for the respective RP. For details on UI
 localization see <xref target="purpose"></xref>.</t>
@@ -269,7 +269,7 @@ localization see <xref target="purpose"></xref>.</t>
 }
 </artwork></figure>
 
-<t>Note: A <spanx style="verb">claims</spanx> sub-element with value <spanx style="verb">null</spanx> is interpreted as a request for all possible claims. An example is shown in the following:</t>
+<t>Note: A <spanx style="verb">claims</spanx> sub-element with value <spanx style="verb">null</spanx> is interpreted as a request for all possible Claims. An example is shown in the following:</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
@@ -280,13 +280,13 @@ localization see <xref target="purpose"></xref>.</t>
 }
 </artwork></figure>
 
-<t>Note: The <spanx style="verb">claims</spanx> sub-element can be omitted, which is equivalent to a claims element whose value is <spanx style="verb">null</spanx>.</t>
-<t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a claim not fulfilling the requirements defined in <xref target="claimselement"></xref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
+<t>Note: The <spanx style="verb">claims</spanx> sub-element can be omitted, which is equivalent to a <spanx style="verb">claims</spanx> element whose value is <spanx style="verb">null</spanx>.</t>
+<t>Note: If the <spanx style="verb">claims</spanx> sub-element is empty or contains a Claim not fulfilling the requirements defined in <xref target="claimselement"></xref>, the OP will abort the transaction with an <spanx style="verb">invalid_request</spanx> error.</t>
 </section>
 
 <section anchor="req_verification" title="Requesting Verification Data">
 <t>The content of the <spanx style="verb">verification</spanx> element is basically determined by the respective <spanx style="verb">trust_framework</spanx> and the Claim source's policy.</t>
-<t>This specification also defines a way for the RP to explicitely request certain data to be present in the <spanx style="verb">verification</spanx> element. The syntax is based on the rules given in <xref target="req_claims"></xref> and extends them for navigation into the structure of the <spanx style="verb">verification</spanx> element.</t>
+<t>This specification also defines a way for the RP to explicitly request certain data to be present in the <spanx style="verb">verification</spanx> element. The syntax is based on the rules given in <xref target="req_claims"></xref> and extends them for navigation into the structure of the <spanx style="verb">verification</spanx> element.</t>
 <t>Elements within <spanx style="verb">verification</spanx> can be requested in the same way as defined in <xref target="req_claims"></xref> by adding the respective element as shown in the following example:</t>
 
 <figure><artwork type="json">{  
@@ -301,7 +301,7 @@ localization see <xref target="purpose"></xref>.</t>
 </artwork></figure>
 
 <t>It requests the date of the verification and the available evidence to be present in the issued assertion.</t>
-<t>Note: the RP does not need to explictely request the <spanx style="verb">trust_framework</spanx> field as it is a mandatory element of the <spanx style="verb">verified_claims</spanx> Claim.</t>
+<t>Note: the RP does not need to explicitly request the <spanx style="verb">trust_framework</spanx> field as it is a mandatory element of the <spanx style="verb">verified_claims</spanx> Claim.</t>
 <t>The RP may also dig one step deeper into the structure and request certain data to be present within every <spanx style="verb">evidence</spanx>. A single entry is used as prototype for all entries in the result array:</t>
 
 <figure><artwork type="json">{  
@@ -321,7 +321,7 @@ localization see <xref target="purpose"></xref>.</t>
 </artwork></figure>
 
 <t>This example requests the <spanx style="verb">method</spanx> element and the <spanx style="verb">document</spanx> element for every evidence available for a certain user account.</t>
-<t>Note: the RP does not need to explictely request the <spanx style="verb">type</spanx> field as it is a mandatory element of any <spanx style="verb">evidence</spanx> entry.</t>
+<t>Note: the RP does not need to explicitly request the <spanx style="verb">type</spanx> field as it is a mandatory element of any <spanx style="verb">evidence</spanx> entry.</t>
 <t>The RP may also request certain data within the <spanx style="verb">document</spanx> element to be present. This again follows the syntax rules used above.</t>
 
 <figure><artwork type="json">{  
@@ -344,14 +344,14 @@ localization see <xref target="purpose"></xref>.</t>
 }
 </artwork></figure>
 
-<t>Note: the RP does not need to explictely request the <spanx style="verb">type</spanx> field as it is a mandatory element of any <spanx style="verb">document</spanx> entry.</t>
+<t>Note: the RP does not need to explicitly request the <spanx style="verb">type</spanx> field as it is a mandatory element of any <spanx style="verb">document</spanx> entry.</t>
 <t>It is at the discretion of the Claim source to decide whether the requested verification data is provided to the RP.</t>
 </section>
 
 <section anchor="constraintedclaims" title="Defining constraints on Verification Data">
 <t>The RP MAY express requirements regarding the elements in the <spanx style="verb">verification</spanx> sub-element.</t>
 <t>This, again, requires an extension to the syntax as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref> due to the nested nature of the <spanx style="verb">verified_claims</spanx> claim.</t>
-<t>Section 5.5.1 of the OpenID Connect specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the claim being requested to be a JSON object with additional information/constraints on the claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
+<t>Section 5.5.1 of the OpenID Connect specification <xref target="OpenID"></xref> defines a query syntax that allows for the member value of the Claim being requested to be a JSON object with additional information/constraints on the Claim. For doing so it defines three members (<spanx style="verb">essential</spanx>, <spanx style="verb">value</spanx> and <spanx style="verb">values</spanx>) with special query
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).</t>
 <t>This specification re-uses that mechanism and introduces a new such member <spanx style="verb">max_age</spanx> (see below).</t>
 <t>To start with, the RP MAY limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidence/type</spanx>, <spanx style="verb">evidence/method</spanx>, and <spanx style="verb">evidence/document/type</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
@@ -391,7 +391,7 @@ meanings and allows for other special members to be defined (while stating that 
 
 <t>The RP MAY also express a requirement regarding the age of the verification data, i.e., the time elapsed since the verification process asserted in the <spanx style="verb">verification</spanx> element has taken place.</t>
 <t>This specification therefore defines a new member <spanx style="verb">max_age</spanx>.</t>
-<t><spanx style="verb">max_age</spanx>: OPTIONAL. Is a JSON number value only applicable to claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The OP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
+<t><spanx style="verb">max_age</spanx>: OPTIONAL. Is a JSON number value only applicable to Claims that contain dates or timestamps. It defines the maximum time (in seconds) to be allowed to elapse since the value of the date/timestamp up to the point in time of the request. The OP should make the calculation of elapsed time starting from the last valid second of the date value. The following is an example of a request for Claims where the verification process of the data is not allowed to be older than 63113852 seconds.</t>
 <t>The following is an example:</t>
 
 <figure><artwork type="json">{  
@@ -409,7 +409,7 @@ meanings and allows for other special members to be defined (while stating that 
 </artwork></figure>
 
 <t>The OP SHOULD try to fulfill this requirement. If the verification data of the user is older than the requested <spanx style="verb">max_age</spanx>, the OP MAY attempt to refresh the user’s verification by sending her through a online identity verification process, e.g. by utilizing an electronic ID card or a video identification approach.</t>
-<t>If the OP is unable to fulfill the requirement (even in case it is marked as being <spanx style="verb">essential</spanx>), it will provide the RP with the data available and the RP may decide how to use the data. The OP MUST NOT return an error in case it cannot return all claims requested as essential claims.</t>
+<t>If the OP is unable to fulfill the requirement (even in case it is marked as being <spanx style="verb">essential</spanx>), it will provide the RP with the data available and the RP may decide how to use the data. The OP MUST NOT return an error in case it cannot return all Claims requested as essential Claims.</t>
 </section>
 </section>
 
@@ -417,7 +417,7 @@ meanings and allows for other special members to be defined (while stating that 
 <t>The following sections show examples of <spanx style="verb">verified_claims</spanx>.</t>
 <t>The first and second section show JSON snippets of the general identity assurance case, where the RP is provided with verification evidence for different verification methods along with the actual Claims about the End-User.</t>
 <t>The third section illustrates how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP.</t>
-<t>Subsequent sections contain examples for using the <spanx style="verb">verified_claims</spanx> claim on different channels and in combination with other (unverified) Claims.</t>
+<t>Subsequent sections contain examples for using the <spanx style="verb">verified_claims</spanx> Claim on different channels and in combination with other (unverified) Claims.</t>
 
 <section anchor="id-document-1" title="id_document">
 
@@ -557,7 +557,7 @@ meanings and allows for other special members to be defined (while stating that 
 <section anchor="request" title="Request">
 <t>In this example we assume the RP uses the <spanx style="verb">scope</spanx> parameter to request the email address and, additionally, the <spanx style="verb">claims</spanx> parameter, to request verified Claims.</t>
 <t>The scope value is: <spanx style="verb">scope=openid email</spanx></t>
-<t>The value of the claims parameter is:</t>
+<t>The value of the <spanx style="verb">claims</spanx> parameter is:</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
@@ -799,7 +799,7 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <t>The OP MUST display this purpose in the respective user consent screen(s) in order to inform the user about the designated use of the data to be transferred or the authorization to be approved.</t>
 <t>In order to ensure a consistent UX, the RP MAY send the <spanx style="verb">purpose</spanx> in a certain language and request the OP to use the same language using the <spanx style="verb">ui_locales</spanx> parameter.</t>
 <t>If the parameter <spanx style="verb">purpose</spanx> is not present in the request, the OP MAY utilize a description that was pre-configured for the respective RP.</t>
-<t>Note: In order to prevent injection attacks, the OP MUST escape the text appropriately before it will be shown in a user interface. The OP MUST expect special characters in the URL decoded purpose text provided by the RP. The OP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g. cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
+<t>Note: In order to prevent injection attacks, the OP MUST escape the text appropriately before it will be shown in a user interface. The OP MUST expect special characters in the URL decoded purpose text provided by the RP. The OP MUST ensure that any special characters in the purpose text cannot be used to inject code into the web interface of the OP (e.g., cross-site scripting, defacing). Proper escaping MUST be applied by the OP. The OP SHALL NOT remove characters from the purpose text to this end.</t>
 </section>
 
 <section anchor="Privacy" title="Privacy Consideration">
@@ -1103,16 +1103,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
-<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
-  <front>
-    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
-    </author>
-    <date year="2013"></date>
-  </front>
-</reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
 <reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
   <front>
     <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -&#xA;&#x9;  Representation of dates and times</title>
@@ -1122,6 +1112,43 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2004"></date>
   </front>
 </reference>
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+  <front>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+      <organization>NRI</organization>
+    </author>
+    <author fullname="John Bradley" initials="J." surname="Bradley">
+      <organization>Ping Identity</organization>
+    </author>
+    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+      <organization>Google</organization>
+    </author>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
+    </author>
+    <date year="2014" month="Nov" day="8"></date>
+  </front>
+</reference>
+<reference anchor="ISO3166-1" target="https://www.iso.org/standard/63545.html">
+  <front>
+    <title>ISO 3166-1:1997. Codes for the representation of names of&#xA;&#x9;  countries and their subdivisions -- Part 1: Country codes</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
+<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
+  <front>
+    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
+    <author fullname="International Organization for Standardization">
+      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    </author>
+    <date year="2013"></date>
+  </front>
+</reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
 <reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
     <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
@@ -1143,46 +1170,8 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
-  <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
-    <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-      <organization>NRI</organization>
-    </author>
-    <author fullname="John Bradley" initials="J." surname="Bradley">
-      <organization>Ping Identity</organization>
-    </author>
-    <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-      <organization>Google</organization>
-    </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
-    </author>
-    <date year="2014" month="Nov" day="8"></date>
-  </front>
-</reference>
-<reference anchor="ISO3166-3" target="https://www.iso.org/standard/63547.html">
-  <front>
-    <title>ISO 3166-1:2013. Codes for the representation of names of countries and their subdivisions -- Part 3: Code for formerly used names of countries</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
-    </author>
-    <date year="2013"></date>
-  </front>
-</reference>
 </references>
 <references title="Informative References">
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
-<reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
-  <front>
-    <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
-    <author surname="European Parliament">
-      <organization>European Parliament</organization>
-    </author>
-    <date year="2014" month="July" day="23"></date>
-  </front>
-</reference>
 <reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
   <front>
     <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
@@ -1218,6 +1207,17 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2017" month="June"></date>
   </front>
 </reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
+<reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
+  <front>
+    <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
+    <author surname="European Parliament">
+      <organization>European Parliament</organization>
+    </author>
+    <date year="2014" month="July" day="23"></date>
+  </front>
+</reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
 </references>
 
 <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1240,7 +1240,7 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 <t>Incorporated review feeback by Marcos Sanz and Adam Cooper</t>
 <t>Added text on integrity, authenticity, and confidentiality for data passed between OP and RP to Security Considerations section</t>
 <t>added <spanx style="verb">purpose</spanx> field to <spanx style="verb">claims</spanx> parameter</t>
-<t>added feature to let the RP explictely requested certain <spanx style="verb">verification</spanx> data</t>
+<t>added feature to let the RP explicitly requested certain <spanx style="verb">verification</spanx> data</t>
 </list>
 </t>
 <t>-05</t>
