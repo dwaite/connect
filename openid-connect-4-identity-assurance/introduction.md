@@ -20,7 +20,7 @@ This section defines some terms relevant to the topic covered in this documents,
 
 * Identity Assurance - process in which the OP or a claim provider attests identity data of a certain user with a certain assurance towards a RP, typically expressed by way of an assurance level. Depending on legal requirements, the OP may also be required to provide evidence of the identity verification process to the RP.
 
-* Verified Claims - Claims about an End-User, typical a natural person, whose binding to a particular user account were verified in the course of an identity verification process.
+* Verified Claims - Claims about an End-User, typically a natural person, whose binding to a particular user account were verified in the course of an identity verification process.
 
 [1]: https://pages.nist.gov/800-63-3/sp800-63a.html "NIST Special Publication 800-63A, Digital Identity Guidelines, Enrollment and Identity Proofing Requirements"
 

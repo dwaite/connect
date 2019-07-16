@@ -31,19 +31,19 @@ The `trust_framework` value determines what further data is provided to the RP i
 
 `verification_process`: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks. 
 
-Note: While `id` refers to the identity verification process at the OP, the `txn` claim refers to a particular OpenID Connect transaction in which the OP to attested the user's verified identity data towards a RP. 
+Note: While `id` refers to the identity verification process at the OP, the `txn` claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP. 
 
-`evidence` is a JSON array containing the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property `type` determining its respective type. The RP uses this information to process the `evidence` property appropriately. 
+`evidence` is a JSON array containing information about the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property `type` which determines the type of the evidence. The RP uses this information to process the `evidence` property appropriately. 
 
-Note: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification. 
+Important: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification. 
 
 ### Evidence 
 
 The following types of evidence are defined:
 
-* "id_document": verification based on any kind of government issued identity document 
-* "utility_bill": verification based on a utility bill
-* "qes": verification based on a eIDAS Qualified Electronic Signature
+* `id_document`: verification based on any kind of government issued identity document 
+* `utility_bill`: verification based on a utility bill
+* `qes`: verification based on a eIDAS Qualified Electronic Signature
 
 #### id_document
 
