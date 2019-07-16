@@ -5,7 +5,7 @@ ipr = "trust200902"
 workgroup = "connect"
 keyword = ["security", "openid", "identity assurance"]
 
-date = 2019-07-15T00:00:00Z
+date = 2019-07-16T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
