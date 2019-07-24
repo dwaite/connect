@@ -11,7 +11,7 @@
   document and not a private document, as the private="..." declaration could
   be taken to indicate.
 -->
-<rfc category="std" docName="openid-connect-native-sso-1_0-draft-02" ipr="none">
+<rfc category="std" docName="openid-connect-native-sso-1_0" ipr="none">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="5" ?>
@@ -23,16 +23,16 @@
 
   <front>
     <title abbrev="OpenID Connect Native SSO for Mobile Apps 1.0">OpenID Connect
-    Native SSO for Mobile Apps 1.0 - draft 02</title>
+    Native SSO for Mobile Apps 1.0 - draft 03</title>
 
     <author fullname="George F. Fletcher" initials="G.F.F." surname="Fletcher">
-      <organization abbrev="Oath">Oath</organization>
+      <organization abbrev="Verizon Media">Verizon Media Group</organization>
       <address>
-        <email>george.fletcher@oath.com</email>
+        <email>george.fletcher@verizonmedia.com</email>
       </address>
     </author>
 
-    <date day="11" month="June" year="2018" />
+    <date day="3" month="July" year="2019" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -44,7 +44,7 @@
       REST-like manner.</t>
 
       <t>
-		  This document describes a current best practice that allows a mobile
+		  This document describes a mechanism that allows a mobile
 		  app to share the identity/authentication obtained by a different mobile
 		  app where both apps are issued by the same vendor.
       </t>
@@ -71,14 +71,14 @@
 		  (possibly as requested by a customer care agent) or using private
 		  browsing on iOS and Android. On most mobile platforms, mobile apps
 		  signed by the same vendor certs can share information via the system
-		  "keychain (Account Manager on Android)".
+		  "keychain" (Account Manager on Android).
       </t>
       <t>
 		  This document specifies a new scope, extends the token endpoint and
 		  profiles the <xref target="OAuth2.TokenExchange">OAuth2 token
 		  exchange</xref> spec allowing mobile apps to share identity (SSO)
 		  between apps produced and signed by the same vendor (i.e. signed with
-		  the same vendor cert).
+		  the same vendor certificate).
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -223,9 +223,9 @@
 		  <section anchor="DeviceSecret" title="Device Secret">
 			  <t>The device secret contains relevant data to the device and the
 				  current users authenticated with the device. The device secret
-				  is completely Opaque to the client and as such it is RECOMMENDED
-				  that the device secret be implemented as a JWE encrypted for
-				  the Authorization Server.</t>
+				  is completely opaque to the client and as such the AS MUST
+          adequately protect the value such as using a JWE if the AS
+          is not maintaining state on the backend.</t>
 			  <t>In the context of this extension the device secret may be shared
 				  between mobile apps that can obtain the value via the shared
 				  security mechanism (e.g. keychain on iOS). If a mobile app
@@ -233,9 +233,10 @@
 				  scope and a <spanx style="verb">device_secret</spanx> exists, then
 				  the client MUST provide the <spanx style="verb">device_secret</spanx>
 				  on the request to the /token endpoint to exchange
-				  code for tokens. The client MAY provide the
+				  code for tokens. The client SHOULD provide the
 				  <spanx style="verb">device_secret</spanx> to the /token endpoint
-				  during refresh token requests.</t>
+				  during refresh token requests so that the AS may rotate the
+          device_secert as necessary.</t>
 			  <t>The exact construction of the <spanx style="verb">device_secret</spanx>
 				  is out of scope for this specification.</t>
 		  </section>
@@ -267,7 +268,7 @@
 				  following additions applying to the id_token.
 				  <list style="numbers">
 					  <t>Add a ?ds_hash? claim to the id_token to represent a function of
-						  the device identifier.
+						  the device_secret.
 						  <list style="hanging">
 							  <t hangText="ds_hash">
 								  <vspace/>
@@ -289,7 +290,7 @@
 								  REQUIRED. A string that uniquely identifies this user?s
 								  authentication ?session?. This value can be used in
 								  logout flows as well as the flow this spec is describing.
-								  For mobile apps where there is not explicit ?browser
+								  For mobile apps where there is no explicit ?browser
 								  authentication? this value SHOULD represent the
 								  underlying session associated with the refresh_token.
 							  </t>
@@ -308,8 +309,9 @@
 				  The device_secret is returned in the ?device_token? claim of the
 				  returned JSON data.</t>
 			  <t>If no devices_secret is specified, then the AS MUST generate the
-				  token. If a device_secret is specified and is valid, the AS MUST
-				  update the device_secret as necessary.</t>
+				  token. If a device_secret is specified and is valid, the AS MAY
+				  update the device_secret as necessary. Regardless a device_secret
+                  must be returned in the response.</t>
 		  </section>
     </section>
 
@@ -319,12 +321,14 @@
 			  describes the processing rules used to exchange a previous authentication
 			  for new refresh and access tokens requested by a mobile app created by
 			  the same vendor as the first mobile app and both apps signed by the
-			  same developer key.</t>
+			  same developer certificate.</t>
 		  <section anchor="TXProfile" title="OAuth2 Token Exchange Profile">
-			  <t>The client MUST use the HTTP Basic Authentication method from RFC 6749
-				  to authenticate the request to the token endpoint. Note that since
-				  the mobile app is using PKCE, the mobile app does not have a secret
-				  and will only specify the client_id in the HTTP Authorization header.</t>
+			  <t>The client authenticates using its registered token endpoint
+          endpoint client authentication method. This could range from HTTP
+          Basic Authentication, to OIDC defined private_key_jwt. The AS must
+          be able to obtain the client_id of the requesting mobile app
+          (mobile app #2) from the client authentication method.
+        </t>
 			  <t>This profile defines the use of the following token exchange parameters.
 				  <list style="hanging">
 					  <t hangText="grant_type">
@@ -366,7 +370,10 @@
 					  </t>
 					  <t hangText="requested_token_type">
 						  <vspace/>
-						  OPTIONAL. The desired token(s) to be returned.
+						  OPTIONAL. The desired token(s) to be returned. If no requested_token_type
+                          is defined, it is up to the AS to return the appropriate tokens for the
+                          requesting client. The full set of possible requested_token_type value
+                          is out of scope for this specification.
 					  </t>
 				  </list>
 			  </t>
@@ -384,13 +391,14 @@
 			  <t>When a mobile app wants to request ?native SSO? (i.e. obtain refresh and access
 				  tokens for an already signed in user) it makes a standard OAuth2 /token
 				  endpoint request following the profile for Token Exchange defined above.</t>
+        <t>The following is a non-normative example</t>
 			  <figure><artwork><![CDATA[
     POST /token HTTP/1.1
     Host: as.example.com
     Authorization: Basic ZGZhZGYyMzUyNDU0Og
     ...
     grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
-    &audience=https%3A%3F%3Flogin.aol.com&subject_token=<id_token>
+    &audience=https%3A%3F%3Flogin.example.net&subject_token=<id_token>
     &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aid-token
     &actor_token=95twdf3w4y6wvftw35634t
     &actor_token_type=urn%3Ax-oath%3Aparams%3Aoauth%3Atoken-type%3Adevice-secret
@@ -407,10 +415,14 @@
 						  format of this secret is defined by the Authorization server and
 						  is out of scope for this specification.</t>
 					  <t>Verify that the binding between the id_token and the device_secret
-						  as defined in the extension to the /token response.</t>
+						  (as defined in the extension to the /token response) is valid.</t>
 					  <t>Verify that the session id in the id_token (?sid? claim) is still
 						  valid. If the session is no longer valid, the AS MUST return an
-						  error of ?invalid_grant?.</t>
+						  error of ?invalid_grant?. Note that in the case of a refresh_tokens
+              issued with an offline_scope the 'sid' value SHOULD represent the
+              offline "session" such that if the original refresh_token is revoked
+              the 'ds_hash' value in the id_token is not longer valid.
+            </t>
 					  <t>Validate that the client requesting native SSO is authorized to
 						  do so. The AS SHOULD maintain a list of client_ids that can share
 						  user authentications. For example, the AS MAY take the ?aud?
@@ -426,7 +438,7 @@
 				  </list>
 			  </t>
 			  <t>Based on the AS definition of the device_secret, the AS may perform
-				  addition check to ensure the security of the request. Provided the
+				  addition checks to ensure the security of the request. Provided the
 				  above criteria is met, the AS will issue a normal Token Response
 				  object containing a refresh_token, access_token and id_token issued
 				  to the client_id of the mobile app making the request. The session
@@ -455,7 +467,7 @@
 					  </t>
 					  <t hangText="expires_in">
 						  <vspace/>
-						  REQUIRED. Identifies when the access_token expires.
+						  RECOMMENDED. Identifies when the access_token expires.
 					  </t>
 					  <t hangText="scope">
 						  <vspace/>
@@ -463,18 +475,25 @@
 					  </t>
 					  <t hangText="refresh_token">
 						  <vspace/>
-						  REQUIRED. A refresh_token that the mobile app can use to
-						  obtain additional access_tokens when the access_token expires.
+						  OPTIONAL. By default the AS should return a refresh_token that
+                          the mobile app can use to obtain additional access_tokens when
+                          the access_token expires.
 					  </t>
-					  <t hangText="device_secret">
+					  <t hangText="id_token">
 						  <vspace/>
-						  REQUIRED. The AS MUST return either a new or updated
+						  OPTIONAL. By default the AS should return an id_token that provides
+                          the mobile app with an identity assertion about the user.
+					  </t>
+                      <t hangText="device_secret">
+						  <vspace/>
+						  OPTIONAL. The AS MAY return an updated
 						  device_secret in the response.
 					  </t>
 				  </list>
 			  </t>
 			  <t>In the case of any errors, the AS MUST return a valid OAuth2 Error response
 				  as described in Section 2.2.2 of the Token Exchange spec.</t>
+        <t>The following is a non-normative example</t>
 			  <figure><artwork><![CDATA[
     HTTP/1.1 200 OK
     Content-Type: application/json;charset=UTF-8
@@ -483,10 +502,11 @@
 
     {
       "access_token":"2YotnFZFEjr1zCsicMWpAA",
-      "Issued_token_type": "urn:ietf:params:oauth:token-type:access_token",
-      "token_type":"bearer",
+      "issued_token_type": "urn:ietf:params:oauth:token-type:access_token",
+      "token_type":"Bearer",
       "expires_in":3600,
       "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+      "id_token":"<id_token>",
       "device_secret":"casdfgarfgasdfg"
     }
               ]]></artwork></figure>
@@ -500,89 +520,6 @@
 		  The device secret SHOULD be encrypted by the Authorization Service and periodically
 		  refreshed via the mechanisms described in this specification.
       </t>
-    </section>
-
-    <section anchor="IANA" title="IANA Considerations">
-
-      <section anchor="ClaimsRegistration" title="JSON Web Token Claims Registration">
-	<t>
-	  This specification registers the following Claim in the IANA
-	  "JSON Web Token Claims" registry <xref target="IANA.JWT.Claims"/>
-	  established by <xref target="JWT"/>.
-	</t>
-
-	<section anchor='ClaimsContents' title='Registry Contents'>
-	  <t> <?rfc subcompact="yes"?>
-	  <list style='symbols'>
-	    <t>
-	      Claim Name: <spanx style="verb">sid</spanx>
-	    </t>
-	    <t>
-	      Claim Description: Session ID
-	    </t>
-	    <t>
-	      Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	    </t>
-	    <t>
-	      Specification Document(s): OPLogout of this specification
-	    </t>
-	  </list>
-	  </t>
-	</section>
-	<?rfc subcompact="no"?>
-      </section>
-
-      <section anchor="DynRegRegistration" title="OAuth Dynamic Client Registration Metadata Registration">
-	<t>
-	  This specification registers the following client metadata definitions
-	  in the IANA "OAuth Dynamic Client Registration Metadata" registry
-	  <xref target="IANA.OAuth.Parameters"/>
-	  established by <xref target="RFC7591"/>:
-	</t>
-
-	<section anchor="DynRegContents" title="Registry Contents">
-	  <t> <?rfc subcompact="yes"?>
-	    <list style="symbols">
-	      <t>
-		Client Metadata Name: <spanx style="verb">frontchannel_logout_uri</spanx>
-	      </t>
-	      <t>
-		Client Metadata Description:
-		RP URL that will cause the RP to log itself out
-		when rendered in an iframe by the OP
-	      </t>
-	      <t>
-		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	      </t>
-	      <t>
-		Specification Document(s): RPLogout of this specification
-	      </t>
-	    </list>
-	  </t>
-	  <t>
-	    <list style="symbols">
-	      <t>
-		Client Metadata Name: <spanx style="verb">frontchannel_logout_session_required</spanx>
-	      </t>
-	      <t>
-		Client Metadata Description:
-		Boolean value specifying whether the RP requires that
-		a <spanx style="verb">sid</spanx> (session ID)
-		query parameter be included to identify the RP session with the OP
-		when the <spanx style="verb">frontchannel_logout_uri</spanx> is used
-	      </t>
-	      <t>
-		Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
-	      </t>
-	      <t>
-		Specification Document(s): RPLogout of this specification
-	      </t>
-	    </list>
-	  </t>
-	</section>
-	<?rfc subcompact="no"?>
-      </section>
-
     </section>
 
   </middle>
@@ -783,10 +720,12 @@
       <t>
         <list style="empty">
           <t>Nat Sakimura, Nomura Reserach Institute, Ltd.</t>
+          <t>Nov Matake</t>
+          <t>Filip Skokan</t>
         </list>
       </t>
     </section>
-	  
+
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
 
@@ -796,6 +735,9 @@
           <t>
 	    Initial Draft.
 	  </t>
+      <t>
+      Draft-03 - Applied updates from the community. Removed non-relevant IANA claims section.
+      </t>
         </list>
       </t>
     </section>
