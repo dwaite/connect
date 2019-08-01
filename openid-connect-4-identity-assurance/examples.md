@@ -6,7 +6,7 @@ The first and second section show JSON snippets of the general identity assuranc
 
 The third section illustrates how the contents of this object could look like in case of a notified eID system under eIDAS, where the OP does not need to provide evidence of the identity verification process to the RP. 
 
-Subsequent sections contain examples for using the `verified_claims` claim on different channels and in combination with other (unverified) Claims.
+Subsequent sections contain examples for using the `verified_claims` Claim on different channels and in combination with other (unverified) Claims.
 
 ## id_document
 
@@ -147,7 +147,7 @@ In this example we assume the RP uses the `scope` parameter to request the email
 
 The scope value is: `scope=openid email`
 
-The value of the claims parameter is:
+The value of the `claims` parameter is:
 
 ```json
 {  
@@ -211,7 +211,7 @@ Content-Type: application/json
 
 ### Request
 
-In this case, the RP requests verfied Claims along with other Claims about the End-User in the `claims` parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
+In this case, the RP requests verified Claims along with other Claims about the End-User in the `claims` parameter and allocates the response to the ID Token (delivered from the token endpoint in case of grant type `code`). 
 
 The `claims` parameter value is
 

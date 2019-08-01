@@ -12,7 +12,7 @@ The OP advertises its capabilities with respect to verified Claims in its openid
 
 `id_documents_verification_methods_supported` This element is a JSON array containing the id document verification methods a OP supports as defined in (#verification). 
 
-`verified_claims_supported` This JSON array contains all claims supported within `verified_person_data`.
+`claims_in_verified_claims_supported` This JSON array contains all claims supported within `verified_claims`.
 
 This is an example openid-configuration snippet:
 
@@ -39,7 +39,7 @@ This is an example openid-configuration snippet:
        "sripp",
        "eid"
    ]
-   "verified_claims_supported":[  
+   "claims_in_verified_claims_supported":[  
       "given_name",
       "family_name",
       "birthdate",

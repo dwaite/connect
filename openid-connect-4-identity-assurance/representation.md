@@ -31,19 +31,19 @@ The `trust_framework` value determines what further data is provided to the RP i
 
 `verification_process`: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks. 
 
-Note: While `id` referes to the identity verification process at the OP, the `txn` claim refers to a particular OpenID Connect transaction in which the OP to attested the user's verified identity data towards a RP. 
+Note: While `id` refers to the identity verification process at the OP, the `txn` claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP. 
 
-`evidence` is a JSON array containing the evidence the OP used to verifiy the user's identity as separate JSON objects. Every object contains the property `type` determining it's respective type. The RP uses this information to process the `evidence` property appropriately. 
+`evidence` is a JSON array containing information about the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property `type` which determines the type of the evidence. The RP uses this information to process the `evidence` property appropriately. 
 
-Note: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification. 
+Important: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification. 
 
 ### Evidence 
 
 The following types of evidence are defined:
 
-* "id_document": verification based on any kind of government issued identity document 
-* "utility_bill": verification based on an utility bill
-* "qes": verification based on a eIDAS Qualified Electronic Signature
+* `id_document`: verification based on any kind of government issued identity document 
+* `utility_bill`: verification based on a utility bill
+* `qes`: verification based on a eIDAS Qualified Electronic Signature
 
 #### id_document
 
@@ -75,13 +75,13 @@ The following elements are contained in a `utility_bill` evidence sub-element.
 * `name`: A String designating the provider.
 * All elements of the OpenID Connect `address` Claim ([@!OpenID])
 
-`date`: A ISO 8601:2004 YYYY-MM-DD formated string containing the date when this bill was issued.
+`date`: A ISO 8601:2004 YYYY-MM-DD formatted string containing the date when this bill was issued.
 
 #### qes
 
 The following elements are contained in a `qes` evidence sub-element. 
 
-`issuer`: REQUIRED. A String denoting the trust service provider that created the eletronic signatue. 
+`issuer`: REQUIRED. A String denoting the trust service provider that created the eletronic signature. 
 
 `issued_at`: REQUIRED. The date the signature was created as ISO 8601:2004 YYYY-MM-DD format
 
