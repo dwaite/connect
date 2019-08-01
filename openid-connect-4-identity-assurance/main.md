@@ -5,11 +5,11 @@ ipr = "trust200902"
 workgroup = "connect"
 keyword = ["security", "openid", "identity assurance"]
 
-date = 2019-07-16T00:00:00Z
+date = 2019-08-01T00:00:00Z
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "openid-connect-4-identity-assurance-1_0-06"
+value = "openid-connect-4-identity-assurance-1_0-07"
 status = "standard"
 
 [[author]]

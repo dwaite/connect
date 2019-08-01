@@ -6,7 +6,7 @@ Verified Claims can be requested on the level of individual Claims about the End
 
 `verified_claims` is added to the `userinfo` or `id_token` element of the `claims` parameter. 
 
-Since `verified_claims` contains the effective Claims about the End-User in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_person_data` element includes a `claims` element, which in turn includes the desired Claims as keys with a `null` value. An example is shown in the following:
+Since `verified_claims` contains the effective Claims about the End-User in a nested `claims` element, the syntax is extended to include expressions on nested elements as follows. The `verified_claims` element includes a `claims` element, which in turn includes the desired Claims as keys with a `null` value. An example is shown in the following:
 
 ```json
 {  

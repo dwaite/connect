@@ -81,7 +81,7 @@ The following elements are contained in a `utility_bill` evidence sub-element.
 
 The following elements are contained in a `qes` evidence sub-element. 
 
-`issuer`: REQUIRED. A String denoting the trust service provider that created the eletronic signatue. 
+`issuer`: REQUIRED. A String denoting the trust service provider that created the eletronic signature. 
 
 `issued_at`: REQUIRED. The date the signature was created as ISO 8601:2004 YYYY-MM-DD format
 
