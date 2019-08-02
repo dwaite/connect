@@ -19,7 +19,7 @@ This section defines identity document identifiers for use with this specificati
 |:------------|:-----------|
 |`idcard`|An identity document issued by a country's government for the purpose of identifying a citizen.|
 |`passport`|A passport is a travel document, usually issued by a country's government, that certifies the identity and nationality of its holder primarily for the purpose of international travel.[@?OxfordPassport]|
-|`driving_permit`|Offical document permitting an individual to operate motorized vehicles. In the absence of a formal identity document, a driver's license may be accepted in many countries for identity verification.|
+|`driving_permit`|Official document permitting an individual to operate motorized vehicles. In the absence of a formal identity document, a driver's license may be accepted in many countries for identity verification.|
 |`de_idcard_foreigners`|ID Card issued by the German government to foreign nationals.|
 |`de_emergency_idcard`|ID Card issued by the German government to foreign nationals as passports replacement|
 |`de_erp`|Electronic Resident Permit issued by the German government to foreign nationals|

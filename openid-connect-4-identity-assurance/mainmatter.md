@@ -20,7 +20,9 @@ OP and RP MUST establish a legal basis before exchanging any personally identifi
 
 # Security Considerations {#Security}
       
-TBD
+The integrity and authenticity of the issued assertions MUST be ensured in order to prevent identity spoofing. The Claims source MUST therefore cryptographically sign all assertions. 
+
+The confidentiality of all user data exchanged between the protocol parties MUST be ensured using suitable methods at transport or application layer. 
 
 {{predefined_values.md}}
 

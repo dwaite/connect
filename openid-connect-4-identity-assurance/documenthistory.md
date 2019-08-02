@@ -2,6 +2,18 @@
 
    [[ To be removed from the final specification ]]
    
+   -07
+   
+   * fixed typos
+   
+   
+   -06
+   
+   * Incorporated review feedback by Marcos Sanz and Adam Cooper
+   * Added text on integrity, authenticity, and confidentiality for data passed between OP and RP to Security Considerations section
+   * added `purpose` field to `claims` parameter
+   * added feature to let the RP explicitly requested certain `verification` data
+   
    -05
    
    * incorporated review feedback by Mike Jones
