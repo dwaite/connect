@@ -27,11 +27,11 @@ An initial list of standardized values is defined in [Trust Frameworks](#predefi
 
 The `trust_framework` value determines what further data is provided to the RP in the `verification` element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidence in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (`de_aml`).
 
-`date`: Time stamp in ISO 8601:2004 [@!ISO8601-2004] YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks. 
+`time`: Time stamp in ISO 8601:2004 [ISO8601-2004] `YYYY-MM-DDThh:mm:ss±hh` format representing the date and time when identity verification took place. Presence of this element might be required for certain trust frameworks. 
 
 `verification_process`: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks. 
 
-Note: While `id` refers to the identity verification process at the OP, the `txn` claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP. 
+Note: While `verification_process` refers to the identity verification process at the OP, the `txn` claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP. 
 
 `evidence` is a JSON array containing information about the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property `type` which determines the type of the evidence. The RP uses this information to process the `evidence` property appropriately. 
 
@@ -54,15 +54,17 @@ The following elements are contained in an `id_document` evidence sub-element.
 `verifier`: OPTIONAL. A JSON object denoting the legal entity that performed the identity verification on behalf of the OP. This object SHOULD only be included if the OP did not perform the identity verification itself. This object consists of the following properties:
 
 * `organization`: String denoting the organization which performed the verification on behalf of the OP. 
-* `agent`: Agent (person) who conducted the verification. The agent may be identified by Name or an identifier which can be resolved into the agent’s name during an audit.
+* `txn`: identifier refering to the identity verification transaction. This transaction identifier can be resolved into transaction details during an audit.
+
+`time`: Time stamp in ISO 8601:2004 [ISO8601-2004] `YYYY-MM-DDThh:mm:ss±hh` format representing the date when this id document was verified. 
 
 `document`: A JSON object representing the id document used to perform the id verification. It consists of the following properties:
 
 * `type`: REQUIRED. String denoting the type of the id document. Standardized values are defined in [Identity Documents](#predefined_values_idd). The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.
 * `number`: String representing the number of the identity document.
-* `issuer`: A JSON object containg information about the government agency that issued this identity document. This object consists of the following properties:
+* `issuer`: A JSON object containg information about the issuer of this identity document. This object consists of the following properties:
 	*  `name`: REQUIRED. Designation of the issuer of the identity document
-	*  `country`: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. "DE".
+	*  `country`: String denoting the country or organization that issued the document as ICAO 2-letter-code [@!ICAO-Doc9303], e.g. "JP". ICAO 3-letter codes MAY be used when there is no corresponding ISO 2-letter code, such as "UNO".
 * `date_of_issuance`: REQUIRED if this attribute exists for the particular type of document. The date the document was issued as ISO 8601:2004 YYYY-MM-DD format.
 * `date_of_expiry`: REQUIRED if this attribute exists for the particular type of document. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format. 
 
@@ -81,11 +83,11 @@ The following elements are contained in a `utility_bill` evidence sub-element.
 
 The following elements are contained in a `qes` evidence sub-element. 
 
-`issuer`: REQUIRED. A String denoting the trust service provider that created the eletronic signature. 
-
-`issued_at`: REQUIRED. The date the signature was created as ISO 8601:2004 YYYY-MM-DD format
+`issuer`: REQUIRED. A String denoting the certification authority that issued the signer's certificate. 
 
 `serial_number`: REQUIRED. String containing the serial number of the certificate used to sign.
+
+`created_at`: REQUIRED. The time the signature was created as ISO 8601:2004 YYYY-MM-DDThh:mm:ss±hh format.
 
 
 ## claims Element {#claimselement}
@@ -104,3 +106,5 @@ The `claims` element MAY contain one or more of the following Claims as defined 
 or the claims defined in (#userclaims).
 
 The `claims` element MAY also contain other claims given the value of the respective claim was verified in the verification process represented by the sibling `verification` element. 
+
+Claim names MAY be annotated with language tags as specified in Section 5.2 of the OpenID Connect specification [@!OpenID].

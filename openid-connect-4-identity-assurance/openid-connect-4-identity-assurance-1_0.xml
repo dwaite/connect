@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.nl" -->
 <!DOCTYPE rfc SYSTEM 'rfc2629.dtd' []>
-<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-1_0-06">
+<rfc ipr="trust200902" category="std" xml:lang="en" consensus="yes" docName="openid-connect-4-identity-assurance-1_0-07">
 <?rfc toc="yes"?><?rfc symrefs="yes"?><?rfc sortrefs="yes"?><?rfc private="Draft"?><?rfc compact="yes"?><?rfc subcompact="no"?><?rfc comments="no"?>
 <front>
 <title abbrev="openid-connect-4-identity-assurance-1_0">OpenID Connect for Identity Assurance 1.0</title><author initials="T." surname="Lodderstedt" fullname="Torsten Lodderstedt"><organization>yes.com</organization><address><postal><street></street>
@@ -10,7 +10,7 @@
 <author initials="D." surname="Fett" fullname="Daniel Fett"><organization>yes.com</organization><address><postal><street></street>
 </postal><email>mail@danielfett.de</email>
 </address></author>
-<date year="2019" month="July" day="16"></date>
+<date year="2019" month="August" day="1"></date>
 <area>Internet</area><workgroup>connect</workgroup><keyword>security</keyword>
 <keyword>openid</keyword>
 <keyword>identity assurance</keyword>
@@ -65,11 +65,11 @@ verified Claims.</t>
 <list style="symbols">
 <t><spanx style="verb">place_of_birth</spanx>: a structured Claim representing the End-User’s place of birth. It consists of the following fields:
 <list style="symbols">
-<t><spanx style="verb">country</spanx>: <xref target="ISO3166-1"></xref> Alpha-2 (e.g., DE) or <xref target="ISO3166-3"></xref></t>
-<t><spanx style="verb">region</spanx>: State, province, prefecture, or region component</t>
-<t><spanx style="verb">locality</spanx>: city or other locality</t>
+<t><spanx style="verb">country</spanx>: REQUIRED. <xref target="ISO3166-1"></xref> Alpha-2 (e.g., DE) or <xref target="ISO3166-3"></xref></t>
+<t><spanx style="verb">region</spanx>: State, province, prefecture, or region component. This field might be required in some jurisdictions.</t>
+<t><spanx style="verb">locality</spanx>: REQUIRED. city or other locality</t>
 </list></t>
-<t><spanx style="verb">nationality</spanx>: represents the user’s nationality in format <xref target="ISO3166-1"></xref> Alpha-2, e.g., DE</t>
+<t><spanx style="verb">nationalities</spanx>: string array representing the user’s nationalities in ICAO 2-letter codes <xref target="ICAO-Doc9303"></xref>, e.g. &quot;US&quot; or &quot;DE&quot;. 3-letter codes MAY be used when there is no corresponding ISO 2-letter code, such as &quot;EUE&quot;.</t>
 <t><spanx style="verb">birth_family_name</spanx>: family name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a person who changes the family name later in life for any reason.</t>
 <t><spanx style="verb">birth_given_name</spanx>: given name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a person who changes the given name later in life for any reason.</t>
 <t><spanx style="verb">birth_middle_name</spanx>: middle name someone has when he or she is born, or at least from the time he or she is a child. This term can be used by a person who changes the middle name later in life for any reason.</t>
@@ -117,9 +117,9 @@ verified Claims.</t>
 <t>An example value is <spanx style="verb">eidas_ial_high</spanx>, which denotes a notified eID system under eIDAS <xref target="eIDAS"></xref> providing identity assurance at level of assurance &quot;High&quot;.</t>
 <t>An initial list of standardized values is defined in <eref target="#predefined_values_tf">Trust Frameworks</eref>. Additional trust framework identifiers can be introduced [how?]. RPs SHOULD ignore <spanx style="verb">verified_claims</spanx> claims containing a trust framework id they don't understand.</t>
 <t>The <spanx style="verb">trust_framework</spanx> value determines what further data is provided to the RP in the <spanx style="verb">verification</spanx> element. A notified eID system under eIDAS, for example, would not need to provide any further data whereas an OP not governed by eIDAS would need to provide verification evidence in order to allow the RP to fulfill its legal obligations. An example of the latter is an OP acting under the German Anti-Money laundering law (<spanx style="verb">de_aml</spanx>).</t>
-<t><spanx style="verb">date</spanx>: Time stamp in ISO 8601:2004 <xref target="ISO8601-2004"></xref> YYYY-MM-DD format representing the date when identity verification took place. Presence of this element might be required for certain trust frameworks.</t>
+<t><spanx style="verb">time</spanx>: Time stamp in ISO 8601:2004 [ISO8601-2004] <spanx style="verb">YYYY-MM-DDThh:mm:ss±hh</spanx> format representing the date and time when identity verification took place. Presence of this element might be required for certain trust frameworks.</t>
 <t><spanx style="verb">verification_process</spanx>: Unique reference to the identity verification process as performed by the OP. Used for backtracing in case of disputes or audits. Presence of this element might be required for certain trust frameworks.</t>
-<t>Note: While <spanx style="verb">id</spanx> refers to the identity verification process at the OP, the <spanx style="verb">txn</spanx> claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP.</t>
+<t>Note: While <spanx style="verb">verification_process</spanx> refers to the identity verification process at the OP, the <spanx style="verb">txn</spanx> claim refers to a particular OpenID Connect transaction in which the OP attested the user's verified identity data towards a RP.</t>
 <t><spanx style="verb">evidence</spanx> is a JSON array containing information about the evidence the OP used to verify the user's identity as separate JSON objects. Every object contains the property <spanx style="verb">type</spanx> which determines the type of the evidence. The RP uses this information to process the <spanx style="verb">evidence</spanx> property appropriately.</t>
 <t>Important: implementations MUST ignore any sub-element not defined in this specification or extensions of this specification.</t>
 
@@ -140,18 +140,19 @@ verified Claims.</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">organization</spanx>: String denoting the organization which performed the verification on behalf of the OP.</t>
-<t><spanx style="verb">agent</spanx>: Agent (person) who conducted the verification. The agent may be identified by Name or an identifier which can be resolved into the agent’s name during an audit.</t>
+<t><spanx style="verb">txn</spanx>: identifier refering to the identity verification transaction. This transaction identifier can be resolved into transaction details during an audit.</t>
 </list>
 </t>
+<t><spanx style="verb">time</spanx>: Time stamp in ISO 8601:2004 [ISO8601-2004] <spanx style="verb">YYYY-MM-DDThh:mm:ss±hh</spanx> format representing the date when this id document was verified.</t>
 <t><spanx style="verb">document</spanx>: A JSON object representing the id document used to perform the id verification. It consists of the following properties:</t>
 <t>
 <list style="symbols">
 <t><spanx style="verb">type</spanx>: REQUIRED. String denoting the type of the id document. Standardized values are defined in <eref target="#predefined_values_idd">Identity Documents</eref>. The OP MAY use other than the predefined values in which case the RPs will either be unable to process the assertion, just store this value for audit purposes, or apply bespoken business logic to it.</t>
 <t><spanx style="verb">number</spanx>: String representing the number of the identity document.</t>
-<t><spanx style="verb">issuer</spanx>: A JSON object containg information about the government agency that issued this identity document. This object consists of the following properties:
+<t><spanx style="verb">issuer</spanx>: A JSON object containg information about the issuer of this identity document. This object consists of the following properties:
 <list style="symbols">
 <t><spanx style="verb">name</spanx>: REQUIRED. Designation of the issuer of the identity document</t>
-<t><spanx style="verb">country</spanx>: String denoting the country where the document was issued, format: ISO 3166-1 Alpha-2, e.g. &quot;DE&quot;.</t>
+<t><spanx style="verb">country</spanx>: String denoting the country or organization that issued the document as ICAO 2-letter-code <xref target="ICAO-Doc9303"></xref>, e.g. &quot;JP&quot;. ICAO 3-letter codes MAY be used when there is no corresponding ISO 2-letter code, such as &quot;UNO&quot;.</t>
 </list></t>
 <t><spanx style="verb">date_of_issuance</spanx>: REQUIRED if this attribute exists for the particular type of document. The date the document was issued as ISO 8601:2004 YYYY-MM-DD format.</t>
 <t><spanx style="verb">date_of_expiry</spanx>: REQUIRED if this attribute exists for the particular type of document. The date the document will expire as ISO 8601:2004 YYYY-MM-DD format.</t>
@@ -173,9 +174,9 @@ verified Claims.</t>
 
 <section anchor="qes" title="qes">
 <t>The following elements are contained in a <spanx style="verb">qes</spanx> evidence sub-element.</t>
-<t><spanx style="verb">issuer</spanx>: REQUIRED. A String denoting the trust service provider that created the eletronic signatue.</t>
-<t><spanx style="verb">issued_at</spanx>: REQUIRED. The date the signature was created as ISO 8601:2004 YYYY-MM-DD format</t>
+<t><spanx style="verb">issuer</spanx>: REQUIRED. A String denoting the certification authority that issued the signer's certificate.</t>
 <t><spanx style="verb">serial_number</spanx>: REQUIRED. String containing the serial number of the certificate used to sign.</t>
+<t><spanx style="verb">created_at</spanx>: REQUIRED. The time the signature was created as ISO 8601:2004 YYYY-MM-DDThh:mm:ss±hh format.</t>
 </section>
 </section>
 </section>
@@ -195,6 +196,7 @@ verified Claims.</t>
 </t>
 <t>or the claims defined in <xref target="userclaims"></xref>.</t>
 <t>The <spanx style="verb">claims</spanx> element MAY also contain other claims given the value of the respective claim was verified in the verification process represented by the sibling <spanx style="verb">verification</spanx> element.</t>
+<t>Claim names MAY be annotated with language tags as specified in Section 5.2 of the OpenID Connect specification <xref target="OpenID"></xref>.</t>
 </section>
 </section>
 
@@ -203,7 +205,7 @@ verified Claims.</t>
 <section anchor="req_claims" title="Requesting End-User Claims">
 <t>Verified Claims can be requested on the level of individual Claims about the End-User by utilizing the <spanx style="verb">claims</spanx> parameter as defined in Section 5.5. of the OpenID Connect specification <xref target="OpenID"></xref>.</t>
 <t><spanx style="verb">verified_claims</spanx> is added to the <spanx style="verb">userinfo</spanx> or <spanx style="verb">id_token</spanx> element of the <spanx style="verb">claims</spanx> parameter.</t>
-<t>Since <spanx style="verb">verified_claims</spanx> contains the effective Claims about the End-User in a nested <spanx style="verb">claims</spanx> element, the syntax is extended to include expressions on nested elements as follows. The <spanx style="verb">verified_person_data</spanx> element includes a <spanx style="verb">claims</spanx> element, which in turn includes the desired Claims as keys with a <spanx style="verb">null</spanx> value. An example is shown in the following:</t>
+<t>Since <spanx style="verb">verified_claims</spanx> contains the effective Claims about the End-User in a nested <spanx style="verb">claims</spanx> element, the syntax is extended to include expressions on nested elements as follows. The <spanx style="verb">verified_claims</spanx> element includes a <spanx style="verb">claims</spanx> element, which in turn includes the desired Claims as keys with a <spanx style="verb">null</spanx> value. An example is shown in the following:</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
@@ -355,7 +357,7 @@ localization see <xref target="purpose"></xref>.</t>
 meanings and allows for other special members to be defined (while stating that any members that are not understood must be ignored).</t>
 <t>This specification re-uses that mechanism and introduces a new such member <spanx style="verb">max_age</spanx> (see below).</t>
 <t>To start with, the RP MAY limit the possible values of the elements <spanx style="verb">trust_framework</spanx>, <spanx style="verb">evidence/type</spanx>, <spanx style="verb">evidence/method</spanx>, and <spanx style="verb">evidence/document/type</spanx> by utilizing the <spanx style="verb">value</spanx> or <spanx style="verb">values</spanx> fields.</t>
-<t>The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch using government issued id documents.</t>
+<t>The following example shows that the RP wants to obtain an attestation based on AML and limited to users who were identified in a bank branch in person using government issued id documents.</t>
 
 <figure><artwork type="json">{  
    &quot;userinfo&quot;:{  
@@ -425,7 +427,7 @@ meanings and allows for other special members to be defined (while stating that 
    &quot;verified_claims&quot;:{  
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
-         &quot;date&quot;:&quot;2013-02-21&quot;,
+         &quot;time&quot;:&quot;2012-04-23T18:25:43.511+01&quot;,
          &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;evidence&quot;:[  
             {  
@@ -472,7 +474,7 @@ meanings and allows for other special members to be defined (while stating that 
    &quot;verified_claims&quot;:{  
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
-         &quot;date&quot;:&quot;2013-02-21&quot;,
+         &quot;time&quot;:&quot;2012-04-23T18:25:43.511+01&quot;,
          &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;evidence&quot;:[  
             {  
@@ -588,7 +590,7 @@ Content-Type: application/json
    &quot;verified_claims&quot;:{  
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
-         &quot;date&quot;:&quot;2013-02-21&quot;,
+         &quot;time&quot;:&quot;2012-04-23T18:25:43.511+01&quot;,
          &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;evidence&quot;:[  
             {  
@@ -661,7 +663,7 @@ Content-Type: application/json
    &quot;verified_claims&quot;:{  
       &quot;verification&quot;:{  
          &quot;trust_framework&quot;:&quot;de_aml&quot;,
-         &quot;date&quot;:&quot;2013-02-21&quot;,
+         &quot;time&quot;:&quot;2012-04-23T18:25:43.511+01&quot;,
          &quot;verification_process&quot;:&quot;676q3636461467647q8498785747q487&quot;,
          &quot;evidence&quot;:[  
             {  
@@ -835,6 +837,12 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <c>nist_800_63A_ial_3</c>
 <c>The OP is able to attest user identities in accordance with the NIST Special Publication 800-63A at the Identity Assurance Level 3.</c>
 
+<c>jp_aml</c>
+<c>The OP verifies and maintains user identities in conforms with the Japanese Act on Prevention of Transfer of Criminal Proceeds.</c>
+
+<c>jp_mpiupa</c>
+<c>The OP verifies and maintains user identities in conformance with the Japanese Act for Identification, etc. by Mobile Voice Communications Carriers of Their Subscribers, etc. and for Prevention of Improper Use of Mobile Voice Communications Services.</c>
+
 </texttable></section>
 
 <section anchor="predefined_values_idd" title="Identity Documents">
@@ -880,6 +888,24 @@ to state the purpose for the transfer of user data it is asking for.</t>
 <c>de_replacement_idcard</c>
 <c>ID Card replacement document issued by the German government to foreign nationals (see Act on the Residence, Economic Activity and Integration of Foreigners in the Federal Territory, Residence Act, Appendix D1 ID Card replacement according to § 48 Abs. 2 i.V.m. § 78a Abs. 4)</c>
 
+<c>jp_drivers_license</c>
+<c>Japanese drivers license</c>
+
+<c>jp_residency_card_for_foreigner</c>
+<c>Japanese residence card for foreigners.</c>
+
+<c>jp_individual_number_card</c>
+<c>Japanese national id card.</c>
+
+<c>jp_permanent_residency_card_for_foreigner</c>
+<c>Japanese special residency card for foreigners to permit permanently resident.</c>
+
+<c>jp_health_insurance_card</c>
+<c>Japanese health and insurance card.</c>
+
+<c>jp_residency_card</c>
+<c>Japanese residency card</c>
+
 </texttable></section>
 
 <section anchor="predefined_values_vm" title="Verification Methods">
@@ -919,12 +945,12 @@ to state the purpose for the transfer of user data it is asking for.</t>
         &quot;issuer&quot;:{
           &quot;type&quot;:&quot;string&quot;
         },
-        &quot;issued_at&quot;:{
-          &quot;type&quot;:&quot;string&quot;,
-          &quot;format&quot;:&quot;date&quot;
-        },
         &quot;serial_number&quot;:{
           &quot;type&quot;:&quot;string&quot;
+        },
+        &quot;created_at&quot;:{
+          &quot;type&quot;:&quot;string&quot;,
+          &quot;format&quot;:&quot;date&quot;
         }
       },
       &quot;required&quot;: [&quot;type&quot;,&quot;issuer&quot;,&quot;serial_number&quot;,&quot;issued_at&quot;]
@@ -980,10 +1006,14 @@ to state the purpose for the transfer of user data it is asking for.</t>
             &quot;organization&quot;:{
               &quot;type&quot;:&quot;string&quot;
             },
-            &quot;agent&quot;:{
+            &quot;txn&quot;:{
               &quot;type&quot;:&quot;string&quot;
             }
           }
+        },
+        &quot;time&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;format&quot;:&quot;time&quot;
         },
         &quot;document&quot;:{
           &quot;type&quot;:&quot;object&quot;,
@@ -1002,7 +1032,13 @@ to state the purpose for the transfer of user data it is asking for.</t>
                 &quot;de_idcard_apatrids&quot;,
                 &quot;de_certificate_of_suspension_of_deportation&quot;,
                 &quot;de_permission_to_reside&quot;,
-                &quot;de_replacement_idcard&quot;
+                &quot;de_replacement_idcard&quot;,
+                &quot;jp_drivers_license&quot;,
+                &quot;jp_residency_card_for_foreigner&quot;,
+                &quot;jp_individual_number_card&quot;,
+                &quot;jp_permanent_residency_card_for_foreigner&quot;,
+                &quot;jp_health_insurance_card&quot;,
+                &quot;jp_residency_card&quot;
               ]
             },
             &quot;number&quot;:{
@@ -1052,12 +1088,14 @@ to state the purpose for the transfer of user data it is asking for.</t>
                 &quot;eidas_ial_substantial&quot;,
                 &quot;eidas_ial_hig&quot;,
                 &quot;nist_800_63A_ial_2&quot;,
-                &quot;nist_800_63A_ial_3&quot;
+                &quot;nist_800_63A_ial_3&quot;,
+                &quot;jp_aml&quot;,
+                &quot;jp_mpiupa&quot;
               ]
             },
-            &quot;date&quot;:{
+            &quot;time&quot;:{
               &quot;type&quot;:&quot;string&quot;,
-              &quot;format&quot;:&quot;date&quot;
+              &quot;format&quot;:&quot;time&quot;
             },
             &quot;verification_process&quot;:{
               &quot;type&quot;:&quot;string&quot;
@@ -1103,29 +1141,32 @@ to state the purpose for the transfer of user data it is asking for.</t>
 
 <back>
 <references title="Normative References">
-<reference anchor="ISO8601-2004" target="http://www.iso.org/iso/catalogue_detail?csnumber=40874">
+<reference anchor="ICAO-Doc9303" target="https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf">
   <front>
-    <title>ISO 8601:2004. Data elements and interchange formats - Information interchange -&#xA;&#x9;  Representation of dates and times</title>
-    <author fullname="International Organization for Standardization">
-      <organization abbrev="ISO">International Organization for&#xA;&#x9;    Standardization</organization>
+    <title>Machine Readable Travel Documents, Seventh Edition, 2015, Part 3: Specifications Common to all MRTDs</title>
+    <author fullname="INTERNATIONAL CIVIL AVIATION ORGANIZATION">
+      <organization abbrev="ICAO">INTERNATIONAL CIVIL AVIATION ORGANIZATION</organization>
     </author>
-    <date year="2004"></date>
+    <date year="2015"></date>
   </front>
 </reference>
-<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
+<reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
   <front>
-    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
+    <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization>NRI</organization>
     </author>
     <author fullname="John Bradley" initials="J." surname="Bradley">
       <organization>Ping Identity</organization>
     </author>
+    <author fullname="Mike Jones" initials="M." surname="Jones">
+      <organization>Microsoft</organization>
+    </author>
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
     </author>
-    <author fullname="Edmund Jay" initials="E." surname="Jay">
-      <organization> Illumila </organization>
+    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
+      <organization>Salesforce</organization>
     </author>
     <date year="2014" month="Nov" day="8"></date>
   </front>
@@ -1149,37 +1190,26 @@ to state the purpose for the transfer of user data it is asking for.</t>
   </front>
 </reference>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8417.xml"?>
-<reference anchor="OpenID" target="http://openid.net/specs/openid-connect-core-1_0.html">
+<reference anchor="OpenID-Discovery" target="https://openid.net/specs/openid-connect-discovery-1_0.html">
   <front>
-    <title>OpenID Connect Core 1.0 incorporating errata set 1</title>
+    <title>OpenID Connect Discovery 1.0 incorporating errata set 1</title>
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization>NRI</organization>
     </author>
     <author fullname="John Bradley" initials="J." surname="Bradley">
       <organization>Ping Identity</organization>
     </author>
-    <author fullname="Mike Jones" initials="M." surname="Jones">
-      <organization>Microsoft</organization>
-    </author>
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
     </author>
-    <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-      <organization>Salesforce</organization>
+    <author fullname="Edmund Jay" initials="E." surname="Jay">
+      <organization> Illumila </organization>
     </author>
     <date year="2014" month="Nov" day="8"></date>
   </front>
 </reference>
 </references>
 <references title="Informative References">
-<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
-  <front>
-    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
-    <author fullname="P. Cane" initials="P" surname="Cane"></author>
-    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
-    <date year="2008"></date>
-  </front>
-</reference>
 <reference anchor="NIST-SP-800-63a" target="https://doi.org/10.6028/NIST.SP.800-63a">
   <front>
     <title>NIST Special Publication 800-63A, Digital Identity Guidelines, Enrollment and Identity Proofing Requirements</title>
@@ -1207,7 +1237,16 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2017" month="June"></date>
   </front>
 </reference>
+<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
 <?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-oauth-jwt-introspection-response.xml"?>
+<reference anchor="OxfordPassport" target="http://www.oxfordreference.com/view/10.1093/acref/9780199290543.001.0001/acref-9780199290543-e-1616">
+  <front>
+    <title>The New Oxford Companion to Law. ISBN 9780199290543.</title>
+    <author fullname="P. Cane" initials="P" surname="Cane"></author>
+    <author fullname="J. Conaghan" initials="Mary F." surname="Conaghan"></author>
+    <date year="2008"></date>
+  </front>
+</reference>
 <reference anchor="eIDAS" target="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32014R0910">
   <front>
     <title>REGULATION (EU) No 910/2014 OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL on electronic identification and trust services for electronic transactions in the internal market and repealing Directive 1999/93/EC</title>
@@ -1217,7 +1256,6 @@ to state the purpose for the transfer of user data it is asking for.</t>
     <date year="2014" month="July" day="23"></date>
   </front>
 </reference>
-<?rfc include="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7662.xml"?>
 </references>
 
 <section anchor="Acknowledgements" title="Acknowledgements">
@@ -1234,10 +1272,25 @@ Michael B. Jones, and Jeff Lombardo for their valuable feedback that helped to e
 
 <section anchor="document-history" title="Document History">
 <t>[[ To be removed from the final specification ]]</t>
+<t>-07</t>
+<t>
+<list style="symbols">
+<t>fixed typos</t>
+<t>changed <spanx style="verb">nationality</spanx> String claim to <spanx style="verb">nationalities</spanx> String array claim</t>
+<t>replaced <spanx style="verb">agent</spanx> in id_document verifier element by <spanx style="verb">txn</spanx> element</t>
+<t>qes method: fixed error in description of <spanx style="verb">issuer</spanx></t>
+<t>qes method: changed <spanx style="verb">issued_at</spanx> to <spanx style="verb">created_at</spanx> since this field applies to the signature (that is created and not issued)</t>
+<t>Changed format of <spanx style="verb">nationalities</spanx> and issuing <spanx style="verb">country</spanx> to ICAO codes</t>
+<t>Changed <spanx style="verb">date</spanx> in verification element to <spanx style="verb">time</spanx></t>
+<t>Added Japanese trust frameworks to pre-defined values</t>
+<t>Added Japanese id documents to pre-defined values</t>
+<t>adapted JSON schema and examples</t>
+</list>
+</t>
 <t>-06</t>
 <t>
 <list style="symbols">
-<t>Incorporated review feeback by Marcos Sanz and Adam Cooper</t>
+<t>Incorporated review feedback by Marcos Sanz and Adam Cooper</t>
 <t>Added text on integrity, authenticity, and confidentiality for data passed between OP and RP to Security Considerations section</t>
 <t>added <spanx style="verb">purpose</spanx> field to <spanx style="verb">claims</spanx> parameter</t>
 <t>added feature to let the RP explicitly requested certain <spanx style="verb">verification</spanx> data</t>

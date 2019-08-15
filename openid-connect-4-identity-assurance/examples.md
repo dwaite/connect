@@ -15,7 +15,7 @@ Subsequent sections contain examples for using the `verified_claims` Claim on di
    "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
-         "date":"2013-02-21",
+         "time":"2012-04-23T18:25:43.511+01",
          "verification_process":"676q3636461467647q8498785747q487",
          "evidence":[  
             {  
@@ -61,7 +61,7 @@ Subsequent sections contain examples for using the `verified_claims` Claim on di
    "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
-         "date":"2013-02-21",
+         "time":"2012-04-23T18:25:43.511+01",
          "verification_process":"676q3636461467647q8498785747q487",
          "evidence":[  
             {  
@@ -179,7 +179,7 @@ Content-Type: application/json
    "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
-         "date":"2013-02-21",
+         "time":"2012-04-23T18:25:43.511+01",
          "verification_process":"676q3636461467647q8498785747q487",
          "evidence":[  
             {  
@@ -252,7 +252,7 @@ The respective ID Token could be
    "verified_claims":{  
       "verification":{  
          "trust_framework":"de_aml",
-         "date":"2013-02-21",
+         "time":"2012-04-23T18:25:43.511+01",
          "verification_process":"676q3636461467647q8498785747q487",
          "evidence":[  
             {  

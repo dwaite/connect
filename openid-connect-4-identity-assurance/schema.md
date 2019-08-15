@@ -18,12 +18,12 @@ This section contains the JSON Schema of assertions containing the `verified_cla
         "issuer":{
           "type":"string"
         },
-        "issued_at":{
-          "type":"string",
-          "format":"date"
-        },
         "serial_number":{
           "type":"string"
+        },
+        "created_at":{
+          "type":"string",
+          "format":"date"
         }
       },
       "required": ["type","issuer","serial_number","issued_at"]
@@ -79,10 +79,14 @@ This section contains the JSON Schema of assertions containing the `verified_cla
             "organization":{
               "type":"string"
             },
-            "agent":{
+            "txn":{
               "type":"string"
             }
           }
+        },
+        "time":{
+              "type":"string",
+              "format":"time"
         },
         "document":{
           "type":"object",
@@ -101,7 +105,13 @@ This section contains the JSON Schema of assertions containing the `verified_cla
                 "de_idcard_apatrids",
                 "de_certificate_of_suspension_of_deportation",
                 "de_permission_to_reside",
-                "de_replacement_idcard"
+                "de_replacement_idcard",
+                "jp_drivers_license",
+                "jp_residency_card_for_foreigner",
+                "jp_individual_number_card",
+                "jp_permanent_residency_card_for_foreigner",
+                "jp_health_insurance_card",
+                "jp_residency_card"
               ]
             },
             "number":{
@@ -151,12 +161,14 @@ This section contains the JSON Schema of assertions containing the `verified_cla
                 "eidas_ial_substantial",
                 "eidas_ial_hig",
                 "nist_800_63A_ial_2",
-                "nist_800_63A_ial_3"
+                "nist_800_63A_ial_3",
+                "jp_aml",
+                "jp_mpiupa"
               ]
             },
-            "date":{
+            "time":{
               "type":"string",
-              "format":"date"
+              "format":"time"
             },
             "verification_process":{
               "type":"string"

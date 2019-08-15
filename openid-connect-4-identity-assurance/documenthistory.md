@@ -5,7 +5,15 @@
    -07
    
    * fixed typos
-   
+   * changed `nationality` String claim to `nationalities` String array claim
+   * replaced `agent` in id_document verifier element by `txn` element
+   * qes method: fixed error in description of `issuer`
+   * qes method: changed `issued_at` to `created_at` since this field applies to the signature (that is created and not issued)
+   * Changed format of `nationalities` and issuing `country` to ICAO codes
+   * Changed `date` in verification element to `time`
+   * Added Japanese trust frameworks to pre-defined values
+   * Added Japanese id documents to pre-defined values
+   * adapted JSON schema and examples
    
    -06
    

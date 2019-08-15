@@ -124,4 +124,14 @@
   </front>
 </reference>
 
+<reference anchor="ICAO-Doc9303" target="https://www.icao.int/publications/Documents/9303_p3_cons_en.pdf">
+  <front>
+    <title>Machine Readable Travel Documents, Seventh Edition, 2015, Part 3: Specifications Common to all MRTDs</title>
+    	  <author fullname="INTERNATIONAL CIVIL AVIATION ORGANIZATION">
+	    <organization abbrev="ICAO">INTERNATIONAL CIVIL AVIATION ORGANIZATION</organization>
+	  </author>
+   <date year="2015"/>
+  </front>
+</reference>
+
 
