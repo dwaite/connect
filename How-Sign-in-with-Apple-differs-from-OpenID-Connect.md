@@ -26,6 +26,7 @@ The following issues have been addressed by Apple after the initial release of t
     - Both desensitizing users by asking users too much action and not being able to ask for explicit consent increases the privacy risk for end users. 
       These parameters are there to enable hitting the right balance but Sign in with Apple just bails harting the interoperability. 
 - Exchanging the authorization code according to https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens should present a non-standard `grant_type=authorization_token` but using the standards-compliant `grant_type=authorization_code` actually works whereas the former does not, so the documentation is incorrect.
+- Using unsupported or wrong parameters (e.g. non-existing `response_type`, `scope`, `client_id`, or `redirect_uri`) always results in the same message in the browser that says “Your request could not be completed because of an error. Please try again later.” without any explanation about what happened, why this is an error, or how to fix it.
 
 TODO: Run against the OIDF OpenID Connect certification tool and provide the results and explanation.
 
@@ -33,13 +34,10 @@ TODO: Run against the OIDF OpenID Connect certification tool and provide the res
 
 - No Discovery document is published at https://appleid.apple.com/.well-known/openid-configuration which makes developers have to read through the Apple docs to find out about endpoints, scopes, signing algorithms, authentication methods, etc.
 - No UserInfo endpoint is provided, which means all of the claims about users have to be included in the (expiring and potentially large) `id_token`.
-- Does not include different claims in the `id_token` based on requested scopes.
+- The `scope` value of only the very first request by an application is respected. If an application initially requests only the `name` scope, and the user allows it, it is then impossible to later also request the `email` scope. 
 - The token endpoint does not accept `client_secret_basic` as a client authentication method (required for OpenID Connect certification) and which is actually the default method to use for Clients when there’s no Discovery document that says otherwise
 - Authentication at the token endpoint requires a (custom) JWT assertion as a `client_secret` in a `client_secret_post` authentication method whereas the more appropriate `private_key_jwt` authentication method as defined in RFC 7523 could have been used.
-- Using unsupported or wrong parameters (e.g. non-existing `response_type`, `scope`, `client_id`, or `redirect_uri`) always results in the same message in the browser that says “Your request could not be completed because of an error. Please try again later.” without any explanation about what happened, why this is an error, or how to fix it.
 - The Authorization Code grant type (for public Clients) does not use PKCE [RFC 7636] to avoid code injection and code replay attacks.
-- When using the sample app available at https://github.com/aaronpk/sign-in-with-apple-example, adding `openid` as a `scope` (which is used to signal that an OpenID Connect authentication is being requested) leads to an error message and it works just with `name` and `email` as `scope` values; this behavior seems to be inconsistent across Clients: for some it works, or at least does not lead to errors, for others it does not work and ends with an error.
-- The `scope` value of only the very first request by an application is respected. If an application initially requests only the `name` scope, and the user allows it, it is then impossible to later also request the `email` scope. 
 
 ### Acknowledgements
 
