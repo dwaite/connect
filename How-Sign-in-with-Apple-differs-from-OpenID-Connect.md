@@ -1,20 +1,19 @@
 How Sign In with Apple differs from OpenID Connect
 ==================================================
 
-This document tracks the differences between Apple’s implementation of “Sign In With Apple” and the OpenID Connect protocol.
-The former apparently aims to be an implementation of the latter but is not completely aligned (yet).
-This document - driven by the OpenID Foundation’s Certification team and the identity community at large - may help to close the gap and/or to help developers to cope with the differences.
-Improvements made by Apple based on this input are recorded in the "Fixed" section below.
+Sign in with Apple aims to be an implementation of OpenID Connect but was not completely aligned with the standard specification when it was announced in June 2019.
+This document - driven by the OpenID Foundation’s Certification team and the identity community at large - tracks the differences between
+Apple’s implementation of “Sign In With Apple” and the OpenID Connect protocol and records the fixes that Apple applies.
 
-### Spec Violations
-
-- The `code id_token` response type returns the response parameters including `id_token` and `code` as query parameters, not in the fragment.
-    - It makes ID Token and Authorization Code potentially leak through referrer etc. ID Token is a set of personal data and leaking it will pose privacy risk. An authorization code obtained by the attacker in this way may be used for the Code Insertion Attack.
+Since September 2019 all spec violations have been addressed by Apple, as recorded in the next section.
+The section thereafter - "Peculiarities" lists specific implementation choices by Apple that differ from what most implementations provide, but are not spec violations per se. 
 
 ### Fixed
 
-The following issues have been addressed by Apple after the initial release of this document:
+The following issues and spec violations have been addressed by Apple after the initial release of this document:
 
+- The `code id_token` response type returns the response parameters including `id_token` and `code` as query parameters, not in the fragment.
+    - It makes ID Token and Authorization Code potentially leak through referrer etc. ID Token is a set of personal data and leaking it will pose privacy risk. An authorization code obtained by the attacker in this way may be used for the Code Insertion Attack.
 - When `nonce` is provided in the `code` or `code id_token` grant types, it isn’t included in the `id_token` returned.
     - Not having the `nonce` removes the protocol's ability to thwart Cross Site Request Forgery Attack.
 - The `code id_token` response type does not include `c_hash` in the returned `id_token`.
@@ -28,7 +27,8 @@ The following issues have been addressed by Apple after the initial release of t
 - Exchanging the authorization code according to https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens should present a non-standard `grant_type=authorization_token` but using the standards-compliant `grant_type=authorization_code` actually works whereas the former does not, so the documentation is incorrect.
 - Using unsupported or wrong parameters (e.g. non-existing `response_type`, `scope`, `client_id`, or `redirect_uri`) always results in the same message in the browser that says “Your request could not be completed because of an error. Please try again later.” without any explanation about what happened, why this is an error, or how to fix it.
 
-TODO: Run against the OIDF OpenID Connect certification tool and provide the results and explanation.
+TODO: Run against the OIDF OpenID Connect certification tool and provide the results and explanation:
+https://op.certification.openid.net:60000/entity/https%3A%2F%2Fappleid.apple.com
 
 ### Peculiarities
 
