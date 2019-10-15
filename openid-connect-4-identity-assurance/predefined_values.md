@@ -47,6 +47,8 @@ This section defines verification method identifiers for use with this specifica
 |`pipp`|Physical In-Person Proofing|
 |`sripp`|Supervised remote In-Person Proofing|
 |`eid`|Online verification of an electronic ID card|
+|`uripp`|Unsupervised remote in-person proofing with video capture of the ID document, user self-portrait video and liveness checks.|
+
 
 
 
