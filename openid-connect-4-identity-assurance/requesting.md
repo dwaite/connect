@@ -106,7 +106,7 @@ Elements within `verification` can be requested in the same way as defined in (#
 {  
    "verified_claims":{  
       "verification":{  
-         "date":null,
+         "time":null,
          "evidence":null
       },
       "claims":null
@@ -124,7 +124,7 @@ The RP may also dig one step deeper into the structure and request certain data 
 {  
    "verified_claims":{  
       "verification":{  
-         "date":null,
+         "time":null,
          "evidence":[  
             {  
                "method":null,
@@ -147,7 +147,7 @@ The RP may also request certain data within the `document` element to be present
 {  
    "verified_claims":{  
       "verification":{  
-         "date":null,
+         "time":null,
          "evidence":[  
             {  
                "method":null,
