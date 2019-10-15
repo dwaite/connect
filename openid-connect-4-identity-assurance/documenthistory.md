@@ -5,7 +5,7 @@
    -08
    
    * added `uripp` verification method
-   * small fixes at examples
+   * small fixes to examples
    
    -07
    
