@@ -166,7 +166,7 @@ The RP may also request certain data within the `document` element to be present
 
 Note: the RP does not need to explicitly request the `type` field as it is a mandatory element of any `document` entry. 
 
-It is at the discretion of the Claim source to decide whether the requested verification data is provided to the RP.
+It is at the discretion of the OP to decide whether the requested verification data is provided to the RP. It is also at the discretion of the OP to provide more verification data than has been requested by the RP.
 
 ## Defining constraints on Verification Data {#constraintedclaims}
 
@@ -229,7 +229,7 @@ The following is an example:
    "userinfo":{  
       "verified_claims":{  
          "verification":{  
-            "date":{  
+            "time":{  
                "max_age":63113852
             }
          },
