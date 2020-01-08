@@ -26,13 +26,13 @@ The following issues and spec violations have been addressed by Apple after the 
       These parameters are there to enable hitting the right balance but Sign in with Apple just bails harting the interoperability. 
 - Exchanging the authorization code according to https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens should present a non-standard `grant_type=authorization_token` but using the standards-compliant `grant_type=authorization_code` actually works whereas the former does not, so the documentation is incorrect.
 - Using unsupported or wrong parameters (e.g. non-existing `response_type`, `scope`, `client_id`, or `redirect_uri`) always results in the same message in the browser that says “Your request could not be completed because of an error. Please try again later.” without any explanation about what happened, why this is an error, or how to fix it.
+- No Discovery document is published at https://appleid.apple.com/.well-known/openid-configuration which makes developers have to read through the Apple docs to find out about endpoints, scopes, signing algorithms, authentication methods, etc.
 
 TODO: Run against the OIDF OpenID Connect certification tool and provide the results and explanation:
 https://op.certification.openid.net:60000/entity/https%3A%2F%2Fappleid.apple.com
 
 ### Peculiarities
 
-- No Discovery document is published at https://appleid.apple.com/.well-known/openid-configuration which makes developers have to read through the Apple docs to find out about endpoints, scopes, signing algorithms, authentication methods, etc.
 - No UserInfo endpoint is provided, which means all of the claims about users have to be included in the (expiring and potentially large) `id_token`.
 - The `scope` value of only the very first request by an application is respected. If an application initially requests only the `name` scope, and the user allows it, it is then impossible to later also request the `email` scope. 
 - The token endpoint does not accept `client_secret_basic` as a client authentication method (required for OpenID Connect certification) and which is actually the default method to use for Clients when there’s no Discovery document that says otherwise
