@@ -116,19 +116,28 @@
 
       <section anchor="authz-req" title="Authorization Request">
       <t>
-        When the <spanx style="verb">prompt</spanx> parameter is used in an authorization request to the authorization endpoint
-        with the value of <spanx style="verb">create</spanx>, it indicates that client desires the user be shown the account creation
-        experience rather than the login experience. This behavior is the same for both the
-        implicit flow (Section 3.2 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>), and the authorization
-        code flow (Section 3.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>).
+        When the <spanx style="verb">prompt</spanx> parameter is used in an
+        authorization request to the authorization endpoint with the value of
+        <spanx style="verb">create</spanx>, it indicates that the user has
+        chosen to be shown the account creation experience rather than the
+        login experience. Whether the AS creates a brand new identity or helps
+        the user authenticate an identity they already have is out of scope for
+        this specification. The behavior is the same for both the implicit flow
+        (Section 3.2 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>),
+        and the authorization code flow (Section 3.1 of
+        <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>).
       </t>
       <t>
         For authorization requests sent as a JWTs, such as when using
         <xref target="I-D.ietf-oauth-jwsreq">JWT Secured Authorization Request</xref>,
-        a single <spanx style="verb">prompt</spanx> parameter value
-        is represented as a JSON string while multiple values are represented as an array of strings.
+        the <spanx style="verb">prompt</spanx> claim value MUST be a space delimited set
+        of prompt values in keeping with Section 3.1.2.1 of <xref target="OpenID.Core">OpenID Connect Core 1.0</xref>.
       </t>
       <t>
+        How the OpenID Provider handles prompt values that it fails to parse is out of scope for this specification.
+
+        -or-
+
         If the OpenID Provider fails to parse the provided value(s) it should ignore the
         <spanx style="verb">prompt</spanx> parameter value and proceed as if the <spanx style="verb">prompt</spanx> parameter
         was not specified.
@@ -144,12 +153,13 @@
      &client_id=example-client
      &state=XzZaJlcwYew1u0QBrRv_Gw
      &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Eorg%2Fcb
-     &prompt=create HTTP/1.1
+     &prompt=create
+     &scope=openid%20profile HTTP/1.1
   Host: authorization-server.example.com
 ]]></artwork>
 </figure>
       </t>
-        <t>
+      <t>
           Below in <xref target="authz-endpoint-example-code"/> is an example of an authorization request
           using the <spanx style="verb">code</spanx> response type
           where the the client tells the OpenID Provider that it wants the user to
@@ -162,12 +172,12 @@
      &client_id=s6BhdRkqt3
      &state=tNwzQ87pC6llebpmac_IDeeq-mCR2wLDYljHUZUAWuI
      &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Eorg%2Fcb
-     &scope=calendar%20contacts
+     &scope=openid%20profile
      &prompt=create HTTP/1.1
   Host: authorization-server.example.com
 ]]></artwork>
         </figure>
-        </t>
+      </t>
     </section>
 
     </section>
@@ -240,6 +250,16 @@
       <?rfc subcompact="yes"?>
       <t>
         [[ to be removed by the RFC Editor before publication as an RFC ]]
+      </t>
+      <t>
+        <list style="hanging">
+          <t hangText="2019-10-02">
+            <vspace/>
+            Incorporated feedback from the working group. Add text around prompt=create
+            being more than a hint but an expectation of an action to be performed.
+            <vspace/>
+          </t>
+        </list>
       </t>
       <t>
         <list style="hanging">
