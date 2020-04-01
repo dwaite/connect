@@ -34,10 +34,12 @@ https://op.certification.openid.net:60000/entity/https%3A%2F%2Fappleid.apple.com
 ### Peculiarities
 
 - No UserInfo endpoint is provided, which means all of the claims about users have to be included in the (expiring and potentially large) `id_token`.
-- The `scope` value of only the very first request by an application is respected. If an application initially requests only the `name` scope, and the user allows it, it is then impossible to later also request the `email` scope. 
+- The `scope` value of only the very first request by an application is respected. If an application initially requests only the `name` scope, and the user allows it, it is then impossible to later also request the `email` scope.
 - The token endpoint does not accept `client_secret_basic` as a client authentication method (required for OpenID Connect certification) and which is actually the default method to use for Clients when there’s no Discovery document that says otherwise
 - Authentication at the token endpoint requires a (custom) JWT assertion as a `client_secret` in a `client_secret_post` authentication method whereas the more appropriate `private_key_jwt` authentication method as defined in RFC 7523 could have been used.
 - The Authorization Code grant type (for public Clients) does not use PKCE [RFC 7636] to avoid code injection and code replay attacks.
+- Including the `profile` scope in the request causes an error `invalid_request` "Application is not authorized to access the requested information." Instead, the non-standard scope `name` is how to request the user's name.
+- The user's name is only sent to the application in the POST request to the redirect URI (along with the authorization code), so is susceptible to injection attacks.
 
 ### Acknowledgements
 
