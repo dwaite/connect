@@ -23,7 +23,7 @@
 
   <front>
     <title abbrev="OpenID Connect Back-Channel Logout 1.0">OpenID Connect
-    Back-Channel Logout 1.0 - draft 05</title>
+    Back-Channel Logout 1.0 - draft 06</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="3" month="August" year="2018" />
+    <date day="21" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -107,8 +107,15 @@
 	when used with public OPs.
       </t>
       <t>
+	The
+	<xref target="OpenID.RPInitiated">OpenID Connect RP-Initiated Logout 1.0</xref>
+	specification complements these specifications by defining a mechanism for a Relying Party
+	to request that an OpenID Provider log out the End-User.
+      </t>
+      <t>
 	This specification can be used separately from or in combination with
-	OpenID Connect Session Management 1.0 and/or
+	OpenID Connect RP-Initiated Logout 1.0,
+	OpenID Connect Session Management 1.0, and/or
 	OpenID Connect Front-Channel Logout 1.0.
       </t>
 
@@ -510,18 +517,6 @@
 
     </section>
 
-    <section anchor="RPInitiated" title="RP-Initiated Logout Functionality">
-      <t>
-	This specification incorporates the RP-initiated logout functionality
-	specified in Section 5 of <xref target="OpenID.Session">OpenID Connect Session Management 1.0</xref>
-	by reference.
-	All the same metadata values and messages are used by the RP to request that
-	the OP log out RPs and then possibly redirect back to the initiating RP
-	as are used in that specification.
-	Therefore, they are not repeated here.
-      </t>
-    </section>
-
     <section anchor="Security" title="Security Considerations">
       <t>
 	The signed Logout Token is required in the logout request to prevent
@@ -676,6 +671,34 @@
         </front>
       </reference>
 
+      <reference anchor="OpenID.RPInitiated" target="http://openid.net/specs/openid-connect-rpinitiated-1_0.html">
+	<front>
+	  <title>OpenID Connect RP-Initiated Logout 1.0</title>
+
+	  <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
+	    <organization abbrev="Microsoft">Microsoft</organization>
+	  </author>
+
+	  <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+	    <organization>Google</organization>
+	  </author>
+
+	  <author fullname="Naveen Agarwal" initials="N." surname="Agarwal">
+	    <organization>Microsoft</organization>
+	  </author>
+
+	  <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
+	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
+	  </author>
+
+	  <author fullname="John Bradley" initials="J." surname="Bradley">
+	    <organization abbrev="Ping Identity">Ping Identity</organization>
+	  </author>
+
+	  <date day="21" month="July" year="2020" />
+	</front>
+      </reference>
+
       <reference anchor="OpenID.FrontChannel" target="http://openid.net/specs/openid-connect-frontchannel-1_0.html">
 	<front>
 	  <title>OpenID Connect Front-Channel Logout 1.0</title>
@@ -684,13 +707,21 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="25" month="January" year="2017" />
+	  <date day="21" month="July" year="2020" />
 	</front>
       </reference>
 
       <reference anchor="OpenID.Session" target="http://openid.net/specs/openid-connect-session-1_0.html">
 	<front>
 	  <title>OpenID Connect Session Management 1.0</title>
+
+	  <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
+	    <organization>Google</organization>
+	  </author>
+
+	  <author fullname="Naveen Agarwal" initials="N." surname="Agarwal">
+	    <organization>Microsoft</organization>
+	  </author>
 
 	  <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
 	    <organization abbrev="NRI">Nomura Research Institute, Ltd.</organization>
@@ -704,19 +735,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
-	    <organization abbrev="Google">Google</organization>
-	  </author>
-
-	  <author fullname="Chuck Mortimore" initials="C." surname="Mortimore">
-	    <organization abbrev="Salesforce">Salesforce</organization>
-	  </author>
-
-	  <author fullname="Edmund Jay" initials="E." surname="Jay">
-	    <organization abbrev="Illumila">Illumila</organization>
-	  </author>
-
-	  <date day="25" month="January" year="2017" />
+	  <date day="21" month="July" year="2020" />
 	</front>
       </reference>
 
@@ -801,7 +820,7 @@
     </section>
 
     <section anchor="Notices" title="Notices">
-      <t>Copyright (c) 2018 The OpenID Foundation.</t>
+      <t>Copyright (c) 2020 The OpenID Foundation.</t>
 
       <t>The OpenID Foundation (OIDF) grants to any Contributor, developer,
       implementer, or other interested party a non-exclusive, royalty free,
@@ -839,6 +858,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-06
+	<list style="symbols">
+          <t>
+	    Fixed #1085 - Split RP-Initiated Logout into its own specification.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-05
