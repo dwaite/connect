@@ -588,6 +588,55 @@
 	<?rfc subcompact="no"?>
       </section>
 
+      <section anchor="ASMetadataRegistry" title="OAuth Authorization Server Metadata Registry">
+	<t>
+	  This specification registers the following metadata names in the
+	  IANA "OAuth Authorization Server Metadata" registry <xref target="IANA.OAuth.Parameters"/>
+	  established by <xref target="RFC8414"/>.
+	</t>
+
+	<section anchor='MetadataContents' title='Registry Contents'>
+	  <t>
+	    <?rfc subcompact="yes"?>
+            <list style='symbols'>
+              <t>
+                Metadata Name: backchannel_logout_supported
+              </t>
+              <t>
+                Metadata Description:
+		Boolean value specifying whether the OP supports back-channel logout,
+		with <spanx style="verb">true</spanx> indicating support
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="Backchannel"/> of this document
+              </t>
+	    </list>
+            <list style='symbols'>
+              <t>
+                Metadata Name: backchannel_logout_session_supported
+              </t>
+              <t>
+                Metadata Description:
+		Boolean value specifying whether the OP can pass
+		a <spanx style="verb">sid</spanx> (session ID)
+		Claim in the Logout Token to identify the RP session with the OP
+              </t>
+              <t>
+                Change Controller: OpenID Foundation Artifact Binding Working Group - openid-specs-ab@lists.openid.net
+              </t>
+              <t>
+                Specification Document(s): <xref target="Backchannel"/> of this document
+              </t>
+	    </list>
+	  </t>
+	</section>
+	<?rfc subcompact="no"?>
+
+      </section>
+
     </section>
 
   </middle>
@@ -797,6 +846,7 @@
 
     <references title="Informative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7591"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8414"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8417"?>
     </references>
 
@@ -864,6 +914,10 @@
 	<list style="symbols">
           <t>
 	    Fixed #1085 - Split RP-Initiated Logout into its own specification.
+	  </t>
+	  <t>
+	    Registered the AS metadata values backchannel_logout_supported
+	    and backchannel_logout_session_supported.
 	  </t>
         </list>
       </t>
