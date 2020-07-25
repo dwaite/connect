@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="23" month="July" year="2020" />
+    <date day="24" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -172,40 +172,6 @@
 	  "Session", reference these defined terms.
 	  Whenever the reader encounters them, their definitions
 	  found in this section must be followed.
-	</t>
-      </section>
-    </section>
-
-    <section anchor="EndpointDiscovery" title="Endpoint Discovery">
-      <t>To support OpenID Connect Session Management, the RP needs to obtain
-      the Session Management related OP metadata.
-      This OP metadata is normally obtained via the OP's Discovery response,
-      as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
-      or MAY be learned via other mechanisms.
-      </t>
-
-      <section anchor="OPMetadata" title="OpenID Provider Discovery Metadata">
-
-	<t>
-	  This OpenID Provider Metadata parameter MUST be included in
-	  the Server's discovery responses
-	  when Session Management and Discovery are supported:
-	</t>
-
-	<t>
-	  <list style="hanging">
-	    <t hangText="check_session_iframe">
-	      <vspace/>
-	      REQUIRED.
-	      URL of an OP iframe that supports cross-origin communications
-	      for session state information with the RP Client,
-	      using the HTML5 postMessage API.
-	      The page is loaded from an invisible iframe embedded in
-	      an RP page so that it can run in the OP's security context. 
-	      It accepts postMessage requests from the relevant RP iframe and
-	      uses postMessage to post back the login status of the End-User at the OP.
-	    </t>
-	  </list>
 	</t>
       </section>
     </section>
@@ -351,7 +317,7 @@
 	  new ID Token and session state, sending the old ID Token as
 	  the <spanx style="verb">id_token_hint</spanx>. 
 	  If the RP receives an ID token for the same End-User, it SHOULD
-	  simply update the value of the session state.  If it doesn't
+	  simply update the value of the session state.  If it does not
 	  receive an ID token or receives an ID token for another
 	  End-User, then it needs to handle this case as a logout for the
 	  original End-User.
@@ -506,7 +472,7 @@
 	</t>
 	<t>
 	  If a cookie is used to maintain the OP browser state,
-	  the HttpOnly flag likely can't be set for this cookie
+	  the HttpOnly flag likely cannot be set for this cookie
 	  because it needs to be accessed from JavaScript.
 	  Therefore, information that can be used for identifying the user
 	  should not be put into the cookie, as it could be read by unrelated JavaScript.
@@ -522,6 +488,35 @@
 	</t>
       </section>
 
+      <section anchor="OPMetadata" title="OpenID Provider Discovery Metadata">
+	<t>
+	  To support OpenID Connect Session Management, the RP needs to obtain
+	  the Session Management related OP metadata.
+	  This OP metadata is normally obtained via the OP's Discovery response,
+	  as described in <xref target="OpenID.Discovery">OpenID Connect Discovery 1.0</xref>,
+	  or MAY be learned via other mechanisms.
+	</t>
+	<t>
+	  This OpenID Provider Metadata parameter MUST be included in
+	  the Server's discovery responses
+	  when Session Management and Discovery are supported:
+	</t>
+	<t>
+	  <list style="hanging">
+	    <t hangText="check_session_iframe">
+	      <vspace/>
+	      REQUIRED.
+	      URL of an OP iframe that supports cross-origin communications
+	      for session state information with the RP Client,
+	      using the HTML5 postMessage API.
+	      The page is loaded from an invisible iframe embedded in
+	      an RP page so that it can run in the OP's security context. 
+	      It accepts postMessage requests from the relevant RP iframe and
+	      uses postMessage to post back the login status of the End-User at the OP.
+	    </t>
+	  </list>
+	</t>
+      </section>
     </section>
 
     <section anchor="Validation" title="Validation">
@@ -683,26 +678,6 @@
         </front>
       </reference>
 
-      <reference anchor="OpenID.Registration" target="http://openid.net/specs/openid-connect-registration-1_0.html">
-        <front>
-          <title>OpenID Connect Dynamic Client Registration 1.0</title>
-
-          <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
-            <organization abbrev="NAT.Consulting (was at NRI)">NAT.Consulting</organization>
-          </author>
-
-          <author fullname="John Bradley" initials="J." surname="Bradley">
-            <organization abbrev="Yubico (was at Ping Identity)">Yubico</organization>
-          </author>
-
-          <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
-            <organization abbrev="Microsoft">Microsoft</organization>
-          </author>
-
-          <date day="8" month="November" year="2014"/>
-        </front>
-      </reference>
-
       <reference anchor="OpenID.RPInitiated" target="http://openid.net/specs/openid-connect-rpinitiated-1_0.html">
 	<front>
 	  <title>OpenID Connect RP-Initiated Logout 1.0</title>
@@ -727,7 +702,7 @@
 	    <organization abbrev="Yubico">Yubico</organization>
 	  </author>
 
-	  <date day="23" month="July" year="2020" />
+	  <date day="24" month="July" year="2020" />
 	</front>
       </reference>
 
@@ -739,7 +714,7 @@
 	    <organization abbrev="Microsoft">Microsoft</organization>
 	  </author>
 
-	  <date day="23" month="July" year="2020" />
+	  <date day="24" month="July" year="2020" />
 	</front>
       </reference>
 
@@ -755,7 +730,7 @@
             <organization abbrev="Yubico">Yubico</organization>
           </author>
 
-	  <date day="23" month="July" year="2020" />
+	  <date day="24" month="July" year="2020" />
 	</front>
       </reference>
 
@@ -772,7 +747,6 @@
     </references>
 
     <references title="Informative References">
-      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7591"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8414"?>
 
     </references>
@@ -853,6 +827,9 @@
 	  </t>
 	  <t>
 	    Updated affiliations and acknowledgements.
+	  </t>
+	  <t>
+	    Moved metadata section to a more logical location.
 	  </t>
         </list>
       </t>
