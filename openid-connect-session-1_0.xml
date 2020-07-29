@@ -207,9 +207,9 @@
       </t>
       <t>
 	The Session State value is initially calculated on the server.
-	The same Session State value is also recalculated by the OP iframe in the browser client.
+	The same Session State value is also recalculated by the OP iframe in the User Agent.
 	The generation of suitable Session State values is specified in <xref target="OPiframe"/>,
-	and is based on a salted cryptographic hash of Client ID, origin URL, and OP browser state.
+	and is based on a salted cryptographic hash of Client ID, origin URL, and OP User Agent state.
 	For the origin URL, the server can use the origin URL of the Authentication Response,
 	following the algorithm specified in Section 4 of <xref target="RFC6454">RFC 6454</xref>.
       </t>
@@ -220,7 +220,7 @@
 	An ID Token typically comes with an expiration date. The RP MAY rely on it
 	to expire the RP session. However, it is entirely possible that the End-User
 	might have logged out of the OP before the expiration date. Therefore, it is
-	highly desirable to be able to find out the login status of the End-User at
+	highly desirable to be able to determine the login status of the End-User at
 	the OP.
       </t>
       <t>
@@ -355,14 +355,14 @@
           </list>
 	</t>
 	<t>
-	  The OP iframe has access to Browser state at the OP (in a
+	  The OP iframe has access to User Agent state at the OP (in a
 	  cookie or in HTML5 storage) that it uses to calculate and
 	  compare with the OP session state that was passed by the RP.
 	  The OP iframe MUST recalculate it from the previously
 	  obtained Client ID, the source origin URL (from the
-	  postMessage), and the current OP Browser state.
+	  postMessage), and the current OP User Agent state.
 	  The session state includes all of this information for privacy reasons,
-	  so that different clients active in the same Browser
+	  so that different clients active in the same User Agent
 	  have distinct session state values.
 	</t>
 	<t>
@@ -395,16 +395,16 @@
     // if message syntactically invalid
     //     postMessage('error', e.origin) and return
 
-    // get_op_browser_state() is an OP defined function
-    // that returns the browser's login status at the OP.
+    // get_op_user_agent_state() is an OP defined function
+    // that returns the User Agent's login status at the OP.
     // How it is done is entirely up to the OP.
-    var opbs = get_op_browser_state();
+    var opuas = get_op_user_agent_state();
 
     // Here, the session_state is calculated in this particular way, 
     // but it is entirely up to the OP how to do it under the 
     // requirements defined in this specification. 
     var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' +
-      opbs + ' ' + salt) + "." + salt;
+      opuas + ' ' + salt) + "." + salt;
 
     var stat = '';
     if (session_state == ss) {
@@ -419,25 +419,25 @@
           </figure>
 	</t>
 	<t>
-	  The OP browser state is typically going to be stored in a
+	  The OP User Agent state is typically going to be stored in a
 	  cookie or HTML5 local storage.  It is origin bound to the
 	  Authorization Server.  It captures meaningful events such as
 	  logins, logouts, change of user,
 	  change of authentication status for Clients being used by the End-User,
 	  etc.  Thus, the OP SHOULD
-	  update the value of the browser state in response to such
+	  update the value of the User Agent state in response to such
 	  meaningful events. As a result, the next call to
 	  check_session() after such an event will return the
 	  value <spanx style='verb'>changed</spanx>.
 	  It is RECOMMENDED that the OP not update
-	  the browser state too frequently in the absence of
+	  the User Agent state too frequently in the absence of
 	  meaningful events so as to spare excessive network traffic
 	  at the Client in response to spurious <spanx style='verb'>changed</spanx> events.
 	</t>
 	<t>
 	  The computation of the session state returned in response to
 	  unsuccessful Authentication Requests SHOULD, in addition to
-	  the browser state, incorporate sufficient randomness in the
+	  the User Agent state, incorporate sufficient randomness in the
 	  form of a salt so as to prevent identification of an End-User
 	  across successive calls to the OP's Authorization Endpoint.
 	</t>
@@ -449,7 +449,7 @@
 
 	  <list style="symbols">
 	    <t>
-	      The set of users authenticated to the browser changes
+	      The set of users authenticated to the User Agent changes
 	      (login, logout, session add).
 	    </t>
 	    <t>
@@ -458,11 +458,11 @@
 	  </list>
 	</t>
 	<t>
-	  In addition, the browser state used to verify the session state
+	  In addition, the User Agent state used to verify the session state
 	  SHOULD change with such events.
 	  Calls to check_session() will return <spanx style='verb'>changed</spanx>
 	  against earlier versions of session state after such events.
-	  It is RECOMMENDED that the browser state SHOULD NOT vary too
+	  It is RECOMMENDED that the User Agent state SHOULD NOT vary too
 	  frequently in the absence of such events to minimize network
 	  traffic caused by the Client's response to <spanx style='verb'>changed</spanx>
 	  notifications.
@@ -470,14 +470,14 @@
 	<t>
 	  In the case of an unsuccessful Authentication Request, the
 	  value of the session state returned SHOULD vary with each
-	  request. However, the browser session state need not change
+	  request. However, the User Agent session state need not change
 	  unless a meaningful event happens. In particular, many
 	  values of session state can be simultaneously valid, for
 	  instance by the introduction of random salt in the session
 	  states issued in response to unsuccessful Authentication Requests.
 	</t>
 	<t>
-	  If a cookie is used to maintain the OP browser state,
+	  If a cookie is used to maintain the OP User Agent state,
 	  the HttpOnly flag likely cannot be set for this cookie
 	  because it needs to be accessed from JavaScript.
 	  Therefore, information that can be used for identifying the user
@@ -771,6 +771,7 @@
           <t>George Fletcher (george.fletcher@corp.aol.com), AOL</t>
           <t>Edmund Jay (ejay@mgi1.com), Illumila</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
+	  <t>Tom Jones (thomasclinganjones@gmail.com), Independent</t>
 	  <t>Todd Lainhart (lainhart@us.ibm.com), IBM</t>
 	  <t>Torsten Lodderstedt (torsten@lodderstedt.net), yes.com</t>
           <t>Anthony Nadalin (tonynad@microsoft.com), Microsoft</t>
@@ -827,6 +828,9 @@
         <list style="symbols">
 	  <t>
 	    Fixed #1038 - Add RP iframe / parent window communication cross-origin note.
+	  </t>
+	  <t>
+	    Fixed #1011 - Replaced uses of "Browser" with "User Agent".
 	  </t>
         </list>
       </t>
