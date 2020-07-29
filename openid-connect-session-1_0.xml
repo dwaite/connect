@@ -24,7 +24,7 @@
 
   <front>
     <title abbrev="OpenID Connect Session Management 1.0">OpenID Connect
-    Session Management 1.0 - draft 29</title>
+    Session Management 1.0 - draft 30</title>
 
     <author fullname="Breno de Medeiros" initials="B." surname="de Medeiros">
       <organization>Google</organization>
@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="24" month="July" year="2020" />
+    <date day="29" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -324,6 +324,12 @@
 	</t>
 	<t>
 	  Note that the session state is origin bound.
+	  In deployments with multiple subdomains sharing the same RP session,
+	  it is important that the parent window and the RP iframe both set the same
+	  <spanx style="verb">document.domain</spanx> to comply with same-origin restrictions.
+	  This will allow the RP iframe to target the parent window's embedded OP iframe.
+	</t>
+	<t>
 	  Session state SHOULD be returned upon an authentication failure.
 	</t>
       </section>
@@ -815,6 +821,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+        -30
+        <list style="symbols">
+	  <t>
+	    Fixed #1038 - Add RP iframe / parent window communication cross-origin note.
+	  </t>
+        </list>
+      </t>
 
       <t>
         -29
