@@ -23,7 +23,7 @@
 
   <front>
     <title abbrev="OpenID Connect Back-Channel Logout 1.0">OpenID Connect
-    Back-Channel Logout 1.0 - draft 05</title>
+    Back-Channel Logout 1.0 - draft 06</title>
 
     <author fullname="Michael B. Jones" initials="M.B." surname="Jones">
       <organization abbrev="Microsoft">Microsoft</organization>
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="24" month="July" year="2020" />
+    <date day="30" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -228,6 +228,12 @@
 	      OPTIONAL.
 	      RP URL that will cause the RP to log itself out
 	      when sent a Logout Token by the OP.
+	      This URL SHOULD use the <spanx style="verb">https</spanx> scheme
+	      and MAY contain port, path, and query parameter components;
+	      however, it MAY use the <spanx style="verb">http</spanx> scheme,
+	      provided that the Client Type is <spanx style="verb">confidential</spanx>,
+	      as defined in Section 2.1 of <xref target="RFC6749">OAuth 2.0</xref>, and
+	      provided the OP allows the use of <spanx style="verb">http</spanx> RP URIs.
 	    </t>
 	  </list>
 	</t>
@@ -861,6 +867,7 @@
         <list style="empty">
           <t>John Bradley (ve7jtb@ve7jtb.com), Yubico</t>
 	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
+	  <t>Vladimir Dzhuvinov (vladimir@connect2id.com), Connect2id</t>
 	  <t>Pedro Felix (pmhsfelix@gmail.com), individual</t>
 	  <t>Phil Hunt (phil.hunt@oracle.com), Oracle</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
@@ -911,6 +918,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the final specification ]]</t>
+
+      <t>
+	-06
+	<list style="symbols">
+	  <t>
+	    Fixed #1030 - Specify the use of HTTPS URIs.
+	  </t>
+        </list>
+      </t>
 
       <t>
 	-05

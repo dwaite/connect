@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="29" month="July" year="2020" />
+    <date day="30" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -181,6 +181,12 @@
 	    URL to which the RP is requesting that
 	    the End-User's User Agent be redirected
 	    after a logout has been performed.
+	    This URL SHOULD use the <spanx style="verb">https</spanx> scheme
+	    and MAY contain port, path, and query parameter components;
+	    however, it MAY use the <spanx style="verb">http</spanx> scheme,
+	    provided that the Client Type is <spanx style="verb">confidential</spanx>,
+	    as defined in Section 2.1 of <xref target="RFC6749">OAuth 2.0</xref>, and
+	    provided the OP allows the use of <spanx style="verb">http</spanx> RP URIs.
 	    The value MUST have been previously registered with the OP,
 	    either using the <spanx style="verb">post_logout_redirect_uris</spanx>
 	    Registration parameter or via another mechanism.
@@ -253,6 +259,8 @@
 	      REQUIRED.
 	      URL at the OP to which an RP can perform a redirect to request that the
 	      End-User be logged out at the OP.
+	      This URL MUST use the <spanx style="verb">https</spanx> scheme
+	      and MAY contain port, path, and query parameter components.
 	    </t>
 	  </list>
 	</t>
@@ -300,6 +308,12 @@
 	      the End-User's User Agent be redirected using the
 	      <spanx style="verb">post_logout_redirect_uri</spanx> parameter
 	      after a logout has been performed.
+	      These URLs SHOULD use the <spanx style="verb">https</spanx> scheme
+	      and MAY contain port, path, and query parameter components;
+	      however, they MAY use the <spanx style="verb">http</spanx> scheme,
+	      provided that the Client Type is <spanx style="verb">confidential</spanx>,
+	      as defined in Section 2.1 of <xref target="RFC6749">OAuth 2.0</xref>, and
+	      provided the OP allows the use of <spanx style="verb">http</spanx> RP URIs.
 	    </t>
 	  </list>
 	</t>
@@ -638,6 +652,9 @@
 	  </t>
 	  <t>
 	    Fixed #1134 - Clarify that OPs must send a logout notification to the RP that requested RP-Initiated Logout.
+	  </t>
+	  <t>
+	    Fixed #1030 - Specify the use of HTTPS URIs.
 	  </t>
         </list>
       </t>
