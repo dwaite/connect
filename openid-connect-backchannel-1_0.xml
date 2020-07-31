@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="30" month="July" year="2020" />
+    <date day="31" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -200,6 +200,30 @@
 	    </t>
 	  </list>
 	</t>
+	<t>
+	  The <spanx style="verb">sid</spanx> (session ID) Claim used in ID Tokens and
+	  as a Logout Token parameter has the following definition
+	  (which is identical to the corresponding definition in
+	  <xref target="OpenID.FrontChannel">OpenID Connect Front-Channel Logout 1.0</xref>):
+	</t>
+	<t>
+	  <list style="hanging">
+	    <t hangText="sid">
+	      <vspace/>
+	      OPTIONAL.
+	      Session ID - String identifier for a Session.
+	      This represents a Session of a User Agent or device
+	      for a logged-in End-User at an RP.
+	      Different <spanx style="verb">sid</spanx> values are used to identify
+	      distinct sessions at an OP.
+	      The <spanx style="verb">sid</spanx> value need only be unique
+	      in the context of a particular issuer.
+	      Its contents are opaque to the RP.
+	      Its syntax is the same as an OAuth 2.0 Client Identifier.
+	    </t>
+	  </list>
+	</t>
+
       </section>
 
       <section anchor="BCRegistration" title="Indicating RP Support for Back-Channel Logout">
@@ -925,6 +949,9 @@
 	  <t>
 	    Fixed #1030 - Specify the use of HTTPS URIs.
 	  </t>
+	  <t>
+	    Fixed #1031 - Specify <spanx style="verb">sid</spanx> ID Token claim for use in Back-Channel Logout.
+	  </t>
         </list>
       </t>
 
@@ -938,8 +965,8 @@
 	    Fixed #1085 - Split RP-Initiated Logout into its own specification.
 	  </t>
 	  <t>
-	    Registered the AS metadata values backchannel_logout_supported
-	    and backchannel_logout_session_supported.
+	    Registered the AS metadata values <spanx style="verb">backchannel_logout_supported</spanx>
+	    and <spanx style="verb">backchannel_logout_session_supported</spanx>.
 	  </t>
 	  <t>
 	    Updated affiliations and acknowledgements.
