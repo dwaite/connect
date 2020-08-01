@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="30" month="July" year="2020" />
+    <date day="31" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -51,8 +51,6 @@
 	Other protocols have used HTTP GETs to RP URLs that clear login state
 	to achieve this.
 	This specification does the same thing.
-	It also reuses the RP-initiated logout functionality specified in
-	Section 5 of OpenID Connect Session Management 1.0 (RP-Initiated Logout).
       </t>
     </abstract>
   </front>
@@ -186,6 +184,12 @@
 	  </t>
 
 	</list>
+      </t>
+      <t>
+	The RP MAY verify that any <spanx style="verb">iss</spanx> and <spanx style="verb">sid</spanx> parameters
+	match the <spanx style="verb">iss</spanx> and <spanx style="verb">sid</spanx> Claims in an ID Token issued
+	for the current session or a recent session of this RP with the OP
+	and ignore the logout request if they do not.
       </t>
       <t>
 	The RP's response SHOULD include <spanx style="verb">Cache-Control</spanx>
@@ -686,6 +690,7 @@
 	  <t>Brian Campbell (bcampbell@pingidentity.com), Ping Identity</t>
 	  <t>Jim des Rivieres (Jim_des_Rivieres@ca.ibm.com), IBM</t>
 	  <t>Vladimir Dzhuvinov (vladimir@connect2id.com), Connect2id</t>
+	  <t>Joseph Heenan (joseph@authlete.com), Authlete</t>
           <t>Michael B. Jones (mbj@microsoft.com), Microsoft</t>
 	  <t>Torsten Lodderstedt (torsten@lodderstedt.net), yes.com</t>
 	  <t>Nat Sakimura (nat@nat.consulting), NAT.Consulting</t>
@@ -740,7 +745,10 @@
 	  <t>
 	    Fixed #1030 - Specify the use of HTTPS URIs.
 	  </t>
-        </list>
+	  <t>
+	    Fixed #1176 - Verify that the <spanx style="verb">sid</spanx> logout parameter matches this claim in an ID Token.
+	  </t>
+       </list>
       </t>
 
       <t>
@@ -750,7 +758,7 @@
 	    Fixed #1085 - Split RP-Initiated Logout into its own specification.
 	  </t>
 	  <t>
-	    Registered the AS metadata value frontchannel_logout_supported.
+	    Registered the AS metadata value <spanx style="verb">frontchannel_logout_supported</spanx>.
 	  </t>
 	  <t>
 	    Updated affiliations and acknowledgements.
