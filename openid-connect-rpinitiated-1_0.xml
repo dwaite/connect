@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="30" month="July" year="2020" />
+    <date day="31" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -166,14 +166,11 @@
 	  <t hangText="id_token_hint">
 	    <vspace/>
 	    RECOMMENDED.
-	    Previously issued ID Token passed to the logout endpoint
+	    ID Token previously issued by the OP to the RP passed to the logout endpoint
 	    as a hint about the End-User's current authenticated
 	    session with the Client.
 	    This is used as an indication of the identity of the
 	    End-User that the RP is requesting be logged out by the OP.
-	    The OP need not be listed as an
-	    audience of the ID Token when it is used as an
-	    <spanx style="verb">id_token_hint</spanx> value.
 	  </t>
 	  <t hangText="post_logout_redirect_uri">
 	    <vspace/>
@@ -202,10 +199,21 @@
 	    using the <spanx style="verb">state</spanx> query parameter
 	    when redirecting the User Agent back to the RP.
 	  </t>
-
 	</list>
       </t>
 
+      <t>
+	When an <spanx style="verb">id_token_hint</spanx> is present,
+	the OP MUST validate that it was the issuer of the ID Token.
+	The OP SHOULD accept ID Tokens when the RP identified by the ID Token's
+	<spanx style="verb">aud</spanx> claim and/or <spanx style="verb">sid</spanx> claim
+	has a current session or had a recent session at the OP,
+	even when the <spanx style="verb">exp</spanx> time has passed.
+	If the ID Token's <spanx style="verb">sid</spanx> claim does not correspond
+	to the RP's current session or a recent session at the OP,
+	the OP SHOULD treat the logout request as suspect,
+	and MAY decline to act upon it.
+      </t>
       <t>
 	At the logout endpoint, the OP SHOULD ask the End-User whether
 	he wants to log out of the OP as well.
@@ -648,13 +656,17 @@
 	-01
 	<list style="symbols">
           <t>
-	    Fixed #1071 - Require id_token_hint in RP-initiated logout for redirect to post_logout_redirect_uri.
+	    Fixed #1071 - Require <spanx style="verb">id_token_hint</spanx> in RP-initiated logout
+	    for redirect to <spanx style="verb">post_logout_redirect_uri</spanx>.
 	  </t>
 	  <t>
 	    Fixed #1134 - Clarify that OPs must send a logout notification to the RP that requested RP-Initiated Logout.
 	  </t>
 	  <t>
 	    Fixed #1030 - Specify the use of HTTPS URIs.
+	  </t>
+	  <t>
+	    Fixed #1087 - Insufficient description of <spanx style="verb">id_token_hint</spanx> processing and validation.
 	  </t>
         </list>
       </t>
@@ -666,7 +678,7 @@
 	    Fixed #1085 - Split RP-Initiated Logout into its own specification.
 	  </t>
 	  <t>
-	    Registered the AS metadata value end_session_endpoint.
+	    Registered the AS metadata value <spanx style="verb">end_session_endpoint</spanx>.
 	  </t>
 	  <t>
 	    Updated affiliations and acknowledgements.

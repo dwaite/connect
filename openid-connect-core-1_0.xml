@@ -23,7 +23,7 @@
   <?rfc private="Draft" ?>
 
   <front>
-    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 26 incorporating errata set 2</title>
+    <title abbrev="OpenID Connect Core 1.0">OpenID Connect Core 1.0 - draft 27 incorporating errata set 2</title>
 
     <author fullname="Nat Sakimura" initials="N." surname="Sakimura">
       <organization abbrev="NAT.Consulting (was at NRI)">NAT.Consulting</organization>
@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date day="24" month="July" year="2020" />
+    <date day="31" month="July" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -735,7 +735,7 @@
 	The Authentication result is returned in an
 	ID Token, as defined in <xref target="IDToken"/>.
 	It has Claims expressing such information as the Issuer,
-	the Subject Identifier, when the authentication expires, etc.
+	the Subject Identifier, when the authentication was performed, etc.
       </t>
       <t>
 	Authentication can follow one of three paths:
@@ -1323,6 +1323,13 @@
 		  as described in <xref target="IndividualClaimsRequests"/>,
 		  if the <spanx style="verb">claims</spanx> parameter
 		  is supported by the implementation.
+		</t>
+		<t>
+		  When an <spanx style="verb">id_token_hint</spanx> is present,
+		  the OP MUST validate that it was the issuer of the ID Token.
+		  The OP SHOULD accept ID Tokens when the RP identified by the ID Token
+		  has a current session or had a recent session at the OP,
+		  even when the <spanx style="verb">exp</spanx> time has passed.
 		</t>
 	      </list>
 	    </t>
@@ -9058,6 +9065,15 @@
 
     <section anchor="History" title="Document History">
       <t>[[ To be removed from the approved errata ]]</t>
+
+      <t>
+	-27
+        <list style="symbols">
+	  <t>
+	    Fixed #1087 - Insufficient description of <spanx style="verb">id_token_hint</spanx> processing and validation.
+	  </t>
+	</list>
+      </t>
 
       <t>
 	-26
