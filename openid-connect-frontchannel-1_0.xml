@@ -33,7 +33,7 @@
       </address>
     </author>
 
-    <date day="31" month="July" year="2020" />
+    <date day="3" month="August" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -350,6 +350,42 @@
     ?iss=https://server.example.com
     &sid=08a5019c-17e1-4977-8f42-65a12843ea02
 ]]></artwork></figure>
+      </section>
+    </section>
+
+    <section anchor="ImplementationConsiderations" title="Implementation Considerations">
+      <t>
+	This specification defines features used by both Relying Parties and
+	OpenID Providers that choose to implement Front-Channel Logout.
+	All of these Relying Parties and OpenID Providers
+	MUST implement the features that are listed
+	in this specification as being "REQUIRED" or are described with a "MUST".
+      </t>
+
+      <section anchor="ThirdPartyContent" title="User Agents Blocking Access to Third-Party Content">
+	<t>
+	  Note that at the time of this writing,
+	  some User Agents (browsers) are starting to block access to third-party content by default
+	  to block some mechanisms used to track the End-User's activity across sites.
+	  Specifically, the third-party content being blocked is
+	  website content with an origin different that the origin of the focused User Agent window.
+	  Site data includes cookies and any web storage APIs (sessionStorage, localStorage, etc.).
+	</t>
+	<t>
+	  This can prevent the ability for notifications from the OP at the RP
+	  from being able to access the RP's User Agent state to implement local logout actions.
+	  In particular, the <spanx style="verb">frontchannel_logout_uri</spanx> might not be able to access
+	  the RP's login state when rendered by the OP in an iframe
+	  because the iframe is in a different origin than the OP's page.
+	  Therefore, deployments of this specification are recommended to include defensive code to detect this situation,
+	  and if possible, notify the End-User that the requested RP logouts could not be performed.
+	  The details of the defensive code needed are beyond the scope of this specification;
+	  it may vary per User Agent and may vary over time,
+	  as the User Agent tracking prevention situation is fluid and continues to evolve.
+	</t>
+	<t>
+	  <xref target="OpenID.BackChannel">OpenID Connect Back-Channel Logout 1.0</xref> is not known to be affected by these developments.
+	</t>
       </section>
     </section>
 
@@ -747,6 +783,12 @@
 	  </t>
 	  <t>
 	    Fixed #1176 - Verify that the <spanx style="verb">sid</spanx> logout parameter matches this claim in an ID Token.
+	  </t>
+	  <t>
+	    Added Implementation Considerations section.
+	  </t>
+	  <t>
+	    Fixed #1003 - Document possible impacts of disabling access to third-party content.
 	  </t>
        </list>
       </t>
