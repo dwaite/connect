@@ -116,12 +116,8 @@
 	<xref target="OpenID.RPInitiated">OpenID Connect RP-Initiated Logout 1.0</xref>
 	specification complements these specifications by defining a mechanism for a Relying Party
 	to request that an OpenID Provider log out the End-User.
-      </t>
-      <t>
 	This specification can be used separately from or in combination with
-	OpenID Connect RP-Initiated Logout 1.0,
-	OpenID Connect Front-Channel Logout 1.0, and/or
-	OpenID Connect Back-Channel Logout 1.0.
+	these other three specifications.
       </t>
 
       <section anchor="rnc" title="Requirements Notation and Conventions">
@@ -317,6 +313,9 @@
 	  receive an ID token or receives an ID token for another
 	  End-User, then it needs to handle this case as a logout for the
 	  original End-User.
+	  If the original End-User is already logged out at the RP when
+	  the state changes indicate that End-User should be logged out,
+	  the logout is considered to have succeeded.
 	</t>
 	<t>
 	  Note that the session state is origin bound.
@@ -867,6 +866,9 @@
 	  </t>
 	  <t>
 	    Fixed #1003 - Document possible impacts of disabling access to third-party content.
+	  </t>
+	  <t>
+	    Fixed #1133 - Clarify that logout notifications to RPs are idempotent.
 	  </t>
         </list>
       </t>
