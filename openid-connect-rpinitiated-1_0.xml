@@ -92,7 +92,7 @@
 	<xref target="RFC6749"/>
 	protocol. It enables Clients to verify the identity of the End-User based
 	on the authentication performed by an Authorization Server, as well as to
-	obtain basic profile information about the End-User in an interoperable and 
+	obtain basic profile information about the End-User in an interoperable and
 	REST-like manner.
       </t>
       <t>
@@ -199,11 +199,25 @@
 	    using the <spanx style="verb">state</spanx> parameter
 	    when redirecting the User Agent back to the RP.
 	  </t>
+	  <t hangText="ui_locales">
+	    <vspace/>
+	    OPTIONAL.
+	    End-User's preferred languages and scripts for the user interface,
+	    represented as a space-separated list of
+	    <xref target="RFC5646">BCP47</xref> language tag values,
+	    ordered by preference.
+	    For instance, the value "fr-CA fr en" represents a preference
+	    for French as spoken in Canada,
+	    then French (without a region designation),
+	    followed by English (without a region designation).
+	    An error SHOULD NOT result if some or all of the requested locales
+	    are not supported by the OpenID Provider.
+	  </t>
 	</list>
       </t>
 
       <t>
-	Authorization Servers MUST support the use of the HTTP <spanx style="verb">GET</spanx> and 
+	OpenID Providers MUST support the use of the HTTP <spanx style="verb">GET</spanx> and
 	<spanx style="verb">POST</spanx> methods defined in <xref target="RFC7231">RFC 7231</xref> at the
 	Logout Endpoint.
 	RPs MAY use the HTTP <spanx style="verb">GET</spanx> or
@@ -212,7 +226,7 @@
 	<spanx style="verb">GET</spanx> method, the request parameters are serialized using
 	URI Query String Serialization.
 	If using the HTTP <spanx style="verb">POST</spanx>
-	method, the request parameters are serialized using 
+	method, the request parameters are serialized using
 	Form Serialization.
       </t>
 
@@ -448,6 +462,7 @@
   <back>
     <references title="Normative References">
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119"?>
+      <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5646"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6454"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6749"?>
       <?rfc include="http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7159"?>
@@ -686,6 +701,9 @@
 	  </t>
 	  <t>
 	    Fixed #1056 - Support both GET and POST at the Logout Endpoint.
+	  </t>
+	  <t>
+	    Fixed #1017 - Added <spanx style="verb">ui_locales</spanx> parameter at Logout Endpoint.
 	  </t>
         </list>
       </t>
