@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date day="3" month="August" year="2020" />
+    <date day="5" month="August" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -69,7 +69,7 @@
 	<xref target="RFC6749"/>
 	protocol. It enables Clients to verify the identity of the End-User based
 	on the authentication performed by an Authorization Server, as well as to
-	obtain basic profile information about the End-User in an interoperable and 
+	obtain basic profile information about the End-User in an interoperable and
 	REST-like manner.
       </t>
       <t>
@@ -138,7 +138,7 @@
 
       <section anchor="Terminology" title="Terminology">
         <t>
-	  This specification uses the terms 
+	  This specification uses the terms
 	  "Authorization Server",
 	  "Client", "Client Identifier", and "Redirection URI"
 	  defined by <xref target="RFC6749">OAuth 2.0</xref>,
@@ -152,7 +152,7 @@
 	<t>
 	  This specification also defines the following term:
 	  <list style="hanging">
-      
+
             <t hangText="Logout Token">
 	      <vspace/>
               <xref target="JWT">JSON Web Token (JWT)</xref> similar to an ID Token
@@ -388,6 +388,12 @@
 	  A Logout Token MUST be signed and MAY also be encrypted.
 	  The same keys are used to sign and encrypt Logout Tokens
 	  as are used for ID Tokens.
+	  If the Logout Token is encrypted, it SHOULD replicate the
+	  <spanx style="verb">iss</spanx> (issuer) claim
+	  in the JWT Header Parameters,
+	  as specified in Section 5.3 of <xref target="JWT"/>.
+	</t>
+	<t>
 	  NOTE: The Logout Token is compatible with
 	  the Security Event Token (SET) <xref target="RFC8417"/> specification.
 	</t>
@@ -986,6 +992,9 @@
 	  <t>
 	    Added Implementation Considerations section.
 	  </t>
+	  <t>
+	    Fixed #1049 - Include a reference to the OP when the Logout Token is encrypted.
+	  </t>
         </list>
       </t>
 
@@ -1031,7 +1040,7 @@
 	    MUST be the same as that of a registered Redirection URI value.
 	  </t>
           <t>
-	    Updated the Logout Token syntax to match 
+	    Updated the Logout Token syntax to match
 	    draft-ietf-secevent-token-00.
 	  </t>
         </list>
