@@ -66,7 +66,7 @@
       </address>
     </author>
 
-    <date day="3" month="August" year="2020" />
+    <date day="7" month="August" year="2020" />
 
     <workgroup>OpenID Connect Working Group</workgroup>
 
@@ -92,7 +92,7 @@
 	<xref target="RFC6749"/>
 	protocol. It enables Clients to verify the identity of the End-User based
 	on the authentication performed by an Authorization Server, as well as to
-	obtain basic profile information about the End-User in an interoperable and 
+	obtain basic profile information about the End-User in an interoperable and
 	REST-like manner.
       </t>
       <t>
@@ -178,7 +178,7 @@
 	validates the End-User's ID Token.
 	Refer to the OpenID Connect Core 1.0 <xref target="OpenID.Core"/>
 	specification to find
-	out how to obtain an ID Token and validate it. 
+	out how to obtain an ID Token and validate it.
 	When the OP supports session management, it MUST also return the Session State
 	as an additional <spanx style="verb">session_state</spanx> parameter
 	in the Authentication Response.
@@ -231,22 +231,26 @@
 
         <t>
 	  The RP loads an invisible iframe from itself.
-	  This iframe MUST know 
-		<list style="symbols">
-			<t>the ID of the OP iframe,
-				as described in <xref target="OPiframe"/>, so that it can
-				postMessage to the OP iframe</t>
-			<t>the origin URL of the OP iframe, so that it can
-				ensure messages are dispatched to and only handled when coming
-				from the OP</t>
-		</list>
+	  This iframe MUST know:
+	  <list style="symbols">
+	    <t>
+	      the ID of the OP iframe,
+	      as described in <xref target="OPiframe"/>, so that it can
+	      postMessage to the OP iframe, and
+	    </t>
+	    <t>
+	      the origin URL of the OP iframe, so that it can
+	      ensure messages are dispatched to and only processed when originating
+	      from the OP.
+	    </t>
+	  </list>
 	  The RP iframe polls the OP iframe with postMessage at an interval
 	  suitable for the RP application. With each postMessage, it sends the
 	  session state defined in <xref target="OPiframe"/>.
-		The RP iframe MUST enforce that it only processes messages
-		from the origin of the OP frame. It MUST reject postMessage
-		requests from any other source origin, 
-		to prevent cross-site scripting attacks.
+	  The RP iframe MUST enforce that it only processes messages
+	  from the origin of the OP frame. It MUST reject postMessage
+	  requests from any other source origin,
+	  to prevent cross-site scripting attacks.
 	</t>
 
         <t>
@@ -266,8 +270,8 @@
 	  unless the syntax of the message sent was determined by the OP to be malformed,
 	  in which case the received data will be <spanx style='verb'>error</spanx>.
 	  Upon receipt of
-	  <spanx style='verb'>changed</spanx>, the RP MUST perform re-authentication with 
-	  <spanx style='verb'>prompt=none</spanx> to obtain the current 
+	  <spanx style='verb'>changed</spanx>, the RP MUST perform re-authentication with
+	  <spanx style='verb'>prompt=none</spanx> to obtain the current
 	  session state at the OP.
 	  Upon receipt of
 	  <spanx style='verb'>error</spanx>, the RP MUST NOT perform re-authentication
@@ -284,9 +288,9 @@
             <artwork><![CDATA[
   var stat = "unchanged";
   var mes = client_id + " " + session_state;
-	var targetOrigin = "https://server.example.com"; // Validates message origin
-	var opFrameId = "op";
-	var timerID;
+  var targetOrigin = "https://server.example.com"; // Validates origin
+  var opFrameId = "op";
+  var timerID;
 
   function check_session()   {
     var win = window.parent.frames[opFrameId].contentWindow
@@ -295,24 +299,24 @@
 
   function setTimer() {
     check_session();
-		timerID = setInterval(check_session, 5 * 1000);
+    timerID = setInterval(check_session, 5 * 1000);
   }
 
-  window.addEventListener("message", receiveMessage, false); 
+  window.addEventListener("message", receiveMessage, false);
 
   function receiveMessage(e) {
     if (e.origin !== targetOrigin) {
-			return;
-		}
+      return;
+    }
     stat = e.data;
 
     if (stat === "changed") {
-			clearInterval(timerID);
-			// then take the actions below...
-		}
+      clearInterval(timerID);
+      // then take the actions below...
+    }
   }
-	
-	setTimer();
+
+  setTimer();
 ]]></artwork>
           </figure>
 	</t>
@@ -321,7 +325,7 @@
 	  try a <spanx style="verb">prompt=none</spanx> request
 	  within an iframe to obtain a
 	  new ID Token and session state, sending the old ID Token as
-	  the <spanx style="verb">id_token_hint</spanx>. 
+	  the <spanx style="verb">id_token_hint</spanx>.
 	  If the RP receives an ID token for the same End-User, it SHOULD
 	  simply update the value of the session state.  If it does not
 	  receive an ID token or receives an ID token for another
@@ -350,9 +354,9 @@
 	  <spanx style='verb'>check_session_iframe</spanx>.
 	  The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
 	  address it, as described above.
-	  OP iframe MUST enforce that the caller is from an expected origin.
-		It MUST reject postMessage requests from any other source origin,
-		to prevent cross-site scripting attacks.
+	  The OP iframe MUST enforce that the caller is from an expected origin.
+	  It MUST reject postMessage requests from any other source origin
+	  to prevent cross-site scripting attacks.
 	</t>
         <t>
 	  As specified in <xref target="RPiframe"/>,
@@ -400,10 +404,10 @@
     var session_state = e.data.split(' ')[1];
     var salt = session_state.split('.')[1];
 
-    // if message syntactically invalid
+    // if message is syntactically invalid
     //     postMessage('error', e.origin) and return
-    
-		// if message comes an unexpected origin
+   
+    // if message comes an unexpected origin
     //     postMessage('error', e.origin) and return
 
     // get_op_user_agent_state() is an OP defined function
@@ -411,9 +415,9 @@
     // How it is done is entirely up to the OP.
     var opuas = get_op_user_agent_state();
 
-    // Here, the session_state is calculated in this particular way, 
-    // but it is entirely up to the OP how to do it under the 
-    // requirements defined in this specification. 
+    // Here, the session_state is calculated in this particular way,
+    // but it is entirely up to the OP how to do it under the
+    // requirements defined in this specification.
     var ss = CryptoJS.SHA256(client_id + ' ' + e.origin + ' ' +
       opuas + ' ' + salt) + "." + salt;
 
@@ -529,7 +533,7 @@
 	      This URL MUST use the <spanx style="verb">https</spanx> scheme
 	      and MAY contain port, path, and query parameter components.
 	      The page is loaded from an invisible iframe embedded in
-	      an RP page so that it can run in the OP's security context. 
+	      an RP page so that it can run in the OP's security context.
 	      It accepts postMessage requests from the relevant RP iframe and
 	      uses postMessage to post back the login status of the End-User at the OP.
 	    </t>
@@ -588,15 +592,15 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>
-				OP iframe MUST enforce that the caller is from an expected origin.
-				It MUST reject postMessage requests from any other source origin,
-				to prevent cross-site scripting attacks.
-			</t>
-			<t>
-				The RP iframe MUST enforce that it only processes messages
-				from the origin of the OP frame. It MUST reject postMessage
-				requests from any other source origin, 
-				to prevent cross-site scripting attacks.
+	The OP iframe MUST enforce that the caller is from an expected origin.
+	It MUST reject postMessage requests from any other source origin
+	to prevent cross-site scripting attacks.
+      </t>
+      <t>
+	The RP iframe MUST enforce that it only processes messages
+	from the origin of the OP frame. It MUST reject postMessage
+	requests from any other source origin
+	to prevent cross-site scripting attacks.
       </t>
     </section>
 
@@ -890,6 +894,9 @@
 	  </t>
 	  <t>
 	    Fixed #1133 - Clarify that logout notifications to RPs are idempotent.
+	  </t>
+	  <t>
+	    Fixed #1022 - Session Management OP Frame message origin assertion.
 	  </t>
         </list>
       </t>
