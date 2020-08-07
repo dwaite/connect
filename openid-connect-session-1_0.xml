@@ -231,12 +231,22 @@
 
         <t>
 	  The RP loads an invisible iframe from itself.
-	  This iframe MUST know the ID of the OP iframe,
-	  as described in <xref target="OPiframe"/>, so that it can
-	  postMessage to the OP iframe.
+	  This iframe MUST know 
+		<list style="symbols">
+			<t>the ID of the OP iframe,
+				as described in <xref target="OPiframe"/>, so that it can
+				postMessage to the OP iframe</t>
+			<t>the origin URL of the OP iframe, so that it can
+				ensure messages are dispatched to and only handled when coming
+				from the OP</t>
+		</list>
 	  The RP iframe polls the OP iframe with postMessage at an interval
 	  suitable for the RP application. With each postMessage, it sends the
 	  session state defined in <xref target="OPiframe"/>.
+		The RP iframe MUST enforce that it only processes messages
+		from the origin of the OP frame. It MUST reject postMessage
+		requests from any other source origin, 
+		to prevent cross-site scripting attacks.
 	</t>
 
         <t>
@@ -274,31 +284,35 @@
             <artwork><![CDATA[
   var stat = "unchanged";
   var mes = client_id + " " + session_state;
+	var targetOrigin = "https://server.example.com"; // Validates message origin
+	var opFrameId = "op";
+	var timerID;
 
-  function check_session()
-  {
-    var targetOrigin = "https://server.example.com";
-    var win = window.parent.document.getElementById("op").
-                contentWindow;
-    win.postMessage( mes, targetOrigin);
+  function check_session()   {
+    var win = window.parent.frames[opFrameId].contentWindow
+    win.postMessage(mes, targetOrigin);
   }
 
-  function setTimer()
-  {
+  function setTimer() {
     check_session();
-    timerID = setInterval("check_session()",3*1000);
+		timerID = setInterval(check_session, 5 * 1000);
   }
 
   window.addEventListener("message", receiveMessage, false); 
 
-  function receiveMessage(e)
-  {
-    var targetOrigin = "https://server.example.com";
-    if (e.origin !== targetOrigin ) {return;}
+  function receiveMessage(e) {
+    if (e.origin !== targetOrigin) {
+			return;
+		}
     stat = e.data;
 
-    if stat == "changed" then take the actions below...
+    if (stat === "changed") {
+			clearInterval(timerID);
+			// then take the actions below...
+		}
   }
+	
+	setTimer();
 ]]></artwork>
           </figure>
 	</t>
@@ -336,9 +350,9 @@
 	  <spanx style='verb'>check_session_iframe</spanx>.
 	  The RP MUST assign an <spanx style='verb'>id</spanx> attribute to the iframe so that it can
 	  address it, as described above.
-	  The OP iframe MUST enforce that the caller has the same
-	  origin as its parent frame. It MUST reject postMessage
-	  requests from any other source origin.
+	  OP iframe MUST enforce that the caller is from an expected origin.
+		It MUST reject postMessage requests from any other source origin,
+		to prevent cross-site scripting attacks.
 	</t>
         <t>
 	  As specified in <xref target="RPiframe"/>,
@@ -382,12 +396,14 @@
 
   function receiveMessage(e){ // e.data has client_id and session_state
 
-    // Validate message origin
     var client_id = e.data.split(' ')[0];
     var session_state = e.data.split(' ')[1];
     var salt = session_state.split('.')[1];
 
     // if message syntactically invalid
+    //     postMessage('error', e.origin) and return
+    
+		// if message comes an unexpected origin
     //     postMessage('error', e.origin) and return
 
     // get_op_user_agent_state() is an OP defined function
@@ -402,7 +418,7 @@
       opuas + ' ' + salt) + "." + salt;
 
     var stat = '';
-    if (session_state == ss) {
+    if (session_state === ss) {
       stat = 'unchanged';
     } else {
       stat = 'changed';
@@ -572,10 +588,15 @@
 
     <section anchor="Security" title="Security Considerations">
       <t>
-	The OP iframe MUST enforce that the caller has the same
-	origin as its parent frame. It MUST reject postMessage
-	requests from any other source origin,
-	to prevent cross-site scripting attacks.
+				OP iframe MUST enforce that the caller is from an expected origin.
+				It MUST reject postMessage requests from any other source origin,
+				to prevent cross-site scripting attacks.
+			</t>
+			<t>
+				The RP iframe MUST enforce that it only processes messages
+				from the origin of the OP frame. It MUST reject postMessage
+				requests from any other source origin, 
+				to prevent cross-site scripting attacks.
       </t>
     </section>
 
