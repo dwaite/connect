@@ -181,8 +181,12 @@
 	out how to obtain an ID Token and validate it.
 	When the OP supports session management, it MUST also return the Session State
 	as an additional <spanx style="verb">session_state</spanx> parameter
-	in the Authentication Response.
+	in the Authentication Response and SHOULD also return the Session State
+	as an additional <spanx style="verb">session_state</spanx> parameter
+	in the Authentication Error Response.
 	The OpenID Connect Authentication Response is specified in Section 3.1.2.5 of
+	OpenID Connect Core 1.0.
+	The OpenID Connect Authentication Error Response is specified in Section 3.1.2.6 of
 	OpenID Connect Core 1.0.
       </t>
 
@@ -342,9 +346,6 @@
 	  <spanx style="verb">document.domain</spanx> to comply with same-origin restrictions.
 	  This will allow the RP iframe to target the parent window's embedded OP iframe.
 	</t>
-	<t>
-	  Session state SHOULD be returned upon an authentication failure.
-	</t>
       </section>
 
       <section anchor="OPiframe" title="OP iframe">
@@ -483,7 +484,8 @@
 	  notifications.
 	</t>
 	<t>
-	  In the case of an unsuccessful Authentication Request, the
+	  In the case of an unsuccessful Authentication Request (Authentication Error 
+		Response as specified in Section 3.1.2.6 of OpenID Connect Core 1.0), the
 	  value of the session state returned SHOULD vary with each
 	  request. However, the User Agent session state need not change
 	  unless a meaningful event happens. In particular, many
