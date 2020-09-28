@@ -31,7 +31,6 @@ capitals, as shown here.
 
 # **OpenID Self Issued Identifiers **
 
-[TOC]
 
 ## 1. Scope
 
@@ -143,16 +142,16 @@ Note that the user will typically approach the Relying Party with their browser.
 
 #### 5.3.1 Default Methods
 
-An HTTP extension “Personal” would allow the use of a different redirection method in place of, or as well as, the OPENID:// defined in the [OIDC] core sped section 7.3. At the time of publication this section requires the user to add a browser extension to enable this header or select a user agent that will send the header.
+An HTTP extension "Personal" would allow the use of a different redirection method in place of, or as well as, the OPENID:// defined in the [OIDC] core sped section 7.3. At the time of publication this section requires the user to add a browser extension to enable this header or select a user agent that will send the header.
 
 Syntax for the Personal Header:
 
 Personal: version, method encoded as base64url.
 
-The version is a REQUIRED string, to be “1.0”, from this spec.
+The version is a REQUIRED string, to be 1.0, from this spec.
 The method is optional but MUST be base64url encoded if present. 
 
-<<<<----- to be removed - use 0.1 test value before publication ---->>>>
+// to be removed - use 0.1 test value before publication 
 
 If the header is not present and the OPENID:// method is not enabled by the browser the user MUST be warned to expect an odd search result display by browsers until the search engines are primed with a more user friendly response.
 
@@ -236,23 +235,30 @@ An alternate flow is the device flow where the user is operating on a large form
 
 # 6. Discovery
 
-This specification assumes the following OP discovery metadata:
+This specification assumes the following OP discovery metadata:
 "id_token_signing_alg_values_supported": ["RS256"],
 "request_object_signing_alg_values_supported": ["none", "RS256"]
-The DID AuthN profile assumes the following OP discovery metadata:
+The DID AuthN profile assumes the following OP discovery metadata:
 "id_token_signing_alg_values_supported": ["RS256", "ES256K", "EdDSA"],
 "request_object_signing_alg_values_supported":
    ["none", "RS256", "ES256K", "EdDSA"]
 
-This change will allow DID AuthN enabled RPs to use additional signature algorithms commonly used amongst members of the SSI community.
+This change will allow DID AuthN enabled RPs to use additional signature algorithms commonly used amongst members of the SSI community.
 
 # 7. User Experience Considerations
 
 This section is non-normative.
 
-[OIDC] uses the custom URL scheme openid://. Mobile browsers would open the app that registered that scheme. Desktop browser extensions/ plugins have support for similar functionality. It is out of the scope of the spec under which circumstances a QR code will be rendered. One option will be to provide the QR code if the user is using the desktop browser, and no browser extension/ plugin is available.
+[OIDC] uses the custom URL scheme openid://. Mobile browsers would open the app that registered that scheme. 
+Desktop browser extensions/ plugins have support for similar functionality. It is out of the scope of the spec under 
+which circumstances a QR code will be rendered. One option will be to provide the QR code if the user is using the desktop browser, 
+and no browser extension/ plugin is available.
 
-On Android, the user can choose which app should open if multiple apps registered the same custom URL scheme. On iOS, the behavior is undefined. One approach would be to check if the user is on an iOS device and then, will not render the button if this is a concern. A fallback on iOS could be the use of custom mime types, but unusual UX has to be considered. Note, this issue is not specific to SIOP only but affects all apps using custom URL schemes. In case a QR Code is used where the user has to open the app first and has to scan the QR Code, this issue is mitigated.
+On Android, the user can choose which app should open if multiple apps registered the same custom URL scheme. 
+On iOS, the behavior is undefined. One approach would be to check if the user is on an iOS device and then, 
+will not render the button if this is a concern. A fallback on iOS could be the use of custom mime types, 
+but unusual UX has to be considered. Note, this issue is not specific to SIOP only but affects all apps using custom URL schemes. 
+In case a QR Code is used where the user has to open the app first and has to scan the QR Code, this issue is mitigated.
 
 # 8. Security Considerations
 
@@ -266,7 +272,7 @@ The user interchanges that carry user private information MUST be encrypted. Thi
 # 10. IANA Considerations
 * puid -  as an element
 * guid - as a URI
-* Personal – as an HTTP header
+* Personal - as an HTTP header
 
 # 11. References
 
@@ -280,13 +286,13 @@ The user interchanges that carry user private information MUST be encrypted. Thi
 [DIF] - Digital Identity Foundation.
 [DIF]: https://identity.foundation/
 
-[SIOP] – Oliver Terbu ed., Self-Issued OpenID Connect Provider DID Profile
+[SIOP] - Oliver Terbu ed., Self-Issued OpenID Connect Provider DID Profile
 [SIOP]: https://identity.foundation/did-siop/
 
 [Fuzzy Vault] - Fuzzy Vault Encryption (contributed by Microsoft)
 [Fuzzy Vault]: https://github.com/decentralized-identity/fuzzy-encryption/blob/master/fuzzy-encryption-construction.pdf
 
-[Regeneration] – Hitoshi Kokumai,  Account Recovery with Expanded Password System
+[Regeneration] - Hitoshi Kokumai,  Account Recovery with Expanded Password System
 [Regeneration]: https://medium.com/@kokumai/account-recovery-with-expanded-password-system-c8766a194cca
 
 [Horcrux] - Horcrux Protocol (contributed by VeridiumID)
@@ -311,4 +317,5 @@ The user interchanges that carry user private information MUST be encrypted. Thi
 
 * Tom Jones
 * Tobias Looker
+
 
