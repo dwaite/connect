@@ -10,18 +10,14 @@ It was agreed in OpenID Foundation OpenID Connect Working Group to work on a sep
 
 *   A. SIOP request
 *   B. SIOP response
-*   C. Trust model between RP and SIOP
-*   D. Issuance of the claims
-*   E. Privacy protection
-*   F. Various OpenID providers deployment architectures
-*   G. Use-case specific requirements
+*   C. Key recovery and key rotation
+*   D. Trust model between RP and SIOP
+*   E. Issuance of the claims
+*   F. Privacy protection
+*   G. Claims binding
+*   H. Various OpenID providers deployment architectures
+*   I. Use-case specific requirements
 
-**Out of scope **
-
-*   Claims binding; should be dealt in Aggregated and Distributed Claims Specification
-    *   Possibility of defining aggregated claims format that allows exchanging VC/VPs
-*   Key recovery and key management
-    *   extending SIOP to work with DIDs touches upon key recovery; this is to say that this specification will not define a new key recovery mechanism or recommend one over the other
 
 **Terminology**
 
@@ -43,22 +39,24 @@ A.SIOP request
     *   RPs configured to work with OIDC OPs must work with SIOPs = SIOP request is OIDC request
     *   SIOP request currently does not include redirect_uri which is required in the rest of the specification
     *   This would eliminate a scenario where SIOP does not work with non-SIOP OIDC request - what are the minimal requirements for OP?
-*   2.Key information should be derived either by using DIDs resolved into DID documents, or sub_jwks with URNs (Cryptographic attestation of the claims)
-    *   SIOP identifiers can be represented by DIDs (in addition to hash of a public key) 
-    *   Sub claim & Sub_jwk claim
-        *   During initial discussion, consensus was around adding layer of indirection, with ‘sub’ value being URI
-        *   there is one current implementation where constant sub in SIOP is used to collude a user across several apps provided by the same company for the purpose of SSO
-*   3.SIOP support for requesting claims to transmit identity characteristics is optional. 
+*   2.SIOP support for requesting claims to transmit identity characteristics is optional. 
     *   = SIOP can be used just for logins
-*   4.SIOP should support Implicit Grant and Authorization Code Grant
+*   3.SIOP should support Implicit Grant and Authorization Code Grant
     *   Implicit Grant for mobile device SIOPs and Authorization Code Grant for Web-based SIOPs?
 
 B.SIOP response
 
-*   5.SIOP should be able to return Verifiable Credentials and Verifiable Presentations in the response
+*   4.SIOP should be able to return Verifiable Credentials and Verifiable Presentations in the response
     *   SIOP expected to return VC/VP in the OIDC authentication response 1/ wrapped in the id_token? 2/ directly as VC/VPs?
 
-C.Trust model between RP and SIOP (need to account for a special use-case where RP and SIOP are on the same device?)
+C. Key recovery and key rotation
+*   5.Key information should be derived either by using DIDs resolved into DID documents, or sub_jwks with URNs (Cryptographic attestation of the claims)
+    *   SIOP identifiers can be represented by DIDs (in addition to hash of a public key) 
+    *   Sub claim & Sub_jwk claim
+        *   During initial discussion, consensus was around adding layer of indirection, with ‘sub’ value being URI
+        *   there is one current implementation where constant sub in SIOP is used to collude a user across several apps provided by the same company for the purpose of SSO
+
+D.Trust model between RP and SIOP (need to account for a special use-case where RP and SIOP are on the same device?)
 
 *   6.SIOP must be able to advertise that it is a SIOP-enabled OP
     *   RPs must be able to differentiate SIOP and OP since the key retrieval and security checks work differently (different trust model), and the sub is used differently.
@@ -84,7 +82,7 @@ C.Trust model between RP and SIOP (need to account for a special use-case where 
         *   Option: OpenID Connect Federation specification draft has some mechanisms for late binding/registration of clients that can be useful for SIOP
         *   Option: Having the client store the registration information (rather than the Authz server) = Encode necessary registration information about the Client into the client_id value returned by the initial registration of the Client. Per [Stateless Dynamic Client Registration](https://openid.net/specs/openid-connect-registration-1_0.html#StatelessRegistration)
 
-D.Issuance of the claims (SIOP - Claims Provider)
+E.Issuance of the claims (SIOP - Claims Provider)
 
 *   9.SIOP providers can be registered with the Claims provider 
     *   This is not in the rest of OIDC, but needed in SIOP, where OP is not an issuer of identity data and SIOP acts more like a wallet
@@ -92,7 +90,7 @@ D.Issuance of the claims (SIOP - Claims Provider)
     *   What does the client need to specify in a request? Concrete claims sources? Schemas? Trust Frameworks?
     *   Would  standardizing this limit the claims provider that can issue claims to SIOP? a separate topic, if the claims sources are themselves OIDC OPs.
 
-E.Privacy protection
+F.Privacy protection
 
 *   10.SIOP should support pairwise, omnidirectional, and ephemeral identifiers (= enables key rotation?)
     *   pairwise keys where SIOP creates a URI for each client and key pairs that are used with it. omnidirectional keys for certain cases and client amnesia for others.
@@ -106,7 +104,9 @@ E.Privacy protection
     *   Introduce distributed claims model?
     *   Would this be Provider specific?
 
-F.Various OpenID providers deployment architectures (Authentication flows?)
+G.Claims Binding
+
+H.Various OpenID providers deployment architectures (Authentication flows?)
 
 *   13.Support PWA-based SIOP implementations 
     *   Alternative for a protocol-based URL needed
@@ -114,7 +114,8 @@ F.Various OpenID providers deployment architectures (Authentication flows?)
     *   Response_mode needs to be suited for multi-device flows
     *   Kiosk use-cases from Mattr
 
-G.Use-case specific requirements
+
+I.Use-case specific requirements
 
 *   15.SIOP could support rich identity information sharing with RP (optional)
     *   RP should support rich assertion formats such as JSON-LD proofs (caveat: JSON-LD proofs spec is stable, but not published)
