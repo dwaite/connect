@@ -92,11 +92,13 @@ E.Issuance of the claims (SIOP - Claims Provider)
 
 F.Privacy protection
 
-*   10.SIOP should support pairwise, omnidirectional, and ephemeral identifiers (= enables key rotation?)
+*   10.RPs should understand the security/privacy posture of SIOP
+    *   Levels of Assurance are under regulated environment   
+*   11.SIOP should support pairwise, omnidirectional, and ephemeral identifiers (= enables key rotation?)
     *   pairwise keys where SIOP creates a URI for each client and key pairs that are used with it. omnidirectional keys for certain cases and client amnesia for others.
-*   11.Relationship between old and new identifiers/keys can be attested 
+*   12.Relationship between old and new identifiers/keys can be attested 
     *   Attestations made in the past should remain valid
-*   12.RP must be able to receive the claims when the end-user is offline without colluding with the Claims Provider
+*   13.RP must be able to receive the claims when the end-user is offline without colluding with the Claims Provider
     *   Configurations of claims provider
         *   “Frozen claims”: stored by SIOP when first requested by a given client
         *   “Frozen refresh”: use frozen claim till expired then fetch again
@@ -108,20 +110,20 @@ G.Claims Binding
 
 H.Various OpenID providers deployment architectures (Authentication flows?)
 
-*   13.Support PWA-based SIOP implementations 
+*   14.Support PWA-based SIOP implementations 
     *   Alternative for a protocol-based URL needed
-*   14.SIOP should support browser flow path, device flow path and combination of both
+*   15.SIOP should support browser flow path, device flow path and combination of both
     *   Response_mode needs to be suited for multi-device flows
     *   Kiosk use-cases from Mattr
 
 
 I.Use-case specific requirements
 
-*   15.SIOP could support rich identity information sharing with RP (optional)
+*   16.SIOP could support rich identity information sharing with RP (optional)
     *   RP should support rich assertion formats such as JSON-LD proofs (caveat: JSON-LD proofs spec is stable, but not published)
-*   16.SIOP should allow for selective disclosure of claims in claim sets 
+*   17.SIOP should allow for selective disclosure of claims in claim sets 
     *   Hard to reconcile distributed and aggregated claims spec with W3C VC spec
-*   17.SIOP should allow offline authentication
+*   18.SIOP should allow offline authentication
     *   Needed in the scenarios where individuals get id_tokens/VCs issued based on offline authentication. ie refugee scenario where UNHCR employee verifies a refugee based on paper documents and issues a digital certificate to refugee's wallet. refugee does not have to enter id/pass
 	
 	
