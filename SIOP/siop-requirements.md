@@ -41,7 +41,7 @@ A.SIOP request
     *   This would eliminate a scenario where SIOP does not work with non-SIOP OIDC request - what are the minimal requirements for OP?
 *   2.SIOP support for requesting claims to transmit identity characteristics is optional. 
     *   = SIOP can be used just for logins
-*   3.SIOP should support Implicit Grant and Authorization Code Grant
+*   3.SIOP should support best practices of flow types. 
     *   Implicit Grant for mobile device SIOPs and Authorization Code Grant for Web-based SIOPs?
 
 B.SIOP response
@@ -49,7 +49,8 @@ B.SIOP response
 *   4.SIOP should be able to return Verifiable Credentials and Verifiable Presentations in the response
     *   SIOP expected to return VC/VP in the OIDC authentication response 1/ wrapped in the id_token? 2/ directly as VC/VPs?
 
-C. Key recovery and key rotation
+C. Key recovery and key rotation (cryptography itself is out of scope)
+
 *   5.Key information should be derived either by using DIDs resolved into DID documents, or sub_jwks with URNs (Cryptographic attestation of the claims)
     *   SIOP identifiers can be represented by DIDs (in addition to hash of a public key) 
     *   Sub claim & Sub_jwk claim
