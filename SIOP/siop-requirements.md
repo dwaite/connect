@@ -34,14 +34,13 @@ A.SIOP request
 
 *   1.Not all OpenID Providers must have the capability to issue self-signed id_tokens, and that capability remains specific to Self-Issued OpenID Providers (which can be native apps, PWAs, etc.)
 *   2.SIOP can be used for log in and/or requesting claims to transmit identity characteristics. 
-*   3.SIOP supports a FLow that does not rely on the backchannel exchange (Implicit Flow/Hybrid Flow). 
-    *   Note: Being native apps, PWA, browser apps, etc., SIOPs cannot be expected to support Authorization Code Flow, 
-
+*   3.SIOP supports a FLow that does not rely on the backchannel exchange (i.e. Implicit Flow), since SIOP is native apps, PWA, browser apps, etc.
+    *   Note: Some people asserted that PWA may result in additional requirements - want to understand more
+    
 B.SIOP response
 
 *   4.SIOP is able to return Verifiable Credentials and Verifiable Presentations in the response
-    *   Note: Options of returning VC/VP in the response are 1/ as VC/VP or 2/wrapped in the id_token. Following W3C [VC-DATA-MODEL], VCs/VPs should be supported in any data format including JSON-LD, which makes Option 1 is preferred because most RPs would not know how to process JSON-LD inside an id_token
-
+    
 C. Key recovery and key rotation (cryptography itself is out of scope)
 
 *   5.Add layer of indirection in ‘sub’ value to allow several methods of deriving key information derivation: using sub_jwks with URNs (Cryptographic attestation of the claims), DIDs resolved into DID documents, or OpenID Connect Federation entity statements.
@@ -51,7 +50,6 @@ D.Trust model between RP and SIOP (Discovery and Registration)
 
 *   7.RP can discover SIOP, and differentiate it from not SIOP-enabled OPs (openid:// custom schema, deeplinks)
 *   8.RP and SIOP negotiate configuration information that both parties support
-    *    Note: one possible way - RP could send the list of supported configuration information, which SIOP would accept if the list matches to the configurations supported by SIOP, otherwise sending an error. (security considerations needed)
 *   9.RP does not have to pre-register with SIOP, but must communicate metadata using the registration parameter iwhen RP is without a webserver or in the client_id(redirect_uri) when RP can host a webserver
     
 E.Issuance of the claims (SIOP - Claims Provider)
@@ -61,7 +59,6 @@ E.Issuance of the claims (SIOP - Claims Provider)
 F.Privacy protection
 
 *   11.RPs should understand the security/privacy posture of SIOP
-
 *   12.SIOP should support all types of identifiers (pairwise, omnidirectional, and ephemeral)
 *   13.RP must be able to receive the claims when the end-user is offline without colluding with the Claims Provider
 
