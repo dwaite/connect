@@ -15,11 +15,9 @@ December 8, 2020
     
     1.2. Terms and Definitions
     
-    1.3. Abbreviations <- Do we need?
+    1.3. Abbreviations
     
-    1.4. Overview <- Do we need?
-    
-    1.5. Protocol Flow
+    1.4. Protocol Flow
 
 2. Discovery and Registration
     
@@ -37,7 +35,7 @@ December 8, 2020
         
       2.2.4. Relying Party Registration Metadata Error Response
 
-3. Identifier Portability and Verifiable Presentation Support <- Need better naming?
+3. Identifier Portability and Verifiable Presentation Support
     
     3.1.  Self-Issued OpenID Provider Request
     
@@ -51,7 +49,7 @@ December 8, 2020
     
     4.2. Non-Normative References
     
-    4.3. Relationships to other documents  <- Should be put in another place?
+    4.3. Relationships to other documents
 
 5. Notices
 
@@ -97,10 +95,7 @@ Common terms in this document come from four primary sources: [DID-CORE],[VC-DAT
 - Self-Issued OP: Self-Issued OpenID Provider
 - RP: Relying Party
 
-## 1.4. Overview (Explaining the rest of the document, with a note saying some sections may be spun out as independent documents)
-- defined the ability to pass the registration info both by value and by reference
-
-## 1.5. Protocol Flow
+## 1.4. Protocol Flow
 
 Self-Issued OpenID Provider Request is an OpenID Connect Authentication Request that results in a Holder providing ID Token to the Relying Party through the Self-Issued OP. ID Token MAY include attested claims about the Holder.
 
@@ -133,7 +128,7 @@ NOTE: consider using deeplinks for discovery in the scenarios when Self-Issued O
 
 ## 2.2. Relying Party Registration
 
-*Relying Party must communicate which configuration parameters it supports. If SIOP supports the same parameters, SIOP flow continues, if SIOP does not support, it returns an error. Configuration parameters should preferrably sent by reference as a URI, but when RP cannot host a webserver, they can be sent by value.*
+Relying Party must communicate which configuration parameters it supports. If SIOP supports the same parameters, SIOP flow continues, if SIOP does not support, it returns an error. Configuration parameters should preferrably sent by reference as a URI, but when RP cannot host a webserver, they can be sent by value.
 
 OpenID Connect defines the following registration parameters to enable Relying Party to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration:
   
