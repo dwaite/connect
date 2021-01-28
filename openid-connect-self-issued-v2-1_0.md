@@ -260,16 +260,20 @@ The RP sends the Authentication Request to the Authorization Endpoint with the f
     REQUIRED. Constant string value id_token.
 - client_id
     REQUIRED. RP ID value for the RP, which in this case contains the redirect_uri value of the RP.
-- sub_type 
-    REQUIRED. A space seperated string denoting the URI types that the OpenID provider supports.
 - id_token_hint
     OPTIONAL. id_token_hint parameter value, as specified in Section 3.1.2. If the ID Token is encrypted to the Self-Issued OP, the sub (subject) of the signed ID Token MUST be sent as the kid (Key ID) of the JWE. 
 - claims
     OPTIONAL. claims parameter value, as specified in Section 5.5.
 - registration
-    OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.1.
+    OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.2.1.  
+- registration_uri
+    OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.2.2. 
 - request
     OPTIONAL. Request Object value, as specified in Section 6.1. The Request Object MAY be encrypted to the Self-Issued OP by the RP. In this case, the sub (subject) of a previously issued ID Token for this RP MUST be sent as the kid (Key ID) of the JWE. 
+- request_uri
+    OPTIONAL. URL where Request Object value can be retrieved from, as specified in Section 6.2.
+    
+When `request` or `reques_uri` parameters are NOT present, `registration` or `registration_uri` parameters MUST be present in the request. When `request` or `reques_uri` parameters are present, `registration` or `registration_uri` parameters MUST be included in either of those parameters.
 
 Other parameters MAY be sent. Note that all Claims are returned in the ID Token.
 
