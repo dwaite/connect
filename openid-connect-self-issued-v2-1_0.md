@@ -62,9 +62,9 @@ OpenID Connect supports Self-Issued OpenID Providers (Self-Issued OPs) - persona
 
 This specification defines how a Holder provides ID Token to the Relying Party(RP) through the Self-Issued OP, and how a Holder asks and receives attested claims that can be included in the ID Token.
 
-Specifications for the few additional parameters used and for the values of some parameters in the Self-Issued case are defined in this section.
+Specifications for the few additional parameters used and for the values of some parameters in the Self-Issued case are defined in this section. Self-Issued OpenID Provider is a superset of OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
 
-NOTE: this section only outlines the verification process for the RP to request authentication information (either only log-in and/or claims) from Self-Issued OP. Issuance of the credentials from the OpenID Provider to Self-Issued OP that is acting in RPs capacity is out of scope of this section.
+NOTE: This section only outlines the verification process for the RP to request authentication information (either only log-in and/or claims) from Self-Issued OP. Issuance of the credentials from the OpenID Provider to Self-Issued OP that is acting in RPs capacity is out of scope of this section.
 
 ## 1.1. Scope 
 This document defines a new scope as well as rules for the use of OpenID Connect to present credentials that may be validated through the use of decentralized identifiers, and Verifiable Credentials using a Self-Issued OpenID Provider (section 7 of [OpenID.Core]) in addition to the current scope.
