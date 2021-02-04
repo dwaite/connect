@@ -179,25 +179,29 @@ This extension defines the following RP Registration Metadata values, used by th
 
 Static Values - these values are the same for every RP
 
-- authz_ept
-     REQUIRED. Authorization endpoint value. MUST be `openid:`.
-- iss
-     REQUIRED. Issuer. MUST be `https://self-issued.me/v2`
-- res_typ_sup
-     REQUIRED. Response type supported. MUST be `id_token`
+- authorization_endpoint
+    - REQUIRED. Authorization endpoint value. MUST be `openid:`.
+- issuer
+    - REQUIRED. Issuer. MUST be `https://self-issued.me/v2`
+- response_types_supported
+    - REQUIRED. Response type supported. MUST be `id_token`
 
 Dynamic Values - each RP would support different variation of these values
 
-- scp_sup
-     REQUIRED. Scopes supported. Valid values include `openid`, `profile`, `email`, `address`, and `phone`.
-- sub_typ_sup
-     REQUIRED. Subject types supported. Valid values include `pairwise` and `public`.
-- sub_id_typ_sup
-    REQUIRED. Subject identifier types supported. Valid values include `jkt` and concrete did methods supported. did methods supported must take the value of `Method Name` in Chapter 9 of [did-spec-registries](https://w3c.github.io/did-spec-registries/#did-methods), such as `did:peer:`
-- it_sign_alg_val_sup
-     REQUIRED. ID token signing alg values supported. Valid values include `RS256`, `ES256`, `ES256K`, and `EdDSA`.
-- req_obj_sign_alg_val_sup
-     REQUIRED. Request object signing alg values supported. Valid values include `none`, `RS256`, `ES256`, `ES256K`, and `EdDSA`.
+- scopes_supported
+    - REQUIRED. A JSON array of strings representing supported scopes. Valid values include `openid`, `profile`, `email`, `address`, and `phone`.
+- subject_types_supported
+    - REQUIRED. A JSON array of strings representing supported subject types. Valid values include `pairwise` and `public`.
+- subject_identifier_types_supported
+    - REQUIRED. A JSON array of strings representing supported subject identifier types. Valid values include `jkt` and concrete did methods supported. DID methods supported must take the value of `Method Name` in Chapter 9 of [did-spec-registries](https://w3c.github.io/did-spec-registries/#did-methods), such as `did:peer:`
+- did_methods_supported
+    - OPTIONAL. A JSON array of strings representing supported DID methods. Valid values include DID method names expressed following [DID] specification, for example `did:web`. RP can indicate support for any DID method by omitting `did_methods_supported`, While including `did` in `sub_id_types_supported'.
+- credential_formats_supported
+    - REQUIRED. A JSON array of strings representing supported credential formats. Valid values include `jwt`, `jwt_vc`, `jwt_vp`, `ldp_vc`, and `ldp_vp`. 
+- id_token_signing_alg_values_supported
+    - REQUIRED. ID token signing alg values supported. Valid values include `RS256`, `ES256`, `ES256K`, and `EdDSA`.
+- request_object_signing_alg_values_supported
+    - REQUIRED. Request object signing alg values supported. Valid values include `none`, `RS256`, `ES256`, `ES256K`, and `EdDSA`.
   
 The following is a non-normative example of RP Registration Metadata Values supported by Self-Issued OP:
 
@@ -215,7 +219,7 @@ The following is a non-normative example of RP Registration Metadata Values supp
    "subject_types_supported":
      ["pairwise"],
    "sub_types_supported":
-    ["did:peer:", "did:ion:"],
+    ["did:web:", "did:ion:"],
     "id_token_signing_alg_values_supported":
      ["ES256", "ES256K"],
    "request_object_signing_alg_values_supported":
@@ -239,12 +243,18 @@ NOTE: Consider adding a subject type for OpenID Connect Federation entity statem
 
 This extension defines the following error codes that MUST be returned when Self-Issued OP does not support all of the Relying Party Registration metadata values received from the Relying Party in the registration parameter:
 
+- did_methods_not_supported
+    - The Self-Issued OP does not support all of the DID methods included in `did_methods_supported` parameter.
+- subject_identifier_types_not_supported
+    - The Self-Issued OP does not support all of the subject identifier types included in `subject_identifier_types_supported` parameter.
+- credential_formats_not_supported
+    - The Self-Issued OP does not support all of the credential formats included in `credential_formats_supported` parameter.
 - value_not_supported
-    The Self-Issued OP does not support more than one of the RP Registration Metadata values defined in Section 4.3.
+    - The Self-Issued OP does not support more than one of the RP Registration Metadata values defined in Section 4.3. When not supported metadata values are DID methods, subject identifier types, or credential formats, more specific error message must be used.
 - invalid_registration_uri
-    The registration_uri in the Self-Issued OpenID Provider request returns an error or contains invalid data.
+    - The registration_uri in the Self-Issued OpenID Provider request returns an error or contains invalid data.
 - invalid_registration_object
-    The registration parameter contains an invalid RP Registration Metadata Object.
+    - The registration parameter contains an invalid RP Registration Metadata Object.
 
 Error response must be made in the same manner as defined in Section 3.1.2.6.
 
@@ -255,23 +265,23 @@ Error response must be made in the same manner as defined in Section 3.1.2.6.
 The RP sends the Authentication Request to the Authorization Endpoint with the following parameters:
 
 - scope
-    REQUIRED. scope parameter value, as specified in Section 3.1.2.
+     - REQUIRED. scope parameter value, as specified in Section 3.1.2.
 - response_type
-    REQUIRED. Constant string value id_token.
+    - REQUIRED. Constant string value id_token.
 - client_id
-    REQUIRED. RP ID value for the RP, which in this case contains the redirect_uri value of the RP.
+    - REQUIRED. RP ID value for the RP, which in this case contains the redirect_uri value of the RP.
 - id_token_hint
-    OPTIONAL. id_token_hint parameter value, as specified in Section 3.1.2. If the ID Token is encrypted to the Self-Issued OP, the sub (subject) of the signed ID Token MUST be sent as the kid (Key ID) of the JWE. 
+    - OPTIONAL. id_token_hint parameter value, as specified in Section 3.1.2. If the ID Token is encrypted to the Self-Issued OP, the sub (subject) of the signed ID Token MUST be sent as the kid (Key ID) of the JWE. 
 - claims
-    OPTIONAL. claims parameter value, as specified in Section 5.5.
+    - OPTIONAL. claims parameter value, as specified in Section 5.5.
 - registration
-    OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.2.1.  
+    - OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.2.1.  
 - registration_uri
-    OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.2.2. 
+    - OPTIONAL. This parameter is used by the RP to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration, as specified in Section 2.2.2. 
 - request
-    OPTIONAL. Request Object value, as specified in Section 6.1. The Request Object MAY be encrypted to the Self-Issued OP by the RP. In this case, the sub (subject) of a previously issued ID Token for this RP MUST be sent as the kid (Key ID) of the JWE. 
+    - OPTIONAL. Request Object value, as specified in Section 6.1. The Request Object MAY be encrypted to the Self-Issued OP by the RP. In this case, the sub (subject) of a previously issued ID Token for this RP MUST be sent as the kid (Key ID) of the JWE. 
 - request_uri
-    OPTIONAL. URL where Request Object value can be retrieved from, as specified in Section 6.2.
+    - OPTIONAL. URL where Request Object value can be retrieved from, as specified in Section 6.2.
     
 When `request` or `reques_uri` parameters are NOT present, `registration` or `registration_uri` parameters MUST be present in the request. When `request` or `reques_uri` parameters are present, `registration` or `registration_uri` parameters MUST be included in either of those parameters.
 
