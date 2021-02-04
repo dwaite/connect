@@ -235,7 +235,7 @@ A sub type is used by Self-Issued OP to advertise which types of identifiers are
     JWK Thumbprint Subject sub type. When this subject sub type is used, the `sub` Claim value MUST be the base64url encoded representation of the thumbprint of the key in the `sub_jwk` Claim. [RFC7638]
     
 `did` 
-    Decentralized sub type. This sub type MUST specify concrete Decentralized Identifier (DID) methods supported using the value of `Method Name` in Chapter 9 of [did-spec-registries](https://w3c.github.io/did-spec-registries/#did-methods), such as `did:peer:`. When this sub type is used,  the `sub` value MUST be a DID defined in [DID-CORE]. 
+    Decentralized sub type. When this sub type is used,  the `sub` value MUST be a DID defined in [DID-CORE]. 
     
 NOTE: Consider adding a subject type for OpenID Connect Federation entity statements.
 
