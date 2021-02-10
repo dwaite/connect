@@ -1,4 +1,4 @@
-# Co-located Self-Issued OpenID Provider V2, draft 01
+# Self-Issued OpenID Provider V2, draft 01
 
 Kristina Yasuda, Microsoft, [kristina.yasuda@microsoft.com](mailto:kryasuda@microsoft.com)
 
@@ -61,13 +61,13 @@ OpenID Connect supports Self-Issued OpenID Providers(Self-Issued OPs) - personal
 
 This specification defines how a Holder provides ID Token to the Relying Party(RP) through the Self-Issued OP, and how a Holder asks and receives attested claims that can be included in the ID Token, when SIOP is deployed on a device rather than on a server.
 
-Specifications for the few additional parameters and for the values of some parameters are defined in this section. Self-Issued OpenID Provider is a superset of OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
+Specifications for the few additional parameters and for the values of some parameters are defined in this section. Self-Issued OpenID Provider is an extension to OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
 
 
 Note: This specification replaces [Self-Issued OpenID Connect Provider DID Profile v0.1](https://identity.foundation/did-siop/) and was written as a working item of a liaison between Decentralized Identity Foundation and OpenID Foundation. 
 
 ## 1.1. Scope 
-This document is scoped for a deployment model where Self-Issued OP is deployed on a user's device, while aiming to stay compatible with other deplyment models, for example where Self-Issued OP is deployed on a server.
+This document is scoped for a deployment model where Self-Issued OP is deployed on a user's device.
 
 In scope:
 
@@ -116,7 +116,7 @@ Self-Issued OpenID Provider Request is an OpenID Connect Authentication Request 
 ## 2.1. Self-Issued OpenID Provider Discovery
 Self-Issued OP MUST associate a custom schema `openid://` with itself. Relying Party MUST call `openid://` when sending a request to a Self-Issued OP.
 
-Note: When more than one wallet with the same custom scema has been installed on one devices, there could be confusion over which wallet gets invoked. 
+Note: When more than one Self-issued OP with the same custom schema has been installed on one device, there could be confusion over which Self-Issued OP gets invoked. 
 
 ## 2.2. Relying Party Registration
 
