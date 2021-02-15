@@ -291,11 +291,10 @@ The following is a non-normative example HTTP 302 redirect response by the RP, w
     &client_id=https%3A%2F%2Fclient.example.org%2Fcb
     &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid%20profile
-    &identifier_uri=jwkthumb%3A%20did%3Akey%3A%20
     &state=af0ifjsldkj
     &nonce=n-0S6_WzA2Mj
-    &registration=%7B%22logo_uri%22%3A%22https%3A%2F%2F
-      client.example.org%2Flogo.png%22%7D
+    &registration_uri=https%3A%2F%2F
+      client.example.org%2Frf.txt%22%7D
 ```
 
 
