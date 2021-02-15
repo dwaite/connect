@@ -57,9 +57,9 @@ Appendix A.History
 
 
 ## 1. Introduction
-OpenID Connect supports Self-Issued OpenID Providers(Self-Issued OPs) - personal OpenID Providers(OPs) that issue self-signed ID Tokens, enabling portability of the identities among providers.
+OpenID Connect supports Self-Issued OpenID Providers (Self-Issued OPs) - personal OpenID Providers (OPs) that issue self-signed ID Tokens, enabling portability of the identities among providers.
 
-This specification defines how a Holder provides ID Token to the Relying Party(RP) through the Self-Issued OP, and how a Holder asks and receives attested claims that can be included in the ID Token, when SIOP is deployed on a device rather than on a server.
+This specification defines how a Holder provides ID Token to the Relying Party (RP) through the Self-Issued OP, and how a Holder asks and receives attested claims that can be included in the ID Token, when SIOP is deployed on a device rather than on a server.
 
 Specifications for the few additional parameters and for the values of some parameters are defined in this section. Self-Issued OpenID Provider is an extension to OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
 
@@ -289,7 +289,6 @@ The following is a non-normative example HTTP 302 redirect response by the RP, w
   Location: openid://?
     response_type=id_token
     &client_id=https%3A%2F%2Fclient.example.org%2Fcb
-    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid%20profile
     &state=af0ifjsldkj
     &nonce=n-0S6_WzA2Mj
