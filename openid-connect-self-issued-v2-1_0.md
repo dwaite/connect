@@ -57,14 +57,33 @@ Appendix A.History
 
 
 ## 1. Introduction
-OpenID Connect supports Self-Issued OpenID Providers (Self-Issued OPs) - personal OpenID Providers (OPs) that issue self-signed ID Tokens, enabling portability of the identities among providers.
+Self-Issued OpenID Provider (Self-Issued OP) extends OpenID Connect to allow end-users to act as OpenID Providers (OPs). Using Self-Issued OP, end-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on the Identity Provider (IdP). 
 
-This specification defines how a Holder provides ID Token to the Relying Party (RP) through the Self-Issued OP, and how a Holder asks and receives attested claims that can be included in the ID Token, when SIOP is deployed on a device rather than on a server.
+The term Self-Issued comes from the fact that end-users issue self-signed ID Tokens to prove validity of the identifiers and claims. 
+
+RP cannot be expected to be able to pre-establish trust relationships with every Self-Issued OP because there could be as many Self-Issued OP as there are end-users, contrary to the limited number of IdPs. Usage of cryptographically verifiable identifiers is defined in this specification as a mechanism for RPs to trust SIOP without having to pre-establish a trust relationship between RP and OP as in a basic protocol of OpenID Connect. 
+
+Self-Issued OP cannot be trusted to assert all the claims about the end user, because it is hosted by the user. Usage of cryptographically verifiable claims is defined in this specification as a mechanism for Self-Issued OP to present claims about the end-user asserted by the Claims Providers other than Self-Issued OP.
+
+This specification defines how end-user provides ID Token and claims about the end-user to the RP using Self-Issued OP that is deployed on a device.
 
 Specifications for the few additional parameters and for the values of some parameters are defined in this section. Self-Issued OpenID Provider is an extension to OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
 
-
 Note: This specification replaces [Self-Issued OpenID Connect Provider DID Profile v0.1](https://identity.foundation/did-siop/) and was written as a working item of a liaison between Decentralized Identity Foundation and OpenID Foundation. 
+
+## 1.X Use-cases
+
+- Sudden or planned IdP unavailability
+IdPs can become unable to operate because they are destroyed as the result of a natural disaster such as hurricanes, tsunamis and earthquakes or as the result of a planned business decision. Using Self-Issued OP would enable end-users to authenticate themselves even when IdPs are temporarily or permanently unfunctionable.
+
+- Authentication at the edge
+As more and more number of services and goods become digital and get connected to the Internet, the need for beneficiaries of those services and owners of those goods to be able to authenticate themselves before enjoying these services. Using Self-Issued OP would allow such authentications to happen at the edge, on end-user's device to achieve required efficiency and speed.
+
+- Sharing credentials from several issuers in one transaction 
+When end-users apply to open a banking account online, in most countries they are required to submit scanned versions of the required documents. These documents are usualy issued by different authorities, and hard to be verified in a digital form. When credentials are expressed in Verifiable Credentials format, using Self-Issued OP documents from various issuers can be shared in one transaction while allowing receiver to digitally verfy the validity of the shared document. 
+
+- Portability of the identities among providers
+As end-users sign up to use new online services, they have to create a new account and enter basic information about themselves once again. They could using one of the large Identity Providers, but than they need to remember which one they used for which service. This experience could be improved using Self-Issued OP, if users can ask services to use identifier of their choice and present claims about themselves to provide their basic information to the services.
 
 ## 1.1. Scope 
 This document is scoped for a deployment model where Self-Issued OP is deployed on a user's device.
@@ -72,14 +91,22 @@ This document is scoped for a deployment model where Self-Issued OP is deployed 
 In scope:
 
 - Discovery of Self-Issued OP
-- Registration of metadata supported by RP with Self-Issued OP
-- Mechanism for RPs to identify the authenticated user while the Holder being able to modify cryptographic keys used to prove control over the identifier
-- Mechanism for Self-Issued OPs to present claims using additional credential formats that enable the Holder to prove posession over the claims.
+How an application on the user's edge device that is used to run Self-Issued OpenID Provider gets invoked upon receiving a Self-Issued OP request.
 
+- Registration of metadata supported by RP with Self-Issued OP
+How RP and Self-Issued OP negotiate the support for the metadata necessary to process request and response such as supported signing algorithms, cryptographically verifiable identifiers, and credential formats.
+
+- Usage of cryptographically verifiable identifiers as a way for RPs to identify the authenticated user 
+Cryptographically verifiable identifiers include information about the key material used to sign the request and/or response. This way an entity receiving the request or response can verify whether the identifier is controlled by the other entity.
+First mechanism defined is the usage of jwk thumbprint, which is base64url encoded representation of the thumbprint of the key in the `sub_jwk` claim.
+Second mechanism defined is the usage of Decentralized Identifiers (DID). DID is a string that is used to obtain a DID document that contains information associated with the subject identified by a DID, including key material. Indirection layer between DID and DID Document allows controller of a DID to modify key material used to prove control over the identifier. DID Document is recorded on a system or network of some kind that can be a database of any kind including distributed ledgers and cloud storage.
+
+- Usage of cryptographically verifiable claims
+Mechanism for Self-Issued OPs to present claims using additional credential formats that enable the Holder to prove posession over the claims.
 
 Out of Scope:
 
-- Claims issuance flow that defines how Self-Issued OP requests and receives claims from a Claims Provider acting in RP's capacity. Self-Issued OP can present those claims to the RP in Self-Issued OpenID Provider response defined in this document. 
+- Claims issuance flow that defines how Self-Issued OP requests and receives claims from a Claims Provider acting in RP's capacity. Self-Issued OP can present those claims to the RP in Self-Issued OP response defined in this document. 
 
 ## 1.2. Terms and definitions
 Common terms in this document come from four primary sources: [DID-CORE],[VC-DATA], [RFC6749] and [OpenID.Core]. In the case where a term has a definition that differs, the definition below is authoritative.
@@ -115,6 +142,8 @@ Self-Issued OpenID Provider Request is an OpenID Connect Authentication Request 
 
 ## 2.1. Self-Issued OpenID Provider Discovery
 Self-Issued OP MUST associate a custom schema `openid://` with itself. Relying Party MUST call `openid://` when sending a request to a Self-Issued OP.
+
+Note: Custom schema is a mechanism offered by Mobile Operating System providers. If an application developer registers custom schema with the application, that application will be invoked when a request containing custom schema is received by the device.
 
 Note: When more than one Self-issued OP with the same custom schema has been installed on one device, there could be confusion over which Self-Issued OP gets invoked. 
 
@@ -223,7 +252,7 @@ The following is a non-normative example of RP Registration Metadata Values supp
 A sub type is used by Self-Issued OP to advertise which types of identifiers are supported for the `sub` claim. Two types are defined by this specification:
 
 - jkt 
-    - JWK Thumbprint Subject sub type. When this subject sub type is used, the `sub` Claim value MUST be the base64url encoded representation of the thumbprint of the key in the `sub_jwk` Claim. [RFC7638]
+    - JWK Thumbprint Subject sub type. When this subject sub type is used, the `sub` claim value MUST be the base64url encoded representation of the thumbprint of the key in the `sub_jwk` claim. [RFC7638]
     
 - did
     - Decentralized sub type. When this sub type is used,  the `sub` value MUST be a DID defined in [DID-CORE]. 
@@ -289,11 +318,13 @@ The following is a non-normative example HTTP 302 redirect response by the RP, w
   Location: openid://?
     response_type=id_token
     &client_id=https%3A%2F%2Fclient.example.org%2Fcb
+    &redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb
     &scope=openid%20profile
+    &identifier_uri=jwkthumb%3A%20did%3Akey%3A%20
     &state=af0ifjsldkj
     &nonce=n-0S6_WzA2Mj
-    &registration_uri=https%3A%2F%2F
-      client.example.org%2Frf.txt%22%7D
+    &registration=%7B%22logo_uri%22%3A%22https%3A%2F%2F
+      client.example.org%2Flogo.png%22%7D
 ```
 
 
