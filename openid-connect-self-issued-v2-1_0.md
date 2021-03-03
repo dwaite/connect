@@ -57,15 +57,15 @@ Appendix A.History
 
 
 ## 1. Introduction
-Self-Issued OpenID Provider (Self-Issued OP) extends OpenID Connect to allow end-users to act as OpenID Providers (OPs). Using Self-Issued OP, end-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on the Identity Provider (IdP). 
+Self-Issued OpenID Provider (Self-Issued OP) extends OpenID Connect to allow end-users to act as OpenID Providers (OPs). Using Self-Issued OP, end-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on the Identity Provider. 
 
-The term Self-Issued comes from the fact that end-users issue self-signed ID Tokens to prove validity of the identifiers and claims. 
+The term Self-Issued comes from the fact that end-users issue self-signed ID Tokens to prove validity of the identifiers and claims. This is a trust model different from that of the rest of OpenID Connect where OP is run by the the company who issues ID Tokens on behalf of the end-user upon end-user's consent. Therefore, Self-Issued OP comes with several limitations that are solved by introducing new mechanisms which require certain trade-offs.
 
-RP cannot be expected to be able to pre-establish trust relationships with every Self-Issued OP because there could be as many Self-Issued OP as there are end-users, contrary to the limited number of IdPs. Usage of cryptographically verifiable identifiers is defined in this specification as a mechanism for RPs to trust SIOP without having to pre-establish a trust relationship between RP and OP as in a basic protocol of OpenID Connect. 
+First limitation is RP cannot be expected to be able to pre-establish trust relationships with every Self-Issued OP because there could be as many Self-Issued OPs as there are end-users, contrary to the limited number of IdPs. Usage of cryptographically verifiable identifiers is defined in this specification as a mechanism for RPs to trust SIOP without having to pre-establish a trust relationship between RP and OP as in a basic protocol of OpenID Connect. 
 
-Self-Issued OP cannot be trusted to assert all the claims about the end user, because it is hosted by the user. Usage of cryptographically verifiable claims is defined in this specification as a mechanism for Self-Issued OP to present claims about the end-user asserted by the Claims Providers other than Self-Issued OP.
+Second limitation is Self-Issued OP cannot be trusted to assert all the claims about the end user, because it is hosted by the user. Usage of cryptographically verifiable claims is defined in this specification as a mechanism for Self-Issued OP to present claims about the end-user asserted by the Claims Providers other than Self-Issued OP.
 
-This specification defines how end-user provides ID Token and claims about the end-user to the RP using Self-Issued OP that is deployed on a device.
+This specification defines how end-user provides ID Token and claims about the end-user to the RP using Self-Issued OP that is deployed on a device. This leads to another limitation that Self-Issued OPs cannot be expected to be able to host end-points.
 
 Specifications for the few additional parameters and for the values of some parameters are defined in this section. Self-Issued OpenID Provider is an extension to OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
 
@@ -93,8 +93,8 @@ In scope:
 - Discovery of Self-Issued OP
 How an application on the user's edge device that is used to run Self-Issued OpenID Provider gets invoked upon receiving a Self-Issued OP request.
 
-- Registration of metadata supported by RP with Self-Issued OP
-How RP and Self-Issued OP negotiate the support for the metadata necessary to process request and response such as supported signing algorithms, cryptographically verifiable identifiers, and credential formats.
+- Negotiation of supported metadata between RP and Self-Issued OP
+How RP and Self-Issued OP negotiate supported metadata that necessary to process request and response such as supported signing algorithms, cryptographically verifiable identifiers, and credential formats. Negotiation is initiated by the RP and is included in the authorization request. The process is distinct from Dynamic Client Registration in OpenID Connect, since neither RP nor Self-Issued OP are expected to store information about the metadata supported by the counterparty. Negotiation establishes an ad hoc trust and is performed during every transaction even when RP and Self-Issued OP in question have transacted before.
 
 - Usage of cryptographically verifiable identifiers as a way for RPs to identify the authenticated user 
 Cryptographically verifiable identifiers include information about the key material used to sign the request and/or response. This way an entity receiving the request or response can verify whether the identifier is controlled by the other entity.
@@ -102,7 +102,7 @@ First mechanism defined is the usage of jwk thumbprint, which is base64url encod
 Second mechanism defined is the usage of Decentralized Identifiers (DID). DID is a string that is used to obtain a DID document that contains information associated with the subject identified by a DID, including key material. Indirection layer between DID and DID Document allows controller of a DID to modify key material used to prove control over the identifier. DID Document is recorded on a system or network of some kind that can be a database of any kind including distributed ledgers and cloud storage.
 
 - Usage of cryptographically verifiable claims
-Mechanism for Self-Issued OPs to present claims using additional credential formats that enable the Holder to prove posession over the claims.
+Mechanism for Self-Issued OPs to present claims using additional credential formats that enable the Holder to prove posession over the claims using cryptographic means. Additional credential formats include Verifiabel Presentation defined in [VC-DATA-MODEL].
 
 Out of Scope:
 
@@ -114,6 +114,7 @@ Common terms in this document come from four primary sources: [DID-CORE],[VC-DAT
 ## 1.3. Abbreviations 
 - Self-Issued OP: Self-Issued OpenID Provider
 - RP: Relying Party
+- OP: OpenID Provider
 
 ## 1.4. Protocol Flow
 
@@ -138,7 +139,7 @@ Self-Issued OpenID Provider Request is an OpenID Connect Authentication Request 
 ```
     
 
-## 2 Discovery and Registration
+## 2 Discovery and Negotiation
 
 ## 2.1. Self-Issued OpenID Provider Discovery
 Self-Issued OP MUST associate a custom schema `openid://` with itself. Relying Party MUST call `openid://` when sending a request to a Self-Issued OP.
@@ -147,32 +148,32 @@ Note: Custom schema is a mechanism offered by Mobile Operating System providers.
 
 Note: When more than one Self-issued OP with the same custom schema has been installed on one device, there could be confusion over which Self-Issued OP gets invoked. 
 
-## 2.2. Relying Party Registration
+## 2.2. Negotiation
 
-Relying Party must communicate which configuration parameters it supports. If SIOP supports the same parameters, SIOP flow continues, if SIOP does not support, it returns an error. Configuration parameters should preferrably sent by reference as a URI, but when RP cannot host a webserver, they can be sent by value.
+Relying Party must communicate which metadata parameters it supports. If Self-Issued OP supports the same parameters, Self-Issued OP flow continues. If Self-Issued OP does not support the same parameters, it returns an error. Metadata parameters should preferrably be sent by reference as a URI, but when RP cannot host a webserver, they can be sent by value.
 
-OpenID Connect defines the following registration parameters to enable Relying Party to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic RP Registration:
+OpenID Connect defines the following negotiation parameters to enable Relying Party to provide information about itself to a Self-Issued OP that would normally be provided to an OP during Dynamic Client Registration:
   
 - registration
     - OPTIONAL. This parameter enables RP Registration Metadata to be passed in a single, self-contained parameter. The value is a JSON object containing RP Registration Metadata values. 
 
 - registration_uri
-    - OPTIONAL. This parameter enables RP Registration Metadata to be passed by reference, rather than by value. The request_uri value is a URL using the https scheme referencing a resource containing RP Registration Metadata values.
+    - OPTIONAL. This parameter enables RP Registration Metadata to be passed by reference, rather than by value. The request_uri value is a URL using the https scheme referencing a resource containing RP Negotiation Metadata values.
 
 RP MUST use either of there parameters, but if one of these parameters is used, the other MUST NOT be used in the same request.
 
-RP Registration Metadata values are defined in Section 4.3 and Section 2.1 of the OpenID Connect Dynamic RP Registration 1.0 [OpenID.Registration] specification.
+RP Negotiation metadata values are defined in Section 4.3 and Section 2.1 of the OpenID Connect Dynamic RP Registration 1.0 [OpenID.Registration] specification.
 
 If Self-Issued OP supports the same parameters, Self-Issued OpenID Provider flow continues, if Self-Issued OP does not support, it returns an error. 
 
 If no error is returned, the RP must proceed as if it had obtained the following Client Registration Response: 
 
 - client_id
-    - `redirect_uri` calue of the Client.
+    - `redirect_uri` value of the Client.
 - client_secret_expires_at
     - 0
 
-Configuration values should preferably sent by reference as a URI using `registration_uri` parameter, but when RP cannot host a webserver, configuration values should be sent by value using `registration` parameter. 
+Metadata parameters should preferably be sent by reference as a URI using `registration_uri` parameter, but when RP cannot host a webserver, metadata parameters should be sent by value using `registration` parameter. 
 
 `registration` and `registration_uri` parameters SHOULD NOT be used when the OP is not a Self-Issued OP. 
 
@@ -183,9 +184,6 @@ The `registration` SIOP Request parameter enables RP Registration Metadata to be
     
 The registration parameter value is represented in an OAuth 2.0 request as a UTF-8 encoded JSON object (which ends up being form-urlencoded when passed as an OAuth parameter). When used in a Request Object value, per Section 6.1, the JSON object is used as the value of the registration member.
 
-The Registration parameters that would typically be used in requests to Self-Issued OPs are policy_uri, tos_uri, and logo_uri. If the RP uses more than one Redirection URI, the redirect_uris parameter would be used to register them. Finally, if the RP is requesting encrypted responses, it would typically use the jwks_uri, id_token_encrypted_response_alg and id_token_encrypted_response_enc parameters.
-
-Registration parameter may include decentralized identifier of the RP.
 
 ### 2.2.2. Passing Relying Party Registration Metadata by Reference
 
@@ -219,7 +217,10 @@ This extension defines the following RP Registration Metadata values, used by th
     - REQUIRED. ID token signing alg values supported. Valid values include `RS256`, `ES256`, `ES256K`, and `EdDSA`.
 - request_object_signing_alg_values_supported
     - REQUIRED. Request object signing alg values supported. Valid values include `none`, `RS256`, `ES256`, `ES256K`, and `EdDSA`.
-    
+
+Other registration parameters defined in [OpenID.Registration] could be used. Examples are explanatory parameters such as policy_uri, tos_uri, and logo_uri. If the RP uses more than one Redirection URI, the redirect_uris parameter would be used to register them. Finally, if the RP is requesting encrypted responses, it would typically use the jwks_uri, id_token_encrypted_response_alg and id_token_encrypted_response_enc parameters.
+
+Registration parameter may include decentralized identifier of the RP.
 
 The following is a non-normative example of RP Registration Metadata Values supported by Self-Issued OP:
 
