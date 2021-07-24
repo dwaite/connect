@@ -21,7 +21,7 @@ organization="Microsoft"
 [[author]]
 initials="M."
 surname="Jones"
-fullname="Michael B. Jones"
+fullname="Michael B. Jones" 
 organization="Microsoft"
     [author.address]
     email = "mbj@microsoft.com"
@@ -39,67 +39,83 @@ organization="Mattr"
 
 .# Abstract
 
-This specification defines an extension of OpenID Connect to allow End-users to use OpenID Providers (OPs) that they control. Using Self-Issued OPs, End-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on a third-party Identity Provider. 
+This specification defines an extension of OpenID Connect to allow End-users to use OpenID Providers (OPs) which they control. Using Self-Issued OpenID Providers, End-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on a third-party Identity Provider or their own hosted infrastructure.
 
 {mainmatter}
 
 # Introduction
 
-Self-Issued OpenID Provider (Self-Issued OP) extends OpenID Connect to allow End-users to use OpenID Providers (OPs) that they control. Using Self-Issued OPs, End-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on a third-party Identity Provider. 
+A _Self-Issued OpenID Provider_ (Self-Issued OP) extends OpenID Connect to allow End-users to use OpenID Providers (OPs) which they control. Using Self-Issued OPs, End-users can authenticate themselves and present claims directly to the Relying Parties (RPs) without relying on a third-party Identity Provider.
 
-The term Self-Issued comes from the fact that the End-users issue self-signed ID Tokens to prove validity of the identifiers and claims. This is a trust model different from that of the rest of OpenID Connect where OP is run by the third party who issues ID Tokens on behalf of the End-user upon End-user's consent. Therefore, Self-Issued OP comes with several limitations that are solved by introducing new mechanisms which require certain trade-offs.
+A _Self-Issued ID Token_ is an End-user issued, self-signed and self-asserted ID Token which is includes identifiers and claims. This differs from a traditional OpenID Connect Provider, where the trust is with a particular OP to assert identifiers and claims on behalf of potentially many individual End-users upon consent.
 
-First limitation is RP cannot be expected to be able to pre-establish trust relationships with every Self-Issued OP because there could be as many Self-Issued OPs as there are End-users. Usage of cryptographically verifiable identifiers is defined in this specification as a mechanism for RPs to trust SIOP without having to pre-establish a trust relationship between RP and OP as in a basic protocol of OpenID Connect. 
-
-Second limitation is Self-Issued OP cannot be trusted to assert all the claims about the End-user, because it is hosted by the End-user. Usage of cryptographically verifiable claims is defined in this specification as a mechanism for Self-Issued OP to present claims about the End-user asserted by the Claims Providers other than Self-Issued OP.
-
-This specification defines how End-user provides ID Token and claims about the End-user to the RP using Self-Issued OP that is deployed on a device. This leads to another limitation that Self-Issued OPs cannot be expected to be able to host end-points.
-
-Specifications for the few additional parameters and for the values of some parameters are defined in this section. Self-Issued OpenID Provider is an extension to OpenID Connect 1.0, and aspects not defined in this section must follow OpenID Connect 1.0.
+This specification extends OpenID Connect 1.0 to account for these differences. Aspects not defined in this specification are expected to continue to follow OpenID Connect 1.0.
 
 Note: This specification replaces [Self-Issued OpenID Connect Provider DID Profile v0.1](https://identity.foundation/did-siop/) and was written as a working item of a liaison between Decentralized Identity Foundation and OpenID Foundation. 
 
 # Use-cases
 
-* Sudden or planned IdP unavailability
-IdPs can become unable to operate because they are destroyed as the result of a natural disaster such as hurricanes, tsunamis and earthquakes or as the result of a planned business decision. Using Self-Issued OP would enable End-users to authenticate themselves even when IdPs are temporarily or permanently unfunctionable.
+### Resiliance against Sudden or Planned OP Unavailability
+  
+  An OpenID Provider's infrastructure may become unavailable or even destroyed due to natural disasters such as hurricanes, tsunamis and fires, or may be removed from service as a planned business decision. As Self-Issued OPs are local to the End-user environment, such events only affect the End-user involved rather than potentially affecting a significant portion of a RP's userbase.
 
-* Authentication at the edge
-As more and more number of services and goods become digital and get connected to the Internet, the need for beneficiaries of those services and owners of those goods to be able to authenticate themselves before enjoying these services. Using Self-Issued OP would allow such authentications to happen at the edge, on End-user's device to achieve required efficiency and speed.
+### Authentication at the edge
 
-* Sharing credentials from several issuers in one transaction 
-When End-users apply to open a banking account online, in most countries they are required to submit scanned versions of the required documents. These documents are usualy issued by different authorities, and hard to be verified in a digital form. When credentials are expressed as verified claims, using Self-Issued OP documents from various issuers can be shared in one transaction while allowing receiver to digitally verfy the validity of the shared document. 
+  As internet-connected smartphones have risen in availability, traditionally in-person interactions and services have begun to be optimized with digital alternatives. These services often have requirements for authentication and for other credentials. Self-Issued OPs can provide this authentication directly, without needing to delegate to remote, hosted OPs. This potentially allows for increased efficiency as well as allowing for authentication in environments which may have reduced connectivity.
 
-* Portability of the identities among providers
-As End-users sign up to use new online services, they have to create a new account and enter basic information about themselves once again. They could using one of the large Identity Providers, but than they need to remember which one they used for which service. This experience could be improved using Self-Issued OP, if End-users can ask services to use identifier of their choice and present claims about themselves to provide their basic information to the services.
+### Sharing credentials from several issuers in one transaction 
+
+  When End-users apply to open a banking account online, in most countries they are required to submit scanned versions of the required documents. These documents are usualy issued by different authorities, and hard to be verified in a digital form. A Self-issued OP directly representing the user may have access to these documents as credentials, while a traditional OP may not have a business relationship which enables access to this information. Self-Issued OPs could aggregate credentials from multiple sources, then release them as a single transaction to a relying party. The relying party can then verify the authenticity of the information to make the necessary business decisions.
+
+### End-user choice in policy
+
+  End-users often use several hosted OpenID Providers for different relying parties. While there are many reasons to do this, often this is done to have separate identities, such as keeping a work-related persona separate from a personal persona. An end-user may do this to specifically represent different sets of claims, or because they are unsure if the OP policy allows different relying parties to potentially correlate them. The usage of multiple OPs can create friction later, as the end-user may return later having forgot which account they used for the relying party.
+
+  A Self-Issued OP implementation can be picked based on its capability to represent and isolate personas from one another. The same Self-Issued OP software may be used locally for multiple personas, and can track which persona was used for which relying party. The ability to aggregate third-party credentials and present them enables a Self-Issued OP to be chosen as a preferred source of identity based on its capabilities and privacy reputation.
 
 # Scope 
 
+As a Self-Issued OP may be running locally as a native application or progressive web application, the RP may not have a network-addressable endpoint to communicate directly with the OP. This specification leverages the implicit flow of OpenID Connect to communicate with such locally-running OP, and extends OpenID Connect Discovery to represent the differences from traditional OPs.
+
+This specification defines:
+
+* Invocation of Self-Issued OP
+
+  This specifciation defines extensions to the OpenID Connect implicit flow to invoke a Self-Issued OP from a Relying Party. It also proposes user experience behavior when no appropriate Self-Issued Op is available locally.
+
+* Negotiation of supported functionality between a RP and Self-Issued OP
+
+  OpenID Connect typically leverages a registeation between a Client (acting as a RP) and the OP, which pre-establishes supported functionality before a request has been made. This may be done statically, or may leverage a combination of OpenID Connect Discovery and OpenID Connet Dynamic Client Registration.
+  
+  Relying Parties typically cannot pre-establish registration with a Self-Issued OP, as each End-user might be represented by a different, locally-controlled Self-Issued OP instance. This specification extends the authentication request with a mechanism with additional dynamic registration techniques for feature negotiation.
+
+* The format and processing requirements of Self-Issued ID Tokens
+  
+* Including self-asserted (non-verifiable) claims within a Self-Issued ID Token
+
+* Usage of cryptographically-verifiable identifiers as a way for RPs to identify the Authenticated user 
+
+  A _cryptographically-verifiable identifier_ is a subject identifier which is based on or resolves to cryptographic key material. Self-Issued OPs can prove possession of the underlying key during the OpenID message exchange with the RP, in order to strongly re-authenticate as the End-user associated with that identifier.
+  
+  This specification defines a subject identifier which is a thumbprint of the public key material. The public key itself is shared within the id_token as a JWK. The cryptographic algorithm needs to be supported by both the Self-Issued OP and RP.
+
+  This specification also allows for _resolvable identifiers_, which are URI which have a defined process for resolving specific kinds of data. Such identifiers may be used as the subject identifier when they resolve to a statement on the cryptographic identity/identities of the subject. 
+  
+  Both the Self-Issued OP and the RP need to understand how to resolve such identifiers and support the underlying cryptographic algorithms for an identity. One example of how to resolve such identifiers would be the use of _Decentralized Identifiers_ (DIDs), and specifically the individual DID methods. For compatibility with the existing JWS/JWE-based cryptography of OpenID Connect, it is assumed such resolved cryptographic identities are representable as a JWKS, where individual identities have a cryptographic algorithm and can be differentiated by a key identifier.
+  
+The following are considered out of scope of this document:
+
+* Usage of aggregated credentials
+
+  A traditional OP could release additional claims about the user within an ID Token such as a verified email address. The trust in the validity of the claim is based on the trust between the RP and OP. The trust model of a Self-Issued OP is such that this mechanism typically cannot be used to assert verified claims. This specification extends OpenID Connect to allow for any OP to present additional credentials from other sources, to provide a trusted source for End-user claims or claims about other parties whom the End-user is authorized to represent.
+
+  The mechanism for requesting and returning such credentials is out of scope of this document. For example: Verifiable Presentations usage is being defined within the OIDC4VP specification, where it can be used for both Self-Issued OPs and traditional OPs.
+
+* Provisioning of aggregated credentials
+
+  Claims issuance flow that defines how Self-Issued OP requests and receives claims from a Claims Provider acting in RP's capacity. Self-Issued OP can present those claims to the RP in Self-Issued OP response defined in this document. 
+ 
 This document is scoped for a deployment model where Self-Issued OP is deployed on an End-user's device.
-
-In scope:
-
-* Discovery of Self-Issued OP
-
-How an application on the End-user's edge device that is used to run Self-Issued OpenID Provider gets invoked upon receiving a Self-Issued OP request.
-
-* Negotiation of supported metadata between RP and Self-Issued OP
-
-How RP and Self-Issued OP negotiate supported metadata that necessary to process request and response such as supported signing algorithms, cryptographically verifiable identifiers, and credential formats. Negotiation is initiated by the RP and is included in the authorization request. The process is distinct from Dynamic Client Registration in OpenID Connect, since neither RP nor Self-Issued OP are expected to store information about the metadata supported by the counterparty. Negotiation establishes an ad hoc trust and is performed during every transaction even when RP and Self-Issued OP in question have transacted before.
-
-* Usage of cryptographically verifiable identifiers as a way for RPs to identify the Authenticated user 
-
-Cryptographically verifiable identifiers include information about the key material used to sign the request and/or response. This way an entity receiving the request or response can verify whether the identifier is controlled by the other entity.
-First mechanism defined is the usage of jwk thumbprint, which is base64url encoded representation of the thumbprint of the key in the `sub_jwk` claim.
-Second mechanism defined is the usage of Decentralized Identifiers (DID). DID is a string that is used to obtain a DID document that contains information associated with the subject identified by a DID, including key material. Indirection layer between DID and DID Document allows controller of a DID to modify key material used to prove control over the identifier. DID Document is recorded on a system or network of some kind that can be a database of any kind including distributed ledgers and cloud storage.
-
-* Usage of cryptographically verifiable claims
-
-Mechanism for Self-Issued OPs to present claims using additional credential formats that enable the Holder to prove posession over the claims using cryptographic means. Additional credential formats include Verifiable Presentation defined in [VC-DATA-MODEL].
-
-Out of Scope:
-
-* Claims issuance flow that defines how Self-Issued OP requests and receives claims from a Claims Provider acting in RP's capacity. Self-Issued OP can present those claims to the RP in Self-Issued OP response defined in this document. 
 
 # Terms and definitions
 
@@ -116,27 +132,26 @@ Common terms in this document come from four primary sources: DID-CORE, VC-DATA,
 
 # Protocol Flow
 
-Self-Issued OpenID Provider Request is an OpenID Connect Authentication Request that results in a Holder providing ID Token to the Relying Party through the Self-Issued OP. ID Token MAY include attested claims about the Holder.
+Self-Issued OpenID Provider Request is an OpenID Connect Authentication Request that results in an End-user providing ID Token to the Relying Party through the Self-Issued OP. ID Token MAY include attested claims about the End-user.
 
 ~~~ ascii-art
-+----------+                                                    +--------+
-|          |                                                    |        |
-|          |-------(1) Self-Issued OpenID Provider Request----->|        |
-|          |          (OpenID Connect Authentication Request)   |        |
-|          |                     +--------+                     |        |
-|          |                     |        |                     |        |         
-|          |                     |  Hol-  |                     |        |         
-|    RP    |                     |  der   |<-(2) AuthN & AuthZ->|   OP   |
-|          |                     |        |                     | (Self- |
-|          |                     +--------+                     | Issued |
-|          |                                                    |   OP)  |
-|          |<------(3) Self-Issued OpenID Provider Response-----|        |
-|          |                 (ID Token)                         |        |
-|          |                                                    |        |   
-+----------+                                                    +--------+
++----------+                                             +----------------+
+|          |                                             |                |
+|          |---(1) Self-Issued OpenID Provider Request-->|                |
+|          |       (Authentication Request)              |                |
+|          |       +------------+                        |                |
+|          |       |            |                        |                |         
+|          |       |  End-User  |                        |                |         
+|    RP    |       |            |<--(2) AuthN & AuthZ--->| Self-Issued OP |
+|          |       |            |                        |                |
+|          |       +------------+                        |                |
+|          |                                             |                |
+|          |<--(3) Self-Issued OpenID Provider Response--|                |
+|          |       (ID Token)                            |                |
+|          |                                             |                |   
++----------+                                             +----------------+
 ~~~
 Figure: Self-Issued Op Protocol Flow
-    
 
 # Discovery and Negotiation
 
